@@ -13,6 +13,7 @@ SRC = Path(__file__).resolve().parent
 ROOT = SRC.parent
 CUR = json.loads((SRC / 'curriculum.json').read_text(encoding='utf-8'))
 IDS = [c['id'] for c in CUR['chapters']]
+EXTRA_IDS = ['math', 'code', 'trouble']
 TAIL = ['pairs', 'case', 'summary', 'quiz', 'ai', 'terms', 'more']
 
 
@@ -32,7 +33,7 @@ def check(cid):
     body = re.sub(r'```.*?```', '', s, flags=re.S)
     own = anchors(cid)
     # 뼈대
-    if cid != 'ch00':
+    if cid != 'ch00' and cid not in EXTRA_IDS:
         for t in TAIL:
             if t not in own:
                 out.append(f'끝 절 없음: #{t}')
@@ -71,15 +72,15 @@ def check(cid):
         if not (ROOT / 'assets' / 'comic' / f).exists():
             out.append(f'만화 파일 없음: {f}')
     # 링크
-    for m in re.finditer(r'\]\((ch\d\d)\.html(?:#([A-Za-z0-9_-]+))?\)', s):
+    for m in re.finditer(r'\]\((ch\d\d|math|code|trouble)\.html(?:#([A-Za-z0-9_-]+))?\)', s):
         tid, anc = m.group(1), m.group(2)
-        if tid not in IDS:
+        if tid not in IDS and tid not in EXTRA_IDS:
             out.append(f'없는 장으로 링크: {m.group(0)}')
         elif anc:
             ta = anchors(tid)
             if ta is not None and anc not in ta:
                 out.append(f'없는 절로 링크: {tid}.html#{anc}')
-    for m in re.finditer(r'\]\((?!https?://|ch\d\d\.html|#|mailto:)([^)]+)\)', body):
+    for m in re.finditer(r'\]\((?!https?://|ch\d\d\.html|(?:math|code|trouble|glossary)\.html|#|mailto:)([^)]+)\)', body):
         out.append(f'수상한 링크: {m.group(1)[:50]}')
     # 문체: 한다체 문장 비율
     prose = re.sub(r'## 용어 정리.*?(?=^## |\Z)', '', body, flags=re.S | re.M)

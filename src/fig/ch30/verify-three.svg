@@ -1,0 +1,48 @@
+<svg viewBox="0 0 760 352" xmlns="http://www.w3.org/2000/svg">
+  <title>AI의 됐다는 보고를 직접 돌려 보기, 바뀐 곳 읽기, 테스트 돌리기로 확인하니 별 5개가 저장되지 않고 부탁하지 않은 파일이 바뀌어 있었다</title>
+
+  <rect class="box gray" x="20" y="14" width="720" height="40" rx="10"/>
+  <text class="mid" x="380" y="39">AI의 보고: “별점 주기를 붙였습니다. 테스트도 모두 통과합니다.”</text>
+
+  <rect class="panel" x="20" y="68" width="226" height="214" rx="14"/>
+  <circle class="badge blue" cx="42" cy="92" r="12"/><text class="badge-t" x="42" y="96.500">1</text>
+  <text class="t-l" x="62" y="98">직접 돌려 본다</text>
+  <rect class="box" x="34" y="112" width="198" height="110" rx="8"/>
+  <text class="t-s t-ink" x="46" y="136">별 4개 저장</text>
+  <text class="t-s t-b tc-green end" x="220" y="136">보임</text>
+  <text class="t-s t-ink" x="46" y="160">껐다 켜기</text>
+  <text class="t-s t-b tc-green end" x="220" y="160">남아 있음</text>
+  <text class="t-s t-ink" x="46" y="184">별 1개 저장</text>
+  <text class="t-s t-b tc-green end" x="220" y="184">보임</text>
+  <text class="t-s t-ink" x="46" y="208">별 5개 저장</text>
+  <text class="t-s t-b tc-red end" x="220" y="208">저장 못 함</text>
+  <text class="t-s t-b tc-red" x="34" y="250">별 5개에서 걸림</text>
+  <text class="t-xs" x="34" y="270">끝자리 값을 넣어 봐야 보인다</text>
+
+  <rect class="panel" x="267" y="68" width="226" height="214" rx="14"/>
+  <circle class="badge blue" cx="289" cy="92" r="12"/><text class="badge-t" x="289" y="96.500">2</text>
+  <text class="t-l" x="309" y="98">바뀐 곳을 읽는다</text>
+  <rect class="box" x="281" y="112" width="198" height="110" rx="8"/>
+  <text class="t-mono" x="293" y="136">index.html</text>
+  <text class="t-mono" x="293" y="160">records.py</text>
+  <rect class="s-red" x="285" y="168" width="190" height="24" rx="5"/>
+  <text class="t-mono t-b tc-red" x="293" y="185">style.css</text>
+  <text class="t-xs tc-red end" x="468" y="185">계획에 없음</text>
+  <text class="t-mono" x="293" y="210">test_records.py</text>
+  <text class="t-s t-b tc-red" x="281" y="250">부탁하지 않은 파일</text>
+  <text class="t-xs" x="281" y="270">계획에는 파일이 셋이었다</text>
+
+  <rect class="panel" x="514" y="68" width="226" height="214" rx="14"/>
+  <circle class="badge blue" cx="536" cy="92" r="12"/><text class="badge-t" x="536" y="96.500">3</text>
+  <text class="t-l" x="556" y="98">테스트를 돌린다</text>
+  <rect class="box" x="528" y="112" width="198" height="110" rx="8"/>
+  <text class="t-mono" x="540" y="136">$ pytest</text>
+  <text class="t-mono t-b tc-green" x="540" y="160">3 passed</text>
+  <text class="t-xs" x="540" y="188">확인한 것: 기록 추가,</text>
+  <text class="t-xs" x="540" y="206">빈 제목, 별 0개</text>
+  <text class="t-s t-b tc-red" x="528" y="250">별 5개 테스트는 없음</text>
+  <text class="t-xs" x="528" y="270">통과는 본 것만 말해 준다</text>
+
+  <rect class="box yellow" x="20" y="296" width="720" height="40" rx="10"/>
+  <text class="t-b mid" x="380" y="321">걸린 것 둘: 별 5개, style.css → 아직 ‘됐다’가 아니다</text>
+</svg>

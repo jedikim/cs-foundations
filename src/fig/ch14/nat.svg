@@ -16,13 +16,13 @@
   <use href="#i-router" x="365" y="58" width="40" height="40" class="ic warm"/>
   <text class="t-l mid" x="385" y="122">공유기</text>
   <text class="t-xs mid" x="385" y="146">안쪽 192.168.0.1</text>
-  <text class="t-xs mid" x="385" y="165">바깥 203.0.113.9</text>
+  <text class="t-xs mid" x="385" y="165">바깥 198.51.100.7</text>
   <text class="t-xs mid tc-warm" x="385" y="186">바꾼 내용을 장부에 기록</text>
 
   <rect class="box green" x="570" y="50" width="170" height="150" rx="14"/>
   <use href="#i-server" x="635" y="58" width="40" height="40" class="ic green"/>
   <text class="t-l mid" x="655" y="122">서버</text>
-  <text class="t-mono mid" x="655" y="148">198.51.100.7</text>
+  <text class="t-mono mid" x="655" y="148">203.0.113.9</text>
   <text class="t-xs mid" x="655" y="172">공유기 주소만 보인다</text>
 
   <path class="ln blue" d="M212 82 H292" marker-end="url(#ah-blue)"/>
@@ -40,14 +40,14 @@
   <text class="t-s" x="36" y="288">보낸 곳</text>
   <text class="t-mono t-b tc-blue" x="100" y="288">192.168.0.5:51000</text>
   <text class="t-s" x="36" y="312">받는 곳</text>
-  <text class="t-mono" x="100" y="312">198.51.100.7:443</text>
+  <text class="t-mono" x="100" y="312">203.0.113.9:443</text>
 
   <path class="ln warm thick" d="M330 294 H428" marker-end="url(#ah-warm)"/>
   <text class="t-xs mid tc-warm" x="380" y="282">공유기 통과</text>
 
   <rect class="box warm" x="440" y="262" width="300" height="64" rx="10"/>
   <text class="t-s" x="456" y="288">보낸 곳</text>
-  <text class="t-mono t-b tc-warm" x="520" y="288">203.0.113.9:62001</text>
+  <text class="t-mono t-b tc-warm" x="520" y="288">198.51.100.7:62001</text>
   <text class="t-s" x="456" y="312">받는 곳</text>
-  <text class="t-mono" x="520" y="312">198.51.100.7:443</text>
+  <text class="t-mono" x="520" y="312">203.0.113.9:443</text>
 </svg>

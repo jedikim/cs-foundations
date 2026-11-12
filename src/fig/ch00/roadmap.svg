@@ -1,5 +1,5 @@
-<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
-  <title>이 책의 지도: 1부에서 5부까지는 순서대로, 6부 게임과 7부 AI는 목적에 따라 골라 읽는다</title>
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>이 책의 지도: 1부에서 5부까지는 순서대로, 6부 게임과 7부 AI는 골라 읽고, 8부에서 배운 것을 꿰어 직접 만든다</title>
   <text class="t-s t-b" x="20" y="30">공통 기초 — 순서대로 읽기를 권합니다</text>
 
   <rect class="box blue" x="20" y="44" width="128" height="104" rx="14"/>
@@ -46,4 +46,12 @@
   <use href="#i-robot" x="404" y="236" width="44" height="44" class="ic blue"/>
   <text class="t-l" x="460" y="250">7부 · AI</text>
   <text class="t-s" x="460" y="272">26~29장</text>
+
+  <text class="t-s t-b" x="20" y="372">배운 것을</text>
+  <text class="t-s t-b" x="20" y="392">꿰어 만들기</text>
+  <path class="ln warm" d="M676 152 V378 H598" marker-end="url(#ah-warm)"/>
+  <rect class="box warm" x="170" y="334" width="420" height="88" rx="14"/>
+  <use href="#i-chat" x="184" y="356" width="44" height="44" class="ic warm"/>
+  <text class="t-l" x="240" y="370">8부 · AI와 함께 만들기</text>
+  <text class="t-s" x="240" y="392">30~31장 · AI에게 일 시키기, 웹 앱 하나를 끝까지</text>
 </svg>

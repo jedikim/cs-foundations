@@ -1,0 +1,60 @@
+<svg viewBox="0 0 760 286" xmlns="http://www.w3.org/2000/svg">
+  <title>for는 리스트의 칸을 하나씩 꺼내 같은 묶음을 되풀이하고, 그때마다 total이 자란다</title>
+
+  <rect class="ghost dash" x="20" y="14" width="564" height="50" rx="10"/>
+  <rect class="box yellow" x="56" y="22" width="100" height="34" rx="8"/>
+  <rect class="box yellow" x="252" y="22" width="100" height="34" rx="8"/>
+  <rect class="box yellow" x="448" y="22" width="100" height="34" rx="8"/>
+  <text class="t-b mid" x="106" y="45">0번 김밥</text>
+  <text class="t-b mid" x="302" y="45">1번 라면</text>
+  <text class="t-b mid" x="498" y="45">2번 김밥</text>
+  <text class="t-b" x="604" y="36">주문서 orders</text>
+  <text class="t-s" x="604" y="56">하나씩 차례로 꺼낸다</text>
+
+  <path class="ln blue" d="M106 64 V82" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M302 64 V82" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M498 64 V82" marker-end="url(#ah-blue)"/>
+
+  <rect class="panel blue" x="20" y="92" width="172" height="176" rx="12"/>
+  <circle class="badge blue" cx="44" cy="116" r="12"/><text class="badge-t" x="44" y="121">1</text>
+  <text class="t-b" x="64" y="121">첫 바퀴</text>
+  <text class="t-xs" x="36" y="150">menu에 담긴 것</text>
+  <text class="t-mono t-b" x="36" y="170">"김밥"</text>
+  <text class="t-xs" x="36" y="196">메뉴판에서 찾은 가격</text>
+  <text class="t-mono t-b" x="36" y="216">3000</text>
+  <text class="t-xs" x="36" y="242">total</text>
+  <text class="t-mono t-b tc-blue" x="76" y="243">0 → 3000</text>
+
+  <path class="ln" d="M194 180 H208" marker-end="url(#ah)"/>
+
+  <rect class="panel blue" x="216" y="92" width="172" height="176" rx="12"/>
+  <circle class="badge blue" cx="240" cy="116" r="12"/><text class="badge-t" x="240" y="121">2</text>
+  <text class="t-b" x="260" y="121">둘째 바퀴</text>
+  <text class="t-xs" x="232" y="150">menu에 담긴 것</text>
+  <text class="t-mono t-b" x="232" y="170">"라면"</text>
+  <text class="t-xs" x="232" y="196">메뉴판에서 찾은 가격</text>
+  <text class="t-mono t-b" x="232" y="216">4000</text>
+  <text class="t-xs" x="232" y="242">total</text>
+  <text class="t-mono t-b tc-blue" x="272" y="243">3000 → 7000</text>
+
+  <path class="ln" d="M390 180 H404" marker-end="url(#ah)"/>
+
+  <rect class="panel blue" x="412" y="92" width="172" height="176" rx="12"/>
+  <circle class="badge blue" cx="436" cy="116" r="12"/><text class="badge-t" x="436" y="121">3</text>
+  <text class="t-b" x="456" y="121">셋째 바퀴</text>
+  <text class="t-xs" x="428" y="150">menu에 담긴 것</text>
+  <text class="t-mono t-b" x="428" y="170">"김밥"</text>
+  <text class="t-xs" x="428" y="196">메뉴판에서 찾은 가격</text>
+  <text class="t-mono t-b" x="428" y="216">3000</text>
+  <text class="t-xs" x="428" y="242">total</text>
+  <text class="t-mono t-b tc-blue" x="468" y="243">7000 → 10000</text>
+
+  <path class="ln" d="M586 180 H600" marker-end="url(#ah)"/>
+
+  <rect class="box green" x="608" y="92" width="132" height="176" rx="12"/>
+  <text class="t-b mid" x="674" y="121">되풀이 끝</text>
+  <text class="t-xs mid" x="674" y="150">더 꺼낼 칸이 없다</text>
+  <text class="t-mono mid" x="674" y="196">print(total)</text>
+  <use href="#i-monitor" class="ic green" x="630" y="222" width="22" height="22"/>
+  <text class="t-mono t-b tc-green" x="660" y="239">10000</text>
+</svg>

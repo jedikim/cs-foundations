@@ -1,0 +1,42 @@
+<svg viewBox="0 0 760 292" xmlns="http://www.w3.org/2000/svg">
+  <title>변수는 값을 담고 이름표를 붙인 통이고, 담는 값에는 문자열, 숫자, 참과 거짓, 없음이 있다</title>
+
+  <text class="t-mono mid" x="102" y="34">menu = "김밥"</text>
+  <path class="ln thin muted" d="M102 44 V62" marker-end="url(#ah-muted)"/>
+  <rect class="box yellow" x="52" y="70" width="100" height="28" rx="6"/>
+  <text class="t-mono t-b mid" x="102" y="89">menu</text>
+  <rect class="box blue" x="32" y="98" width="140" height="66" rx="10"/>
+  <text class="t-mono t-b mid" x="102" y="137">"김밥"</text>
+  <text class="t-b mid tc-blue" x="102" y="192">문자열</text>
+  <text class="t-s mid" x="102" y="214">따옴표로 감싼 글자</text>
+
+  <text class="t-mono mid" x="287" y="34">price = 3000</text>
+  <path class="ln thin muted" d="M287 44 V62" marker-end="url(#ah-muted)"/>
+  <rect class="box yellow" x="237" y="70" width="100" height="28" rx="6"/>
+  <text class="t-mono t-b mid" x="287" y="89">price</text>
+  <rect class="box green" x="217" y="98" width="140" height="66" rx="10"/>
+  <text class="t-mono t-b mid" x="287" y="137">3000</text>
+  <text class="t-b mid tc-green" x="287" y="192">숫자</text>
+  <text class="t-s mid" x="287" y="214">따옴표가 없다</text>
+
+  <text class="t-mono mid" x="472" y="34">is_takeout = True</text>
+  <path class="ln thin muted" d="M472 44 V62" marker-end="url(#ah-muted)"/>
+  <rect class="box yellow" x="412" y="70" width="120" height="28" rx="6"/>
+  <text class="t-mono t-b mid" x="472" y="89">is_takeout</text>
+  <rect class="box purple" x="402" y="98" width="140" height="66" rx="10"/>
+  <text class="t-mono t-b mid" x="472" y="137">True</text>
+  <text class="t-b mid tc-purple" x="472" y="192">참과 거짓</text>
+  <text class="t-s mid" x="472" y="214">True 아니면 False</text>
+
+  <text class="t-mono mid" x="657" y="34">coupon = None</text>
+  <path class="ln thin muted" d="M657 44 V62" marker-end="url(#ah-muted)"/>
+  <rect class="box yellow" x="607" y="70" width="100" height="28" rx="6"/>
+  <text class="t-mono t-b mid" x="657" y="89">coupon</text>
+  <rect class="box gray" x="587" y="98" width="140" height="66" rx="10"/>
+  <text class="t-mono t-b mid" x="657" y="137">None</text>
+  <text class="t-b mid tc-muted" x="657" y="192">없음</text>
+  <text class="t-s mid" x="657" y="214">아직 값이 없다</text>
+
+  <rect class="box yellow" x="150" y="236" width="460" height="38" rx="10"/>
+  <text class="t-s mid" x="380" y="260">= 는 오른쪽 값을 왼쪽 이름의 통에 넣으라는 뜻</text>
+</svg>

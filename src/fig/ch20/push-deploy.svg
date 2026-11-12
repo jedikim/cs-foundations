@@ -1,0 +1,53 @@
+<svg viewBox="0 0 760 336" xmlns="http://www.w3.org/2000/svg">
+  <title>브랜치를 올리면 서비스가 설치하고 빌드해 미리 보기 주소에 내놓고, main에 합쳐 올리면 다시 빌드해 운영 주소에 내놓는다</title>
+  <text class="t-s t-b mid" x="110" y="30">내가 하는 일</text>
+  <text class="t-s t-b mid" x="350" y="30">서비스가 하는 일</text>
+  <text class="t-s t-b mid" x="620" y="30">열리는 주소</text>
+
+  <rect class="box blue" x="20" y="46" width="180" height="100" rx="12"/>
+  <use href="#i-branch" x="32" y="58" width="30" height="30" class="ic blue"/>
+  <text class="t-b" x="72" y="79">브랜치를 push</text>
+  <text class="t-mono t-b" x="34" y="110">fix-score</text>
+  <text class="t-xs" x="34" y="132">고친 것만 먼저 올린다</text>
+
+  <rect class="box warm" x="250" y="46" width="200" height="100" rx="12"/>
+  <use href="#i-gear" x="262" y="58" width="30" height="30" class="ic warm"/>
+  <text class="t-b" x="302" y="79">설치하고 빌드</text>
+  <text class="t-xs" x="264" y="110">저장소를 받아 상자를 만든다</text>
+  <text class="t-xs t-b tc-red" x="264" y="132">실패하면 여기서 멈춘다</text>
+
+  <rect class="box purple" x="500" y="46" width="240" height="100" rx="12"/>
+  <use href="#i-eye" x="512" y="58" width="30" height="30" class="ic purple"/>
+  <text class="t-b" x="552" y="79">미리 보기 주소</text>
+  <text class="t-mono" x="514" y="110">fix-score.mygame.example</text>
+  <text class="t-xs" x="514" y="132">나만 먼저 열어 본다</text>
+
+  <path class="ln blue" d="M204 96 H242" marker-end="url(#ah-blue)"/>
+  <path class="ln warm" d="M454 96 H492" marker-end="url(#ah-warm)"/>
+
+  <path class="ln muted dash" d="M620 150 V172 H110 V192" marker-end="url(#ah-muted)"/>
+  <text class="t-s t-b mid" x="365" y="165">확인했으면 main에 합친다</text>
+
+  <rect class="box blue" x="20" y="200" width="180" height="100" rx="12"/>
+  <use href="#i-branch" x="32" y="212" width="30" height="30" class="ic blue"/>
+  <text class="t-b" x="72" y="233">합쳐서 push</text>
+  <text class="t-mono t-b" x="34" y="264">main</text>
+  <text class="t-xs" x="34" y="286">기준이 되는 브랜치</text>
+
+  <rect class="box warm" x="250" y="200" width="200" height="100" rx="12"/>
+  <use href="#i-gear" x="262" y="212" width="30" height="30" class="ic warm"/>
+  <text class="t-b" x="302" y="233">다시 설치, 빌드</text>
+  <text class="t-xs" x="264" y="264">상자를 새로 만든다</text>
+  <text class="t-xs t-b tc-red" x="264" y="286">실패하면 옛 버전이 남는다</text>
+
+  <rect class="box green" x="500" y="200" width="240" height="100" rx="12"/>
+  <use href="#i-globe" x="512" y="212" width="30" height="30" class="ic green"/>
+  <text class="t-b" x="552" y="233">운영 주소</text>
+  <text class="t-mono" x="514" y="264">mygame.example</text>
+  <text class="t-xs" x="514" y="286">모두가 여기로 들어온다</text>
+
+  <path class="ln blue" d="M204 250 H242" marker-end="url(#ah-blue)"/>
+  <path class="ln warm" d="M454 250 H492" marker-end="url(#ah-warm)"/>
+
+  <text class="t-xs" x="20" y="324">미리 본 상자와 운영에 나간 상자는 따로 만든 것입니다. 합친 뒤에는 운영 주소도 열어 봅니다.</text>
+</svg>

@@ -1,0 +1,44 @@
+<svg viewBox="0 0 760 266" xmlns="http://www.w3.org/2000/svg">
+  <title>웹 앱의 빌드는 소스 파일의 타입을 검사하고, 자바스크립트로 옮기고, 묶어서 브라우저에 보낼 결과물을 만든다</title>
+
+  <rect class="box blue" x="20" y="56" width="130" height="140" rx="12"/>
+  <use href="#i-code" x="67" y="64" width="36" height="36" class="ic blue"/>
+  <text class="t-l mid" x="85" y="124">소스 코드</text>
+  <text class="t-mono mid" x="85" y="146">shop.ts</text>
+  <text class="t-mono mid" x="85" y="165">cart.ts</text>
+  <text class="t-xs mid" x="85" y="186">사람과 AI가 고친다</text>
+
+  <path class="ln warm" d="M154 126 H164" marker-end="url(#ah-warm)"/>
+
+  <rect class="panel" x="176" y="22" width="408" height="174" rx="16"/>
+  <text class="t-s t-b" x="194" y="50">빌드</text>
+  <text class="t-mono" x="230" y="50">npm run build</text>
+
+  <rect class="box" x="186" y="72" width="116" height="108" rx="10"/>
+  <circle class="badge warm" cx="244" cy="96" r="12"/><text class="badge-t" x="244" y="100.500">1</text>
+  <text class="t-b mid" x="244" y="134">타입 검사</text>
+  <text class="t-xs mid" x="244" y="156">틀린 곳을 찾는다</text>
+
+  <rect class="box" x="322" y="72" width="116" height="108" rx="10"/>
+  <circle class="badge warm" cx="380" cy="96" r="12"/><text class="badge-t" x="380" y="100.500">2</text>
+  <text class="t-b mid" x="380" y="134">옮기기</text>
+  <text class="t-xs mid" x="380" y="156">.ts → .js</text>
+
+  <rect class="box" x="458" y="72" width="116" height="108" rx="10"/>
+  <circle class="badge warm" cx="516" cy="96" r="12"/><text class="badge-t" x="516" y="100.500">3</text>
+  <text class="t-b mid" x="516" y="134">묶고 줄이기</text>
+  <text class="t-xs mid" x="516" y="156">파일을 몇 개로</text>
+
+  <path class="ln warm" d="M305 126 H313" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M441 126 H449" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M588 126 H598" marker-end="url(#ah-warm)"/>
+
+  <rect class="box green" x="610" y="56" width="130" height="140" rx="12"/>
+  <use href="#i-folder" x="657" y="64" width="36" height="36" class="ic green"/>
+  <text class="t-l mid" x="675" y="124">결과물</text>
+  <text class="t-mono mid" x="675" y="148">dist 폴더</text>
+  <text class="t-xs mid" x="675" y="176">브라우저에 보낸다</text>
+
+  <path class="ln red dash" d="M244 184 V236 H262" marker-end="url(#ah-red)"/>
+  <text class="t-s t-b tc-red" x="276" y="241">타입 오류가 있으면 여기서 멈춘다 — 결과물이 나오지 않는다</text>
+</svg>

@@ -1,0 +1,47 @@
+<svg viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg">
+  <title>네트워크 탭에서는 누른 것 하나가 요청 한 줄로 보이고, 줄을 누르면 보낸 내용과 받은 내용을 JSON으로 볼 수 있다</title>
+
+  <text class="t-s t-b" x="34" y="34">서연이가 누른 것</text>
+  <text class="t-s t-b" x="250" y="34">메서드</text>
+  <text class="t-s t-b" x="350" y="34">주소</text>
+  <text class="t-s t-b mid" x="640" y="34">상태</text>
+  <path class="ln thin muted" d="M20 44 H740"/>
+
+  <text x="34" y="73">화면을 연다</text>
+  <text class="t-mono t-b tc-blue" x="250" y="73">GET</text>
+  <text class="t-mono" x="350" y="73">/api/records</text>
+  <text class="t-mono t-b mid tc-green" x="640" y="73">200</text>
+
+  <rect class="box yellow" x="20" y="84" width="720" height="32" rx="8"/>
+  <text class="t-b" x="34" y="105">[저장]을 누른다</text>
+  <text class="t-mono t-b tc-green" x="250" y="105">POST</text>
+  <text class="t-mono" x="350" y="105">/api/records</text>
+  <text class="t-mono t-b mid tc-green" x="640" y="105">201</text>
+
+  <text x="34" y="137">3번 기록을 고친다</text>
+  <text class="t-mono t-b tc-warm" x="250" y="137">PATCH</text>
+  <text class="t-mono" x="350" y="137">/api/records/3</text>
+  <text class="t-mono t-b mid tc-green" x="640" y="137">200</text>
+
+  <text x="34" y="169">3번 기록을 지운다</text>
+  <text class="t-mono t-b tc-red" x="250" y="169">DELETE</text>
+  <text class="t-mono" x="350" y="169">/api/records/3</text>
+  <text class="t-mono t-b mid tc-green" x="640" y="169">204</text>
+
+  <text x="34" y="201">준호의 2번 기록을 고친다</text>
+  <text class="t-mono t-b tc-warm" x="250" y="201">PATCH</text>
+  <text class="t-mono" x="350" y="201">/api/records/2</text>
+  <text class="t-mono t-b mid tc-red" x="640" y="201">403</text>
+  <text class="t-xs tc-red" x="670" y="201">거절</text>
+
+  <path class="ln thin muted" d="M20 216 H740"/>
+
+  <text class="t-b" x="20" y="246">[저장] 줄을 눌러 보면</text>
+  <rect class="box" x="20" y="258" width="720" height="56" rx="10"/>
+  <text class="t-xs" x="34" y="278">보낸 내용 (요청의 본문)</text>
+  <text class="t-mono" x="34" y="301">{"title": "모모", "note": "시간을 아끼다가 시간을 잃는 이야기"}</text>
+
+  <rect class="box green" x="20" y="324" width="720" height="56" rx="10"/>
+  <text class="t-xs" x="34" y="344">받은 내용 (응답 201의 본문)</text>
+  <text class="t-mono" x="34" y="367">{<tspan class="t-b tc-green">"id": 4</tspan>, "title": "모모", "note": "시간을 아끼다가 시간을 잃는 이야기"}</text>
+</svg>

@@ -1,0 +1,43 @@
+<svg viewBox="0 0 760 304" xmlns="http://www.w3.org/2000/svg">
+  <title>올린 앱이 고장 나면 세 조각마다 들여다보는 곳이 하나씩 있다. 화면은 개발자 도구, 서버는 호스팅 서비스의 로그, 데이터베이스는 관리 화면이다</title>
+
+  <rect class="box blue" x="20" y="20" width="220" height="204" rx="14"/>
+  <circle class="badge blue" cx="44" cy="46" r="12"/><text class="badge-t" x="44" y="50.500">1</text>
+  <text class="t-l" x="64" y="52">화면</text>
+  <use href="#i-browser" x="190" y="30" width="34" height="34" class="ic blue"/>
+  <text class="t-xs" x="36" y="88">들여다보는 곳</text>
+  <text class="t-b" x="36" y="110">브라우저 개발자 도구</text>
+  <path class="ln thin muted" d="M36 124 H224"/>
+  <text class="t-s t-ink" x="36" y="150">콘솔에 빨간 글이 있는가</text>
+  <text class="t-s t-ink" x="36" y="176">요청 줄이 생겼는가</text>
+  <text class="t-s t-ink" x="36" y="202">상태 코드가 몇 번인가</text>
+
+  <path class="ln" d="M245 122 H263" marker-end="url(#ah)"/>
+
+  <rect class="box green" x="270" y="20" width="220" height="204" rx="14"/>
+  <circle class="badge green" cx="294" cy="46" r="12"/><text class="badge-t" x="294" y="50.500">2</text>
+  <text class="t-l" x="314" y="52">서버</text>
+  <use href="#i-server" x="440" y="30" width="34" height="34" class="ic green"/>
+  <text class="t-xs" x="286" y="88">들여다보는 곳</text>
+  <text class="t-b" x="286" y="110">호스팅 서비스의 로그</text>
+  <path class="ln thin muted" d="M286 124 H474"/>
+  <text class="t-s t-ink" x="286" y="150">그 시각에 오류 글이 있는가</text>
+  <text class="t-s t-ink" x="286" y="176">요청이 도착하긴 했는가</text>
+  <text class="t-s t-ink" x="286" y="202">마지막 빌드는 성공했는가</text>
+
+  <path class="ln" d="M495 122 H513" marker-end="url(#ah)"/>
+
+  <rect class="box warm" x="520" y="20" width="220" height="204" rx="14"/>
+  <circle class="badge warm" cx="544" cy="46" r="12"/><text class="badge-t" x="544" y="50.500">3</text>
+  <text class="t-l" x="564" y="52">데이터베이스</text>
+  <use href="#i-db" x="690" y="30" width="34" height="34" class="ic warm"/>
+  <text class="t-xs" x="536" y="88">들여다보는 곳</text>
+  <text class="t-b" x="536" y="110">데이터베이스 관리 화면</text>
+  <path class="ln thin muted" d="M536 124 H724"/>
+  <text class="t-s t-ink" x="536" y="150">행이 정말 생겼는가</text>
+  <text class="t-s t-ink" x="536" y="176">주인 번호가 맞는가</text>
+  <text class="t-s t-ink" x="536" y="202">규칙이 켜져 있는가</text>
+
+  <rect class="panel" x="20" y="242" width="720" height="44" rx="10"/>
+  <text class="t-s mid" x="380" y="269">상태 코드가 5로 시작하면 2번으로, 저장됐다는데 보이지 않으면 3번으로 간다</text>
+</svg>

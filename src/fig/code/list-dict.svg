@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 276" xmlns="http://www.w3.org/2000/svg">
+  <title>리스트는 0부터 시작하는 번호로, 딕셔너리는 이름으로 값을 꺼낸다</title>
+
+  <rect class="panel blue" x="20" y="16" width="350" height="244" rx="14"/>
+  <use href="#i-list" class="ic blue" x="36" y="28" width="24" height="24"/>
+  <text class="t-b" x="68" y="46">리스트: 주문서 orders</text>
+  <text class="t-s" x="36" y="72">차례로 담고 번호로 꺼낸다</text>
+
+  <text class="t-mono t-b mid tc-blue" x="85" y="104">0번</text>
+  <text class="t-mono t-b mid tc-blue" x="195" y="104">1번</text>
+  <text class="t-mono t-b mid tc-blue" x="305" y="104">2번</text>
+  <rect class="box yellow" x="35" y="114" width="100" height="46" rx="8"/>
+  <rect class="box" x="145" y="114" width="100" height="46" rx="8"/>
+  <rect class="box" x="255" y="114" width="100" height="46" rx="8"/>
+  <text class="t-b mid" x="85" y="143">김밥</text>
+  <text class="t-b mid" x="195" y="143">라면</text>
+  <text class="t-b mid" x="305" y="143">김밥</text>
+
+  <path class="ln thin blue" d="M85 160 V186"/>
+  <text class="t-mono t-b mid" x="85" y="208">orders[0]</text>
+  <path class="ln blue" d="M134 203 H170" marker-end="url(#ah-blue)"/>
+  <text class="t-b" x="182" y="208">김밥</text>
+  <text class="t-s" x="36" y="242">세 개가 들어 있으면 마지막 칸은 2번</text>
+
+  <rect class="panel green" x="390" y="16" width="350" height="244" rx="14"/>
+  <use href="#i-book" class="ic green" x="406" y="28" width="24" height="24"/>
+  <text class="t-b" x="438" y="46">딕셔너리: 메뉴판 prices</text>
+  <text class="t-s" x="406" y="72">이름과 값을 짝지어 담고 이름으로 꺼낸다</text>
+
+  <text class="t-mono t-b mid tc-green" x="455" y="104">"김밥"</text>
+  <text class="t-mono t-b mid tc-green" x="565" y="104">"라면"</text>
+  <text class="t-mono t-b mid tc-green" x="675" y="104">"떡볶이"</text>
+  <rect class="box" x="405" y="114" width="100" height="46" rx="8"/>
+  <rect class="box yellow" x="515" y="114" width="100" height="46" rx="8"/>
+  <rect class="box" x="625" y="114" width="100" height="46" rx="8"/>
+  <text class="t-mono t-b mid" x="455" y="142">3000</text>
+  <text class="t-mono t-b mid" x="565" y="142">4000</text>
+  <text class="t-mono t-b mid" x="675" y="142">3500</text>
+
+  <path class="ln thin green" d="M565 160 V186"/>
+  <text class="t-mono t-b mid" x="545" y="208">prices["라면"]</text>
+  <path class="ln green" d="M612 203 H648" marker-end="url(#ah-green)"/>
+  <text class="t-mono t-b" x="660" y="208">4000</text>
+  <text class="t-s" x="406" y="242">순서가 아니라 이름표를 보고 찾는다</text>
+</svg>

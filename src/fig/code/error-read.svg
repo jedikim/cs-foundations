@@ -1,0 +1,33 @@
+<svg viewBox="0 0 760 326" xmlns="http://www.w3.org/2000/svg">
+  <title>오류 글은 맨 아랫줄의 오류 이름부터 읽고, 그 위에서 파일 이름과 줄 번호를 찾는다</title>
+
+  <use href="#i-terminal" x="20" y="10" width="26" height="26" class="ic"/>
+  <text class="t-s t-b" x="54" y="28">python3 order.py 를 실행한 결과</text>
+
+  <rect class="panel" x="20" y="44" width="720" height="218" rx="12"/>
+  <rect class="s-gray" x="30" y="78" width="700" height="70" rx="6"/>
+  <rect class="s-blue" x="30" y="152" width="700" height="70" rx="6"/>
+  <rect class="s-red" x="30" y="226" width="700" height="28" rx="6"/>
+
+  <text class="t-mono tc-muted" x="40" y="68">Traceback (most recent call last):</text>
+
+  <text class="t-mono" x="56.900" y="96">File "/Users/mina/bunsik/order.py", line 10, in &lt;module&gt;</text>
+  <text class="t-mono t-b" x="73.700" y="118">print(get_total(order))</text>
+  <text class="t-mono tc-muted" x="124.300" y="140">^^^^^^^^^^^^^^^^</text>
+  <text class="t-s t-b end" x="694" y="118">지나온 길: 10번 줄</text>
+  <circle class="badge" cx="714" cy="113" r="11"/><text class="badge-t" x="714" y="117.500">3</text>
+
+  <text class="t-mono" x="56.900" y="170">File "/Users/mina/bunsik/order.py", line 6, in get_total</text>
+  <text class="t-mono t-b" x="73.700" y="192">total = total + prices[menu]</text>
+  <text class="t-mono tc-muted" x="208.600" y="214">~~~~~~^^^^^^</text>
+  <text class="t-s t-b end tc-blue" x="694" y="192">멈춘 곳: 6번 줄</text>
+  <circle class="badge blue" cx="714" cy="187" r="11"/><text class="badge-t" x="714" y="191.500">2</text>
+
+  <text class="t-mono t-b tc-red" x="40" y="245">KeyError: '돈가스'</text>
+  <text class="t-s t-b end tc-red" x="694" y="245">먼저 읽기: 무슨 오류인가</text>
+  <circle class="badge red" cx="714" cy="240" r="11"/><text class="badge-t" x="714" y="244.500">1</text>
+
+  <use href="#i-up" x="20" y="272" width="24" height="24" class="ic"/>
+  <text class="t-b" x="52" y="290">읽는 순서는 아래에서 위로</text>
+  <text class="t-s" x="52" y="312">AI에게 보여 줄 때는 첫 줄부터 끝 줄까지 통째로</text>
+</svg>

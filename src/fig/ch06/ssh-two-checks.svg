@@ -9,7 +9,7 @@
   <use href="#i-list" x="48" y="90" width="28" height="28" class="ic blue"/>
   <text class="t-b" x="84" y="110">아는 서버 목록</text>
   <text class="t-mono" x="50" y="138">known_hosts</text>
-  <text class="t-xs" x="50" y="160">처음 접속 때 지문을 적어 둠</text>
+  <text class="t-xs" x="50" y="160">확인한 서버의 키를 적어 둠</text>
 
   <rect class="box warm" x="36" y="208" width="198" height="96" rx="10"/>
   <use href="#i-key" x="48" y="218" width="28" height="28" class="ic warm"/>

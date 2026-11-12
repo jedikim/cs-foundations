@@ -31,7 +31,23 @@
     "name": "CC0 1.0",
     "url": "https://creativecommons.org/publicdomain/zero/1.0/deed.ko"
   },
-  "mathEntry": {
-    "label": "초수학 기초"
+  "guides": [
+    {
+      "id": "code",
+      "label": "초코딩 기초",
+      "title": "코드 읽는 법",
+      "sym": "{}"
+    },
+    {
+      "id": "math",
+      "label": "초수학 기초",
+      "title": "수학 길잡이",
+      "sym": "∑"
+    }
+  ],
+  "trouble": {
+    "id": "trouble",
+    "label": "증상으로 찾기",
+    "title": "증상으로 찾기"
   }
 }

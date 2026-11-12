@@ -1,0 +1,47 @@
+<svg viewBox="0 0 760 338" xmlns="http://www.w3.org/2000/svg">
+  <title>AI는 이번 대화의 책상에 올라온 것만 본다. 관련 파일, 오류 글 전체, 규칙 파일, 예시를 올려 주고, 올려 주지 않은 내 머릿속과 어제의 대화는 AI에게 없다</title>
+
+  <text class="t-s t-b" x="20" y="48">올려 주지 않으면 없는 것</text>
+  <rect class="ghost dash" x="20" y="64" width="212" height="46" rx="10"/>
+  <use href="#i-cross" x="30" y="74" width="26" height="26" class="ic gray"/>
+  <text class="t-s" x="64" y="92">내 머릿속의 생각</text>
+  <rect class="ghost dash" x="20" y="120" width="212" height="46" rx="10"/>
+  <use href="#i-cross" x="30" y="130" width="26" height="26" class="ic gray"/>
+  <text class="t-s" x="64" y="148">어제 나눈 대화</text>
+  <rect class="ghost dash" x="20" y="176" width="212" height="46" rx="10"/>
+  <use href="#i-cross" x="30" y="186" width="26" height="26" class="ic gray"/>
+  <text class="t-s" x="64" y="204">내 화면에 뜬 오류</text>
+  <text class="t-xs" x="20" y="248">보여 줘야 책상에 올라간다</text>
+  <path class="ln blue" d="M236 143 H256" marker-end="url(#ah-blue)"/>
+
+  <rect class="panel blue" x="260" y="16" width="480" height="278" rx="16"/>
+  <text class="t-l" x="278" y="48">이번 대화의 책상</text>
+  <text class="t-s" x="414" y="48">AI가 보는 것은 이것이 전부</text>
+
+  <rect class="box" x="272" y="64" width="222" height="104" rx="10"/>
+  <circle class="badge blue" cx="294" cy="88" r="12"/><text class="badge-t" x="294" y="92.500">1</text>
+  <text class="t-b" x="314" y="93">관련 파일</text>
+  <text class="t-mono" x="286" y="126">records.py, index.html</text>
+  <text class="t-xs" x="286" y="150">고칠 파일을 짚어 준다</text>
+
+  <rect class="box" x="506" y="64" width="222" height="104" rx="10"/>
+  <circle class="badge blue" cx="528" cy="88" r="12"/><text class="badge-t" x="528" y="92.500">2</text>
+  <text class="t-b" x="548" y="93">오류 글 전체</text>
+  <text class="t-s t-ink" x="520" y="126">빨간 글을 처음부터 끝까지</text>
+  <text class="t-xs" x="520" y="150">무엇을 했더니 났는지도</text>
+
+  <rect class="box" x="272" y="178" width="222" height="104" rx="10"/>
+  <circle class="badge blue" cx="294" cy="202" r="12"/><text class="badge-t" x="294" y="206.500">3</text>
+  <text class="t-b" x="314" y="207">규칙 파일</text>
+  <text class="t-s t-ink" x="286" y="240">테스트는 pytest로 돌린다</text>
+  <text class="t-xs" x="286" y="264">늘 지킬 약속을 적어 둔 파일</text>
+
+  <rect class="box" x="506" y="178" width="222" height="104" rx="10"/>
+  <circle class="badge blue" cx="528" cy="202" r="12"/><text class="badge-t" x="528" y="206.500">4</text>
+  <text class="t-b" x="548" y="207">예시</text>
+  <text class="t-s t-ink" x="520" y="240">모모 ★★★★★ 시간을 아끼다가…</text>
+  <text class="t-xs" x="520" y="264">바라는 모양을 한 줄 보여 준다</text>
+
+  <use href="#i-lock" x="20" y="302" width="24" height="24" class="ic red"/>
+  <text class="t-s tc-red" x="52" y="320">.env 파일, 비밀번호, 친구의 진짜 이름과 전화번호는 올리지 않는다</text>
+</svg>

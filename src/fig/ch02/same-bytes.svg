@@ -22,6 +22,6 @@
   <text class="t-s" x="320" y="236">빨강·초록·파랑의 밝기</text>
   <text class="t-h mid" x="640" y="70">가</text>
   <text class="t-mono t-b mid" x="640" y="146">234, 176, 128</text>
-  <rect class="solid warm" x="584" y="201" width="40" height="36" rx="7"/>
+  <rect class="ghost" x="584" y="201" width="40" height="36" rx="7" style="fill:#EAB080"/>
   <text class="t-s" x="634" y="224">연한 주황색 점</text>
 </svg>

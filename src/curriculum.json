@@ -1,46 +1,520 @@
 {
   "title": "개발의 기초",
-  "subtitle": "앱·게임·AI를 만들고 싶은 사람을 위한 컴퓨터 과학 첫걸음",
+  "subtitle": "AI와 함께 앱·게임을 만드는 사람이 알아야 할 컴퓨터 과학 기초",
   "parts": [
-    {"id": "p0", "title": "길잡이", "desc": "책 전체를 한 장면으로 먼저 훑어봅니다.", "color": "gray"},
-    {"id": "p1", "title": "컴퓨터라는 기계", "desc": "컴퓨터 부품, 0과 1, 운영체제, 코드가 움직이는 과정.", "color": "blue"},
-    {"id": "p2", "title": "개발자의 작업대", "desc": "프로그램을 만들 때 쓰는 도구들.", "color": "green"},
-    {"id": "p3", "title": "프로그램을 짓는 재료", "desc": "정보를 담는 법, 문제를 푸는 법, 버그를 찾는 법.", "color": "warm"},
-    {"id": "p4", "title": "연결되는 시스템", "desc": "컴퓨터끼리 이어져 함께 일하는 법.", "color": "purple"},
-    {"id": "p5", "title": "내보내고 운영하기", "desc": "만든 프로그램을 내보내고 지켜보는 법.", "color": "red"},
-    {"id": "p6", "title": "게임", "desc": "게임 수학, 게임이 그려지는 원리, 온라인 게임.", "color": "green"},
-    {"id": "p7", "title": "AI", "desc": "AI의 계산, 대화하는 AI, 핵심 논문, AI에게 일 맡기기.", "color": "blue"}
+    {
+      "id": "p0",
+      "title": "길잡이",
+      "desc": "책 전체를 한 장면으로 먼저 훑어봅니다.",
+      "color": "gray"
+    },
+    {
+      "id": "p1",
+      "title": "컴퓨터라는 기계",
+      "desc": "컴퓨터 부품, 0과 1, 운영체제, 코드가 움직이는 과정.",
+      "color": "blue"
+    },
+    {
+      "id": "p2",
+      "title": "개발자의 작업대",
+      "desc": "프로그램을 만들 때 쓰는 도구들.",
+      "color": "green"
+    },
+    {
+      "id": "p3",
+      "title": "프로그램을 짓는 재료",
+      "desc": "정보를 담는 법, 문제를 푸는 법, 버그를 찾는 법.",
+      "color": "warm"
+    },
+    {
+      "id": "p4",
+      "title": "연결되는 시스템",
+      "desc": "컴퓨터끼리 이어져 함께 일하는 법.",
+      "color": "purple"
+    },
+    {
+      "id": "p5",
+      "title": "내보내고 운영하기",
+      "desc": "만든 프로그램을 내보내고 지켜보는 법.",
+      "color": "red"
+    },
+    {
+      "id": "p6",
+      "title": "게임",
+      "desc": "게임 수학, 게임이 그려지는 원리, 온라인 게임.",
+      "color": "green"
+    },
+    {
+      "id": "p7",
+      "title": "AI",
+      "desc": "AI의 계산, 대화하는 AI, 핵심 논문, AI에게 일 맡기기.",
+      "color": "blue"
+    },
+    {
+      "id": "p8",
+      "title": "AI와 함께 만들기",
+      "desc": "AI에게 일을 시키고 확인하는 법, 작은 웹 앱 하나를 끝까지 만들어 내보내기.",
+      "color": "warm"
+    }
   ],
   "chapters": [
-    {"id": "ch00", "part": "p0", "title": "버튼 한 번에 일어나는 일", "sub": "책 전체의 큰 그림", "time": 10, "prereq": [], "tracks": ["core", "game", "ai"]},
-    {"id": "ch01", "part": "p1", "title": "컴퓨터의 몸", "sub": "CPU, 메모리, 저장장치가 하는 일", "time": 30, "prereq": [], "tracks": ["core", "game", "ai"]},
-    {"id": "ch02", "part": "p1", "title": "0과 1로 표현하기", "sub": "숫자, 글자, 그림을 스위치로 적는 법", "time": 30, "prereq": ["ch01"], "tracks": ["core", "game", "ai"]},
-    {"id": "ch03", "part": "p1", "title": "운영체제와 프로세스", "sub": "프로그램들의 차례와 자리를 정해 주는 프로그램", "time": 35, "prereq": ["ch01", "ch02"], "tracks": ["core", "game", "ai"]},
-    {"id": "ch04", "part": "p1", "title": "코드가 실행되기까지", "sub": "사람의 글이 컴퓨터의 말이 되는 과정", "time": 30, "prereq": ["ch03"], "tracks": ["core", "game", "ai"]},
-    {"id": "ch05", "part": "p2", "title": "터미널과 셸", "sub": "글자로 컴퓨터에게 일 시키기", "time": 35, "prereq": ["ch03"], "tracks": ["core", "game", "ai"]},
-    {"id": "ch06", "part": "p2", "title": "개발 환경 꾸리기", "sub": "프로그램이 돌아가는 데 필요한 것들", "time": 35, "prereq": ["ch05"], "tracks": ["core", "game", "ai"]},
-    {"id": "ch07", "part": "p2", "title": "Git과 변경 이력", "sub": "코드의 저장 지점 만들기", "time": 35, "prereq": ["ch05"], "tracks": ["core", "game", "ai"]},
-    {"id": "ch08", "part": "p3", "title": "자료구조", "sub": "데이터를 담는 그릇 고르기", "time": 35, "prereq": ["ch02"], "tracks": ["core", "game", "ai"]},
-    {"id": "ch09", "part": "p3", "title": "알고리즘과 비용", "sub": "빠른 방법과 느린 방법을 가려내는 법", "time": 35, "prereq": ["ch08"], "tracks": ["core", "game", "ai"]},
-    {"id": "ch10", "part": "p3", "title": "상태와 프로그램 설계", "sub": "프로그램이 기억하는 값이 꼬이지 않게", "time": 35, "prereq": ["ch08"], "tracks": ["core", "game", "ai"]},
-    {"id": "ch11", "part": "p3", "title": "동시성과 비동기", "sub": "여러 일을 한꺼번에 진행하기", "time": 35, "prereq": ["ch03", "ch10"], "tracks": ["core", "game", "ai"]},
-    {"id": "ch12", "part": "p3", "title": "디버깅과 테스트", "sub": "버그를 찾고, 고쳐졌는지 확인하기", "time": 35, "prereq": ["ch10"], "tracks": ["core", "game", "ai"]},
-    {"id": "ch13", "part": "p4", "title": "숫자로 시스템 읽기", "sub": "숫자에 속지 않는 법", "time": 30, "prereq": ["ch09"], "tracks": ["core", "ai"]},
-    {"id": "ch14", "part": "p4", "title": "네트워크", "sub": "컴퓨터끼리 메시지를 주고받는 길", "time": 35, "prereq": ["ch03"], "tracks": ["core", "game"]},
-    {"id": "ch15", "part": "p4", "title": "웹과 HTTP", "sub": "주소를 치면 화면이 뜨기까지", "time": 40, "prereq": ["ch14"], "tracks": ["core"]},
-    {"id": "ch16", "part": "p4", "title": "파일·입출력·성능", "sub": "프로그램이 느린 곳을 찾아내는 법", "time": 35, "prereq": ["ch03", "ch13"], "tracks": ["core"]},
-    {"id": "ch17", "part": "p4", "title": "데이터베이스", "sub": "안전하게 저장하고 빠르게 찾기", "time": 40, "prereq": ["ch08", "ch11"], "tracks": ["core"]},
-    {"id": "ch18", "part": "p4", "title": "시스템 설계", "sub": "큰 프로그램을 나누어 만들기", "time": 40, "prereq": ["ch15", "ch17"], "tracks": ["core"]},
-    {"id": "ch19", "part": "p4", "title": "보안", "sub": "내 프로그램을 지키는 법", "time": 40, "prereq": ["ch15", "ch17"], "tracks": ["core"]},
-    {"id": "ch20", "part": "p5", "title": "빌드와 배포", "sub": "프로그램을 포장해서 안전하게 내보내기", "time": 35, "prereq": ["ch06", "ch07"], "tracks": ["core"]},
-    {"id": "ch21", "part": "p5", "title": "인프라와 클라우드", "sub": "꺼지지 않는 컴퓨터 빌려 쓰기", "time": 40, "prereq": ["ch14", "ch20"], "tracks": ["core"]},
-    {"id": "ch22", "part": "p5", "title": "로그와 관측", "sub": "돌아가는 프로그램을 들여다보기", "time": 35, "prereq": ["ch13", "ch21"], "tracks": ["core"]},
-    {"id": "ch23", "part": "p6", "title": "공간과 움직임의 수학", "sub": "게임 속 위치와 움직임을 숫자로", "time": 40, "prereq": ["ch02"], "tracks": ["game"]},
-    {"id": "ch24", "part": "p6", "title": "게임이 움직이고 그려지는 원리", "sub": "1초에 60장 그리는 그림책", "time": 40, "prereq": ["ch23", "ch11"], "tracks": ["game"]},
-    {"id": "ch25", "part": "p6", "title": "온라인 게임", "sub": "늦게 도착해도 같은 세계처럼", "time": 35, "prereq": ["ch24", "ch14"], "tracks": ["game"]},
-    {"id": "ch26", "part": "p7", "title": "AI 계산을 따라가는 수학", "sub": "AI의 계산을 작은 숫자로 따라가기", "time": 45, "prereq": ["ch13"], "tracks": ["ai"]},
-    {"id": "ch27", "part": "p7", "title": "LLM의 작동과 한계", "sub": "다음 말을 맞히는 기계", "time": 40, "prereq": ["ch26"], "tracks": ["ai"]},
-    {"id": "ch28", "part": "p7", "title": "핵심 AI 논문 15편", "sub": "지금의 AI를 만든 생각들", "time": 45, "prereq": ["ch27"], "tracks": ["ai"]},
-    {"id": "ch29", "part": "p7", "title": "AI 기능과 개발 에이전트", "sub": "AI에게 일 맡기기", "time": 40, "prereq": ["ch27", "ch12"], "tracks": ["ai"]}
+    {
+      "id": "ch00",
+      "part": "p0",
+      "title": "버튼 한 번에 일어나는 일",
+      "sub": "책 전체의 큰 그림",
+      "time": 10,
+      "prereq": [],
+      "tracks": [
+        "core",
+        "game",
+        "ai"
+      ]
+    },
+    {
+      "id": "ch01",
+      "part": "p1",
+      "title": "컴퓨터의 몸",
+      "sub": "CPU, 메모리, 저장장치가 하는 일",
+      "time": 45,
+      "prereq": [],
+      "tracks": [
+        "core",
+        "game",
+        "ai"
+      ]
+    },
+    {
+      "id": "ch02",
+      "part": "p1",
+      "title": "0과 1로 표현하기",
+      "sub": "숫자, 글자, 그림을 스위치로 적는 법",
+      "time": 45,
+      "prereq": [
+        "ch01"
+      ],
+      "tracks": [
+        "core",
+        "game",
+        "ai"
+      ]
+    },
+    {
+      "id": "ch03",
+      "part": "p1",
+      "title": "운영체제와 프로세스",
+      "sub": "프로그램들의 차례와 자리를 정해 주는 프로그램",
+      "time": 45,
+      "prereq": [
+        "ch01",
+        "ch02"
+      ],
+      "tracks": [
+        "core",
+        "game",
+        "ai"
+      ]
+    },
+    {
+      "id": "ch04",
+      "part": "p1",
+      "title": "코드가 실행되기까지",
+      "sub": "사람의 글이 컴퓨터의 말이 되는 과정",
+      "time": 45,
+      "prereq": [
+        "ch03"
+      ],
+      "tracks": [
+        "core",
+        "game",
+        "ai"
+      ]
+    },
+    {
+      "id": "ch05",
+      "part": "p2",
+      "title": "터미널과 셸",
+      "sub": "글자로 컴퓨터에게 일 시키기",
+      "time": 45,
+      "prereq": [
+        "ch03"
+      ],
+      "tracks": [
+        "core",
+        "game",
+        "ai"
+      ]
+    },
+    {
+      "id": "ch06",
+      "part": "p2",
+      "title": "개발 환경 꾸리기",
+      "sub": "프로그램이 돌아가는 데 필요한 것들",
+      "time": 45,
+      "prereq": [
+        "ch05"
+      ],
+      "tracks": [
+        "core",
+        "game",
+        "ai"
+      ]
+    },
+    {
+      "id": "ch07",
+      "part": "p2",
+      "title": "Git과 변경 이력",
+      "sub": "코드의 저장 지점 만들기",
+      "time": 45,
+      "prereq": [
+        "ch05"
+      ],
+      "tracks": [
+        "core",
+        "game",
+        "ai"
+      ]
+    },
+    {
+      "id": "ch08",
+      "part": "p3",
+      "title": "자료구조",
+      "sub": "데이터를 담는 그릇 고르기",
+      "time": 45,
+      "prereq": [
+        "ch02"
+      ],
+      "tracks": [
+        "core",
+        "game",
+        "ai"
+      ]
+    },
+    {
+      "id": "ch09",
+      "part": "p3",
+      "title": "알고리즘과 비용",
+      "sub": "빠른 방법과 느린 방법을 가려내는 법",
+      "time": 45,
+      "prereq": [
+        "ch08"
+      ],
+      "tracks": [
+        "core",
+        "game",
+        "ai"
+      ]
+    },
+    {
+      "id": "ch10",
+      "part": "p3",
+      "title": "상태와 프로그램 설계",
+      "sub": "프로그램이 기억하는 값이 꼬이지 않게",
+      "time": 45,
+      "prereq": [
+        "ch08"
+      ],
+      "tracks": [
+        "core",
+        "game",
+        "ai"
+      ]
+    },
+    {
+      "id": "ch11",
+      "part": "p3",
+      "title": "동시성과 비동기",
+      "sub": "여러 일을 한꺼번에 진행하기",
+      "time": 45,
+      "prereq": [
+        "ch03",
+        "ch10"
+      ],
+      "tracks": [
+        "core",
+        "game",
+        "ai"
+      ]
+    },
+    {
+      "id": "ch12",
+      "part": "p3",
+      "title": "디버깅과 테스트",
+      "sub": "버그를 찾고, 고쳐졌는지 확인하기",
+      "time": 45,
+      "prereq": [
+        "ch10"
+      ],
+      "tracks": [
+        "core",
+        "game",
+        "ai"
+      ]
+    },
+    {
+      "id": "ch13",
+      "part": "p4",
+      "title": "숫자로 시스템 읽기",
+      "sub": "숫자에 속지 않는 법",
+      "time": 45,
+      "prereq": [
+        "ch09"
+      ],
+      "tracks": [
+        "core",
+        "ai"
+      ]
+    },
+    {
+      "id": "ch14",
+      "part": "p4",
+      "title": "네트워크",
+      "sub": "컴퓨터끼리 메시지를 주고받는 길",
+      "time": 45,
+      "prereq": [
+        "ch03"
+      ],
+      "tracks": [
+        "core",
+        "game"
+      ]
+    },
+    {
+      "id": "ch15",
+      "part": "p4",
+      "title": "웹과 HTTP",
+      "sub": "주소를 치면 화면이 뜨기까지",
+      "time": 45,
+      "prereq": [
+        "ch14"
+      ],
+      "tracks": [
+        "core"
+      ]
+    },
+    {
+      "id": "ch16",
+      "part": "p4",
+      "title": "파일·입출력·성능",
+      "sub": "프로그램이 느린 곳을 찾아내는 법",
+      "time": 45,
+      "prereq": [
+        "ch03",
+        "ch13"
+      ],
+      "tracks": [
+        "core"
+      ]
+    },
+    {
+      "id": "ch17",
+      "part": "p4",
+      "title": "데이터베이스",
+      "sub": "안전하게 저장하고 빠르게 찾기",
+      "time": 45,
+      "prereq": [
+        "ch08",
+        "ch11"
+      ],
+      "tracks": [
+        "core"
+      ]
+    },
+    {
+      "id": "ch18",
+      "part": "p4",
+      "title": "시스템 설계",
+      "sub": "큰 프로그램을 나누어 만들기",
+      "time": 45,
+      "prereq": [
+        "ch15",
+        "ch17"
+      ],
+      "tracks": [
+        "core"
+      ]
+    },
+    {
+      "id": "ch19",
+      "part": "p4",
+      "title": "보안",
+      "sub": "내 프로그램을 지키는 법",
+      "time": 45,
+      "prereq": [
+        "ch15",
+        "ch17"
+      ],
+      "tracks": [
+        "core"
+      ]
+    },
+    {
+      "id": "ch20",
+      "part": "p5",
+      "title": "빌드와 배포",
+      "sub": "프로그램을 포장해서 안전하게 내보내기",
+      "time": 45,
+      "prereq": [
+        "ch06",
+        "ch07"
+      ],
+      "tracks": [
+        "core"
+      ]
+    },
+    {
+      "id": "ch21",
+      "part": "p5",
+      "title": "인프라와 클라우드",
+      "sub": "꺼지지 않는 컴퓨터 빌려 쓰기",
+      "time": 45,
+      "prereq": [
+        "ch14",
+        "ch20"
+      ],
+      "tracks": [
+        "core"
+      ]
+    },
+    {
+      "id": "ch22",
+      "part": "p5",
+      "title": "로그와 관측",
+      "sub": "돌아가는 프로그램을 들여다보기",
+      "time": 45,
+      "prereq": [
+        "ch13",
+        "ch21"
+      ],
+      "tracks": [
+        "core"
+      ]
+    },
+    {
+      "id": "ch23",
+      "part": "p6",
+      "title": "공간과 움직임의 수학",
+      "sub": "게임 속 위치와 움직임을 숫자로",
+      "time": 45,
+      "prereq": [
+        "ch02"
+      ],
+      "tracks": [
+        "game"
+      ]
+    },
+    {
+      "id": "ch24",
+      "part": "p6",
+      "title": "게임이 움직이고 그려지는 원리",
+      "sub": "1초에 60장 그리는 그림책",
+      "time": 45,
+      "prereq": [
+        "ch23",
+        "ch11"
+      ],
+      "tracks": [
+        "game"
+      ]
+    },
+    {
+      "id": "ch25",
+      "part": "p6",
+      "title": "온라인 게임",
+      "sub": "늦게 도착해도 같은 세계처럼",
+      "time": 45,
+      "prereq": [
+        "ch24",
+        "ch14"
+      ],
+      "tracks": [
+        "game"
+      ]
+    },
+    {
+      "id": "ch26",
+      "part": "p7",
+      "title": "AI 계산을 따라가는 수학",
+      "sub": "AI의 계산을 작은 숫자로 따라가기",
+      "time": 45,
+      "prereq": [
+        "ch13"
+      ],
+      "tracks": [
+        "ai"
+      ]
+    },
+    {
+      "id": "ch27",
+      "part": "p7",
+      "title": "LLM의 작동과 한계",
+      "sub": "다음 말을 맞히는 기계",
+      "time": 45,
+      "prereq": [
+        "ch26"
+      ],
+      "tracks": [
+        "ai"
+      ]
+    },
+    {
+      "id": "ch28",
+      "part": "p7",
+      "title": "핵심 AI 논문 15편",
+      "sub": "지금의 AI를 만든 생각들",
+      "time": 50,
+      "prereq": [
+        "ch27"
+      ],
+      "tracks": [
+        "ai"
+      ]
+    },
+    {
+      "id": "ch29",
+      "part": "p7",
+      "title": "AI 기능과 개발 에이전트",
+      "sub": "AI에게 일 맡기기",
+      "time": 45,
+      "prereq": [
+        "ch27",
+        "ch12"
+      ],
+      "tracks": [
+        "ai"
+      ]
+    },
+    {
+      "id": "ch30",
+      "part": "p8",
+      "title": "AI에게 일 시키는 법",
+      "sub": "무엇을 말해 주고 무엇을 확인하나",
+      "time": 45,
+      "prereq": [
+        "ch07",
+        "ch12"
+      ],
+      "tracks": [
+        "core",
+        "game",
+        "ai"
+      ]
+    },
+    {
+      "id": "ch31",
+      "part": "p8",
+      "title": "작은 웹 앱 하나를 끝까지",
+      "sub": "화면, 서버, 데이터, 배포를 잇기",
+      "time": 45,
+      "prereq": [
+        "ch15",
+        "ch17",
+        "ch20"
+      ],
+      "tracks": [
+        "core",
+        "ai"
+      ]
+    }
   ]
 }

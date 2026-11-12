@@ -1,0 +1,58 @@
+<svg viewBox="0 0 760 336" xmlns="http://www.w3.org/2000/svg">
+  <title>JSON에서 중괄호는 키와 값의 묶음, 대괄호는 배열이고, 묶음 안에 배열을, 배열 안에 다시 묶음을 겹쳐 담는다</title>
+
+  <!-- 맨 바깥 묶음 -->
+  <rect class="panel yellow" x="20" y="16" width="720" height="276" rx="16"/>
+  <text class="t-mono t-b" x="40" y="46">{ }</text>
+  <text class="t-b" x="76" y="46">묶음</text>
+  <text class="t-s" x="116" y="46">키와 값의 짝 네 개</text>
+
+  <rect class="box" x="40" y="66" width="80" height="30" rx="6"/>
+  <text class="t-mono mid" x="80" y="86">name</text>
+  <path class="ln thin" d="M124 81 H142" marker-end="url(#ah)"/>
+  <text class="t-mono" x="152" y="86">"민지네 분식"</text>
+  <text class="t-xs" x="272" y="86">문자열</text>
+
+  <rect class="box" x="40" y="106" width="80" height="30" rx="6"/>
+  <text class="t-mono mid" x="80" y="126">open</text>
+  <path class="ln thin" d="M124 121 H142" marker-end="url(#ah)"/>
+  <text class="t-mono" x="152" y="126">true</text>
+  <text class="t-xs" x="272" y="126">참</text>
+
+  <rect class="box" x="40" y="146" width="80" height="30" rx="6"/>
+  <text class="t-mono mid" x="80" y="166">phone</text>
+  <path class="ln thin" d="M124 161 H142" marker-end="url(#ah)"/>
+  <text class="t-mono" x="152" y="166">null</text>
+  <text class="t-xs" x="272" y="166">없음</text>
+
+  <rect class="box warm" x="40" y="186" width="80" height="30" rx="6"/>
+  <text class="t-mono mid t-b" x="80" y="206">menu</text>
+  <path class="ln warm" d="M124 201 H326" marker-end="url(#ah-warm)"/>
+
+  <!-- 배열 -->
+  <rect class="panel green" x="336" y="62" width="386" height="214" rx="12"/>
+  <text class="t-mono t-b" x="354" y="90">[ ]</text>
+  <text class="t-b" x="390" y="90">배열</text>
+  <text class="t-s" x="430" y="90">묶음 두 개가 차례로</text>
+
+  <text class="t-s mid" x="437" y="122">0번 칸</text>
+  <rect class="box" x="352" y="132" width="170" height="128" rx="8"/>
+  <text class="t-mono tc-muted" x="368" y="166">id</text>
+  <text class="t-mono" x="436" y="166">1</text>
+  <text class="t-mono tc-muted" x="368" y="200">name</text>
+  <text class="t-mono" x="436" y="200">"라면"</text>
+  <text class="t-mono tc-muted" x="368" y="234">price</text>
+  <text class="t-mono" x="436" y="234">4500</text>
+
+  <text class="t-s mid t-b tc-warm" x="621" y="122">1번 칸</text>
+  <rect class="box warm" x="536" y="132" width="170" height="128" rx="8"/>
+  <text class="t-mono tc-muted" x="552" y="166">id</text>
+  <text class="t-mono" x="620" y="166">2</text>
+  <text class="t-mono tc-muted" x="552" y="200">name</text>
+  <text class="t-mono" x="620" y="200">"우동"</text>
+  <text class="t-mono t-b tc-warm" x="552" y="234">price</text>
+  <text class="t-mono t-b tc-warm" x="620" y="234">5000</text>
+
+  <text class="t-s" x="40" y="318">우동의 가격까지 가는 길</text>
+  <text class="t-mono t-b tc-warm" x="196" y="318">menu → 1번 칸 → price</text>
+</svg>

@@ -1,0 +1,1254 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>31장 작은 웹 앱 하나를 끝까지 — 개발의 기초</title>
+<meta name="description" content="화면, 서버, 데이터, 배포를 잇기">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch31" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/code.html"><span class="n">{}</span><span>초코딩 기초</span></a></li><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>8부 · AI와 함께 만들기</div><ol><li data-ch="ch30"><a href="../chapters/ch30.html"><span class="n">30</span><span>AI에게 일 시키는 법</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch31"><a href="../chapters/ch31.html" aria-current="page"><span class="n">31</span><span>작은 웹 앱 하나를 끝까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/trouble.html">증상으로 찾기</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">8부 AI와 함께 만들기 › <b>31장 작은 웹 앱 하나를 끝까지</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-warm">
+<div class="ch-kicker"><span class="ch-no">31장</span><span class="part">8부 · AI와 함께 만들기</span></div>
+<h1>작은 웹 앱 하나를 끝까지</h1>
+<p class="ch-sub">화면, 서버, 데이터, 배포를 잇기</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 45분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch15.html">15장 웹과 HTTP</a><a class="chip" href="ch17.html">17장 데이터베이스</a><a class="chip" href="ch20.html">20장 빌드와 배포</a></div>
+</header><div class="lead">
+<p>조립식 책장을 사면 판자와 선반, 나사가 따로따로 들어 있습니다. 부품을 하나하나 안다고 책장이 서지는 않습니다. 설명서 순서대로 이어 붙여야 합니다. 화면, 서버, 데이터베이스, 배포는 앞에서 따로따로 만났습니다. 이 장에서는 그 조각들을 이어 작은 웹 앱 하나를 AI와 함께 만듭니다. 그리고 친구들이 쓸 수 있게 인터넷에 올립니다. 단계마다 AI에게 무엇을 시키고 무엇을 확인하는지를 따라갑니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>버튼 한 번이 화면, 서버, 데이터베이스를 어떻게 지나가는지 말할 수 있습니다.</li>
+<li>내 컴퓨터에서 앱을 켜고, 오류가 어느 조각에서 났는지 가려낼 수 있습니다.</li>
+<li>남의 기록과 비밀 값이 새지 않게 AI에게 무엇을 시키고 확인할지 알 수 있습니다.</li>
+<li>앱을 인터넷에 올리고, 고장 났을 때 볼 곳을 차례로 짚을 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="what">
+<h2><span class="sec-n">31.1</span>무엇을 만드나: 한 장짜리 설명서<a aria-label="이 절의 링크" class="anchor" href="#what">#</a></h2>
+<p>반 티셔츠를 맞출 때는 주문서를 씁니다. 색, 크기, 가슴에 넣을 글자를 적습니다. "예쁘게 해 주세요"라고만 하면 엉뚱한 옷이 옵니다.</p>
+<p>앱도 주문서부터 씁니다. <a href="ch30.html#spec">30장</a>에서 서연이는 독서 기록 앱의 한 장짜리 설명서를 쓰고, 첫 판을 자기 컴퓨터에서 만들어 보았습니다. 읽은 책의 제목과 한 줄 감상을 적어 두는 앱입니다. 설치하지 않고 브라우저에 주소를 넣어 여는 앱이라서 <strong>웹 앱</strong>(web app)이라고 부릅니다.</p>
+<p>이제 반 친구들이 인터넷에서 함께 쓰게 하려고 합니다. 그러려면 친구마다 자기 기록이 따로 있어야 합니다. 30장에서는 하지 않기로 했던 로그인이 필요해졌습니다. 서연이는 설명서를 고쳐 쓰고 처음부터 다시 만들기로 했습니다. 아래는 코드가 아니라 우리말로 적은 설명서입니다.</p>
+<pre class="text"><code>만들 것: 독서 기록 (우리 반 친구들이 휴대전화로 쓰는 웹 앱)
+할 수 있는 것: 로그인한다
+할 수 있는 것: 책 제목과 한 줄 감상을 적어 저장한다
+할 수 있는 것: 내 기록만 목록으로 본다
+할 수 있는 것: 내 기록을 고치고 지운다
+하지 않을 것: 남의 기록 보기, 댓글, 별점, 책 표지 사진
+다 됐다: 준호로 로그인하면 서연의 기록이 보이지 않는다</code></pre>
+<ul>
+<li><strong>만들 것</strong>은 누가 어디서 쓰는지 알려 줍니다. 휴대전화로 쓴다는 말이 화면 크기를 정합니다.</li>
+<li><strong>할 수 있는 것</strong>은 네 줄입니다. 로그인이 새로 들어왔습니다.</li>
+<li><strong>하지 않을 것</strong>은 일을 줄여 줍니다. 이번에는 만들지 않겠다는 뜻입니다. AI는 시키지 않은 기능도 덧붙이곤 합니다. 기능이 하나 늘면 지킬 것도 하나 늡니다.</li>
+<li><strong>다 됐다</strong>는 눈으로 확인할 수 있는 문장으로 적습니다.</li>
+</ul>
+<figure class="fig" id="fig-app-sketch"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>독서 기록 앱은 로그인 화면과 내 기록 화면 두 장으로 이루어지고, 이번에 하는 것 네 가지와 하지 않는 것을 미리 정해 둔다</title>
+
+  <rect class="box" x="20" y="20" width="190" height="300" rx="16"/>
+  <use href="#i-book" x="93" y="70" width="44" height="44" class="ic blue"/>
+  <text class="t-l mid" x="115" y="144">독서 기록</text>
+  <text class="t-s mid" x="115" y="166">우리 반 독서 기록장</text>
+  <rect class="solid blue" x="62" y="194" width="120" height="36" rx="8"/>
+  <text class="t-on t-b mid" x="122" y="217">로그인</text>
+  <circle class="badge blue" cx="42" cy="212" r="12"/><text class="badge-t" x="42" y="216.500">1</text>
+  <text class="t-xs mid" x="115" y="302">로그인 화면</text>
+
+  <path class="ln" d="M216 170 H242" marker-end="url(#ah)"/>
+
+  <rect class="box" x="250" y="20" width="270" height="300" rx="16"/>
+  <text class="t-b" x="266" y="50">서연이의 독서 기록</text>
+  <text class="t-xs end" x="504" y="50">로그아웃</text>
+  <path class="ln thin muted" d="M264 62 H506"/>
+
+  <circle class="badge blue" cx="276" cy="105" r="12"/><text class="badge-t" x="276" y="109.500">2</text>
+  <rect class="box gray" x="296" y="74" width="210" height="28" rx="6"/>
+  <text class="t-s" x="306" y="93">책 제목</text>
+  <rect class="box gray" x="296" y="108" width="144" height="28" rx="6"/>
+  <text class="t-s" x="306" y="127">한 줄 감상</text>
+  <rect class="solid blue" x="446" y="108" width="60" height="28" rx="6"/>
+  <text class="t-on t-b mid" x="476" y="127">저장</text>
+
+  <circle class="badge blue" cx="276" cy="179" r="12"/><text class="badge-t" x="276" y="183.500">3</text>
+  <rect class="box blue" x="296" y="152" width="210" height="54" rx="8"/>
+  <text class="t-b" x="308" y="174">홍길동전</text>
+  <text class="t-xs end" x="496" y="174">고치기 · 지우기</text>
+  <text class="t-xs" x="308" y="194">집을 떠나는 장면이 슬펐다</text>
+
+  <circle class="badge blue" cx="276" cy="241" r="12"/><text class="badge-t" x="276" y="245.500">4</text>
+  <rect class="box blue" x="296" y="214" width="210" height="54" rx="8"/>
+  <text class="t-b" x="308" y="236">어린 왕자</text>
+  <text class="t-xs end" x="496" y="236">고치기 · 지우기</text>
+  <text class="t-xs" x="308" y="256">여우가 한 말이 오래 남는다</text>
+  <text class="t-xs mid" x="385" y="302">내 기록 화면</text>
+
+  <rect class="panel green" x="540" y="20" width="200" height="158" rx="12"/>
+  <text class="t-b" x="554" y="46">이번에 하는 것</text>
+  <circle class="badge blue" cx="566" cy="72" r="12"/><text class="badge-t" x="566" y="76.500">1</text>
+  <text class="t-s" x="586" y="76.500">로그인한다</text>
+  <circle class="badge blue" cx="566" cy="99" r="12"/><text class="badge-t" x="566" y="103.500">2</text>
+  <text class="t-s" x="586" y="103.500">제목과 감상을 적는다</text>
+  <circle class="badge blue" cx="566" cy="126" r="12"/><text class="badge-t" x="566" y="130.500">3</text>
+  <text class="t-s" x="586" y="130.500">내 기록만 본다</text>
+  <circle class="badge blue" cx="566" cy="153" r="12"/><text class="badge-t" x="566" y="157.500">4</text>
+  <text class="t-s" x="586" y="157.500">고치고 지운다</text>
+
+  <rect class="panel" x="540" y="190" width="200" height="130" rx="12"/>
+  <text class="t-b" x="554" y="216">이번에 하지 않는 것</text>
+  <use href="#i-cross" x="554" y="232" width="20" height="20" class="ic red"/>
+  <text class="t-s" x="582" y="246.500">남의 기록 보기</text>
+  <use href="#i-cross" x="554" y="258" width="20" height="20" class="ic red"/>
+  <text class="t-s" x="582" y="272.500">댓글, 별점</text>
+  <use href="#i-cross" x="554" y="284" width="20" height="20" class="ic red"/>
+  <text class="t-s" x="582" y="298.500">책 표지 사진 올리기</text>
+</svg></div><figcaption><b>그림 31-1</b>독서 기록 앱의 두 화면. 번호는 오른쪽 위에 적은 네 가지와 짝을 이룹니다. 설명서의 "할 수 있는 것" 네 줄입니다.</figcaption></figure>
+<p>화면은 두 장입니다. 로그인 화면과 내 기록 화면입니다. 내 기록 화면 위쪽에는 책 제목과 한 줄 감상을 적는 칸이 있습니다. 아래쪽에는 내가 적은 기록이 새것부터 카드로 쌓입니다.</p>
+<p>이 앱을 한꺼번에 시키지 않습니다. 눈으로 확인할 수 있는 크기로 나눕니다(<a href="ch30.html#slice">30장</a>).</p>
+<ol type="1">
+<li>화면만 만듭니다. 기록은 가짜로 두 개 넣어 둡니다.</li>
+<li>내 컴퓨터에서 켜 봅니다.</li>
+<li>화면과 서버가 말을 주고받게 합니다.</li>
+<li>데이터베이스와 로그인을 붙입니다.</li>
+<li>비밀 값을 정리합니다.</li>
+<li>인터넷에 올립니다.</li>
+<li>점검하고 친구들에게 알립니다.</li>
+</ol>
+<p>첫 단계는 이렇게 시킵니다.</p>
+<blockquote>
+<p>설명서를 읽고 1단계만 해 줘. 로그인 화면과 내 기록 화면만 만들고, 기록은 가짜로 두 개 넣어 줘. 서버와 데이터베이스는 아직 만들지 마. 가짜 기록을 적어 둔 파일도 알려 줘.</p>
+</blockquote>
+<p>한 단계가 끝날 때마다 직접 눌러 보고 커밋합니다(<a href="ch30.html#save">30장</a>).</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 가짜 기록은 꼭 걷어 냅니다</div>
+<p>1단계의 가짜 기록은 화면 모양을 보려고 넣은 것입니다. 4단계에서 진짜 데이터베이스로 바꿀 때 "가짜 기록을 모두 지워 줘"라고 따로 말합니다. 남아 있으면 저장이 안 되는데도 되는 것처럼 보입니다. AI가 시키지 않았는데 가짜 기록을 채워 넣는 일도 있습니다(<a href="ch30.html#mistakes">30장</a>).</p>
+</div>
+</section>
+<section class="level2" id="pieces">
+<h2><span class="sec-n">31.2</span>웹 앱의 세 조각: 화면, 서버, 데이터베이스<a aria-label="이 절의 링크" class="anchor" href="#pieces">#</a></h2>
+<p>분식집에는 손님이 앉는 홀이 있습니다. 음식을 만드는 주방이 있고, 재료를 넣어 두는 냉장고가 있습니다. 손님 눈에는 홀만 보입니다. 하지만 주방과 냉장고가 없으면 떡볶이는 나오지 않습니다.</p>
+<p>독서 기록 같은 웹 앱도 세 조각으로 이루어집니다.</p>
+<ul>
+<li><strong>화면</strong>은 홀입니다. 친구들의 브라우저에서 돕니다. 기록을 보여 주고 입력을 받습니다. 이 조각을 <strong>프런트엔드</strong>(frontend)라고 부릅니다.</li>
+<li><strong>서버</strong>는 주방입니다. 늘 켜져 있는 컴퓨터에서 돕니다(<a href="ch21.html#rent">21장</a>). 요청을 받아 누구인지 확인하고, 규칙에 맞는 일만 합니다. 이 조각을 <strong>백엔드</strong>(backend)라고 부릅니다.</li>
+<li><strong>데이터베이스</strong>는 냉장고입니다. 기록을 보관합니다(<a href="ch17.html">17장</a>).</li>
+</ul>
+<p>서연이가 『모모』를 적고 [저장]을 눌렀습니다. 그림의 번호를 따라가 봅시다.</p>
+<figure class="fig" id="fig-three-pieces"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 356" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>저장 버튼을 한 번 누르면 요청이 화면에서 서버를 거쳐 데이터베이스까지 갔다가, 응답이 같은 길로 돌아와 화면에 새 카드가 그려진다</title>
+
+  <rect class="box blue" x="20" y="20" width="160" height="260" rx="14"/>
+  <use href="#i-browser" x="80" y="30" width="40" height="40" class="ic blue"/>
+  <text class="t-l mid" x="100" y="94">화면</text>
+  <text class="t-s mid" x="100" y="114">프런트엔드</text>
+  <text class="t-xs mid" x="100" y="132">친구의 브라우저에서 돈다</text>
+  <circle class="badge blue" cx="40" cy="160" r="12"/><text class="badge-t" x="40" y="164.500">1</text>
+  <text class="t-s" x="58" y="164.500">저장을 누른다</text>
+  <circle class="badge blue" cx="40" cy="240" r="12"/><text class="badge-t" x="40" y="244.500">7</text>
+  <text class="t-s" x="58" y="244.500">새 카드를 그린다</text>
+
+  <rect class="box green" x="300" y="20" width="160" height="260" rx="14"/>
+  <use href="#i-server" x="360" y="30" width="40" height="40" class="ic green"/>
+  <text class="t-l mid" x="380" y="94">서버</text>
+  <text class="t-s mid" x="380" y="114">백엔드</text>
+  <text class="t-xs mid" x="380" y="132">늘 켜진 컴퓨터에서 돈다</text>
+  <circle class="badge green" cx="320" cy="200" r="12"/><text class="badge-t" x="320" y="204.500">3</text>
+  <text class="t-s" x="338" y="196">누구인지, 해도</text>
+  <text class="t-s" x="338" y="214">되는지 확인한다</text>
+
+  <rect class="box warm" x="580" y="20" width="160" height="260" rx="14"/>
+  <use href="#i-db" x="640" y="30" width="40" height="40" class="ic warm"/>
+  <text class="t-l mid" x="660" y="94">데이터베이스</text>
+  <text class="t-s mid" x="660" y="114">기록을 보관한다</text>
+  <text class="t-xs mid" x="660" y="132">전원이 꺼져도 남는다</text>
+  <rect class="box" x="596" y="176" width="128" height="48" rx="8"/>
+  <text class="t-mono t-b mid" x="660" y="197">records 표</text>
+  <text class="t-xs mid" x="660" y="215">한 줄이 기록 하나</text>
+
+  <path class="ln blue" d="M186 160 H293" marker-end="url(#ah-blue)"/>
+  <circle class="badge blue" cx="240" cy="160" r="12"/><text class="badge-t" x="240" y="164.500">2</text>
+  <text class="t-mono t-b mid" x="240" y="140">POST</text>
+  <text class="t-mono mid" x="240" y="186">/api/records</text>
+
+  <path class="ln green" d="M466 160 H573" marker-end="url(#ah-green)"/>
+  <circle class="badge green" cx="520" cy="160" r="12"/><text class="badge-t" x="520" y="164.500">4</text>
+  <text class="t-s mid" x="520" y="140">한 행 추가</text>
+
+  <path class="ln warm" d="M574 240 H467" marker-end="url(#ah-warm)"/>
+  <circle class="badge warm" cx="520" cy="240" r="12"/><text class="badge-t" x="520" y="244.500">5</text>
+  <text class="t-s mid" x="520" y="222">4번 기록으로 저장</text>
+
+  <path class="ln green" d="M294 240 H187" marker-end="url(#ah-green)"/>
+  <circle class="badge green" cx="240" cy="240" r="12"/><text class="badge-t" x="240" y="244.500">6</text>
+  <text class="t-mono t-b mid" x="240" y="222">201</text>
+  <text class="t-xs mid" x="240" y="266">저장한 기록</text>
+
+  <rect class="panel" x="20" y="298" width="720" height="40" rx="10"/>
+  <text class="t-s mid" x="380" y="323">버튼이 먹통일 때는 먼저 묻는다. 몇 번에서 멈췄을까?</text>
+</svg></div><figcaption><b>그림 31-2</b>저장 버튼 한 번에 일어나는 일곱 걸음. 파란 화살표는 화면이, 초록은 서버가, 주황은 데이터베이스가 보낸 것입니다.</figcaption></figure>
+<ol type="1">
+<li>서연이가 [저장]을 누릅니다.</li>
+<li>화면이 서버로 요청을 보냅니다. <code>POST /api/records</code>는 "기록을 새로 만들어 주세요"입니다(<a href="ch15.html#message">15장</a>).</li>
+<li>서버가 확인합니다. 누구인지, 이 일을 해도 되는지 봅니다. 제목이 비어 있지 않은지도 봅니다.</li>
+<li>서버가 데이터베이스에 한 행, 곧 기록 한 줄을 더해 달라고 합니다.</li>
+<li>데이터베이스가 "4번 기록으로 저장했습니다"라고 알려 줍니다. 4는 새 기록에 붙은 번호입니다.</li>
+<li>서버가 화면에 응답합니다. <code>201</code>은 "새로 만들었습니다"입니다.</li>
+<li>화면이 목록 맨 위에 새 카드를 그립니다.</li>
+</ol>
+<p>조각을 나눠 아는 까닭은 둘입니다. 고장 났을 때 어디를 볼지 정할 수 있습니다. AI에게 시킬 때도 조각 이름으로 말할 수 있습니다. "화면만 고쳐 줘. 서버 코드는 건드리지 마."</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>버튼 하나는 세 조각을 다녀오는 <strong>왕복 한 번</strong>입니다. 안 될 때는 "몇 번에서 멈췄나"부터 묻습니다.</p>
+</div>
+<div class="callout myth"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-cross"></use></svg>흔한 오해 · 화면에 보이면 저장된 것이다</div>
+<p>화면은 7번을 먼저 해 버릴 수 있습니다. 서버의 답을 기다리지 않고 카드부터 그리는 것입니다. 2번부터 6번 가운데 하나가 실패해도 카드는 보입니다. <strong>새로 고침을 해도 남아 있어야</strong> 저장된 것입니다.</p>
+</div>
+</section>
+<section class="level2" id="screen">
+<h2><span class="sec-n">31.3</span>화면을 이루는 것: 뼈대, 꾸밈, 움직임<a aria-label="이 절의 링크" class="anchor" href="#screen">#</a></h2>
+<p>집을 지을 때는 기둥과 벽부터 세웁니다. 그다음 벽지를 바르고 색을 칠합니다. 마지막으로 스위치를 달아 누르면 불이 켜지게 합니다.</p>
+<p>화면도 세 가지로 만듭니다.</p>
+<ul>
+<li>뼈대는 HTML입니다(<a href="ch15.html#render">15장</a>). 제목, 입력 칸, 버튼이 <strong>있다</strong>는 것을 적습니다.</li>
+<li>꾸밈은 <strong>CSS</strong>(Cascading Style Sheets)입니다. 색, 크기, 놓일 자리를 적습니다.</li>
+<li>움직임은 <strong>자바스크립트</strong>(JavaScript)입니다. 누르면 무슨 일이 일어날지를 적는 프로그래밍 언어입니다. 15장에서 본 스크립트가 이 언어로 쓴 것입니다(<a href="code.html#two-languages">초코딩 기초</a>).</li>
+</ul>
+<figure class="fig" id="fig-html-css-js"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>같은 화면이 HTML만 있을 때는 뼈대만 보이고, CSS를 입히면 보기 좋아지고, 자바스크립트를 더하면 버튼을 눌렀을 때 새 카드가 생긴다</title>
+
+  <rect class="panel" x="20" y="20" width="220" height="290" rx="14"/>
+  <circle class="badge" cx="44" cy="46" r="12"/><text class="badge-t" x="44" y="50.500">1</text>
+  <text class="t-b" x="64" y="51">HTML만 있을 때</text>
+  <text class="t-s" x="34" y="78">뼈대: 무엇이 있는가</text>
+  <rect class="box" x="30" y="92" width="200" height="174" rx="8"/>
+  <text class="t-b" x="42" y="117">독서 기록</text>
+  <rect class="ghost" x="42" y="128" width="92" height="22"/>
+  <text class="t-xs" x="48" y="143">책 제목</text>
+  <rect class="ghost" x="140" y="128" width="40" height="22"/>
+  <text class="t-xs mid" x="160" y="143">저장</text>
+  <circle class="badge" cx="48" cy="174" r="3"/>
+  <text x="58" y="179">홍길동전</text>
+  <circle class="badge" cx="48" cy="198" r="3"/>
+  <text x="58" y="203">어린 왕자</text>
+  <text class="t-mono t-b" x="34" y="292">index.html</text>
+
+  <path class="ln" d="M245 170 H263" marker-end="url(#ah)"/>
+
+  <rect class="panel blue" x="270" y="20" width="220" height="290" rx="14"/>
+  <circle class="badge blue" cx="294" cy="46" r="12"/><text class="badge-t" x="294" y="50.500">2</text>
+  <text class="t-b" x="314" y="51">CSS를 입히면</text>
+  <text class="t-s" x="284" y="78">꾸밈: 어떻게 보이는가</text>
+  <rect class="box" x="280" y="92" width="200" height="174" rx="8"/>
+  <rect class="solid blue" x="280" y="92" width="200" height="32" rx="8"/>
+  <text class="t-on t-b mid" x="380" y="113">독서 기록</text>
+  <rect class="box gray" x="290" y="134" width="126" height="28" rx="8"/>
+  <text class="t-xs" x="300" y="152">책 제목</text>
+  <rect class="solid blue" x="422" y="134" width="48" height="28" rx="8"/>
+  <text class="t-on t-b mid" x="446" y="153">저장</text>
+  <rect class="box blue" x="290" y="172" width="180" height="26" rx="8"/>
+  <text class="t-s t-ink t-b" x="302" y="190">홍길동전</text>
+  <rect class="box blue" x="290" y="202" width="180" height="26" rx="8"/>
+  <text class="t-s t-ink t-b" x="302" y="220">어린 왕자</text>
+  <text class="t-mono t-b" x="284" y="292">style.css</text>
+
+  <path class="ln" d="M495 170 H513" marker-end="url(#ah)"/>
+
+  <rect class="panel green" x="520" y="20" width="220" height="290" rx="14"/>
+  <circle class="badge green" cx="544" cy="46" r="12"/><text class="badge-t" x="544" y="50.500">3</text>
+  <text class="t-b" x="564" y="51">자바스크립트를 더하면</text>
+  <text class="t-s" x="534" y="78">움직임: 누르면 무슨 일이</text>
+  <rect class="box" x="530" y="92" width="200" height="174" rx="8"/>
+  <rect class="solid blue" x="530" y="92" width="200" height="32" rx="8"/>
+  <text class="t-on t-b mid" x="630" y="113">독서 기록</text>
+  <rect class="box gray" x="540" y="134" width="126" height="28" rx="8"/>
+  <text class="t-xs" x="550" y="152">책 제목</text>
+  <rect class="solid blue" x="672" y="134" width="48" height="28" rx="8"/>
+  <text class="t-on t-b mid" x="696" y="153">저장</text>
+  <use href="#i-cursor" x="704" y="150" width="24" height="24" class="ic"/>
+  <rect class="box green" x="540" y="172" width="180" height="26" rx="8"/>
+  <text class="t-s t-ink t-b" x="552" y="190">모모</text>
+  <text class="t-xs t-b tc-green end" x="696" y="190">방금 생김</text>
+  <rect class="box blue" x="540" y="202" width="180" height="26" rx="8"/>
+  <text class="t-s t-ink t-b" x="552" y="220">홍길동전</text>
+  <rect class="box blue" x="540" y="232" width="180" height="26" rx="8"/>
+  <text class="t-s t-ink t-b" x="552" y="250">어린 왕자</text>
+  <text class="t-mono t-b" x="534" y="292">app.js</text>
+</svg></div><figcaption><b>그림 31-3</b>같은 화면을 세 번 그렸습니다. 왼쪽부터 HTML만 있을 때, CSS를 입혔을 때, 자바스크립트를 더했을 때입니다.</figcaption></figure>
+<p>가장 단순한 앱은 세 가지를 파일 셋에 나눠 적습니다. 저장 버튼에 관한 줄을 하나씩 뽑아 보면 이렇습니다.</p>
+<ul>
+<li><code>index.html</code>의 <code>&lt;button id="save"&gt;저장&lt;/button&gt;</code>은 "저장이라고 적힌 버튼이 있다. 이름표는 <code>save</code>"입니다.</li>
+<li><code>style.css</code>의 <code>button { background: royalblue; color: white; }</code>는 "버튼 바탕은 파란색, 글자는 흰색"입니다.</li>
+<li><code>app.js</code>의 <code>document.querySelector("#save").addEventListener("click", addRecord);</code>는 "이름표가 <code>save</code>인 것을 찾아라. 누르면 <code>addRecord</code>라는 일을 하게 하라"입니다.</li>
+</ul>
+<p>그림의 3번에서 버튼을 누르자 『모모』 카드가 생긴 것은 셋째 줄 덕분입니다.</p>
+<section class="level3" id="컴포넌트와-프레임워크">
+<h3>컴포넌트와 프레임워크</h3>
+<p>붕어빵 가게에는 틀이 있습니다. 틀 하나로 붕어빵을 몇 개든 찍어 냅니다. 기록 카드도 그렇게 만듭니다. 카드의 틀을 하나 만들어 두고 기록 수만큼 찍습니다. 화면을 이루는 이런 조각을 <strong>컴포넌트</strong>(component)라고 합니다.</p>
+<p>틀을 고치면 모든 카드가 함께 바뀝니다. 그래서 AI에게 "기록 카드 컴포넌트에 날짜를 넣어 줘"처럼 조각 이름으로 시킬 수 있습니다.</p>
+<p>컴포넌트를 조립하는 법, 주소마다 어느 화면을 보여 줄지 정하는 법은 앱마다 비슷합니다. 이런 일을 미리 갖춰 둔 틀이 있습니다. 재료와 순서가 다 들어 있는 밀키트와 같습니다. 이것을 <strong>프레임워크</strong>(framework)라고 합니다. 예: Next.js, Vue, Svelte.</p>
+<p>프레임워크를 쓰면 파일의 모양이 달라집니다. 뼈대, 꾸밈, 움직임을 컴포넌트마다 한 파일에 함께 적곤 합니다. 파일 이름도 <code>.jsx</code>, <code>.tsx</code>, <code>.vue</code>, <code>.svelte</code>로 끝납니다. 세 가지가 맡은 몫은 그대로입니다.</p>
+<p>AI는 대개 프레임워크를 하나 골라서 시작합니다. 어느 프레임워크의 몇 버전인지 물어봅니다. <code>package.json</code>에도 이름과 버전이 적혀 있습니다(<a href="code.html#project">초코딩 기초</a>). 답에 자주 나오는 React는 컴포넌트를 만드는 도구이고, Next.js는 그 위에 지은 프레임워크입니다.</p>
+<p>답은 AI가 일을 시작할 때마다 읽는 규칙 파일에 적어 둡니다(<a href="ch30.html#context">30장</a>). 버전이 다르면 쓰는 법도 다릅니다. AI가 옛 버전의 사용법을 섞어 쓰는 일이 잦습니다(<a href="ch30.html#mistakes">30장</a>).</p>
+</section>
+<section class="level3" id="휴대전화-화면에-맞추기">
+<h3>휴대전화 화면에 맞추기</h3>
+<p>친구들은 주로 휴대전화로 봅니다. 노트북에 맞춰 만든 화면을 휴대전화로 열면 글자가 깨알만 해지거나 옆이 잘립니다. 그래서 화면 폭에 따라 배치가 바뀌게 만듭니다. 이것을 <strong>반응형 디자인</strong>(responsive design)이라고 합니다.</p>
+<figure class="fig" id="fig-components"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>기록 카드라는 컴포넌트 하나를 만들어 두고 기록 수만큼 찍어 내며, 같은 카드를 노트북에서는 세 칸으로 휴대전화에서는 한 줄로 늘어놓는다</title>
+
+  <rect class="box purple" x="20" y="30" width="190" height="170" rx="14"/>
+  <text class="t-b mid" x="115" y="56">기록 카드</text>
+  <text class="t-xs mid" x="115" y="74">컴포넌트 (틀 하나)</text>
+  <rect class="box" x="36" y="88" width="158" height="96" rx="8"/>
+  <text class="t-b" x="48" y="114">책 제목</text>
+  <text class="t-s" x="48" y="138">한 줄 감상</text>
+  <text class="t-xs" x="48" y="168">고치기 · 지우기</text>
+  <text class="t-s" x="20" y="232">틀은 한 번만 만들고</text>
+  <text class="t-s" x="20" y="252">기록 수만큼 찍어 낸다</text>
+
+  <path class="ln purple" d="M216 115 H243" marker-end="url(#ah-purple)"/>
+
+  <rect class="panel" x="250" y="44" width="300" height="132" rx="12"/>
+  <text class="t-xs" x="264" y="66">노트북: 세 칸</text>
+  <rect class="box purple" x="264" y="78" width="86" height="66" rx="8"/>
+  <text class="t-s t-ink t-b" x="274" y="100">모모</text>
+  <path class="ln thin muted" d="M274 114 H336 M274 128 H316"/>
+  <rect class="box purple" x="357" y="78" width="86" height="66" rx="8"/>
+  <text class="t-s t-ink t-b" x="367" y="100">홍길동전</text>
+  <path class="ln thin muted" d="M367 114 H429 M367 128 H409"/>
+  <rect class="box purple" x="450" y="78" width="86" height="66" rx="8"/>
+  <text class="t-s t-ink t-b" x="460" y="100">어린 왕자</text>
+  <path class="ln thin muted" d="M460 114 H522 M460 128 H502"/>
+  <rect class="solid gray" x="234" y="180" width="332" height="8" rx="4"/>
+
+  <path class="ln" d="M572 115 H603" marker-end="url(#ah)"/>
+
+  <rect class="panel" x="610" y="18" width="130" height="264" rx="18"/>
+  <text class="t-xs mid" x="675" y="42">휴대전화: 한 줄</text>
+  <rect class="box purple" x="622" y="54" width="106" height="66" rx="8"/>
+  <text class="t-s t-ink t-b" x="632" y="76">모모</text>
+  <path class="ln thin muted" d="M632 90 H710 M632 104 H684"/>
+  <rect class="box purple" x="622" y="128" width="106" height="66" rx="8"/>
+  <text class="t-s t-ink t-b" x="632" y="150">홍길동전</text>
+  <path class="ln thin muted" d="M632 164 H710 M632 178 H684"/>
+  <rect class="box purple" x="622" y="202" width="106" height="66" rx="8"/>
+  <text class="t-s t-ink t-b" x="632" y="224">어린 왕자</text>
+  <path class="ln thin muted" d="M632 238 H710 M632 252 H684"/>
+
+  <text class="t-s mid" x="400" y="226">같은 카드를 화면 폭에 따라</text>
+  <text class="t-s mid" x="400" y="246">다르게 늘어놓는다</text>
+</svg></div><figcaption><b>그림 31-4</b>기록 카드 컴포넌트 하나를 세 번 찍었습니다. 노트북에서는 세 칸으로, 휴대전화에서는 한 줄로 놓입니다.</figcaption></figure>
+<p>AI에게는 "휴대전화 화면을 먼저 맞추고, 넓은 화면에서는 세 칸으로 보여 줘"라고 말합니다. 확인은 브라우저 창의 폭을 줄여 보면 됩니다. 개발자 도구에는 휴대전화 크기로 보여 주는 기능도 있습니다. 진짜 휴대전화로 열어 보는 법은 <a href="ch14.html#localhost">14장</a>에 있습니다.</p>
+<div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
+<p>자주 가는 사이트를 컴퓨터로 열고 창의 폭을 천천히 줄여 보세요. 메뉴가 접히거나 여러 칸이 한 줄로 바뀌는 순간을 찾아봅니다.</p>
+</div>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · AI가 빠뜨리는 세 화면</div>
+<p>AI는 기록이 잘 보이는 화면만 만들곤 합니다. 불러오는 동안의 화면, 기록이 하나도 없을 때의 화면, 오류가 났을 때의 화면도 함께 시킵니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="local">
+<h2><span class="sec-n">31.4</span>내 컴퓨터에서 돌리기<a aria-label="이 절의 링크" class="anchor" href="#local">#</a></h2>
+<p>발표 전날에는 집에서 혼자 먼저 해 봅니다. 틀려도 보는 사람이 없습니다. 앱도 친구들에게 보이기 전에 내 컴퓨터에서 먼저 켜 봅니다.</p>
+<p>AI가 만든 프로젝트 폴더를 열면 대개 이런 것들이 들어 있습니다. 코드가 아니라 폴더 안을 그린 것입니다.</p>
+<pre class="text"><code>reading-log/
+├── README.md           설명서. 켜는 법이 적혀 있다
+├── package.json        필요한 패키지와 명령의 목록
+├── package-lock.json   실제로 받은 패키지의 정확한 버전
+├── node_modules/       받아 온 패키지. 고치지 않는다
+├── src/                화면과 서버의 코드
+├── .env                비밀 값. Git에 올리지 않는다
+└── .gitignore          Git에 올리지 않을 이름의 목록</code></pre>
+<p>사람이 열어 볼 곳은 <code>README.md</code>, <code>package.json</code>, <code>src/</code>입니다. <code>node_modules/</code>는 도구가 채우는 폴더입니다. 언제든 다시 받을 수 있으니 열어서 고치지 않습니다(<a href="ch05.html#project">5장</a>). 도구가 앱을 묶어 낼 때 만드는 <code>dist/</code>나 <code>.next/</code> 같은 폴더도 마찬가지입니다. 파일 하나하나를 읽는 법은 <a href="code.html#project">초코딩 기초</a>에 있습니다.</p>
+<p>화면 쪽 코드와 서버 쪽 코드는 한 프로젝트에 함께 들어 있을 때가 많습니다. AI에게 "서버 쪽 코드는 어느 폴더에 있어?"라고 물어 둡니다.</p>
+<p>이번 프로젝트는 자바스크립트로 만들어서 <code>npm</code>이라는 패키지 매니저를 씁니다(<a href="ch06.html#package">6장</a>). 켜는 데는 두 줄이면 됩니다. 터미널에 치는 명령입니다.</p>
+<div class="code-box"><div class="code-lang">터미널 명령</div><div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><span class="ex">npm</span> install</span>
+<span id="cb3-2"><span class="ex">npm</span> run dev</span></code></pre></div></div>
+<ul>
+<li><strong>첫째 줄</strong>은 <code>package.json</code>에 적힌 패키지를 받아 <code>node_modules/</code>에 넣습니다. 처음 한 번, 그리고 패키지 목록이 바뀌었을 때 칩니다.</li>
+<li><strong>둘째 줄</strong>은 개발 서버를 켭니다. 만드는 동안 내 컴퓨터에서 앱을 돌려 주는 프로그램입니다(<a href="ch14.html#localhost">14장</a>). 터미널에 <code>http://localhost:3000</code> 같은 주소가 찍힙니다. 이 주소를 브라우저에 넣으면 앱이 열립니다. 내 컴퓨터에서만 열리는 주소입니다. 켜 둔 채로 코드를 고치면 대개 화면도 따라 바뀝니다.</li>
+</ul>
+<p>명령은 프로젝트마다 조금씩 다릅니다. AI에게 "켜는 명령을 README에 적어 줘"라고 해 둡니다. 켜다가 막히면 <a href="ch06.html#first-run">6장</a>의 네 걸음을 차례로 봅니다. 개발 서버는 켜 둔 동안 터미널을 차지합니다. 끌 때는 <code>Ctrl+C</code>를 누릅니다(<a href="ch06.html#process">6장</a>).</p>
+<section class="level3" id="오류가-뜨는-두-곳">
+<h3>오류가 뜨는 두 곳</h3>
+<p>앱은 화면 쪽 코드와 서버 쪽 코드로 나뉩니다. 오류도 두 곳에 따로 뜹니다.</p>
+<figure class="fig" id="fig-two-error-places"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>오류는 두 곳에 뜬다. 서버 쪽 코드와 켜는 과정의 오류는 터미널에, 화면 쪽 코드의 오류는 브라우저 콘솔에 찍힌다</title>
+
+  <rect class="panel" x="20" y="20" width="350" height="230" rx="14"/>
+  <use href="#i-terminal" x="34" y="30" width="32" height="32" class="ic"/>
+  <text class="t-l" x="76" y="53">터미널</text>
+  <text class="t-s" x="34" y="82">개발 서버를 켠 창</text>
+  <rect class="box" x="34" y="94" width="322" height="100" rx="8"/>
+  <text class="t-mono" x="46" y="120">npm run dev</text>
+  <text class="t-mono t-b tc-red" x="46" y="148">Error: Cannot find module 'express'</text>
+  <text class="t-mono tc-muted" x="46" y="174">Require stack: …</text>
+  <text class="t-s t-ink" x="34" y="218">서버 쪽 코드와 켜는 과정의 오류</text>
+  <text class="t-xs" x="34" y="238">켜지지 않거나 저장이 안 될 때 본다</text>
+
+  <rect class="panel blue" x="390" y="20" width="350" height="230" rx="14"/>
+  <use href="#i-browser" x="404" y="30" width="32" height="32" class="ic blue"/>
+  <text class="t-l" x="446" y="53">브라우저 콘솔</text>
+  <text class="t-s" x="404" y="82">개발자 도구의 Console 탭</text>
+  <rect class="box" x="404" y="94" width="322" height="100" rx="8"/>
+  <text class="t-mono t-b tc-red" x="416" y="116">Uncaught TypeError: Cannot read</text>
+  <text class="t-mono t-b tc-red" x="416" y="136">properties of null (reading</text>
+  <text class="t-mono t-b tc-red" x="416" y="156">'addEventListener')</text>
+  <text class="t-mono tc-muted" x="416" y="182">    at app.js:3:32</text>
+  <text class="t-s t-ink" x="404" y="218">화면 쪽 코드의 오류</text>
+  <text class="t-xs" x="404" y="238">버튼이 먹통일 때 먼저 본다</text>
+
+  <rect class="box yellow" x="20" y="266" width="720" height="44" rx="10"/>
+  <use href="#i-robot" x="32" y="273" width="30" height="30" class="ic"/>
+  <text x="74" y="293">AI에게는 두 곳의 글을 줄이지 말고 그대로 붙여 준다</text>
+</svg></div><figcaption><b>그림 31-5</b>왼쪽은 개발 서버를 켠 터미널, 오른쪽은 브라우저 개발자 도구의 콘솔입니다. 빨간 글씨가 오류입니다.</figcaption></figure>
+<p>터미널의 <code>Error: Cannot find module 'express'</code>는 "express라는 패키지를 찾지 못했다"는 뜻입니다. <code>npm install</code>을 빠뜨렸을 때 자주 봅니다. 그 아래의 <code>Require stack</code>은 그 패키지를 부른 파일이 무엇인지 알려 주는 줄입니다.</p>
+<p>콘솔(<a href="ch15.html#render">15장</a>)의 오류는 이렇게 생겼습니다. 코드가 아니라 브라우저가 찍은 글입니다.</p>
+<pre class="text"><code>Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')
+    at app.js:3:32</code></pre>
+<ul>
+<li><strong>첫째 줄</strong>은 무슨 일인지 말합니다. <code>null</code>은 "없음"입니다. 없는 것에게 <code>addEventListener</code>를 시키려 했다는 뜻입니다. 버튼의 이름표를 틀리게 적어서 버튼을 찾지 못했을 때 자주 봅니다.</li>
+<li><strong>둘째 줄</strong>은 어디인지 말합니다. <code>app.js</code>의 3번째 줄, 32번째 글자입니다.</li>
+</ul>
+<p>오류 글을 읽는 법은 <a href="ch12.html#trace">12장</a>에서 배웠습니다. AI에게 줄 때는 두 곳의 글을 처음부터 끝까지 복사합니다. 무엇을 누른 뒤에 떴는지도 함께 적습니다(<a href="ch30.html#context">30장</a>).</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>화면이 이상하면 <strong>브라우저 콘솔</strong>을, 켜지지 않거나 저장이 안 되면 <strong>터미널</strong>을 봅니다. 한 곳이 조용해도 다른 곳에 오류가 있을 수 있습니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="api">
+<h2><span class="sec-n">31.5</span>화면과 서버가 주고받는 말: API<a aria-label="이 절의 링크" class="anchor" href="#api">#</a></h2>
+<p>분식집 홀에서 주방에 대고 소리치지는 않습니다. 주문 창구에 가서 메뉴판에 있는 이름으로 주문합니다. 메뉴판에 없는 것은 시킬 수 없습니다.</p>
+<p>화면과 서버 사이에도 창구와 메뉴판이 있습니다. 이것이 <strong>API</strong>(Application Programming Interface)입니다(<a href="ch18.html#contract">18장</a>). 독서 기록 앱의 메뉴판에는 네 줄이 있습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>하려는 일</th>
+<th>메서드</th>
+<th>주소</th>
+<th>잘 됐을 때</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>내 기록 모두 보기</td>
+<td><code>GET</code></td>
+<td><code>/api/records</code></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>새 기록 만들기</td>
+<td><code>POST</code></td>
+<td><code>/api/records</code></td>
+<td><code>201</code></td>
+</tr>
+<tr>
+<td>3번 기록 고치기</td>
+<td><code>PATCH</code></td>
+<td><code>/api/records/3</code></td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td>3번 기록 지우기</td>
+<td><code>DELETE</code></td>
+<td><code>/api/records/3</code></td>
+<td><code>204</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>메서드 다섯 가지와 상태 코드는 <a href="ch15.html#message">15장</a>에서 봤습니다. 고치는 메서드는 둘이었습니다. <code>PUT</code>은 "통째로 바꿔 주세요", <code>PATCH</code>는 "적어 보낸 칸만 고쳐 주세요"입니다. 감상 한 칸만 고칠 때가 많아서 이 앱은 <code>PATCH</code>를 씁니다. 처음 보는 상태 코드는 <code>204</code>입니다. "잘 됐고, 돌려줄 내용은 없습니다"라는 뜻입니다.</p>
+<p>만들기, 읽기, 고치기, 지우기. 데이터를 다루는 앱은 대부분 이 네 가지를 합니다. 영어 낱말 Create, Read, Update, Delete의 첫 글자를 따서 <strong>CRUD</strong>(크러드)라고 부릅니다.</p>
+<p>표의 한 줄, 곧 메서드와 주소의 짝 하나를 <strong>엔드포인트</strong>(endpoint)라고 합니다. AI가 "엔드포인트 네 개를 만들었습니다"라고 하면 이 표의 네 줄을 말하는 것입니다.</p>
+<p>주고받는 내용은 JSON으로 적습니다(<a href="ch08.html#exchange">8장</a>). 『모모』를 저장할 때 화면이 요청에 실어 보내는 내용, 곧 본문은 이렇습니다.</p>
+<div class="code-box"><div class="code-lang">JSON 데이터</div><div class="sourceCode" id="cb5"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb5-1"><span class="fu">{</span><span class="dt">"title"</span><span class="fu">:</span> <span class="st">"모모"</span><span class="fu">,</span> <span class="dt">"note"</span><span class="fu">:</span> <span class="st">"시간을 아끼다가 시간을 잃는 이야기"</span><span class="fu">}</span></span></code></pre></div></div>
+<p>서버는 <code>201</code>과 함께 아래 본문을 돌려줍니다.</p>
+<div class="code-box"><div class="code-lang">JSON 데이터</div><div class="sourceCode" id="cb6"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb6-1"><span class="fu">{</span><span class="dt">"id"</span><span class="fu">:</span> <span class="dv">4</span><span class="fu">,</span> <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"모모"</span><span class="fu">,</span> <span class="dt">"note"</span><span class="fu">:</span> <span class="st">"시간을 아끼다가 시간을 잃는 이야기"</span><span class="fu">}</span></span></code></pre></div></div>
+<ul>
+<li>보낸 것에는 제목(<code>title</code>)과 감상(<code>note</code>)뿐입니다. <strong>누구의 기록인지는 적어 보내지 않습니다.</strong> 서버가 로그인 정보로 압니다. 화면이 적어 보낸 주인 번호는 주장일 뿐입니다(<a href="ch19.html#authz">19장</a>).</li>
+<li>받은 것에는 <code>id</code>가 붙었습니다. 서버가 새 기록에 붙인 번호 4입니다.</li>
+</ul>
+<section class="level3" id="개발자-도구로-직접-보기">
+<h3>개발자 도구로 직접 보기</h3>
+<p>오간 요청은 네트워크 탭에서 볼 수 있습니다(<a href="ch15.html#render">15장</a>).</p>
+<figure class="fig" id="fig-api-network"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>네트워크 탭에서는 누른 것 하나가 요청 한 줄로 보이고, 줄을 누르면 보낸 내용과 받은 내용을 JSON으로 볼 수 있다</title>
+
+  <text class="t-s t-b" x="34" y="34">서연이가 누른 것</text>
+  <text class="t-s t-b" x="250" y="34">메서드</text>
+  <text class="t-s t-b" x="350" y="34">주소</text>
+  <text class="t-s t-b mid" x="640" y="34">상태</text>
+  <path class="ln thin muted" d="M20 44 H740"/>
+
+  <text x="34" y="73">화면을 연다</text>
+  <text class="t-mono t-b tc-blue" x="250" y="73">GET</text>
+  <text class="t-mono" x="350" y="73">/api/records</text>
+  <text class="t-mono t-b mid tc-green" x="640" y="73">200</text>
+
+  <rect class="box yellow" x="20" y="84" width="720" height="32" rx="8"/>
+  <text class="t-b" x="34" y="105">[저장]을 누른다</text>
+  <text class="t-mono t-b tc-green" x="250" y="105">POST</text>
+  <text class="t-mono" x="350" y="105">/api/records</text>
+  <text class="t-mono t-b mid tc-green" x="640" y="105">201</text>
+
+  <text x="34" y="137">3번 기록을 고친다</text>
+  <text class="t-mono t-b tc-warm" x="250" y="137">PATCH</text>
+  <text class="t-mono" x="350" y="137">/api/records/3</text>
+  <text class="t-mono t-b mid tc-green" x="640" y="137">200</text>
+
+  <text x="34" y="169">3번 기록을 지운다</text>
+  <text class="t-mono t-b tc-red" x="250" y="169">DELETE</text>
+  <text class="t-mono" x="350" y="169">/api/records/3</text>
+  <text class="t-mono t-b mid tc-green" x="640" y="169">204</text>
+
+  <text x="34" y="201">준호의 2번 기록을 고친다</text>
+  <text class="t-mono t-b tc-warm" x="250" y="201">PATCH</text>
+  <text class="t-mono" x="350" y="201">/api/records/2</text>
+  <text class="t-mono t-b mid tc-red" x="640" y="201">403</text>
+  <text class="t-xs tc-red" x="670" y="201">거절</text>
+
+  <path class="ln thin muted" d="M20 216 H740"/>
+
+  <text class="t-b" x="20" y="246">[저장] 줄을 눌러 보면</text>
+  <rect class="box" x="20" y="258" width="720" height="56" rx="10"/>
+  <text class="t-xs" x="34" y="278">보낸 내용 (요청의 본문)</text>
+  <text class="t-mono" x="34" y="301">{"title": "모모", "note": "시간을 아끼다가 시간을 잃는 이야기"}</text>
+
+  <rect class="box green" x="20" y="324" width="720" height="56" rx="10"/>
+  <text class="t-xs" x="34" y="344">받은 내용 (응답 201의 본문)</text>
+  <text class="t-mono" x="34" y="367">{<tspan class="t-b tc-green">"id": 4</tspan>, "title": "모모", "note": "시간을 아끼다가 시간을 잃는 이야기"}</text>
+</svg></div><figcaption><b>그림 31-6</b>서연이가 누른 것 하나가 요청 한 줄입니다. 노란 줄을 누르면 아래처럼 보낸 내용과 받은 내용이 나옵니다.</figcaption></figure>
+<p>맨 아랫줄은 서연이가 주소의 번호를 2로 바꿔 준호의 기록을 고치려 한 요청입니다. 서버는 <code>403</code>으로 거절했습니다. 이 앱에서 볼 만한 실패는 넷입니다. 제목을 비우면 <code>400</code>, 로그인하지 않으면 <code>401</code>, 남의 기록이면 <code>403</code>, 서버 코드가 고장 나면 <code>500</code>입니다.</p>
+<div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
+<p>네트워크 탭을 켠 채로 로그인한 사이트에서 '좋아요'를 눌러 보세요. 새로 생긴 줄을 눌러 메서드, 보낸 내용, 받은 내용을 찾아봅니다. 크롬에서는 Headers, Payload, Response 탭에 차례로 들어 있습니다.</p>
+</div>
+<p>API를 시킬 때는 코드보다 표를 먼저 받습니다(<a href="ch30.html#plan">30장</a>). "메서드, 주소, 보내는 것, 돌려주는 것, 실패할 때의 상태 코드를 표로 보여 줘."</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 실패했는데 200</div>
+<p>AI가 만든 서버는 실패해도 <code>200</code>을 보내고 본문에만 "error"라고 적곤 합니다. 화면은 성공한 줄 압니다. 제목을 일부러 비우고 저장해서 <code>400</code>이 오는지 봅니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="data">
+<h2><span class="sec-n">31.6</span>데이터와 로그인: 규칙은 어디에 두나<a aria-label="이 절의 링크" class="anchor" href="#data">#</a></h2>
+<p>학교 사물함에는 자물쇠가 달려 있습니다. "남의 사물함을 열지 마세요"라는 종이만 붙여 두지는 않습니다. 기록을 보관할 때도 종이와 자물쇠를 가려야 합니다.</p>
+<section class="level3" id="표-두-개">
+<h3>표 두 개</h3>
+<p>기록은 데이터베이스의 표에 담습니다(<a href="ch17.html#table">17장</a>). 이 앱은 표 두 개면 됩니다. 쓰는 사람을 적는 <code>users</code> 표와 기록을 적는 <code>records</code> 표입니다. 아래는 <code>records</code> 표입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>id</th>
+<th>user_id</th>
+<th>title</th>
+<th>note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>어린 왕자</td>
+<td>여우가 한 말이 오래 남는다</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>15소년 표류기</td>
+<td>나라면 일주일도 못 버텼다</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>홍길동전</td>
+<td>집을 떠나는 장면이 슬펐다</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>user_id</code>는 그 기록의 주인을 가리키는 번호입니다. <code>users</code> 표에서 서연이가 1번, 준호가 2번입니다. 서연이의 기록은 <code>user_id</code>가 1인 두 줄입니다. 빌려 쓰는 서비스에서는 사람 번호가 1, 2 대신 길고 짐작하기 어려운 글자일 때가 많습니다.</p>
+<p>표를 시킬 때도 계획부터 받습니다. "표와 열을 표로 먼저 보여 줘. 기록마다 주인을 가리키는 열을 두고, 제목은 비워 둘 수 없게 해 줘."</p>
+</section>
+<section class="level3" id="빌려-쓰는-데이터베이스와-로그인">
+<h3>빌려 쓰는 데이터베이스와 로그인</h3>
+<p>데이터베이스를 직접 깔고 돌보는 일은 만만치 않습니다. 로그인은 더 어렵습니다. 비밀번호를 안전하게 보관해야 하기 때문입니다(<a href="ch19.html#password">19장</a>).</p>
+<p>그래서 작은 앱은 데이터베이스, 로그인, 파일 보관을 한꺼번에 빌려주는 서비스를 씁니다. 이런 서비스를 <strong>BaaS</strong>(Backend as a Service)라고 합니다. 예: Supabase, Firebase. <a href="ch21.html#rent">21장</a>에서 본 관리형 서비스의 한 종류입니다.</p>
+<p><strong>로그인은 직접 만들지 않습니다.</strong> 서비스가 주는 로그인 기능이나 "구글로 로그인"을 씁니다(<a href="ch19.html#session">19장</a>). AI에게도 분명히 말합니다. "비밀번호를 우리 표에 저장하지 마. 로그인은 서비스의 기능만 써."</p>
+</section>
+<section class="level3" id="규칙의-자리">
+<h3>규칙의 자리</h3>
+<p>서연이의 설명서에는 "내 기록만 목록으로 본다"가 있습니다. 이 규칙을 어디에 적을까요?</p>
+<p>화면 코드에 "내 기록만 보여 줘"라고 적는 것은 종이를 붙이는 일입니다. 화면은 친구의 브라우저에서 돕니다. 친구는 화면을 거치지 않고도 요청을 보낼 수 있습니다(<a href="ch19.html#threat">19장</a>).</p>
+<figure class="fig" id="fig-rule-place"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>규칙이 화면에만 있으면 화면을 거치지 않은 요청에 남의 기록까지 나가고, 규칙이 데이터베이스에 있으면 요청한 사람의 기록만 나간다</title>
+
+  <rect class="panel" x="20" y="20" width="350" height="310" rx="14"/>
+  <text class="t-b" x="36" y="48">규칙이 화면에만 있을 때</text>
+  <rect class="box" x="36" y="62" width="318" height="70" rx="10"/>
+  <use href="#i-user" x="48" y="78" width="34" height="34" class="ic"/>
+  <text class="t-b" x="94" y="90">준호의 요청</text>
+  <text class="t-s" x="94" y="112">화면을 거치지 않고 “기록 전부 주세요”</text>
+  <path class="ln" d="M195 136 V159" marker-end="url(#ah)"/>
+  <rect class="box red" x="36" y="166" width="318" height="150" rx="10"/>
+  <use href="#i-db" x="48" y="174" width="30" height="30" class="ic red"/>
+  <text class="t-b" x="88" y="188">데이터베이스</text>
+  <text class="t-xs" x="88" y="206">규칙 없음: 달라는 대로 내준다</text>
+  <rect class="box" x="48" y="216" width="294" height="26" rx="6"/>
+  <text class="t-s t-ink" x="58" y="234">1번 · 서연 · 어린 왕자</text>
+  <text class="t-xs t-b tc-red end" x="332" y="234">새어 나감</text>
+  <rect class="box" x="48" y="248" width="294" height="26" rx="6"/>
+  <text class="t-s t-ink" x="58" y="266">2번 · 준호 · 15소년 표류기</text>
+  <text class="t-xs end" x="332" y="266">나감</text>
+  <rect class="box" x="48" y="280" width="294" height="26" rx="6"/>
+  <text class="t-s t-ink" x="58" y="298">3번 · 서연 · 홍길동전</text>
+  <text class="t-xs t-b tc-red end" x="332" y="298">새어 나감</text>
+
+  <rect class="panel" x="390" y="20" width="350" height="310" rx="14"/>
+  <text class="t-b" x="406" y="48">규칙이 데이터베이스에 있을 때</text>
+  <rect class="box" x="406" y="62" width="318" height="70" rx="10"/>
+  <use href="#i-user" x="418" y="78" width="34" height="34" class="ic"/>
+  <text class="t-b" x="464" y="90">준호의 요청</text>
+  <text class="t-s" x="464" y="112">화면을 거치지 않고 “기록 전부 주세요”</text>
+  <path class="ln" d="M565 136 V159" marker-end="url(#ah)"/>
+  <rect class="box green" x="406" y="166" width="318" height="150" rx="10"/>
+  <use href="#i-shield" x="418" y="174" width="30" height="30" class="ic green"/>
+  <text class="t-b" x="458" y="188">데이터베이스</text>
+  <text class="t-xs" x="458" y="206">규칙: 주인이 요청한 사람인 행만</text>
+  <rect class="box gray" x="418" y="216" width="294" height="26" rx="6"/>
+  <text class="t-s" x="428" y="234">1번 · 서연 · 어린 왕자</text>
+  <text class="t-xs end" x="702" y="234">막힘</text>
+  <rect class="box" x="418" y="248" width="294" height="26" rx="6"/>
+  <text class="t-s t-ink" x="428" y="266">2번 · 준호 · 15소년 표류기</text>
+  <text class="t-xs t-b tc-green end" x="702" y="266">나감</text>
+  <rect class="box gray" x="418" y="280" width="294" height="26" rx="6"/>
+  <text class="t-s" x="428" y="298">3번 · 서연 · 홍길동전</text>
+  <text class="t-xs end" x="702" y="298">막힘</text>
+</svg></div><figcaption><b>그림 31-7</b>준호가 화면을 거치지 않고 기록을 전부 달라고 했습니다. 왼쪽은 규칙이 화면에만 있을 때, 오른쪽은 데이터베이스에 있을 때입니다.</figcaption></figure>
+<p>자물쇠는 둘 중 한 곳에 답니다.</p>
+<ul>
+<li><strong>서버 코드.</strong> 서버가 요청마다 "이 기록의 주인이 요청한 사람인가"를 봅니다(<a href="ch19.html#authz">19장</a>).</li>
+<li><strong>데이터베이스.</strong> 표에 "<code>user_id</code>가 로그인한 사람의 번호와 같은 행만 읽고 쓸 수 있다"는 규칙을 적어 둡니다. 행마다 주인을 따지는 이 장치를 <strong>행 수준 보안</strong>(RLS, Row Level Security)이라고 합니다. 서비스에 따라 정책이나 보안 규칙이라고도 부릅니다.</li>
+</ul>
+<p>BaaS를 쓰면 화면이 서버 없이 데이터베이스 서비스에 바로 묻는 구조가 흔합니다. 주방 없이 손님이 냉장고를 여는 분식집입니다. 이때는 냉장고의 자물쇠, 곧 데이터베이스의 규칙이 하나뿐인 방어선입니다.</p>
+<p>서연이의 앱에는 서버가 있습니다. 그래서 서버 코드에서 주인을 확인하고, 데이터베이스의 규칙도 함께 켜 둡니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>남의 기록을 못 보게 하는 규칙은 화면이 아니라 <strong>서버나 데이터베이스</strong>에 둡니다. 화면에서 가린 것은 가린 것일 뿐 막은 것이 아닙니다.</p>
+</div>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · AI가 규칙을 꺼 두는 때</div>
+<p>AI는 일단 돌아가게 하려고 규칙을 꺼 두곤 합니다. "누구나 읽고 쓸 수 있음"으로 열어 둔 채 끝내기도 합니다. 계정을 두 개 만들어 직접 봅니다. 준호로 로그인하면 목록에 서연이의 기록이 없어야 합니다. 서연이의 3번 기록을 고치고 지워 달라는 요청도 보내 봅니다. 화면에는 그런 버튼이 없으니 AI에게 보내게 하고 응답을 그대로 받습니다. <code>403</code> 같은 거절이 오거나, 바뀐 것이 없다는 답이 와야 합니다. 끝으로 서연이로 다시 들어가 3번 기록이 그대로인지 봅니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="secret">
+<h2><span class="sec-n">31.7</span>비밀 값과 환경 변수<a aria-label="이 절의 링크" class="anchor" href="#secret">#</a></h2>
+<p>현관 비밀번호를 대문에 써 붙이는 집은 없습니다. 앱에도 그렇게 다뤄야 하는 값이 있습니다.</p>
+<p>데이터베이스 서비스는 내 앱을 알아보려고 긴 글자를 내어 줍니다. 앱이 이 글자를 내밀어야 서비스가 문을 열어 줍니다. 이런 글자를 <strong>API 키</strong>(API key)라고 합니다. 가진 사람이 곧 주인 행세를 할 수 있어서 비밀 값으로 다룹니다(<a href="ch19.html#crypto">19장</a>).</p>
+<p>비밀 값은 코드에 적지 않습니다. 프로그램을 켤 때 밖에서 <code>이름=값</code> 꼴로 건넵니다. 이렇게 건네는 값이 환경 변수입니다(<a href="ch06.html#env">6장</a>). 내 컴퓨터에서는 <code>.env</code> 파일에 적어 둡니다.</p>
+<section class="level3" id="브라우저로-가는-값-서버만-아는-값">
+<h3>브라우저로 가는 값, 서버만 아는 값</h3>
+<p>웹 앱에는 함정이 하나 있습니다. <strong>화면 코드는 통째로 친구들의 브라우저로 보내집니다.</strong> 화면 코드에 들어간 값은 개발자 도구로 누구나 볼 수 있습니다.</p>
+<p>그래서 환경 변수를 두 종류로 나눕니다. 아래는 서연이의 <code>.env</code> 파일입니다. 코드가 아니라 <code>이름=값</code>을 한 줄씩 적은 글입니다.</p>
+<pre class="text"><code>PUBLIC_DB_URL=https://db.example.com
+PUBLIC_DB_KEY=pub_3f9a27
+DB_SECRET_KEY=sec_71c2e8</code></pre>
+<ul>
+<li><strong>첫째 줄과 둘째 줄</strong>은 데이터베이스 서비스의 주소와 공개용 키입니다. 서연이가 쓰는 도구는 이름이 <code>PUBLIC_</code>으로 시작하는 값만 화면 코드에 넣어 줍니다. 공개용 키는 "이 앱에서 온 요청"이라는 표시일 뿐이라 보여도 괜찮습니다. 다만 앞 절의 규칙이 켜져 있어야 합니다.</li>
+<li><strong>셋째 줄</strong>은 비밀 키입니다. 규칙을 건너뛰고 모든 행을 읽고 쓸 수 있는 관리자 열쇠입니다. 서버 코드만 읽습니다. 이 키를 쓰는 서버 코드는 주인 확인을 직접 해야 합니다. 데이터베이스의 규칙이 대신 막아 주지 않기 때문입니다.</li>
+</ul>
+<figure class="fig" id="fig-secret-two-kinds"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 364" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>환경 변수 가운데 이름이 PUBLIC_으로 시작하는 값은 화면 코드에 들어가 누구나 볼 수 있고, 그 밖의 값은 서버에만 남는다</title>
+
+  <rect class="box" x="20" y="20" width="300" height="262" rx="12"/>
+  <use href="#i-file" x="32" y="30" width="28" height="28" class="ic"/>
+  <text class="t-mono t-b" x="68" y="50">.env</text>
+  <text class="t-xs" x="112" y="49">비밀 값을 적어 두는 파일</text>
+
+  <rect class="box blue" x="32" y="72" width="276" height="58" rx="8"/>
+  <text class="t-mono" x="42" y="95">PUBLIC_DB_URL=https://…</text>
+  <text class="t-mono" x="42" y="118">PUBLIC_DB_KEY=pub_3f9a27</text>
+  <text class="t-xs" x="36" y="150">주소와 공개용 키: 보여도 되는 값</text>
+
+  <rect class="box red" x="32" y="186" width="276" height="44" rx="8"/>
+  <text class="t-mono" x="42" y="213">DB_SECRET_KEY=sec_71c2e8</text>
+  <text class="t-xs" x="36" y="250">비밀 키: 규칙을 건너뛰는 열쇠</text>
+
+  <path class="ln blue" d="M326 100 H462" marker-end="url(#ah-blue)"/>
+  <text class="t-xs t-b tc-blue mid" x="394" y="90">PUBLIC_으로 시작</text>
+  <path class="ln green" d="M326 208 H462" marker-end="url(#ah-green)"/>
+  <text class="t-xs t-b tc-green mid" x="394" y="198">그 밖의 이름</text>
+
+  <rect class="box blue" x="470" y="44" width="270" height="112" rx="12"/>
+  <use href="#i-browser" x="484" y="56" width="34" height="34" class="ic blue"/>
+  <text class="t-b" x="528" y="79">화면 코드에 들어간다</text>
+  <text class="t-s" x="484" y="114">친구들의 브라우저로 보내진다</text>
+  <text class="t-s t-b tc-blue" x="484" y="138">누구나 볼 수 있다</text>
+
+  <rect class="box green" x="470" y="170" width="270" height="112" rx="12"/>
+  <use href="#i-lock" x="484" y="182" width="34" height="34" class="ic green"/>
+  <text class="t-b" x="528" y="205">서버에만 남는다</text>
+  <text class="t-s" x="484" y="240">서버 코드만 읽는다</text>
+  <text class="t-s t-b tc-green" x="484" y="264">브라우저로 가지 않는다</text>
+
+  <rect class="box red" x="20" y="300" width="720" height="44" rx="10"/>
+  <use href="#i-warn" x="32" y="307" width="30" height="30" class="ic red"/>
+  <text x="74" y="327">비밀 키 이름에 PUBLIC_을 붙이면 비밀이 화면 코드로 나간다</text>
+</svg></div><figcaption><b>그림 31-8</b>이름이 <code>PUBLIC_</code>으로 시작하는 값만 화면 코드에 들어갑니다. 나머지는 서버에 남습니다.</figcaption></figure>
+<p>머리글자는 도구마다 다릅니다. <code>NEXT_PUBLIC_</code>이나 <code>VITE_</code>로 시작하는 도구도 있습니다. AI에게 "이 프로젝트에서 브라우저로 가는 환경 변수는 이름이 어떻게 생겼어?"라고 물어 둡니다.</p>
+<p>공개용 키를 따로 주지 않는 서비스도 많습니다. AI 서비스처럼 쓴 만큼 돈을 내는 서비스의 키는 모두 비밀 키로 다룹니다. 화면은 내 서버에 부탁하고, 서버가 그 키로 대신 부르게 합니다(<a href="ch19.html#crypto">19장</a>).</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 권한 오류를 '고친' 방법을 봅니다</div>
+<p>AI는 권한 오류를 없애려고 비밀 키를 화면 코드에서 쓰게 바꾸곤 합니다. 이름에 <code>PUBLIC_</code>을 붙이는 식입니다. 오류는 사라지지만 관리자 열쇠가 모든 브라우저로 나갑니다. "권한 오류를 고쳤습니다"라는 말을 들으면 diff에서 키 이름이 든 줄부터 찾습니다(<a href="ch07.html#diff">7장</a>). <code>.env</code>는 Git이 못 본 척하는 파일이라 diff에 나오지 않습니다. 직접 열어 봅니다.</p>
+</div>
+</section>
+<section class="level3" id="git에-올리지-않기">
+<h3>Git에 올리지 않기</h3>
+<p><code>.env</code>는 <code>.gitignore</code>에 적어 Git이 못 본 척하게 합니다(<a href="ch07.html#stage">7장</a>). 제대로 됐는지는 터미널 명령 두 줄로 확인합니다.</p>
+<div class="code-box"><div class="code-lang">터미널 명령</div><div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><span class="fu">git</span> check-ignore <span class="at">-v</span> .env</span>
+<span id="cb8-2"><span class="fu">git</span> log <span class="at">--all</span> <span class="at">--oneline</span> <span class="at">--</span> .env</span></code></pre></div></div>
+<ul>
+<li><strong>첫째 줄</strong>은 <code>.env</code>가 무시되고 있는지 묻습니다. <code>.gitignore:2:.env</code>처럼 답이 나오면 <code>.gitignore</code>의 2번째 줄 덕분에 무시되는 중입니다. 아무것도 안 나오면 무시되지 않는 것입니다.</li>
+<li><strong>둘째 줄</strong>은 <code>.env</code>가 들어간 커밋을 찾습니다. <code>--all</code>은 모든 브랜치를 보라는 옵션입니다. <strong>아무것도 나오지 않아야</strong> 합니다. 한 줄이라도 나오면 이미 이력에 들어갔습니다.</li>
+</ul>
+<p><code>.env</code>를 올리지 않으니, 인터넷에 올릴 때는 같은 값을 올리는 곳에도 따로 등록해야 합니다. 다음 절에서 봅니다.</p>
+</section>
+<section class="level3" id="새어-나갔을-때">
+<h3>새어 나갔을 때</h3>
+<p>키가 든 파일을 올렸거나 화면 코드에 넣은 것을 알았다면 이 순서로 합니다.</p>
+<ol type="1">
+<li><strong>키를 내준 서비스에서 그 키를 없애고 새 키를 받습니다.</strong> 가장 먼저 합니다.</li>
+<li>새 키를 <code>.env</code>와, 다음 절에서 볼 호스팅 서비스의 설정에 넣습니다.</li>
+<li>서비스의 사용 기록과 요금을 봅니다.</li>
+<li>코드에서 지우는 일은 그다음입니다. Git 이력에는 지운 뒤에도 남기 때문입니다.</li>
+</ol>
+</section>
+</section>
+<section class="level2" id="deploy">
+<h2><span class="sec-n">31.8</span>인터넷에 올리기<a aria-label="이 절의 링크" class="anchor" href="#deploy">#</a></h2>
+<p>내 방 벽에 붙인 포스터는 나만 봅니다. 학교 게시판에 붙여야 모두가 봅니다. <code>localhost</code> 주소는 내 방 벽입니다. 친구에게 보내도 친구의 기기에서는 열리지 않습니다(<a href="ch14.html#localhost">14장</a>).</p>
+<p>앱을 늘 켜진 컴퓨터에 올려 주소로 열 수 있게 해 주는 일을 <strong>호스팅</strong>(hosting)이라고 합니다. 서버를 빌려 하나하나 설치할 수도 있습니다(<a href="ch21.html#rent">21장</a>). 작은 웹 앱은 그 일을 대신해 주는 호스팅 서비스에 맡기는 편이 쉽습니다. 예: Vercel, Netlify. 새 판을 사람들이 쓰는 곳에 올리는 일은 배포라고 합니다(<a href="ch20.html#line">20장</a>).</p>
+<p>처음에 한 번, 호스팅 서비스에 내 원격 저장소를 이어 줍니다. 그 뒤로는 커밋을 올리기만 하면 됩니다.</p>
+<figure class="fig" id="fig-deploy-flow"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 346" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>커밋을 원격 저장소에 올리면 호스팅 서비스가 알아채고 빌드해 주소에 건다. main 브랜치는 실제 주소로, 다른 브랜치는 미리 보기 주소로 나간다</title>
+
+  <rect class="box blue" x="20" y="24" width="150" height="126" rx="12"/>
+  <circle class="badge blue" cx="38" cy="42" r="12"/><text class="badge-t" x="38" y="46.500">1</text>
+  <use href="#i-laptop" x="77" y="34" width="36" height="36" class="ic blue"/>
+  <text class="t-b mid" x="95" y="94">내 컴퓨터</text>
+  <text class="t-mono mid" x="95" y="116">git push</text>
+  <text class="t-xs mid" x="95" y="136">커밋을 올린다</text>
+
+  <path class="ln" d="M176 87 H203" marker-end="url(#ah)"/>
+
+  <rect class="box" x="210" y="24" width="150" height="126" rx="12"/>
+  <circle class="badge" cx="228" cy="42" r="12"/><text class="badge-t" x="228" y="46.500">2</text>
+  <use href="#i-branch" x="267" y="34" width="36" height="36" class="ic"/>
+  <text class="t-b mid" x="285" y="94">원격 저장소</text>
+  <text class="t-xs mid" x="285" y="116">예: GitHub</text>
+  <text class="t-xs mid" x="285" y="136">새 커밋이 도착한다</text>
+
+  <path class="ln" d="M366 87 H393" marker-end="url(#ah)"/>
+
+  <rect class="box warm" x="400" y="24" width="150" height="126" rx="12"/>
+  <circle class="badge warm" cx="418" cy="42" r="12"/><text class="badge-t" x="418" y="46.500">3</text>
+  <use href="#i-gear" x="457" y="34" width="36" height="36" class="ic warm"/>
+  <text class="t-b mid" x="475" y="94">호스팅 서비스</text>
+  <text class="t-xs mid" x="475" y="116">알아채고 패키지를</text>
+  <text class="t-xs mid" x="475" y="136">받아 빌드한다</text>
+
+  <path class="ln" d="M556 87 H583" marker-end="url(#ah)"/>
+
+  <rect class="box green" x="590" y="24" width="150" height="126" rx="12"/>
+  <circle class="badge green" cx="608" cy="42" r="12"/><text class="badge-t" x="608" y="46.500">4</text>
+  <use href="#i-globe" x="647" y="34" width="36" height="36" class="ic green"/>
+  <text class="t-b mid" x="665" y="94">주소</text>
+  <text class="t-xs mid" x="665" y="116">빌드가 성공하면</text>
+  <text class="t-xs mid" x="665" y="136">새 판이 걸린다</text>
+
+  <path class="ln thin warm" d="M475 150 V164"/>
+  <rect class="box yellow" x="380" y="164" width="190" height="30" rx="8"/>
+  <use href="#i-key" x="388" y="168" width="22" height="22" class="ic warm"/>
+  <text class="t-xs t-ink" x="416" y="184">환경 변수는 여기에 등록</text>
+
+  <path class="ln thin green" d="M665 150 V204 H195 V213" marker-end="url(#ah-green)"/>
+  <path class="ln thin green" d="M565 204 V213" marker-end="url(#ah-green)"/>
+
+  <rect class="box green" x="20" y="218" width="350" height="82" rx="12"/>
+  <rect class="box" x="34" y="230" width="52" height="24" rx="6"/>
+  <text class="t-mono t-b mid" x="60" y="247">main</text>
+  <text class="t-s" x="94" y="247">브랜치를 올리면</text>
+  <text class="t-b tc-green" x="34" y="280">실제 주소</text>
+  <text class="t-mono" x="112" y="280">reading-log.example.com</text>
+
+  <rect class="box purple" x="390" y="218" width="350" height="82" rx="12"/>
+  <rect class="box" x="404" y="230" width="58" height="24" rx="6"/>
+  <text class="t-mono t-b mid" x="433" y="247">stars</text>
+  <text class="t-s" x="470" y="247">브랜치를 올리면</text>
+  <text class="t-b tc-purple" x="404" y="280">미리 보기</text>
+  <text class="t-mono" x="478" y="280">reading-log-stars.example.com</text>
+
+  <text class="t-s" x="20" y="328">빌드가 실패하면 주소에는 앞의 판이 그대로 남는다</text>
+</svg></div><figcaption><b>그림 31-9</b>커밋을 올리면 주소가 생기기까지. 아래 두 칸은 어느 브랜치를 올렸느냐에 따라 달라지는 주소입니다.</figcaption></figure>
+<ol type="1">
+<li><code>git push</code>로 커밋을 원격 저장소에 올립니다(<a href="ch07.html#remote">7장</a>).</li>
+<li>원격 저장소에 새 커밋이 도착합니다.</li>
+<li>호스팅 서비스가 알아채고, 깨끗한 컴퓨터에서 패키지를 받아 빌드합니다. 빌드는 코드를 내보낼 묶음으로 만드는 일입니다(<a href="ch20.html#ci">20장</a>).</li>
+<li>빌드가 성공하면 주소에 새 판이 걸립니다. 실패하면 대개 앞의 판이 그대로 남습니다. 그때는 빌드하는 동안 찍힌 글, 곧 빌드 로그에서 처음 나온 오류를 찾습니다. 맨 아랫줄은 대개 실패했다는 말뿐입니다.</li>
+</ol>
+<p>이어 둔 뒤로는 <code>main</code>에 올리는 것이 곧 공개입니다. AI가 <code>git push</code>를 하려 할 때는 꼭 묻게 해 둡니다(<a href="ch30.html#permission">30장</a>).</p>
+<details class="deep"><summary><small>한 걸음 더</small>올린 뒤에 서버 조각은 어디서 돌까요?</summary><div class="deep-body">
+<p>화면을 이루는 파일은 호스팅 서비스가 보관했다가 브라우저가 달라고 할 때 내줍니다. 서버 쪽 코드는 다릅니다. 많은 호스팅 서비스는 요청이 올 때만 자리를 만들어 그 코드를 돌립니다. <a href="ch21.html#scaling">21장</a>에서 본 서버리스 방식입니다.</p>
+<p>그래서 한동안 아무도 쓰지 않다가 받은 첫 요청은 조금 늦을 수 있습니다. 고장이 아닙니다.</p>
+</div></details>
+<section class="level3" id="환경-변수-등록하기">
+<h3>환경 변수 등록하기</h3>
+<p><code>.env</code>는 Git에 올리지 않았습니다. 그러니 호스팅 서비스는 그 값을 모릅니다. 호스팅 서비스의 설정 화면에 같은 이름과 값을 따로 적어 넣습니다(<a href="ch20.html#environments">20장</a>). 이 일을 환경 변수를 등록한다고 말합니다.</p>
+<p>"내 컴퓨터에서는 되는데 올리면 안 돼요"의 가장 흔한 까닭이 이것입니다. 값을 고친 뒤에는 다시 배포해야 새 값이 쓰입니다.</p>
+<p>무엇을 등록할지는 올리기 전에 AI에게 받아 둡니다. 값은 AI에게 보여 주지 않고 내가 직접 넣습니다(<a href="ch30.html#context">30장</a>).</p>
+<blockquote>
+<p>호스팅 서비스에 올리려고 해. 아직 아무것도 올리지 마. 설정 화면에 등록할 환경 변수의 이름을 모두 적고, 브라우저로 가는 값과 서버만 아는 값으로 나눠 줘. 코드에 <code>localhost</code> 주소가 그대로 적힌 곳이 있는지도 찾아 줘.</p>
+</blockquote>
+<p>올린 뒤에는 휴대전화로 주소를 열어 확인합니다. 로그인하고, 기록을 하나 저장하고, 새로 고침해도 남는지 봅니다.</p>
+</section>
+<section class="level3" id="미리-보기-주소">
+<h3>미리 보기 주소</h3>
+<p>많은 호스팅 서비스는 <code>main</code>이 아닌 브랜치(<a href="ch07.html#branch">7장</a>)를 올리면 그 브랜치만의 임시 주소를 만들어 줍니다. 이것을 <strong>미리 보기 배포</strong>(preview deployment)라고 합니다.</p>
+<p>서연이가 별점 기능을 <code>stars</code> 브랜치에서 만들었다고 합시다. 이 브랜치를 올리면 <code>reading-log-stars.example.com</code>에서 먼저 눌러 볼 수 있습니다. 친구들이 쓰는 <code>reading-log.example.com</code>은 그대로입니다. <code>main</code>에 합치면 그때 실제 주소가 바뀝니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 미리 보기가 진짜 데이터를 건드릴 때</div>
+<p>미리 보기 주소가 진짜 데이터베이스에 이어져 있으면, 연습 삼아 지운 기록이 정말로 지워집니다. 미리 보기에는 연습용 데이터베이스의 주소와 키를 따로 등록합니다(<a href="ch17.html#operate">17장</a>).</p>
+</div>
+</section>
+<section class="level3" id="내-도메인과-되돌리기">
+<h3>내 도메인과 되돌리기</h3>
+<p>호스팅 서비스가 주는 주소에는 서비스 이름이 붙습니다. 내 이름으로 바꾸려면 <code>example.com</code> 같은 사이트 이름, 곧 도메인을 사서 잇습니다(<a href="ch14.html#dns">14장</a>). 호스팅 서비스가 알려 주는 값을 도메인을 산 곳의 설정에 적어 넣으면 됩니다. HTTPS에 필요한 인증서는 대개 호스팅 서비스가 알아서 받아 줍니다(<a href="ch15.html#https">15장</a>).</p>
+<p>호스팅 서비스는 대개 지난 배포를 보관합니다. 새 판이 고장 났으면 앞의 배포를 실제 주소에 다시 걸 수 있습니다. <a href="ch20.html#compat">20장</a>에서 본 롤백입니다. 다만 데이터베이스에서 바뀐 것은 돌아오지 않습니다. 되돌린 뒤에는 코드도 고쳐서 다시 올립니다. 그대로 두면 다음에 올릴 때 같은 고장이 또 나갑니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>새 판이 고장 났으면 <strong>먼저 되돌리고</strong>, 원인은 그다음에 찾습니다. 친구들이 고장 난 화면을 보는 시간이 짧아집니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="check">
+<h2><span class="sec-n">31.9</span>내보내기 전 점검과 올린 뒤<a aria-label="이 절의 링크" class="anchor" href="#check">#</a></h2>
+<p>수학여행 전날에는 점검표를 보며 가방을 쌉니다. 버스가 떠난 뒤에 빠뜨린 것을 알면 늦습니다. 친구들에게 주소를 알리기 전에 여섯 가지를 봅니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>볼 것</th>
+<th>확인하는 법</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>비밀 값</td>
+<td>화면 코드와 Git 이력에 비밀 키가 없는가. 호스팅 서비스에 환경 변수를 등록했는가</td>
+</tr>
+<tr>
+<td>권한</td>
+<td>준호 계정으로, 또 로그아웃한 채로 서연이의 기록을 읽고 고치고 지워 보았는가</td>
+</tr>
+<tr>
+<td>입력 검사</td>
+<td>빈 제목, 1만 글자짜리 감상, <code>&lt;script&gt;</code>가 든 글을 넣어 보았는가</td>
+</tr>
+<tr>
+<td>요금 한도</td>
+<td>쓰는 서비스마다 무료로 쓸 수 있는 범위를 아는가. 지출 한도와 예산 알림을 켰는가</td>
+</tr>
+<tr>
+<td>백업</td>
+<td>데이터베이스 백업이 켜져 있는가. 되살리는 일을 한 번 해 보았는가</td>
+</tr>
+<tr>
+<td>개인 정보</td>
+<td>꼭 필요한 것만 받는가. 로그에 이름과 감상이 통째로 찍히지 않는가</td>
+</tr>
+</tbody>
+</table></div>
+<p>들어온 값이 말이 되는지 서버에서 따져 보는 일을 <strong>입력 검사</strong>(validation)라고 합니다. 화면에서 막아도 서버에서 한 번 더 막습니다(<a href="ch19.html#injection">19장</a>). <code>&lt;script&gt;</code>가 든 글을 넣어 보는 것은, 글에 섞인 코드가 화면에서 실행되지 않는지 보려는 것입니다(<a href="ch19.html#browser">19장</a>). 넣은 글이 글자 그대로 보이면 통과입니다. 요금 한도는 <a href="ch30.html#permission">30장</a>에서, 백업은 <a href="ch21.html#ops">21장</a>에서, 로그에 남기면 안 되는 것은 <a href="ch22.html#log">22장</a>에서 다뤘습니다.</p>
+<p>점검도 AI에게 시킬 수 있습니다. "이 표의 줄마다 실제로 해 보고, 친 명령과 결과를 보여 줘. 확인하지 못한 줄은 따로 적어 줘." 말이 아니라 결과를 받습니다(<a href="ch30.html#verify">30장</a>).</p>
+<section class="level3" id="올린-뒤-고장-났을-때-보는-세-곳">
+<h3>올린 뒤: 고장 났을 때 보는 세 곳</h3>
+<p>올린 앱에는 내 터미널이 없습니다. 대신 조각마다 들여다보는 곳이 하나씩 있습니다.</p>
+<figure class="fig" id="fig-three-places"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 304" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>올린 앱이 고장 나면 세 조각마다 들여다보는 곳이 하나씩 있다. 화면은 개발자 도구, 서버는 호스팅 서비스의 로그, 데이터베이스는 관리 화면이다</title>
+
+  <rect class="box blue" x="20" y="20" width="220" height="204" rx="14"/>
+  <circle class="badge blue" cx="44" cy="46" r="12"/><text class="badge-t" x="44" y="50.500">1</text>
+  <text class="t-l" x="64" y="52">화면</text>
+  <use href="#i-browser" x="190" y="30" width="34" height="34" class="ic blue"/>
+  <text class="t-xs" x="36" y="88">들여다보는 곳</text>
+  <text class="t-b" x="36" y="110">브라우저 개발자 도구</text>
+  <path class="ln thin muted" d="M36 124 H224"/>
+  <text class="t-s t-ink" x="36" y="150">콘솔에 빨간 글이 있는가</text>
+  <text class="t-s t-ink" x="36" y="176">요청 줄이 생겼는가</text>
+  <text class="t-s t-ink" x="36" y="202">상태 코드가 몇 번인가</text>
+
+  <path class="ln" d="M245 122 H263" marker-end="url(#ah)"/>
+
+  <rect class="box green" x="270" y="20" width="220" height="204" rx="14"/>
+  <circle class="badge green" cx="294" cy="46" r="12"/><text class="badge-t" x="294" y="50.500">2</text>
+  <text class="t-l" x="314" y="52">서버</text>
+  <use href="#i-server" x="440" y="30" width="34" height="34" class="ic green"/>
+  <text class="t-xs" x="286" y="88">들여다보는 곳</text>
+  <text class="t-b" x="286" y="110">호스팅 서비스의 로그</text>
+  <path class="ln thin muted" d="M286 124 H474"/>
+  <text class="t-s t-ink" x="286" y="150">그 시각에 오류 글이 있는가</text>
+  <text class="t-s t-ink" x="286" y="176">요청이 도착하긴 했는가</text>
+  <text class="t-s t-ink" x="286" y="202">마지막 빌드는 성공했는가</text>
+
+  <path class="ln" d="M495 122 H513" marker-end="url(#ah)"/>
+
+  <rect class="box warm" x="520" y="20" width="220" height="204" rx="14"/>
+  <circle class="badge warm" cx="544" cy="46" r="12"/><text class="badge-t" x="544" y="50.500">3</text>
+  <text class="t-l" x="564" y="52">데이터베이스</text>
+  <use href="#i-db" x="690" y="30" width="34" height="34" class="ic warm"/>
+  <text class="t-xs" x="536" y="88">들여다보는 곳</text>
+  <text class="t-b" x="536" y="110">데이터베이스 관리 화면</text>
+  <path class="ln thin muted" d="M536 124 H724"/>
+  <text class="t-s t-ink" x="536" y="150">행이 정말 생겼는가</text>
+  <text class="t-s t-ink" x="536" y="176">주인 번호가 맞는가</text>
+  <text class="t-s t-ink" x="536" y="202">규칙이 켜져 있는가</text>
+
+  <rect class="panel" x="20" y="242" width="720" height="44" rx="10"/>
+  <text class="t-s mid" x="380" y="269">상태 코드가 5로 시작하면 2번으로, 저장됐다는데 보이지 않으면 3번으로 간다</text>
+</svg></div><figcaption><b>그림 31-10</b>세 조각을 들여다보는 세 곳. 화면에서 시작해 안쪽으로 들어갑니다.</figcaption></figure>
+<ol type="1">
+<li><strong>브라우저의 개발자 도구.</strong> 콘솔에 빨간 글이 있는지, 네트워크 탭에 요청 줄이 생겼는지 봅니다. 상태 코드가 4로 시작하면 요청이나 권한을, 5로 시작하면 서버를 살핍니다.</li>
+<li><strong>호스팅 서비스의 로그.</strong> 올린 서버가 찍은 글이 모이는 곳입니다(<a href="ch22.html#log">22장</a>). 고장 난 그 시각의 오류 글을 찾습니다. 요청이 도착하긴 했는지, 마지막 빌드가 성공했는지도 여기서 봅니다.</li>
+<li><strong>데이터베이스 관리 화면.</strong> 표를 직접 열어 행이 생겼는지, 주인 번호 <code>user_id</code>가 맞는지 봅니다. 규칙이 켜져 있는지도 봅니다.</li>
+</ol>
+<p>세 곳에서 본 것을 그대로 AI에게 줍니다. 증상별로 어디를 볼지는 <a href="trouble.html">증상으로 찾기</a>에 모아 두었습니다.</p>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · 친구가 '안 돼'라고 하면</div>
+<p>세 가지를 묻습니다. 무엇을 눌렀는지, 화면에 무슨 글이 떴는지, 몇 시쯤이었는지. 시각을 알아야 로그에서 그 줄을 찾을 수 있습니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>프런트엔드 / 백엔드</td>
+<td>친구의 브라우저에서 도는 화면 코드 / 서버에서 도는 코드</td>
+</tr>
+<tr>
+<td>컴포넌트 / 프레임워크</td>
+<td>화면을 이루는 조각 하나 / 조각을 조립하는 법까지 갖춘 틀</td>
+</tr>
+<tr>
+<td>PUT / PATCH</td>
+<td>통째로 바꿈 / 적어 보낸 칸만 고침</td>
+</tr>
+<tr>
+<td>localhost 주소 / 배포된 주소</td>
+<td>내 컴퓨터에서만 열림 / 누구나 열 수 있음</td>
+</tr>
+<tr>
+<td>공개용 키 / 비밀 키</td>
+<td>화면 코드에 넣어도 됨. 규칙이 지켜 줌 / 규칙을 건너뜀. 서버만 앎</td>
+</tr>
+<tr>
+<td>미리 보기 주소 / 실제 주소</td>
+<td>브랜치마다 생기는 임시 주소 / 친구들이 쓰는 주소</td>
+</tr>
+<tr>
+<td>화면에서 가리기 / 서버·데이터베이스에서 막기</td>
+<td>종이 붙이기 / 자물쇠 달기</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 내 컴퓨터에서는 되는데 올린 주소에서는 저장이 안 된다</div>
+<p>서연이가 독서 기록 앱을 올리고 반 대화방에 주소를 알렸습니다. 10분 뒤 준호가 말합니다. "로그인은 되는데 저장을 눌러도 아무 일이 없어." 서연이의 컴퓨터에서는 잘 됩니다.</p>
+<ol type="1">
+<li><strong>똑같이 해 봅니다.</strong> <code>localhost</code>가 아니라 올린 주소에서 [저장]을 누릅니다. 서연이에게도 같은 일이 생깁니다.</li>
+<li><strong>브라우저를 봅니다.</strong> 네트워크 탭에 <code>POST /api/records</code> 줄이 생겼고 상태는 <code>500</code>입니다. 요청은 나갔고, 서버에서 탈이 났습니다.</li>
+<li><strong>호스팅 서비스의 로그를 봅니다.</strong> 그 시각에 오류가 찍혀 있습니다. 비밀 키가 비어 있어서 데이터베이스에 들어가지 못했다는 내용입니다.</li>
+<li><strong>원인을 찾습니다.</strong> <code>.env</code>는 Git에 올리지 않았습니다. 그런데 호스팅 서비스에 <code>DB_SECRET_KEY</code>를 등록하는 것을 잊었습니다.</li>
+<li><strong>고치고 확인합니다.</strong> 환경 변수를 등록하고 다시 배포합니다. [저장]을 누르니 <code>201</code>이 옵니다. 데이터베이스의 표에도 새 행이 생겼습니다.</li>
+</ol>
+<p>코드는 같아도 내 컴퓨터와 올린 곳은 환경 변수가 다릅니다. 짐작하지 말고 화면, 서버, 데이터베이스를 차례로 들여다봅니다.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li>웹 앱은 <strong>화면(프런트엔드), 서버(백엔드), 데이터베이스</strong> 세 조각입니다. 버튼 하나는 세 조각을 다녀오는 왕복입니다.</li>
+<li>화면은 <strong>HTML</strong>(뼈대), <strong>CSS</strong>(꾸밈), <strong>자바스크립트</strong>(움직임)로 만들고, <strong>컴포넌트</strong>를 <strong>프레임워크</strong>로 조립합니다.</li>
+<li>내 컴퓨터에서는 <code>npm install</code>, <code>npm run dev</code>로 켭니다. 오류는 <strong>터미널</strong>과 <strong>브라우저 콘솔</strong> 두 곳에 뜹니다.</li>
+<li>화면과 서버는 <strong>API</strong>로 말합니다. 만들기·읽기·고치기·지우기가 <code>POST</code>·<code>GET</code>·<code>PATCH</code>·<code>DELETE</code>입니다.</li>
+<li>로그인은 직접 만들지 않습니다. 남의 기록을 막는 규칙은 화면이 아니라 <strong>서버나 데이터베이스</strong>에 둡니다.</li>
+<li>화면 코드에 들어간 값은 누구나 봅니다. <strong>비밀 키</strong>는 서버만 읽게 하고, 새면 바꿉니다.</li>
+<li>커밋을 올리면 <strong>호스팅 서비스</strong>가 빌드해 주소에 겁니다. 환경 변수는 따로 등록하고, 고장 나면 먼저 되돌립니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>서연이가 [저장]을 누르자 목록에 새 카드가 바로 나타났습니다. 그런데 새로 고침을 하니 카드가 사라졌습니다. 세 조각 가운데 어디까지 일이 됐을까요? 무엇부터 볼까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>화면이 카드를 그리는 데까지만 됐습니다. 서버나 데이터베이스에는 저장되지 않았습니다. 네트워크 탭을 켠 채 다시 눌러서 <code>POST</code> 줄이 생기는지, 상태 코드가 무엇인지 봅니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>서연이가 반 대화방에 <code>http://localhost:3000</code>을 올리고 "내 앱 구경해"라고 했습니다. 친구들의 휴대전화에서 열릴까요? 열리게 하려면 무엇을 해야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>열리지 않습니다. <code>localhost</code>는 그 주소를 연 기기 자신을 가리킵니다. 친구들의 휴대전화에는 서연이의 앱이 없습니다. 호스팅 서비스에 올려서 생긴 주소를 알려 줘야 합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>준호가 반 투표 앱을 만들었습니다. '투표 결과 보기' 버튼은 선생님 계정에만 보이게 했습니다. 이것으로 학생들이 결과를 못 보게 막았을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>아닙니다. 버튼을 가린 것은 종이를 붙인 것과 같습니다. 학생도 버튼 없이 같은 요청을 보낼 수 있습니다. 서버나 데이터베이스에 "선생님만 결과를 읽을 수 있다"는 규칙을 둡니다. 그러고 나서 학생 계정으로 요청해 거절되는지 확인합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>AI가 "권한 오류를 고쳤습니다"라고 했습니다. 바뀐 곳을 보니 화면 코드가 <code>PUBLIC_DB_SECRET_KEY</code>라는 값을 읽습니다. <code>.env</code>를 열어 보니 <code>DB_SECRET_KEY</code>의 이름이 그렇게 바뀌어 있습니다. 이대로 올리면 어떻게 될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>비밀 키가 화면 코드에 들어가 누구나 볼 수 있게 됩니다. 이 키는 규칙을 건너뛰므로, 본 사람은 모든 기록을 읽고 지울 수 있습니다. 바꾼 것을 되돌립니다. 이미 올렸다면 그 키를 없애고 새 키를 받습니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>금요일 저녁에 새 판을 올렸습니다. 잠시 뒤 친구 셋이 "저장이 안 돼"라고 합니다. 원인은 아직 모릅니다. 가장 먼저 할 일은 무엇이고, 그다음에는 어디를 볼까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>먼저 앞의 배포로 되돌립니다. 친구들이 다시 쓸 수 있게 한 다음 원인을 찾습니다. 브라우저의 개발자 도구, 호스팅 서비스의 로그, 데이터베이스를 차례로 봅니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>한 번에 한 단계만 시킵니다. 단계마다 <strong>계획을 먼저 받고</strong>, 끝나면 <strong>거절되는 경우를 시험한 결과</strong>를 받습니다.</p>
+<blockquote>
+<p>독서 기록 앱에 데이터베이스와 로그인을 붙일 차례야. 코드를 쓰기 전에 계획부터 보여 줘. (1) 표와 열, (2) API 표(메서드, 주소, 실패할 때의 상태 코드), (3) 남의 기록을 막는 규칙을 어디에 둘지. 로그인은 직접 만들지 말고 서비스의 기능을 써 줘. 비밀번호는 우리 표에 저장하지 마. 비밀 키는 서버 코드만 읽게 하고, <code>.env</code>는 커밋하지 마. 다 만들면 준호 계정으로 목록을 불러오고, 서연이의 3번 기록을 고치기, 지우기 해 봐. 보낸 요청과 받은 응답을 그대로 보여 줘.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong></p>
+<ul>
+<li>규칙이 화면 코드가 아니라 서버나 데이터베이스에 있는가.</li>
+<li>화면이 주인 번호를 적어 보내지 않는가.</li>
+<li>거절되는 시험을 정말 돌렸는가. 서연이로 다시 들어가면 3번 기록이 그대로인가.</li>
+<li>화면 코드와 Git 이력에 비밀 키가 없는가.</li>
+</ul>
+<p><strong>AI가 자주 하는 실수</strong></p>
+<ul>
+<li>일단 돌아가게 하려고 규칙을 꺼 둔 채 끝냅니다.</li>
+<li>권한 오류를 없애려고 비밀 키를 화면 코드에 넣습니다.</li>
+<li>실패해도 <code>200</code>으로 답합니다.</li>
+<li>화면 모양을 보려고 넣은 가짜 기록을 남겨 둡니다.</li>
+<li>불러오는 중, 빈 목록, 오류가 났을 때의 화면을 빠뜨립니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>웹 앱<small>web app</small></dt>
+<dd>
+설치하지 않고 브라우저에 주소를 넣어 여는 앱.
+</dd>
+<dt>프런트엔드<small>frontend</small></dt>
+<dd>
+사용자의 브라우저에서 도는 화면 쪽 코드.
+</dd>
+<dt>백엔드<small>backend</small></dt>
+<dd>
+서버에서 돌면서 요청을 확인하고 처리하는 코드.
+</dd>
+<dt>CSS<small>Cascading Style Sheets</small></dt>
+<dd>
+화면의 색, 크기, 놓일 자리를 적는 방식.
+</dd>
+<dt>자바스크립트<small>JavaScript</small></dt>
+<dd>
+화면을 누르면 무슨 일이 일어날지를 적는 프로그래밍 언어.
+</dd>
+<dt>컴포넌트<small>component</small></dt>
+<dd>
+틀을 하나 만들어 두고 여러 번 찍어 쓰는 화면의 조각.
+</dd>
+<dt>프레임워크<small>framework</small></dt>
+<dd>
+앱마다 되풀이되는 일을 미리 갖춰 둔 틀.
+</dd>
+<dt>반응형 디자인<small>responsive design</small></dt>
+<dd>
+화면 폭에 따라 배치가 바뀌게 만드는 방식.
+</dd>
+<dt>API<small>Application Programming Interface</small></dt>
+<dd>
+한 프로그램이 다른 프로그램에게 일을 부탁하는 창구. 여기서는 화면이 서버에 부탁하는 창구.
+</dd>
+<dt>CRUD<small>Create, Read, Update, Delete</small></dt>
+<dd>
+만들기, 읽기, 고치기, 지우기. 데이터를 다루는 네 가지 기본 일.
+</dd>
+<dt>엔드포인트<small>endpoint</small></dt>
+<dd>
+API에서 메서드와 주소의 짝 하나.
+</dd>
+<dt>BaaS<small>Backend as a Service</small></dt>
+<dd>
+데이터베이스, 로그인, 파일 보관을 한꺼번에 빌려주는 서비스.
+</dd>
+<dt>행 수준 보안<small>RLS, Row Level Security</small></dt>
+<dd>
+데이터베이스가 행마다 읽고 쓸 수 있는 사람을 따지는 장치.
+</dd>
+<dt>API 키<small>API key</small></dt>
+<dd>
+서비스가 내 앱을 알아보도록 내어 주는 긴 글자.
+</dd>
+<dt>호스팅<small>hosting</small></dt>
+<dd>
+앱을 늘 켜진 컴퓨터에 올려 주소로 열 수 있게 해 주는 일.
+</dd>
+<dt>미리 보기 배포<small>preview deployment</small></dt>
+<dd>
+브랜치마다 임시 주소에 따로 올려 주는 배포.
+</dd>
+<dt>입력 검사<small>validation</small></dt>
+<dd>
+들어온 값이 말이 되는지 서버에서 따져 보는 일.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://developer.mozilla.org/ko/docs/Learn_web_development" rel="noopener" target="_blank">MDN — Web 개발 학습하기</a> — HTML, CSS, 자바스크립트를 처음부터 차례로 익히는 한국어 길잡이입니다.</li>
+<li><a href="https://developer.mozilla.org/ko/docs/Web/HTTP/Reference/Methods" rel="noopener" target="_blank">MDN — HTTP 요청 메서드</a> — GET, POST, PATCH, DELETE의 약속을 한국어로 정리했습니다.</li>
+<li><a href="https://docs.github.com/ko/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository" rel="noopener" target="_blank">GitHub 문서 — 리포지토리에서 중요한 데이터 제거</a> — 비밀 값을 올렸을 때 할 일을 차례로 알려 줍니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch30.html"><small>← 이전 · 30장</small><b>AI에게 일 시키는 법</b></a><a class="next" href="../index.html"><small>끝 →</small><b>전체 지도로 돌아가기</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#what">무엇을 만드나: 한 장짜리 설명서</a><a href="#pieces">웹 앱의 세 조각: 화면, 서버, 데이터베이스</a><a href="#screen">화면을 이루는 것: 뼈대, 꾸밈, 움직임</a><a href="#local">내 컴퓨터에서 돌리기</a><a href="#api">화면과 서버가 주고받는 말: API</a><a href="#data">데이터와 로그인: 규칙은 어디에 두나</a><a href="#secret">비밀 값과 환경 변수</a><a href="#deploy">인터넷에 올리기</a><a href="#check">내보내기 전 점검과 올린 뒤</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg">
+  <title>메모리는 거의 꽉 찼고 저장 공간은 넉넉하다면, 느린 까닭은 저장 공간이 아니라 메모리다</title>
+  <text class="t-h" x="20" y="34">느릴 때 화면에서 읽는 숫자</text>
+
+  <rect class="panel" x="20" y="52" width="430" height="196" rx="14"/>
+  <text class="t-s t-b" x="38" y="78">성능을 보여 주는 화면</text>
+
+  <text class="t-b" x="38" y="113">CPU</text>
+  <rect class="ghost" x="150" y="100" width="190" height="16" rx="4"/>
+  <rect class="solid blue" x="150" y="100" width="34" height="16" rx="4"/>
+  <text class="t-mono" x="352" y="113">18%</text>
+
+  <text class="t-b" x="38" y="151">메모리</text>
+  <rect class="ghost" x="150" y="138" width="190" height="16" rx="4"/>
+  <rect class="solid red" x="150" y="138" width="178" height="16" rx="4"/>
+  <text class="t-mono" x="352" y="151">15 / 16GB</text>
+
+  <text class="t-b" x="38" y="189">디스크</text>
+  <rect class="ghost" x="150" y="176" width="190" height="16" rx="4"/>
+  <rect class="solid gray" x="150" y="176" width="6" height="16" rx="3"/>
+  <text class="t-mono" x="352" y="189">3%</text>
+
+  <text class="t-b" x="38" y="227">GPU 메모리</text>
+  <rect class="ghost" x="150" y="214" width="190" height="16" rx="4"/>
+  <rect class="solid purple" x="150" y="214" width="48" height="16" rx="4"/>
+  <text class="t-mono" x="352" y="227">2 / 8GB</text>
+
+  <path class="ln red" d="M436 146 H462" marker-end="url(#ah-red)"/>
+  <rect class="box red" x="470" y="129" width="270" height="34" rx="8"/>
+  <text class="t-b mid tc-red" x="605" y="151">거의 꽉 참: 조리대가 모자람</text>
+
+  <path class="ln thin muted" d="M386 184 H462" marker-end="url(#ah-muted)"/>
+  <text class="t-s" x="474" y="181">지금 얼마나 바쁘게 읽고 쓰는가</text>
+  <text class="t-s t-b" x="474" y="199">남은 공간이 아님</text>
+
+  <path class="ln thin muted" d="M420 222 H462" marker-end="url(#ah-muted)"/>
+  <text class="t-s" x="474" y="227">VRAM을 얼마나 쓰고 있는가</text>
+
+  <rect class="panel" x="20" y="262" width="430" height="72" rx="14"/>
+  <text class="t-s t-b" x="38" y="286">저장 공간을 보여 주는 화면</text>
+  <text class="t-b" x="38" y="315">저장 공간</text>
+  <rect class="ghost" x="150" y="302" width="190" height="16" rx="4"/>
+  <rect class="solid warm" x="150" y="302" width="75" height="16" rx="4"/>
+  <text class="t-mono" x="352" y="315">310GB 남음</text>
+
+  <path class="ln green" d="M440 310 H462" marker-end="url(#ah-green)"/>
+  <rect class="box green" x="470" y="293" width="270" height="34" rx="8"/>
+  <text class="t-b mid tc-green" x="605" y="315">넉넉함: 창고는 문제없음</text>
+</svg>

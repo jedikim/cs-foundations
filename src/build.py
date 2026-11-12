@@ -26,6 +26,12 @@ CHAPTERS = CUR['chapters']
 CH = {c['id']: c for c in CHAPTERS}
 DEFS = (SRC / 'defs.svg').read_text(encoding='utf-8')
 SITE = json.loads((SRC / 'site.json').read_text(encoding='utf-8'))
+# 장이 아닌 길잡이 쪽: 원고(src/content/<id>.md)가 있는 것만 싣는다
+GUIDES = [g for g in SITE.get('guides', []) if (SRC / 'content' / f'{g["id"]}.md').exists()]
+TROUBLE = SITE.get('trouble') if SITE.get('trouble') and (SRC / 'content' / f'{SITE["trouble"]["id"]}.md').exists() else None
+EXTRAS = {g['id']: g['title'] for g in GUIDES}
+if TROUBLE:
+    EXTRAS[TROUBLE['id']] = TROUBLE['title']
 PHOTOS = json.loads((SRC / 'photos.json').read_text(encoding='utf-8')) if (SRC / 'photos.json').exists() else {}
 
 CALLOUTS = {
@@ -307,7 +313,7 @@ def render_chapter_body(cid, md_text, root='../'):
     out = str(soup)
     for key, raw in blobs.items():
         out = out.replace(key, raw)
-    if ':::' in soup.get_text():
+    if re.search(r'(^|\n)\s*:::', soup.get_text()):
         warn(cid, '본문에 ":::" 가 그대로 남아 있음 — 상자 문법을 확인하세요')
     return out, toc, entries, terms, {'figs': k, 'chars': len(soup.get_text()), 'sections': n, 'quiz': len(qs), 'terms': len(terms)}
 
@@ -328,12 +334,16 @@ def sidebar(active, root):
 
     def cur_of(pid):
         return ' aria-current="page"' if active == pid else ''
+    guide_items = ''.join(
+        f'<li><a href="{root}chapters/{g["id"]}.html"{cur_of(g["id"])}><span class="n">{esc(g["sym"])}</span><span>{esc(g["label"])}</span></a></li>'
+        for g in GUIDES)
+    trouble_link = (f'<a href="{root}chapters/{TROUBLE["id"]}.html"{cur_of(TROUBLE["id"])}>{esc(TROUBLE["label"])}</a>' if TROUBLE else '')
     return f'''<aside class="side" id="side" aria-label="전체 목차">
 <a class="brand" href="{root}index.html"><b>{esc(CUR["title"])}</b><span>앱·게임·AI</span></a>
 <button class="side-search search-open" type="button">{icon("i-search").replace("<svg", '<svg width="16" height="16"')}검색<kbd>/</kbd></button>
 <div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
-<nav><ol class="side-top"><li><a href="{root}chapters/math.html"{cur_of("math")}><span class="n">∑</span><span>{esc(SITE["mathEntry"]["label"])}</span></a></li></ol>{"".join(parts)}</nav>
-<div class="side-links"><a href="{root}index.html"{home_cur}>전체 지도</a><a href="{root}chapters/glossary.html"{cur_of("glossary")}>용어 사전</a><a href="{root}chapters/credits.html"{cur_of("credits")}>만든 사람들</a><a href="{SITE["repo"]}" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+<nav><ol class="side-top">{guide_items}</ol>{"".join(parts)}</nav>
+<div class="side-links"><a href="{root}index.html"{home_cur}>전체 지도</a>{trouble_link}<a href="{root}chapters/glossary.html"{cur_of("glossary")}>용어 사전</a><a href="{root}chapters/credits.html"{cur_of("credits")}>만든 사람들</a><a href="{SITE["repo"]}" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
 </aside>'''
 
 
@@ -438,8 +448,10 @@ def home_page():
             f'<section class="part-block pc-{p["color"]}" id="{p["id"]}"><div class="part-head"><span class="pn">{PART_NO[p["id"]]}부</span>'
             f'<h2>{esc(p["title"])}</h2><p>{esc(p["desc"])}</p></div><div class="cards">{"".join(cards)}</div></section>')
     total = sum(c['time'] for c in CHAPTERS)
-    math_card = (f'<section class="part-block pc-warm" id="math-entry"><div class="cards"><a class="card" href="chapters/math.html">'
-                 f'<b>{esc(SITE["mathEntry"]["label"])}</b></a></div></section>')
+    guide_cards = ''.join(f'<a class="card" href="chapters/{g["id"]}.html"><b>{esc(g["label"])}</b><span>{esc(g["title"])}</span></a>' for g in GUIDES)
+    if TROUBLE:
+        guide_cards += f'<a class="card" href="chapters/{TROUBLE["id"]}.html"><b>{esc(TROUBLE["label"])}</b><span>막혔을 때 어디를 볼지</span></a>'
+    math_card = f'<section class="part-block pc-warm" id="math-entry"><div class="cards">{guide_cards}</div></section>'
     tracks = ('<div class="tracks" role="group" aria-label="학습 경로">'
               '<button class="track-btn" data-track="all" aria-pressed="true" type="button">전체 보기</button>'
               '<button class="track-btn" data-track="core" aria-pressed="false" type="button">공통 기초</button>'
@@ -543,6 +555,10 @@ def main():
     args = [a for a in sys.argv[1:] if not a.startswith('-')]
     targets = args or [c['id'] for c in CHAPTERS]
     all_entries, all_terms = [], []
+    for cid in [t for t in targets if t in EXTRAS]:
+        extra_page(cid, EXTRAS[cid], '')
+        print(f'{cid}  → chapters/{cid}.html')
+    targets = [t for t in targets if t not in EXTRAS]
     for cid in targets:
         if cid not in CH:
             raise SystemExit(f'모르는 장: {cid}')
@@ -556,10 +572,11 @@ def main():
     if not args:
         home_page()
         all_entries += glossary_page(all_terms)
-        all_entries += extra_page('math', '수학 길잡이', '')
+        for pid, title in EXTRAS.items():
+            all_entries += extra_page(pid, title, '')
         credits_page()
         (ROOT / 'assets' / 'search-index.js').write_text('window.CSF_INDEX=' + json.dumps(all_entries, ensure_ascii=False, separators=(',', ':')) + ';', encoding='utf-8')
-        print(f'index.html · glossary.html · math.html · credits.html · search-index.js ({len(all_entries)}항목)')
+        print(f'index.html · glossary.html · {" · ".join(k + ".html" for k in EXTRAS)} · credits.html · search-index.js ({len(all_entries)}항목)')
     if warnings:
         print('\n경고 ' + str(len(warnings)) + '건:')
         for w in warnings:

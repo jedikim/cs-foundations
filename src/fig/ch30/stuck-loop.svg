@@ -1,0 +1,56 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>안 된다는 말과 고쳤다는 말이 세 번 되풀이되면 멈추고, 증거 주기, 원인 묻기, 새 대화, 되돌리기 가운데 길을 바꾼다</title>
+
+  <rect class="panel" x="20" y="16" width="296" height="232" rx="16"/>
+  <text class="t-b" x="36" y="44">같은 자리를 세 번 돈다</text>
+
+  <rect class="box" x="30" y="58" width="122" height="40" rx="10"/>
+  <text class="t-s t-ink mid" x="91" y="83">“별 5개가 안 돼”</text>
+  <path class="ln thin" d="M154 78 H162" />
+  <rect class="box purple" x="164" y="58" width="142" height="40" rx="10"/>
+  <text class="t-s t-ink mid" x="235" y="83">“고쳤습니다”</text>
+
+  <rect class="box" x="30" y="108" width="122" height="40" rx="10"/>
+  <text class="t-s t-ink mid" x="91" y="133">“아직 안 돼”</text>
+  <path class="ln thin" d="M154 128 H162" />
+  <rect class="box purple" x="164" y="108" width="142" height="40" rx="10"/>
+  <text class="t-s t-ink mid" x="235" y="133">“고쳤습니다”</text>
+
+  <rect class="box" x="30" y="158" width="122" height="40" rx="10"/>
+  <text class="t-s t-ink mid" x="91" y="183">“아직도 안 돼”</text>
+  <path class="ln thin" d="M154 178 H162" />
+  <rect class="box purple" x="164" y="158" width="142" height="40" rx="10"/>
+  <text class="t-s t-ink mid" x="235" y="183">“확실히 고쳤습니다”</text>
+
+  <text class="t-s t-b tc-red" x="36" y="228">세 번 모두 해 보면 그대로</text>
+
+  <path class="ln" d="M320 132 H334" marker-end="url(#ah)"/>
+  <use href="#i-stop" x="338" y="110" width="44" height="44" class="ic red"/>
+  <text class="t-b tc-red mid" x="360" y="176">멈춤</text>
+  <path class="ln" d="M386 132 H400" marker-end="url(#ah)"/>
+
+  <rect class="panel green" x="404" y="16" width="336" height="232" rx="16"/>
+  <text class="t-b" x="420" y="44">멈춘 뒤에 고를 네 길</text>
+
+  <rect class="box" x="416" y="56" width="312" height="42" rx="10"/>
+  <circle class="badge green" cx="436" cy="77" r="11"/><text class="badge-t" x="436" y="81.500">1</text>
+  <text class="t-b" x="456" y="75">증거를 준다</text>
+  <text class="t-xs" x="456" y="91">오류 글 전체와 다시 일으키는 순서</text>
+
+  <rect class="box" x="416" y="104" width="312" height="42" rx="10"/>
+  <circle class="badge green" cx="436" cy="125" r="11"/><text class="badge-t" x="436" y="129.500">2</text>
+  <text class="t-b" x="456" y="123">원인을 먼저 묻는다</text>
+  <text class="t-xs" x="456" y="139">고치지 말고 까닭 세 가지부터</text>
+
+  <rect class="box" x="416" y="152" width="312" height="42" rx="10"/>
+  <circle class="badge green" cx="436" cy="173" r="11"/><text class="badge-t" x="436" y="177.500">3</text>
+  <text class="t-b" x="456" y="171">새 대화에서 다시 한다</text>
+  <text class="t-xs" x="456" y="187">요약과 증거만 들고 간다</text>
+
+  <rect class="box" x="416" y="200" width="312" height="42" rx="10"/>
+  <circle class="badge green" cx="436" cy="221" r="11"/><text class="badge-t" x="436" y="225.500">4</text>
+  <text class="t-b" x="456" y="219">되돌리고 다른 길로 간다</text>
+  <text class="t-xs" x="456" y="235">마지막 커밋에서 더 작게 시킨다</text>
+
+  <text class="t-s mid" x="380" y="278">네 번째 “고쳐 줘” 대신 방법을 바꿉니다.</text>
+</svg>

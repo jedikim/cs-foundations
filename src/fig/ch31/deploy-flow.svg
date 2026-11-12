@@ -1,0 +1,61 @@
+<svg viewBox="0 0 760 346" xmlns="http://www.w3.org/2000/svg">
+  <title>커밋을 원격 저장소에 올리면 호스팅 서비스가 알아채고 빌드해 주소에 건다. main 브랜치는 실제 주소로, 다른 브랜치는 미리 보기 주소로 나간다</title>
+
+  <rect class="box blue" x="20" y="24" width="150" height="126" rx="12"/>
+  <circle class="badge blue" cx="38" cy="42" r="12"/><text class="badge-t" x="38" y="46.500">1</text>
+  <use href="#i-laptop" x="77" y="34" width="36" height="36" class="ic blue"/>
+  <text class="t-b mid" x="95" y="94">내 컴퓨터</text>
+  <text class="t-mono mid" x="95" y="116">git push</text>
+  <text class="t-xs mid" x="95" y="136">커밋을 올린다</text>
+
+  <path class="ln" d="M176 87 H203" marker-end="url(#ah)"/>
+
+  <rect class="box" x="210" y="24" width="150" height="126" rx="12"/>
+  <circle class="badge" cx="228" cy="42" r="12"/><text class="badge-t" x="228" y="46.500">2</text>
+  <use href="#i-branch" x="267" y="34" width="36" height="36" class="ic"/>
+  <text class="t-b mid" x="285" y="94">원격 저장소</text>
+  <text class="t-xs mid" x="285" y="116">예: GitHub</text>
+  <text class="t-xs mid" x="285" y="136">새 커밋이 도착한다</text>
+
+  <path class="ln" d="M366 87 H393" marker-end="url(#ah)"/>
+
+  <rect class="box warm" x="400" y="24" width="150" height="126" rx="12"/>
+  <circle class="badge warm" cx="418" cy="42" r="12"/><text class="badge-t" x="418" y="46.500">3</text>
+  <use href="#i-gear" x="457" y="34" width="36" height="36" class="ic warm"/>
+  <text class="t-b mid" x="475" y="94">호스팅 서비스</text>
+  <text class="t-xs mid" x="475" y="116">알아채고 패키지를</text>
+  <text class="t-xs mid" x="475" y="136">받아 빌드한다</text>
+
+  <path class="ln" d="M556 87 H583" marker-end="url(#ah)"/>
+
+  <rect class="box green" x="590" y="24" width="150" height="126" rx="12"/>
+  <circle class="badge green" cx="608" cy="42" r="12"/><text class="badge-t" x="608" y="46.500">4</text>
+  <use href="#i-globe" x="647" y="34" width="36" height="36" class="ic green"/>
+  <text class="t-b mid" x="665" y="94">주소</text>
+  <text class="t-xs mid" x="665" y="116">빌드가 성공하면</text>
+  <text class="t-xs mid" x="665" y="136">새 판이 걸린다</text>
+
+  <path class="ln thin warm" d="M475 150 V164"/>
+  <rect class="box yellow" x="380" y="164" width="190" height="30" rx="8"/>
+  <use href="#i-key" x="388" y="168" width="22" height="22" class="ic warm"/>
+  <text class="t-xs t-ink" x="416" y="184">환경 변수는 여기에 등록</text>
+
+  <path class="ln thin green" d="M665 150 V204 H195 V213" marker-end="url(#ah-green)"/>
+  <path class="ln thin green" d="M565 204 V213" marker-end="url(#ah-green)"/>
+
+  <rect class="box green" x="20" y="218" width="350" height="82" rx="12"/>
+  <rect class="box" x="34" y="230" width="52" height="24" rx="6"/>
+  <text class="t-mono t-b mid" x="60" y="247">main</text>
+  <text class="t-s" x="94" y="247">브랜치를 올리면</text>
+  <text class="t-b tc-green" x="34" y="280">실제 주소</text>
+  <text class="t-mono" x="112" y="280">reading-log.example.com</text>
+
+  <rect class="box purple" x="390" y="218" width="350" height="82" rx="12"/>
+  <rect class="box" x="404" y="230" width="58" height="24" rx="6"/>
+  <text class="t-mono t-b mid" x="433" y="247">stars</text>
+  <text class="t-s" x="470" y="247">브랜치를 올리면</text>
+  <text class="t-b tc-purple" x="404" y="280">미리 보기</text>
+  <text class="t-mono" x="478" y="280">reading-log-stars.example.com</text>
+
+  <text class="t-s" x="20" y="328">빌드가 실패하면 주소에는 앞의 판이 그대로 남는다</text>
+</svg>

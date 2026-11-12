@@ -1,0 +1,54 @@
+<svg viewBox="0 0 760 338" xmlns="http://www.w3.org/2000/svg">
+  <title>손님의 화면은 내 서버에 부탁하고, 내 서버가 API 키를 붙여 모델 회사를 부른다. 키를 화면 코드에 넣어 바로 부르면 누구나 그 키를 꺼내 쓸 수 있다</title>
+
+  <rect class="panel" x="20" y="20" width="196" height="196" rx="14"/>
+  <use href="#i-browser" x="36" y="34" width="32" height="32" class="ic"/>
+  <text class="t-b" x="78" y="49">손님의 화면</text>
+  <text class="t-xs" x="78" y="67">브라우저</text>
+  <rect class="box" x="36" y="84" width="164" height="44" rx="10"/>
+  <text class="t-s t-ink mid" x="118" y="111">“환불되나요?”</text>
+  <text class="t-xs" x="36" y="156">화면 코드는 누구나</text>
+  <text class="t-xs" x="36" y="174">열어 볼 수 있다</text>
+  <text class="t-xs t-b tc-red" x="36" y="198">키를 두지 않는다</text>
+
+  <rect class="panel blue" x="282" y="20" width="196" height="196" rx="14"/>
+  <use href="#i-server" x="298" y="34" width="32" height="32" class="ic blue"/>
+  <text class="t-b" x="340" y="49">내 서버</text>
+  <text class="t-xs" x="340" y="67">내 코드가 도는 곳</text>
+  <rect class="box" x="298" y="84" width="164" height="36" rx="8"/>
+  <use href="#i-key" x="306" y="90" width="24" height="24" class="ic warm"/>
+  <text class="t-s t-ink" x="338" y="107">API 키는 여기에만</text>
+  <rect class="box" x="298" y="128" width="164" height="36" rx="8"/>
+  <use href="#i-stop" x="306" y="134" width="24" height="24" class="ic red"/>
+  <text class="t-s t-ink" x="338" y="151">한 사람 하루 20번</text>
+  <rect class="box" x="298" y="172" width="164" height="36" rx="8"/>
+  <use href="#i-check" x="306" y="178" width="24" height="24" class="ic green"/>
+  <text class="t-s t-ink" x="338" y="195">받은 답을 검사</text>
+
+  <rect class="panel purple" x="544" y="20" width="196" height="196" rx="14"/>
+  <use href="#i-cloud" x="560" y="34" width="32" height="32" class="ic purple"/>
+  <text class="t-b" x="602" y="49">모델 회사</text>
+  <text class="t-xs" x="602" y="67">모델이 도는 곳</text>
+  <rect class="box" x="560" y="84" width="164" height="44" rx="10"/>
+  <use href="#i-robot" x="570" y="90" width="32" height="32" class="ic purple"/>
+  <text class="t-b" x="614" y="111">모델</text>
+  <text class="t-xs" x="560" y="156">읽고 쓴 토큰만큼</text>
+  <text class="t-xs" x="560" y="174">키의 주인에게 요금</text>
+
+  <text class="t-xs t-b tc-blue mid" x="249" y="94">질문</text>
+  <path class="ln blue" d="M222 104 H274" marker-end="url(#ah-blue)"/>
+  <text class="t-xs t-b tc-blue mid" x="249" y="148">답</text>
+  <path class="ln blue" d="M276 158 H224" marker-end="url(#ah-blue)"/>
+
+  <text class="t-xs t-b tc-purple mid" x="511" y="94">질문 + 키</text>
+  <path class="ln purple" d="M484 104 H536" marker-end="url(#ah-purple)"/>
+  <text class="t-xs t-b tc-purple mid" x="511" y="148">한 글자씩</text>
+  <path class="ln purple" d="M538 158 H486" marker-end="url(#ah-purple)"/>
+
+  <path class="ln red dash" d="M118 220 V246 H360"/>
+  <use href="#i-cross" x="368" y="234" width="24" height="24" class="ic red"/>
+  <path class="ln red dash" d="M400 246 H642 V224" marker-end="url(#ah-red)"/>
+
+  <rect class="box red" x="20" y="274" width="720" height="44" rx="12"/>
+  <text class="t-b mid" x="380" y="302">키를 화면 코드에 넣고 바로 부르면, 누구나 그 키를 꺼내 쓸 수 있습니다</text>
+</svg>

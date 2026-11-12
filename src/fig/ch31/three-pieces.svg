@@ -1,0 +1,52 @@
+<svg viewBox="0 0 760 356" xmlns="http://www.w3.org/2000/svg">
+  <title>저장 버튼을 한 번 누르면 요청이 화면에서 서버를 거쳐 데이터베이스까지 갔다가, 응답이 같은 길로 돌아와 화면에 새 카드가 그려진다</title>
+
+  <rect class="box blue" x="20" y="20" width="160" height="260" rx="14"/>
+  <use href="#i-browser" x="80" y="30" width="40" height="40" class="ic blue"/>
+  <text class="t-l mid" x="100" y="94">화면</text>
+  <text class="t-s mid" x="100" y="114">프런트엔드</text>
+  <text class="t-xs mid" x="100" y="132">친구의 브라우저에서 돈다</text>
+  <circle class="badge blue" cx="40" cy="160" r="12"/><text class="badge-t" x="40" y="164.500">1</text>
+  <text class="t-s" x="58" y="164.500">저장을 누른다</text>
+  <circle class="badge blue" cx="40" cy="240" r="12"/><text class="badge-t" x="40" y="244.500">7</text>
+  <text class="t-s" x="58" y="244.500">새 카드를 그린다</text>
+
+  <rect class="box green" x="300" y="20" width="160" height="260" rx="14"/>
+  <use href="#i-server" x="360" y="30" width="40" height="40" class="ic green"/>
+  <text class="t-l mid" x="380" y="94">서버</text>
+  <text class="t-s mid" x="380" y="114">백엔드</text>
+  <text class="t-xs mid" x="380" y="132">늘 켜진 컴퓨터에서 돈다</text>
+  <circle class="badge green" cx="320" cy="200" r="12"/><text class="badge-t" x="320" y="204.500">3</text>
+  <text class="t-s" x="338" y="196">누구인지, 해도</text>
+  <text class="t-s" x="338" y="214">되는지 확인한다</text>
+
+  <rect class="box warm" x="580" y="20" width="160" height="260" rx="14"/>
+  <use href="#i-db" x="640" y="30" width="40" height="40" class="ic warm"/>
+  <text class="t-l mid" x="660" y="94">데이터베이스</text>
+  <text class="t-s mid" x="660" y="114">기록을 보관한다</text>
+  <text class="t-xs mid" x="660" y="132">전원이 꺼져도 남는다</text>
+  <rect class="box" x="596" y="176" width="128" height="48" rx="8"/>
+  <text class="t-mono t-b mid" x="660" y="197">records 표</text>
+  <text class="t-xs mid" x="660" y="215">한 줄이 기록 하나</text>
+
+  <path class="ln blue" d="M186 160 H293" marker-end="url(#ah-blue)"/>
+  <circle class="badge blue" cx="240" cy="160" r="12"/><text class="badge-t" x="240" y="164.500">2</text>
+  <text class="t-mono t-b mid" x="240" y="140">POST</text>
+  <text class="t-mono mid" x="240" y="186">/api/records</text>
+
+  <path class="ln green" d="M466 160 H573" marker-end="url(#ah-green)"/>
+  <circle class="badge green" cx="520" cy="160" r="12"/><text class="badge-t" x="520" y="164.500">4</text>
+  <text class="t-s mid" x="520" y="140">한 행 추가</text>
+
+  <path class="ln warm" d="M574 240 H467" marker-end="url(#ah-warm)"/>
+  <circle class="badge warm" cx="520" cy="240" r="12"/><text class="badge-t" x="520" y="244.500">5</text>
+  <text class="t-s mid" x="520" y="222">4번 기록으로 저장</text>
+
+  <path class="ln green" d="M294 240 H187" marker-end="url(#ah-green)"/>
+  <circle class="badge green" cx="240" cy="240" r="12"/><text class="badge-t" x="240" y="244.500">6</text>
+  <text class="t-mono t-b mid" x="240" y="222">201</text>
+  <text class="t-xs mid" x="240" y="266">저장한 기록</text>
+
+  <rect class="panel" x="20" y="298" width="720" height="40" rx="10"/>
+  <text class="t-s mid" x="380" y="323">버튼이 먹통일 때는 먼저 묻는다. 몇 번에서 멈췄을까?</text>
+</svg>

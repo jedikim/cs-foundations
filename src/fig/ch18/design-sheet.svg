@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 392" xmlns="http://www.w3.org/2000/svg">
+  <title>머그컵 가게의 설계를 상자와 화살표로 그리면 내가 만드는 화면, 서버, 데이터베이스와 빌려 쓰는 결제 회사, 메일 발송 회사가 나오고, 남의 서비스로 가는 화살표에는 답이 없을 때의 규칙을 적는다</title>
+
+  <rect class="panel" x="20" y="16" width="720" height="164" rx="16"/>
+  <text class="t-l" x="40" y="44">내가 만드는 것</text>
+
+  <rect class="box blue" x="40" y="58" width="170" height="106" rx="14"/>
+  <use href="#i-browser" x="105" y="66" width="40" height="40" class="ic blue"/>
+  <text class="t-l mid" x="125" y="130">화면</text>
+  <text class="t-s mid" x="125" y="150">보여 주고 입력받기</text>
+
+  <rect class="box blue" x="295" y="58" width="170" height="106" rx="14"/>
+  <use href="#i-server" x="360" y="66" width="40" height="40" class="ic blue"/>
+  <text class="t-l mid" x="380" y="130">서버</text>
+  <text class="t-s mid" x="380" y="150">금액·재고 규칙 따지기</text>
+
+  <rect class="box green" x="550" y="58" width="170" height="106" rx="14"/>
+  <use href="#i-db" x="615" y="66" width="40" height="40" class="ic green"/>
+  <text class="t-l mid" x="635" y="130">데이터베이스</text>
+  <text class="t-s mid" x="635" y="150">주문 표 · 재고 표</text>
+
+  <text class="t-xs t-b tc-blue mid" x="252" y="100">API 요청</text>
+  <path class="ln blue" d="M214 111 H287" marker-end="url(#ah-blue)"/>
+  <text class="t-xs t-b tc-green mid" x="507" y="100">읽고 쓰기</text>
+  <path class="ln green" d="M469 111 H542" marker-end="url(#ah-green)"/>
+
+  <rect class="panel" x="20" y="240" width="720" height="104" rx="16"/>
+  <path class="ln purple" d="M340 168 V254" marker-end="url(#ah-purple)"/>
+  <text class="t-xs t-b tc-purple end" x="330" y="206">5초까지 기다린다</text>
+  <text class="t-xs t-b tc-purple end" x="330" y="224">멱등 키를 붙인다</text>
+  <path class="ln purple" d="M420 168 V254" marker-end="url(#ah-purple)"/>
+  <text class="t-xs t-b tc-purple" x="430" y="206">실패해도 주문은 받는다</text>
+  <text class="t-xs t-b tc-purple" x="430" y="224">메일은 나중에 다시 보낸다</text>
+
+  <text class="t-l" x="40" y="286">빌려 쓰는</text>
+  <text class="t-l" x="40" y="308">남의 서비스</text>
+
+  <rect class="box purple" x="150" y="262" width="210" height="64" rx="12"/>
+  <use href="#i-coin" x="162" y="276" width="36" height="36" class="ic purple"/>
+  <text class="t-b" x="210" y="290">결제 회사</text>
+  <text class="t-s" x="210" y="310">12,000원 받기</text>
+
+  <rect class="box purple" x="400" y="262" width="210" height="64" rx="12"/>
+  <use href="#i-mail" x="412" y="276" width="36" height="36" class="ic purple"/>
+  <text class="t-b" x="460" y="290">메일 발송 회사</text>
+  <text class="t-s" x="460" y="310">"주문 완료" 메일 보내기</text>
+
+  <text class="t-b mid" x="380" y="374">화살표마다 묻습니다. 무엇이 오가나? 답이 없으면 어떻게 하나?</text>
+</svg>

@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg">
+  <title>규칙이 화면에만 있으면 화면을 거치지 않은 요청에 남의 기록까지 나가고, 규칙이 데이터베이스에 있으면 요청한 사람의 기록만 나간다</title>
+
+  <rect class="panel" x="20" y="20" width="350" height="310" rx="14"/>
+  <text class="t-b" x="36" y="48">규칙이 화면에만 있을 때</text>
+  <rect class="box" x="36" y="62" width="318" height="70" rx="10"/>
+  <use href="#i-user" x="48" y="78" width="34" height="34" class="ic"/>
+  <text class="t-b" x="94" y="90">준호의 요청</text>
+  <text class="t-s" x="94" y="112">화면을 거치지 않고 “기록 전부 주세요”</text>
+  <path class="ln" d="M195 136 V159" marker-end="url(#ah)"/>
+  <rect class="box red" x="36" y="166" width="318" height="150" rx="10"/>
+  <use href="#i-db" x="48" y="174" width="30" height="30" class="ic red"/>
+  <text class="t-b" x="88" y="188">데이터베이스</text>
+  <text class="t-xs" x="88" y="206">규칙 없음: 달라는 대로 내준다</text>
+  <rect class="box" x="48" y="216" width="294" height="26" rx="6"/>
+  <text class="t-s t-ink" x="58" y="234">1번 · 서연 · 어린 왕자</text>
+  <text class="t-xs t-b tc-red end" x="332" y="234">새어 나감</text>
+  <rect class="box" x="48" y="248" width="294" height="26" rx="6"/>
+  <text class="t-s t-ink" x="58" y="266">2번 · 준호 · 15소년 표류기</text>
+  <text class="t-xs end" x="332" y="266">나감</text>
+  <rect class="box" x="48" y="280" width="294" height="26" rx="6"/>
+  <text class="t-s t-ink" x="58" y="298">3번 · 서연 · 홍길동전</text>
+  <text class="t-xs t-b tc-red end" x="332" y="298">새어 나감</text>
+
+  <rect class="panel" x="390" y="20" width="350" height="310" rx="14"/>
+  <text class="t-b" x="406" y="48">규칙이 데이터베이스에 있을 때</text>
+  <rect class="box" x="406" y="62" width="318" height="70" rx="10"/>
+  <use href="#i-user" x="418" y="78" width="34" height="34" class="ic"/>
+  <text class="t-b" x="464" y="90">준호의 요청</text>
+  <text class="t-s" x="464" y="112">화면을 거치지 않고 “기록 전부 주세요”</text>
+  <path class="ln" d="M565 136 V159" marker-end="url(#ah)"/>
+  <rect class="box green" x="406" y="166" width="318" height="150" rx="10"/>
+  <use href="#i-shield" x="418" y="174" width="30" height="30" class="ic green"/>
+  <text class="t-b" x="458" y="188">데이터베이스</text>
+  <text class="t-xs" x="458" y="206">규칙: 주인이 요청한 사람인 행만</text>
+  <rect class="box gray" x="418" y="216" width="294" height="26" rx="6"/>
+  <text class="t-s" x="428" y="234">1번 · 서연 · 어린 왕자</text>
+  <text class="t-xs end" x="702" y="234">막힘</text>
+  <rect class="box" x="418" y="248" width="294" height="26" rx="6"/>
+  <text class="t-s t-ink" x="428" y="266">2번 · 준호 · 15소년 표류기</text>
+  <text class="t-xs t-b tc-green end" x="702" y="266">나감</text>
+  <rect class="box gray" x="418" y="280" width="294" height="26" rx="6"/>
+  <text class="t-s" x="428" y="298">3번 · 서연 · 홍길동전</text>
+  <text class="t-xs end" x="702" y="298">막힘</text>
+</svg>

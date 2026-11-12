@@ -1,0 +1,37 @@
+<svg viewBox="0 0 760 322" xmlns="http://www.w3.org/2000/svg">
+  <title>AI에게 일을 시키기 전에 커밋하고, 결과를 읽어 본 뒤 좋으면 커밋하고 아니면 버려서 시키기 전으로 돌아간다</title>
+  <path class="ln green" d="M665 40 V18 H285 V97" marker-end="url(#ah-green)"/>
+  <text class="t-s mid" x="462" y="40">다음 일도 같은 순서로</text>
+  <path class="ln red dash" d="M665 260 V284 H285 V203" marker-end="url(#ah-red)"/>
+  <text class="t-s mid" x="462" y="306">시키기 전 모습에서 다르게 시킨다</text>
+
+  <rect class="box green" x="20" y="105" width="150" height="90" rx="10"/>
+  <circle class="badge blue" cx="95" cy="127" r="12"/><text class="badge-t" x="95" y="131.5">1</text>
+  <text class="t-b mid" x="95" y="160">시키기 전 커밋</text>
+  <text class="t-mono mid" x="95" y="182">git commit</text>
+
+  <rect class="box blue" x="210" y="105" width="150" height="90" rx="10"/>
+  <circle class="badge blue" cx="285" cy="127" r="12"/><text class="badge-t" x="285" y="131.5">2</text>
+  <text class="t-b mid" x="285" y="160">AI에게 일 하나</text>
+  <text class="t-s mid" x="285" y="181">작게 나눠 시킨다</text>
+
+  <rect class="box yellow" x="400" y="105" width="150" height="90" rx="10"/>
+  <circle class="badge blue" cx="475" cy="127" r="12"/><text class="badge-t" x="475" y="131.5">3</text>
+  <text class="t-b mid" x="475" y="160">읽고 돌려 보기</text>
+  <text class="t-mono mid" x="475" y="182">git diff</text>
+
+  <rect class="box green" x="590" y="40" width="150" height="90" rx="10"/>
+  <circle class="badge blue" cx="665" cy="62" r="12"/><text class="badge-t" x="665" y="66.5">4</text>
+  <text class="t-b mid" x="665" y="95">좋으면 커밋</text>
+  <text class="t-mono mid" x="665" y="117">git commit</text>
+
+  <rect class="box red" x="590" y="170" width="150" height="90" rx="10"/>
+  <circle class="badge blue" cx="665" cy="192" r="12"/><text class="badge-t" x="665" y="196.5">5</text>
+  <text class="t-b mid" x="665" y="225">아니면 버리기</text>
+  <text class="t-mono mid" x="665" y="247">git restore .</text>
+
+  <path class="ln" d="M174 150 H202" marker-end="url(#ah)"/>
+  <path class="ln" d="M364 150 H392" marker-end="url(#ah)"/>
+  <path class="ln" d="M554 138 L584 104" marker-end="url(#ah)"/>
+  <path class="ln" d="M554 162 L584 196" marker-end="url(#ah)"/>
+</svg>

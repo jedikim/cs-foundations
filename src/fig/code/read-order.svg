@@ -1,0 +1,56 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>AI가 준 코드는 들어가고 나오는 것, 바깥과 닿는 곳, 갈림길과 오류 처리, 모르는 줄의 순서로 읽는다</title>
+
+  <rect class="box" x="20" y="16" width="506" height="284" rx="12"/>
+  <rect class="s-blue" x="54" y="101" width="464" height="22" rx="5"/>
+  <rect class="s-warm" x="54" y="125" width="464" height="22" rx="5"/>
+  <rect class="s-red" x="54" y="149" width="464" height="22" rx="5"/>
+  <rect class="s-red" x="54" y="197" width="464" height="22" rx="5"/>
+  <rect class="s-gray" x="54" y="221" width="464" height="22" rx="5"/>
+  <rect class="s-warm" x="54" y="245" width="464" height="46" rx="5"/>
+
+  <text class="t-mono tc-muted end" x="46" y="45">1</text>
+  <text class="t-mono" x="60" y="45">import json</text>
+  <text class="t-mono tc-muted end" x="46" y="69">2</text>
+  <text class="t-mono" x="60" y="69">import os</text>
+  <text class="t-mono tc-muted end" x="46" y="93">3</text>
+  <text class="t-mono tc-muted end" x="46" y="117">4</text>
+  <text class="t-mono t-b" x="60" y="117">def save_orders(orders, path):</text>
+  <text class="t-mono tc-muted end" x="46" y="141">5</text>
+  <text class="t-mono" x="93.700" y="141">if os.path.exists(path):</text>
+  <text class="t-mono tc-muted end" x="46" y="165">6</text>
+  <text class="t-mono t-b" x="127.400" y="165">os.remove(path)</text>
+  <text class="t-mono tc-muted end" x="46" y="189">7</text>
+  <text class="t-mono" x="93.700" y="189">try:</text>
+  <text class="t-mono tc-muted end" x="46" y="213">8</text>
+  <text class="t-mono t-b" x="127.400" y="213">with open(path, "w", encoding="utf-8") as f:</text>
+  <text class="t-mono tc-muted end" x="46" y="237">9</text>
+  <text class="t-mono" x="161.200" y="237">json.dump(orders, f, ensure_ascii=False)</text>
+  <text class="t-mono tc-muted end" x="46" y="261">10</text>
+  <text class="t-mono" x="93.700" y="261">except OSError:</text>
+  <text class="t-mono tc-muted end" x="46" y="285">11</text>
+  <text class="t-mono" x="127.400" y="285">pass</text>
+
+  <circle class="badge blue" cx="546" cy="112" r="11"/><text class="badge-t" x="546" y="116.500">1</text>
+  <text class="t-s t-b tc-blue" x="564" y="117">넣는 것: orders, path</text>
+  <circle class="badge warm" cx="546" cy="136" r="11"/><text class="badge-t" x="546" y="140.500">3</text>
+  <text class="t-s t-b tc-warm" x="564" y="141">갈림길: 파일이 있으면</text>
+  <circle class="badge red" cx="546" cy="160" r="11"/><text class="badge-t" x="546" y="164.500">2</text>
+  <text class="t-s t-b tc-red" x="564" y="165">파일을 지운다</text>
+  <circle class="badge red" cx="546" cy="208" r="11"/><text class="badge-t" x="546" y="212.500">2</text>
+  <text class="t-s t-b tc-red" x="564" y="213">파일을 쓴다</text>
+  <circle class="badge" cx="546" cy="232" r="11"/><text class="badge-t" x="546" y="236.500">4</text>
+  <text class="t-s t-b" x="564" y="237">모르는 줄: AI에게 묻기</text>
+  <circle class="badge warm" cx="546" cy="268" r="11"/><text class="badge-t" x="546" y="272.500">3</text>
+  <text class="t-s t-b tc-warm" x="564" y="273">오류가 나도 조용히 넘어감</text>
+
+  <rect class="panel" x="20" y="316" width="720" height="40" rx="10"/>
+  <circle class="badge blue" cx="44" cy="336" r="11"/><text class="badge-t" x="44" y="340.500">1</text>
+  <text class="t-s" x="62" y="341">들어가고 나오는 것</text>
+  <circle class="badge red" cx="214" cy="336" r="11"/><text class="badge-t" x="214" y="340.500">2</text>
+  <text class="t-s" x="232" y="341">바깥과 닿는 곳</text>
+  <circle class="badge warm" cx="364" cy="336" r="11"/><text class="badge-t" x="364" y="340.500">3</text>
+  <text class="t-s" x="382" y="341">갈림길과 오류 처리</text>
+  <circle class="badge" cx="544" cy="336" r="11"/><text class="badge-t" x="544" y="340.500">4</text>
+  <text class="t-s" x="562" y="341">모르는 줄은 AI에게</text>
+</svg>

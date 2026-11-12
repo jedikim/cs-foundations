@@ -1,0 +1,65 @@
+<svg viewBox="0 0 760 438" xmlns="http://www.w3.org/2000/svg">
+  <title>코딩 AI에게 한 줄을 시키면 논문의 생각들이 이번 입력, 모델, 미리 해 둔 학습, 모델이 쓴 글의 네 자리에 놓인다</title>
+
+  <rect class="box blue" x="20" y="16" width="220" height="58" rx="12"/>
+  <use href="#i-user" x="30" y="25" width="40" height="40" class="ic blue"/>
+  <text class="t-b" x="80" y="41">버튼이 안 눌려.</text>
+  <text class="t-b" x="80" y="62">고쳐 줘.</text>
+
+  <rect class="box warm" x="270" y="16" width="470" height="58" rx="12"/>
+  <text class="t-s t-b tc-warm" x="286" y="39">미리 해 둔 학습이 가중치를 만든다</text>
+  <text class="t-s" x="286" y="60">이어 쓰기 연습(GPT) → 사람의 평가로 다듬기(RLHF, DPO)</text>
+
+  <path class="ln blue" d="M130 78 V92" marker-end="url(#ah-blue)"/>
+  <path class="ln warm" d="M395 78 V92" marker-end="url(#ah-warm)"/>
+
+  <rect class="panel blue" x="20" y="100" width="220" height="270" rx="14"/>
+  <text class="t-b" x="36" y="126">이번 입력</text>
+  <text class="t-s" x="36" y="146">쓸 때마다 달라진다</text>
+  <rect class="box" x="32" y="160" width="196" height="58" rx="9"/>
+  <text class="t-b" x="44" y="184">요청과 예시</text>
+  <text class="t-xs" x="44" y="204">GPT-3의 퓨샷</text>
+  <rect class="box" x="32" y="226" width="196" height="58" rx="9"/>
+  <text class="t-b" x="44" y="250">찾아 온 자료</text>
+  <text class="t-xs" x="44" y="270">RAG</text>
+  <rect class="box" x="32" y="292" width="196" height="58" rx="9"/>
+  <text class="t-b" x="44" y="316">도구가 돌려준 결과</text>
+  <text class="t-xs" x="44" y="336">ReAct의 관찰</text>
+
+  <path class="ln" d="M244 235 H262" marker-end="url(#ah)"/>
+
+  <rect class="panel purple" x="270" y="100" width="250" height="270" rx="14"/>
+  <text class="t-b" x="286" y="126">모델</text>
+  <text class="t-s" x="286" y="146">가중치로 계산한다</text>
+  <text class="t-b" x="286" y="180">토큰을 벡터로</text>
+  <text class="t-xs" x="286" y="198">Word2Vec</text>
+  <path class="ln thin muted" d="M286 208 H504"/>
+  <text class="t-b" x="286" y="232">서로 한 번에 보기</text>
+  <text class="t-xs" x="286" y="250">어텐션, Transformer</text>
+  <path class="ln thin muted" d="M286 260 H504"/>
+  <text class="t-b" x="286" y="284">층마다 지름길</text>
+  <text class="t-xs" x="286" y="302">ResNet</text>
+  <path class="ln thin muted" d="M286 312 H504"/>
+  <text class="t-b" x="286" y="336">메모리를 덜 오가며 빨리</text>
+  <text class="t-xs" x="286" y="354">FlashAttention 같은 방법</text>
+
+  <path class="ln" d="M524 155 H542" marker-end="url(#ah)"/>
+
+  <rect class="box green" x="550" y="100" width="190" height="110" rx="14"/>
+  <text class="t-b" x="566" y="126">모델이 쓴 글</text>
+  <text class="t-s" x="566" y="148">다음 토큰을 하나씩</text>
+  <text class="t-s" x="566" y="166">이어 쓴다 (GPT)</text>
+  <text class="t-s t-b tc-green" x="566" y="192">답, 또는 도구 요청</text>
+
+  <path class="ln green" d="M645 214 V262" marker-end="url(#ah-green)"/>
+  <text class="t-xs" x="656" y="243">도구 요청</text>
+
+  <rect class="box gray" x="550" y="270" width="190" height="100" rx="14"/>
+  <use href="#i-terminal" x="560" y="300" width="40" height="40" class="ic"/>
+  <text class="t-b" x="612" y="300">도구</text>
+  <text class="t-s" x="612" y="322">파일 읽기</text>
+  <text class="t-s" x="612" y="342">명령 돌리기</text>
+
+  <path class="ln blue" d="M645 374 V396 H130 V378" marker-end="url(#ah-blue)"/>
+  <text class="t-s mid" x="388" y="420">도구가 실제로 돌린 결과가 다시 입력에 들어간다 (ReAct의 되풀이)</text>
+</svg>

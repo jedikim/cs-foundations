@@ -1,0 +1,35 @@
+<svg viewBox="0 0 760 318" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 버그를 두고 코드를 고친 길과 테스트를 고친 길은 둘 다 4 passed로 끝나지만, 바뀐 파일을 보면 테스트를 고친 쪽은 별 5개를 더는 확인하지 않는다</title>
+
+  <rect class="box" x="20" y="16" width="350" height="252" rx="16"/>
+  <use href="#i-check" x="34" y="28" width="28" height="28" class="ic green"/>
+  <text class="t-l" x="70" y="49">코드를 고쳤다</text>
+  <text class="t-mono t-b" x="36" y="84">records.py</text>
+  <rect class="s-red" x="32" y="94" width="326" height="26" rx="5"/>
+  <text class="t-mono tc-red" x="44" y="112">- if not 1 &lt;= stars &lt; 5:</text>
+  <rect class="s-green" x="32" y="124" width="326" height="26" rx="5"/>
+  <text class="t-mono tc-green" x="44" y="142">+ if not 1 &lt;= stars &lt;= 5:</text>
+  <text class="t-mono t-b" x="36" y="180">test_records.py</text>
+  <text class="t-s" x="176" y="180">바뀐 줄 없음</text>
+  <rect class="box gray" x="32" y="196" width="326" height="34" rx="8"/>
+  <text class="t-mono" x="44" y="218">$ pytest</text>
+  <text class="t-mono t-b tc-green" x="150" y="218">4 passed</text>
+  <text class="t-s t-b tc-green" x="36" y="254">별 5개가 정말 저장된다</text>
+
+  <rect class="box" x="390" y="16" width="350" height="252" rx="16"/>
+  <use href="#i-cross" x="404" y="28" width="28" height="28" class="ic red"/>
+  <text class="t-l" x="440" y="49">테스트를 고쳤다</text>
+  <text class="t-mono t-b" x="406" y="84">records.py</text>
+  <text class="t-s" x="504" y="84">바뀐 줄 없음</text>
+  <text class="t-mono t-b" x="406" y="112">test_records.py</text>
+  <rect class="s-red" x="402" y="122" width="326" height="26" rx="5"/>
+  <text class="t-mono tc-red" x="414" y="140">- assert save_stars(5) == 5</text>
+  <rect class="s-green" x="402" y="152" width="326" height="26" rx="5"/>
+  <text class="t-mono tc-green" x="414" y="170">+ assert save_stars(4) == 4</text>
+  <rect class="box gray" x="402" y="196" width="326" height="34" rx="8"/>
+  <text class="t-mono" x="414" y="218">$ pytest</text>
+  <text class="t-mono t-b tc-green" x="520" y="218">4 passed</text>
+  <text class="t-s t-b tc-red" x="406" y="254">별 5개는 아무도 확인하지 않는다</text>
+
+  <text class="t-s mid" x="380" y="296">끝줄은 둘 다 4 passed입니다. 차이는 어느 파일의 어느 줄이 바뀌었는지에만 있습니다.</text>
+</svg>

@@ -1,0 +1,57 @@
+<svg viewBox="0 0 760 404" xmlns="http://www.w3.org/2000/svg">
+  <title>AI 도구가 하는 읽기, 쓰기, 명령 실행, 인터넷마다 정해 둘 것이 있고, 지우기·데이터베이스 고치기·내보내기·결제는 사람이 직접 누르며 쓴 만큼 나가는 돈에는 한도를 건다</title>
+
+  <text class="t-s t-b" x="32" y="36">AI 도구가 하는 일</text>
+  <text class="t-s t-b" x="284" y="36">정해 둘 것</text>
+
+  <rect class="box" x="20" y="48" width="470" height="60" rx="12"/>
+  <use href="#i-eye" x="32" y="60" width="36" height="36" class="ic blue"/>
+  <text class="t-b" x="80" y="74">읽기</text>
+  <text class="t-s" x="80" y="95">파일을 열어 본다</text>
+  <text class="t-s t-b t-ink" x="284" y="84">비밀 파일은 막는다</text>
+
+  <rect class="box" x="20" y="116" width="470" height="60" rx="12"/>
+  <use href="#i-pencil" x="32" y="128" width="36" height="36" class="ic green"/>
+  <text class="t-b" x="80" y="142">쓰기</text>
+  <text class="t-s" x="80" y="163">파일을 만들고 고친다</text>
+  <text class="t-s t-b t-ink" x="284" y="152">프로젝트 폴더 안에서만</text>
+
+  <rect class="box" x="20" y="184" width="470" height="60" rx="12"/>
+  <use href="#i-terminal" x="32" y="196" width="36" height="36" class="ic warm"/>
+  <text class="t-b" x="80" y="210">명령 실행</text>
+  <text class="t-s" x="80" y="231">터미널 명령을 대신 친다</text>
+  <text class="t-s t-b t-ink" x="284" y="220">지우기와 설치는 묻게 한다</text>
+
+  <rect class="box" x="20" y="252" width="470" height="60" rx="12"/>
+  <use href="#i-globe" x="32" y="264" width="36" height="36" class="ic purple"/>
+  <text class="t-b" x="80" y="278">인터넷</text>
+  <text class="t-s" x="80" y="299">웹을 읽고 밖으로 보낸다</text>
+  <text class="t-s t-b t-ink" x="284" y="288">올리기와 보내기는 묻게 한다</text>
+
+  <text class="t-s t-b" x="514" y="36">내가 직접 누르는 네 가지</text>
+
+  <rect class="box red" x="510" y="48" width="230" height="60" rx="12"/>
+  <use href="#i-trash" x="520" y="64" width="28" height="28" class="ic red"/>
+  <text class="t-b" x="558" y="74">지우기</text>
+  <text class="t-xs" x="558" y="95">파일, 폴더, 저장된 기록</text>
+
+  <rect class="box red" x="510" y="116" width="230" height="60" rx="12"/>
+  <use href="#i-db" x="520" y="132" width="28" height="28" class="ic red"/>
+  <text class="t-b" x="558" y="142">데이터베이스 고치기</text>
+  <text class="t-xs" x="558" y="163">Git으로 되돌릴 수 없다</text>
+
+  <rect class="box red" x="510" y="184" width="230" height="60" rx="12"/>
+  <use href="#i-up" x="520" y="200" width="28" height="28" class="ic red"/>
+  <text class="t-b" x="558" y="210">내보내기</text>
+  <text class="t-xs" x="558" y="231">인터넷에 올리기, 메시지 보내기</text>
+
+  <rect class="box red" x="510" y="252" width="230" height="60" rx="12"/>
+  <use href="#i-coin" x="520" y="268" width="28" height="28" class="ic red"/>
+  <text class="t-b" x="558" y="278">결제</text>
+  <text class="t-xs" x="558" y="299">돈이 나가는 모든 일</text>
+
+  <rect class="box yellow" x="20" y="324" width="720" height="40" rx="10"/>
+  <text class="t-b mid" x="380" y="349">쓴 만큼 나가는 돈에는 지출 한도: 넘으면 멈춘다</text>
+
+  <text class="t-s mid" x="380" y="388">되돌릴 수 있는 일은 넓게 허락하고, 되돌릴 수 없는 일은 묻게 합니다.</text>
+</svg>

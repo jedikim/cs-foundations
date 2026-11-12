@@ -1,0 +1,30 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>오류는 두 곳에 뜬다. 서버 쪽 코드와 켜는 과정의 오류는 터미널에, 화면 쪽 코드의 오류는 브라우저 콘솔에 찍힌다</title>
+
+  <rect class="panel" x="20" y="20" width="350" height="230" rx="14"/>
+  <use href="#i-terminal" x="34" y="30" width="32" height="32" class="ic"/>
+  <text class="t-l" x="76" y="53">터미널</text>
+  <text class="t-s" x="34" y="82">개발 서버를 켠 창</text>
+  <rect class="box" x="34" y="94" width="322" height="100" rx="8"/>
+  <text class="t-mono" x="46" y="120">npm run dev</text>
+  <text class="t-mono t-b tc-red" x="46" y="148">Error: Cannot find module 'express'</text>
+  <text class="t-mono tc-muted" x="46" y="174">Require stack: …</text>
+  <text class="t-s t-ink" x="34" y="218">서버 쪽 코드와 켜는 과정의 오류</text>
+  <text class="t-xs" x="34" y="238">켜지지 않거나 저장이 안 될 때 본다</text>
+
+  <rect class="panel blue" x="390" y="20" width="350" height="230" rx="14"/>
+  <use href="#i-browser" x="404" y="30" width="32" height="32" class="ic blue"/>
+  <text class="t-l" x="446" y="53">브라우저 콘솔</text>
+  <text class="t-s" x="404" y="82">개발자 도구의 Console 탭</text>
+  <rect class="box" x="404" y="94" width="322" height="100" rx="8"/>
+  <text class="t-mono t-b tc-red" x="416" y="116">Uncaught TypeError: Cannot read</text>
+  <text class="t-mono t-b tc-red" x="416" y="136">properties of null (reading</text>
+  <text class="t-mono t-b tc-red" x="416" y="156">'addEventListener')</text>
+  <text class="t-mono tc-muted" x="416" y="182">    at app.js:3:32</text>
+  <text class="t-s t-ink" x="404" y="218">화면 쪽 코드의 오류</text>
+  <text class="t-xs" x="404" y="238">버튼이 먹통일 때 먼저 본다</text>
+
+  <rect class="box yellow" x="20" y="266" width="720" height="44" rx="10"/>
+  <use href="#i-robot" x="32" y="273" width="30" height="30" class="ic"/>
+  <text x="74" y="293">AI에게는 두 곳의 글을 줄이지 말고 그대로 붙여 준다</text>
+</svg>

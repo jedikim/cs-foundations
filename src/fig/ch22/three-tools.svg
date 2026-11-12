@@ -45,7 +45,7 @@
   <text class="t-mono" x="293" y="214">10:03:13 ERROR</text>
   <text class="t-mono" x="293" y="238">event=pay_failed</text>
   <text class="t-mono" x="293" y="262">request_id=r7</text>
-  <text class="t-mono" x="293" y="286">error=timeout</text>
+  <text class="t-mono" x="293" y="286">error_code=timeout</text>
   <text class="t-b mid" x="380" y="348">그때 무슨 일이, 왜?</text>
 
   <rect class="box warm" x="514" y="122" width="226" height="242" rx="14"/>

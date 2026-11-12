@@ -1,0 +1,37 @@
+<svg viewBox="0 0 760 222" xmlns="http://www.w3.org/2000/svg">
+  <title>커밋과 커밋 사이에서만 AI가 일한다. 시키기 전에 커밋해 두고, 확인을 통과하면 새 커밋을 만들고, 걸리면 마지막 커밋으로 되돌린다</title>
+
+  <text class="t-xs mid" x="280" y="30">시키기 전에 확인</text>
+  <circle class="badge blue" cx="280" cy="52" r="12"/><text class="badge-t" x="280" y="56.500">1</text>
+  <text class="t-xs mid" x="392" y="30">조각 하나 시키기</text>
+  <circle class="badge blue" cx="392" cy="52" r="12"/><text class="badge-t" x="392" y="56.500">2</text>
+  <text class="t-xs mid" x="522" y="30">세 가지로 확인</text>
+  <circle class="badge blue" cx="522" cy="52" r="12"/><text class="badge-t" x="522" y="56.500">3</text>
+  <text class="t-xs mid" x="684" y="30">통과하면 커밋</text>
+  <circle class="badge blue" cx="684" cy="52" r="12"/><text class="badge-t" x="684" y="56.500">4</text>
+
+  <path class="ln green" d="M60 100 H280"/>
+  <circle class="solid green" cx="60" cy="100" r="9"/>
+  <circle class="solid green" cx="170" cy="100" r="9"/>
+  <circle class="solid green" cx="280" cy="100" r="9"/>
+  <text class="t-s mid" x="60" y="130">목록 보기</text>
+  <text class="t-s mid" x="170" y="130">기록 추가</text>
+  <text class="t-s end" x="268" y="130">남기기</text>
+
+  <path class="ln warm dash" d="M292 100 H490"/>
+  <text class="t-s t-b tc-warm mid" x="392" y="130">AI가 고치는 중</text>
+  <text class="t-xs mid" x="392" y="148">아직 커밋이 아니다</text>
+
+  <rect class="box blue" x="494" y="84" width="56" height="32" rx="8"/>
+  <text class="t-b mid" x="522" y="105">확인</text>
+
+  <path class="ln green" d="M553 100 H670" marker-end="url(#ah-green)"/>
+  <circle class="solid green" cx="684" cy="100" r="9"/>
+  <text class="t-s t-b tc-green mid" x="684" y="130">별점 주기 추가</text>
+
+  <path class="ln red" d="M522 120 V176 H280 V114" marker-end="url(#ah-red)"/>
+  <text class="t-s t-b tc-red mid" x="401" y="200">걸리면 git restore . 로 마지막 커밋에 돌아온다</text>
+
+  <circle class="solid green" cx="30" cy="196" r="6"/>
+  <text class="t-xs" x="42" y="200">커밋</text>
+</svg>
