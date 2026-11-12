@@ -139,14 +139,15 @@
 </div>
 <section class="level2" id="why">
 <h2><span class="sec-n">17.1</span>파일 하나로는 왜 안 될까<a aria-label="이 절의 링크" class="anchor" href="#why">#</a></h2>
-<p>가게의 주문을 <code>orders.json</code> 파일 하나에 적는다고 합시다. 손님이 늘면 세 가지 사고가 납니다.</p>
+<p>그러면 컴퓨터 파일 하나에 적으면 어떨까요? 혼자 쓰는 메모라면 그것으로 충분합니다. 그런데 쓰는 사람이 늘면 세 가지 사고가 납니다.</p>
 <ol type="1">
-<li><strong>여럿이 동시에 고칩니다.</strong> 두 요청이 같은 파일을 각자 읽어서 고친 뒤 저장하면, 나중에 저장한 쪽이 먼저 저장한 쪽을 덮어씁니다.</li>
-<li><strong>쓰다가 꺼집니다.</strong> 파일을 반쯤 썼을 때 전원이 나가면 앞부분만 새 내용인 깨진 파일이 남습니다.</li>
-<li><strong>찾기가 느립니다.</strong> 주문 100만 건에서 한 사람의 주문을 찾으려면 처음부터 끝까지 읽어야 합니다.</li>
+<li><strong>여럿이 동시에 고칩니다.</strong> 두 선생님이 같은 파일을 각자 열어서 고칩니다. 나중에 저장한 쪽이 먼저 저장한 쪽을 덮어씁니다.</li>
+<li><strong>쓰다가 꺼집니다.</strong> 반쯤 저장했을 때 전기가 나가면 깨진 파일이 남습니다.</li>
+<li><strong>찾기가 느립니다.</strong> 한 명을 찾으려면 첫 줄부터 차례로 읽어야 합니다.</li>
 </ol>
 <div class="callout analogy"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bulb"></use></svg>비유로 이해하기 · 은행 창구</div>
-<p>은행은 같은 문제를 오래전에 풀었습니다. 손님은 금고 속 장부를 직접 만지지 못합니다. 원하는 일을 신청서에 적어 내면 <strong>창구 직원</strong>이 장부를 대신 고칩니다. 직원은 손님을 줄 세우고, 처리하다 만 일은 없던 일로 되돌리고, 찾아보기를 두어 원하는 쪽을 바로 폅니다.</p>
+<p>은행은 같은 문제를 오래전에 풀었습니다. 손님마다 돈이 얼마 있는지 적어 둔 장부는 금고 안에 있습니다. 손님은 장부를 직접 만지지 못합니다. 하고 싶은 일을 신청서에 적어 내면 <strong>창구 직원</strong>이 대신 고칩니다.</p>
+<p>직원은 세 가지를 책임집니다. 손님이 한꺼번에 와도 줄을 세웁니다. 하다가 만 일은 없던 일로 되돌립니다. 장부에 찾아보기를 만들어 원하는 쪽을 바로 폅니다.</p>
 </div>
 <figure class="fig" id="fig-bank-map"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 430" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>은행의 손님·신청서·창구 직원·금고 속 장부가 앱·SQL·DBMS·디스크의 표에 대응한다</title>
@@ -223,21 +224,22 @@
   <circle class="badge green" cx="536" cy="394" r="11"/><text class="badge-t" x="536" y="398.500">3</text>
   <text class="t-b" x="556" y="390">찾아보기를 둔다</text>
   <text class="t-s" x="556" y="409">수백만 줄에서도 바로 찾게</text>
-</svg></div><figcaption><b>그림 17-1</b>은행과 데이터베이스의 대응. 앱은 장부를 직접 고치지 않고 창구 직원에게 요청합니다.</figcaption></figure>
-<p><strong>데이터베이스</strong>(database, 줄여서 DB)는 이 장부 묶음입니다. 장부를 지키는 창구 직원 프로그램은 <strong>DBMS</strong>(Database Management System, 데이터베이스 관리 시스템)라고 하며, PostgreSQL, MySQL, SQLite가 대표적입니다. <a href="ch01.html">1장</a>의 주방으로 치면 창고 앞에 창구를 하나 차린 셈입니다.</p>
-<p>앱은 <strong>SQL</strong>(Structured Query Language)이라는 언어로 쓴 신청서를 DBMS에 보냅니다. 이 장에서는 데이터를 표 모양으로 담는 <strong>관계형 데이터베이스</strong>(relational database)를 다룹니다.</p>
-<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
-<p>혼자 쓰는 설정은 파일이면 충분합니다. 작은 앱은 파일 하나에 통째로 담기는 DB인 SQLite로 시작해도 됩니다.</p>
-</div>
-<details class="deep"><summary><small>한 걸음 더</small>사진과 동영상은 어디에 둘까: 객체 저장소</summary><div class="deep-body">
-<p>사진이나 영상처럼 덩치 큰 파일은 DB에 넣지 않고 <strong>객체 저장소</strong>(object storage)에 둡니다. 이름표(키) 하나에 파일 하나를 통째로 맡기는 큰 보관함입니다. DB에는 그 파일의 주소만 적습니다.</p>
-<p>두 곳에 쓰는 일은 한 묶음으로 처리되지 않습니다. 파일만 올라가고 DB 기록이 실패하면 주인 없는 파일이 남습니다. 그래서 파일을 먼저 올린 뒤 DB에 주소를 적고, 주인 없는 파일은 나중에 모아 지웁니다.</p>
-</div></details>
+</svg></div><figcaption><b>그림 17-1</b>은행과 데이터베이스를 나란히 놓은 그림. 앱은 장부를 직접 고치지 않고 직원에게 부탁합니다.</figcaption></figure>
+<p>컴퓨터에서도 똑같이 합니다. 그림의 아랫줄을 왼쪽부터 봅시다.</p>
+<ul>
+<li><strong>내 앱</strong>은 손님입니다. 정보를 읽고 쓰려는 프로그램입니다.</li>
+<li><strong>SQL</strong>은 신청서입니다. 부탁할 일을 적는 언어입니다.</li>
+<li><strong>DBMS</strong>는 창구 직원입니다. 장부를 혼자 맡아 지키는 프로그램입니다.</li>
+<li><strong>디스크의 표</strong>는 금고 속 장부입니다. <a href="ch01.html">1장</a>의 창고인 저장장치(디스크)에 적으므로 전원을 꺼도 남습니다.</li>
+</ul>
+<p>이 장부 묶음이 <strong>데이터베이스</strong>(database)입니다. 줄여서 DB라고 부릅니다. DBMS는 "데이터베이스 관리 시스템"(Database Management System)을 줄인 말입니다. PostgreSQL, SQLite 같은 프로그램이 널리 쓰입니다. 평소에는 장부와 직원을 합쳐서 데이터베이스라고 부를 때가 많습니다.</p>
 </section>
 <section class="level2" id="table">
 <h2><span class="sec-n">17.2</span>표, 행, 열: 칸이 정해진 장부<a aria-label="이 절의 링크" class="anchor" href="#table">#</a></h2>
-<p>장부는 아무렇게나 적는 공책이 아닙니다. 칸의 제목이 미리 인쇄되어 있습니다. DB도 데이터를 칸이 정해진 <strong>테이블</strong>(table, 표)에 담습니다.</p>
-<p>표의 세로 칸이 <strong>열</strong>(column), 가로 한 줄이 <strong>행</strong>(row)입니다. 작은 가게의 회원 표와 주문 표를 봅시다.</p>
+<p>출석부를 떠올려 봅시다. 맨 윗줄에 "번호", "이름" 같은 칸 제목이 있습니다. 그 아래로 학생이 한 줄에 한 명씩 적혀 있습니다. 데이터베이스도 정보를 이런 <strong>표</strong>에 담습니다. 영어로는 테이블(table)이라고 합니다.</p>
+<p>표의 가로 한 줄을 <strong>행</strong>(row)이라고 합니다. 출석부에서는 학생 한 명이 한 행입니다.</p>
+<p>세로 한 칸은 <strong>열</strong>(column)이라고 합니다. "이름" 열에는 이름만 적듯이, 한 열에는 같은 종류의 값만 들어갑니다.</p>
+<p>동네에 컴퓨터 용품을 파는 작은 가게가 있습니다. 가게는 표 두 개를 씁니다. 단골손님을 적는 회원 표와, 누가 무엇을 샀는지 적는 주문 표입니다.</p>
 <figure class="fig" id="fig-two-tables"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>회원 표와 주문 표. 기본 키 id가 행을 구분하고, 주문 표의 외래 키 member_id가 회원 표의 id를 가리킨다</title>
   <text class="t-l" x="20" y="26">회원 표 members</text>
@@ -329,26 +331,60 @@
   <text class="t-b tc-red" x="336" y="318">거절</text>
   <text class="t-s" x="378" y="318">회원 표에 9번이 없다</text>
 </svg></div><figcaption><b>그림 17-2</b>회원 표와 주문 표. 이 장 끝까지 이 두 표를 예로 씁니다.</figcaption></figure>
-<p>표에 어떤 열이 있고 각 열에 어떤 값이 들어갈 수 있는지 정한 양식을 <strong>스키마</strong>(schema)라고 합니다. 주문 표의 스키마는 이렇게 적습니다.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb1-1"><span class="kw">CREATE</span> <span class="kw">TABLE</span> orders (</span>
-<span id="cb1-2">  <span class="kw">id</span>        <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
-<span id="cb1-3">  member_id <span class="dt">INTEGER</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> members(<span class="kw">id</span>),</span>
-<span id="cb1-4">  item      TEXT    <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
-<span id="cb1-5">  amount    <span class="dt">INTEGER</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">CHECK</span> (amount <span class="op">&gt;=</span> <span class="dv">0</span>)</span>
-<span id="cb1-6">);</span></code></pre></div>
-<ul>
-<li><code>INTEGER</code>, <code>TEXT</code>는 <strong>타입</strong>(type)입니다. 정수 칸에 글자를 적으려 하면 직원이 신청서를 돌려보냅니다. 금액은 원 단위 정수로 둡니다. 소수는 <a href="ch02.html#float">2장</a>에서 본 것처럼 오차가 생깁니다.</li>
-<li><code>PRIMARY KEY</code>는 <strong>기본 키</strong>(primary key)입니다. 행마다 겹치지 않는 번호를 붙여 "바로 그 행"을 가리킵니다. <a href="ch08.html#map">8장</a>의 ID입니다.</li>
-<li><code>REFERENCES members(id)</code>는 <strong>외래 키</strong>(foreign key)입니다. 다른 표의 기본 키를 적어 두는 칸입니다. 회원 표에 없는 9번을 적으려 하면 거절됩니다.</li>
-<li><code>NOT NULL</code>(비워 둘 수 없음), <code>CHECK</code>(조건을 지켜야 함), <code>UNIQUE</code>(같은 값이 둘일 수 없음) 같은 규칙을 <strong>제약 조건</strong>(constraint)이라고 합니다.</li>
-</ul>
-<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · 규칙은 코드가 아니라 장부에</div>
-<p>"같은 이메일이 있는지 확인하고, 없으면 저장"을 코드로만 하면 두 요청이 동시에 확인을 통과해 둘 다 저장됩니다. <code>UNIQUE</code> 제약은 장부에 적는 순간 직원이 판정하므로 하나만 통과합니다.</p>
+<p>표와 열의 이름은 보통 영어로 짓습니다. 회원 표 <code>members</code>의 열은 번호(<code>id</code>), 이름(<code>name</code>), 전화번호(<code>phone</code>)입니다. 주문 표 <code>orders</code>의 열은 주문 번호(<code>id</code>), 회원 번호(<code>member_id</code>), 물건(<code>item</code>), 금액(<code>amount</code>)입니다. 서연의 전화번호 칸에 적힌 <code>NULL</code>은 비어 있다는 표시이고, 뒤에서 다시 봅니다.</p>
+<section class="level3" id="행마다-붙이는-번호-기본-키">
+<h3>행마다 붙이는 번호: 기본 키</h3>
+<p>한 학교에 김민지가 두 명 있으면 이름만으로는 누구인지 알 수 없습니다. 그래서 학생마다 겹치지 않는 학번을 붙입니다.</p>
+<p>표도 행마다 겹치지 않는 번호를 붙여서 "바로 그 행"을 가리킵니다. 이 번호를 <strong>기본 키</strong>(primary key)라고 합니다. 그림에서 파란색으로 칠한 <code>id</code> 열입니다.</p>
+</section>
+<section class="level3" id="다른-표를-가리키는-번호-외래-키">
+<h3>다른 표를 가리키는 번호: 외래 키</h3>
+<p>주문 표에는 손님 이름이 없습니다. 대신 <code>member_id</code> 칸에 회원 표의 <code>id</code>를 적습니다. 101번 주문의 <code>member_id</code>는 1이므로 키보드를 산 사람은 1번 회원 김민지입니다. 이렇게 다른 표의 기본 키를 적어 두는 칸을 <strong>외래 키</strong>(foreign key)라고 합니다.</p>
+<p>직원(DBMS)은 이 칸도 지킵니다. 회원 표에 없는 9번을 적은 주문은 거절합니다.</p>
+</section>
+<section class="level3" id="칸마다-정해-둔-규칙">
+<h3>칸마다 정해 둔 규칙</h3>
+<p>표를 만들 때는 어떤 열을 둘지, 칸마다 무엇을 적을 수 있는지 미리 정합니다. 이 양식을 <strong>스키마</strong>(schema)라고 합니다. 주문 표의 스키마는 이렇습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>열</th>
+<th>적을 수 있는 값</th>
+<th>규칙</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>정수</td>
+<td>기본 키. 겹치면 안 됨</td>
+</tr>
+<tr>
+<td><code>member_id</code></td>
+<td>정수</td>
+<td>회원 표에 있는 번호만</td>
+</tr>
+<tr>
+<td><code>item</code></td>
+<td>글자</td>
+<td>비워 둘 수 없음</td>
+</tr>
+<tr>
+<td><code>amount</code></td>
+<td>정수</td>
+<td>비워 둘 수 없음. 0 이상</td>
+</tr>
+</tbody>
+</table></div>
+<p>금액 칸에 "비쌈"이라고 글자를 적으려 하면 직원이 신청서를 돌려보냅니다. "비워 둘 수 없음", "0 이상" 같은 규칙은 <strong>제약 조건</strong>(constraint)이라고 합니다. 규칙을 어긴 값은 장부에 들어가지 못합니다.</p>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · 규칙은 표에 적어 둡니다</div>
+<p>게임 닉네임이 겹치면 안 된다면 "겹치면 안 됨"을 표의 규칙으로 적어 둡니다. 두 사람이 같은 닉네임을 동시에 신청해도 직원이 적는 순간에 검사하므로 한 명만 통과합니다.</p>
 </div>
+</section>
 </section>
 <section class="level2" id="normalize">
 <h2><span class="sec-n">17.3</span>같은 사실은 한 곳에만: 정규화<a aria-label="이 절의 링크" class="anchor" href="#normalize">#</a></h2>
-<p>표를 왜 둘로 나눴을까요? 주문 표 하나에 이름과 전화번호까지 적으면 편할 것 같습니다. 그렇게 해 봅시다.</p>
+<p>표를 왜 둘로 나눴을까요? 주문 표 하나에 이름과 전화번호까지 적으면 더 편할 것 같습니다. 그렇게 해 봅시다.</p>
 <figure class="fig" id="fig-one-big-table"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>주문 표 하나에 회원 이름과 전화번호까지 적으면 고칠 때, 지울 때, 넣을 때 각각 문제가 생긴다</title>
   <text class="t-l" x="20" y="34">주문 표 하나에 전부 적으면</text>
@@ -419,25 +455,37 @@
   <circle class="badge red" cx="462" cy="228" r="11"/><text class="badge-t" x="462" y="232.5">3</text>
   <text class="t-b" x="482" y="233">넣을 때 — 주문 없는 회원</text>
   <text class="t-s" x="482" y="254">서연은 적을 줄이 없다</text>
-</svg></div><figcaption><b>그림 17-3</b>민지의 전화번호가 주문마다 되풀이됩니다. 같은 사실이 여러 곳에 있으면 고칠 때, 지울 때, 넣을 때 모두 탈이 납니다.</figcaption></figure>
-<p>민지가 번호를 바꿨는데 한 줄만 고치면 장부에는 번호가 두 가지 남습니다. 준호의 하나뿐인 주문을 지우면 준호의 연락처도 사라집니다. 아직 주문하지 않은 서연은 적을 줄조차 없습니다.</p>
-<p>원인은 하나입니다. "민지의 전화번호"라는 사실 하나가 세 군데에 적혀 있습니다. 그래서 사실마다 주인 표를 하나 정하고 표를 나눕니다. 이 일을 <strong>정규화</strong>(normalization)라고 합니다. 앞 절의 두 표가 그 결과입니다.</p>
+</svg></div><figcaption><b>그림 17-3</b>주문 표 하나에 전부 적은 모습. 민지의 전화번호가 주문마다 되풀이됩니다.</figcaption></figure>
+<p>이 표에서는 세 가지 탈이 납니다.</p>
+<ol type="1">
+<li><strong>고칠 때.</strong> 민지가 전화번호를 바꿨습니다. 민지의 주문은 세 줄인데 첫 줄만 고쳤습니다. 이제 민지의 번호가 두 가지라서 어느 쪽이 맞는지 알 수 없습니다.</li>
+<li><strong>지울 때.</strong> 준호의 주문은 102번 하나뿐입니다. 이 주문을 지우면 준호의 연락처도 함께 사라집니다.</li>
+<li><strong>넣을 때.</strong> 서연은 회원이지만 아직 아무것도 사지 않았습니다. 주문이 없으니 서연을 적을 줄이 없습니다.</li>
+</ol>
+<p>원인은 하나입니다. "민지의 전화번호"라는 사실 하나가 세 군데에 적혀 있습니다.</p>
+<p>그래서 사실마다 적을 곳을 한 군데로 정하고 표를 나눕니다. 전화번호는 회원 표에만 적고, 주문 표에서는 회원 번호로 가리킵니다. 이 일을 <strong>정규화</strong>(normalization)라고 합니다. 앞 절의 두 표가 그 결과입니다.</p>
 <div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
 <p><strong>한 가지 사실은 한 곳에만 적고, 다른 표에서는 번호(키)로 가리킵니다.</strong> 그러면 고칠 곳도 한 곳입니다.</p>
-</div>
-<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 복사해 둬야 하는 것도 있습니다</div>
-<p>주문할 때의 배송 주소와 결제 금액은 <strong>그때의 사실</strong>입니다. 회원이 이사하거나 가격이 올라도 지난 주문은 바뀌면 안 됩니다. 이런 값은 주문 표에 따로 적어 둡니다.</p>
 </div>
 </section>
 <section class="level2" id="sql">
 <h2><span class="sec-n">17.4</span>SQL: 원하는 것만 적는 신청서<a aria-label="이 절의 링크" class="anchor" href="#sql">#</a></h2>
-<p>은행 신청서에 "금고 셋째 칸 장부의 40쪽을 펴서"라고 적지는 않습니다. <strong>무엇을 원하는지</strong>만 적고, 어떻게 찾을지는 직원이 정합니다. SQL도 그렇습니다. DB에 보내는 SQL 한 문장을 <strong>쿼리</strong>(query)라고 합니다.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><span class="kw">SELECT</span> item, amount <span class="kw">FROM</span> orders <span class="kw">WHERE</span> amount <span class="op">&gt;=</span> <span class="dv">10000</span>;</span>
-<span id="cb2-2"></span>
-<span id="cb2-3"><span class="kw">SELECT</span> member_id, <span class="fu">COUNT</span>(<span class="op">*</span>), <span class="fu">SUM</span>(amount)</span>
-<span id="cb2-4"><span class="kw">FROM</span> orders <span class="kw">GROUP</span> <span class="kw">BY</span> member_id;</span></code></pre></div>
-<p>첫 쿼리는 주문 표(<code>FROM</code>)에서 금액이 만 원 이상인 행만 걸러(<code>WHERE</code>) 상품과 금액 열을 꺼냅니다(<code>SELECT</code>). 키보드, 마우스, 충전기 세 줄이 나옵니다. 둘째 쿼리는 회원 번호가 같은 행끼리 묶어(<code>GROUP BY</code>) 묶음마다 건수와 합계를 냅니다. 1번 회원은 3건에 62000, 2번 회원은 1건에 18000입니다.</p>
-<p>주문 목록에 번호 대신 이름을 보여 주려면 두 표를 붙여야 합니다. <strong>조인</strong>(JOIN)이 그 일을 합니다.</p>
+<p>은행 신청서에 "금고 셋째 칸 장부의 40쪽을 펴서"라고 적지는 않습니다. <strong>무엇을 원하는지</strong>만 적습니다. 어떻게 찾을지는 직원이 정합니다.</p>
+<p>데이터베이스에 내는 신청서는 <strong>SQL</strong>(Structured Query Language)이라는 언어로 씁니다. "에스큐엘"이라고 읽습니다. SQL로 쓴 부탁 한 문장은 <strong>쿼리</strong>(query)라고 합니다.</p>
+<p>"만 원 이상인 주문의 물건과 금액을 보여 줘"를 SQL로 적으면 이렇습니다.</p>
+<div class="code-box"><div class="code-lang">SQL (데이터베이스 명령)</div><div class="sourceCode" id="cb1"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb1-1"><span class="kw">SELECT</span> item, amount</span>
+<span id="cb1-2"><span class="kw">FROM</span> orders</span>
+<span id="cb1-3"><span class="kw">WHERE</span> amount <span class="op">&gt;=</span> <span class="dv">10000</span>;</span></code></pre></div></div>
+<ul>
+<li><code>SELECT item, amount</code>는 "물건 열과 금액 열을 꺼내라"입니다.</li>
+<li><code>FROM orders</code>는 "주문 표에서"입니다.</li>
+<li><code>WHERE amount &gt;= 10000</code>은 "금액이 10000 이상인 행만"입니다. <code>&gt;=</code>는 "크거나 같다"는 기호입니다.</li>
+<li>맨 끝의 <code>;</code>은 문장이 끝났다는 표시입니다.</li>
+</ul>
+<p>결과는 키보드 45000, 마우스 18000, 충전기 12000 세 줄입니다. 5000원인 케이블은 빠집니다.</p>
+<section class="level3" id="두-표를-붙이기-조인">
+<h3>두 표를 붙이기: 조인</h3>
+<p>주문 목록에는 "1번 회원"보다 "김민지"라고 보여 주고 싶습니다. 그런데 이름은 회원 표에 있습니다. 두 표를 붙여야 합니다. 이 일을 <strong>조인</strong>(JOIN)이라고 합니다.</p>
 <figure class="fig" id="fig-join-match"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 468" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>JOIN은 주문 표의 member_id와 회원 표의 id가 같은 행끼리 맞붙여 한 줄로 만든다</title>
   <text class="t-mono" x="40" y="26">SELECT orders.item, members.name</text>
@@ -528,29 +576,33 @@
   <text class="t-s" x="510" y="350">주문 4건 → 결과 4줄</text>
   <text class="t-s" x="510" y="372">같은 회원이 여러 번 나온다</text>
   <text class="t-s" x="510" y="394">짝이 없는 서연은 빠진다</text>
-</svg></div><figcaption><b>그림 17-4</b>JOIN은 주문 표의 member_id와 회원 표의 id가 같은 행끼리 짝지어 한 줄로 만듭니다.</figcaption></figure>
-<p><code>ON</code> 뒤에는 어느 열끼리 같아야 짝인지를 적습니다.</p>
-<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
-<p><code>ORDER BY</code>로 정렬 기준을 적지 않으면 결과의 순서는 약속되지 않습니다. 그리고 사용자가 입력한 값은 SQL 문자열에 이어 붙이지 말고 따로 넘깁니다. 이유는 <a href="ch19.html">19장</a>에서 다룹니다.</p>
-</div>
+</svg></div><figcaption><b>그림 17-4</b>조인은 주문 표의 member_id와 회원 표의 id가 같은 행끼리 짝지어 한 줄로 만듭니다.</figcaption></figure>
+<p>그림 맨 위의 SQL을 읽어 봅시다.</p>
+<ul>
+<li><code>orders.item</code>은 "주문 표의 item 열"입니다. 표 이름 뒤에 점을 찍고 열 이름을 적습니다.</li>
+<li><code>JOIN members</code>는 "회원 표를 붙여라"입니다.</li>
+<li><code>ON</code> 뒤에는 어떤 행끼리 짝인지를 적습니다. 여기서는 회원 표의 <code>id</code>와 주문 표의 <code>member_id</code>가 같은 행끼리 짝입니다.</li>
+</ul>
+<p>주문이 4건이니 결과도 4줄입니다. 민지는 세 번 샀으므로 세 번 나옵니다. 주문이 없는 서연은 짝이 없어서 빠집니다.</p>
+</section>
 <section class="level3" id="null-0도-빈-글자도-아닌-모름">
 <h3>NULL: 0도 빈 글자도 아닌 "모름"</h3>
-<p>서연의 전화번호 칸은 비어 있습니다. 이 빈칸이 <strong>NULL</strong>입니다. 0이나 빈 글자가 아니라 "값을 모른다"는 표시입니다. 모르는 값은 무엇과 비교해도 답이 "모름"이고, <code>WHERE</code>는 답이 참인 행만 남깁니다.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><span class="kw">SELECT</span> name <span class="kw">FROM</span> members <span class="kw">WHERE</span> phone <span class="op">=</span> <span class="kw">NULL</span>;    <span class="co">-- 0줄</span></span>
-<span id="cb3-2"><span class="kw">SELECT</span> name <span class="kw">FROM</span> members <span class="kw">WHERE</span> phone <span class="kw">IS</span> <span class="kw">NULL</span>;   <span class="co">-- 박서연</span></span></code></pre></div>
-<p><code>phone &lt;&gt; '010-1111-2222'</code>처럼 "다르다"로 걸러도 서연은 빠집니다. 같은지 다른지 모르기 때문입니다. 빈칸은 반드시 <code>IS NULL</code>로 찾습니다.</p>
+<p>서연은 전화번호를 알려 주지 않아서 그 칸이 비어 있습니다. 이 빈칸을 <strong>NULL</strong>(널)이라고 합니다. 숫자 0이나 빈 글자와는 다릅니다. "값을 모른다"는 표시입니다.</p>
+<p>모르는 값은 비교할 수 없습니다. 생일을 모르는 친구가 있다고 합시다. 그 친구와 내 생일이 같을까요? 답은 "예"도 "아니요"도 아닌 "모름"입니다. <code>WHERE</code>는 답이 "예"인 행만 남기므로 "모름"인 행은 빠집니다. SQL로 확인해 봅시다.</p>
+<div class="code-box"><div class="code-lang">SQL (데이터베이스 명령)</div><div class="sourceCode" id="cb2"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><span class="kw">SELECT</span> name <span class="kw">FROM</span> members <span class="kw">WHERE</span> phone <span class="op">=</span> <span class="kw">NULL</span>;    <span class="co">-- 0줄</span></span>
+<span id="cb2-2"><span class="kw">SELECT</span> name <span class="kw">FROM</span> members <span class="kw">WHERE</span> phone <span class="kw">IS</span> <span class="kw">NULL</span>;   <span class="co">-- 박서연</span></span></code></pre></div></div>
+<p><code>--</code> 뒤의 글은 사람이 읽으라고 적어 둔 메모(주석)이고, 여기서는 결과를 적었습니다. 첫 줄은 "전화번호가 NULL과 같은 회원"을 찾습니다. 모르는 값과 같은지는 알 수 없으니 아무도 나오지 않습니다. 둘째 줄의 <code>IS NULL</code>은 "이 칸이 비어 있는가"를 묻는 말이라서 서연이 나옵니다.</p>
+<p>"민지와 번호가 다른 회원"을 찾아도 서연은 빠집니다. 같은지 다른지 모르기 때문입니다. 빈칸은 반드시 <code>IS NULL</code>로 찾습니다.</p>
 <div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
-<p>맥에는 <code>sqlite3</code>가 들어 있습니다. 터미널에서 실행해 이 장의 두 표를 만들고 JOIN과 <code>IS NULL</code>을 쳐 보세요. SQLite는 <code>PRAGMA foreign_keys = ON;</code>을 먼저 실행해야 외래 키를 검사합니다.</p>
+<p>맥의 터미널(<a href="ch05.html">5장</a>)에 <code>sqlite3</code>라고 치면 연습용 데이터베이스가 열립니다. AI에게 두 표의 내용을 알려 주고 표를 만드는 SQL을 써 달라고 하세요. 그다음 이 절의 쿼리를 직접 쳐 봅니다.</p>
 </div>
-<details class="deep"><summary><small>한 걸음 더</small>행을 줄이지 않고 합계 붙이기: 윈도 함수</summary><div class="deep-body">
-<p><code>GROUP BY</code>는 주문 네 줄을 회원별 두 줄로 줄입니다. 네 줄을 그대로 두고 각 줄 옆에 "이 회원의 합계"를 붙이려면 <strong>윈도 함수</strong>(window function)를 씁니다. <code>SUM(amount) OVER (PARTITION BY member_id)</code>라고 적으면 민지의 주문 세 줄 옆에 모두 62000이 붙습니다. 순위나 누적 합계를 낼 때 씁니다.</p>
-</div></details>
 </section>
 </section>
 <section class="level2" id="index">
 <h2><span class="sec-n">17.5</span>인덱스: 책 뒤의 찾아보기<a aria-label="이 절의 링크" class="anchor" href="#index">#</a></h2>
-<p>주문이 100만 건 쌓였습니다. <code>WHERE member_id = 7</code>로 회원 7의 주문을 찾으면, 준비가 없는 직원은 100만 줄을 처음부터 끝까지 넘겨 봅니다. 두꺼운 책에서 낱말 하나를 찾겠다고 첫 쪽부터 읽는 것과 같습니다.</p>
-<p>책에는 이럴 때 쓰는 <strong>찾아보기</strong>가 있습니다. 낱말이 순서대로 늘어서 있고 옆에 쪽수가 적혀 있습니다. DB의 <strong>인덱스</strong>(index)가 이것입니다. 열 하나를 골라 값을 순서대로 정렬하고, 값마다 행의 위치를 적어 둔 <strong>별도의 장부</strong>입니다.</p>
+<p>두꺼운 과학책에서 "광합성"이 나오는 곳을 찾고 싶습니다. 첫 쪽부터 넘기면 한참 걸립니다. 그래서 책 맨 뒤에는 <strong>찾아보기</strong>가 있습니다. 낱말이 가나다순으로 늘어서 있고 옆에 쪽수가 적혀 있습니다.</p>
+<p>표에서도 같은 일이 생깁니다. 주문 표에는 주문이 들어온 순서대로 쌓입니다. 여기서 7번 회원의 주문만 찾으려면 모든 행을 하나씩 확인해야 합니다. 주문이 8건이면 8줄, 100만 건이면 100만 줄을 봅니다.</p>
+<p>그래서 표에도 찾아보기를 만듭니다. 이것을 <strong>인덱스</strong>(index)라고 합니다. 열 하나를 골라 값을 순서대로 늘어놓은 <strong>별도의 장부</strong>입니다. 값마다 그 행이 어디 있는지도 적어 둡니다.</p>
 <figure class="fig" id="fig-index-lookup"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>인덱스는 키 순서로 정렬한 찾아보기여서, 회원 7의 주문 세 건이 있는 위치로 바로 갈 수 있다</title>
   <text class="t-l" x="60" y="30">찾아보기(인덱스)</text>
@@ -644,16 +696,18 @@
   <rect class="box green" x="400" y="346" width="300" height="56" rx="10"/>
   <text class="t-b" x="416" y="370">인덱스로: 3줄만 확인</text>
   <text class="t-s" x="416" y="390">100만 건이어도 갈림길 서너 번</text>
-</svg></div><figcaption><b>그림 17-5</b>member_id 인덱스. 7이 모인 곳을 찾으면 주문 표의 해당 행으로 곧장 갑니다.</figcaption></figure>
-<figure class="photo"><img alt="도서관의 카드 목록 서랍. 책은 서가에 그대로 두고, 찾는 데 쓸 카드만 따로 알파벳순으로 정리했습니다. 서랍마다 'BAY – BEE'처럼 담긴 범위가 적혀 있어서 서랍 하나만 열면 됩니다." loading="lazy" src="../assets/photo/card-catalog.jpg"/><figcaption>도서관의 카드 목록 서랍. 책은 서가에 그대로 두고, 찾는 데 쓸 카드만 따로 알파벳순으로 정리했습니다. 서랍마다 'BAY – BEE'처럼 담긴 범위가 적혀 있어서 서랍 하나만 열면 됩니다.<span class="credit">사진: Marcus Gossler · CC BY-SA 3.0 · <a href="https://commons.wikimedia.org/wiki/File:Schlagwortkatalog.jpg" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
-<p>인덱스는 <code>CREATE INDEX idx_member ON orders (member_id);</code> 한 줄로 만듭니다. 정렬되어 있으니 <a href="ch08.html#tree">8장</a>의 트리처럼 갈림길을 따라 내려가며 찾습니다. 갈림길 하나가 수백 갈래로 나뉘는 트리(B-tree)여서, 100만 건이어도 서너 번 내려가면 닿습니다.</p>
-<p>공짜는 아닙니다. 주문 한 건을 추가하면 인덱스에도 한 줄을 끼워 넣어야 합니다. 인덱스가 다섯 개면 장부 여섯 권을 고칩니다.</p>
+</svg></div><figcaption><b>그림 17-5</b>회원 번호(member_id)로 만든 인덱스. 7이 모인 곳을 찾으면 주문 표의 그 행으로 곧장 갑니다.</figcaption></figure>
+<p>그림은 회원과 주문이 늘어난 뒤의 모습입니다. 왼쪽의 인덱스는 회원 번호순이라서 7이 한곳에 모여 있습니다. 옆에 적힌 주문 번호 202, 204, 207을 보고 주문 표의 그 행으로 바로 갑니다. 8줄 대신 3줄만 확인했습니다.</p>
+<p>7이 모인 곳도 금방 찾습니다. 사전에서 낱말을 찾듯이 "더 앞일까, 더 뒤일까"를 몇 번만 따지면 됩니다. <a href="ch08.html#tree">8장</a>의 트리처럼 갈림길을 따라 내려가는 방법입니다. 100만 건이어도 갈림길 서너 번이면 닿습니다.</p>
+<figure class="photo"><img alt="도서관의 카드 목록 서랍. 책은 책장에 그대로 두고, 찾는 데 쓸 카드만 따로 알파벳순으로 정리했습니다." loading="lazy" src="../assets/photo/card-catalog.jpg"/><figcaption>도서관의 카드 목록 서랍. 책은 책장에 그대로 두고, 찾는 데 쓸 카드만 따로 알파벳순으로 정리했습니다.<span class="credit">사진: Marcus Gossler · CC BY-SA 3.0 · <a href="https://commons.wikimedia.org/wiki/File:Schlagwortkatalog.jpg" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+<p>인덱스는 공짜가 아닙니다. 주문 한 건을 적을 때마다 인덱스에도 한 줄을 끼워 넣어야 합니다. 인덱스가 다섯 개면 장부 여섯 권을 고치는 셈입니다.</p>
 <div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
-<p>인덱스는 <strong>읽기를 빠르게 하는 대신 쓰기를 느리게</strong> 합니다. 자주 쓰는 조건에만 만듭니다.</p>
+<p>인덱스는 <strong>읽기를 빠르게 하는 대신 쓰기를 느리게</strong> 합니다. 자주 찾는 열에만 만듭니다.</p>
 </div>
-<section class="level3" id="복합-인덱스-열의-순서가-중요합니다">
-<h3>복합 인덱스: 열의 순서가 중요합니다</h3>
-<p>열 두 개를 묶은 <strong>복합 인덱스</strong>(composite index)는 전화번호부와 같습니다. 성으로 먼저 정렬하고, 성이 같으면 이름순입니다. 김씨는 한곳에 모여 있지만 이름이 민지인 사람은 책 전체에 흩어져 있습니다.</p>
+<section class="level3" id="열-두-개로-만든-인덱스-순서가-중요합니다">
+<h3>열 두 개로 만든 인덱스: 순서가 중요합니다</h3>
+<p>학교 전체 명단이 반 순서이고, 같은 반 안에서는 번호 순서라고 합시다. "3반 학생"은 한곳에 모여 있어서 금방 찾습니다. 하지만 "모든 반의 7번"은 반마다 흩어져 있습니다.</p>
+<p>열 두 개를 묶어 만든 <strong>복합 인덱스</strong>(composite index)도 똑같습니다. 아래 그림은 회원 번호(<code>member_id</code>)를 앞에, 주문한 날짜(<code>ordered_at</code>)를 뒤에 둔 인덱스입니다.</p>
 <figure class="fig" id="fig-composite-index"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>회원 번호 다음 날짜 순으로 정렬한 복합 인덱스에서 회원 7의 11월은 한 구간이지만 모든 회원의 11월은 여러 구간으로 흩어진다</title>
   <text class="t-l" x="38" y="30">(member_id, ordered_at) 인덱스가 정렬된 모습</text>
@@ -718,35 +772,23 @@
   <path class="ln warm" d="M422 322 V329 H566 V322"/>
   <path class="ln warm" d="M650 322 V329 H718 V322"/>
   <text class="t-s t-b mid tc-warm" x="380" y="350">회원마다 구간이 따로 있어 여러 곳을 뒤진다</text>
-</svg></div><figcaption><b>그림 17-6</b>회원 번호가 앞에 오는 인덱스에서는 한 회원의 주문이 한곳에 모입니다. 날짜만으로 찾으면 회원마다 구간을 따로 들여다봐야 합니다.</figcaption></figure>
-<details class="deep"><summary><small>한 걸음 더</small>인덱스를 더 깊이: B-tree와 LSM, 커버링·부분 인덱스</summary><div class="deep-body">
-<p>B-tree는 정렬된 쪽을 제자리에서 고칩니다. <strong>LSM 트리</strong>는 쓰기를 메모리에 모았다가 정렬된 파일로 한꺼번에 내려 적고, 파일들을 나중에 합칩니다. 쓰기가 쏟아지는 곳에 유리하지만 읽을 때 여러 파일을 봐야 할 수 있습니다.</p>
-<p>필요한 열이 인덱스에 다 들어 있으면 표를 펴 보지 않고 인덱스만으로 답합니다. 이것이 <strong>커버링 인덱스</strong>(covering index)입니다. <strong>부분 인덱스</strong>(partial index)는 "아직 처리 안 된 주문"처럼 조건에 맞는 행만 담아 크기를 줄입니다.</p>
-</div></details>
+</svg></div><figcaption><b>그림 17-6</b>회원 번호를 앞에, 날짜를 뒤에 두고 정렬한 인덱스. 한 회원의 주문이 한곳에 모입니다.</figcaption></figure>
+<p>"7번 회원의 11월 주문"은 11/01, 11/15, 11/30이 나란히 붙어 있습니다. 이어진 한 구간만 읽으면 됩니다.</p>
+<p>"모든 회원의 11월 주문"은 다릅니다. 7번, 8번, 9번 회원의 구간에 따로 흩어져 있어서 여러 곳을 뒤져야 합니다. 날짜로 자주 찾는다면 날짜가 앞에 오는 인덱스를 따로 만듭니다.</p>
 </section>
 </section>
 <section class="level2" id="slow">
-<h2><span class="sec-n">17.6</span>느린 조회 진단하기: 실행 계획과 N+1<a aria-label="이 절의 링크" class="anchor" href="#slow">#</a></h2>
-<p>화면이 느릴 때 물을 것은 두 가지입니다. <strong>쿼리 하나가 너무 많이 읽는가, 쿼리를 너무 여러 번 보내는가.</strong></p>
-<section class="level3" id="하나가-느릴-때-직원에게-계획을-묻습니다">
-<h3>하나가 느릴 때: 직원에게 계획을 묻습니다</h3>
-<p>쿼리 앞에 <code>EXPLAIN</code>을 붙이면 직원이 "이렇게 찾겠습니다"라는 <strong>실행 계획</strong>(query plan)을 보여 줍니다. PostgreSQL의 예입니다.</p>
-<pre class="text"><code>EXPLAIN SELECT * FROM orders WHERE member_id = 7;
-
-Seq Scan on orders  (… rows=52 …)
-  Filter: (member_id = 7)</code></pre>
-<p><code>Seq Scan</code>은 표를 처음부터 끝까지 훑는다는 뜻입니다. <code>rows=52</code>는 52줄쯤 나올 것이라는 직원의 <strong>예상</strong>입니다. 인덱스를 만들고 다시 물으면 <code>Index Scan</code>처럼 인덱스를 쓰는 계획으로 바뀝니다. 그대로 <code>Seq Scan</code>이라면 조건과 인덱스가 맞지 않는다는 신호입니다.</p>
-<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
-<p><code>EXPLAIN ANALYZE</code>는 쿼리를 <strong>실제로 실행</strong>해서 걸린 시간까지 보여 줍니다. <code>DELETE</code>나 <code>UPDATE</code>에 붙이면 정말로 지워지고 바뀝니다.</p>
-</div>
+<h2><span class="sec-n">17.6</span>느릴 때 물어볼 두 가지: 실행 계획과 N+1<a aria-label="이 절의 링크" class="anchor" href="#slow">#</a></h2>
+<p>화면이 늦게 뜬다면 두 가지를 물어봅니다. <strong>한 번 물을 때 너무 많이 읽는가. 너무 여러 번 묻는가.</strong></p>
+<section class="level3" id="한-번이-느릴-때-직원에게-계획을-묻습니다">
+<h3>한 번이 느릴 때: 직원에게 계획을 묻습니다</h3>
+<p>직원(DBMS)은 쿼리를 받으면 어떻게 찾을지 계획부터 세웁니다. 이것을 <strong>실행 계획</strong>(query plan)이라고 합니다. 쿼리 앞에 <code>EXPLAIN</code>을 붙여 보내면 직원은 찾는 대신 계획을 알려 줍니다.</p>
+<p>답이 "표를 처음부터 끝까지 훑겠습니다"라면 인덱스를 쓰지 못하고 있는 것입니다. 찾는 조건에 맞는 인덱스를 만들면 "인덱스로 찾겠습니다"로 바뀝니다.</p>
 </section>
-<section class="level3" id="여러-번-보낼-때-n1-문제">
-<h3>여러 번 보낼 때: N+1 문제</h3>
-<p>요즘은 SQL을 직접 쓰는 대신 <strong>ORM</strong>(Object-Relational Mapping, 객체 관계 매핑)을 많이 씁니다. 코드로 <code>order.member.name</code>이라고 적으면 ORM이 SQL로 바꿔 보내 줍니다. 편하지만 어느 줄이 쿼리를 보내는지 눈에 보이지 않습니다. Python 웹 프레임워크 Django의 예입니다.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1">orders <span class="op">=</span> Order.objects.<span class="bu">all</span>()[:<span class="dv">100</span>]   <span class="co"># 쿼리 1번</span></span>
-<span id="cb5-2"><span class="cf">for</span> order <span class="kw">in</span> orders:</span>
-<span id="cb5-3">    <span class="bu">print</span>(order.member.name)         <span class="co"># 돌 때마다 1번</span></span></code></pre></div>
-<p>목록을 한 번 읽고, 항목 N개마다 한 번씩 더 묻습니다. 이것이 <strong>N+1 문제</strong>입니다.</p>
+<section class="level3" id="여러-번-물을-때-n1-문제">
+<h3>여러 번 물을 때: N+1 문제</h3>
+<p>친구 다섯 명의 간식을 사러 매점에 간다고 합시다. 한 명에게 묻고 다녀오고, 또 한 명에게 묻고 다녀오면 다섯 번을 오갑니다. 다섯 명에게 먼저 다 묻고 한 번에 다녀오는 편이 훨씬 빠릅니다.</p>
+<p>프로그램도 DB에 물을 때마다 DB까지 다녀옵니다. 주문 100건과 주문한 회원의 이름을 한 화면에 보여 준다고 합시다.</p>
 <figure class="fig" id="fig-n-plus-one"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 312" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>주문 100건의 회원 이름을 하나씩 물으면 DB를 101번 왕복하고, 회원 번호를 모아 한꺼번에 물으면 2번이면 된다</title>
   <text class="t-s t-b" x="20" y="24">주문 100건과 주문한 회원의 이름을 한 화면에 보여 줄 때</text>
@@ -873,16 +915,16 @@ Seq Scan on orders  (… rows=52 …)
   <text class="t-l" x="406" y="256">DB 왕복 2번</text>
   <text class="t-s" x="406" y="279">같은 조건에서 약 4ms</text>
 </svg></div><figcaption><b>그림 17-7</b>쿼리 하나하나는 빠릅니다. 느린 것은 DB까지 다녀오는 횟수입니다.</figcaption></figure>
-<p>해결책은 한꺼번에 묻는 것입니다. JOIN을 쓰거나, ORM에 "회원도 함께 가져와"라고 알려 줍니다. AI가 만든 코드에서 특히 흔하니, 화면 하나를 열 때 쿼리가 몇 번 나가는지 로그로 세어 보세요. 목록이 10개일 때보다 100개일 때 쿼리 수가 늘었다면 N+1입니다.</p>
-<details class="deep"><summary><small>한 걸음 더</small>조인의 실행 방식과 페이지 나누기</summary><div class="deep-body">
-<p>실행 계획에는 두 표를 맞붙이는 방식도 나옵니다. 한쪽 행마다 다른 쪽을 찾아보는 <strong>중첩 루프</strong>, 한쪽으로 해시 맵을 만들어 맞춰 보는 <strong>해시 조인</strong>, 양쪽을 정렬해 나란히 훑는 <strong>병합 조인</strong>이 있습니다.</p>
-<p>목록을 20개씩 끊어 볼 때 <code>OFFSET 10000</code>은 앞의 1만 줄을 읽고 버립니다. 뒤로 갈수록 느려지고, 그사이 새 글이 끼어들면 같은 글이 두 번 보입니다. <strong>커서 방식</strong>은 "마지막으로 본 글의 (작성 시각, id) 다음부터 20개"라고 묻습니다. 인덱스로 그 자리에 바로 가므로 깊은 페이지도 빠릅니다.</p>
-</div></details>
+<p>그림 왼쪽은 하나씩 묻습니다. 먼저 주문 100건을 가져옵니다. <code>LIMIT 100</code>은 "100줄까지만"이라는 뜻입니다. 그다음 주문마다 "1번 회원은 누구?", "2번 회원은 누구?" 하고 따로 묻습니다. 모두 1 + 100 = 101번입니다. 목록을 1번 읽고 항목 N개마다 1번씩 더 묻는다고 해서 <strong>N+1 문제</strong>라고 부릅니다.</p>
+<p>한 번 다녀오는 왕복에 2ms가 걸린다고 합시다. ms(밀리초)는 1,000분의 1초입니다. 101번이면 101 × 2 = 202ms입니다.</p>
+<p>그림 오른쪽은 주문 100건에 나온 회원 번호를 모아서 한 번에 묻습니다. <code>IN (1, 2, 3, …)</code>이 "번호가 이 가운데 하나인 회원"이라는 뜻입니다. 두 번만 다녀오면 되니 2 × 2 = 4ms입니다.</p>
+<p>AI가 만든 프로그램에서도 자주 보입니다. 목록이 길어지면 DB에 묻는 횟수도 늘어나는지 물어보세요.</p>
 </section>
 </section>
 <section class="level2" id="transaction">
 <h2><span class="sec-n">17.7</span>트랜잭션: 전부 되거나, 전부 안 되거나<a aria-label="이 절의 링크" class="anchor" href="#transaction">#</a></h2>
-<p>민지가 준호에게 30,000원을 보냅니다. 장부에서는 두 줄을 고칩니다. 민지 계좌에서 빼고, 준호 계좌에 더합니다. 첫 줄만 고친 순간 서버가 꺼지면 어떻게 될까요?</p>
+<p>민지가 준호에게 30,000원을 보냅니다. 민지의 통장에는 50,000원, 준호의 통장에는 20,000원이 있습니다. 은행 장부에서는 두 줄을 고칩니다. 민지에게서 30,000원을 빼고, 준호에게 30,000원을 더합니다.</p>
+<p>그런데 첫 줄만 고친 순간 은행의 컴퓨터(서버)가 꺼지면 어떻게 될까요?</p>
 <figure class="fig" id="fig-transfer"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>민지가 준호에게 30,000원을 보내는 도중 서버가 꺼지면, 트랜잭션이 없을 때는 돈이 사라지고 트랜잭션으로 묶었을 때는 처음 상태로 돌아간다</title>
 
@@ -940,58 +982,23 @@ Seq Scan on orders  (… rows=52 …)
   <text class="t-s" x="20" y="296">합계 70,000</text>
   <text class="t-s t-b end tc-green" x="740" y="296">합계 70,000 · 없던 일로 돌아감</text>
 </svg></div><figcaption><b>그림 17-8</b>두 번의 수정 사이에서 멈추면 돈이 사라집니다. 트랜잭션으로 묶으면 중간 상태가 남지 않습니다.</figcaption></figure>
-<p><strong>트랜잭션</strong>(transaction)은 여러 작업을 <strong>한 건</strong>으로 묶는 방법입니다.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb6-1"><span class="cf">BEGIN</span>;</span>
-<span id="cb6-2"><span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance <span class="op">=</span> balance <span class="op">-</span> <span class="dv">30000</span> <span class="kw">WHERE</span> <span class="kw">id</span> <span class="op">=</span> <span class="dv">1</span>;</span>
-<span id="cb6-3"><span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance <span class="op">=</span> balance <span class="op">+</span> <span class="dv">30000</span> <span class="kw">WHERE</span> <span class="kw">id</span> <span class="op">=</span> <span class="dv">2</span>;</span>
-<span id="cb6-4"><span class="kw">COMMIT</span>;</span></code></pre></div>
-<p><code>BEGIN</code>으로 묶음을 열고 <code>COMMIT</code>으로 확정합니다. 이 확정이 <strong>커밋</strong>입니다. 커밋 전에 오류가 나거나 서버가 꺼지면 묶음 안의 변경은 모두 취소됩니다. 이것이 <strong>롤백</strong>(rollback)입니다.</p>
-<p>트랜잭션이 지키는 네 가지 약속을 머리글자를 따서 <strong>ACID</strong>라고 부릅니다.</p>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-<th>약속</th>
-<th>뜻</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>원자성 (Atomicity)</td>
-<td>전부 반영되거나 전부 취소된다</td>
-</tr>
-<tr>
-<td>일관성 (Consistency)</td>
-<td>제약 조건을 어긴 채로 끝나지 않는다</td>
-</tr>
-<tr>
-<td>격리성 (Isolation)</td>
-<td>동시에 진행해도 서로 섞이지 않는다</td>
-</tr>
-<tr>
-<td>지속성 (Durability)</td>
-<td>커밋된 것은 전원이 꺼져도 남는다</td>
-</tr>
-</tbody>
-</table></div>
-<section class="level3" id="저장했습니다의-진짜-뜻">
-<h3>"저장했습니다"의 진짜 뜻</h3>
-<p>지속성은 어떻게 지킬까요? 커밋할 때마다 장부 여러 권을 디스크에 고쳐 쓰면 너무 느립니다. 그래서 직원은 <strong>일지를 먼저 씁니다.</strong> "1번 계좌 −30000, 2번 계좌 +30000, 확정"이라고 일지 끝에 적고, 이 줄이 디스크에 닿은 것을 확인한 뒤에야 "저장했습니다"라고 답합니다. 장부 본문은 나중에 고칩니다. 도중에 꺼져도 일지를 다시 읽어 되살립니다. 이 방식을 <strong>WAL</strong>(Write-Ahead Log, 로그 먼저 쓰기)이라고 합니다.</p>
-<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 트랜잭션은 DB 안의 일만 묶습니다</div>
-<p>트랜잭션 안에서 이메일을 보내거나 외부 결제를 호출했다면, 롤백해도 그 메일과 결제는 취소되지 않습니다. 바깥으로 나가는 일은 커밋한 뒤에 합니다.</p>
-</div>
-</section>
+<p>그림 위쪽이 그 사고입니다. 민지는 20,000원이 됐는데 준호는 그대로 20,000원입니다. 둘의 합계가 70,000원에서 40,000원으로 줄었습니다. 30,000원이 사라졌습니다.</p>
+<p>이런 사고를 막으려고 여러 작업을 <strong>한 건</strong>으로 묶습니다. 이 묶음을 <strong>트랜잭션</strong>(transaction)이라고 합니다. SQL로는 이렇게 적습니다.</p>
+<div class="code-box"><div class="code-lang">SQL (데이터베이스 명령)</div><div class="sourceCode" id="cb3"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><span class="cf">BEGIN</span>;</span>
+<span id="cb3-2"><span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance <span class="op">=</span> balance <span class="op">-</span> <span class="dv">30000</span> <span class="kw">WHERE</span> <span class="kw">id</span> <span class="op">=</span> <span class="dv">1</span>;</span>
+<span id="cb3-3"><span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance <span class="op">=</span> balance <span class="op">+</span> <span class="dv">30000</span> <span class="kw">WHERE</span> <span class="kw">id</span> <span class="op">=</span> <span class="dv">2</span>;</span>
+<span id="cb3-4"><span class="kw">COMMIT</span>;</span></code></pre></div></div>
+<ul>
+<li><code>BEGIN</code>은 "여기부터 한 묶음"입니다.</li>
+<li>둘째 줄은 통장 표(<code>accounts</code>)에서 1번 통장인 민지의 잔액(<code>balance</code>)을 30000 줄입니다. <code>UPDATE</code>는 "이 표를 고쳐라", <code>SET</code>은 "이 값으로 바꿔라"입니다.</li>
+<li>셋째 줄은 2번 통장인 준호의 잔액을 30000 늘립니다.</li>
+<li><code>COMMIT</code>은 "여기까지 확정"입니다. 이 확정을 <strong>커밋</strong>이라고 합니다.</li>
+</ul>
+<p>커밋하기 전에 컴퓨터가 꺼지면 묶음 안에서 고친 것은 모두 취소됩니다. 이 취소를 <strong>롤백</strong>(rollback)이라고 합니다. 그림 아래쪽에서 민지의 잔액이 50,000원으로 돌아간 것이 롤백입니다. 반만 된 상태는 남지 않습니다. 반대로 커밋한 것은 전원이 꺼져도 남습니다.</p>
 </section>
 <section class="level2" id="concurrency">
-<h2><span class="sec-n">17.8</span>동시에 고칠 때: 격리와 잠금<a aria-label="이 절의 링크" class="anchor" href="#concurrency">#</a></h2>
-<p>재고가 1개 남은 상품을 두 사람이 동시에 삽니다. 두 요청 모두 재고가 1임을 확인하고, 주문을 만들고, 재고를 0으로 저장합니다. 주문은 2건인데 물건은 하나입니다. <a href="ch11.html#race">11장</a>의 칠판 사고가 장부에서 일어난 것으로, <strong>잃어버린 갱신</strong>(lost update)이라고 부릅니다.</p>
-<div class="callout myth"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-cross"></use></svg>흔한 오해 · 트랜잭션으로 묶었으니 동시에 들어와도 안전하다</div>
-<p>동시에 진행 중인 트랜잭션이 서로의 변경을 얼마나 볼 수 있는지는 <strong>격리 수준</strong>(isolation level)이라는 설정이 정합니다. PostgreSQL을 비롯한 많은 DB의 기본값은 "남이 커밋한 것만 보인다"는 수준이어서 위 사고를 막지 못합니다. 가장 엄격한 수준은 한 줄로 세워 처리한 것과 같은 결과를 보장하지만, 충돌하면 한쪽을 실패시킬 수 있어 다시 시도하는 코드가 필요합니다.</p>
-</div>
-<p>그래서 보통 둘 중 하나로 직접 막습니다.</p>
-<ul>
-<li><strong>비관적 잠금</strong>(pessimistic locking): 부딪힐 것이라 보고 <strong>먼저 잠급니다.</strong> <code>SELECT … FOR UPDATE</code>로 읽으면 내 트랜잭션이 끝날 때까지 다른 사람은 그 행을 고치지 못하고 기다립니다. <a href="ch11.html#lock">11장</a>의 분필입니다.</li>
-<li><strong>낙관적 잠금</strong>(optimistic locking): 드물게 부딪힐 것이라 보고 잠그지 않습니다. 대신 <strong>쓰는 순간에 조건을 확인합니다.</strong></li>
-</ul>
+<h2><span class="sec-n">17.8</span>동시에 고칠 때: 잠금과 조건<a aria-label="이 절의 링크" class="anchor" href="#concurrency">#</a></h2>
+<p>가게에 인기 있는 헤드셋이 딱 1개 남았습니다. 상품 번호는 7번입니다. A와 B가 앱으로 동시에 주문합니다. 프로그램은 남은 개수를 <strong>읽고</strong>, 1개 있으면 주문을 만들고, 남은 개수를 0으로 <strong>저장합니다.</strong></p>
 <figure class="fig" id="fig-stock-race"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 500" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>재고가 1개일 때 두 구매자가 각자 읽고 저장하면 주문이 2건 생기지만, 조건을 붙인 UPDATE 한 번으로 고치면 한 명만 성공한다</title>
   <text class="t-l tc-red" x="20" y="28">읽고 → 계산하고 → 저장하면</text>
@@ -1045,29 +1052,33 @@ Seq Scan on orders  (… rows=52 …)
   <path class="ln blue" d="M270 350 V364" marker-end="url(#ah-blue)"/>
   <path class="ln warm" d="M580 420 V406" marker-end="url(#ah-warm)"/>
   <text class="t-b tc-green" x="120" y="490">재고 0, 주문 1건 — 한 명만 성공한다</text>
-</svg></div><figcaption><b>그림 17-9</b>아래쪽 UPDATE는 확인과 변경이 한 문장입니다. 바뀐 행이 0개라면 실패로 처리합니다.</figcaption></figure>
-<p><code>WHERE qty &gt; 0</code>은 "아직 남아 있을 때만 줄여라"입니다. DB는 몇 행이 바뀌었는지 알려 주며, 0이면 누가 먼저 가져간 것입니다. 글을 고칠 때는 행에 버전 번호를 두고 <code>WHERE version = 3</code>처럼 "내가 읽은 뒤로 아무도 안 고쳤을 때만"이라고 조건을 답니다.</p>
+</svg></div><figcaption><b>그림 17-9</b>읽기와 저장이 따로이면 둘 다 성공합니다. 확인과 고치기를 한 문장으로 합치면 한 명만 성공합니다.</figcaption></figure>
+<p>가게에 남은 개수를 재고라고 하고, 그림에서는 <code>qty</code>라고 적었습니다. 그림 위쪽에서 A가 재고를 읽으니 1입니다. A가 저장하기 전에 B도 읽습니다. 아직 1입니다. 둘 다 "살 수 있다"고 판단해 주문을 만들고 0을 저장합니다.</p>
+<p>재고는 0인데 주문은 2건입니다. 없는 물건을 팔았습니다. <a href="ch11.html#race">11장</a>의 칠판 사고가 장부에서 일어난 것입니다.</p>
+<div class="callout myth"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-cross"></use></svg>흔한 오해 · 트랜잭션으로 묶었으니 동시에 와도 안전하다</div>
+<p>트랜잭션이 막는 것은 중간에 멈추는 사고입니다. 많은 DB는 기본 설정에서 두 묶음이 같은 값을 동시에 읽는 것을 막지 않습니다. 그래서 위 사고는 트랜잭션 안에서도 일어납니다.</p>
+</div>
+<p>막는 방법은 두 가지입니다.</p>
+<p><strong>먼저 잠그기.</strong> 재고를 읽을 때 그 행에 자물쇠를 겁니다. A가 먼저 걸면 B는 A의 묶음이 끝날 때까지 기다립니다. 기다린 뒤에 읽으면 재고는 이미 0입니다. 이것을 <strong>잠금</strong>(lock)이라고 합니다. <a href="ch11.html#lock">11장</a>의 하나뿐인 분필과 같습니다.</p>
+<p><strong>고치는 순간에 확인하기.</strong> 확인과 고치기를 한 문장으로 합칩니다. 그림 아래쪽의 SQL이 그것입니다. 풀어 읽으면 "재고 표(<code>stock</code>)에서 7번 상품의 재고가 0보다 클 때만 1 줄여라"입니다.</p>
+<p>직원은 몇 행이 바뀌었는지 알려 줍니다. A가 먼저 닿으면 재고가 1에서 0이 되고 "1행이 바뀜"이라는 답을 받습니다. 그래서 주문을 만듭니다. B가 닿았을 때는 재고가 이미 0이라 조건에 맞는 행이 없습니다. B는 "0행이 바뀜"이라는 답을 받고 품절이라고 안내합니다.</p>
 <div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
 <p>트랜잭션은 <strong>중간에 멈추는 사고</strong>를, 잠금과 조건을 붙인 UPDATE는 <strong>동시에 고치는 사고</strong>를 막습니다. 서로 다른 문제입니다.</p>
 </div>
-<section class="level3" id="커넥션-풀-창구의-수">
-<h3>커넥션 풀: 창구의 수</h3>
-<p>앱이 DB와 맺는 연결(커넥션)은 창구입니다. 새로 여는 데 시간이 걸리므로 몇 개를 미리 열어 두고 돌려 씁니다. 이 묶음이 <strong>커넥션 풀</strong>(connection pool)입니다. 창구가 10개인데 한 요청이 창구를 붙잡은 채 외부 API를 3초 기다리면, 다른 요청은 CPU가 한가해도 줄을 섭니다. 창구는 짧게 쓰고 바로 돌려줍니다. 서버 5대가 20개씩 열면 DB에는 100개가 몰린다는 것도 계산해 둡니다.</p>
-<details class="deep"><summary><small>한 걸음 더</small>읽는 사람은 기다리지 않는다: MVCC, 그리고 교착</summary><div class="deep-body">
-<p>많은 DB는 행을 고칠 때 덮어쓰지 않고 <strong>새 버전</strong>을 하나 더 만듭니다. 읽는 쪽은 자기가 시작한 시점의 버전을 봅니다. 그래서 누가 고치는 중이어도 읽기는 기다리지 않습니다. 이 방식이 <strong>MVCC</strong>(다중 버전 동시성 제어)입니다. 대신 오래 열어 둔 트랜잭션이 있으면 옛 버전을 치우지 못해 공간이 불어납니다.</p>
-<p>A가 1번 계좌를 잠그고 2번을 기다리는데 B는 2번을 잠그고 1번을 기다리면 <a href="ch11.html#deadlock">교착 상태</a>입니다. DB는 이를 알아채고 한쪽을 실패시킵니다. 앱은 실패한 트랜잭션을 <strong>처음부터</strong> 다시 실행합니다. 번호가 작은 계좌부터 잠그기로 순서를 정해 두면 애초에 생기지 않습니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>창구는 몇 개일까: 커넥션 풀</summary><div class="deep-body">
+<p>프로그램이 DB와 이야기하는 통로를 연결(커넥션)이라고 합니다. 은행으로 치면 창구입니다. 새로 여는 데 시간이 걸려서 몇 개를 미리 열어 두고 돌려 씁니다. 이 묶음을 <strong>커넥션 풀</strong>(connection pool)이라고 합니다. 창구 수는 정해져 있으니 짧게 쓰고 바로 돌려줍니다.</p>
 </div></details>
 </section>
-</section>
 <section class="level2" id="operate">
-<h2><span class="sec-n">17.9</span>운영하며 지키기: 복제, 백업, 캐시, 스키마 변경<a aria-label="이 절의 링크" class="anchor" href="#operate">#</a></h2>
-<p>서비스가 돌아가는 동안 장부를 지키려면 사본이 필요합니다. 사본은 세 종류이고 쓰임이 다릅니다.</p>
+<h2><span class="sec-n">17.9</span>사본으로 지키기: 복제, 백업, 캐시<a aria-label="이 절의 링크" class="anchor" href="#operate">#</a></h2>
+<p>중요한 숙제 파일은 USB에도 복사해 둡니다. 원본이 날아가도 사본이 남기 때문입니다. 데이터베이스도 사본을 둡니다. 사본은 세 종류이고 쓰임이 다릅니다.</p>
 <div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
 <p>원본은 하나입니다. <strong>사본은 언제나 원본보다 조금 늦습니다.</strong></p>
 </div>
 <section class="level3" id="복제-지금을-따라가는-사본">
 <h3>복제: 지금을 따라가는 사본</h3>
-<p><strong>복제</strong>(replication)는 원본 DB의 변경을 다른 서버가 곧바로 따라 적게 하는 것입니다. 원본이 고장 나면 복제본이 대신하고, 읽기 요청을 나눠 받기도 합니다. 다만 변경이 건너가는 데 시간이 걸립니다. 이 틈이 <strong>복제 지연</strong>(replication lag)입니다.</p>
+<p>원본 DB가 든 컴퓨터가 고장 나면 앱이 통째로 멈춥니다. 그래서 다른 컴퓨터가 원본의 변경을 곧바로 따라 적게 합니다. 이것을 <strong>복제</strong>(replication)라고 하고, 따라 적는 쪽을 복제본이라고 부릅니다. 원본이 고장 나면 복제본이 대신합니다. 평소에는 읽기 요청을 나눠 맡습니다.</p>
+<p>다만 바뀐 내용이 복제본까지 건너가는 데 시간이 걸립니다. 이 틈을 <strong>복제 지연</strong>(replication lag)이라고 합니다.</p>
 <figure class="fig" id="fig-replica-lag"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 312" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>닉네임을 원본 DB에 저장한 직후 복제본에서 읽으면, 변경이 아직 도착하지 않아 옛 닉네임이 보인다</title>
   <circle class="badge" cx="172" cy="24" r="10"/><text class="badge-t" x="172" y="28.5">1</text>
@@ -1122,25 +1133,19 @@ Seq Scan on orders  (… rows=52 …)
 
   <path class="ln warm" d="M134 266 V273 H420 V266"/>
   <text class="t-s t-b mid tc-warm" x="277" y="294">복제 지연: 이 동안 복제본에는 옛 값이 남아 있다</text>
-</svg></div><figcaption><b>그림 17-10</b>저장은 원본에 하고 읽기는 복제본에서 했습니다. 방금 쓴 글이 안 보이는 전형적인 원인입니다.</figcaption></figure>
-<p>방금 쓴 사람의 다음 읽기는 원본에서 하게 하면 풀립니다. 여러 서버에 걸친 일관성은 <a href="ch18.html">18장</a>에서 이어집니다.</p>
+</svg></div><figcaption><b>그림 17-10</b>저장은 원본에, 읽기는 복제본에서 했습니다. 방금 고친 것이 안 보일 때 흔한 원인입니다.</figcaption></figure>
+<p>민지가 앱에서 닉네임을 "민지"에서 "밍"으로 바꿨습니다. 0.0초에 원본에 저장됩니다. 0.1초에 민지가 프로필을 새로고침합니다. 읽기는 복제본이 맡는데, 복제본에는 아직 "민지"가 남아 있습니다. 화면에 옛 닉네임이 뜹니다. 변경은 0.5초에야 복제본에 도착합니다. 1.0초에 다시 새로고침하면 "밍"이 보입니다.</p>
+<p>방금 무언가를 고친 사람의 다음 읽기는 원본에서 하게 하면 풀립니다.</p>
 </section>
 <section class="level3" id="백업-과거로-돌아가는-사본">
 <h3>백업: 과거로 돌아가는 사본</h3>
-<p><strong>백업</strong>(backup)은 과거 어느 시점의 사본입니다. 복제본은 백업을 대신하지 못합니다. 실수로 실행한 <code>DELETE</code>도 복제본이 그대로 따라 하기 때문입니다.</p>
-<p>백업에는 숫자 두 개를 정합니다. <strong>RPO</strong>(Recovery Point Objective)는 "최근 얼마 동안의 데이터까지 잃어도 되는가", <strong>RTO</strong>(Recovery Time Objective)는 "되살리는 데 얼마나 걸려도 되는가"입니다. 매일 자정에만 백업한다면 밤 11시에 난 사고로 23시간치 주문을 잃습니다. 그리고 복원해 보지 않은 백업은 믿을 수 없습니다. 실제로 되살려 보고 걸린 시간을 재 둡니다.</p>
+<p>게임에서 어려운 보스 앞에 서면 저장부터 합니다. 지면 그 지점으로 돌아가려는 것입니다. <strong>백업</strong>(backup)이 이런 사본입니다. 어느 시점의 DB를 통째로 복사해 따로 둔 것입니다.</p>
+<p>복제본이 있어도 백업은 따로 필요합니다. 누가 실수로 주문을 모두 지우면 복제본도 그대로 따라 지우기 때문입니다.</p>
+<p>매일 밤 12시에만 백업한다고 합시다. 다음 날 밤 11시에 사고가 나면 23시간 동안 쌓인 주문을 잃습니다. 그리고 백업은 실제로 되살려 봐야 믿을 수 있습니다.</p>
 </section>
 <section class="level3" id="캐시-가까이-둔-사본">
 <h3>캐시: 가까이 둔 사본</h3>
-<p><strong>캐시</strong>(<a href="ch01.html">1장</a>)는 자주 읽는 결과를 가까이에 복사해 둔 것입니다. 원본이 바뀌어도 사본은 저절로 바뀌지 않으므로 언제 버릴지를 정해야 합니다. 이것을 <strong>무효화</strong>(invalidation)라고 합니다. 상품 설명은 1분쯤 낡아도 괜찮지만, 재고처럼 틀리면 안 되는 판단은 원본을 보고 합니다.</p>
-</section>
-<section class="level3" id="영업-중에-양식-바꾸기-마이그레이션">
-<h3>영업 중에 양식 바꾸기: 마이그레이션</h3>
-<p>스키마를 바꾸는 작업을 <strong>마이그레이션</strong>(migration)이라고 합니다. 어려운 점은 가게 문을 닫지 않고 해야 한다는 것입니다. 새 코드를 내보내는 동안에는 옛 코드와 새 코드가 잠시 함께 돕니다. 열 하나를 지우는 순간, 아직 그 열을 읽는 옛 코드는 모두 오류를 냅니다. 그래서 네 걸음으로 나눕니다. <strong>새 열을 추가하고, 기존 값을 옮겨 채우고, 코드가 새 열을 쓰게 바꾸고, 아무도 안 쓰는 것을 확인한 뒤 옛 열을 지웁니다.</strong></p>
-<details class="deep"><summary><small>한 걸음 더</small>일지가 끝없이 길어지지 않게: 체크포인트와 시점 복구</summary><div class="deep-body">
-<p>일지(WAL)만 쌓으면 재시작할 때 읽을 양이 끝없이 늘어납니다. 그래서 DB는 주기적으로 밀린 변경을 장부 본문에 반영하고 "여기까지 반영함"이라고 표시합니다. 이것이 <strong>체크포인트</strong>(checkpoint)입니다. 복구는 그 표시 뒤부터만 하면 됩니다.</p>
-<p>일지를 버리지 않고 모아 두면 <strong>시점 복구</strong>(PITR)를 할 수 있습니다. 어제 백업을 되살린 뒤 그 뒤의 일지를 "오늘 14시 29분"까지만 다시 실행하면, 14시 30분에 벌어진 삭제 사고 바로 앞 상태가 됩니다. RPO를 하루에서 몇 분으로 줄이는 방법입니다.</p>
-</div></details>
+<p><a href="ch01.html">1장</a>의 요리사는 소금을 손 옆 선반에 두었습니다. 자주 읽는 결과를 이렇게 가까이에 복사해 둔 것이 <strong>캐시</strong>(cache)입니다. 하지만 원본이 바뀌어도 사본은 저절로 바뀌지 않습니다. 재고처럼 틀리면 안 되는 것은 원본을 보고 판단합니다.</p>
 </section>
 </section>
 <section class="level2" id="pairs">
@@ -1171,68 +1176,68 @@ Seq Scan on orders  (… rows=52 …)
 </tr>
 <tr>
 <td>트랜잭션 / 잠금</td>
-<td>여러 변경을 한 건으로 묶기 / 남이 끼어들지 못하게 막기</td>
+<td>여러 작업을 한 건으로 묶기 / 남이 끼어들지 못하게 막기</td>
 </tr>
 <tr>
 <td>복제 / 백업</td>
-<td>지금을 따라가는 사본 / 과거로 돌아갈 수 있는 사본</td>
+<td>지금을 따라가는 사본 / 과거로 돌아가는 사본</td>
 </tr>
 </tbody>
 </table></div>
 </section>
 <section class="level2" id="case">
 <h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
-<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · '내 주문' 화면이 3초 걸리는데 인덱스를 늘려도 그대로다</div>
-<p>'내 주문' 화면은 한 회원의 최근 주문 100건과 주문마다 배송 상태를 보여 줍니다. 느리다고 해서 주문 표에 인덱스를 두 개 더 만들었지만 달라지지 않았습니다.</p>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · '내가 빌린 책' 화면이 3초나 걸린다</div>
+<p>학교 도서부가 대출 기록을 데이터베이스에 담고 앱을 만들었습니다. '내가 빌린 책' 화면은 한 학생이 빌린 책 30권을 제목과 함께 보여 줍니다. 그런데 화면이 뜨는 데 3초가 걸립니다. 인덱스를 두 개 더 만들었지만 그대로입니다.</p>
 <ol type="1">
-<li><strong>쿼리 수부터 셉니다.</strong> 쿼리 로그를 켜고 화면을 한 번 열었더니 쿼리가 101번 나갔습니다. 주문마다 배송 상태를 따로 묻는 N+1입니다.</li>
-<li><strong>한꺼번에 묻게 바꿉니다.</strong> ORM에 배송 정보를 함께 가져오도록 지정해 쿼리를 2번으로 줄였습니다.</li>
-<li><strong>남은 쿼리의 계획을 봅니다.</strong> <code>EXPLAIN</code>을 붙였더니 "이 회원의 최근 주문"을 찾는 쿼리가 <code>Seq Scan</code>이었습니다. 새로 만든 인덱스는 이 조건과 맞지 않았습니다.</li>
-<li><strong>조건에 맞는 인덱스로 바꿉니다.</strong> <code>(member_id, ordered_at)</code> 복합 인덱스를 만들어 계획이 <code>Index Scan</code>으로 바뀐 것을 확인했습니다. 쓰기만 느리게 하던 처음 두 개는 지웠습니다.</li>
+<li><strong>몇 번 묻는지부터 셉니다.</strong> 화면을 한 번 열 때 쿼리가 31번 나갔습니다. 대출 기록 30건을 가져온 뒤 책마다 제목을 따로 묻는 N+1입니다.</li>
+<li><strong>한꺼번에 묻게 바꿉니다.</strong> 책 번호 30개를 모아 한 번에 묻도록 고쳤습니다. 쿼리가 2번으로 줄었습니다.</li>
+<li><strong>남은 쿼리의 계획을 묻습니다.</strong> <code>EXPLAIN</code>을 붙여 보니 "이 학생의 대출 기록"을 찾는 쿼리가 표 전체를 훑고 있었습니다. 새로 만든 인덱스는 조건과 맞지 않았습니다.</li>
+<li><strong>조건에 맞는 인덱스로 바꿉니다.</strong> 학생 번호를 앞에, 빌린 날짜를 뒤에 둔 복합 인덱스를 만들었습니다. 계획이 "인덱스로 찾겠습니다"로 바뀌었습니다. 쓸모없던 인덱스 두 개는 지웠습니다.</li>
 </ol>
-<p>횟수 문제와 한 번의 읽기 비용 문제는 다릅니다. 추측으로 인덱스를 늘리기 전에 쿼리 수와 실행 계획을 먼저 봅니다.</p>
+<p>여러 번 묻는 문제와 한 번에 많이 읽는 문제는 다릅니다. 짐작으로 인덱스부터 늘리지 말고 쿼리 수와 실행 계획을 먼저 봅니다.</p>
 </div>
 </section>
 <section class="level2" id="summary">
 <h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
 <div class="summary">
 <ul>
-<li><strong>데이터베이스</strong>는 창구 직원(DBMS)이 지키는 장부입니다. 동시에 고치기, 중간에 꺼지기, 느린 찾기를 대신 책임집니다.</li>
-<li>데이터는 <strong>표</strong>에 담고, <strong>기본 키</strong>로 행을 가리키고, <strong>외래 키</strong>로 표를 잇습니다. 같은 사실은 한 곳에만 적습니다.</li>
-<li><strong>SQL</strong>은 무엇을 원하는지만 적습니다. NULL은 "모름"이라서 <code>IS NULL</code>로 찾습니다.</li>
-<li><strong>인덱스</strong>는 찾아보기입니다. 읽기는 빨라지고 쓰기는 느려집니다. 느릴 때는 <strong>쿼리 수</strong>와 <strong>실행 계획</strong>을 봅니다.</li>
-<li><strong>트랜잭션</strong>은 전부 아니면 전무입니다. 동시에 고치는 문제는 조건을 붙인 UPDATE나 잠금으로 따로 막습니다.</li>
-<li>복제본은 조금 늦고, 백업은 복원해 봐야 믿을 수 있습니다.</li>
+<li><strong>데이터베이스</strong>는 창구 직원(DBMS)이 지키는 장부입니다. 동시에 고치기, 쓰다가 꺼지기, 느린 찾기를 직원이 대신 책임집니다.</li>
+<li>정보는 <strong>표</strong>에 담습니다. <strong>기본 키</strong>로 행을 가리키고 <strong>외래 키</strong>로 표를 잇습니다. 같은 사실은 한 곳에만 적습니다.</li>
+<li><strong>SQL</strong>에는 무엇을 원하는지만 적습니다. NULL은 "모름"이라서 <code>IS NULL</code>로 찾습니다.</li>
+<li><strong>인덱스</strong>는 찾아보기입니다. 읽기는 빨라지고 쓰기는 느려집니다. 느릴 때는 <strong>묻는 횟수</strong>와 <strong>실행 계획</strong>을 봅니다.</li>
+<li><strong>트랜잭션</strong>은 전부 되거나 전부 안 됩니다. 동시에 고치는 사고는 잠금이나 조건을 붙인 UPDATE로 따로 막습니다.</li>
+<li>복제본은 원본보다 조금 늦습니다. 백업은 되살려 봐야 믿을 수 있습니다.</li>
 </ul>
 </div>
 </section>
 <section class="level2" id="quiz">
 <h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
 <div class="quiz"><div class="q"><div class="q-body">
-<p>회원 가입 코드가 "같은 이메일이 있는지 조회하고, 없으면 저장" 순서로 되어 있습니다. 그런데 같은 이메일의 계정이 두 개 생겼습니다. 왜 그렇고, 어떻게 막을까요?</p>
+<p>게임에 가입할 때 프로그램이 "같은 닉네임이 있는지 찾아보고, 없으면 저장"합니다. 그런데 닉네임이 똑같은 사람이 두 명 생겼습니다. 왜 그럴까요?</p>
 
 </div><details class="a"><summary>정답 보기</summary><div>
-<p>조회와 저장 사이에 틈이 있어서, 동시에 들어온 두 요청이 모두 "없음"을 확인하고 저장했습니다. 이메일 열에 <code>UNIQUE</code> 제약을 걸면 DB가 적는 순간에 판정하므로 하나만 성공합니다.</p>
+<p>찾아보기와 저장 사이에 틈이 있습니다. 두 사람이 동시에 신청하면 둘 다 "없음"이라는 답을 받고 저장합니다. 헤드셋 재고를 둘이 동시에 읽은 사고와 같습니다. 닉네임 열에 "겹치면 안 됨"이라는 제약 조건을 걸면 한 명만 통과합니다.</p>
 </div></details></div><div class="q"><div class="q-body">
-<p>전화번호를 입력하지 않은 회원을 찾으려고 <code>WHERE phone = NULL</code>이라고 썼더니 0명이 나왔습니다. 실제로는 여러 명이 있습니다. 무엇이 문제일까요?</p>
+<p>반 친구 표에 생일 열이 있습니다. 지우는 생일을 적지 않아서 그 칸이 NULL입니다. "생일이 5월이 아닌 친구"를 찾으면 지우가 나올까요?</p>
 
 </div><details class="a"><summary>정답 보기</summary><div>
-<p>NULL은 "모름"이라서 <code>=</code>로 비교한 답도 "모름"입니다. <code>WHERE</code>는 답이 참인 행만 남기므로 아무도 남지 않습니다. <code>WHERE phone IS NULL</code>로 써야 합니다.</p>
+<p>나오지 않습니다. NULL은 "모름"이라서 5월인지 아닌지도 "모름"입니다. 답이 "예"인 행만 남으므로 지우는 빠집니다. 생일이 빈 친구는 <code>IS NULL</code>로 따로 찾습니다.</p>
 </div></details></div><div class="q"><div class="q-body">
-<p>주문 표에 <code>(member_id, ordered_at)</code> 인덱스가 있습니다. 그런데 "지난주에 들어온 모든 주문"을 조회하는 쿼리가 느립니다. 인덱스에 날짜 열이 들어 있는데 왜 그럴까요?</p>
+<p>학교 전체 명단이 반 순서이고, 같은 반 안에서는 이름 가나다순입니다. "2반의 김씨"는 금방 찾는데 "전교의 김씨"는 왜 오래 걸릴까요?</p>
 
 </div><details class="a"><summary>정답 보기</summary><div>
-<p>이 인덱스는 회원 번호순으로 먼저 정렬되어 있어서 지난주 주문이 회원마다 따로 흩어져 있습니다. <code>ordered_at</code>이 앞에 오는 인덱스를 따로 만들고, <code>EXPLAIN</code>으로 실제로 쓰이는지 확인합니다.</p>
+<p>김씨가 반마다 따로 흩어져 있기 때문입니다. 복합 인덱스도 앞에 둔 열이 정해져야 한 구간으로 모입니다.</p>
 </div></details></div><div class="q"><div class="q-body">
-<p>AI가 "주문 저장과 결제 호출을 한 트랜잭션에 넣었으니 결제가 두 번 될 일은 없습니다"라고 합니다. 믿어도 될까요?</p>
+<p>게임에서 친구에게 아이템을 주려면 내 가방에서 빼고 친구 가방에 넣어야 합니다. AI가 "두 작업을 트랜잭션으로 묶었으니, 하나 남은 아이템을 두 친구에게 동시에 주는 일도 없습니다"라고 합니다. 맞을까요?</p>
 
 </div><details class="a"><summary>정답 보기</summary><div>
-<p>부족합니다. 트랜잭션은 DB 안의 변경만 묶습니다. 외부 결제는 롤백으로 취소되지 않고, 같은 요청이 두 번 들어오는 것도 막지 못합니다. 요청마다 고유 번호를 붙여 <code>UNIQUE</code> 제약으로 중복을 걸러 내고, 외부 호출은 트랜잭션 밖에서 합니다.</p>
+<p>반만 맞습니다. 트랜잭션은 내 가방에서만 빠지고 친구에게는 들어가지 않은 반쪽 상태를 막습니다. 하지만 두 요청이 동시에 "1개 있음"을 읽는 일은 막지 못합니다. "남아 있을 때만 줄여라"라는 조건을 붙이거나 그 행을 먼저 잠가야 합니다.</p>
 </div></details></div><div class="q"><div class="q-body">
 <p>"복제본이 두 대나 있으니 백업은 없어도 된다"는 말에서 빠진 것은 무엇일까요?</p>
 
 </div><details class="a"><summary>정답 보기</summary><div>
-<p>복제본은 원본의 변경을 그대로 따라 하므로, 실수로 지운 데이터는 복제본에서도 지워집니다. 과거 시점으로 돌아가려면 백업이 필요합니다. 그 백업도 실제로 복원해 보고, 잃어도 되는 구간(RPO)과 복구 시간(RTO)을 확인합니다.</p>
+<p>복제본은 원본이 바뀌는 대로 따라 합니다. 실수로 지운 것은 복제본에서도 지워집니다. 과거로 돌아가려면 백업이 필요합니다.</p>
 </div></details></div></div>
 
 
@@ -1242,11 +1247,11 @@ Seq Scan on orders  (… rows=52 …)
 <section class="level2" id="ai">
 <h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
 <div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
-<p>AI는 "혼자 쓸 때는 잘 도는" DB 코드를 만들기 쉽습니다. 동시에 들어오는 경우와 중간에 실패하는 경우를 <strong>직접 지목해서</strong> 시키세요.</p>
+<p>AI는 혼자 쓸 때만 잘 되는 DB 프로그램을 만들기 쉽습니다. 동시에 쓰는 경우와 중간에 멈추는 경우를 <strong>콕 집어서</strong> 물어보세요.</p>
 <blockquote>
-<p>주문 저장 기능을 검토해 줘. DB는 PostgreSQL이고 격리 수준은 기본값이야. (1) 재고 1개를 두 명이 동시에 사는 경우와 (2) 같은 요청이 두 번 전송되는 경우를 구분해서 각각 어떻게 막는지 설명해 줘. 재고는 조건을 붙인 UPDATE로 줄이고, 주문 저장과 한 트랜잭션으로 묶어 줘. 두 연결로 동시에 실행하는 테스트와, 재고를 줄인 뒤 주문 저장 전에 일부러 실패시키는 테스트를 추가하고 결과를 보여 줘.</p>
+<p>주문을 저장하는 부분을 살펴봐 줘. 하나 남은 물건을 두 명이 동시에 사면 어떻게 되는지 설명해 줘. 재고를 줄인 뒤 주문을 저장하기 전에 멈추면 어떻게 되는지도 알려 줘. 재고는 "남아 있을 때만 줄여라"라는 조건을 붙여서 줄여 줘. 그리고 주문 저장과 한 트랜잭션으로 묶어 줘. 두 명이 동시에 사는 상황을 실제로 돌려 보고 결과를 보여 줘.</p>
 </blockquote>
-<p><strong>받은 답에서 확인할 것</strong>: 바뀐 행이 0개일 때를 실패로 처리하는가, 트랜잭션 안에 외부 호출이 없는가, 동시 실행 테스트를 실제로 돌린 결과가 있는가.</p>
+<p><strong>받은 답에서 확인할 것</strong>: 바뀐 행이 0개일 때 품절로 처리하는가. 동시에 사는 상황을 실제로 돌린 결과가 있는가.</p>
 </div>
 </section>
 <section class="level2" id="terms">
@@ -1254,79 +1259,77 @@ Seq Scan on orders  (… rows=52 …)
 <dl class="terms">
 <dt>DBMS<small>Database Management System</small></dt>
 <dd>
-데이터베이스를 지키고 요청을 처리하는 프로그램.
+데이터베이스를 지키고 부탁을 처리하는 프로그램.
+</dd>
+<dt>SQL<small>Structured Query Language</small></dt>
+<dd>
+데이터베이스에 부탁할 때 쓰는 언어.
+</dd>
+<dt>쿼리<small>query</small></dt>
+<dd>
+SQL로 쓴 부탁 한 문장.
 </dd>
 <dt>스키마<small>schema</small></dt>
 <dd>
-표에 어떤 열이 있고 어떤 값이 들어갈 수 있는지 정한 양식.
+표의 열과 칸마다 적을 수 있는 값을 정해 둔 양식.
 </dd>
 <dt>기본 키<small>primary key</small></dt>
 <dd>
-표에서 행 하나를 가리키는, 겹치지 않는 값.
+표에서 행 하나를 가리키는, 겹치지 않는 번호.
 </dd>
 <dt>외래 키<small>foreign key</small></dt>
 <dd>
-다른 표의 기본 키를 적어 두어 두 표를 잇는 열.
+다른 표의 기본 키를 적어 두어 두 표를 잇는 칸.
 </dd>
 <dt>정규화<small>normalization</small></dt>
 <dd>
 같은 사실이 한 곳에만 적히도록 표를 나누는 일.
 </dd>
+<dt>조인<small>JOIN</small></dt>
+<dd>
+번호가 같은 행끼리 짝지어 두 표를 붙이는 일.
+</dd>
 <dt>NULL</dt>
 <dd>
-값을 모르거나 없다는 표시. 0이나 빈 글자와 다르다.
+값을 모른다는 표시. 0이나 빈 글자와 다르다.
 </dd>
 <dt>인덱스<small>index</small></dt>
 <dd>
-열의 값을 정렬하고 행의 위치를 적어 둔 찾아보기.
+열의 값을 순서대로 늘어놓고 행의 위치를 적어 둔 찾아보기.
 </dd>
 <dt>실행 계획<small>query plan</small></dt>
 <dd>
-DB가 쿼리를 어떤 방법으로 처리할지 정한 절차. <code>EXPLAIN</code>으로 본다.
+DB가 쿼리를 어떻게 찾을지 세운 계획. <code>EXPLAIN</code>으로 본다.
 </dd>
 <dt>N+1 문제<small>N+1 query problem</small></dt>
 <dd>
-목록을 한 번 읽은 뒤 항목마다 쿼리를 한 번씩 더 보내는 패턴.
+목록을 한 번 읽은 뒤 항목마다 한 번씩 더 묻는 일.
 </dd>
 <dt>트랜잭션<small>transaction</small></dt>
 <dd>
-여러 변경을 전부 반영하거나 전부 취소하는 한 묶음. 확정이 커밋, 취소가 롤백.
-</dd>
-<dt>격리 수준<small>isolation level</small></dt>
-<dd>
-동시에 진행 중인 트랜잭션이 서로의 변경을 얼마나 볼 수 있는지 정하는 설정.
+여러 작업을 전부 하거나 전부 취소하는 한 묶음. 확정이 커밋, 취소가 롤백.
 </dd>
 <dt>커넥션 풀<small>connection pool</small></dt>
 <dd>
 미리 열어 두고 돌려 쓰는 DB 연결 묶음.
 </dd>
-<dt>WAL<small>Write-Ahead Log</small></dt>
-<dd>
-장부 본문보다 변경 일지를 먼저 디스크에 적는 방식.
-</dd>
 <dt>복제 지연<small>replication lag</small></dt>
 <dd>
-원본의 변경이 복제본에 도착하기까지의 시간 차.
-</dd>
-<dt>마이그레이션<small>migration</small></dt>
-<dd>
-기존 데이터를 지키면서 스키마를 바꾸는 작업.
+원본에서 바뀐 내용이 복제본에 닿기까지 걸리는 시간.
 </dd>
 </dl>
 </section>
 <section class="level2" id="more">
 <h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
 <ul>
-<li><a href="https://www.postgresql.org/docs/current/indexes-multicolumn.html" rel="noopener" target="_blank">PostgreSQL — Multicolumn Indexes</a> — 복합 인덱스에서 앞 열의 조건이 왜 중요한지 설명합니다.</li>
-<li><a href="https://www.postgresql.org/docs/current/using-explain.html" rel="noopener" target="_blank">PostgreSQL — Using EXPLAIN</a> — 실행 계획을 한 줄씩 읽는 법을 보여 줍니다.</li>
-<li><a href="https://www.postgresql.org/docs/current/transaction-iso.html" rel="noopener" target="_blank">PostgreSQL — Transaction Isolation</a> — 격리 수준마다 무엇이 보이고 언제 재시도해야 하는지 정리합니다.</li>
-<li><a href="https://www.postgresql.org/docs/current/backup.html" rel="noopener" target="_blank">PostgreSQL — Backup and Restore</a> — 백업 방식 세 가지와 복원 절차를 설명합니다.</li>
+<li><a href="https://www.postgresql.org/docs/current/indexes-multicolumn.html" rel="noopener" target="_blank">PostgreSQL — Multicolumn Indexes</a> — 복합 인덱스에서 앞에 둔 열이 왜 중요한지 설명하는 영어 문서입니다.</li>
+<li><a href="https://www.postgresql.org/docs/current/using-explain.html" rel="noopener" target="_blank">PostgreSQL — Using EXPLAIN</a> — 실행 계획을 한 줄씩 읽는 법을 보여 주는 영어 문서입니다.</li>
 </ul>
 </section>
 <footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch16.html"><small>← 이전 · 16장</small><b>파일·입출력·성능</b></a><a class="next" href="ch18.html"><small>다음 · 18장 →</small><b>시스템 설계</b></a></nav></footer>
 <footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
 </article>
-<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#why">파일 하나로는 왜 안 될까</a><a href="#table">표, 행, 열: 칸이 정해진 장부</a><a href="#normalize">같은 사실은 한 곳에만: 정규화</a><a href="#sql">SQL: 원하는 것만 적는 신청서</a><a href="#index">인덱스: 책 뒤의 찾아보기</a><a href="#slow">느린 조회 진단하기: 실행 계획과 N+1</a><a href="#transaction">트랜잭션: 전부 되거나, 전부 안 되거나</a><a href="#concurrency">동시에 고칠 때: 격리와 잠금</a><a href="#operate">운영하며 지키기: 복제, 백업, 캐시, 스키마 변경</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#why">파일 하나로는 왜 안 될까</a><a href="#table">표, 행, 열: 칸이 정해진 장부</a><a href="#normalize">같은 사실은 한 곳에만: 정규화</a><a href="#sql">SQL: 원하는 것만 적는 신청서</a><a href="#index">인덱스: 책 뒤의 찾아보기</a><a href="#slow">느릴 때 물어볼 두 가지: 실행 계획과 N+1</a><a href="#transaction">트랜잭션: 전부 되거나, 전부 안 되거나</a><a href="#concurrency">동시에 고칠 때: 잠금과 조건</a><a href="#operate">사본으로 지키기: 복제, 백업, 캐시</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
 </main>
 </div>
 <script src="../assets/site.js"></script>

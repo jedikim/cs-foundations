@@ -38,6 +38,13 @@ CALLOUTS = {
     'ai': ('AI에게 맡길 때', 'i-robot'),
     'key': ('핵심', 'i-bolt'),
 }
+CODE_LABELS = {
+    'python': '파이썬 코드', 'javascript': '자바스크립트 코드', 'js': '자바스크립트 코드', 'typescript': '타입스크립트 코드',
+    'bash': '터미널 명령', 'sh': '터미널 명령', 'zsh': '터미널 명령', 'console': '터미널 명령',
+    'sql': 'SQL (데이터베이스 명령)', 'json': 'JSON 데이터', 'yaml': 'YAML 설정', 'toml': 'TOML 설정',
+    'html': 'HTML', 'css': 'CSS', 'c': 'C 코드', 'cpp': 'C++ 코드', 'csharp': 'C# 코드', 'gdscript': 'GDScript 코드',
+    'makefile': 'Makefile', 'dockerfile': 'Dockerfile', 'diff': '바뀐 내용', 'http': 'HTTP 메시지',
+}
 TAIL_IDS = {'pairs', 'case', 'summary', 'quiz', 'ai', 'terms', 'more'}
 warnings = []
 
@@ -266,6 +273,18 @@ def render_chapter_body(cid, md_text, root='../'):
             a['rel'] = 'noopener'
     for a in soup.select('pre a[aria-hidden]'):
         a.decompose()
+    for pre in soup.find_all('pre'):
+        lang = next((c for c in (pre.get('class') or []) if c in CODE_LABELS), None)
+        if not lang:
+            continue
+        box = soup.new_tag('div')
+        box['class'] = ['code-box']
+        tab = soup.new_tag('div')
+        tab['class'] = ['code-lang']
+        tab.string = CODE_LABELS[lang]
+        target = pre.parent if pre.parent.name == 'div' and 'sourceCode' in (pre.parent.get('class') or []) else pre
+        target.wrap(box)
+        box.insert(0, tab)
 
     # 제목 번호·앵커·목차·검색
     toc, entries = [], []

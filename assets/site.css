@@ -122,6 +122,10 @@ pre{background:var(--code-bg);border:1px solid var(--line);border-radius:12px;pa
 pre code{background:none;border:0;padding:0;font-size:inherit;white-space:pre}
 .sourceCode{margin:18px 0}
 div.sourceCode pre{margin:0}
+.code-box{margin:18px 0}
+.code-box pre,.code-box .sourceCode{margin:0}
+.code-box pre{border-top-left-radius:0}
+.code-lang{display:inline-block;font-size:12px;font-weight:700;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--line);border-bottom:0;border-radius:9px 9px 0 0;padding:3px 12px;line-height:1.6}
 .code-wrap{position:relative}
 .copy-btn{position:absolute;top:8px;right:8px;border:1px solid var(--line-2);background:var(--surface);border-radius:7px;font-size:11.500px;padding:2px 8px;color:var(--muted);opacity:0;transition:opacity .15s}
 .code-wrap:hover .copy-btn,.copy-btn:focus-visible{opacity:1}

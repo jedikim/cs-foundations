@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>13장 숫자로 시스템 읽기 — 개발의 기초</title>
-<meta name="description" content="단위·평균·백분위·확률">
+<meta name="description" content="숫자에 속지 않는 법">
 <meta name="author" content="Jedi Kim">
 <link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
 <script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
@@ -124,7 +124,7 @@
 <header class="ch-head pc-purple">
 <div class="ch-kicker"><span class="ch-no">13장</span><span class="part">4부 · 연결되는 시스템</span></div>
 <h1>숫자로 시스템 읽기</h1>
-<p class="ch-sub">단위·평균·백분위·확률</p>
+<p class="ch-sub">숫자에 속지 않는 법</p>
 <div class="ch-meta"><span class="chip">읽는 시간 약 30분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch09.html">9장 알고리즘과 비용</a></div>
 </header><div class="lead">
 <p>"우리 반 평균 키는 160cm"라는 말을 들으면 다들 160cm쯤 되는 줄 압니다. 하지만 140cm인 친구와 180cm인 친구가 반씩 섞여 있어도 평균은 160cm입니다. 숫자는 거짓말을 하지 않지만, 읽는 법을 모르면 속기 쉽습니다. 이 장에서는 컴퓨터와 프로그램에 관한 숫자를 제대로 읽는 법을 배웁니다.</p>
@@ -139,10 +139,11 @@
 </div>
 <section class="level2" id="units">
 <h2><span class="sec-n">13.1</span>숫자 옆의 글자부터 읽습니다: 단위<a aria-label="이 절의 링크" class="anchor" href="#units">#</a></h2>
-<p>편의점 점장에게 "계산이 3 걸려요"라고 보고하면 점장은 되묻습니다. 3초인가요, 3분인가요? 숫자는 <strong>단위</strong>가 붙어야 뜻이 생깁니다. 이 장에서는 시스템을 편의점에, 서버를 계산대에, 요청을 손님에 빗대어 숫자 읽는 법을 익힙니다.</p>
+<p>반 평균 키 "160"에서 cm를 떼면 무슨 뜻인지 알 수 없습니다. 친구가 "편의점까지 5 걸려"라고 해도 마찬가지입니다. 5분일까요, 5초일까요?</p>
+<p>숫자 뒤에 붙는 cm, 분, 초 같은 말을 <strong>단위</strong>라고 합니다. 숫자는 단위가 붙어야 뜻이 생깁니다. 컴퓨터의 숫자도 그렇습니다.</p>
 <section class="level3" id="시간-천-배씩-짧아지는-네-계단">
 <h3>시간: 천 배씩 짧아지는 네 계단</h3>
-<p>컴퓨터는 사람이 느끼지 못할 만큼 짧은 시간을 다루므로 1초를 잘게 쪼갠 단위를 씁니다.</p>
+<p>컴퓨터는 사람이 느끼지 못할 만큼 짧은 시간에 일을 끝냅니다. 그래서 1초를 잘게 쪼갠 단위를 씁니다. 1초를 1,000조각 낸 한 조각이 <strong>밀리초</strong>(ms)입니다.</p>
 <figure class="fig" id="fig-unit-ladder"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 344" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>1초를 천 조각 내면 밀리초, 그 한 조각을 다시 천 조각 내면 마이크로초, 또 천 조각 내면 나노초다</title>
   <text class="t-s t-b" x="20" y="30">단위</text>
@@ -185,29 +186,33 @@
   <text class="t-b mid" x="345" y="310">1ns</text>
   <text class="t-s" x="545" y="302">메모리에서 읽기 약 100ns</text>
   <text class="t-s" x="545" y="320">CPU 캐시에서 읽기 약 1ns</text>
-</svg></div><figcaption><b>그림 13-1</b>1초를 1,000조각 내면 밀리초, 그 한 조각을 다시 1,000조각 내면 마이크로초입니다. 한 계단 내려갈 때마다 1,000배 짧아집니다.</figcaption></figure>
-<p>단위 앞에 붙는 m(밀리), µ(마이크로), n(나노)을 <strong>접두사</strong>(prefix)라고 합니다. <code>0.2s</code>, <code>200ms</code>, <code>200000µs</code>는 모두 같은 시간입니다. 도구마다 쓰는 단위가 다르므로, 로그에 찍힌 "응답 시간 250"을 ms라고 넘겨짚으면 1,000배를 틀릴 수 있습니다.</p>
+</svg></div><figcaption><b>그림 13-1</b>한 계단 내려갈 때마다 1,000배 짧아집니다.</figcaption></figure>
+<p>밀리초를 다시 1,000조각 내면 마이크로초(µs), 또 1,000조각 내면 나노초(ns)입니다. 1mm가 1m의 1,000분의 1인 것처럼, 앞에 붙은 m(밀리)이 "1,000분의 1"을 뜻합니다.</p>
+<p>그림 오른쪽에는 그만큼 걸리는 일이 적혀 있습니다. 큰 파일을 받는 일, 프로그램을 만들고 검사하는 일(빌드, 테스트)은 초로 잽니다. 웹사이트에 화면을 달라고 부탁해서 받는 일(웹 요청)은 밀리초로 잽니다. <a href="ch01.html">1장</a>에서 본 SSD, 메모리, CPU 캐시에서 값을 읽는 일은 훨씬 짧습니다.</p>
+<p>같은 시간도 단위에 따라 숫자가 달라집니다. 0.2초는 0.2 × 1,000 = 200ms입니다. 그러니 단위 없이 "250"이라고만 적힌 시간은 넘겨짚지 않습니다. 초와 ms를 헷갈리면 1,000배를 틀립니다.</p>
 </section>
 <section class="level3" id="크기와-속도-소문자-b와-대문자-b">
 <h3>크기와 속도: 소문자 b와 대문자 B</h3>
-<p><a href="ch02.html">2장</a>에서 1바이트는 8비트라고 배웠습니다. 단위에서 소문자 b는 비트, 대문자 B는 바이트입니다. 인터넷 요금제의 100Mbps는 "1초에 100메가<strong>비트</strong>"라는 뜻입니다. 파일 크기는 바이트로 적으니 8로 나눠야 합니다. 100 ÷ 8 = 12.5, 곧 1초에 12.5MB입니다. 500MB 파일은 500 ÷ 12.5 = 40초가 걸립니다. 5초가 아닙니다.</p>
+<p><a href="ch02.html">2장</a>에서 스위치 하나를 비트, 여덟 개 묶음을 바이트라고 배웠습니다. 단위에서 소문자 b는 비트, 대문자 B는 바이트입니다.</p>
+<p>집 인터넷 속도 100Mbps는 "1초에 100메가<strong>비트</strong>"라는 뜻입니다. M(메가)은 100만 배입니다. 그런데 파일 크기는 MB, 곧 메가<strong>바이트</strong>로 적습니다.</p>
+<p>비트를 바이트로 바꾸려면 8로 나눕니다. 100 ÷ 8 = 12.5이니 1초에 12.5MB를 받습니다. 500MB짜리 게임은 500 ÷ 12.5 = 40초가 걸립니다. 5초가 아닙니다.</p>
 </section>
-<section class="level3" id="초당-몇-건-나눗셈으로-만든-단위">
-<h3>"초당 몇 건": 나눗셈으로 만든 단위</h3>
-<p>서버의 <strong>초당 요청 수</strong>(RPS, requests per second)나 게임의 <strong>fps</strong>(frames per second, 1초에 그리는 화면 장수)는 건수를 시간으로 나눈 단위입니다. 이런 단위는 뒤집으면 "한 건에 쓸 수 있는 시간"이 됩니다. 60fps라면 화면 한 장(프레임)에 1,000ms ÷ 60 ≈ 16.7ms입니다. 이동 계산 4ms, 그리기 준비 5ms, 파일 읽기 12ms를 차례로 하면 21ms입니다. 16.7ms를 넘겼으니 화면이 한 박자 끊깁니다.</p>
-<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · 계산하기 전에 단위부터 통일</div>
-<p>더하거나 비교할 숫자는 먼저 같은 단위로 바꿔 적습니다. AI가 만든 코드에 <code>timeout = 30</code>이 있다면 30초인지 30ms인지 확인하세요. <code>timeout_ms</code>처럼 이름에 단위를 넣어 달라고 하면 이런 사고가 줄어듭니다.</p>
+<section class="level3" id="초에-몇-장-뒤집어-읽는-단위">
+<h3>"1초에 몇 장": 뒤집어 읽는 단위</h3>
+<p>게임은 그림을 빠르게 바꿔 그려서 움직이는 것처럼 보이게 합니다. 이 그림 한 장이 프레임입니다.</p>
+<p>1초에 프레임을 몇 장 그리는지가 <strong>fps</strong>(frames per second)입니다. 60fps는 1초에 60장입니다.</p>
+<p>이런 단위는 뒤집어 읽을 수 있습니다. 1초는 1,000ms이니 한 장에 쓸 수 있는 시간은 1,000 ÷ 60 ≈ 16.7ms입니다. ≈는 "거의 같다"는 기호입니다. 한 장을 준비하는 데 21ms가 걸리면 16.7ms를 넘겨서 화면이 한 박자 끊깁니다.</p>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · 계산하기 전에 단위부터 맞춥니다</div>
+<p>1.5L와 500mL를 비교할 때는 1,500mL와 500mL로 바꿔 놓고 봅니다. 컴퓨터의 숫자도 더하거나 비교하기 전에 같은 단위로 바꿉니다.</p>
 </div>
 </section>
 </section>
 <section class="level2" id="latency">
 <h2><span class="sec-n">13.2</span>한 명에 30초, 한 시간에 120명: 지연 시간과 처리량<a aria-label="이 절의 링크" class="anchor" href="#latency">#</a></h2>
-<p>계산대가 "빠르다"는 말에는 두 가지 뜻이 섞여 있습니다.</p>
-<ul>
-<li><strong>지연 시간</strong>(latency)은 <strong>한 건</strong>을 끝내는 데 걸리는 시간입니다. 손님 한 명을 계산하는 30초입니다. 서버에서는 요청 하나에 응답하기까지의 시간이고 주로 ms로 잽니다.</li>
-<li><strong>처리량</strong>(throughput)은 <strong>정해진 시간 동안</strong> 끝낸 건수입니다. 한 시간에 나간 손님 수입니다. 서버에서는 초당 요청 수입니다.</li>
-</ul>
-<p>계산대 하나가 30초에 한 명을 계산하면 한 시간(3,600초)에 3,600 ÷ 30 = 120명이 나갑니다. 계산대를 하나 더 열면 240명입니다. 처리량은 두 배가 됐지만 한 명을 계산하는 30초는 그대로입니다.</p>
+<p>편의점 계산대가 "빠르다"는 말에는 두 가지 뜻이 섞여 있습니다.</p>
+<p>하나는 손님 <strong>한 명</strong>을 계산하는 데 걸리는 시간입니다. 30초라고 합시다. 이렇게 일 하나를 끝내는 데 걸리는 시간을 <strong>지연 시간</strong>(latency)이라고 합니다.</p>
+<p>다른 하나는 <strong>정해진 시간 동안</strong> 계산을 마친 손님 수입니다. 30초에 한 명이면 2분에 4명입니다. 한 시간은 3,600초이니 3,600 ÷ 30 = 120명입니다. 이것을 <strong>처리량</strong>(throughput)이라고 합니다.</p>
+<p>손님 여덟 명이 한꺼번에 왔습니다. 계산대를 하나 더 열면 어떻게 될까요?</p>
 <figure class="fig" id="fig-counter-timeline"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 334" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>계산대를 둘로 늘리면 2분 동안 나가는 손님은 4명에서 8명으로 늘지만 한 명을 계산하는 30초는 그대로다</title>
   <text class="t-l" x="20" y="62">계산대 1개</text>
@@ -254,22 +259,24 @@
   <text class="t-xs mid" x="440" y="320">1분</text>
   <text class="t-xs mid" x="560" y="320">1분 30초</text>
   <text class="t-xs mid" x="680" y="320">2분</text>
-</svg></div><figcaption><b>그림 13-2</b>손님 여덟 명이 한꺼번에 온 편의점. 계산대를 늘리면 같은 시간에 더 많은 손님이 나가고 줄 서는 시간도 줄지만, 계산 자체에 걸리는 30초는 줄지 않습니다.</figcaption></figure>
-<p>그림의 주황색 선을 보세요. 손님이 <strong>겪는</strong> 시간은 계산 시간이 아니라 <strong>줄 선 시간 + 계산 시간</strong>입니다. 사용자가 느끼는 응답 시간도 서버가 일한 시간에 <a href="ch11.html#queue">11장</a>의 큐에서 기다린 시간을 더한 값입니다.</p>
-<p>그래서 두 숫자는 따로 움직입니다. 손님이 한 시간에 150명씩 오는데 계산대 하나가 120명을 처리한다면, 처리량은 "시간당 120명"으로 최고 기록인데 줄은 한 시간에 30명씩 길어집니다. "처리량이 늘었는데 사용자는 더 느리다고 한다"는 보고가 모순이 아닌 이유입니다.</p>
-<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
-<p>계산대 직원은 한 번에 한 명만 상대하지만, 실제 서버는 여러 요청을 겹쳐서 처리하기도 합니다. 그래도 "한 건의 시간"과 "시간당 건수"가 다른 숫자라는 점은 같습니다.</p>
-</div>
+</svg></div><figcaption><b>그림 13-2</b>계산대를 늘리면 줄 서는 시간은 줄지만, 계산 자체에 걸리는 30초는 줄지 않습니다.</figcaption></figure>
+<p>2분 동안 나가는 손님이 4명에서 8명으로 늡니다. 처리량이 두 배입니다. 하지만 한 명을 계산하는 30초는 그대로입니다.</p>
+<p>주황색 손님 4를 보세요. 계산대가 하나일 때는 앞의 세 명을 기다리느라 90초 동안 줄을 섭니다. 계산 30초를 더하면 120초입니다. 계산대가 둘이면 30 + 30 = 60초입니다. 손님이 <strong>겪는</strong> 시간은 <strong>줄 선 시간 + 계산 시간</strong>입니다.</p>
+<p>컴퓨터도 같습니다. 유튜브나 게임 회사에는 사람들의 부탁을 받아 일하는 컴퓨터가 있습니다. 이것을 <strong>서버</strong>(server)라고 합니다. 편의점의 계산대입니다.</p>
+<p>영상을 누르면 내 휴대전화가 서버에 "이 영상 보여 줘" 하고 부탁을 보냅니다. 이 부탁 하나하나가 <strong>요청</strong>입니다. 편의점의 손님입니다.</p>
+<p>요청이 몰리면 서버도 줄을 세웁니다. <a href="ch11.html#queue">11장</a>에서 본 큐입니다. 그래서 내가 기다리는 시간은 서버가 일한 시간에 줄 선 시간을 더한 값입니다. 요청을 보내고 답을 받기까지의 이 시간을 <strong>응답 시간</strong>이라고 합니다.</p>
+<p>지연 시간과 처리량은 따로 움직입니다. 손님이 한 시간에 150명씩 오는데 계산대 하나는 120명만 계산합니다. 계산대는 쉬지 않으니 처리량은 가장 높습니다. 그런데 줄은 한 시간에 30명씩 길어지고, 손님은 점점 오래 기다립니다.</p>
 <div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
-<p>"빠르다"는 말을 들으면 되묻습니다. <strong>한 건이 빨리 끝난다는 뜻인가요, 같은 시간에 많이 끝낸다는 뜻인가요?</strong></p>
+<p>"빠르다"는 말을 들으면 되묻습니다. <strong>하나가 빨리 끝난다는 뜻인가요, 같은 시간에 많이 끝낸다는 뜻인가요?</strong></p>
 </div>
 </section>
 <section class="level2" id="ratio">
 <h2><span class="sec-n">13.3</span>"몇 %"를 보면 분모부터 찾습니다<a aria-label="이 절의 링크" class="anchor" href="#ratio">#</a></h2>
-<p>"결제 실패율 5%." 무엇 중의 5%일까요? 편의점에 들어온 손님 중인지, 계산대까지 온 손님 중인지, 카드로 낸 손님 중인지에 따라 전혀 다른 이야기가 됩니다. 퍼센트는 나눗셈의 결과이고, 나눗셈에서 아래에 놓이는 "전체"가 <strong>분모</strong>입니다. 비율을 보면 <strong>분모가 무엇인지</strong>부터 확인합니다.</p>
+<p>편의점 점장이 "오늘 결제의 5%가 실패했다"고 합니다. 무엇 중의 5%일까요? 가게에 들어온 손님일까요, 계산대까지 온 손님일까요, 카드를 낸 손님일까요? 어느 쪽이냐에 따라 전혀 다른 이야기가 됩니다.</p>
+<p>퍼센트는 "부분 ÷ 전체"로 구합니다. 20명 중 1명이면 1 ÷ 20 = 0.05, 곧 5%입니다. 분수로 쓰면 아래에 놓이는 이 "전체"가 <strong>분모</strong>입니다. 비율을 보면 <strong>분모가 무엇인지</strong>부터 확인합니다.</p>
 <section class="level3" id="비율끼리-평균-내지-않습니다">
 <h3>비율끼리 평균 내지 않습니다</h3>
-<p>1번 계산대는 손님 10명 중 9명이 결제에 성공했습니다(90%). 2번 계산대는 90명 중 45명이 성공했습니다(50%). 편의점 전체의 성공률은 두 비율의 가운데인 70%일까요?</p>
+<p>1번 계산대는 손님 10명 중 9명이 결제에 성공했습니다. 90%입니다. 2번 계산대는 90명 중 45명이 성공했습니다. 50%입니다. 편의점 전체의 성공률은 가운데인 70%일까요?</p>
 <figure class="fig" id="fig-weighted-average"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>성공률 90%와 50%를 그냥 평균하면 70%지만 건수를 합쳐 다시 세면 54%다</title>
   <text class="t-s t-b mid" x="49" y="44">1번</text>
@@ -394,18 +401,20 @@
   <text class="t-s" x="342" y="308">결제 성공</text>
   <rect class="box gray" x="430" y="296" width="14" height="14" rx="3"/>
   <text class="t-s" x="452" y="308">결제 실패</text>
-</svg></div><figcaption><b>그림 13-3</b>칸 하나가 손님 한 명입니다. 비율을 합칠 때는 퍼센트끼리 평균 내지 않고, 성공 건수와 전체 건수를 각각 더해 다시 나눕니다.</figcaption></figure>
-<p>손님이 많은 쪽의 비율이 더 큰 몫을 차지해야 맞습니다. 이렇게 집단의 크기를 반영한 평균을 <strong>가중 평균</strong>(weighted average)이라고 합니다. 지역별 응답 시간, 모델별 정답률을 하나로 합칠 때마다 같은 함정이 나옵니다. 그럴 때는 "집단마다 몇 건인가요?"를 묻습니다.</p>
+</svg></div><figcaption><b>그림 13-3</b>칸 하나가 손님 한 명입니다. 비율을 합칠 때는 성공한 수와 전체 수를 각각 더해 다시 나눕니다.</figcaption></figure>
+<p>아닙니다. 손님은 모두 10 + 90 = 100명이고, 성공한 손님은 9 + 45 = 54명입니다. 54 ÷ 100 = 54%입니다. 그림의 초록 칸을 세어도 54칸입니다.</p>
+<p>70%는 2번 계산대의 손님이 9배나 많다는 것을 잊은 계산입니다. 손님이 많은 쪽이 더 큰 몫을 차지해야 맞습니다. 이렇게 무리의 크기를 따져서 낸 평균을 <strong>가중 평균</strong>(weighted average)이라고 합니다. 두 반의 평균 점수를 합칠 때도 "저마다 몇 명인가요?"를 먼저 묻습니다.</p>
 </section>
 <section class="level3" id="퍼센트와-퍼센트포인트">
 <h3>퍼센트와 퍼센트포인트</h3>
-<p>성공률이 80%에서 84%로 올랐습니다. 84 − 80 = 4는 두 비율을 <strong>뺀 차이</strong>이고, 이것을 <strong>퍼센트포인트</strong>(%p)라고 부릅니다. 4 ÷ 80 = 0.05, 곧 5%는 <strong>원래 값에 견준 변화</strong>입니다.</p>
+<p>성공률이 80%에서 84%로 올랐습니다. 얼마나 올랐는지는 두 가지로 말할 수 있습니다.</p>
+<p>그냥 빼면 84 − 80 = 4입니다. 이렇게 두 비율을 <strong>뺀 차이</strong>를 <strong>퍼센트포인트</strong>(%p)라고 합니다. 원래 값과 비교하면 4 ÷ 80 = 0.05, 곧 5% 늘었습니다.</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
 <th>변화</th>
 <th>뺀 차이</th>
-<th>원래 값에 견주면</th>
+<th>원래 값과 비교하면</th>
 </tr>
 </thead>
 <tbody>
@@ -421,18 +430,20 @@
 </tr>
 </tbody>
 </table></div>
-<details class="deep"><summary><small>한 걸음 더</small>조건이 여러 개일 때: 괄호 하나가 분모를 바꿉니다</summary><div class="deep-body">
-<p>"무엇 중에서"를 코드로 옮기면 조건식이 됩니다. AND(그리고)는 조건이 모두 참일 때, OR(또는)는 하나라도 참일 때 참입니다. 문제는 둘이 섞일 때입니다.</p>
-<p>"관리자 또는 소유자이면서 활성 계정"을 <code>관리자 or (소유자 and 활성)</code>으로 쓰면 정지된 관리자도 통과합니다. <code>(관리자 or 소유자) and 활성</code>으로 써야 정지된 계정이 모두 막힙니다. 괄호 위치에 따라 통과하는 사람들의 묶음, 곧 <strong>집합</strong>(set)이 달라집니다.</p>
-<p>"재고는 0보다 작아질 수 없다"처럼 어떤 순간에도 지켜져야 하는 규칙은 <strong>불변 조건</strong>(invariant)이라고 합니다. AI가 만든 조건식은 통과해야 할 입력과 막혀야 할 입력을 하나씩 넣어 확인합니다.</p>
-</div></details>
 </section>
 </section>
 <section class="level2" id="percentile">
 <h2><span class="sec-n">13.4</span>평균이 숨기는 것: 중앙값과 백분위<a aria-label="이 절의 링크" class="anchor" href="#percentile">#</a></h2>
-<p>편의점 손님 100명 중 90명은 바코드만 찍고 나갑니다. 8명은 도시락을 데우고, 2명은 택배를 부칩니다. 서버로 옮기면 이렇습니다. 요청 100개 중 90개는 100ms, 8개는 300ms, 2개는 4,300ms(4.3초)가 걸렸습니다.</p>
-<p><strong>평균</strong>(mean)은 모두 더해 개수로 나눈 값입니다. (90 × 100 + 8 × 300 + 2 × 4,300) ÷ 100 = 20,000 ÷ 100 = 200ms입니다.</p>
-<p>"평균 200ms"는 그럴듯해 보입니다. 하지만 200ms가 걸린 요청은 하나도 없습니다. 값이 한쪽으로 길게 늘어진 데이터에서는 몇 개의 큰 값이 평균을 끌고 갑니다. 그래서 요청을 빠른 순으로 <strong>줄 세워</strong> 봅니다.</p>
+<p>편의점 손님 100명 중 90명은 바코드만 찍고 나갑니다. 8명은 도시락을 데우고, 2명은 택배를 부치느라 한참 걸립니다.</p>
+<p>서버도 비슷합니다. 어떤 게임 서버가 요청 100개에 답했습니다. 90개는 100ms, 8개는 300ms가 걸렸습니다. 나머지 2개는 4,300ms, 곧 4.3초나 걸렸습니다.</p>
+<p><strong>평균</strong>은 모두 더해 개수로 나눈 값입니다.</p>
+<ul>
+<li>90 × 100 = 9,000</li>
+<li>8 × 300 = 2,400</li>
+<li>2 × 4,300 = 8,600</li>
+<li>모두 더한 20,000을 100으로 나누면 200ms입니다.</li>
+</ul>
+<p>"평균 200ms"는 그럴듯해 보입니다. 하지만 200ms가 걸린 요청은 하나도 없습니다. 아주 느린 2개가 평균을 끌어올렸습니다. 반 평균 키와 같은 일입니다. 그래서 요청을 빠른 순서로 <strong>한 줄로 세워</strong> 봅니다.</p>
 <figure class="fig" id="fig-mean-vs-percentile"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 284" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>요청 100개를 빠른 순으로 줄 세우면 평균 200ms는 90개보다 느리고 가장 느린 2개보다는 훨씬 빠른 어중간한 값이다</title>
   <text class="t-h" x="30" y="32">빠른 순으로 줄 세운 요청 100개</text>
@@ -557,38 +568,25 @@
   <text class="t-b tc-blue" x="46" y="204">평균 200ms의 정체</text>
   <text class="t-s" x="46" y="226">요청 90개는 이보다 2배 빠르고</text>
   <text class="t-s" x="46" y="244">2개는 20배 넘게 느리다</text>
-</svg></div><figcaption><b>그림 13-4</b>막대 하나가 요청 하나입니다. 평균은 줄의 90번째와 91번째 사이 어딘가에 놓입니다. 줄의 위치로 읽으면 대부분의 요청과 가장 느린 요청이 따로 보입니다.</figcaption></figure>
-<ul>
-<li><strong>중앙값</strong>(median)은 줄의 한가운데 값입니다. 여기서는 100ms입니다. "보통의 요청"을 대표합니다.</li>
-<li><strong>백분위</strong>(percentile)는 줄의 몇 % 지점인지로 값을 가리킵니다. <strong>p95</strong>는 100개 중 95번째 값으로, "요청의 95%는 이 시간 안에 끝났다"는 뜻입니다. <strong>p99</strong>는 99번째 값이고, 중앙값은 p50입니다.</li>
-</ul>
-<p>이 서비스는 p50 100ms, p95 300ms, p99 4,300ms입니다. 평균에 묻혀 있던 "100명 중 한두 명은 4초 넘게 기다린다"는 사실이 드러납니다.</p>
+</svg></div><figcaption><b>그림 13-4</b>막대 하나가 요청 하나입니다. 줄의 자리로 읽으면 보통의 요청과 가장 느린 요청이 따로 보입니다.</figcaption></figure>
+<p>줄의 한가운데 값을 <strong>중앙값</strong>(median)이라고 합니다. 50번째가 100ms이니 중앙값은 100ms입니다. "보통의 요청"이 이만큼 걸립니다.</p>
+<p>다른 자리도 봅니다. 95번째 값은 300ms입니다. "요청 100개 중 95개는 300ms 안에 끝났다"는 뜻입니다. 이렇게 줄의 몇 % 자리인지로 값을 가리키는 것을 <strong>백분위</strong>(percentile)라고 합니다.</p>
+<p>백분위는 p 뒤에 숫자를 붙여 씁니다. 95번째 값은 p95, 99번째 값은 p99, 한가운데는 p50입니다. 이 서버는 p50이 100ms, p95가 300ms, p99가 4,300ms입니다. 평균에 가려 있던 사실이 드러납니다. 100명 중 한두 명은 4초 넘게 기다립니다.</p>
 <div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
 <p>평균 하나로는 부족합니다. <strong>줄을 세워 가운데(p50)와 끝(p95, p99)을 함께 봅니다.</strong></p>
 </div>
-<p>느린 1%는 생각보다 많은 사람입니다. 하루 요청이 100만 건이면 1%는 1만 건입니다. 게다가 화면 하나를 그리는 데 요청이 수십 개 필요하므로, 그중 하나만 느린 1%에 걸려도 화면 전체가 느려집니다. 얼마나 자주 걸리는지는 뒤에서 계산합니다.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><span class="im">import</span> statistics <span class="im">as</span> st</span>
-<span id="cb1-2">times <span class="op">=</span> [<span class="dv">100</span>] <span class="op">*</span> <span class="dv">90</span> <span class="op">+</span> [<span class="dv">300</span>] <span class="op">*</span> <span class="dv">8</span> <span class="op">+</span> [<span class="dv">4300</span>] <span class="op">*</span> <span class="dv">2</span></span>
-<span id="cb1-3"><span class="bu">print</span>(st.mean(times))       <span class="co"># 200</span></span>
-<span id="cb1-4"><span class="bu">print</span>(st.median(times))     <span class="co"># 100.0</span></span>
-<span id="cb1-5">cuts <span class="op">=</span> st.quantiles(times, n<span class="op">=</span><span class="dv">100</span>)</span>
-<span id="cb1-6"><span class="bu">print</span>(cuts[<span class="dv">94</span>], cuts[<span class="dv">98</span>])   <span class="co"># 300.0 4300.0</span></span></code></pre></div>
-<p>2행은 응답 시간 100개를 만듭니다. 3~4행은 평균과 중앙값입니다. 5행의 <code>quantiles(times, n=100)</code>은 줄을 100등분하는 경계값 99개를 돌려줍니다. 0부터 세므로 <code>cuts[94]</code>가 p95, <code>cuts[98]</code>이 p99입니다.</p>
+<p>느린 1%는 생각보다 자주 만납니다. 화면 하나를 띄우는 데 요청이 여러 개 필요하기 때문입니다. 얼마나 자주인지는 뒤에서 계산합니다.</p>
 <div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
-<p>위 코드에서 <code>4300</code>을 <code>43000</code>으로 바꿔 실행해 보세요. 평균은 974로 뛰지만 중앙값과 p95는 그대로입니다. 평균만 극단값에 끌려갑니다.</p>
+<p>위 계산에서 4,300을 43,000으로 바꿔 평균을 다시 구해 보세요. 9,000 + 2,400 + 86,000 = 97,400이니 평균은 974ms로 뜁니다. 하지만 50번째 값도 95번째 값도 그대로입니다. 평균만 큰 값에 끌려갑니다.</p>
 </div>
 <div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 빠진 요청은 없나요</div>
-<p>시간 제한에 걸려 끊긴 요청이나 실패한 요청을 빼고 계산하면 통계가 실제보다 좋아 보입니다. 가장 오래 기다린 손님만 조사에서 빠진 셈입니다. 백분위를 볼 때는 "전체 몇 건 중 몇 건으로 계산했는가"를 함께 봅니다.</p>
+<p>너무 오래 걸려 도중에 끊긴 요청을 빼고 계산하면 숫자가 실제보다 좋아 보입니다. 기다리다 그냥 나간 손님만 빼고 센 셈입니다. "모두 몇 개 중 몇 개로 계산했는지"를 함께 봅니다.</p>
 </div>
-<details class="deep"><summary><small>한 걸음 더</small>백분위를 다룰 때 조심할 두 가지</summary><div class="deep-body">
-<p><strong>백분위끼리 평균 내지 않습니다.</strong> 서버 두 대의 p99가 200ms와 1,000ms라고 전체 p99가 600ms인 것은 아닙니다. 두 서버의 요청을 한 줄로 다시 세워야 합니다. 앞 절의 가중 평균과 같은 이유입니다.</p>
-<p><strong>표본이 적으면 p99는 뜻이 없습니다.</strong> 요청이 20개뿐이면 99% 지점은 사실상 가장 느린 한 개이고, 그 한 개는 우연일 수 있습니다. 도구마다 계산 방식도 조금씩 달라 같은 데이터에서 값이 약간 다르게 나오기도 합니다.</p>
-</div></details>
 </section>
 <section class="level2" id="spread">
 <h2><span class="sec-n">13.5</span>얼마나 들쭉날쭉한가: 퍼짐과 표준편차<a aria-label="이 절의 링크" class="anchor" href="#spread">#</a></h2>
-<p>계산대 직원 두 명이 있습니다. 한 명은 늘 비슷한 속도로 계산합니다. 다른 한 명은 어떤 때는 번개 같고 어떤 때는 한참 걸립니다. 평균이 같아도 손님은 앞 직원의 줄에 섭니다. 얼마나 걸릴지 짐작할 수 있기 때문입니다.</p>
-<p>서버 A의 응답 시간을 세 번 쟀더니 9, 10, 11ms였습니다. 서버 B는 1, 10, 19ms였습니다. 둘 다 평균은 10ms입니다.</p>
+<p>계산대 직원 두 명이 있습니다. 한 명은 늘 비슷한 속도로 계산합니다. 다른 한 명은 번개 같을 때도, 한참 걸릴 때도 있습니다. 평균이 같아도 손님은 앞 직원의 줄에 섭니다. 얼마나 걸릴지 짐작할 수 있기 때문입니다.</p>
+<p>서버 두 대의 응답 시간을 세 번씩 쟀습니다. 서버 A는 9, 10, 11ms, 서버 B는 1, 10, 19ms였습니다. 둘 다 평균은 30 ÷ 3 = 10ms입니다.</p>
 <figure class="fig" id="fig-spread"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 294" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>두 서버 모두 평균은 10ms지만 A는 값이 평균 가까이 모여 있고 B는 멀리 흩어져 있다</title>
   <text class="t-b tc-blue mid" x="470" y="32">평균 10ms</text>
@@ -630,24 +628,23 @@
   <text class="t-s tc-warm mid" x="357" y="177">9만큼 떨어짐</text>
   <text class="t-s tc-warm mid" x="582" y="177">9만큼 떨어짐</text>
   <text class="t-xs end" x="740" y="282">눈금 단위: ms</text>
-</svg></div><figcaption><b>그림 13-5</b>평균은 같아도 값이 평균에서 떨어진 거리가 다릅니다. 이 거리를 숫자 하나로 줄인 것이 표준편차입니다.</figcaption></figure>
-<p>값들이 평균에서 얼마나 떨어져 있는지를 나타내는 숫자가 <strong>표준편차</strong>(standard deviation)입니다. 서버 B로 계산해 보겠습니다.</p>
+</svg></div><figcaption><b>그림 13-5</b>평균은 같아도 값이 평균에서 떨어진 거리가 다릅니다.</figcaption></figure>
+<p>다른 점은 값이 평균에서 떨어진 거리입니다. 서버 A는 1, 0, 1만큼, 서버 B는 9, 0, 9만큼 떨어져 있습니다. 이 거리를 숫자 하나로 간추린 것이 <strong>표준편차</strong>(standard deviation)입니다.</p>
+<p>서버 A는 약 0.8ms, 서버 B는 약 7.3ms입니다. 클수록 들쭉날쭉하다는 뜻입니다. 게임에서 프레임을 그리는 시간의 표준편차가 크면 화면이 뚝뚝 끊겨 보입니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>표준편차를 직접 계산해 보기</summary><div class="deep-body">
+<p>서버 B의 값 1, 10, 19로 해 봅니다.</p>
 <ol type="1">
-<li>각 값에서 평균을 뺍니다. −9, 0, +9입니다.</li>
-<li>부호를 없애려고 제곱합니다. 81, 0, 81입니다.</li>
-<li>평균을 냅니다. 162 ÷ 3 = 54입니다. 이 값을 <strong>분산</strong>(variance)이라고 합니다.</li>
-<li>제곱했던 것을 되돌리려고 제곱근을 구합니다. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mn>54</mn></msqrt><mo>≈</mo><mn>7.3</mn></mrow><annotation encoding="application/x-tex">\sqrt{54} \approx 7.3</annotation></semantics></math>ms입니다.</li>
+<li>각 값에서 평균 10을 뺍니다. −9, 0, +9입니다.</li>
+<li>같은 수끼리 곱해(제곱) 부호를 없앱니다. 81, 0, 81입니다.</li>
+<li>셋의 평균을 냅니다. 162 ÷ 3 = 54입니다.</li>
+<li>제곱해서 54가 되는 수(제곱근)를 찾습니다. 약 7.3입니다.</li>
 </ol>
-<p>같은 방법으로 서버 A는 약 0.8ms가 나옵니다. "B는 평균에서 보통 7ms쯤 벗어난다"고 읽으면 됩니다. 게임에서 프레임 시간의 평균이 같아도 표준편차가 크면 화면이 뚝뚝 끊겨 보입니다.</p>
-<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
-<p>표준편차는 값이 평균 양쪽에 고르게 퍼져 있을 때 잘 맞습니다. 응답 시간처럼 느린 쪽으로만 꼬리가 긴 데이터는 백분위가 더 정직하게 보여 줍니다. 평균, 표준편차, p95를 나란히 놓고 보세요.</p>
-</div>
+</div></details>
 </section>
 <section class="level2" id="chain">
 <h2><span class="sec-n">13.6</span>99%를 열 번 거치면: 확률의 곱셈<a aria-label="이 절의 링크" class="anchor" href="#chain">#</a></h2>
-<p><strong>확률</strong>(probability)은 같은 조건에서 여러 번 했을 때 그 일이 일어나는 비율입니다. "결제 성공 확률 99%"는 100번 시도하면 99번쯤 성공한다는 뜻입니다. 0.99처럼 0과 1 사이의 수로도 씁니다.</p>
-<p>편의점에서 주문 하나가 끝나려면 바코드 인식, 가격 조회, 재고 차감, 카드 승인 같은 단계를 차례로 지나야 합니다. 열 단계가 있고 단계마다 99% 성공한다면, 주문 전체도 99% 성공할까요?</p>
-<p>한 단계의 결과가 다른 단계에 영향을 주지 않을 때 두 사건을 <strong>독립</strong>(independent)이라고 합니다. 독립인 사건이 <strong>모두</strong> 일어날 확률은 각 확률을 곱한 값입니다.</p>
+<p>게임에서 "강화 성공 확률 90%"라는 글을 본 적이 있을 것입니다. 100번 하면 90번쯤 성공한다는 뜻입니다. <strong>확률</strong>(probability)은 같은 일을 여러 번 했을 때 그 일이 일어나는 비율입니다. 0.9처럼 0과 1 사이의 수로도 씁니다.</p>
+<p>배달 앱으로 떡볶이를 주문합니다. 주문이 끝나려면 주문 받기, 결제하기, 가게에 알리기 같은 단계를 차례로 지나야 합니다. 모두 열 단계이고 단계마다 99%는 잘된다고 합시다. 주문 전체도 99% 성공할까요?</p>
 <figure class="fig" id="fig-chain-success"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 322" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>한 단계의 성공률이 99%라도 열 단계를 차례로 거치면 100건 중 약 90건만 끝까지 간다</title>
   <text class="t-h" x="30" y="32">주문 100건이 10단계를 지나면 (단계마다 99% 통과)</text>
@@ -702,29 +699,33 @@
   <text class="t-s tc-green" x="674" y="194">도착</text>
   <text class="t-mono" x="30" y="304">0.99 × 0.99 × … × 0.99 (10번 곱하기) ≈ 0.904</text>
 </svg></div><figcaption><b>그림 13-6</b>빨간 부분이 그 단계까지 떨어져 나간 주문입니다. 한 단계에서는 1건뿐이지만 열 단계가 쌓이면 약 10건이 됩니다.</figcaption></figure>
-<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>0.99</mn><mn>10</mn></msup><mo>≈</mo><mn>0.904</mn></mrow><annotation encoding="application/x-tex">0.99^{10} \approx 0.904</annotation></semantics></math>, 곧 약 90%입니다. 단계마다 "99%면 충분하지"라고 넘긴 결과가 열 건 중 한 건의 실패입니다. 서비스 여러 개를 거치는 요청, AI를 여러 번 호출하는 작업이 모두 이 계산을 따릅니다.</p>
-<section class="level3" id="적어도-한-번은-1에서-뺍니다">
-<h3>"적어도 한 번"은 1에서 뺍니다</h3>
-<p>앞에서 미뤄 둔 계산입니다. 화면 하나가 요청 30개를 보내고, 요청 하나가 느린 1%에 들 확률은 1%입니다. 하나라도 걸릴 확률은 반대쪽부터 구합니다. 30개가 모두 무사할 확률은 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>0.99</mn><mn>30</mn></msup><mo>≈</mo><mn>0.74</mn></mrow><annotation encoding="application/x-tex">0.99^{30} \approx 0.74</annotation></semantics></math>입니다. 따라서 하나라도 걸릴 확률은 1 − 0.74 = 0.26입니다. 화면을 네 번 열면 한 번꼴로 느린 요청을 만납니다.</p>
+<p>주문 100건이 출발합니다. 1단계를 지나면 99건이 남습니다. 2단계에서는 그 99건의 99%인 약 98건이 남습니다. 이렇게 단계마다 0.99를 곱합니다. 열 번 곱하면 약 0.904입니다. 100건 중 약 90건만 끝까지 갑니다.</p>
+<p>단계마다 "99%면 충분하지" 하고 넘겼는데 열 건 중 한 건이 실패합니다. 여러 단계를 <strong>모두</strong> 지날 확률은 각 단계의 확률을 곱한 값입니다. AI에게 여러 단계짜리 일을 시킬 때도 같습니다.</p>
+<p>이 곱셈은 한 단계의 결과가 다른 단계에 영향을 주지 않을 때만 맞습니다. 이런 사이를 <strong>독립</strong>(independent)이라고 합니다.</p>
+<section class="level3" id="하나라도는-1에서-뺍니다">
+<h3>"하나라도"는 1에서 뺍니다</h3>
+<p>앞에서 미뤄 둔 계산입니다. 게임 화면 하나를 띄우는 데 요청 30개가 필요하다고 합시다. 요청 하나가 느린 1%에 걸릴 확률은 0.01입니다. 30개 중 <strong>하나라도</strong> 걸릴 확률은 얼마일까요?</p>
+<p>거꾸로 구합니다. 30개가 모두 무사할 확률은 0.99를 30번 곱한 약 0.74입니다. 전체인 1에서 빼면 1 − 0.74 = 0.26입니다. 화면을 네 번 열면 한 번꼴로 느린 요청을 만납니다.</p>
 </section>
 <section class="level3" id="기댓값-오래-되풀이했을-때의-평균">
 <h3>기댓값: 오래 되풀이했을 때의 평균</h3>
-<p>성공 확률이 10%인 뽑기를 성공할 때까지 되풀이하면 평균 몇 번 뽑게 될까요? 1 ÷ 0.1 = 10번입니다. 이렇게 오래 되풀이했을 때의 평균을 <strong>기댓값</strong>(expected value)이라고 합니다. 90% 성공하는 카드 승인이라면 1 ÷ 0.9 ≈ 1.1번입니다.</p>
-<p>기댓값은 보장이 아닙니다. 뽑기를 10번 해서 모두 실패할 확률은 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>0.9</mn><mn>10</mn></msup><mo>≈</mo><mn>0.35</mn></mrow><annotation encoding="application/x-tex">0.9^{10} \approx 0.35</annotation></semantics></math>입니다. 세 명 중 한 명은 10번을 뽑고도 빈손입니다. 재시도를 넣을 때 평균 횟수와 따로 <strong>최대 횟수</strong>를 정해야 하는 이유입니다.</p>
+<p>게임 뽑기에서 원하는 캐릭터가 나올 확률이 10%입니다. 나올 때까지 뽑으면 평균 1 ÷ 0.1 = 10번을 뽑습니다. 이렇게 오래 되풀이했을 때의 평균을 <strong>기댓값</strong>(expected value)이라고 합니다.</p>
+<p>기댓값은 약속이 아닙니다. 한 번 꽝일 확률은 0.9입니다. 10번 모두 꽝일 확률은 0.9를 열 번 곱한 약 0.35입니다. 세 명 중 한 명은 10번을 뽑고도 빈손입니다. 그래서 프로그램이 실패한 일을 다시 해 보게 만들 때는 "많아도 몇 번까지"라는 <strong>최대 횟수</strong>를 따로 정합니다.</p>
 <div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 곱셈은 독립일 때만 맞습니다</div>
-<p>실패 확률 10%인 요청을 세 번 시도하면 모두 실패할 확률은 0.1 × 0.1 × 0.1 = 0.001, 곧 0.1%로 보입니다. 하지만 카드사 전산이 멈춘 것이 원인이라면 세 번 다 실패합니다. 같은 원인을 함께 겪는 시도들은 독립이 아닙니다.</p>
+<p>실패 확률이 10%인 일을 세 번 해서 모두 실패할 확률은 0.1 × 0.1 × 0.1 = 0.001로 보입니다. 하지만 와이파이가 끊긴 탓이라면 세 번 다 실패합니다. 같은 까닭으로 함께 실패하는 일들은 독립이 아닙니다.</p>
 </div>
 </section>
 </section>
 <section class="level2" id="conditional">
 <h2><span class="sec-n">13.7</span>"그중에서"를 놓치면: 조건부 확률과 정확도 99%<a aria-label="이 절의 링크" class="anchor" href="#conditional">#</a></h2>
-<figure class="comic"><img alt="전시관에 100명이 왔고 90명이 입장권 확인을 통과했습니다. 안내기를 받은 80%는 처음의 100명이 아니라 입장한 90명 중에서 센 비율이므로 72명입니다." loading="lazy" src="../assets/comic/comic-conditional.webp"/><figcaption>전시관에 100명이 왔고 90명이 입장권 확인을 통과했습니다. 안내기를 받은 80%는 처음의 100명이 아니라 입장한 90명 중에서 센 비율이므로 72명입니다.</figcaption></figure>
-<p>만화에서 두 번째 비율의 분모는 "전체"가 아니라 "첫 단계를 통과한 사람"입니다. 이렇게 <strong>어떤 조건을 만족한 집단 안에서</strong> 따진 확률을 <strong>조건부 확률</strong>(conditional probability)이라고 합니다.</p>
-<p>AI 기능도 같습니다. 문서 검색이 90% 성공하고, <strong>검색에 성공했을 때</strong> 답이 맞을 확률이 80%라면 둘 다 성공하는 비율은 0.9 × 0.8 = 72%입니다. "답변 정확도 80%"라는 숫자를 보면 어떤 조건에서 잰 것인지 묻습니다.</p>
+<figure class="comic"><img alt="전시관에 100명이 왔고 90명이 입장권 확인을 통과했습니다. 입장한 사람의 80%가 안내기를 받았습니다." loading="lazy" src="../assets/comic/comic-conditional.webp"/><figcaption>전시관에 100명이 왔고 90명이 입장권 확인을 통과했습니다. 입장한 사람의 80%가 안내기를 받았습니다.</figcaption></figure>
+<p>만화에서 80%의 분모는 처음 온 100명이 아니라 입장한 90명입니다. 그래서 안내기를 받은 사람은 90 × 0.8 = 72명입니다. 이렇게 <strong>어떤 조건에 맞는 무리 안에서만</strong> 따진 확률을 <strong>조건부 확률</strong>(conditional probability)이라고 합니다.</p>
+<p>AI 챗봇도 같습니다. 챗봇이 알맞은 자료를 찾을 확률이 90%, <strong>자료를 찾았을 때</strong> 답이 맞을 확률이 80%라고 합시다. 둘 다 잘될 확률은 0.9 × 0.8 = 0.72, 곧 72%입니다. "정답률 80%"를 보면 어떤 조건에서 잰 것인지 묻습니다.</p>
 <section class="level3" id="정확도-99의-함정">
 <h3>정확도 99%의 함정</h3>
-<p>편의점 문에 도난 경보기를 답니다. 손님 1,000명 중 계산하지 않은 물건을 들고 나가는 사람은 10명입니다. 경보기가 고장 나 한 번도 울리지 않았다고 합시다. 정상 손님 990명은 "문제없음"으로 맞혔으니, 전체 중 맞힌 비율인 <strong>정확도</strong>(accuracy)는 99%입니다. 그런데 한 명도 잡지 못했습니다.</p>
-<p>찾으려는 대상이 드물면 정확도에 이렇게 속습니다. 대신 두 가지를 따로 봅니다. 이번에는 작동하는 경보기입니다. 문제 있는 10명 중 8명에게 울렸고, 정상 손님 990명 중 20명에게도 잘못 울렸습니다.</p>
+<p>편의점 문에 도난 경보기를 답니다. 손님 1,000명 중 계산하지 않은 물건을 들고 나가는 사람이 10명 있다고 합시다.</p>
+<p>경보기가 고장 나서 한 번도 울리지 않았습니다. 그래도 문제 없는 손님 990명에게는 "울리지 않음"이 맞는 답입니다. 1,000명 중 990명을 맞혔으니 99%입니다. 전체 중에서 맞힌 이 비율을 <strong>정확도</strong>(accuracy)라고 합니다. 정확도는 99%인데 한 명도 잡지 못했습니다.</p>
+<p>찾으려는 것이 드물면 정확도에 이렇게 속습니다. 그래서 두 가지를 따로 봅니다. 이번에는 제대로 움직이는 경보기입니다. 문제 있는 10명 중 8명에게 울렸고, 문제 없는 990명 중 20명에게도 잘못 울렸습니다.</p>
 <figure class="fig" id="fig-confusion-grid"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 362" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>같은 8명을 두고 재현율은 문제 있는 10명을 분모로, 정밀도는 경보가 울린 28명을 분모로 센다</title>
   <text class="t-b mid" x="250" y="50">경보가 울림</text>
@@ -760,32 +761,32 @@
   <text class="t-s" x="516" y="262">세로줄로 나누면 29%</text>
   <text class="t-s" x="516" y="290">둘은 서로 다른 질문의 답</text>
 </svg></div><figcaption><b>그림 13-7</b>칸 네 개에 손님 1,000명이 모두 들어 있습니다. 가로줄을 분모로 삼으면 재현율, 세로줄을 분모로 삼으면 정밀도입니다.</figcaption></figure>
-<ul>
-<li><strong>재현율</strong>(recall)은 실제 문제 중에서 잡아낸 비율입니다. 8 ÷ 10 = 80%입니다.</li>
-<li><strong>정밀도</strong>(precision)는 울린 것 중에서 진짜 문제인 비율입니다. 8 ÷ 28 ≈ 29%입니다. 경보 열 번 중 일곱 번은 헛경보입니다.</li>
-</ul>
+<p>첫째, 진짜 문제 중에서 얼마나 잡았을까요? 10명 중 8명이니 8 ÷ 10 = 80%입니다. 이 비율이 <strong>재현율</strong>(recall)입니다.</p>
+<p>둘째, 울린 것 중에서 진짜는 얼마나 될까요? 경보는 8 + 20 = 28명에게 울렸고 진짜는 8명입니다. 8 ÷ 28 ≈ 29%입니다. 이 비율이 <strong>정밀도</strong>(precision)입니다. 경보 열 번 중 일곱 번은 헛경보입니다.</p>
 <div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
-<p>같은 결과에서 비율이 다르게 나왔다면 계산이 틀린 것이 아니라 <strong>분모가 다른 것</strong>입니다.</p>
+<p>같은 8명인데 80%도 되고 29%도 됩니다. 계산이 틀린 것이 아니라 <strong>분모가 다른 것</strong>입니다.</p>
 </div>
-<p>잘못 울린 비율은 20 ÷ 990 ≈ 2%뿐인데 정밀도는 29%입니다. 정상 손님이 워낙 많아서 그 2%가 진짜 8명보다 많기 때문입니다. 스팸 필터, 이상 결제 탐지, AI 분류기가 모두 같은 표로 읽힙니다.</p>
-<p>경보기를 민감하게 맞추면 재현율은 오르고 헛경보도 늘어납니다. 모든 손님에게 울리면 재현율은 100%입니다. 그래서 <strong>놓치는 것과 헛경보 중 어느 쪽이 더 비싼지</strong>를 먼저 정하고 두 숫자를 함께 봅니다.</p>
+<p>잘못 울린 20명은 문제 없는 990명의 2%쯤입니다. 그런데도 진짜 8명보다 많습니다. 문제 없는 손님이 워낙 많기 때문입니다. 스팸 문자를 거르는 기능도 같은 표로 읽습니다.</p>
+<p>경보기를 예민하게 맞추면 더 많이 잡지만 헛경보도 늡니다. 그래서 <strong>놓치는 것과 헛경보 중 어느 쪽이 더 큰 손해인지</strong> 먼저 정하고 두 숫자를 함께 봅니다.</p>
 </section>
 </section>
 <section class="level2" id="sample">
 <h2><span class="sec-n">13.8</span>이 숫자를 믿어도 될까: 표본, 편향, 상관관계<a aria-label="이 절의 링크" class="anchor" href="#sample">#</a></h2>
-<p>계산이 맞아도, <strong>무엇을 얼마나 재서</strong> 나온 숫자인지에 따라 믿을 수 없는 경우가 있습니다.</p>
+<p>계산이 맞아도 믿기 어려운 숫자가 있습니다. <strong>무엇을, 얼마나 재서</strong> 나온 숫자인지에 달려 있습니다.</p>
 <section class="level3" id="적게-재면-우연이-섞입니다">
 <h3>적게 재면 우연이 섞입니다</h3>
-<p>전체 중에서 실제로 관찰한 일부를 <strong>표본</strong>(sample)이라고 합니다. 멀쩡한 동전도 10번 던지면 앞면이 7번 이상 나오는 일이 여섯 번에 한 번꼴로 생깁니다. 동전이 이상한 것이 아니라 10번이 적은 것입니다.</p>
-<p>AI 모델 A가 20문제 중 19개, B가 18개를 맞혔습니다. "A가 5%p 높다"는 한 문제 차이입니다. 문제를 바꾸면 뒤집힐 수 있습니다. 차이가 작을수록 더 많이 재야 합니다.</p>
+<p>급식이 맛있는지 전교생에게 다 묻기는 어렵습니다. 그래서 몇 명만 골라 묻습니다. 이렇게 전체 중에서 실제로 살펴본 일부를 <strong>표본</strong>(sample)이라고 합니다.</p>
+<p>표본이 작으면 우연이 크게 끼어듭니다. 멀쩡한 동전도 10번 던지면 여섯 번에 한 번꼴로 앞면이 7번 이상 나옵니다. 동전이 이상한 것이 아니라 10번이 적은 것입니다.</p>
+<p>AI 챗봇 두 개에게 같은 문제 20개를 냈습니다. A는 19개, B는 18개를 맞혔습니다. 95%와 90%이지만 겨우 한 문제 차이입니다. 문제를 바꾸면 뒤집힐 수 있습니다. 차이가 작을수록 더 많이 재야 합니다.</p>
 </section>
 <section class="level3" id="치우쳐서-재면-많이-재도-틀립니다">
 <h3>치우쳐서 재면 많이 재도 틀립니다</h3>
-<p>만족도 조사를 계산을 마친 손님에게만 하면, 줄이 길어 그냥 나간 손님의 의견은 빠집니다. 아무리 많이 모아도 실제보다 좋게 나옵니다. 이렇게 표본이 한쪽으로 치우친 것을 <strong>편향</strong>(bias)이라고 합니다. 성공한 요청만 기록하기, 쉬운 질문만으로 AI 평가하기, 한 사람의 기록 1,000건으로 사용자 전체를 짐작하기가 모두 편향입니다.</p>
+<p>급식 만족도를 급식실에서 밥을 먹는 학생에게만 물었다고 합시다. 맛이 없어서 매점으로 간 학생의 생각은 빠집니다. 1,000명에게 물어도 실제보다 좋게 나옵니다. 이렇게 표본이 한쪽으로 치우친 것을 <strong>편향</strong>(bias)이라고 합니다. 잘 끝난 요청만 세거나 쉬운 문제만으로 AI를 시험하는 것도 편향입니다.</p>
 </section>
 <section class="level3" id="함께-움직인다고-원인은-아닙니다">
 <h3>함께 움직인다고 원인은 아닙니다</h3>
-<p>새 코드를 서버에 올리는 일을 배포라고 합니다. 배포한 날 응답 시간이 300ms에서 180ms로 줄었습니다. 코드 덕분일까요?</p>
+<p>아이스크림이 많이 팔리는 날에는 물놀이 사고도 많습니다. 아이스크림이 사고를 일으킨 것이 아닙니다. 둘 다 더운 날씨 때문에 늘었습니다.</p>
+<p>게임 회사가 프로그램의 코드를 고쳐서 수요일 밤에 서버에 올렸습니다. 새 코드를 올려 실제로 쓰이게 하는 이 일을 <strong>배포</strong>라고 합니다. 목요일부터 응답 시간(p95)이 300ms에서 180ms로 줄었습니다. 새 코드 덕분일까요?</p>
 <figure class="fig" id="fig-confounding"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>배포한 날 응답 시간이 줄었지만 같은 날 접속자도 절반으로 줄었다면 코드 덕분이라고 단정할 수 없다</title>
   <path class="ln warm dash" d="M345 36 V268"/>
@@ -827,18 +828,15 @@
   <text class="t-s t-b tc-warm mid" x="655" y="186">둘이 같은 날 바뀌어</text>
   <text class="t-s t-b tc-warm mid" x="655" y="206">이 그래프만으로는</text>
   <text class="t-s t-b tc-warm mid" x="655" y="226">가릴 수 없다</text>
-</svg></div><figcaption><b>그림 13-8</b>배포한 날 응답 시간이 줄었지만, 같은 날 접속자도 절반으로 줄었습니다. 손님이 줄어서 줄이 짧아진 것인지 계산대가 빨라진 것인지 이 그래프로는 알 수 없습니다.</figcaption></figure>
-<p>두 숫자가 함께 움직이는 것을 <strong>상관관계</strong>(correlation)라고 합니다. 하나가 다른 하나를 일으키는 <strong>인과관계</strong>(causation)와는 다릅니다. 원인을 가리려면 <strong>나머지 조건을 같게 두고 하나만 바꿔서</strong> 다시 잽니다. 같은 양의 요청을 보내면서 옛 코드와 새 코드를 비교하거나, 사용자를 무작위로 둘로 나눠 한쪽에만 새 코드를 적용합니다. 뒤의 방법을 A/B 테스트라고 합니다.</p>
-<details class="deep"><summary><small>한 걸음 더</small>입력이 조금 틀리면 답은 얼마나 틀릴까 (민감도)</summary><div class="deep-body">
-<p>측정값에는 늘 작은 오차가 있습니다. 어떤 계산은 이 오차를 그대로 두고, 어떤 계산은 크게 부풀립니다.</p>
-<p>1 ÷ x를 봅시다. x가 1에서 1.001로 바뀌면 답은 1에서 약 0.999로 바뀝니다. 거의 그대로입니다. 그런데 x가 0.001에서 0.002로 바뀌면 답은 1,000에서 500으로 바뀝니다. 입력은 똑같이 0.001 움직였는데 결과는 500이나 달라졌습니다. 0에 가까운 수로 나누는 계산은 이렇게 <strong>민감</strong>합니다.</p>
-<p>결과가 크게 흔들린다고 꼭 코드가 틀린 것은 아닙니다. 문제 자체가 민감한 것일 수 있습니다. 입력을 조금 더하고 빼서 결과가 얼마나 달라지는지 확인해 보면 구분할 수 있습니다.</p>
-</div></details>
+</svg></div><figcaption><b>그림 13-8</b>배포한 날 응답 시간이 줄었지만, 같은 날 접속자도 절반으로 줄었습니다. 어느 쪽 덕분인지 이 그래프로는 알 수 없습니다.</figcaption></figure>
+<p>아래쪽 선을 보세요. 같은 시각에 게임에 들어와 있는 사람(동시 접속자)도 2,000명에서 1,000명으로 줄었습니다. 손님이 줄어 줄이 짧아진 것일 수도 있습니다.</p>
+<p>두 숫자가 함께 움직이는 것을 <strong>상관관계</strong>(correlation)라고 합니다. 하나가 다른 하나를 일으키는 인과관계와는 다릅니다.</p>
+<p>원인을 가리려면 <strong>다른 조건은 같게 두고 하나만 바꿔서</strong> 다시 잽니다. 접속자 수가 비슷한 날끼리 옛 코드와 새 코드를 비교합니다. 또는 사용자를 제비뽑기로 둘로 나눠 한쪽에만 새 코드를 씁니다.</p>
 </section>
 </section>
 <section class="level2" id="limits">
 <h2><span class="sec-n">13.9</span>아무리 늘려도 닿지 않는 선: 암달의 법칙과 로그<a aria-label="이 절의 링크" class="anchor" href="#limits">#</a></h2>
-<p>편의점에 물건이 들어오는 날입니다. 상자 나르기는 60분이 걸리고 여럿이 나눠 할 수 있습니다. 납품 서류 확인은 40분이 걸리고 점장 혼자만 할 수 있습니다. 직원이 한 명이면 100분입니다.</p>
+<p>편의점에 물건이 들어오는 날입니다. 상자 나르기는 60분이 걸리고 여럿이 나눠 할 수 있습니다. 서류 확인은 40분이 걸리고 점장 혼자만 할 수 있습니다. 직원이 한 명이면 40 + 60 = 100분입니다.</p>
 <figure class="fig" id="fig-amdahl"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 324" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>100분 가운데 한 사람만 할 수 있는 40분은 직원을 아무리 늘려도 그대로 남아 전체는 2.5배보다 빨라질 수 없다</title>
   <rect class="solid warm" x="150" y="22" width="14" height="14" rx="3"/>
@@ -875,14 +873,14 @@
   <path class="ln red dash" d="M311 50 V282"/>
   <text class="t-s t-b tc-red" x="150" y="306">40분은 끝까지 남는다 → 한계는 100 ÷ 40 = 2.5배</text>
 </svg></div><figcaption><b>그림 13-9</b>직원을 늘리면 파란 부분만 줄어듭니다. 주황 부분 40분이 그대로 남으므로 전체는 2.5배보다 빨라질 수 없습니다.</figcaption></figure>
-<p>직원이 네 명이면 40 + 60 ÷ 4 = 55분입니다. 100 ÷ 55 ≈ 1.82배로, 네 배가 아닙니다. 백 명을 불러도 40.6분입니다. <strong>일부만 빨라지면 전체는 나머지에 묶입니다.</strong> 이것을 <strong>암달의 법칙</strong>(Amdahl's law)이라고 합니다.</p>
-<p>CPU 코어도 같습니다. 차례로만 할 수 있는 부분의 비율을 s, 코어 수를 n이라고 하면 이렇게 씁니다.</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">빨라지는 배수</mtext><mo>=</mo><mfrac><mn>1</mn><mrow><mi>s</mi><mo>+</mo><mrow><mo form="prefix" stretchy="true">(</mo><mn>1</mn><mo>−</mo><mi>s</mi><mo form="postfix" stretchy="true">)</mo></mrow><mo>÷</mo><mi>n</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{빨라지는 배수} = \frac{1}{s + (1 - s) \div n}</annotation></semantics></math></p>
-<p>분모는 "나눌 수 없는 부분 s"에 "나눌 수 있는 부분 1 − s를 n으로 나눈 것"을 더한 값입니다. s = 0.4, n = 4를 넣으면 1 ÷ (0.4 + 0.15) ≈ 1.82입니다. 실제로는 일을 나누고 합치는 데도 시간이 들어 이보다 낮습니다. 그러니 코어나 서버를 늘리기 전에 <strong>그 부분이 전체 시간의 몇 %인지</strong>부터 잽니다. 전체의 10%인 부분을 100배 빠르게 만들어도 전체는 약 1.1배 빨라질 뿐입니다.</p>
+<p>직원이 두 명이면 상자 나르기가 30분으로 줄어 전체는 70분입니다. 네 명이면 40 + 15 = 55분입니다. 100 ÷ 55 ≈ 1.82배 빨라졌습니다. 사람은 네 배인데 속도는 두 배도 안 됩니다.</p>
+<p>백 명을 불러도 40.6분입니다. 서류 확인 40분이 끝까지 남기 때문입니다. 그래서 100 ÷ 40 = 2.5배보다 빨라질 수 없습니다. <strong>일부만 빨라지면 전체는 나머지에 묶입니다.</strong> 이것이 <strong>암달의 법칙</strong>(Amdahl's law)입니다.</p>
+<p>컴퓨터도 같습니다. <a href="ch01.html">1장</a>에서 요리사에 빗댄 CPU의 코어를 늘려도, 나눌 수 없는 일은 빨라지지 않습니다. 그러니 무엇을 늘리기 전에 <strong>그 부분이 전체 시간의 몇 %인지</strong>부터 잽니다.</p>
 <section class="level3" id="두-배씩-커지는-수와-로그">
 <h3>두 배씩 커지는 수와 로그</h3>
-<p>두 배씩 늘어나는 수는 무섭게 커집니다. 2를 10번 곱하면 1,024, 20번 곱하면 약 100만입니다. 이것이 <strong>지수 증가</strong>입니다. <strong>로그</strong>(logarithm)는 이것을 거꾸로 묻습니다. "2를 몇 번 곱해야 100만이 될까?" 답은 약 20이고, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>log</mo><mn>2</mn></msub><mn>1000000</mn><mo>≈</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">\log_2 1000000 \approx 20</annotation></semantics></math>이라고 씁니다. 기록을 뜻하는 로그(log)와는 다른 말입니다. 정렬된 100만 건에서 절반씩 버리며 찾으면 20번이면 끝나는 이유이고, <a href="ch09.html">9장</a>의 비용 이야기와 이어집니다.</p>
-<p>로그는 그래프의 눈금에도 쓰입니다. 1ms부터 10초까지 만 배 차이 나는 값을 한 그래프에 그리면 작은 값은 보이지 않습니다.</p>
+<p>종이를 반으로 접으면 두 겹, 또 접으면 네 겹입니다. 두 배씩 늘어나는 수는 무섭게 커집니다. 2를 10번 곱하면 1,024, 20번 곱하면 약 100만입니다.</p>
+<p><a href="ch09.html">9장</a>에서 만난 <strong>로그</strong>(logarithm)는 거꾸로 묻습니다. "2를 몇 번 곱해야 100만이 될까?" 답은 약 20번입니다. 프로그램이 남기는 기록인 로그(log)와는 다른 말입니다.</p>
+<p>로그는 그래프의 눈금에도 쓰입니다. 1, 10, 100, 1,000, 10,000ms 다섯 값을 한 그래프에 놓아 봅시다.</p>
 <figure class="fig" id="fig-log-scale"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 298" xmlns="http://www.w3.org/2000/svg" role="img">
   <title>보통 눈금에서는 작은 값들이 한쪽 끝에 뭉개지지만 로그 눈금에서는 열 배마다 한 칸씩 고르게 벌어진다</title>
   <text class="t-b" x="60" y="30">보통 눈금</text>
@@ -926,12 +924,17 @@
   <text class="t-xs mid" x="700" y="264">10,000</text>
   <text class="t-xs end" x="740" y="286">값의 단위: ms</text>
 </svg></div><figcaption><b>그림 13-10</b>같은 값 다섯 개를 두 가지 눈금에 놓았습니다. 로그 눈금에서 한 칸 올랐다면 "조금 늘었다"가 아니라 "열 배가 됐다"는 뜻입니다.</figcaption></figure>
-<p>눈금이 1, 10, 100, 1,000처럼 곱하기로 늘어나면 로그 눈금입니다. 그래프를 보면 선의 모양보다 <strong>축에 적힌 숫자</strong>를 먼저 읽습니다.</p>
+<p>보통 눈금은 한 칸마다 같은 수를 <strong>더합니다</strong>. 그림에서는 2,500씩입니다. 그러면 1, 10, 100이 왼쪽 끝 한 점에 뭉칩니다. 로그 눈금은 한 칸마다 같은 수를 <strong>곱합니다</strong>. 그림에서는 10배씩이고, 다섯 값이 고르게 놓입니다.</p>
+<p>눈금이 1, 10, 100처럼 늘어나면 로그 눈금입니다. 그래프를 볼 때는 선의 모양보다 <strong>축에 적힌 숫자</strong>를 먼저 읽습니다.</p>
 </section>
 </section>
 <section class="level2" id="pairs">
 <h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
 <div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
 <thead>
 <tr>
 <th>짝</th>
@@ -945,15 +948,15 @@
 </tr>
 <tr>
 <td>지연 시간 / 처리량</td>
-<td>한 건에 걸린 시간 / 정해진 시간에 끝낸 건수</td>
+<td>일 하나에 걸린 시간 / 정해진 시간에 끝낸 일의 양</td>
 </tr>
 <tr>
 <td>평균 / 중앙값</td>
-<td>모두 더해 나눈 값 / 줄 세웠을 때 한가운데 값</td>
+<td>모두 더해 개수로 나눈 값 / 줄 세웠을 때 한가운데 값</td>
 </tr>
 <tr>
 <td>퍼센트 / 퍼센트포인트</td>
-<td>원래 값에 견준 변화 / 두 비율을 뺀 차이</td>
+<td>원래 값과 비교한 변화 / 두 비율을 뺀 차이</td>
 </tr>
 <tr>
 <td>정밀도 / 재현율</td>
@@ -968,59 +971,60 @@
 </section>
 <section class="level2" id="case">
 <h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
-<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 평균은 200ms인데 '가끔 멈춘다'는 신고가 이어진다</div>
-<p>쇼핑 앱의 장바구니 화면이 가끔 몇 초씩 멈춘다는 신고가 들어옵니다. 대시보드의 평균 응답 시간은 200ms로 멀쩡합니다.</p>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 평균은 200ms인데 '가끔 멈춘다'는 불만이 이어진다</div>
+<p>친구들과 하는 온라인 게임에서 가방 화면이 가끔 몇 초씩 멈춥니다. 게임 회사가 재 보니 평균 응답 시간은 200ms로 멀쩡합니다. 개발자는 이렇게 따져 봅니다.</p>
 <ol type="1">
-<li><strong>평균 대신 줄을 세웁니다.</strong> p50은 100ms, p95는 300ms인데 p99가 4,300ms입니다. 느린 요청이 평균에 묻혀 있었습니다.</li>
-<li><strong>빠진 요청을 찾습니다.</strong> 10초 시간 제한에 걸려 끊긴 요청은 통계에서 빠져 있었습니다. 넣고 다시 계산하니 p99는 더 나빠집니다.</li>
-<li><strong>화면 하나의 요청 수를 셉니다.</strong> 장바구니 화면은 요청 30개를 보냅니다. 하나라도 느린 1%에 걸릴 확률은 약 26%입니다. 네 번에 한 번이니 "가끔"이 아닙니다.</li>
-<li><strong>느린 요청의 공통점을 찾습니다.</strong> 느린 요청은 모두 담은 상품이 100개를 넘는 사용자의 것이었습니다.</li>
-<li><strong>같은 조건으로 다시 잽니다.</strong> 고친 뒤 같은 시간대, 비슷한 요청 수에서 p99를 비교합니다.</li>
+<li><strong>평균 대신 줄을 세웁니다.</strong> p50은 100ms, p95는 300ms인데 p99가 4,300ms입니다. 느린 요청이 평균에 가려 있었습니다.</li>
+<li><strong>빠진 요청을 찾습니다.</strong> 10초가 넘어 도중에 끊긴 요청은 세지 않고 있었습니다. 넣어서 다시 계산하니 p99는 더 나빠집니다.</li>
+<li><strong>화면 하나의 요청 수를 셉니다.</strong> 가방 화면은 요청 30개를 보냅니다. 하나라도 느린 1%에 걸릴 확률은 약 26%입니다. 네 번에 한 번이니 "가끔"이 아닙니다.</li>
+<li><strong>느린 요청의 닮은 점을 찾습니다.</strong> 모두 아이템을 100개 넘게 가진 사람의 요청이었습니다.</li>
+<li><strong>같은 조건에서 다시 잽니다.</strong> 고친 뒤, 접속자 수가 비슷한 시간대에 p99를 비교합니다.</li>
 </ol>
-<p>평균은 "대부분 괜찮다"를 알려 줄 뿐입니다. 불만은 줄의 맨 끝에서 나옵니다.</p>
+<p>평균은 "대부분 괜찮다"만 알려 줍니다. 불만은 줄의 맨 끝에서 나옵니다.</p>
 </div>
 </section>
 <section class="level2" id="summary">
 <h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
 <div class="summary">
 <ul>
-<li>숫자는 <strong>단위</strong>와 함께 읽습니다. ms와 µs는 1,000배, Mb와 MB는 8배 차이입니다.</li>
-<li><strong>지연 시간</strong>은 한 건에 걸린 시간, <strong>처리량</strong>은 정해진 시간에 끝낸 건수입니다. 따로 움직입니다.</li>
-<li>비율은 <strong>분모</strong>부터 확인합니다. 비율을 합칠 때는 건수를 더해 다시 나눕니다.</li>
-<li>평균은 느린 소수를 숨깁니다. <strong>p50, p95, p99</strong>로 줄의 가운데와 끝을 함께 봅니다.</li>
-<li>99%도 열 번 곱하면 90%입니다. 기댓값은 평균일 뿐 보장이 아닙니다.</li>
+<li>숫자는 <strong>단위</strong>와 함께 읽습니다. 초와 ms는 1,000배, Mb와 MB는 8배 차이입니다.</li>
+<li><strong>지연 시간</strong>은 일 하나에 걸린 시간, <strong>처리량</strong>은 정해진 시간에 끝낸 양입니다.</li>
+<li>비율은 <strong>분모</strong>부터 확인합니다. 비율을 합칠 때는 수를 더해 다시 나눕니다.</li>
+<li>평균은 느린 몇 개를 숨깁니다. <strong>p50, p95, p99</strong>로 줄의 가운데와 끝을 함께 봅니다.</li>
+<li>99%도 열 번 곱하면 90%입니다. 기댓값은 평균일 뿐 약속이 아닙니다.</li>
 <li>드문 것을 찾을 때는 정확도 대신 <strong>정밀도와 재현율</strong>을 봅니다.</li>
-<li>적은 표본, 치우친 표본, 함께 바뀐 조건을 의심합니다. 일부만 빨라지면 전체는 나머지에 묶입니다.</li>
+<li>적게 잰 숫자, 치우쳐 잰 숫자, 함께 바뀐 조건을 의심합니다.</li>
+<li>일부만 빨라지면 전체는 나머지에 묶입니다.</li>
 </ul>
 </div>
 </section>
 <section class="level2" id="quiz">
 <h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
 <div class="quiz"><div class="q"><div class="q-body">
-<p>100Mbps 인터넷으로 1,000MB짜리 게임 패치를 받습니다. "1초에 100이니까 10초면 되겠네"라는 계산은 어디가 틀렸을까요?</p>
+<p>100Mbps 인터넷으로 1,000MB짜리 게임 업데이트 파일을 받습니다. "1초에 100이니까 10초면 되겠네"라는 계산은 어디가 틀렸을까요?</p>
 
 </div><details class="a"><summary>정답 보기</summary><div>
 <p>단위가 다릅니다. Mbps의 b는 비트이고 파일 크기의 B는 바이트입니다. 100 ÷ 8 = 12.5이므로 1초에 12.5MB를 받습니다. 1,000 ÷ 12.5 = 80초가 걸립니다.</p>
 </div></details></div><div class="q"><div class="q-body">
-<p>A 팀은 "우리 서버는 평균 150ms", B 팀은 "우리 서버는 p99가 400ms"라고 합니다. 어느 쪽이 더 빠른지 말할 수 있을까요?</p>
+<p>A 분식집은 "떡볶이가 평균 5분 만에 나와요"라고 합니다. B 분식집은 "손님 100명 중 99명은 8분 안에 받아요"라고 합니다. 어느 집이 더 빠른지 말할 수 있을까요?</p>
 
 </div><details class="a"><summary>정답 보기</summary><div>
-<p>말할 수 없습니다. 평균과 p99는 줄의 다른 지점을 가리키는 숫자입니다. A 팀의 p99가 3초일 수도 있습니다. 둘 다 p50과 p99를, 같은 기간과 비슷한 요청량에서 재서 비교해야 합니다.</p>
+<p>말할 수 없습니다. 평균과 99번째 값(p99)은 줄의 다른 자리를 가리킵니다. A 분식집에서 가장 오래 기다린 손님은 30분을 기다렸을 수도 있습니다. 두 집 모두 같은 자리의 값을 재서 비교해야 합니다.</p>
 </div></details></div><div class="q"><div class="q-body">
-<p>AI 코딩 도구가 작업 하나를 끝내려면 명령을 다섯 번 실행해야 합니다. 한 번의 성공률이 95%이고 서로 독립이라면 작업 전체의 성공률은 약 얼마일까요?</p>
+<p>게임에서 아이템을 완성하려면 강화를 다섯 번 잇달아 성공해야 합니다. 한 번의 성공 확률은 95%이고 서로 독립입니다. 다섯 번 모두 성공할 확률은 약 얼마일까요?</p>
 
 </div><details class="a"><summary>정답 보기</summary><div>
-<p>0.95를 다섯 번 곱하면 약 0.77입니다. 네 번에 한 번꼴로 어딘가에서 실패합니다. 단계가 많을수록 실패한 단계만 다시 하는 장치가 필요합니다.</p>
+<p>0.95를 다섯 번 곱하면 약 0.77, 곧 77%입니다. 네 번에 한 번꼴로 어딘가에서 실패합니다.</p>
 </div></details></div><div class="q"><div class="q-body">
-<p>스팸 필터를 바꿨더니 스팸 메일을 하나도 놓치지 않게 됐습니다. 그런데 사용자 불만은 오히려 늘었습니다. 어떤 숫자를 확인해야 할까요?</p>
+<p>스팸 문자 차단 앱을 바꿨더니 스팸 문자가 하나도 오지 않습니다. 그런데 친구의 문자도 가끔 오지 않습니다. 이 앱의 어떤 숫자를 확인해야 할까요?</p>
 
 </div><details class="a"><summary>정답 보기</summary><div>
-<p>정밀도입니다. 놓치지 않는다는 것은 재현율이 100%라는 뜻일 뿐입니다. 필터를 민감하게 맞추면 정상 메일까지 스팸으로 보내는 헛경보가 늘어납니다. 스팸으로 분류된 메일 중 진짜 스팸의 비율을 세어 봅니다.</p>
+<p>정밀도입니다. 스팸을 놓치지 않는다는 것은 재현율이 100%라는 뜻일 뿐입니다. 예민하게 맞춘 앱은 멀쩡한 문자까지 잘못 막습니다. 막힌 문자 중 진짜 스팸이 몇 개인지 세어 봅니다.</p>
 </div></details></div><div class="q"><div class="q-body">
-<p>이미지 100장을 처리하는 데 100초가 걸립니다. 그중 파일 목록을 읽고 결과를 한 파일로 합치는 20초는 나눌 수 없습니다. 코어를 8개 쓰면 몇 초가 될까요? 코어를 아무리 늘려도 넘을 수 없는 한계는 몇 배일까요?</p>
+<p>새 운동화를 신고 100m를 한 번 뛰었더니 기록이 1초 좋아졌습니다. 그런데 그날은 뒤에서 바람이 불었습니다. 운동화 덕분이라고 말할 수 있을까요?</p>
 
 </div><details class="a"><summary>정답 보기</summary><div>
-<p>나눌 수 있는 80초가 80 ÷ 8 = 10초가 되어 전체는 20 + 10 = 30초, 약 3.3배입니다. 20초는 끝까지 남으므로 한계는 100 ÷ 20 = 5배입니다. 더 빨라지려면 코어가 아니라 그 20초를 줄여야 합니다.</p>
+<p>말할 수 없습니다. 운동화와 바람이 같은 날 함께 바뀌었습니다. 한 번만 뛰었으니 우연일 수도 있습니다. 바람이 없는 날 헌 운동화와 새 운동화를 번갈아 신고 여러 번 뛰어서 비교합니다.</p>
 </div></details></div></div>
 
 
@@ -1030,11 +1034,11 @@
 <section class="level2" id="ai">
 <h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
 <div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
-<p>AI에게 로그나 측정 결과의 분석을 맡기면 평균 하나만 돌려주는 경우가 많습니다. 단위, 분모, 분포를 함께 달라고 요청하세요.</p>
+<p>AI에게 숫자를 정리해 달라고 하면 평균 하나만 알려 줄 때가 많습니다. 단위, 분모, 줄의 가운데와 끝을 함께 달라고 부탁합니다.</p>
 <blockquote>
-<p><code>latency.csv</code>에 요청별 응답 시간과 성공 여부가 있어. 먼저 시간 단위가 ms인지 초인지 확인해서 알려 줘. 그다음 전체 건수, 실패와 시간 초과 건수, 평균, p50, p95, p99, 최댓값을 표로 보여 줘. 실패한 요청을 빼지 말고 포함했는지 표시해 줘. 배포 전후를 비교할 때는 같은 요일, 같은 시간대의 요청 수가 비슷한 구간끼리만 비교하고, 100건이 안 되는 구간은 p99 대신 "표본 부족"이라고 적어 줘.</p>
+<p>이 표에는 우리 게임 서버의 요청마다 걸린 시간과 성공했는지가 적혀 있어. 먼저 시간의 단위가 초인지 ms인지 알려 줘. 그다음 전체 개수, 실패한 개수, 평균, p50, p95, p99를 표로 보여 줘. 실패한 요청도 빼지 말고 넣어서 계산해 줘. 요청이 100개가 안 되면 p99 자리에 "개수 부족"이라고 적어 줘.</p>
 </blockquote>
-<p><strong>받은 답에서 확인할 것</strong>: 숫자마다 단위가 붙어 있는가, 비율마다 분모(몇 건 중 몇 건)가 적혀 있는가, 실패한 요청이 통계에 들어 있는가, 전후 비교에서 요청 수 같은 다른 조건이 함께 바뀌지 않았는가.</p>
+<p><strong>받은 답에서 확인할 것</strong>: 숫자마다 단위가 붙어 있는지 봅니다. 비율마다 "몇 개 중 몇 개"인지 적혀 있는지 봅니다. 실패한 요청이 계산에 들어갔는지 봅니다.</p>
 </div>
 </section>
 <section class="level2" id="terms">
@@ -1042,15 +1046,15 @@
 <dl class="terms">
 <dt>지연 시간<small>latency</small></dt>
 <dd>
-한 건을 끝내는 데 걸리는 시간. 요청 하나가 응답을 받기까지의 시간.
+일 하나를 끝내는 데 걸리는 시간.
 </dd>
 <dt>처리량<small>throughput</small></dt>
 <dd>
-정해진 시간 동안 끝낸 건수. 초당 요청 수가 대표적.
+정해진 시간 동안 끝낸 일의 양.
 </dd>
 <dt>가중 평균<small>weighted average</small></dt>
 <dd>
-집단의 크기를 반영한 평균. 건수가 많은 쪽이 더 큰 몫을 차지한다.
+무리의 크기를 따져서 낸 평균.
 </dd>
 <dt>퍼센트포인트<small>percentage point</small></dt>
 <dd>
@@ -1058,60 +1062,59 @@
 </dd>
 <dt>중앙값<small>median</small></dt>
 <dd>
-값을 크기순으로 줄 세웠을 때 한가운데 값. p50과 같다.
+값을 줄 세웠을 때 한가운데 값. p50과 같다.
 </dd>
 <dt>백분위<small>percentile</small></dt>
 <dd>
-줄 세운 값에서 몇 % 지점인지로 값을 가리키는 방법. p95는 95% 지점의 값.
+줄 세운 값에서 몇 % 자리인지로 값을 가리키는 방법. p95는 100개 중 95번째 값.
 </dd>
 <dt>표준편차<small>standard deviation</small></dt>
 <dd>
-값들이 평균에서 보통 얼마나 떨어져 있는지를 나타내는 수. 분산의 제곱근.
+값들이 평균에서 얼마나 떨어져 있는지를 간추린 수.
 </dd>
 <dt>독립<small>independent</small></dt>
 <dd>
-한 사건의 결과가 다른 사건에 영향을 주지 않는 관계. 이때만 확률을 그냥 곱할 수 있다.
+한 일의 결과가 다른 일에 영향을 주지 않는 사이.
 </dd>
 <dt>기댓값<small>expected value</small></dt>
 <dd>
-같은 일을 오래 되풀이했을 때의 평균. 한 번의 결과를 보장하지 않는다.
+같은 일을 오래 되풀이했을 때의 평균.
 </dd>
 <dt>조건부 확률<small>conditional probability</small></dt>
 <dd>
-어떤 조건을 만족한 집단 안에서 따진 확률.
+어떤 조건에 맞는 무리 안에서만 따진 확률.
 </dd>
 <dt>정밀도<small>precision</small></dt>
 <dd>
-"문제"라고 판정한 것 중에서 진짜 문제인 비율.
+"문제"라고 알린 것 중에서 진짜 문제인 비율.
 </dd>
 <dt>재현율<small>recall</small></dt>
 <dd>
-실제 문제 중에서 찾아낸 비율.
+진짜 문제 중에서 찾아낸 비율.
 </dd>
 <dt>표본<small>sample</small></dt>
 <dd>
-전체 중에서 실제로 관찰한 일부.
+전체 중에서 실제로 살펴본 일부.
 </dd>
 <dt>편향<small>bias</small></dt>
 <dd>
-표본이나 측정이 한쪽으로 치우친 것. 많이 모아도 사라지지 않는다.
+표본이 한쪽으로 치우친 것.
 </dd>
 <dt>상관관계<small>correlation</small></dt>
 <dd>
-두 값이 함께 움직이는 관계. 하나가 다른 하나의 원인이라는 뜻은 아니다.
+두 값이 함께 움직이는 것. 한쪽이 원인이라는 뜻은 아니다.
 </dd>
 <dt>암달의 법칙<small>Amdahl's law</small></dt>
 <dd>
-일부만 빨라지면 전체의 속도 향상은 빨라지지 않은 나머지에 묶인다는 법칙.
+일부만 빨라지면 전체는 나머지에 묶인다는 법칙.
 </dd>
 </dl>
 </section>
 <section class="level2" id="more">
 <h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
 <ul>
-<li><a href="https://docs.python.org/3/library/statistics.html" rel="noopener" target="_blank">Python — statistics 모듈</a> — 평균, 중앙값, 분산, 표준편차, 백분위(<code>quantiles</code>)를 구하는 함수와 각 값의 정의가 나옵니다.</li>
-<li><a href="https://developers.google.com/machine-learning/crash-course" rel="noopener" target="_blank">Google — Machine Learning Crash Course</a> — 분류 단원에서 정확도, 정밀도, 재현율을 예제와 함께 설명합니다.</li>
-<li><a href="https://docs.python.org/3/library/math.html" rel="noopener" target="_blank">Python — math 모듈</a> — <code>log2</code>, <code>sqrt</code>로 이 장의 계산을 직접 따라 해 볼 수 있습니다.</li>
+<li><a href="https://docs.python.org/3/library/statistics.html" rel="noopener" target="_blank">Python — statistics 모듈</a> — 파이썬이라는 프로그래밍 언어로 평균, 중앙값, 표준편차를 구하는 방법이 나옵니다.</li>
+<li><a href="https://developers.google.com/machine-learning/crash-course" rel="noopener" target="_blank">Google — Machine Learning Crash Course</a> — 정확도, 정밀도, 재현율을 예제와 함께 설명하는 강의입니다.</li>
 </ul>
 </section>
 <footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch12.html"><small>← 이전 · 12장</small><b>디버깅과 테스트</b></a><a class="next" href="ch14.html"><small>다음 · 14장 →</small><b>네트워크</b></a></nav></footer>
