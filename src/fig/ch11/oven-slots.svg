@@ -1,0 +1,35 @@
+<svg viewBox="0 0 760 236" xmlns="http://www.w3.org/2000/svg">
+  <title>세 칸짜리 오븐에는 한 번에 세 판만 들어가고, 한 판이 나와야 기다리던 판이 들어간다</title>
+
+  <text class="t-s t-b" x="20" y="34">기다리는 판</text>
+  <rect class="box gray" x="20" y="48" width="130" height="56" rx="10"/>
+  <text class="t-b mid" x="85" y="72">작업 4</text>
+  <text class="t-s mid" x="85" y="92">자리 날 때까지</text>
+  <rect class="box gray" x="20" y="116" width="130" height="56" rx="10"/>
+  <text class="t-b mid" x="85" y="140">작업 5</text>
+  <text class="t-s mid" x="85" y="160">그다음 차례</text>
+
+  <path class="ln dash" d="M158 110 H214" marker-end="url(#ah)"/>
+
+  <rect class="box yellow" x="222" y="48" width="150" height="124" rx="12"/>
+  <text class="t-s mid" x="297" y="76">남은 칸</text>
+  <text class="t-h mid" x="297" y="112">0 / 3</text>
+  <text class="t-s mid" x="297" y="140">0이면 기다리고</text>
+  <text class="t-s mid" x="297" y="158">나오면 1 늘어난다</text>
+
+  <path class="ln green" d="M378 110 H424" marker-end="url(#ah-green)"/>
+
+  <rect class="panel" x="432" y="16" width="308" height="172" rx="16"/>
+  <text class="t-s t-b" x="450" y="42">오븐 — 한 번에 세 판까지</text>
+  <rect class="box green" x="450" y="56" width="272" height="34" rx="8"/>
+  <text class="t-b" x="466" y="78">작업 1</text>
+  <text class="t-s end" x="706" y="78">굽는 중</text>
+  <rect class="box green" x="450" y="98" width="272" height="34" rx="8"/>
+  <text class="t-b" x="466" y="120">작업 2</text>
+  <text class="t-s end" x="706" y="120">굽는 중</text>
+  <rect class="box green" x="450" y="140" width="272" height="34" rx="8"/>
+  <text class="t-b" x="466" y="162">작업 3</text>
+  <text class="t-s end" x="706" y="162">굽는 중</text>
+
+  <text class="t-s" x="20" y="216">작업 1이 나오면 → 남은 칸 1 → 작업 4가 들어간다</text>
+</svg>

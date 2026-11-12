@@ -1,0 +1,48 @@
+<svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg">
+  <title>손실 곡선 위 w=3에서 기울기는 +8이다. 보폭 0.1이면 w=2.2로 내려가 손실이 0.16이 되지만, 보폭 0.3이면 골짜기를 건너뛰어 w=0.6에서 손실이 7.84로 커진다</title>
+
+  <path class="ln thin" d="M80 310 H502" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M80 310 V34" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M180 306 V314 M280 306 V314 M380 306 V314 M480 306 V314 M76 246 H84 M76 182 H84 M76 54 H84"/>
+  <text class="t-xs mid" x="80" y="330">0</text>
+  <text class="t-xs mid" x="180" y="330">1</text>
+  <text class="t-xs mid" x="280" y="330">2</text>
+  <text class="t-xs mid" x="380" y="330">3</text>
+  <text class="t-xs mid" x="480" y="330">4</text>
+  <text class="t-s mid" x="280" y="352">레시피 숫자 w (가장 낮은 곳은 w = 2)</text>
+  <text class="t-xs end" x="68" y="250">4</text>
+  <text class="t-xs end" x="68" y="186">8</text>
+  <text class="t-xs end" x="68" y="58">16</text>
+  <text class="t-s" x="94" y="40">손실</text>
+
+  <path class="ln thick" d="M80 54 Q280 566 480 54"/>
+
+  <path class="ln blue dash" d="M338 299.8 L426 187.1"/>
+  <path class="ln red dash" d="M376 238 Q260 100 147 177" marker-end="url(#ah-red)"/>
+  <path class="ln green" d="M374 246 Q336 268 307 297" marker-end="url(#ah-green)"/>
+  <circle class="f-red" cx="140" cy="184.6" r="6"/>
+  <circle class="f-green" cx="300" cy="307.4" r="6"/>
+  <circle class="f-blue" cx="380" cy="246" r="6"/>
+
+  <text class="t-b tc-blue" x="428" y="250">시작 w = 3</text>
+  <text class="t-s" x="428" y="270">기울기 +8</text>
+  <text class="t-s t-b tc-red mid" x="260" y="138">보폭 0.3</text>
+  <text class="t-s t-b tc-green end" x="326" y="262">보폭 0.1</text>
+
+  <rect class="box blue" x="530" y="36" width="210" height="80" rx="12"/>
+  <text class="t-b tc-blue" x="546" y="60">시작</text>
+  <text class="t-mono" x="546" y="82">w = 3, 손실 4</text>
+  <text class="t-mono" x="546" y="102">기울기 +8</text>
+
+  <rect class="box green" x="530" y="128" width="210" height="100" rx="12"/>
+  <text class="t-b tc-green" x="546" y="152">보폭 0.1</text>
+  <text class="t-mono" x="546" y="174">3 − 0.1×8 = 2.2</text>
+  <text class="t-mono" x="546" y="194">손실 4 → 0.16</text>
+  <text class="t-s" x="546" y="214">골짜기 쪽으로 내려갔다</text>
+
+  <rect class="box red" x="530" y="240" width="210" height="100" rx="12"/>
+  <text class="t-b tc-red" x="546" y="264">보폭 0.3</text>
+  <text class="t-mono" x="546" y="286">3 − 0.3×8 = 0.6</text>
+  <text class="t-mono" x="546" y="306">손실 4 → 7.84</text>
+  <text class="t-s" x="546" y="326">골짜기를 건너뛰었다</text>
+</svg>

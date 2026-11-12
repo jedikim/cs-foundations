@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 392" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 멱등 키로 다시 보내면 결제 서비스는 장부에서 그 키를 찾아 적어 둔 답만 돌려주므로 결제는 한 번만 일어난다</title>
+
+  <rect class="box blue" x="20" y="24" width="120" height="276" rx="14"/>
+  <use href="#i-cart" x="56" y="40" width="48" height="48" class="ic blue"/>
+  <text class="t-b mid" x="80" y="112">주문 서비스</text>
+
+  <rect class="box green" x="420" y="24" width="130" height="276" rx="14"/>
+  <text class="t-b mid" x="485" y="50">결제 서비스</text>
+  <text class="t-s mid" x="485" y="82">처음 본 키</text>
+  <text class="t-s t-b mid tc-green" x="485" y="102">결제한다</text>
+  <text class="t-s mid" x="485" y="204">이미 있는 키</text>
+  <text class="t-s t-b mid tc-green" x="485" y="224">찾기만 한다</text>
+
+  <circle class="badge blue" cx="162" cy="66" r="11"/><text class="badge-t" x="162" y="70.500">1</text>
+  <text class="t-mono" x="180" y="71">POST /pay 키=ord-42</text>
+  <path class="ln blue" d="M146 86 H412" marker-end="url(#ah-blue)"/>
+
+  <circle class="badge red" cx="162" cy="124" r="11"/><text class="badge-t" x="162" y="128.500">2</text>
+  <text class="t-s t-b tc-red" x="180" y="129">"승인" 응답이 오다가 사라짐</text>
+  <path class="ln green" d="M414 146 H312"/>
+  <use href="#i-cross" x="282" y="134" width="24" height="24" class="ic red"/>
+  <path class="ln muted dash" d="M276 146 H150"/>
+
+  <circle class="badge blue" cx="162" cy="188" r="11"/><text class="badge-t" x="162" y="192.500">3</text>
+  <text class="t-mono" x="180" y="193">POST /pay 키=ord-42</text>
+  <text class="t-xs t-b tc-blue" x="346" y="193">다시 보냄</text>
+  <path class="ln blue" d="M146 208 H412" marker-end="url(#ah-blue)"/>
+
+  <circle class="badge green" cx="162" cy="246" r="11"/><text class="badge-t" x="162" y="250.500">4</text>
+  <text class="t-s t-b tc-green" x="180" y="251">"승인" — 적어 둔 답을 그대로</text>
+  <path class="ln green" d="M414 268 H152" marker-end="url(#ah-green)"/>
+
+  <text class="t-b" x="580" y="50">결제 장부</text>
+  <text class="t-xs" x="580" y="74">키 · 금액 · 결과</text>
+  <rect class="box green" x="572" y="84" width="168" height="40" rx="8"/>
+  <text class="t-mono" x="582" y="109">ord-42</text>
+  <text class="t-mono" x="642" y="109">12,000</text>
+  <text class="t-s t-b tc-green" x="702" y="109">승인</text>
+  <rect class="ghost dash" x="572" y="132" width="168" height="40" rx="8"/>
+  <text class="t-xs mid" x="656" y="156">둘째 줄은 생기지 않는다</text>
+  <path class="ln green" d="M554 104 H566" marker-end="url(#ah-green)"/>
+  <text class="t-xs" x="580" y="196">3번은 첫 줄을 읽기만 한다</text>
+
+  <rect class="box green" x="20" y="322" width="350" height="50" rx="12"/>
+  <text class="t-b mid" x="195" y="352">키가 있으면: 결제 1번 · 12,000원</text>
+  <rect class="box red" x="390" y="322" width="350" height="50" rx="12"/>
+  <text class="t-b mid tc-red" x="565" y="352">키가 없으면: 결제 2번 · 24,000원</text>
+</svg>

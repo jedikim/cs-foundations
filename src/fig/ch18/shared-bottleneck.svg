@@ -1,0 +1,35 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg">
+  <title>앱 서버가 4대일 때는 DB 연결이 120개로 한도 200 안에 들지만, 10대로 늘리면 300개를 열려고 해서 100개가 거절된다</title>
+  <text class="t-h" x="20" y="34">앱 서버를 늘리면 DB 연결도 함께 늘어난다</text>
+  <text class="t-s" x="20" y="56">서버 한 대가 DB 연결을 최대 30개씩 연다</text>
+
+  <path class="ln red dash" d="M530 72 V244"/>
+  <text class="t-s t-b tc-red mid" x="530" y="266">DB 한도 200개</text>
+
+  <text class="t-b" x="20" y="106">앱 서버 4대</text>
+  <rect class="solid blue" x="20" y="116" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="40" y="116" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="60" y="116" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="80" y="116" width="16" height="22" rx="3"/>
+  <text class="t-mono" x="230" y="92">4 × 30 = 120개</text>
+  <rect class="solid green" x="230" y="100" width="180" height="38" rx="6"/>
+  <text class="t-on t-b mid" x="320" y="124">120개 연결</text>
+  <text class="t-s t-b tc-green" x="422" y="124">한도 안</text>
+
+  <text class="t-b" x="20" y="190">앱 서버 10대</text>
+  <rect class="solid blue" x="20" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="40" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="60" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="80" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="100" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="120" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="140" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="160" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="180" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="200" y="200" width="16" height="22" rx="3"/>
+  <text class="t-mono" x="230" y="176">10 × 30 = 300개</text>
+  <rect class="solid green" x="230" y="184" width="298" height="38" rx="6"/>
+  <text class="t-on t-b mid" x="379" y="208">200개까지만 연결</text>
+  <rect class="solid red" x="532" y="184" width="148" height="38" rx="6"/>
+  <text class="t-on t-b mid" x="606" y="208">100개 거절</text>
+</svg>

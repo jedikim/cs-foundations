@@ -1,0 +1,73 @@
+<svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg">
+  <title>편지가 우체국을 건너 건너 가듯, 패킷은 라우터를 하나씩 건너뛰며 목적지에 가까워진다</title>
+  <text class="t-s t-b" x="20" y="24">편지는 우체국을 건너 건너</text>
+
+  <rect class="box yellow" x="20" y="36" width="100" height="62" rx="10"/>
+  <use href="#i-house" x="58" y="42" width="24" height="24" class="ic yellow"/>
+  <text class="t-s mid" x="70" y="86">우리 집</text>
+  <rect class="box yellow" x="144" y="36" width="100" height="62" rx="10"/>
+  <use href="#i-mail" x="182" y="42" width="24" height="24" class="ic yellow"/>
+  <text class="t-s mid" x="194" y="86">동네 우체국</text>
+  <rect class="box yellow" x="268" y="36" width="100" height="62" rx="10"/>
+  <use href="#i-truck" x="306" y="42" width="24" height="24" class="ic yellow"/>
+  <text class="t-s mid" x="318" y="86">우편 집중국</text>
+  <rect class="box yellow" x="392" y="36" width="100" height="62" rx="10"/>
+  <use href="#i-truck" x="430" y="42" width="24" height="24" class="ic yellow"/>
+  <text class="t-s mid" x="442" y="86">우편 집중국</text>
+  <rect class="box yellow" x="516" y="36" width="100" height="62" rx="10"/>
+  <use href="#i-mail" x="554" y="42" width="24" height="24" class="ic yellow"/>
+  <text class="t-s mid" x="566" y="86">배달 우체국</text>
+  <rect class="box yellow" x="640" y="36" width="100" height="62" rx="10"/>
+  <use href="#i-house" x="678" y="42" width="24" height="24" class="ic yellow"/>
+  <text class="t-s mid" x="690" y="86">받는 집</text>
+
+  <path class="ln muted" d="M70 103 V136" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M194 103 V136" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M318 103 V136" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M442 103 V136" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M566 103 V136" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M690 103 V136" marker-end="url(#ah-muted)"/>
+
+  <rect class="box blue" x="20" y="142" width="100" height="92" rx="10"/>
+  <use href="#i-laptop" x="54" y="150" width="32" height="32" class="ic blue"/>
+  <text class="t-s t-b mid" x="70" y="204">내 노트북</text>
+  <text class="t-xs mid" x="70" y="222">출발</text>
+
+  <rect class="box warm" x="144" y="142" width="100" height="92" rx="10"/>
+  <circle class="badge warm" cx="160" cy="158" r="11"/><text class="badge-t" x="160" y="162.500">1</text>
+  <use href="#i-router" x="178" y="150" width="32" height="32" class="ic warm"/>
+  <text class="t-s t-b mid" x="194" y="204">공유기</text>
+  <text class="t-xs mid" x="194" y="222">게이트웨이</text>
+
+  <rect class="box purple" x="268" y="142" width="100" height="92" rx="10"/>
+  <circle class="badge purple" cx="284" cy="158" r="11"/><text class="badge-t" x="284" y="162.500">2</text>
+  <use href="#i-router" x="302" y="150" width="32" height="32" class="ic purple"/>
+  <text class="t-s t-b mid" x="318" y="204">라우터</text>
+  <text class="t-xs mid" x="318" y="222">통신사</text>
+
+  <rect class="box purple" x="392" y="142" width="100" height="92" rx="10"/>
+  <circle class="badge purple" cx="408" cy="158" r="11"/><text class="badge-t" x="408" y="162.500">3</text>
+  <use href="#i-router" x="426" y="150" width="32" height="32" class="ic purple"/>
+  <text class="t-s t-b mid" x="442" y="204">라우터</text>
+  <text class="t-xs mid" x="442" y="222">바다 건너</text>
+
+  <rect class="box purple" x="516" y="142" width="100" height="92" rx="10"/>
+  <circle class="badge purple" cx="532" cy="158" r="11"/><text class="badge-t" x="532" y="162.500">4</text>
+  <use href="#i-router" x="550" y="150" width="32" height="32" class="ic purple"/>
+  <text class="t-s t-b mid" x="566" y="204">라우터</text>
+  <text class="t-xs mid" x="566" y="222">서버 쪽 망</text>
+
+  <rect class="box green" x="640" y="142" width="100" height="92" rx="10"/>
+  <circle class="badge green" cx="656" cy="158" r="11"/><text class="badge-t" x="656" y="162.500">5</text>
+  <use href="#i-server" x="674" y="150" width="32" height="32" class="ic green"/>
+  <text class="t-s t-b mid" x="690" y="204">서버</text>
+  <text class="t-xs mid" x="690" y="222">도착</text>
+
+  <path class="ln blue" d="M123 188 H139" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M247 188 H263" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M371 188 H387" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M495 188 H511" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M619 188 H635" marker-end="url(#ah-blue)"/>
+
+  <text class="t-s" x="20" y="262"><tspan class="t-b">패킷은 라우터를 건너 건너.</tspan> 각 라우터는 목적지 주소를 보고 다음에 넘길 곳만 고른다</text>
+</svg>

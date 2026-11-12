@@ -1,0 +1,1114 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>18장 시스템 설계 — 개발의 기초</title>
+<meta name="description" content="경계·실패·확장">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch18" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html" aria-current="page"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">4부 연결되는 시스템 › <b>18장 시스템 설계</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-purple">
+<div class="ch-kicker"><span class="ch-no">18장</span><span class="part">4부 · 연결되는 시스템</span></div>
+<h1>시스템 설계</h1>
+<p class="ch-sub">경계·실패·확장</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 40분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch15.html">15장 웹과 HTTP</a><a class="chip" href="ch17.html">17장 데이터베이스</a></div>
+</header><div class="lead">
+<p>AI에게 "쇼핑몰 서버를 설계해 줘"라고 하면 상자 여덟 개와 화살표 열두 개가 금방 그려집니다. 그럴듯해 보이지만 정작 중요한 질문에는 답이 없습니다. <strong>결제는 끝났는데 응답이 오다가 끊기면 어떻게 될까요?</strong> 설계의 실력은 상자의 개수가 아니라 이런 질문에 답하는 데서 드러납니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>모듈을 나누는 일과 서버를 나누는 일을 구분하고, 언제 나눌지 판단할 수 있습니다.</li>
+<li>시간 초과가 왜 "실패"가 아니라 "모름"인지 설명하고, 멱등 키로 중복 결제를 막을 수 있습니다.</li>
+<li>재시도와 서버 늘리기가 오히려 장애를 키우는 경우를 숫자로 따질 수 있습니다.</li>
+<li>AI가 내놓은 설계에서 경계, 데이터의 주인, 실패 처리를 점검할 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="design">
+<h2><span class="sec-n">18.1</span>설계는 선을 긋는 일입니다<a aria-label="이 절의 링크" class="anchor" href="#design">#</a></h2>
+<p>이 장에서는 머그컵을 파는 작은 온라인 가게를 따라갑니다. 손님이 "주문하기"를 누르면 네 가지 일이 일어납니다. <strong>주문</strong>을 기록하고, 12,000원을 <strong>결제</strong>하고, <strong>재고</strong>를 3개에서 2개로 줄이고, <strong>알림</strong> 메일을 보냅니다.</p>
+<p>이 가게의 시스템은 식당처럼 자랍니다.</p>
+<figure class="fig" id="fig-restaurant-growth"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 416" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>식당이 1인 가게에서 주방과 홀, 여러 지점으로 커지듯 시스템도 한 프로그램에서 모듈, 여러 서비스로 커지고 단계마다 새 숙제가 생긴다</title>
+  <text class="t-s t-b" x="22" y="86">식당이</text>
+  <text class="t-s t-b" x="22" y="104">커지면</text>
+  <text class="t-s t-b" x="22" y="252">시스템도</text>
+  <text class="t-s t-b" x="22" y="270">커진다</text>
+  <text class="t-s t-b" x="22" y="368">그때 생기는</text>
+  <text class="t-s t-b" x="22" y="386">숙제</text>
+
+  <rect class="box yellow" x="112" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-chef" x="183" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="207" y="114">1인 식당</text>
+  <text class="t-s mid" x="207" y="135">사장 혼자 다 한다</text>
+
+  <rect class="box yellow" x="332" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-ticket" x="403" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="427" y="114">주방과 홀</text>
+  <text class="t-s mid" x="427" y="135">주문서로 일을 넘긴다</text>
+
+  <rect class="box yellow" x="552" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-phone" x="623" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="647" y="114">여러 지점</text>
+  <text class="t-s mid" x="647" y="135">전화로 일을 넘긴다</text>
+
+  <path class="ln" d="M306 89 H324" marker-end="url(#ah)"/>
+  <path class="ln" d="M526 89 H544" marker-end="url(#ah)"/>
+
+  <path class="ln muted" d="M207 154 V190" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M427 154 V190" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M647 154 V190" marker-end="url(#ah-muted)"/>
+
+  <rect class="box blue" x="112" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-box" x="183" y="206" width="48" height="48" class="ic blue"/>
+  <text class="t-l mid" x="207" y="280">프로그램 하나</text>
+  <text class="t-s mid" x="207" y="301">함수를 바로 부른다</text>
+
+  <rect class="box blue" x="332" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-layers" x="403" y="206" width="48" height="48" class="ic blue"/>
+  <text class="t-l mid" x="427" y="280">모듈로 나눈 프로그램</text>
+  <text class="t-s mid" x="427" y="301">정해진 창구로 부른다</text>
+
+  <rect class="box purple" x="552" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-network" x="623" y="206" width="48" height="48" class="ic purple"/>
+  <text class="t-l mid" x="647" y="280">여러 서비스</text>
+  <text class="t-s mid" x="647" y="301">네트워크로 부른다</text>
+
+  <path class="ln muted" d="M207 320 V338" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M427 320 V338" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M647 320 V338" marker-end="url(#ah-muted)"/>
+
+  <rect class="box warm" x="112" y="346" width="190" height="50" rx="12"/>
+  <text class="t-b mid" x="207" y="376">일이 뒤엉키기 쉽다</text>
+  <rect class="box warm" x="332" y="346" width="190" height="50" rx="12"/>
+  <text class="t-b mid" x="427" y="376">약속을 지켜야 한다</text>
+  <rect class="box red" x="552" y="346" width="190" height="50" rx="12"/>
+  <text class="t-b mid" x="647" y="376">늦고, 끊기고, 모른다</text>
+</svg></div><figcaption><b>그림 18-1</b>식당이 커지는 세 단계와 시스템의 세 모양. 오른쪽으로 갈수록 손님을 더 받지만, 일을 넘기는 방법이 달라지면서 새 숙제가 생깁니다.</figcaption></figure>
+<p>1인 식당에서는 사장이 주문을 받고, 계산하고, 요리합니다. 일을 넘길 필요가 없으니 빠르고 어긋날 일도 없습니다. 손님이 늘어 주방과 홀을 나누면 <strong>주문서</strong>라는 약속이 필요해집니다. 지점까지 내면 <strong>전화</strong>로 일을 넘겨야 하는데, 전화는 늦게 연결되고, 끊기고, 상대가 들었는지 확신할 수 없습니다.</p>
+<p><strong>시스템 설계</strong>(system design)는 일을 어디서 나누고, 나뉜 곳 사이에 무엇을 약속하며, 넘기다 실패하면 어떻게 할지를 정하는 일입니다. 일을 나눈 자리를 <strong>경계</strong>(boundary)라고 부릅니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>좋은 설계는 상자가 많은 설계가 아닙니다. <strong>경계가 알맞은 곳에 있고, 경계마다 실패했을 때의 규칙이 정해져 있는</strong> 설계입니다.</p>
+</div>
+</section>
+<section class="level2" id="module">
+<h2><span class="sec-n">18.2</span>모듈: 한 가게 안에서 구역 나누기<a aria-label="이 절의 링크" class="anchor" href="#module">#</a></h2>
+<p>1인 식당도 장사가 잘되면 직원을 뽑습니다. 이때 계산대 직원이 창고에 들어가 재고 장부를 직접 고치기 시작하면, 장부가 왜 틀렸는지 아무도 모르게 됩니다.</p>
+<p>코드도 같습니다. 관련된 일을 한데 묶고 밖에서 쓸 <strong>창구</strong>만 내놓은 코드 덩어리를 <strong>모듈</strong>(module)이라고 합니다. 창구는 <a href="ch10.html">10장</a>에서 배운 인터페이스입니다. 모듈을 잘 나눴는지는 두 낱말로 따집니다.</p>
+<ul>
+<li><strong>응집도</strong>(cohesion): 한 모듈 안의 코드가 한 가지 목적에 모여 있는 정도. 높을수록 좋습니다.</li>
+<li><strong>결합도</strong>(coupling): 다른 모듈의 속사정을 알아야 하는 정도. 낮을수록 좋습니다.</li>
+</ul>
+<figure class="fig" id="fig-coupling"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>다른 모듈이 재고표를 직접 고치면 표 모양을 바꿀 때 함께 깨지고, 창구 함수로만 부탁하면 안쪽을 바꿔도 바깥은 그대로다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="318" rx="16"/>
+  <text class="t-l tc-red" x="40" y="46">나쁜 예: 속을 직접 고친다</text>
+  <rect class="box blue" x="32" y="62" width="155" height="70" rx="12"/>
+  <text class="t-b mid" x="109.500" y="90">주문 모듈</text>
+  <text class="t-mono mid" x="109.500" y="114">stock["컵"] -= 1</text>
+  <rect class="box blue" x="203" y="62" width="155" height="70" rx="12"/>
+  <text class="t-b mid" x="280.500" y="90">관리 화면</text>
+  <text class="t-mono mid" x="280.500" y="114">stock["컵"] = 99</text>
+
+  <rect class="box green" x="32" y="192" width="326" height="104" rx="14"/>
+  <text class="t-b" x="48" y="240">재고 모듈</text>
+  <text class="t-s tc-red" x="48" y="262">아무나 고친다</text>
+  <rect class="box" x="186" y="228" width="75" height="44" rx="8"/>
+  <text class="t-s" x="198" y="255">컵</text>
+  <text class="t-mono t-b end" x="249" y="256">3</text>
+  <rect class="box" x="271" y="228" width="75" height="44" rx="8"/>
+  <text class="t-s" x="283" y="255">접시</text>
+  <text class="t-mono t-b end" x="334" y="256">5</text>
+  <path class="ln red" d="M109 136 V164 H212 V220" marker-end="url(#ah-red)"/>
+  <path class="ln red" d="M280 136 V164 H236 V220" marker-end="url(#ah-red)"/>
+  <text class="t-s t-b mid tc-red" x="195" y="320">재고표 모양을 바꾸면 두 곳이 함께 깨진다</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="318" rx="16"/>
+  <text class="t-l tc-green" x="410" y="46">좋은 예: 창구로 부탁한다</text>
+  <rect class="box blue" x="402" y="62" width="155" height="70" rx="12"/>
+  <text class="t-b mid" x="479.500" y="90">주문 모듈</text>
+  <text class="t-mono mid" x="479.500" y="114">reserve("컵", 1)</text>
+  <rect class="box blue" x="573" y="62" width="155" height="70" rx="12"/>
+  <text class="t-b mid" x="650.500" y="90">관리 화면</text>
+  <text class="t-mono mid" x="650.500" y="114">restock("컵", 96)</text>
+
+  <rect class="box green" x="402" y="192" width="326" height="104" rx="14"/>
+  <rect class="solid green" x="418" y="178" width="294" height="30" rx="8"/>
+  <text class="t-on t-b mid" x="565" y="198">창구: reserve · restock</text>
+  <text class="t-b" x="418" y="244">재고 모듈</text>
+  <text class="t-s" x="418" y="266">밖에서는 못 본다</text>
+  <rect class="box" x="556" y="228" width="75" height="44" rx="8"/>
+  <text class="t-s" x="568" y="255">컵</text>
+  <text class="t-mono t-b end" x="619" y="256">3</text>
+  <rect class="box" x="641" y="228" width="75" height="44" rx="8"/>
+  <text class="t-s" x="653" y="255">접시</text>
+  <text class="t-mono t-b end" x="704" y="256">5</text>
+  <path class="ln green" d="M479 136 V170" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M650 136 V170" marker-end="url(#ah-green)"/>
+  <text class="t-s t-b mid tc-green" x="565" y="320">재고표 모양을 바꿔도 밖은 그대로다</text>
+</svg></div><figcaption><b>그림 18-2</b>왼쪽은 주문 모듈과 관리 화면이 재고표를 직접 고칩니다. 오른쪽은 재고 모듈이 내놓은 창구 함수만 부릅니다.</figcaption></figure>
+<p>왼쪽에서 재고표 모양을 바꾸면 재고표를 만지는 코드를 전부 찾아 고쳐야 합니다. "재고는 0 아래로 내려갈 수 없다"는 규칙도 두 군데에 따로 넣어야 합니다. 오른쪽에서는 <code>reserve</code> 함수 한 곳에만 넣으면 됩니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
+<p>파일을 여러 개로 쪼갠다고 결합도가 낮아지지는 않습니다. 파일이 100개여도 서로의 속을 들여다보면 한 덩어리입니다. 나누는 기준은 <strong>"함께 바뀌는 것끼리 묶는다"</strong>입니다.</p>
+</div>
+<div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
+<p>내 프로젝트에서 DB 표 이름 하나(예: <code>orders</code>)를 전체 검색해 보세요. 그 표를 고치는 코드가 몇 개 파일에 흩어져 있나요? 여러 곳이라면 창구가 없다는 신호입니다.</p>
+</div>
+<section class="level3" id="계층과-의존-방향">
+<h3>계층과 의존 방향</h3>
+<p>모듈을 쌓는 흔한 방법은 <strong>계층</strong>(layer)입니다. 홀(화면과 요청 받기), 주방(업무 규칙), 창고(DB 저장)로 층을 나누고, 손님 쪽 층이 안쪽 층을 부르게 합니다.</p>
+<p>어떤 코드가 다른 코드를 알아야만 동작할 때 "<strong>의존</strong>한다"고 말합니다. 중요한 것은 방향입니다. "세 개 사면 10% 할인"이라는 가격 규칙이 버튼 이름이나 DB 종류에 의존하면, 화면이나 DB를 바꿀 때마다 규칙까지 고쳐야 합니다. 규칙은 "저장해 달라"는 창구만 알게 합니다. 그러면 DB 없이 규칙만 따로 시험할 수 있고, DB를 바꿔도 규칙은 그대로입니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>포트와 어댑터: 규칙이 바깥을 모르게 하는 방법</summary><div class="deep-body">
+<p>주문 규칙이 "재고를 잡아 둔다"는 일을 시켜야 한다면, 규칙 쪽에서 필요한 창구의 모양만 정해 둡니다. <code>reserve(상품, 수량)</code> 같은 것입니다. 이것이 <strong>포트</strong>(port)입니다. 실제 DB에 SQL을 보내는 코드는 그 모양에 맞춰 따로 만들어 끼웁니다. 이것이 <strong>어댑터</strong>(adapter)입니다. 콘센트 규격과 플러그의 관계입니다.</p>
+<p>시험할 때는 "재고 부족"을 흉내 내는 가짜 어댑터를 끼울 수 있습니다. 다만 가짜로 통과했다고 진짜 DB에서도 맞는 것은 아니므로 실제 어댑터도 따로 시험합니다. 단순한 기능에까지 이런 층을 둘 필요는 없습니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="monolith">
+<h2><span class="sec-n">18.3</span>한 덩어리로 시작하기: 모놀리스와 마이크로서비스<a aria-label="이 절의 링크" class="anchor" href="#monolith">#</a></h2>
+<p>모듈을 나누는 것과, 그것을 <strong>한 프로그램으로 내보낼지 여러 프로그램으로 쪼갤지</strong>는 별개의 결정입니다.</p>
+<ul>
+<li><strong>모놀리스</strong>(monolith): 모든 기능을 한 프로그램으로 묶어 한 번에 배포하는 구조입니다. 배포는 새 버전을 서버에 올려 돌리는 일입니다(<a href="ch20.html">20장</a>). 안이 모듈로 잘 나뉘어 있으면 모듈형 모놀리스라고 합니다.</li>
+<li><strong>마이크로서비스</strong>(microservices): 기능마다 따로 실행되는 작은 프로그램(<strong>서비스</strong>)으로 나누고, 네트워크로 서로 부르는 구조입니다.</li>
+</ul>
+<figure class="fig" id="fig-mono-vs-micro"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 392" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>같은 주문 흐름이 한 프로그램 안에서는 함수 호출과 한 번의 트랜잭션으로 끝나지만, 네 서비스로 나누면 호출마다 늦거나 끊기거나 답이 사라질 수 있다</title>
+
+  <rect class="panel" x="20" y="16" width="310" height="360" rx="16"/>
+  <text class="t-l" x="40" y="46">한 프로그램 (모놀리스)</text>
+  <text class="t-s" x="40" y="68">주문 한 건 = 함수 호출 3번</text>
+  <rect class="box blue" x="40" y="84" width="160" height="250" rx="14"/>
+  <rect class="box" x="60" y="96" width="120" height="34" rx="8"/>
+  <text class="t-b mid" x="120" y="118">주문</text>
+  <rect class="box" x="60" y="160" width="120" height="34" rx="8"/>
+  <text class="t-b mid" x="120" y="182">결제</text>
+  <rect class="box" x="60" y="224" width="120" height="34" rx="8"/>
+  <text class="t-b mid" x="120" y="246">재고</text>
+  <rect class="box" x="60" y="288" width="120" height="34" rx="8"/>
+  <text class="t-b mid" x="120" y="310">알림</text>
+  <path class="ln blue" d="M120 134 V152" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M120 198 V216" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M120 262 V280" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M204 209 H228" marker-end="url(#ah-green)"/>
+  <use href="#i-db" x="242" y="170" width="48" height="48" class="ic green"/>
+  <text class="t-b mid" x="266" y="240">DB 하나</text>
+  <text class="t-s mid" x="266" y="260">트랜잭션 하나</text>
+  <text class="t-s t-b tc-green" x="40" y="360">실패하면 통째로 되돌린다</text>
+
+  <rect class="panel" x="350" y="16" width="390" height="360" rx="16"/>
+  <text class="t-l" x="370" y="46">네 서비스 (마이크로서비스)</text>
+  <text class="t-s" x="370" y="68">주문 한 건 = 네트워크 호출 3번</text>
+  <rect class="box blue" x="370" y="96" width="160" height="34" rx="8"/>
+  <text class="t-b mid" x="450" y="118">주문 서비스</text>
+  <rect class="box blue" x="370" y="160" width="160" height="34" rx="8"/>
+  <text class="t-b mid" x="450" y="182">결제 서비스</text>
+  <rect class="box blue" x="370" y="224" width="160" height="34" rx="8"/>
+  <text class="t-b mid" x="450" y="246">재고 서비스</text>
+  <rect class="box blue" x="370" y="288" width="160" height="34" rx="8"/>
+  <text class="t-b mid" x="450" y="310">알림 서비스</text>
+  <path class="ln purple" d="M400 134 V152" marker-end="url(#ah-purple)"/>
+  <path class="ln purple" d="M400 198 V216" marker-end="url(#ah-purple)"/>
+  <path class="ln purple" d="M400 262 V280" marker-end="url(#ah-purple)"/>
+  <text class="t-xs t-b tc-purple" x="416" y="150">늦을 수 있다</text>
+  <text class="t-xs t-b tc-purple" x="416" y="214">끊길 수 있다</text>
+  <text class="t-xs t-b tc-purple" x="416" y="278">답이 사라질 수 있다</text>
+  <use href="#i-db" x="562" y="97" width="32" height="32" class="ic green"/>
+  <text class="t-s" x="604" y="118">주문 DB</text>
+  <use href="#i-db" x="562" y="161" width="32" height="32" class="ic green"/>
+  <text class="t-s" x="604" y="182">결제 DB</text>
+  <use href="#i-db" x="562" y="225" width="32" height="32" class="ic green"/>
+  <text class="t-s" x="604" y="246">재고 DB</text>
+  <use href="#i-mail" x="562" y="289" width="32" height="32" class="ic warm"/>
+  <text class="t-s" x="604" y="310">메일 발송</text>
+  <path class="ln thin muted" d="M534 113 H556"/>
+  <path class="ln thin muted" d="M534 177 H556"/>
+  <path class="ln thin muted" d="M534 241 H556"/>
+  <path class="ln thin muted" d="M534 305 H556"/>
+  <text class="t-s t-b tc-red" x="370" y="360">결제는 됐는데 재고만 실패할 수 있다</text>
+</svg></div><figcaption><b>그림 18-3</b>같은 주문 한 건. 왼쪽은 한 프로그램 안에서 함수를 세 번 부르고, 오른쪽은 네트워크 너머로 세 번 부릅니다.</figcaption></figure>
+<p>왼쪽에서는 주문 기록, 결제, 재고 차감을 <a href="ch17.html">17장</a>의 트랜잭션 하나로 묶을 수 있습니다. 재고가 모자라면 전부 없던 일이 됩니다. 오른쪽은 서비스마다 DB가 따로라서 그렇게 묶을 수 없습니다. 결제는 됐는데 재고 차감만 실패한 <strong>어중간한 상태</strong>가 생기고, 이를 수습하는 코드를 직접 짜야 합니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr>
+<th>구조</th>
+<th>얻는 것</th>
+<th>떠안는 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>모듈형 모놀리스</td>
+<td>단순한 배포, 빠른 호출, 트랜잭션 하나</td>
+<td>안쪽 경계를 스스로 지키기</td>
+</tr>
+<tr>
+<td>모놀리스 + 작업자</td>
+<td>오래 걸리는 일만 떼어 따로 늘리기</td>
+<td>큐, 작업 상태, 중복 처리</td>
+</tr>
+<tr>
+<td>마이크로서비스</td>
+<td>팀마다 따로 배포, 기능마다 따로 확장</td>
+<td>네트워크 호출의 실패, 버전 맞추기, 데이터 맞추기</td>
+</tr>
+</tbody>
+</table></div>
+<p>가운데 줄의 <strong>작업자</strong>(worker)는 오래 걸리는 일만 넘겨받아 뒤에서 처리하는 별도 프로그램입니다.</p>
+<div class="callout myth"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-cross"></use></svg>흔한 오해 · 마이크로서비스가 더 발전된 구조다</div>
+<p>마이크로서비스는 "여러 팀이 서로 기다리지 않고 배포해야 한다", "이 기능만 부하가 유독 크다" 같은 구체적인 문제를 푸는 구조입니다. 혼자 또는 몇 명이 만든다면 모놀리스가 더 빠르고 안전합니다. 모놀리스는 "배포 단위가 하나"라는 뜻이지 "코드가 엉켜 있다"는 뜻이 아닙니다. 모듈 경계를 먼저 긋고, 따로 늘려야 할 부분이 실제로 생기면 그것만 떼어 냅니다.</p>
+</div>
+</section>
+<section class="level2" id="contract">
+<h2><span class="sec-n">18.4</span>API는 약속입니다: 계약과 버전<a aria-label="이 절의 링크" class="anchor" href="#contract">#</a></h2>
+<p>주방과 홀이 나뉘면 주문서 양식이 생깁니다. 프로그램 사이의 창구가 <strong>API</strong>(Application Programming Interface)이고, 주문서 양식처럼 그 창구에서 지키기로 한 약속 전체가 <strong>계약</strong>(contract)입니다.</p>
+<p>계약에는 칸 이름만 있는 것이 아닙니다.</p>
+<ul>
+<li><strong>뜻과 단위</strong>: 도착 예정 시간 <code>eta</code>는 분인가 초인가.</li>
+<li><strong>실패</strong>: 재고가 없을 때 어떤 오류를 돌려주는가.</li>
+<li><strong>완료 시점</strong>: "성공"은 결제까지 끝났다는 뜻인가, 접수만 했다는 뜻인가.</li>
+</ul>
+<p>계약을 바꾸기 어려운 까닭은 <strong>양쪽을 동시에 바꿀 수 없기</strong> 때문입니다. 서버는 오늘 새로 배포해도, 손님 휴대전화의 앱은 몇 달 전 버전일 수 있습니다.</p>
+<figure class="fig" id="fig-contract-break"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 326" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>응답에 칸을 추가하면 옛 앱이 무시해서 안전하지만, 단위를 바꾸거나 새 상태 값을 넣으면 옛 앱이 틀린 화면을 보여 주거나 멈춘다</title>
+  <text class="t-s t-b" x="20" y="30">무엇을 바꿨나</text>
+  <text class="t-s t-b mid" x="270" y="30">바꾸기 전 응답</text>
+  <text class="t-s t-b mid" x="465" y="30">바꾼 뒤 응답</text>
+  <text class="t-s t-b mid" x="657" y="30">옛 앱에서는</text>
+  <path class="ln thin muted" d="M20 42 H740"/>
+
+  <text class="t-b" x="20" y="84">칸을 하나 추가</text>
+  <text class="t-s" x="20" y="106">모르는 칸이 생김</text>
+  <rect class="box gray" x="180" y="54" width="180" height="68" rx="10"/>
+  <text class="t-mono mid" x="270" y="93">"status":"paid"</text>
+  <rect class="box green" x="370" y="54" width="190" height="68" rx="10"/>
+  <text class="t-mono mid" x="465" y="82">"status":"paid"</text>
+  <text class="t-mono t-b mid tc-green" x="465" y="106">"memo":"선물"</text>
+  <rect class="box green" x="575" y="54" width="165" height="68" rx="10"/>
+  <use href="#i-check" x="585" y="72" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="626" y="84">정상 동작</text>
+  <text class="t-s" x="626" y="106">모르는 칸은 무시</text>
+
+  <text class="t-b" x="20" y="164">단위를 바꿈</text>
+  <text class="t-s" x="20" y="186">분 → 초, 이름은 그대로</text>
+  <rect class="box gray" x="180" y="134" width="180" height="68" rx="10"/>
+  <text class="t-mono mid" x="270" y="164">"eta": 30</text>
+  <text class="t-xs mid" x="270" y="186">30분이라는 뜻</text>
+  <rect class="box red" x="370" y="134" width="190" height="68" rx="10"/>
+  <text class="t-mono t-b mid tc-red" x="465" y="164">"eta": 1800</text>
+  <text class="t-xs mid" x="465" y="186">1800초라는 뜻</text>
+  <rect class="box red" x="575" y="134" width="165" height="68" rx="10"/>
+  <use href="#i-cross" x="585" y="152" width="32" height="32" class="ic red"/>
+  <text class="t-b" x="626" y="164">1800분 뒤 도착</text>
+  <text class="t-s" x="626" y="186">실제로는 30분</text>
+
+  <text class="t-b" x="20" y="244">새 값을 추가</text>
+  <text class="t-s" x="20" y="266">상태가 하나 늘어남</text>
+  <rect class="box gray" x="180" y="214" width="180" height="68" rx="10"/>
+  <text class="t-mono mid" x="270" y="253">"status":"paid"</text>
+  <rect class="box red" x="370" y="214" width="190" height="68" rx="10"/>
+  <text class="t-mono t-b mid tc-red" x="465" y="253">"status":"cancelled"</text>
+  <rect class="box red" x="575" y="214" width="165" height="68" rx="10"/>
+  <use href="#i-cross" x="585" y="232" width="32" height="32" class="ic red"/>
+  <text class="t-b" x="626" y="244">화면이 멈춤</text>
+  <text class="t-s" x="626" y="266">모르는 상태 값</text>
+
+  <text class="t-xs" x="20" y="310">옛 앱은 사용자가 업데이트하기 전까지 계속 쓰입니다. 새 서버는 옛 앱과도 한동안 함께 일해야 합니다.</text>
+</svg></div><figcaption><b>그림 18-4</b>세 가지 변경이 옛 앱에 미치는 영향. 칸 이름이 그대로여도 뜻이 바뀌면 깨지는 변경입니다.</figcaption></figure>
+<p>그래서 세 가지 규칙을 따릅니다.</p>
+<ol type="1">
+<li><strong>더하는 변경은 대체로 안전합니다.</strong> 받는 쪽은 모르는 칸이나 값을 만나도 멈추지 않게 만들어 둡니다.</li>
+<li><strong>뜻은 바꾸지 않습니다.</strong> 단위를 바꾸고 싶으면 <code>eta_seconds</code>처럼 새 칸을 만듭니다.</li>
+<li><strong>크게 바꿀 때는 버전을 나눕니다.</strong> <code>/v1/orders</code>를 그대로 둔 채 <code>/v2/orders</code>를 열고, 옛 버전을 쓰는 곳이 없어진 것을 확인한 뒤 닫습니다. 이것이 <strong>버전 관리</strong>(versioning)입니다.</li>
+</ol>
+</section>
+<section class="level2" id="remote">
+<h2><span class="sec-n">18.5</span>전화는 끊길 수 있습니다: 원격 호출과 멱등성<a aria-label="이 절의 링크" class="anchor" href="#remote">#</a></h2>
+<p>지점이 생기면 일을 전화로 넘깁니다. 프로그램이 네트워크 너머의 다른 프로그램에 일을 시키는 것을 <strong>원격 호출</strong>(remote call)이라고 합니다. 코드에서는 <code>pay(order)</code> 한 줄이라 함수 호출과 똑같아 보이지만 세 가지가 다릅니다.</p>
+<ol type="1">
+<li><strong>느립니다.</strong> <a href="ch01.html">1장</a>의 속도 사다리에서 함수 호출은 맨 위쪽, 원격 호출은 맨 아래쪽의 일입니다.</li>
+<li><strong>실패합니다.</strong> 상대가 꺼져 있거나 가는 길이 끊길 수 있습니다.</li>
+<li><strong>됐는지 안 됐는지 모를 때가 있습니다.</strong> 가장 까다로운 차이입니다.</li>
+</ol>
+<p>주문 서비스가 결제 서비스에 12,000원 결제를 요청하고 3초를 기다렸는데 답이 없습니다.</p>
+<figure class="fig" id="fig-lost-response"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>요청이 사라져도, 응답이 사라져도, 응답이 늦어도 보낸 쪽에는 똑같이 시간 초과로 보이지만 실제 결제 결과는 서로 다르다</title>
+  <text class="t-s t-b mid" x="90" y="30">주문 서비스가 본 것</text>
+  <text class="t-s t-b mid" x="315" y="30">오가는 길</text>
+  <text class="t-s t-b mid" x="535" y="30">결제 서비스</text>
+  <text class="t-s t-b mid" x="678" y="30">실제 결과</text>
+  <path class="ln thin muted" d="M20 42 H740"/>
+
+  <rect class="box blue" x="20" y="54" width="140" height="76" rx="12"/>
+  <text class="t-s mid" x="90" y="86">3초 기다린 뒤</text>
+  <text class="t-b mid tc-red" x="90" y="108">시간 초과</text>
+  <circle class="badge" cx="184" cy="68" r="11"/><text class="badge-t" x="184" y="72.500">1</text>
+  <text class="t-s t-b" x="202" y="73">요청이 가다가 사라짐</text>
+  <path class="ln blue" d="M166 94 H292"/>
+  <use href="#i-cross" x="298" y="82" width="24" height="24" class="ic red"/>
+  <path class="ln muted dash" d="M328 94 H462"/>
+  <rect class="box gray" x="470" y="54" width="130" height="76" rx="12"/>
+  <text class="t-s mid" x="535" y="97">받은 것이 없다</text>
+  <text class="t-l mid" x="678" y="98">결제 안 됨</text>
+
+  <rect class="box blue" x="20" y="150" width="140" height="76" rx="12"/>
+  <text class="t-s mid" x="90" y="182">3초 기다린 뒤</text>
+  <text class="t-b mid tc-red" x="90" y="204">시간 초과</text>
+  <circle class="badge" cx="184" cy="164" r="11"/><text class="badge-t" x="184" y="168.500">2</text>
+  <text class="t-s t-b" x="202" y="169">응답이 오다가 사라짐</text>
+  <path class="ln blue" d="M166 188 H460" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M464 212 H334"/>
+  <use href="#i-cross" x="304" y="200" width="24" height="24" class="ic red"/>
+  <path class="ln muted dash" d="M298 212 H170"/>
+  <rect class="box green" x="470" y="150" width="130" height="76" rx="12"/>
+  <text class="t-b mid" x="535" y="184">12,000원 승인</text>
+  <text class="t-s mid" x="535" y="206">결제 완료</text>
+  <text class="t-l mid tc-warm" x="678" y="194">결제됨</text>
+
+  <rect class="box blue" x="20" y="246" width="140" height="76" rx="12"/>
+  <text class="t-s mid" x="90" y="278">3초 기다린 뒤</text>
+  <text class="t-b mid tc-red" x="90" y="300">시간 초과</text>
+  <circle class="badge" cx="184" cy="260" r="11"/><text class="badge-t" x="184" y="264.500">3</text>
+  <text class="t-s t-b" x="202" y="265">응답이 4초 뒤에야 도착</text>
+  <path class="ln blue" d="M166 284 H460" marker-end="url(#ah-blue)"/>
+  <path class="ln warm dash" d="M464 308 H172" marker-end="url(#ah-warm)"/>
+  <rect class="box green" x="470" y="246" width="130" height="76" rx="12"/>
+  <text class="t-b mid" x="535" y="280">12,000원 승인</text>
+  <text class="t-s mid tc-warm" x="535" y="302">4초 걸림</text>
+  <text class="t-l mid tc-warm" x="678" y="290">결제됨</text>
+
+  <text class="t-b mid" x="380" y="354">보낸 쪽에서는 세 경우를 구별할 수 없다</text>
+</svg></div><figcaption><b>그림 18-5</b>시간 초과의 세 가지 속사정. 요청이 사라졌을 수도, 결제가 끝난 뒤 응답만 사라졌을 수도, 응답이 늦었을 뿐일 수도 있습니다.</figcaption></figure>
+<p><a href="ch11.html">11장</a>에서 본 대로 시간 초과는 "실패"가 아니라 <strong>"모름"</strong>입니다. 여기서 "실패했으니 다시 결제"하면 2번과 3번 경우의 손님은 24,000원을 냅니다. "실패했으니 주문 취소"라고 처리해도 돈은 이미 빠져나갔습니다.</p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>전화는 끊기면 신호음이라도 납니다. 네트워크는 그런 신호도 없이 조용할 때가 많습니다. 그래서 얼마나 기다릴지를 프로그램이 스스로 정해야 합니다.</p>
+</div>
+<section class="level3" id="주문-번호를-불러-주세요">
+<h3>주문 번호를 불러 주세요</h3>
+<div class="callout analogy"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bulb"></use></svg>비유로 이해하기 · 끊긴 전화</div>
+<p>주문하던 전화가 끊겼습니다. 다시 걸어 "머그컵 하나요"라고 하면 직원은 새 주문으로 받습니다. <strong>"아까 42번 주문, 들어갔나요?"</strong>라고 물어야 한 개만 옵니다.</p>
+</div>
+<p>같은 요청을 여러 번 보내도 결과가 한 번 보낸 것과 같은 성질을 <strong>멱등성</strong>(idempotency)이라고 합니다. 엘리베이터 버튼이 그렇습니다. 열 번 눌러도 엘리베이터는 한 번 옵니다. 결제는 원래 멱등하지 않으므로, 요청마다 고유한 번호인 <strong>멱등 키</strong>(idempotency key)를 붙여 멱등하게 만듭니다.</p>
+<figure class="fig" id="fig-idempotency-key"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 392" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>같은 멱등 키로 다시 보내면 결제 서비스는 장부에서 그 키를 찾아 적어 둔 답만 돌려주므로 결제는 한 번만 일어난다</title>
+
+  <rect class="box blue" x="20" y="24" width="120" height="276" rx="14"/>
+  <use href="#i-cart" x="56" y="40" width="48" height="48" class="ic blue"/>
+  <text class="t-b mid" x="80" y="112">주문 서비스</text>
+
+  <rect class="box green" x="420" y="24" width="130" height="276" rx="14"/>
+  <text class="t-b mid" x="485" y="50">결제 서비스</text>
+  <text class="t-s mid" x="485" y="82">처음 본 키</text>
+  <text class="t-s t-b mid tc-green" x="485" y="102">결제한다</text>
+  <text class="t-s mid" x="485" y="204">이미 있는 키</text>
+  <text class="t-s t-b mid tc-green" x="485" y="224">찾기만 한다</text>
+
+  <circle class="badge blue" cx="162" cy="66" r="11"/><text class="badge-t" x="162" y="70.500">1</text>
+  <text class="t-mono" x="180" y="71">POST /pay 키=ord-42</text>
+  <path class="ln blue" d="M146 86 H412" marker-end="url(#ah-blue)"/>
+
+  <circle class="badge red" cx="162" cy="124" r="11"/><text class="badge-t" x="162" y="128.500">2</text>
+  <text class="t-s t-b tc-red" x="180" y="129">"승인" 응답이 오다가 사라짐</text>
+  <path class="ln green" d="M414 146 H312"/>
+  <use href="#i-cross" x="282" y="134" width="24" height="24" class="ic red"/>
+  <path class="ln muted dash" d="M276 146 H150"/>
+
+  <circle class="badge blue" cx="162" cy="188" r="11"/><text class="badge-t" x="162" y="192.500">3</text>
+  <text class="t-mono" x="180" y="193">POST /pay 키=ord-42</text>
+  <text class="t-xs t-b tc-blue" x="346" y="193">다시 보냄</text>
+  <path class="ln blue" d="M146 208 H412" marker-end="url(#ah-blue)"/>
+
+  <circle class="badge green" cx="162" cy="246" r="11"/><text class="badge-t" x="162" y="250.500">4</text>
+  <text class="t-s t-b tc-green" x="180" y="251">"승인" — 적어 둔 답을 그대로</text>
+  <path class="ln green" d="M414 268 H152" marker-end="url(#ah-green)"/>
+
+  <text class="t-b" x="580" y="50">결제 장부</text>
+  <text class="t-xs" x="580" y="74">키 · 금액 · 결과</text>
+  <rect class="box green" x="572" y="84" width="168" height="40" rx="8"/>
+  <text class="t-mono" x="582" y="109">ord-42</text>
+  <text class="t-mono" x="642" y="109">12,000</text>
+  <text class="t-s t-b tc-green" x="702" y="109">승인</text>
+  <rect class="ghost dash" x="572" y="132" width="168" height="40" rx="8"/>
+  <text class="t-xs mid" x="656" y="156">둘째 줄은 생기지 않는다</text>
+  <path class="ln green" d="M554 104 H566" marker-end="url(#ah-green)"/>
+  <text class="t-xs" x="580" y="196">3번은 첫 줄을 읽기만 한다</text>
+
+  <rect class="box green" x="20" y="322" width="350" height="50" rx="12"/>
+  <text class="t-b mid" x="195" y="352">키가 있으면: 결제 1번 · 12,000원</text>
+  <rect class="box red" x="390" y="322" width="350" height="50" rx="12"/>
+  <text class="t-b mid tc-red" x="565" y="352">키가 없으면: 결제 2번 · 24,000원</text>
+</svg></div><figcaption><b>그림 18-6</b>응답이 사라져서 같은 키로 다시 보냈습니다. 결제 서비스는 장부에서 <code>ord-42</code>를 찾아, 적어 둔 답만 돌려줍니다.</figcaption></figure>
+<p>지킬 것은 세 가지입니다.</p>
+<ul>
+<li>키는 <strong>보내는 쪽</strong>이 만들고, 재시도할 때 <strong>같은 키</strong>를 씁니다. 재시도마다 새 키를 만들면 소용이 없습니다.</li>
+<li>받는 쪽은 "키 기록"과 "실제 결제"를 <strong>한 트랜잭션</strong>으로 저장합니다. 따로 저장하면 그 사이에 꺼졌을 때 다시 어긋납니다.</li>
+<li>손님이 정말로 두 번 주문했다면 키가 다르므로 둘 다 처리됩니다.</li>
+</ul>
+<details class="deep"><summary><small>한 걸음 더</small>오류를 받으면: 고칠 것, 기다릴 것, 확인할 것</summary><div class="deep-body">
+<p>오류를 전부 "서버 오류"로 뭉뚱그리면 받는 쪽은 무엇을 할지 모릅니다. 계약에 오류의 종류를 나눠 담습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>오류의 종류</th>
+<th>예</th>
+<th>받는 쪽이 할 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>요청이 잘못됨</td>
+<td>수량이 -1, 권한 없음</td>
+<td>고쳐서 다시 보냄</td>
+</tr>
+<tr>
+<td>업무 규칙상 거절</td>
+<td>잔액 부족, 품절</td>
+<td>사용자에게 알림</td>
+</tr>
+<tr>
+<td>잠깐의 장애</td>
+<td>서버가 바쁨</td>
+<td>조금 기다렸다가 재시도</td>
+</tr>
+<tr>
+<td>결과를 모름</td>
+<td>시간 초과</td>
+<td>같은 키로 결과를 확인</td>
+</tr>
+</tbody>
+</table></div>
+<p>오류는 문장이 아니라 <code>OUT_OF_STOCK</code>처럼 정해 둔 코드로 알려 줍니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="retry">
+<h2><span class="sec-n">18.6</span>재시도가 불을 키울 때: 마감, 백오프, 차단기<a aria-label="이 절의 링크" class="anchor" href="#retry">#</a></h2>
+<p>멱등 키가 있으면 다시 보내도 안전합니다. 그렇다고 마음껏 보내도 될까요? 맛집에 전화가 안 걸린다고 모두가 1초마다 다시 걸면 그 전화는 영영 통화 중입니다.</p>
+<figure class="fig" id="fig-retry-storm"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 428" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>앱과 주문 서비스가 각각 세 번씩 시도하면 주문 한 건이 아픈 결제 서비스에는 아홉 번의 요청으로 불어난다</title>
+  <text class="t-s t-b mid" x="75" y="30">앱</text>
+  <text class="t-h mid tc-blue" x="190" y="32">× 3</text>
+  <text class="t-s t-b mid" x="320" y="30">주문 서비스가 받는 요청</text>
+  <text class="t-h mid tc-red" x="455" y="32">× 3</text>
+  <text class="t-s t-b mid" x="580" y="30">결제 서비스가 받는 요청</text>
+
+  <rect class="box blue" x="20" y="166" width="110" height="68" rx="12"/>
+  <use href="#i-phone" x="30" y="184" width="32" height="32" class="ic blue"/>
+  <text class="t-b" x="68" y="197">주문</text>
+  <text class="t-b" x="68" y="217">1건</text>
+  <path class="ln blue" d="M134 200 L242 100" marker-end="url(#ah-blue)"/>
+  <rect class="box blue" x="250" y="78" width="140" height="44" rx="10"/>
+  <text class="t-b mid" x="320" y="105">1번째 시도</text>
+  <path class="ln red thin" d="M394 100 L512 70" marker-end="url(#ah-red)"/>
+  <rect class="solid red" x="520" y="59" width="120" height="22" rx="5"/>
+  <text class="t-on t-xs t-b mid" x="580" y="74">요청 1</text>
+  <path class="ln red thin" d="M394 100 L512 100" marker-end="url(#ah-red)"/>
+  <rect class="solid red" x="520" y="89" width="120" height="22" rx="5"/>
+  <text class="t-on t-xs t-b mid" x="580" y="104">요청 2</text>
+  <path class="ln red thin" d="M394 100 L512 130" marker-end="url(#ah-red)"/>
+  <rect class="solid red" x="520" y="119" width="120" height="22" rx="5"/>
+  <text class="t-on t-xs t-b mid" x="580" y="134">요청 3</text>
+  <path class="ln blue" d="M134 200 L242 200" marker-end="url(#ah-blue)"/>
+  <rect class="box blue" x="250" y="178" width="140" height="44" rx="10"/>
+  <text class="t-b mid" x="320" y="205">2번째 (재시도)</text>
+  <path class="ln red thin" d="M394 200 L512 170" marker-end="url(#ah-red)"/>
+  <rect class="solid red" x="520" y="159" width="120" height="22" rx="5"/>
+  <text class="t-on t-xs t-b mid" x="580" y="174">요청 4</text>
+  <path class="ln red thin" d="M394 200 L512 200" marker-end="url(#ah-red)"/>
+  <rect class="solid red" x="520" y="189" width="120" height="22" rx="5"/>
+  <text class="t-on t-xs t-b mid" x="580" y="204">요청 5</text>
+  <path class="ln red thin" d="M394 200 L512 230" marker-end="url(#ah-red)"/>
+  <rect class="solid red" x="520" y="219" width="120" height="22" rx="5"/>
+  <text class="t-on t-xs t-b mid" x="580" y="234">요청 6</text>
+  <path class="ln blue" d="M134 200 L242 300" marker-end="url(#ah-blue)"/>
+  <rect class="box blue" x="250" y="278" width="140" height="44" rx="10"/>
+  <text class="t-b mid" x="320" y="305">3번째 (재시도)</text>
+  <path class="ln red thin" d="M394 300 L512 270" marker-end="url(#ah-red)"/>
+  <rect class="solid red" x="520" y="259" width="120" height="22" rx="5"/>
+  <text class="t-on t-xs t-b mid" x="580" y="274">요청 7</text>
+  <path class="ln red thin" d="M394 300 L512 300" marker-end="url(#ah-red)"/>
+  <rect class="solid red" x="520" y="289" width="120" height="22" rx="5"/>
+  <text class="t-on t-xs t-b mid" x="580" y="304">요청 8</text>
+  <path class="ln red thin" d="M394 300 L512 330" marker-end="url(#ah-red)"/>
+  <rect class="solid red" x="520" y="319" width="120" height="22" rx="5"/>
+  <text class="t-on t-xs t-b mid" x="580" y="334">요청 9</text>
+  <text class="t-l mid tc-red" x="698" y="194">1건이</text>
+  <text class="t-l mid tc-red" x="698" y="218">9번으로</text>
+
+  <rect class="box green" x="20" y="362" width="720" height="48" rx="12"/>
+  <text class="t-b mid" x="380" y="391">재시도를 한 층에서만 맡으면 1 × 3 = 3번에서 멈춘다</text>
+</svg></div><figcaption><b>그림 18-7</b>앱도 3번, 주문 서비스도 3번씩 시도하면 결제 서비스는 9번을 받습니다. 층이 하나 더 있으면 27번입니다.</figcaption></figure>
+<p>결제 서비스가 요청이 몰려서 느려진 것이라면, 재시도는 부하를 9배로 불려 회복을 막습니다. 그래서 재시도에는 규칙을 둡니다.</p>
+<ul>
+<li><strong>한 층에서만</strong> 재시도합니다.</li>
+<li><a href="ch11.html">11장</a>의 <strong>마감</strong>(deadline)을 지킵니다. 손님이 3초만 기다려 준다면 3초 뒤의 재시도는 쓸모가 없습니다.</li>
+<li><strong>간격을 늘립니다.</strong> 1초, 2초, 4초처럼 기다리는 시간을 늘려 가는 것이 <strong>백오프</strong>(backoff)입니다. 모두가 같은 박자로 몰리지 않게 간격에 무작위 값을 섞는 것을 <strong>지터</strong>(jitter)라고 합니다.</li>
+<li><strong>될 것만</strong> 재시도합니다. "잔액 부족"은 백 번 보내도 잔액 부족입니다.</li>
+</ul>
+<section class="level3" id="차단기-그만-보내기">
+<h3>차단기: 그만 보내기</h3>
+<p>재시도가 "다시 보내는" 규칙이라면 <strong>서킷 브레이커</strong>(circuit breaker)는 "그만 보내는" 규칙입니다. 집의 누전 차단기처럼, 상대가 계속 실패하면 스위치를 내립니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr>
+<th>상태</th>
+<th>호출이 오면</th>
+<th>언제 바뀌나</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>닫힘 (회로가 이어짐)</td>
+<td>그대로 보낸다</td>
+<td>실패가 기준을 넘으면 열림으로</td>
+</tr>
+<tr>
+<td>열림 (회로가 끊김)</td>
+<td>보내지 않고 바로 실패로 답한다</td>
+<td>정해 둔 시간이 지나면 반열림으로</td>
+</tr>
+<tr>
+<td>반열림 (시험)</td>
+<td>몇 건만 보내 본다</td>
+<td>성공하면 닫힘, 실패하면 다시 열림</td>
+</tr>
+</tbody>
+</table></div>
+<p>상품 추천 서비스가 멈췄다면 차단기를 내리고 추천 없는 화면을 보여 주면 됩니다. 추천을 기다리느라 주문 화면까지 느려지는 것보다 낫습니다.</p>
+</section>
+</section>
+<section class="level2" id="queue">
+<h2><span class="sec-n">18.7</span>지금 할까, 맡겨 둘까: 큐와 메시지<a aria-label="이 절의 링크" class="anchor" href="#queue">#</a></h2>
+<p>주문의 네 가지 일을 손님이 전부 기다릴 필요는 없습니다. 결제와 재고는 그 자리에서 답해야 하지만, 메일은 10초 뒤에 가도 됩니다.</p>
+<ul>
+<li><strong>동기</strong>(synchronous) 호출: 답이 올 때까지 기다립니다. 결과가 바로 필요한 짧은 일에 씁니다.</li>
+<li><strong>메시지 큐</strong>(message queue): 할 일을 적은 쪽지(<strong>메시지</strong>)를 줄에 넣어 두면 작업자가 꺼내 처리합니다. <a href="ch11.html">11장</a>의 주문서 꽂이를 프로그램 밖에 따로 세운 것입니다.</li>
+</ul>
+<p>큐를 쓰면 메일 서버가 잠깐 멈춰도 주문은 계속 받을 수 있습니다. 대신 "접수됨"과 "끝남"이 서로 다른 시점이 되므로, 작업의 상태(대기, 처리 중, 완료, 실패)를 기록해 두어야 합니다.</p>
+<section class="level3" id="큐의-약속-적어도-한-번">
+<h3>큐의 약속: 적어도 한 번</h3>
+<p>작업자가 메일을 보낸 직후, 큐에 "처리했습니다"라고 알리기 전에 꺼졌습니다. 이 알림을 <strong>확인 응답</strong>(ack)이라고 합니다. 확인 응답을 못 받은 큐는 그 메시지를 다시 내줍니다. 앞에서 응답이 사라졌을 때와 똑같은 일입니다.</p>
+<p>그래서 많은 큐가 <strong>적어도 한 번 전달</strong>(at-least-once delivery)을 약속합니다. 잃어버리지는 않지만 <strong>두 번 올 수는 있다</strong>는 뜻입니다. 받는 쪽은 메시지 번호를 장부에 적어 두고 이미 처리한 번호는 건너뜁니다. 멱등 키와 같은 방법입니다.</p>
+<p>순서도 뒤바뀔 수 있습니다. "배송 완료" 뒤에 늦게 온 "배송 준비"가 화면을 되돌리지 않도록, 주문마다 버전 번호를 붙여 낡은 소식은 버립니다.</p>
+</section>
+<section class="level3" id="발행구독과-실패-보관함">
+<h3>발행·구독과 실패 보관함</h3>
+<p>주문이 끝나면 재고도, 통계도, 알림도 그 사실을 알아야 합니다. 주문 서비스가 셋을 하나씩 부르면 넷째가 생길 때마다 주문 코드를 고쳐야 합니다. 대신 주문 서비스는 "주문 완료"라는 소식을 내기만 하고, 신문처럼 그 소식을 구독한 쪽이 각자 한 부씩 받게 합니다. 이것이 <strong>발행·구독</strong>(publish-subscribe)입니다.</p>
+<figure class="fig" id="fig-pubsub-dlq"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 404" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>주문 서비스가 소식 한 장을 발행하면 재고, 통계, 알림 구독자가 각자 한 부씩 받아 자기 일을 하고, 계속 실패하는 메시지는 실패 보관함으로 빼 둔다</title>
+
+  <rect class="box blue" x="20" y="96" width="140" height="90" rx="14"/>
+  <use href="#i-cart" x="68" y="106" width="44" height="44" class="ic blue"/>
+  <text class="t-b mid" x="90" y="172">주문 서비스</text>
+  <path class="ln blue" d="M164 141 H192" marker-end="url(#ah-blue)"/>
+  <text class="t-xs t-b tc-blue mid" x="180" y="128">발행</text>
+
+  <rect class="box warm" x="200" y="74" width="210" height="134" rx="12"/>
+  <text class="t-s t-b tc-warm" x="216" y="98">소식 한 장 (메시지)</text>
+  <text class="t-mono t-b" x="216" y="124">주문완료</text>
+  <text class="t-mono" x="216" y="146">주문 번호: 42</text>
+  <text class="t-mono" x="216" y="168">머그컵 1개</text>
+  <text class="t-mono" x="216" y="190">12,000원</text>
+  <text class="t-xs mid" x="305" y="228">구독자마다 한 부씩 받는다</text>
+
+  <path class="ln warm" d="M414 126 L462 66" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M414 141 H462" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M414 156 L462 218" marker-end="url(#ah-warm)"/>
+
+  <rect class="box green" x="470" y="30" width="270" height="64" rx="12"/>
+  <use href="#i-shelf" x="482" y="44" width="36" height="36" class="ic green"/>
+  <text class="t-b" x="530" y="57">재고 서비스</text>
+  <text class="t-s" x="530" y="78">머그컵 3 → 2개</text>
+
+  <rect class="box green" x="470" y="110" width="270" height="64" rx="12"/>
+  <use href="#i-chart" x="482" y="124" width="36" height="36" class="ic green"/>
+  <text class="t-b" x="530" y="137">통계 서비스</text>
+  <text class="t-s" x="530" y="158">오늘 매출 + 12,000원</text>
+
+  <rect class="box green" x="470" y="190" width="270" height="64" rx="12"/>
+  <use href="#i-mail" x="482" y="204" width="36" height="36" class="ic green"/>
+  <text class="t-b" x="530" y="217">알림 서비스</text>
+  <text class="t-s" x="530" y="238">"주문 완료" 메일 보내기</text>
+
+  <path class="ln thin muted" d="M20 276 H740"/>
+
+  <text class="t-s t-b" x="20" y="324">알림 서비스의</text>
+  <text class="t-s t-b" x="20" y="342">대기 줄</text>
+  <rect class="box gray" x="200" y="308" width="50" height="40" rx="8"/>
+  <text class="t-mono mid" x="225" y="333">45</text>
+  <rect class="box gray" x="258" y="308" width="50" height="40" rx="8"/>
+  <text class="t-mono mid" x="283" y="333">44</text>
+  <rect class="box red" x="316" y="308" width="50" height="40" rx="8"/>
+  <text class="t-mono t-b mid tc-red" x="341" y="333">43</text>
+  <path class="ln red" d="M372 328 H462" marker-end="url(#ah-red)"/>
+  <text class="t-xs t-b tc-red mid" x="416" y="318">3번 실패</text>
+
+  <rect class="box red" x="470" y="296" width="270" height="64" rx="12"/>
+  <use href="#i-box" x="482" y="310" width="36" height="36" class="ic red"/>
+  <text class="t-b" x="530" y="323">실패 보관함 (DLQ)</text>
+  <text class="t-s" x="530" y="344">43: 메일 주소가 비어 있음</text>
+
+  <text class="t-xs" x="20" y="386">43번을 따로 빼 두어야 뒤에 선 44번, 45번이 밀리지 않습니다.</text>
+</svg></div><figcaption><b>그림 18-8</b>위: 소식 하나를 구독자 셋이 각자 받습니다. 아래: 세 번 시도해도 안 되는 43번 메시지는 실패 보관함으로 옮깁니다.</figcaption></figure>
+<p>어떤 메시지는 몇 번을 해도 실패합니다. 메일 주소가 비어 있는 주문이 그렇습니다. 끝없이 재시도하면 뒤의 메시지가 전부 밀립니다. 그래서 정해 둔 횟수를 넘긴 메시지는 <strong>DLQ</strong>(Dead-Letter Queue), 곧 실패 보관함으로 옮깁니다. 옮겼다고 해결된 것은 아닙니다. 보관함이 차면 사람에게 알려 원인을 찾게 합니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>아웃박스: DB에 저장한 직후에 꺼지면</summary><div class="deep-body">
+<p>주문을 DB에 저장하고 이어서 "주문 완료" 메시지를 큐에 보내는 코드가 있습니다. 둘 사이에 프로그램이 꺼지면 주문은 있는데 메일도 재고 차감도 시작되지 않습니다. DB와 큐는 다른 저장소라 한 트랜잭션으로 묶을 수 없기 때문입니다.</p>
+<p><strong>아웃박스</strong>(outbox, 보낼 편지함) 패턴은 주문 행과 "보낼 메시지" 행을 <strong>같은 DB에 한 트랜잭션으로</strong> 저장합니다. 그런 다음 별도의 전달 프로그램이 그 행을 읽어 큐로 옮기고 "보냄"으로 표시합니다. 꺼졌다 켜져도 행이 남아 있어 이어서 보냅니다. 보낸 직후 표시 전에 꺼지면 한 번 더 나가므로 받는 쪽의 중복 처리는 여전히 필요합니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="data">
+<h2><span class="sec-n">18.8</span>데이터의 주인은 하나: 소유권과 일관성<a aria-label="이 절의 링크" class="anchor" href="#data">#</a></h2>
+<p>서비스를 나누면 "이 숫자는 누가 고치는가"가 문제가 됩니다. 원칙은 <a href="ch10.html">10장</a>과 같습니다. <strong>데이터마다 주인은 하나</strong>입니다. 재고 숫자는 재고 서비스만 고칩니다. 다른 서비스는 API로 부탁하거나 재고 서비스가 발행한 소식을 듣습니다. 여러 서비스가 같은 표를 직접 고치면 모듈 절에서 본 나쁜 예가 서버 규모로 되풀이됩니다.</p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>이름이 같다고 같은 데이터는 아닙니다. 회원 정보의 "주소"와 주문서의 "배송 주소"는 주인이 다릅니다. 회원이 이사해도 지난 주문의 배송 주소는 바뀌면 안 됩니다.</p>
+</div>
+<p>주인이 하나면 다른 서비스는 사본을 들고 있게 됩니다. 상품 목록의 "남은 수량 3개"는 재고 서비스에서 받아 둔 사본입니다. 방금 한 개가 팔렸어도 소식이 도착하기 전까지는 3으로 보입니다. <a href="ch17.html">17장</a>의 복제 지연과 같은 현상입니다. 새 변경이 멈추면 사본들이 <strong>결국에는</strong> 원본과 같아진다는 약속을 <strong>최종 일관성</strong>(eventual consistency)이라고 합니다.</p>
+<p>목록의 남은 수량은 몇 초 늦어도 괜찮습니다. 하지만 결제 직전의 재고 확인은 주인에게 직접 물어야 합니다.</p>
+<section class="level3" id="연결이-끊기면-cap">
+<h3>연결이 끊기면: CAP</h3>
+<p>재고 장부를 서울과 부산 서버에 한 벌씩 두었는데 두 서버 사이의 연결이 끊겼습니다. 둘 다 살아 있지만 서로 물어볼 수 없습니다. 이 상태를 <strong>네트워크 분할</strong>(partition)이라고 합니다.</p>
+<figure class="fig" id="fig-cap-last-mug"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>두 서버의 연결이 끊긴 동안 마지막 한 개를 두 손님이 주문하면, 둘 다 받아서 장부가 어긋나게 두거나 한쪽을 멈춰서 손님을 돌려보내야 한다</title>
+
+  <use href="#i-user" x="34" y="40" width="40" height="40" class="ic"/>
+  <text class="t-s t-b mid" x="54" y="100">손님 A</text>
+  <text class="t-xs mid" x="54" y="118">1개 주문</text>
+  <path class="ln" d="M84 70 H112" marker-end="url(#ah)"/>
+
+  <rect class="box blue" x="120" y="26" width="200" height="100" rx="14"/>
+  <use href="#i-server" x="134" y="40" width="40" height="40" class="ic blue"/>
+  <text class="t-l" x="186" y="66">서울 서버</text>
+  <text class="t-mono" x="136" y="106">머그컵 재고: 1</text>
+
+  <path class="ln purple" d="M326 76 H360"/>
+  <use href="#i-cross" x="366" y="62" width="28" height="28" class="ic red"/>
+  <path class="ln purple" d="M400 76 H434"/>
+  <text class="t-xs t-b tc-red mid" x="380" y="52">연결 끊김</text>
+
+  <rect class="box blue" x="440" y="26" width="200" height="100" rx="14"/>
+  <use href="#i-server" x="454" y="40" width="40" height="40" class="ic blue"/>
+  <text class="t-l" x="506" y="66">부산 서버</text>
+  <text class="t-mono" x="456" y="106">머그컵 재고: 1</text>
+
+  <use href="#i-user" x="686" y="40" width="40" height="40" class="ic"/>
+  <text class="t-s t-b mid" x="706" y="100">손님 B</text>
+  <text class="t-xs mid" x="706" y="118">1개 주문</text>
+  <path class="ln" d="M676 70 H648" marker-end="url(#ah)"/>
+
+  <text class="t-b mid" x="380" y="162">서로 물어볼 수 없는 동안, 두 주문을 어떻게 할까?</text>
+
+  <rect class="panel" x="20" y="182" width="350" height="174" rx="16"/>
+  <text class="t-l" x="40" y="212">둘 다 주문을 받는다</text>
+  <text class="t-s" x="40" y="234">멈추지 않는 쪽을 고름 (가용성)</text>
+  <rect class="box green" x="40" y="250" width="150" height="40" rx="10"/>
+  <text class="t-b mid" x="115" y="275">서울: 판매</text>
+  <rect class="box green" x="200" y="250" width="150" height="40" rx="10"/>
+  <text class="t-b mid" x="275" y="275">부산: 판매</text>
+  <text class="t-s t-b tc-red" x="40" y="318">1개뿐인데 2개가 팔렸다</text>
+  <text class="t-s" x="40" y="338">나중에 한 명에게 취소를 알려야 한다</text>
+
+  <rect class="panel" x="390" y="182" width="350" height="174" rx="16"/>
+  <text class="t-l" x="410" y="212">한쪽은 주문을 멈춘다</text>
+  <text class="t-s" x="410" y="234">장부가 맞는 쪽을 고름 (일관성)</text>
+  <rect class="box green" x="410" y="250" width="150" height="40" rx="10"/>
+  <text class="t-b mid" x="485" y="275">서울: 판매</text>
+  <rect class="box red" x="570" y="250" width="150" height="40" rx="10"/>
+  <text class="t-b mid tc-red" x="645" y="275">부산: 주문 불가</text>
+  <text class="t-s t-b tc-green" x="410" y="318">장부는 끝까지 맞다</text>
+  <text class="t-s" x="410" y="338">대신 손님 B는 지금 살 수 없다</text>
+</svg></div><figcaption><b>그림 18-9</b>분할 중에 마지막 한 개를 두 손님이 주문했습니다. 둘 다 받으면 장부가 어긋나고, 장부를 지키려면 한쪽은 거절해야 합니다.</figcaption></figure>
+<p><strong>CAP 정리</strong>가 말하는 것이 이것입니다. 분할(Partition)이 생긴 동안에는 "누구나 같은 최신 값을 본다"는 일관성(Consistency)과 "모든 서버가 요청에 답한다"는 가용성(Availability)을 <strong>둘 다 가질 수 없습니다.</strong></p>
+<div class="callout myth"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-cross"></use></svg>흔한 오해 · CAP은 셋 중 둘을 고르라는 뜻이다</div>
+<p>평소에는 고를 일이 없습니다. 연결이 멀쩡하면 일관성과 가용성을 함께 누립니다. 선택은 <strong>분할이 일어난 동안에만</strong>, 그것도 <strong>데이터마다 따로</strong> 합니다. 재고와 잔액은 한쪽을 멈추고, 상품 후기는 조금 낡은 것이라도 보여 주는 식입니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>사가: 롤백할 수 없으면 상쇄합니다</summary><div class="deep-body">
+<p>결제 서비스가 12,000원을 승인한 뒤 재고 서비스가 "품절"이라고 답했습니다. 두 서비스의 DB는 따로라 한꺼번에 롤백할(없던 일로 되돌릴) 수 없습니다. 대신 <strong>환불</strong>이라는 새 작업으로 앞 단계를 상쇄합니다. 이런 작업이 <strong>보상</strong>(compensation)이고, 단계마다 보상을 짝지어 둔 긴 업무 흐름이 <strong>사가</strong>(saga)입니다.</p>
+<p>보상은 롤백과 달리 과거를 지우지 못합니다. 통장에는 "결제 12,000원, 환불 12,000원" 두 줄이 남고, 이미 보낸 메일은 정정 메일로 바로잡습니다. 보상도 실패할 수 있으므로 지금 몇 단계인지 저장해 두고, 보상 요청에도 멱등 키를 붙입니다.</p>
+</div></details>
+<details class="deep"><summary><small>한 걸음 더</small>서버 여러 대에 데이터 두기: 쿼럼과 샤딩</summary><div class="deep-body">
+<p>같은 데이터를 서버 5대에 복제해 둡니다. 쓸 때 3대의 확인을 받고 읽을 때도 3대에 물으면, 두 묶음은 반드시 한 대 이상 겹칩니다. 3 + 3이 5보다 크기 때문입니다. 이렇게 정해 둔 수만큼 응답을 모으는 방식이 <strong>쿼럼</strong>(quorum)입니다. 읽기를 2대로 줄이면 빨라지지만 쓴 3대를 모두 비껴갈 수 있습니다. 어느 값이 최신인지는 버전 번호로 가립니다.</p>
+<p><strong>샤딩</strong>(sharding)은 복제와 목적이 다릅니다. 같은 데이터를 여러 벌 두는 것이 아니라 데이터를 <strong>나눠 담습니다.</strong> 회원 번호 같은 <strong>분할 키</strong>로 "이 회원은 2번 서버"를 정합니다. 한 회원의 주문은 한곳에 모이지만 "모든 회원의 최근 주문"은 서버를 전부 돌아야 합니다. DB 한 대로 충분하면 꺼내지 않는 도구입니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="scale">
+<h2><span class="sec-n">18.9</span>손님이 몰릴 때: 확장과 격리<a aria-label="이 절의 링크" class="anchor" href="#scale">#</a></h2>
+<p>처리 능력을 늘리는 것을 <strong>확장</strong>(scaling)이라고 합니다. 길은 둘입니다.</p>
+<ul>
+<li><strong>수직 확장</strong>(scale up): 더 큰 서버로 바꿉니다. 화구를 큰 것으로 바꾸는 셈입니다. 간단하지만 한계가 있습니다.</li>
+<li><strong>수평 확장</strong>(scale out): 같은 서버를 여러 대 둡니다. 요리사를 더 뽑는 셈입니다. 요청은 <a href="ch14.html">14장</a>의 로드 밸런서가 나눠 줍니다.</li>
+</ul>
+<p>수평 확장에는 조건이 있습니다. 장바구니를 서버 한 대의 메모리에만 두면, 다른 서버로 간 다음 요청에서는 비어 보입니다. 이런 상태는 DB 같은 공용 저장소에 둡니다.</p>
+<section class="level3" id="함께-쓰는-것이-병목입니다">
+<h3>함께 쓰는 것이 병목입니다</h3>
+<p>요리사를 4명에서 10명으로 늘려도 냉장고 문은 하나입니다.</p>
+<figure class="fig" id="fig-shared-bottleneck"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>앱 서버가 4대일 때는 DB 연결이 120개로 한도 200 안에 들지만, 10대로 늘리면 300개를 열려고 해서 100개가 거절된다</title>
+  <text class="t-h" x="20" y="34">앱 서버를 늘리면 DB 연결도 함께 늘어난다</text>
+  <text class="t-s" x="20" y="56">서버 한 대가 DB 연결을 최대 30개씩 연다</text>
+
+  <path class="ln red dash" d="M530 72 V244"/>
+  <text class="t-s t-b tc-red mid" x="530" y="266">DB 한도 200개</text>
+
+  <text class="t-b" x="20" y="106">앱 서버 4대</text>
+  <rect class="solid blue" x="20" y="116" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="40" y="116" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="60" y="116" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="80" y="116" width="16" height="22" rx="3"/>
+  <text class="t-mono" x="230" y="92">4 × 30 = 120개</text>
+  <rect class="solid green" x="230" y="100" width="180" height="38" rx="6"/>
+  <text class="t-on t-b mid" x="320" y="124">120개 연결</text>
+  <text class="t-s t-b tc-green" x="422" y="124">한도 안</text>
+
+  <text class="t-b" x="20" y="190">앱 서버 10대</text>
+  <rect class="solid blue" x="20" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="40" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="60" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="80" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="100" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="120" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="140" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="160" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="180" y="200" width="16" height="22" rx="3"/>
+  <rect class="solid blue" x="200" y="200" width="16" height="22" rx="3"/>
+  <text class="t-mono" x="230" y="176">10 × 30 = 300개</text>
+  <rect class="solid green" x="230" y="184" width="298" height="38" rx="6"/>
+  <text class="t-on t-b mid" x="379" y="208">200개까지만 연결</text>
+  <rect class="solid red" x="532" y="184" width="148" height="38" rx="6"/>
+  <text class="t-on t-b mid" x="606" y="208">100개 거절</text>
+</svg></div><figcaption><b>그림 18-10</b>앱 서버 한 대가 DB 연결을 30개까지 엽니다. 10대로 늘리면 300개를 열려고 하지만 DB는 200개까지만 받습니다.</figcaption></figure>
+<p><a href="ch17.html">17장</a>의 커넥션 풀은 서버마다 따로 있습니다. 서버를 늘리면 DB 연결의 총합도 그만큼 늘어납니다. 느려서 서버를 늘렸는데 오히려 장애가 나는 이유입니다. 확장하기 전에 <strong>모두가 함께 쓰는 것</strong>(DB, 외부 API, 큐)의 한도를 먼저 확인합니다.</p>
+</section>
+<section class="level3" id="칸막이-치기-벌크헤드">
+<h3>칸막이 치기: 벌크헤드</h3>
+<p>큰 배는 선체를 칸막이벽으로 나눠서, 한 칸에 물이 들어와도 가라앉지 않습니다. 이 생각을 자원에 옮긴 것이 <strong>벌크헤드</strong>(bulkhead)입니다. DB 연결이 20개인 서버에서 관리자가 2분짜리 매출 보고서 20개를 돌리면, 연결을 모두 차지해 손님의 주문이 멈춥니다. 보고서용 연결을 2개로 묶어 두면 보고서는 늦어져도 주문은 계속됩니다. 한도를 넘는 요청은 끝없이 줄 세우지 말고 일찍 거절합니다.</p>
+</section>
+<section class="level3" id="캐시가-한꺼번에-비면">
+<h3>캐시가 한꺼번에 비면</h3>
+<p>"인기 상품 10개"는 계산에 2초가 걸려서 1분 동안 캐시에 넣어 둡니다. 캐시가 만료되는 순간, 요청 1,000개가 동시에 빈 캐시를 보고 저마다 2초짜리 계산을 시작합니다. 이것이 <strong>캐시 스탬피드</strong>(cache stampede)입니다. 미리 끓여 둔 육수가 떨어지자 요리사 열 명이 저마다 새 솥을 올리는 꼴입니다.</p>
+<p>막는 방법은 셋입니다. 한 명만 계산하고 나머지는 그 결과를 기다립니다. 만료 시각에 무작위 값을 섞어 한꺼번에 비지 않게 합니다. 새 값이 준비될 때까지 조금 낡은 값을 내줍니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>CQRS와 이벤트 소싱: 쓰는 모양과 읽는 모양</summary><div class="deep-body">
+<p><strong>CQRS</strong>(Command Query Responsibility Segregation)는 데이터를 바꾸는 쪽과 조회하는 쪽의 모양을 따로 두는 설계입니다. 주문 원본은 규칙을 지키기 좋은 표에 두고, "회원별 최근 주문 요약"은 화면에 맞춘 조회용 표로 미리 만들어 둡니다. 조회는 빨라지지만 조회용 표는 조금 늦는 사본입니다.</p>
+<p><strong>이벤트 소싱</strong>(event sourcing)은 현재 값 대신 일어난 사건을 순서대로 저장합니다. "입금 100, 출금 30, 입금 20"을 차례로 적용하면 잔액 90이 나옵니다. 이력이 그대로 남는 대신, 옛 사건을 새 코드로 읽어도 같은 결과가 나오게 관리해야 합니다. 둘 다 저장과 조회의 요구가 크게 다를 때만 꺼냅니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>모듈 / 서비스</td>
+<td>코드의 경계(함수 호출) / 실행의 경계(네트워크 호출)</td>
+</tr>
+<tr>
+<td>시간 초과 / 실패</td>
+<td>결과를 모름 / 안 된 것이 확실함</td>
+</tr>
+<tr>
+<td>재시도 / 서킷 브레이커</td>
+<td>다시 보낸다 / 당분간 보내지 않는다</td>
+</tr>
+<tr>
+<td>적어도 한 번 전달 / 한 번만 처리</td>
+<td>큐가 해 주는 약속 / 받는 쪽이 중복을 걸러 만드는 결과</td>
+</tr>
+<tr>
+<td>복제 / 샤딩</td>
+<td>같은 것을 여러 벌 / 나눠서 한 벌씩</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 보고서 하나 때문에 가게 전체가 느려진다</div>
+<p>관리자가 "월간 매출 보고서"를 누르면 2분이 걸립니다. 그동안 손님 화면도 느려지고, 새로고침을 누르면 계산이 하나 더 시작됩니다. AI는 "마이크로서비스로 나누자"고 합니다.</p>
+<ol type="1">
+<li><strong>무엇을 붙잡고 있는지 봅니다.</strong> 보고서 요청 하나가 DB 연결 하나를 2분 동안 쥡니다. 새로고침 다섯 번이면 연결 다섯 개입니다.</li>
+<li><strong>접수와 실행을 나눕니다.</strong> 요청은 작업 번호만 돌려주고 끝냅니다. 계산은 큐에서 일을 꺼낸 작업자가 합니다. 화면은 작업 번호로 상태를 묻습니다.</li>
+<li><strong>같은 일을 알아봅니다.</strong> "같은 관리자, 같은 달"이면 같은 멱등 키로 보고 진행 중인 작업 번호를 돌려줍니다.</li>
+<li><strong>칸막이를 칩니다.</strong> 보고서 작업자는 동시에 2개만 돌리고, 대기 줄이 10개를 넘으면 거절합니다.</li>
+<li><strong>일부러 깨뜨려 봅니다.</strong> 계산 도중에 작업자를 껐다 켜서 작업이 사라지거나 두 번 만들어지지 않는지 확인합니다.</li>
+</ol>
+<p>서비스를 여덟 개로 쪼갤 필요는 없었습니다. 작업자 하나를 떼어 내는 것으로 충분했습니다.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li>설계는 <strong>경계를 긋고, 경계마다 약속과 실패 규칙을 정하는 일</strong>입니다.</li>
+<li>모듈은 함께 바뀌는 것끼리 묶고 서로의 속을 모르게 합니다. 한 프로그램으로 시작해 필요한 부분만 떼어 냅니다.</li>
+<li>API는 <strong>계약</strong>입니다. 더하는 변경은 대체로 안전하고, 뜻을 바꾸는 변경은 깨집니다.</li>
+<li>시간 초과는 실패가 아니라 <strong>모름</strong>입니다. <strong>멱등 키</strong>가 있어야 안심하고 다시 보냅니다.</li>
+<li>재시도는 한 층에서, 마감 안에, 간격을 늘려 가며 합니다. 계속 실패하면 차단기를 내립니다.</li>
+<li>큐는 <strong>적어도 한 번</strong> 전달합니다. 받는 쪽은 중복에 대비하고, 안 되는 메시지는 DLQ로 뺍니다.</li>
+<li>데이터의 주인은 하나이고 나머지는 조금 늦는 사본입니다. 서버를 늘리기 전에 함께 쓰는 자원의 한도를 봅니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>결제 요청이 시간 초과로 끝났습니다. 주문 번호를 새로 만들어 다시 결제를 요청해도 될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>안 됩니다. 시간 초과는 "모름"이라 결제가 이미 끝났을 수 있습니다. 새 번호로 보내면 결제 서비스는 다른 주문으로 보고 한 번 더 결제합니다. 처음과 같은 멱등 키로 다시 보내거나 그 키로 결과를 조회합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>혼자 만드는 서비스인데 AI가 "확장성을 위해 마이크로서비스 여섯 개로 시작하자"고 합니다. 무엇을 되물어야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>어떤 기능의 부하나 배포 주기가 실제로 다른지, 지금 병목이 어디인지 근거를 묻습니다. 나누면 원격 호출의 실패, 계약의 버전, 데이터 맞추기를 떠안습니다. 모듈형 모놀리스에서 오래 걸리는 일만 작업자로 떼어 내면 충분한지도 비교하게 합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>서버 응답의 <code>weight</code> 값을 kg에서 g으로 바꾸려 합니다. 칸 이름은 그대로 둡니다. 안전한 변경일까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>깨지는 변경입니다. 2kg짜리 상품의 값이 2에서 2000으로 바뀌는데, 옛 앱은 이를 2000kg으로 읽습니다. 이름이 같아도 뜻이 바뀌면 계약이 바뀐 것입니다. <code>weight_g</code> 같은 새 칸을 추가하고, 옛 칸은 옛 앱이 사라질 때까지 그대로 둡니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>알림 작업자가 같은 메시지를 두 번 받아 "주문 완료" 메일이 두 통 나갔습니다. 큐가 고장 난 것일까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>아닙니다. 적어도 한 번 전달하는 큐에서는 생길 수 있는 일입니다. 확인 응답이 닿기 전에 작업자가 꺼지면 큐는 같은 메시지를 다시 내줍니다. 작업자가 처리한 메시지 번호를 적어 두고 이미 있는 번호는 건너뛰어야 합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>앱 서버 5대가 각각 DB 연결을 40개까지 엽니다. DB의 한도는 250개입니다. 응답이 느려서 서버를 8대로 늘리려 합니다. 무슨 일이 생길까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>지금은 5 × 40 = 200개라 한도 안이지만, 8대가 되면 8 × 40 = 320개를 열려고 해서 70개가 거절됩니다. 먼저 느린 원인이 앱 서버인지 DB인지 잽니다. 늘려야 한다면 서버당 연결을 30개로 줄여 총합을 240개에 맞춥니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>AI는 잘될 때의 흐름을 빠르게 그려 줍니다. 경계에서 실패했을 때의 규칙은 물어야 나옵니다.</p>
+<blockquote>
+<p>주문 → 결제 → 재고 → 알림 흐름을 설계해 줘. 팀은 2명이고 하루 주문은 1,000건이야. 먼저 모듈형 모놀리스로 충분한지 판단하고, 나눠야 한다면 근거를 숫자로 보여 줘. 원격 호출마다 (1) 시간 제한과 전체 마감, (2) 시간 초과 뒤 결과를 확인하는 방법, (3) 멱등 키를 누가 만들고 어디에 저장하는지, (4) 재시도를 맡는 층을 표로 정리해 줘. 각 데이터의 주인도 적어 줘. 끝으로 "결제 응답이 사라짐", "같은 메시지 두 번 도착", "작업자가 처리 도중 종료"를 재현하는 테스트를 만들어 줘.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: 나눈 이유가 유행이 아니라 숫자인가, 시간 초과를 실패로 단정하지 않는가, 재시도에 같은 키를 쓰는가, 같은 표를 두 서비스가 고치지 않는가, 실패 테스트가 실제로 돌아가는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>모듈<small>module</small></dt>
+<dd>
+관련된 일을 묶고 창구만 밖에 내놓은 코드 단위.
+</dd>
+<dt>응집도<small>cohesion</small></dt>
+<dd>
+모듈 안의 코드가 한 가지 목적에 모여 있는 정도.
+</dd>
+<dt>결합도<small>coupling</small></dt>
+<dd>
+다른 모듈의 속사정에 기대는 정도.
+</dd>
+<dt>모놀리스<small>monolith</small></dt>
+<dd>
+모든 기능을 한 프로그램으로 묶어 한 번에 배포하는 구조.
+</dd>
+<dt>마이크로서비스<small>microservices</small></dt>
+<dd>
+따로 실행하고 따로 배포하는 작은 서비스들이 네트워크로 협력하는 구조.
+</dd>
+<dt>계약<small>contract</small></dt>
+<dd>
+API에서 지키기로 한 약속 전체. 뜻, 단위, 실패 방식까지 포함한다.
+</dd>
+<dt>멱등성<small>idempotency</small></dt>
+<dd>
+같은 요청을 여러 번 보내도 결과가 한 번 보낸 것과 같은 성질.
+</dd>
+<dt>멱등 키<small>idempotency key</small></dt>
+<dd>
+같은 작업임을 알아보도록 요청에 붙이는 고유 번호.
+</dd>
+<dt>백오프<small>backoff</small></dt>
+<dd>
+재시도 간격을 점점 늘리는 방법.
+</dd>
+<dt>서킷 브레이커<small>circuit breaker</small></dt>
+<dd>
+계속 실패하는 상대로의 호출을 잠시 끊는 장치.
+</dd>
+<dt>적어도 한 번 전달<small>at-least-once delivery</small></dt>
+<dd>
+메시지를 잃지는 않지만 두 번 전할 수 있다는 큐의 약속.
+</dd>
+<dt>발행·구독<small>publish-subscribe</small></dt>
+<dd>
+소식 하나를 여러 구독자가 각자 받아 가는 방식.
+</dd>
+<dt>DLQ<small>Dead-Letter Queue</small></dt>
+<dd>
+거듭 실패한 메시지를 따로 옮겨 두는 실패 보관함.
+</dd>
+<dt>최종 일관성<small>eventual consistency</small></dt>
+<dd>
+변경이 멈추면 사본들이 결국 원본과 같아진다는 약속.
+</dd>
+<dt>CAP 정리<small>CAP theorem</small></dt>
+<dd>
+네트워크 분할 중에는 일관성과 가용성을 함께 지킬 수 없다는 정리.
+</dd>
+<dt>벌크헤드<small>bulkhead</small></dt>
+<dd>
+기능별로 자원 한도를 나눠 과부하가 번지지 않게 하는 방법.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://learn.microsoft.com/ko-kr/azure/architecture/guide/architecture-styles/" rel="noopener" target="_blank">Azure 아키텍처 스타일</a> — 계층형, 웹-큐-작업자, 마이크로서비스 구조의 이점과 비용을 비교합니다.</li>
+<li><a href="https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/" rel="noopener" target="_blank">AWS — Timeouts, retries, and backoff with jitter</a> — 재시도가 부하를 불리는 과정과 백오프, 지터를 다룹니다.</li>
+<li><a href="https://learn.microsoft.com/ko-kr/azure/architecture/patterns/circuit-breaker" rel="noopener" target="_blank">Azure 서킷 브레이커 패턴</a> — 닫힘, 열림, 반열림 상태를 자세히 설명합니다.</li>
+<li><a href="https://docs.aws.amazon.com/ko_kr/prescriptive-guidance/latest/cloud-design-patterns/transactional-outbox.html" rel="noopener" target="_blank">AWS 트랜잭션 아웃박스 패턴</a> — DB 저장과 메시지 발행 사이의 틈을 메우는 방법입니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch17.html"><small>← 이전 · 17장</small><b>데이터베이스</b></a><a class="next" href="ch19.html"><small>다음 · 19장 →</small><b>보안</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#design">설계는 선을 긋는 일입니다</a><a href="#module">모듈: 한 가게 안에서 구역 나누기</a><a href="#monolith">한 덩어리로 시작하기: 모놀리스와 마이크로서비스</a><a href="#contract">API는 약속입니다: 계약과 버전</a><a href="#remote">전화는 끊길 수 있습니다: 원격 호출과 멱등성</a><a href="#retry">재시도가 불을 키울 때: 마감, 백오프, 차단기</a><a href="#queue">지금 할까, 맡겨 둘까: 큐와 메시지</a><a href="#data">데이터의 주인은 하나: 소유권과 일관성</a><a href="#scale">손님이 몰릴 때: 확장과 격리</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

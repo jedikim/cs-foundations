@@ -1,0 +1,31 @@
+<svg viewBox="0 0 760 268" xmlns="http://www.w3.org/2000/svg">
+  <title>지표에 이름표를 하나 붙일 때마다 저장할 선의 수가 곱으로 늘고, 사용자 ID를 붙이면 300줄이 3,000만 줄이 된다</title>
+
+  <text class="t-s t-b" x="20" y="30">이름표를 하나씩 붙이면</text>
+  <text class="t-s t-b" x="330" y="30">저장해야 하는 선(시계열)의 수</text>
+  <path class="ln thin muted" d="M20 42 H740"/>
+
+  <text class="t-b" x="20" y="72">지역 3곳</text>
+  <text class="t-s" x="178" y="72">서울, 도쿄, 런던</text>
+  <rect class="solid blue" x="330" y="56" width="3" height="24" rx="1"/>
+  <text class="t-mono" x="342" y="73">3줄</text>
+
+  <text class="t-b" x="20" y="112">× 경로 20개</text>
+  <text class="t-s" x="178" y="112">/orders, /cart 등</text>
+  <rect class="solid blue" x="330" y="96" width="60" height="24" rx="3"/>
+  <text class="t-mono" x="399" y="113">60줄</text>
+
+  <text class="t-b" x="20" y="152">× 응답 코드 5개</text>
+  <text class="t-s" x="178" y="152">200, 404, 500 등</text>
+  <rect class="solid blue" x="330" y="136" width="300" height="24" rx="3"/>
+  <text class="t-mono" x="639" y="153">300줄</text>
+
+  <text class="t-b tc-red" x="20" y="192">× 사용자 ID</text>
+  <text class="t-s" x="178" y="192">10만 명, 계속 늘어남</text>
+  <path class="solid red" d="M333 176 H724 L740 188 L724 200 H333 Q330 200 330 197 V179 Q330 176 333 176 Z"/>
+  <text class="t-on t-b" x="342" y="193.500">3,000만 줄 — 위 막대의 10만 배 길이</text>
+
+  <path class="ln thin muted" d="M20 216 H740"/>
+  <text class="t-mono" x="20" y="246">3 × 20 × 5 = 300</text>
+  <text class="t-mono tc-red t-b" x="330" y="246">300 × 100,000 = 30,000,000</text>
+</svg>

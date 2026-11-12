@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>22장 로그와 관측 — 개발의 기초</title>
+<meta name="description" content="운영 중인 시스템을 들여다보기">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch22" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html" aria-current="page"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">5부 내보내고 운영하기 › <b>22장 로그와 관측</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-red">
+<div class="ch-kicker"><span class="ch-no">22장</span><span class="part">5부 · 내보내고 운영하기</span></div>
+<h1>로그와 관측</h1>
+<p class="ch-sub">운영 중인 시스템을 들여다보기</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 35분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch13.html">13장 숫자로 시스템 읽기</a><a class="chip" href="ch21.html">21장 인프라와 클라우드</a></div>
+</header><div class="lead">
+<p>내 컴퓨터에서 개발할 때는 오류가 터미널에 바로 찍혔습니다. 그런데 배포하고 나니 사용자가 "결제가 안 돼요"라고 해도 내 화면에는 아무것도 보이지 않습니다. 서버는 멀리 있고, 사용자는 수천 명이고, 프로그램을 멈춰 놓고 들여다볼 수도 없습니다. 이제는 프로그램이 <strong>스스로 남기는 흔적</strong>으로 안을 읽어야 합니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>로그, 지표, 추적이 각각 어떤 질문에 답하는지 구분할 수 있습니다.</li>
+<li>나중에 찾을 수 있는 로그를 쓰고, 요청 ID로 한 요청의 기록을 명령줄에서 골라낼 수 있습니다.</li>
+<li>오류율, 평균, 백분위를 합칠 때 생기는 함정을 피할 수 있습니다.</li>
+<li>목표와 알림 기준을 숫자로 정하고, 장애가 났을 때 무엇부터 할지 말할 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="observe">
+<h2><span class="sec-n">22.1</span>보닛을 닫고 달리는 자동차: 관측<a aria-label="이 절의 링크" class="anchor" href="#observe">#</a></h2>
+<p><a href="ch12.html">12장</a>에서는 프로그램을 멈춰 세우고 변수를 하나씩 들여다봤습니다. 정비소에 세운 차의 보닛을 여는 일과 같습니다. 하지만 배포한 서비스는 <strong>달리는 중인 차</strong>입니다. 손님을 태우고 고속도로를 달리면서 보닛을 열 수는 없습니다.</p>
+<p>그래도 운전자는 차의 상태를 압니다. <strong>계기판</strong>이 속도와 연료를 숫자로 보여 주고, 사고가 나면 <strong>블랙박스</strong>가 그 순간을 기록해 두기 때문입니다. 이렇게 안을 열지 않고 <strong>바깥으로 나온 신호만으로 안에서 벌어지는 일을 알아내는 것</strong>이 관측입니다. 이 일이 얼마나 잘 되는지를 <strong>관측 가능성</strong>(observability)이라고 부릅니다.</p>
+<p>서비스가 내보내는 신호는 세 가지입니다.</p>
+<ul>
+<li><strong>로그</strong>(log)는 블랙박스입니다. "10시 3분 13초에 결제가 실패했다"처럼 <strong>사건 하나하나</strong>를 적은 기록입니다.</li>
+<li><strong>지표</strong>(metric, 메트릭)는 계기판입니다. 요청 수나 오류율처럼 <strong>시간에 따라 변하는 숫자</strong>입니다.</li>
+<li><strong>추적</strong>(trace, 트레이스)은 택배 송장 조회입니다. 요청 하나가 <strong>어디를 거쳤고 구간마다 얼마나 걸렸는지</strong>를 보여 줍니다.</li>
+</ul>
+<figure class="fig" id="fig-three-tools"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 384" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>자동차 계기판, 블랙박스, 택배 송장 조회는 각각 지표, 로그, 추적에 대응하며 서로 다른 질문에 답한다</title>
+
+  <rect class="box yellow" x="20" y="20" width="226" height="70" rx="12"/>
+  <g class="ic yellow">
+    <path class="i-f" d="M36 66 A19 19 0 0 1 74 66 Z"/>
+    <path class="i-s" d="M55 66 L66 53"/>
+    <circle class="i-d" cx="55" cy="66" r="2.500"/>
+  </g>
+  <text class="t-l" x="88" y="50">계기판</text>
+  <text class="t-s" x="88" y="72">지금 속도와 연료</text>
+
+  <rect class="box yellow" x="267" y="20" width="226" height="70" rx="12"/>
+  <use href="#i-car" x="281" y="35" width="40" height="40" class="ic yellow"/>
+  <text class="t-l" x="335" y="50">블랙박스</text>
+  <text class="t-s" x="335" y="72">사건마다 남는 기록</text>
+
+  <rect class="box yellow" x="514" y="20" width="226" height="70" rx="12"/>
+  <use href="#i-truck" x="528" y="35" width="40" height="40" class="ic yellow"/>
+  <text class="t-l" x="582" y="50">택배 송장 조회</text>
+  <text class="t-s" x="582" y="72">어디를 언제 지났나</text>
+
+  <path class="ln muted" d="M133 95 V114" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M380 95 V114" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M627 95 V114" marker-end="url(#ah-muted)"/>
+
+  <rect class="box blue" x="20" y="122" width="226" height="242" rx="14"/>
+  <text class="t-l" x="36" y="152">지표</text>
+  <text class="t-s" x="78" y="152">metric</text>
+  <text class="t-s" x="36" y="174">시간에 따라 변하는 숫자</text>
+  <path class="ln thin muted" d="M40 300 H226"/>
+  <path class="ln blue" d="M40 290 H140 L180 224 L226 208"/>
+  <text class="t-xs" x="40" y="206">오류율</text>
+  <text class="t-mono" x="58" y="280">0.2%</text>
+  <text class="t-mono t-b tc-red end" x="224" y="198">5%</text>
+  <text class="t-xs" x="40" y="318">10:00</text>
+  <text class="t-xs mid" x="180" y="318">10:03</text>
+  <text class="t-b mid" x="133" y="348">얼마나 자주 일어나나?</text>
+
+  <rect class="box green" x="267" y="122" width="226" height="242" rx="14"/>
+  <text class="t-l" x="283" y="152">로그</text>
+  <text class="t-s" x="325" y="152">log</text>
+  <text class="t-s" x="283" y="174">사건 하나하나의 기록</text>
+  <rect class="box" x="281" y="190" width="198" height="116" rx="8"/>
+  <text class="t-mono" x="293" y="214">10:03:13 ERROR</text>
+  <text class="t-mono" x="293" y="238">event=pay_failed</text>
+  <text class="t-mono" x="293" y="262">request_id=r7</text>
+  <text class="t-mono" x="293" y="286">error=timeout</text>
+  <text class="t-b mid" x="380" y="348">그때 무슨 일이, 왜?</text>
+
+  <rect class="box warm" x="514" y="122" width="226" height="242" rx="14"/>
+  <text class="t-l" x="530" y="152">추적</text>
+  <text class="t-s" x="572" y="152">trace</text>
+  <text class="t-s" x="530" y="174">요청 하나가 지나간 길</text>
+  <text class="t-s" x="530" y="216">재고</text>
+  <rect class="solid warm" x="566" y="202" width="6" height="18" rx="2"/>
+  <text class="t-xs" x="580" y="216">40ms</text>
+  <text class="t-s" x="530" y="250">결제</text>
+  <rect class="solid red" x="574" y="236" width="138" height="18" rx="3"/>
+  <text class="t-xs t-on t-b mid" x="643" y="249.500">1,100ms</text>
+  <text class="t-s" x="530" y="284">저장</text>
+  <rect class="solid warm" x="714" y="270" width="8" height="18" rx="2"/>
+  <text class="t-xs end" x="706" y="284">60ms</text>
+  <text class="t-b mid" x="627" y="348">어느 구간에서 느렸나?</text>
+</svg></div><figcaption><b>그림 22-1</b>세 가지 신호와 각자 답하는 질문. 같은 사고를 서로 다른 각도에서 보여 줍니다.</figcaption></figure>
+<p>셋은 서로 대신할 수 없습니다. 계기판은 오류가 늘었다는 것은 알려 주지만 어느 손님의 어떤 요청인지는 모릅니다. 블랙박스는 그 한 건을 자세히 알려 주지만 전체의 몇 %인지는 알려 주지 않습니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>지표로 <strong>이상을 알아차리고</strong>, 추적으로 <strong>어느 구간인지 좁히고</strong>, 로그로 <strong>이유를 읽습니다.</strong></p>
+</div>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>자동차의 계기판과 블랙박스는 공장에서 달려 나옵니다. 서비스의 신호는 그렇지 않습니다. <strong>개발자가 코드에 미리 심어 둔 것만</strong> 나옵니다. 심지 않은 것은 사고가 난 뒤에도 볼 수 없습니다.</p>
+</div>
+<p>이 장에서는 작은 쇼핑몰의 주문 요청 <code>POST /orders</code>를 따라가 보겠습니다. 이 요청은 API 서버에 들어와 재고를 확인하고, 외부 결제사에 결제를 맡기고, 주문을 데이터베이스에 저장합니다.</p>
+</section>
+<section class="level2" id="log">
+<h2><span class="sec-n">22.2</span>로그: 나중의 나를 위한 블랙박스<a aria-label="이 절의 링크" class="anchor" href="#log">#</a></h2>
+<p>새벽 3시에 난 오류를 아침 9시에 조사한다면 남아 있는 것은 로그뿐입니다. 그 로그가 이렇다면 어떨까요?</p>
+<pre class="text"><code>결제 실패!!</code></pre>
+<p>언제 일어났는지, 어느 요청인지, 왜 실패했는지 알 수 없습니다. 좋은 로그는 신문 기사처럼 <strong>언제, 누가, 무엇을, 결과는</strong> 어땠는지를 담습니다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><span class="fu">{</span><span class="dt">"time"</span><span class="fu">:</span><span class="st">"2026-03-02T10:03:13Z"</span><span class="fu">,</span><span class="dt">"level"</span><span class="fu">:</span><span class="st">"ERROR"</span><span class="fu">,</span><span class="dt">"request_id"</span><span class="fu">:</span><span class="st">"r7"</span><span class="fu">,</span></span>
+<span id="cb2-2"> <span class="dt">"event"</span><span class="fu">:</span><span class="st">"pay_failed"</span><span class="fu">,</span><span class="dt">"error_code"</span><span class="fu">:</span><span class="st">"timeout"</span><span class="fu">,</span><span class="dt">"duration_ms"</span><span class="fu">:</span><span class="dv">3000</span><span class="fu">}</span></span></code></pre></div>
+<p>이렇게 <code>"이름": 값</code> 쌍으로 적은 로그를 <strong>구조화 로그</strong>(structured log)라고 합니다. 위 예는 JSON 형식이며, 실제로는 줄을 바꾸지 않고 한 줄에 사건 하나를 씁니다.</p>
+<figure class="fig" id="fig-log-anatomy"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 312" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>나쁜 로그는 문장 하나뿐이지만, 좋은 로그는 언제, 얼마나 급한가, 누가, 무엇을, 결과를 이름표 붙은 항목으로 나눠 적는다</title>
+
+  <text class="t-b tc-red" x="20" y="45">나쁜 로그</text>
+  <rect class="box red" x="110" y="22" width="150" height="38" rx="10"/>
+  <text class="t-mono" x="126" y="46">결제 실패!!</text>
+  <text class="t-s" x="280" y="45">언제? 어느 요청에서? 왜? 아무것도 알 수 없다</text>
+
+  <text class="t-b tc-green" x="20" y="100">좋은 로그</text>
+  <text class="t-s" x="110" y="100">한 줄을 항목별로 뜯어 보면</text>
+
+  <rect class="box green" x="20" y="116" width="110" height="60" rx="10"/>
+  <text class="t-mono tc-muted mid" x="75" y="140">time</text>
+  <text class="t-mono t-b mid" x="75" y="163">10:03:13</text>
+
+  <rect class="box green" x="142" y="116" width="110" height="60" rx="10"/>
+  <text class="t-mono tc-muted mid" x="197" y="140">level</text>
+  <text class="t-mono t-b mid tc-red" x="197" y="163">ERROR</text>
+
+  <rect class="box green" x="264" y="116" width="110" height="60" rx="10"/>
+  <text class="t-mono tc-muted mid" x="319" y="140">request_id</text>
+  <text class="t-mono t-b mid" x="319" y="163">r7</text>
+
+  <rect class="box green" x="386" y="116" width="110" height="60" rx="10"/>
+  <text class="t-mono tc-muted mid" x="441" y="140">event</text>
+  <text class="t-mono t-b mid" x="441" y="163">pay_failed</text>
+
+  <rect class="box green" x="508" y="116" width="110" height="60" rx="10"/>
+  <text class="t-mono tc-muted mid" x="563" y="140">error_code</text>
+  <text class="t-mono t-b mid" x="563" y="163">timeout</text>
+
+  <rect class="box green" x="630" y="116" width="110" height="60" rx="10"/>
+  <text class="t-mono tc-muted mid" x="685" y="140">duration_ms</text>
+  <text class="t-mono t-b mid" x="685" y="163">3000</text>
+
+  <path class="ln thin muted" d="M75 181 V198"/>
+  <path class="ln thin muted" d="M197 181 V198"/>
+  <path class="ln thin muted" d="M319 181 V198"/>
+  <path class="ln thin muted" d="M441 181 V198"/>
+  <path class="ln thin muted" d="M563 181 V189 H685 V181 M624 189 V198"/>
+
+  <text class="t-b mid" x="75" y="220">언제</text>
+  <text class="t-s mid" x="75" y="241">일어난 시각</text>
+  <text class="t-b mid" x="197" y="220">얼마나 급한가</text>
+  <text class="t-s mid" x="197" y="241">로그 수준</text>
+  <text class="t-b mid" x="319" y="220">누가</text>
+  <text class="t-s mid" x="319" y="241">어느 요청인지</text>
+  <text class="t-b mid" x="441" y="220">무엇을</text>
+  <text class="t-s mid" x="441" y="241">사건의 이름</text>
+  <text class="t-b mid" x="624" y="220">결과</text>
+  <text class="t-s mid" x="624" y="241">왜 실패했고 몇 ms 걸렸나</text>
+
+  <rect class="box yellow" x="20" y="262" width="720" height="36" rx="10"/>
+  <text class="mid" x="380" y="285">항목마다 이름표가 붙어 있어 프로그램이 골라내고 셀 수 있다</text>
+</svg></div><figcaption><b>그림 22-2</b>좋은 로그 한 줄을 뜯어 본 모습. 사람이 읽을 문장 대신 기계가 골라낼 수 있는 항목으로 적습니다.</figcaption></figure>
+<p>구조화하면 <strong>검색하고 셀 수 있습니다.</strong> "결제가 실패했습니다", "결제 실패", "pay error"처럼 문장이 제각각이면 세기 어렵습니다. <code>event</code>가 <code>pay_failed</code>인 줄은 정확히 셀 수 있습니다. 숫자에는 <code>duration_ms</code>처럼 이름에 단위를 넣어 두세요. 3000이 밀리초인지 초인지 헷갈리는 순간 비교가 틀어집니다.</p>
+<section class="level3" id="로그-수준-얼마나-급한-일인가">
+<h3>로그 수준: 얼마나 급한 일인가</h3>
+<p><strong>로그 수준</strong>(log level)은 사건이 얼마나 급한지 나타내는 딱지입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>수준</th>
+<th>뜻</th>
+<th>예</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DEBUG</code></td>
+<td>개발할 때만 보는 자세한 내용</td>
+<td>재고 조회에 쓴 조건과 결과</td>
+</tr>
+<tr>
+<td><code>INFO</code></td>
+<td>정상적으로 일어난 일</td>
+<td>주문 접수됨</td>
+</tr>
+<tr>
+<td><code>WARN</code></td>
+<td>아직 괜찮지만 눈여겨볼 일</td>
+<td>결제를 한 번 다시 시도함</td>
+</tr>
+<tr>
+<td><code>ERROR</code></td>
+<td>시스템이 할 일을 못 함</td>
+<td>결제사가 응답하지 않음</td>
+</tr>
+</tbody>
+</table></div>
+<p>운영 서버에서는 보통 <code>INFO</code> 이상만 남깁니다. 여기서 <strong>사용자의 실수와 시스템의 실패를 구분</strong>해야 합니다. 비밀번호를 틀린 것은 시스템이 제대로 거절한 일이니 <code>INFO</code>나 <code>WARN</code>입니다. 인증 데이터베이스에 접속하지 못한 것이 <code>ERROR</code>입니다. 둘을 모두 <code>ERROR</code>로 적으면 진짜 고장이 잡음에 묻힙니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 로그에 남기면 안 되는 것</div>
+<p>비밀번호, 로그인 토큰, API 키, 카드 번호, 주민등록번호는 로그에 적지 않습니다. 로그는 서비스 본체보다 <strong>더 많은 사람이, 더 오래</strong> 봅니다(<a href="ch19.html">19장</a>). AI가 만든 코드에는 <code>print(request)</code>나 <code>console.log(user)</code>처럼 객체를 통째로 찍는 줄이 자주 섞여 있습니다. 그 안에 비밀값이 들어 있지 않은지 꼭 확인하세요. 사용자를 가리킬 때는 이메일 대신 내부 ID를 씁니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="follow">
+<h2><span class="sec-n">22.3</span>요청 하나를 끝까지 따라가기: 요청 ID와 명령줄<a aria-label="이 절의 링크" class="anchor" href="#follow">#</a></h2>
+<p>서버는 여러 요청을 동시에 처리합니다(<a href="ch11.html">11장</a>). 그래서 로그 파일에는 여러 요청의 기록이 뒤섞여 쌓입니다. 해결책은 은행 창구의 번호표입니다. 요청이 들어오는 순간 <strong>번호표</strong>를 하나 붙이고, 그 요청이 남기는 모든 로그에 같은 번호를 적습니다. 이 번호가 <strong>요청 ID</strong>(request ID)입니다. 흩어진 기록을 서로 이어 준다는 뜻에서 <strong>상관 ID</strong>(correlation ID)라고도 부릅니다.</p>
+<figure class="fig" id="fig-request-id"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 302" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>세 요청의 로그가 뒤섞인 파일에서 요청 ID r7로 걸러 내면 그 요청의 네 줄만 순서대로 남는다</title>
+
+  <text class="t-b" x="20" y="34">app.log</text>
+  <text class="t-s" x="84" y="34">세 요청의 기록이 섞여 있다</text>
+  <rect class="box" x="20" y="48" width="330" height="208" rx="12"/>
+  <rect class="s-yellow" x="30" y="83" width="310" height="22" rx="5"/>
+  <rect class="s-yellow" x="30" y="131" width="310" height="22" rx="5"/>
+  <rect class="s-yellow" x="30" y="179" width="310" height="22" rx="5"/>
+  <rect class="s-yellow" x="30" y="227" width="310" height="22" rx="5"/>
+  <text class="t-mono tc-muted" x="42" y="76">10:03:09 r6 order_received</text>
+  <text class="t-mono t-b" x="42" y="100">10:03:09 r7 order_received</text>
+  <text class="t-mono tc-muted" x="42" y="124">10:03:09 r6 stock_checked</text>
+  <text class="t-mono t-b" x="42" y="148">10:03:10 r7 stock_checked</text>
+  <text class="t-mono tc-muted" x="42" y="172">10:03:10 r8 order_received</text>
+  <text class="t-mono t-b" x="42" y="196">10:03:10 r7 pay_requested</text>
+  <text class="t-mono tc-muted" x="42" y="220">10:03:10 r6 order_saved</text>
+  <text class="t-mono t-b" x="42" y="244">10:03:13 r7 pay_failed</text>
+
+  <text class="t-mono t-b mid" x="395" y="128">grep r7</text>
+  <path class="ln warm" d="M360 140 H428" marker-end="url(#ah-warm)"/>
+
+  <text class="t-b" x="440" y="34">요청 r7의 기록만</text>
+  <rect class="box yellow" x="440" y="48" width="300" height="118" rx="12"/>
+  <text class="t-mono" x="456" y="76">10:03:09 r7 order_received</text>
+  <text class="t-mono" x="456" y="100">10:03:10 r7 stock_checked</text>
+  <text class="t-mono" x="456" y="124">10:03:10 r7 pay_requested</text>
+  <text class="t-mono t-b tc-red" x="456" y="148">10:03:13 r7 pay_failed</text>
+  <path class="ln thin red" d="M682 120 H692 V144 H682"/>
+  <text class="t-b tc-red" x="700" y="137">3초</text>
+
+  <text class="t-b tc-red" x="440" y="200">결제를 요청하고 3초 뒤에 실패</text>
+  <text class="t-s" x="440" y="222">뒤섞인 여덟 줄에서는 보이지 않던 흐름</text>
+
+  <text class="t-s" x="20" y="286">요청이 들어올 때 번호표(요청 ID)를 붙이고, 그 요청이 남기는 모든 로그에 같은 번호를 적는다</text>
+</svg></div><figcaption><b>그림 22-3</b>요청 ID로 걸러 내면 한 요청의 이야기가 순서대로 드러납니다. 보기 쉽게 시각, 요청 ID, 사건 이름만 적었습니다.</figcaption></figure>
+<p>API 서버가 다른 서비스를 부를 때도 이 번호를 함께 넘겨줍니다. 그래야 서비스가 여러 개여도 한 요청의 기록이 끊기지 않습니다.</p>
+<section class="level3" id="명령줄로-로그-조사하기">
+<h3>명령줄로 로그 조사하기</h3>
+<p>로그 파일은 결국 글자입니다. <a href="ch05.html">5장</a>에서 배운 도구가 그대로 통합니다.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><span class="ex">$</span> grep <span class="st">'"request_id":"r7"'</span> app.log</span>
+<span id="cb3-2"><span class="ex">$</span> tail <span class="at">-f</span> app.log</span></code></pre></div>
+<ul>
+<li>1행은 <code>r7</code>의 줄만 골라냅니다. 위 그림에서 한 일입니다.</li>
+<li>2행의 <code>tail -f</code>는 파일 끝에 <strong>새로 붙는 줄을 계속</strong> 보여 줍니다. 배포 직후에 켜 두기 좋습니다.</li>
+</ul>
+<p>오류를 <strong>종류별로</strong> 세려면 도구를 파이프로 잇습니다.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><span class="ex">$</span> jq <span class="at">-r</span> <span class="st">'select(.level == "ERROR") | .error_code'</span> app.log <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-rn</span></span>
+<span id="cb4-2">  <span class="ex">12</span> timeout</span>
+<span id="cb4-3">   <span class="ex">3</span> card_declined</span>
+<span id="cb4-4">   <span class="ex">1</span> stock_empty</span></code></pre></div>
+<ul>
+<li><code>jq</code>는 JSON을 읽는 도구입니다(없으면 따로 설치합니다). <code>select(...)</code>로 수준이 <code>ERROR</code>인 줄만 남기고, <code>.error_code</code>로 그 항목의 값만 꺼냅니다. <code>-r</code>은 값의 따옴표를 떼고 내보내라는 옵션입니다.</li>
+<li><code>sort</code>가 같은 값끼리 모으고, <code>uniq -c</code>가 같은 줄을 하나로 합치며 개수를 붙입니다. <code>uniq</code>는 <strong>붙어 있는 줄만</strong> 합치므로 <code>sort</code>가 먼저 와야 합니다.</li>
+<li>마지막 <code>sort -rn</code>은 개수가 큰 순서로 늘어놓습니다.</li>
+</ul>
+<p>오류 16건 가운데 12건이 <code>timeout</code>입니다. 어디부터 볼지 정해졌습니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>tail -f가 갑자기 조용해질 때 (로그 순환)</summary><div class="deep-body">
+<p>로그 파일이 끝없이 커지면 디스크가 찹니다. 그래서 일정 크기나 날짜마다 <code>app.log</code>의 이름을 <code>app.log.1</code>로 바꾸고 새 <code>app.log</code>를 만드는데, 이것을 <strong>로그 순환</strong>(log rotation)이라고 합니다. <code>tail -f</code>는 처음 연 파일을 계속 붙잡고 있어서, 순환 뒤에는 아무도 쓰지 않는 옛 파일만 바라보게 됩니다. 이름을 기준으로 다시 여는 <code>tail -F</code>를 쓰면 됩니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="pipeline">
+<h2><span class="sec-n">22.4</span>로그가 모이는 길: 수집, 전송, 저장, 검색<a aria-label="이 절의 링크" class="anchor" href="#pipeline">#</a></h2>
+<p>서버가 세 대면 로그 파일도 세 군데에 있습니다. 컨테이너는 사라질 때 안의 파일도 함께 사라집니다(<a href="ch21.html">21장</a>). 그래서 운영에서는 로그를 <strong>한곳에 모읍니다</strong>. 블랙박스 영상을 차마다 꺼내 보는 대신 관제 센터로 보내는 셈입니다.</p>
+<p>모이는 길은 네 단계입니다.</p>
+<ol type="1">
+<li><strong>수집.</strong> <strong>수집기</strong>(collector)라는 작은 프로그램이 앱이 출력한 줄을 읽어 갑니다.</li>
+<li><strong>전송.</strong> 한 줄씩 보내면 비싸므로 잠시 <strong>버퍼</strong>(buffer)에 모았다가 묶음으로 보냅니다.</li>
+<li><strong>저장.</strong> 저장소가 받아서 빨리 찾을 수 있게 색인을 만듭니다(<a href="ch17.html">17장</a>).</li>
+<li><strong>검색.</strong> 사람이 화면에서 조건을 넣어 찾습니다.</li>
+</ol>
+<figure class="fig" id="fig-log-pipeline"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>앱이 남긴 로그는 수집, 전송, 저장을 거쳐야 검색되므로, 검색 결과 0건이 곧 오류 0건은 아니다</title>
+  <text class="t-h" x="20" y="34">10:03:13에 남긴 r7의 오류 로그, 10초 뒤에는 어디에 있을까</text>
+
+  <rect class="box blue" x="20" y="52" width="120" height="96" rx="12"/>
+  <use href="#i-server" x="62" y="60" width="36" height="36" class="ic blue"/>
+  <text class="t-b mid" x="80" y="118">앱 서버</text>
+  <text class="t-xs mid" x="80" y="136">한 줄씩 출력</text>
+
+  <rect class="box blue" x="170" y="52" width="120" height="96" rx="12"/>
+  <use href="#i-funnel" x="212" y="60" width="36" height="36" class="ic blue"/>
+  <text class="t-b mid" x="230" y="118">수집기</text>
+  <text class="t-xs mid" x="230" y="136">읽어서 다듬기</text>
+
+  <rect class="box warm" x="320" y="52" width="120" height="96" rx="12"/>
+  <use href="#i-layers" x="362" y="60" width="36" height="36" class="ic warm"/>
+  <text class="t-b mid" x="380" y="118">전송 버퍼</text>
+  <text class="t-xs mid" x="380" y="136">묶어서 보내기</text>
+
+  <rect class="box green" x="470" y="52" width="120" height="96" rx="12"/>
+  <use href="#i-db" x="512" y="60" width="36" height="36" class="ic green"/>
+  <text class="t-b mid" x="530" y="118">저장소</text>
+  <text class="t-xs mid" x="530" y="136">찾기 쉽게 색인</text>
+
+  <rect class="box purple" x="620" y="52" width="120" height="96" rx="12"/>
+  <use href="#i-search" x="662" y="60" width="36" height="36" class="ic purple"/>
+  <text class="t-b mid" x="680" y="118">검색 화면</text>
+  <text class="t-xs mid" x="680" y="136">사람이 찾기</text>
+
+  <path class="ln" d="M145 100 H163" marker-end="url(#ah)"/>
+  <path class="ln" d="M295 100 H313" marker-end="url(#ah)"/>
+  <path class="ln" d="M445 100 H463" marker-end="url(#ah)"/>
+  <path class="ln" d="M595 100 H613" marker-end="url(#ah)"/>
+
+  <rect class="box green" x="20" y="164" width="120" height="30" rx="8"/>
+  <text class="t-s t-b tc-green mid" x="80" y="184">r7 출력됨</text>
+  <rect class="box green" x="170" y="164" width="120" height="30" rx="8"/>
+  <text class="t-s t-b tc-green mid" x="230" y="184">r7 읽어 감</text>
+  <rect class="box warm" x="320" y="164" width="120" height="30" rx="8"/>
+  <text class="t-s t-b tc-warm mid" x="380" y="184">r7 대기 중</text>
+  <rect class="box gray" x="470" y="164" width="120" height="30" rx="8"/>
+  <text class="t-s t-b mid" x="530" y="184">아직 없음</text>
+  <rect class="box red" x="620" y="164" width="120" height="30" rx="8"/>
+  <text class="t-s t-b tc-red mid" x="680" y="184">결과 0건</text>
+
+  <text class="t-s t-b" x="20" y="228">단계마다 끊기거나 늦어질 수 있다</text>
+  <text class="t-xs mid" x="80" y="250">기록을 안 남김</text>
+  <text class="t-xs mid" x="230" y="250">경로·형식이 틀림</text>
+  <text class="t-xs mid" x="380" y="250">가득 차면 버림</text>
+  <text class="t-xs mid" x="530" y="250">색인이 몇 분 늦음</text>
+  <text class="t-xs mid" x="680" y="250">기간·조건이 틀림</text>
+
+  <rect class="box red" x="230" y="270" width="300" height="34" rx="10"/>
+  <text class="t-b tc-red mid" x="380" y="292">검색 결과 0건 ≠ 오류 0건</text>
+</svg></div><figcaption><b>그림 22-4</b>로그 한 줄이 검색 화면에 나타나기까지. 앱이 기록을 남긴 것과 내가 그것을 찾을 수 있는 것은 다른 일입니다.</figcaption></figure>
+<p>단계가 있으면 <strong>늦어지거나 빠질 수 있습니다.</strong> 묶어서 보내느라 몇 초가 늦고, 저장소가 바쁘면 몇 분이 늦습니다. 더 큰 문제는 로그가 아예 사라지는 유실입니다. 앱이 1초에 1,000줄을 만드는데 800줄만 보낼 수 있다면 버퍼에는 1초에 200줄씩 쌓입니다. 버퍼가 가득 차면 오래된 줄을 버리거나 앱을 기다리게 해야 합니다. 대개는 버리는 쪽을 택합니다. 로그 때문에 주문이 멈추면 안 되기 때문입니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>검색 결과가 0건이라고 사건이 0건인 것은 아닙니다. 조용할 때는 "오류가 없나?"보다 <strong>"로그가 오고 있나?"</strong>를 먼저 확인합니다.</p>
+</div>
+<div class="callout myth"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-cross"></use></svg>흔한 오해 · 로그는 많이 남길수록 좋다</div>
+<p>한 줄이 1KB이고 1초에 1,000줄이 쌓인다고 합시다. 하루는 86,400초이므로 1KB × 1,000 × 86,400 = 86.4GB입니다. 저장에도 검색에도 돈이 듭니다. 그래서 <code>DEBUG</code>는 조사할 때만 잠깐 켭니다. 얼마나 오래 둘지도 미리 정하는데, 이 기간을 <strong>보존 기간</strong>(retention)이라고 합니다. 예를 들어 최근 7일은 바로 검색되는 곳에 두고, 그 뒤 90일까지는 값싼 보관소로 옮겼다가 지웁니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>시계 차이와 사건 순서</summary><div class="deep-body">
+<p>서버마다 시계는 조금씩 다릅니다. 그래서 적힌 시각이 앞선다고 실제로 먼저 일어났다고 장담할 수 없습니다. 또 사건이 <strong>일어난 시각</strong>과 저장소가 <strong>받은 시각</strong>은 다릅니다. 10:00의 기록이 10:05에 도착했다고 장애가 10:05에 시작된 것은 아닙니다. 그래서 로그에는 일어난 시각을 세계 표준시(UTC)로 적습니다. 앞서 본 로그의 시각 끝에 붙은 <code>Z</code>가 UTC라는 표시입니다. 순서가 중요한 판단은 시각만 믿지 말고 요청 ID로 묶은 앞뒤 관계로 확인합니다.</p>
+</div></details>
+<details class="deep"><summary><small>한 걸음 더</small>다시 보내기와 중복</summary><div class="deep-body">
+<p>수집기는 저장소에서 "받았다"는 답이 오지 않으면 같은 묶음을 다시 보냅니다. 그런데 저장은 됐고 답만 오는 길에 사라졌다면 같은 로그가 두 번 저장됩니다. 오류 12건이 24건으로 보일 수 있습니다. 결제처럼 건수가 중요한 기록에는 사건마다 고유한 ID를 넣어 두고, 셀 때 같은 ID를 한 번만 셉니다.</p>
+</div></details>
+</section>
+<section class="level2" id="metrics">
+<h2><span class="sec-n">22.5</span>지표: 숫자로 보는 계기판<a aria-label="이 절의 링크" class="anchor" href="#metrics">#</a></h2>
+<p>"지금 1분에 주문이 몇 건 들어오지?"라는 질문에 로그를 세어 답할 수도 있습니다. 하지만 수백만 줄을 매번 세는 것은 느리고 비쌉니다. 운전자는 블랙박스 영상을 돌려 보며 속도를 계산하지 않습니다. 계기판을 봅니다.</p>
+<p><strong>지표</strong>는 처음부터 숫자만 세어 두었다가 10초나 1분마다 한 번씩 적어 두는 값입니다. 이렇게 시간 순서로 이어진 숫자의 줄을 <strong>시계열</strong>(time series)이라고 하고, 여러 시계열을 그래프로 모아 놓은 화면을 <strong>대시보드</strong>(dashboard)라고 합니다.</p>
+<p>지표에는 세 종류가 있습니다.</p>
+<figure class="fig" id="fig-metric-types"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>카운터는 오르기만 하는 누적값, 게이지는 오르내리는 현재 값, 히스토그램은 구간별 건수다</title>
+
+  <rect class="box blue" x="20" y="20" width="226" height="290" rx="14"/>
+  <text class="t-l" x="36" y="50">카운터</text>
+  <text class="t-s" x="94" y="50">counter</text>
+  <text class="t-s" x="36" y="72">주행 거리계처럼 오르기만</text>
+  <path class="ln thin muted" d="M36 232 H230"/>
+  <path class="ln blue" d="M44 222 L84 212 L124 194 L164 166 L204 124"/>
+  <circle class="f-blue" cx="164" cy="166" r="4.500"/>
+  <circle class="f-blue" cx="204" cy="124" r="4.500"/>
+  <text class="t-mono end" x="154" y="160">12,000</text>
+  <text class="t-mono t-b mid" x="196" y="110">12,600</text>
+  <text class="t-xs mid" x="164" y="250">10:00</text>
+  <text class="t-xs mid" x="204" y="250">10:01</text>
+  <text class="t-b tc-blue" x="36" y="276">1분 사이 +600건</text>
+  <text class="t-s" x="36" y="296">예: 지금까지 받은 요청 수</text>
+
+  <rect class="box green" x="267" y="20" width="226" height="290" rx="14"/>
+  <text class="t-l" x="283" y="50">게이지</text>
+  <text class="t-s" x="341" y="50">gauge</text>
+  <text class="t-s" x="283" y="72">연료계처럼 오르내림</text>
+  <path class="ln thin muted" d="M283 232 H477"/>
+  <path class="ln green" d="M291 176 L321 136 L351 186 L381 146 L411 204 L441 172 L467 160"/>
+  <circle class="f-green" cx="467" cy="160" r="4.500"/>
+  <text class="t-mono t-b mid" x="455" y="142">42명</text>
+  <text class="t-b tc-green" x="283" y="276">지금 이 순간 42명</text>
+  <text class="t-s" x="283" y="296">예: 접속자 수, 메모리 사용량</text>
+
+  <rect class="box warm" x="514" y="20" width="226" height="290" rx="14"/>
+  <text class="t-l" x="530" y="50">히스토그램</text>
+  <text class="t-s" x="530" y="72">구간마다 몇 건인지 세기</text>
+  <path class="ln thin muted" d="M530 232 H724"/>
+  <rect class="solid warm" x="536" y="132" width="36" height="100" rx="3"/>
+  <rect class="solid warm" x="586" y="217" width="36" height="15" rx="3"/>
+  <rect class="solid warm" x="636" y="224.500" width="36" height="7.500" rx="2"/>
+  <rect class="solid red" x="686" y="229" width="36" height="3" rx="1"/>
+  <text class="t-mono t-b mid" x="554" y="124">80</text>
+  <text class="t-mono t-b mid" x="604" y="209">12</text>
+  <text class="t-mono t-b mid" x="654" y="216">6</text>
+  <text class="t-mono t-b mid tc-red" x="704" y="221">2</text>
+  <text class="t-xs mid" x="554" y="250">~0.1초</text>
+  <text class="t-xs mid" x="604" y="250">~0.3초</text>
+  <text class="t-xs mid" x="654" y="250">~1초</text>
+  <text class="t-xs mid" x="704" y="250">1초~</text>
+  <text class="t-b tc-warm" x="530" y="276">응답 100건의 분포</text>
+  <text class="t-s" x="530" y="296">예: 응답에 걸린 시간</text>
+</svg></div><figcaption><b>그림 22-5</b>지표의 세 종류. 어떤 숫자인지에 따라 읽는 법이 다릅니다.</figcaption></figure>
+<ul>
+<li><strong>카운터</strong>(counter)는 주행 거리계입니다. 오르기만 합니다. 값 자체보다 <strong>얼마 동안 얼마나 늘었는지</strong>를 봅니다. 10:00에 12,000이고 10:01에 12,600이면 1분 동안 600건이 들어온 것입니다.</li>
+<li><strong>게이지</strong>(gauge)는 연료계입니다. 오르내립니다. 접속자 수, 메모리 사용량, 대기 중인 작업 수처럼 <strong>지금 값</strong>이 궁금한 것에 씁니다.</li>
+<li><strong>히스토그램</strong>(histogram)은 값을 구간에 나눠 담고 구간마다 몇 건인지 셉니다. 응답 시간처럼 <strong>분포</strong>가 중요한 것에 씁니다.</li>
+</ul>
+<section class="level3" id="먼저-볼-세-숫자">
+<h3>먼저 볼 세 숫자</h3>
+<p>요청을 받는 서비스라면 계기판에 가장 먼저 올릴 숫자는 세 가지입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>숫자</th>
+<th>답하는 질문</th>
+<th>지표의 종류</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>요청 수</td>
+<td>지금 얼마나 바쁜가</td>
+<td>카운터</td>
+</tr>
+<tr>
+<td>오류율</td>
+<td>그중 얼마나 실패하는가</td>
+<td>카운터 두 개(실패, 전체)</td>
+</tr>
+<tr>
+<td>지연 시간</td>
+<td>응답에 얼마나 걸리는가</td>
+<td>히스토그램</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>오류율</strong>은 실패 건수를 전체 건수로 나눈 값입니다. 10,000건 중 20건이 실패했다면 20 ÷ 10,000 = 0.2%입니다. 건수만 보면 안 됩니다. 오류 20건은 요청이 10,000건일 때는 작지만, 100건일 때는 다섯 중 하나가 실패하는 큰일입니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>히스토그램의 구간(버킷)은 어떻게 정할까</summary><div class="deep-body">
+<p>히스토그램은 값을 하나하나 저장하지 않고 "0.1초 이하 80건, 0.3초 이하 92건"처럼 구간의 건수만 남깁니다. 이 구간을 <strong>버킷</strong>(bucket)이라고 합니다. 덕분에 가볍지만 구간 안의 정확한 값은 사라집니다. 0.3초에서 1초 사이에 든 6건이 0.31초인지 0.99초인지 알 수 없습니다. 그래서 버킷의 경계는 <strong>목표 근처에</strong> 둡니다. 목표가 "0.3초 이내"라면 0.3초가 경계여야 목표 안에 몇 %가 들어왔는지 정확히 셀 수 있습니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="aggregate">
+<h2><span class="sec-n">22.6</span>숫자를 합칠 때의 함정<a aria-label="이 절의 링크" class="anchor" href="#aggregate">#</a></h2>
+<p>계기판의 숫자는 대부분 서버 여러 대, 요청 수천 건을 <strong>하나로 합친 숫자</strong>입니다. 합치는 방법이 틀리면 계기판이 거짓말을 합니다.</p>
+<section class="level3" id="평균은-느린-손님을-가립니다">
+<h3>평균은 느린 손님을 가립니다</h3>
+<p>요청 100건 중 90건은 100ms에, 10건은 1,000ms에 끝났습니다. 평균은 (90 × 100 + 10 × 1,000) ÷ 100 = 190ms입니다. 괜찮아 보입니다. 하지만 열 명 중 한 명은 1초를 기다렸습니다. <a href="ch13.html">13장</a>에서 배운 <strong>백분위</strong>로 보면 드러납니다. 빠른 순서로 줄 세웠을 때 95번째 값인 <strong>p95</strong>는 1,000ms입니다. 지연 시간은 평균과 p95를 함께 봅니다.</p>
+</section>
+<section class="level3" id="평균의-평균은-틀립니다">
+<h3>평균의 평균은 틀립니다</h3>
+<p>서버 A는 요청 10건 중 1건이, 서버 B는 990건 중 9건이 실패했습니다. 전체 오류율은 얼마일까요?</p>
+<figure class="fig" id="fig-avg-trap"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>요청 10건 중 1건 실패한 서버와 990건 중 9건 실패한 서버의 오류율을 그냥 평균 내면 5.45%지만, 건수를 합쳐 계산한 실제 오류율은 1%다</title>
+
+  <text class="t-s t-b" x="20" y="30">서버</text>
+  <text class="t-s t-b" x="110" y="30">받은 요청</text>
+  <text class="t-s t-b end" x="650" y="30">실패</text>
+  <text class="t-s t-b end" x="740" y="30">오류율</text>
+  <path class="ln thin muted" d="M20 42 H740"/>
+
+  <text class="t-b" x="20" y="72">서버 A</text>
+  <rect class="solid blue" x="110" y="54" width="5" height="26" rx="2"/>
+  <text class="t-mono" x="124" y="72">10건</text>
+  <text class="t-mono end" x="650" y="72">1건</text>
+  <text class="t-mono t-b end" x="740" y="72">10%</text>
+
+  <text class="t-b" x="20" y="112">서버 B</text>
+  <rect class="solid blue" x="110" y="94" width="446" height="26" rx="4"/>
+  <text class="t-mono t-on t-b" x="122" y="112">990건</text>
+  <text class="t-mono end" x="650" y="112">9건</text>
+  <text class="t-mono t-b end" x="740" y="112">0.9%</text>
+
+  <path class="ln thin muted" d="M20 134 H740"/>
+  <text class="t-b" x="20" y="160">합계</text>
+  <text class="t-mono t-b" x="110" y="160">1,000건</text>
+  <text class="t-mono t-b end" x="650" y="160">10건</text>
+  <text class="t-mono t-b end tc-green" x="740" y="160">1%</text>
+
+  <rect class="box red" x="20" y="186" width="350" height="94" rx="12"/>
+  <use href="#i-cross" x="32" y="198" width="28" height="28" class="ic red"/>
+  <text class="t-b tc-red" x="68" y="217">비율끼리 평균 내면</text>
+  <text class="t-mono" x="36" y="246">(10% + 0.9%) ÷ 2 = 5.45%</text>
+  <text class="t-s" x="36" y="267">10건짜리와 990건짜리를 똑같이 쳐 줌</text>
+
+  <rect class="box green" x="390" y="186" width="350" height="94" rx="12"/>
+  <use href="#i-check" x="402" y="198" width="28" height="28" class="ic green"/>
+  <text class="t-b tc-green" x="438" y="217">건수를 합친 뒤 나누면</text>
+  <text class="t-mono" x="406" y="246">(1 + 9) ÷ (10 + 990) = 1%</text>
+  <text class="t-s" x="406" y="267">요청 1,000건 전체에서 본 비율</text>
+</svg></div><figcaption><b>그림 22-6</b>비율은 그대로 평균 낼 수 없습니다. 실패 건수와 전체 건수를 따로 더한 다음 나눕니다.</figcaption></figure>
+<p>두 오류율을 평균 내면 5.45%가 나오지만 실제로는 1,000건 중 10건, 곧 1%입니다. 서버별 p95도 마찬가지입니다. 백분위는 <strong>줄을 세워야 나오는 값</strong>이라, 두 서버의 p95를 평균 낸 숫자는 어느 줄에도 없습니다. 대신 히스토그램의 구간별 건수는 더할 수 있습니다. 서버별 건수를 구간끼리 더한 뒤 전체의 p95를 다시 구합니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>비율과 백분위는 평균 내지 않습니다. <strong>건수를 합친 뒤</strong> 다시 계산합니다.</p>
+</div>
+</section>
+<section class="level3" id="이름표를-너무-많이-붙이면-카디널리티">
+<h3>이름표를 너무 많이 붙이면: 카디널리티</h3>
+<p>"오류율이 올랐다"만으로는 부족합니다. 어느 지역, 어느 경로에서 올랐는지 나눠 봐야 합니다. 그래서 지표에는 <code>region="seoul"</code>, <code>path="/orders"</code> 같은 이름표를 붙입니다. 이것을 <strong>레이블</strong>(label)이라고 합니다.</p>
+<p>레이블은 공짜가 아닙니다. <strong>값의 조합마다 시계열이 한 줄씩</strong> 따로 생기기 때문입니다. 서로 다른 값이 몇 가지인지를 <strong>카디널리티</strong>(cardinality)라고 합니다.</p>
+<figure class="fig" id="fig-cardinality"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 268" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>지표에 이름표를 하나 붙일 때마다 저장할 선의 수가 곱으로 늘고, 사용자 ID를 붙이면 300줄이 3,000만 줄이 된다</title>
+
+  <text class="t-s t-b" x="20" y="30">이름표를 하나씩 붙이면</text>
+  <text class="t-s t-b" x="330" y="30">저장해야 하는 선(시계열)의 수</text>
+  <path class="ln thin muted" d="M20 42 H740"/>
+
+  <text class="t-b" x="20" y="72">지역 3곳</text>
+  <text class="t-s" x="178" y="72">서울, 도쿄, 런던</text>
+  <rect class="solid blue" x="330" y="56" width="3" height="24" rx="1"/>
+  <text class="t-mono" x="342" y="73">3줄</text>
+
+  <text class="t-b" x="20" y="112">× 경로 20개</text>
+  <text class="t-s" x="178" y="112">/orders, /cart 등</text>
+  <rect class="solid blue" x="330" y="96" width="60" height="24" rx="3"/>
+  <text class="t-mono" x="399" y="113">60줄</text>
+
+  <text class="t-b" x="20" y="152">× 응답 코드 5개</text>
+  <text class="t-s" x="178" y="152">200, 404, 500 등</text>
+  <rect class="solid blue" x="330" y="136" width="300" height="24" rx="3"/>
+  <text class="t-mono" x="639" y="153">300줄</text>
+
+  <text class="t-b tc-red" x="20" y="192">× 사용자 ID</text>
+  <text class="t-s" x="178" y="192">10만 명, 계속 늘어남</text>
+  <path class="solid red" d="M333 176 H724 L740 188 L724 200 H333 Q330 200 330 197 V179 Q330 176 333 176 Z"/>
+  <text class="t-on t-b" x="342" y="193.500">3,000만 줄 — 위 막대의 10만 배 길이</text>
+
+  <path class="ln thin muted" d="M20 216 H740"/>
+  <text class="t-mono" x="20" y="246">3 × 20 × 5 = 300</text>
+  <text class="t-mono tc-red t-b" x="330" y="246">300 × 100,000 = 30,000,000</text>
+</svg></div><figcaption><b>그림 22-7</b>레이블을 붙일 때마다 시계열 수는 곱으로 늘어납니다. 값이 끝없이 생기는 레이블 하나가 저장소를 터뜨립니다.</figcaption></figure>
+<p>지표의 레이블에는 지역, 경로, 응답 코드처럼 <strong>가짓수가 정해진 값</strong>만 씁니다. 사용자 ID나 요청 ID처럼 끝없이 늘어나는 값은 로그와 추적에 적습니다. 경로도 <code>/orders/1234</code>를 그대로 넣지 않고 <code>/orders/{id}</code>처럼 묶어서 넣습니다.</p>
+</section>
+</section>
+<section class="level2" id="trace">
+<h2><span class="sec-n">22.7</span>추적: 어느 구간이 느렸는지 보는 송장 조회<a aria-label="이 절의 링크" class="anchor" href="#trace">#</a></h2>
+<p>실패만 문제가 아닙니다. 주문은 성공했는데 1초 넘게 걸린 요청 <code>r9</code>가 있습니다. 어디서 시간을 썼을까요? 로그의 시각을 하나하나 빼 보면 알 수 있지만, 서비스가 여러 개로 나뉘어 있으면 손으로 하기 어렵습니다.</p>
+<p>택배 송장을 조회하면 "집화 → 터미널 도착 → 배송 출발 → 배송 완료"가 시각과 함께 나옵니다. 어느 구간에서 하루를 묵었는지 한눈에 보입니다. 요청에도 같은 것을 만들 수 있습니다.</p>
+<ul>
+<li><strong>트레이스</strong>(trace)는 요청 하나의 <strong>전체 여정</strong>입니다. 송장 한 장에 해당합니다.</li>
+<li><strong>스팬</strong>(span)은 그 안의 <strong>한 구간</strong>입니다. 이름, 시작 시각, 걸린 시간, 그리고 자기를 부른 구간이 무엇인지를 기록합니다.</li>
+</ul>
+<figure class="fig" id="fig-trace-waterfall"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 326" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>성공했지만 느렸던 주문 요청 r9의 추적. 전체 1,240ms 가운데 외부 결제 승인 구간이 1,100ms를 차지한다</title>
+  <text class="t-h" x="20" y="34">느렸던 주문 r9의 추적 — 전체 1,240ms</text>
+
+  <path class="ln thin muted dash" d="M380 50 V262 M540 50 V262 M700 50 V262"/>
+  <path class="ln thin muted" d="M27 86 V236 M27 110 H36 M27 152 H36 M27 194 H36 M27 236 H36"/>
+
+  <text class="t-b" x="20" y="73">주문 요청 전체</text>
+  <rect class="solid blue" x="220" y="56" width="496" height="24" rx="4"/>
+  <text class="t-mono t-on t-b mid" x="468" y="73">POST /orders  1,240ms</text>
+
+  <text class="t-b" x="42" y="115">로그인 확인</text>
+  <rect class="solid blue" x="224" y="98" width="8" height="24" rx="2"/>
+  <text class="t-mono" x="240" y="115">20ms</text>
+
+  <text class="t-b" x="42" y="157">재고 조회</text>
+  <text class="t-s" x="112" y="157">DB</text>
+  <rect class="solid green" x="234" y="140" width="16" height="24" rx="3"/>
+  <text class="t-mono" x="258" y="157">40ms</text>
+
+  <text class="t-b" x="42" y="199">결제 승인</text>
+  <text class="t-s" x="112" y="199">외부 결제사</text>
+  <rect class="solid red" x="252" y="182" width="440" height="24" rx="4"/>
+  <text class="t-mono t-on t-b mid" x="472" y="199">1,100ms</text>
+
+  <text class="t-b" x="42" y="241">주문 저장</text>
+  <text class="t-s" x="112" y="241">DB</text>
+  <rect class="solid green" x="692" y="224" width="24" height="24" rx="3"/>
+  <text class="t-mono end" x="684" y="241">60ms</text>
+
+  <path class="ln thin muted" d="M220 262 H716 M220 258 V266 M380 258 V266 M540 258 V266 M700 258 V266"/>
+  <text class="t-xs mid" x="220" y="282">0</text>
+  <text class="t-xs mid" x="380" y="282">400</text>
+  <text class="t-xs mid" x="540" y="282">800</text>
+  <text class="t-xs mid" x="700" y="282">1,200ms</text>
+
+  <text class="t-s" x="20" y="310">막대 하나 = 스팬(구간) · 전체 묶음 = 트레이스(여정)</text>
+  <text class="t-b tc-red end" x="740" y="310">결제 승인이 전체의 89%</text>
+</svg></div><figcaption><b>그림 22-8</b>주문 요청 하나의 추적 화면. 왼쪽에서 오른쪽으로 시간이 흐르고, 막대의 길이가 그 구간에 걸린 시간입니다.</figcaption></figure>
+<p>그림을 보면 추측할 필요가 없습니다. 1,240ms 가운데 1,100ms가 결제 승인 구간입니다. 데이터베이스를 아무리 빠르게 해도 이 요청은 빨라지지 않습니다. <a href="ch01.html">1장</a>에서 말한 병목이 눈에 보입니다.</p>
+<p>원리는 요청 ID와 같습니다. 요청이 들어올 때 추적 ID를 만들고, 다른 서비스를 부를 때 그 ID를 요청에 실어 보냅니다. 받은 쪽은 자기 스팬을 같은 ID로 기록합니다. 여러 서비스에 걸쳐 잇기 때문에 <strong>분산 추적</strong>(distributed tracing)이라고도 합니다. <strong>OpenTelemetry</strong> 같은 공개 표준 도구를 붙이면 이 일을 대부분 자동으로 해 줍니다.</p>
+<section class="level3" id="다-저장할-수는-없다-샘플링">
+<h3>다 저장할 수는 없다: 샘플링</h3>
+<p>모든 요청의 모든 구간을 저장하면 로그보다도 양이 많아집니다. 그래서 100건 중 1건처럼 <strong>일부만 골라 저장</strong>합니다. 이것을 <strong>샘플링</strong>(sampling, 표본 추출)이라고 합니다.</p>
+<p>대신 1,000건에 한 번 나는 오류는 표본에 아예 없을 수 있습니다. 그래서 "정상은 1%, 오류는 전부" 저장하는 식으로 고르기도 합니다. 이때 저장된 추적만 세면 오류가 실제보다 훨씬 많아 보입니다. <strong>비율은 지표에서 읽고, 추적은 사례를 조사할 때 씁니다.</strong></p>
+<details class="deep"><summary><small>한 걸음 더</small>언제 고를까: 머리 기반과 꼬리 기반 샘플링</summary><div class="deep-body">
+<p>요청이 <strong>시작될 때</strong> 저장할지 정하면 간단하고 쌉니다. 하지만 그 요청이 나중에 실패할지는 그때 알 수 없습니다. 버린 99%에서 난 오류의 추적은 되살릴 수 없습니다. 반대로 요청이 <strong>끝난 뒤</strong> 결과를 보고 고르면 느린 것과 실패한 것을 골라 남길 수 있습니다. 대신 끝날 때까지 모든 스팬을 모아 두어야 해서 메모리가 많이 듭니다. 앞의 방식을 머리 기반(head) 샘플링, 뒤의 방식을 꼬리 기반(tail) 샘플링이라고 합니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="slo">
+<h2><span class="sec-n">22.8</span>목표와 알림: 새벽에 깨울 가치가 있는가<a aria-label="이 절의 링크" class="anchor" href="#slo">#</a></h2>
+<p>오류가 한 건도 없는 서비스는 없습니다. 그래서 <strong>얼마나 좋아야 충분한지</strong>를 감이 아니라 숫자로 정해 둡니다.</p>
+<ul>
+<li><strong>SLI</strong>(Service Level Indicator, 서비스 수준 지표)는 <strong>잰 값</strong>입니다. 예: 주문 요청 가운데 성공한 비율.</li>
+<li><strong>SLO</strong>(Service Level Objective, 서비스 수준 목표)는 <strong>목표</strong>입니다. 예: 30일 동안 99.9% 이상.</li>
+<li><strong>오류 예산</strong>(error budget)은 목표가 허락하는 <strong>실패의 양</strong>입니다. 30일 동안 주문이 100,000건이라면 0.1%인 100건까지는 실패해도 목표를 지킨 것입니다.</li>
+</ul>
+<figure class="fig" id="fig-error-budget"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 306" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>30일 동안 주문 100,000건에 목표 99.9%라면 실패해도 되는 양은 100건이고, 그중 62건을 이미 썼다</title>
+
+  <text class="t-b" x="20" y="32">30일 동안의 주문 요청 100,000건</text>
+  <text class="t-xs end" x="740" y="32">빨간 조각은 실제보다 크게 그림</text>
+  <rect class="solid green" x="20" y="44" width="714" height="28" rx="5"/>
+  <rect class="solid red" x="736" y="44" width="4" height="28" rx="1"/>
+  <text class="t-on t-b" x="34" y="63">성공해야 하는 99.9% = 99,900건</text>
+
+  <path class="ln thin muted dash" d="M736 75 L20 144 M740 75 V144"/>
+  <text class="t-b end" x="724" y="132">오류 예산: 실패해도 되는 0.1% = 100건</text>
+
+  <rect class="solid red" x="20" y="150" width="288" height="36" rx="5"/>
+  <text class="t-on t-b mid" x="164" y="173">배포 실수 40건</text>
+  <rect class="solid warm" x="310" y="150" width="156" height="36" rx="5"/>
+  <text class="t-on t-b mid" x="388" y="173">결제사 지연 22건</text>
+  <rect class="box green" x="468" y="150" width="272" height="36" rx="5"/>
+  <text class="t-b tc-green mid" x="604" y="173">남은 예산 38건</text>
+
+  <text class="t-xs" x="20" y="206">0건</text>
+  <text class="t-xs mid" x="467" y="206">62건 씀</text>
+  <text class="t-xs end" x="740" y="206">100건</text>
+
+  <rect class="box green" x="20" y="226" width="350" height="60" rx="12"/>
+  <use href="#i-play" x="32" y="240" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="76" y="251">예산이 남아 있으면</text>
+  <text class="t-s" x="76" y="272">새 기능을 계속 내보낸다</text>
+
+  <rect class="box red" x="390" y="226" width="350" height="60" rx="12"/>
+  <use href="#i-stop" x="402" y="240" width="32" height="32" class="ic red"/>
+  <text class="t-b" x="446" y="251">예산이 바닥나면</text>
+  <text class="t-s" x="446" y="272">배포를 멈추고 안정화부터 한다</text>
+</svg></div><figcaption><b>그림 22-9</b>오류 예산은 한 달 용돈과 같습니다. 남아 있으면 과감하게, 바닥나면 조심스럽게 움직입니다.</figcaption></figure>
+<p>오류 예산은 "안정이 먼저냐, 새 기능이 먼저냐"는 다툼을 숫자로 풀어 줍니다. 예산이 넉넉하면 새 버전을 자주 내보내고, 다 썼다면 새 기능을 멈추고 고장 난 곳부터 고칩니다.</p>
+<section class="level3" id="알림은-증상에-겁니다">
+<h3>알림은 증상에 겁니다</h3>
+<p><strong>알림</strong>(alert)은 사람을 부르는 장치입니다. 계기판의 경고등입니다. 경고등이 사소한 일에도 계속 켜지면 운전자는 테이프로 가려 버립니다. 알림도 너무 자주 울리면 사람들이 무시하게 되고, 진짜 사고를 놓칩니다.</p>
+<p>그래서 알림을 만들 때마다 물어봅니다. <strong>이 알림은 새벽 3시에 사람을 깨울 가치가 있는가?</strong></p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr>
+<th>알림 조건</th>
+<th>판단</th>
+<th>처리</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU 사용률 90%</td>
+<td>사용자는 아무 불편이 없을 수 있음</td>
+<td>대시보드에서 확인</td>
+</tr>
+<tr>
+<td><code>ERROR</code> 로그 1건</td>
+<td>한 번의 실패는 흔함</td>
+<td>모아서 다음 날 검토</td>
+</tr>
+<tr>
+<td>주문 실패율이 5%를 넘음</td>
+<td>사용자가 지금 피해를 봄</td>
+<td>즉시 사람을 부름</td>
+</tr>
+</tbody>
+</table></div>
+<p>기준은 <strong>원인이 아니라 증상</strong>입니다. CPU가 높은 것은 원인 후보일 뿐이고, 주문이 실패하는 것이 사용자가 겪는 증상입니다. 증상에 알림을 걸면 원인이 무엇이든 놓치지 않습니다. 알림에는 받은 사람이 <strong>무엇을 확인하고 무엇을 할지</strong>도 함께 적어 둡니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
+<p>수집이 멈추면 오류 지표도 0이 됩니다. 계기판 바늘이 0을 가리키는 것과 계기판이 꺼진 것은 다릅니다. <strong>"데이터가 오지 않는다"</strong>에도 알림을 걸어 두세요.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>대시보드는 어떻게 짤까</summary><div class="deep-body">
+<p>그래프를 많이 넣는다고 좋은 대시보드가 되지는 않습니다. 맨 위에는 사용자가 겪는 증상인 요청 수, 오류율, 지연 시간을 둡니다. 그 아래에는 원인을 좁힐 자원 지표를 둡니다. CPU와 메모리가 얼마나 찼는지, 기다리는 일이 얼마나 밀렸는지입니다. 위에서 이상을 보고 아래로 내려가며 좁힙니다. 그래프마다 단위와 집계 기간(1분 평균인지 5분 p95인지)을 적어 둡니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="incident">
+<h2><span class="sec-n">22.9</span>장애가 났을 때: 먼저 멈추고, 나중에 배웁니다<a aria-label="이 절의 링크" class="anchor" href="#incident">#</a></h2>
+<p>알림이 울렸습니다. 사용자가 피해를 보는 이런 사건을 <strong>장애</strong>(incident)라고 부릅니다. 이때 가장 흔한 실수는 원인을 찾느라 피해를 그대로 두는 것입니다. 집에 불이 나면 불부터 끄고, 왜 났는지는 그다음에 조사합니다.</p>
+<figure class="fig" id="fig-incident-timeline"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>장애 타임라인. 10:00 배포 뒤 주문 실패율이 올라 10:03에 알림이 울렸고, 10:07에 이전 버전으로 되돌려 10:10에 정상으로 돌아왔다</title>
+
+  <text class="t-s t-b" x="20" y="28">주문 실패율</text>
+  <text class="t-xs end" x="54" y="56">6%</text>
+  <text class="t-xs end" x="54" y="162">0%</text>
+  <path class="ln thin red dash" d="M62 70 H734"/>
+  <text class="t-xs tc-red" x="66" y="63">알림 기준 5%</text>
+  <path class="ln thin muted" d="M62 160 H734"/>
+
+  <path class="ln thin muted dash" d="M302 74 V170 M398 57 V170 M494 56 V170"/>
+  <path class="ln thick red" d="M62 158 H158 L302 70 L350 54 L494 52 L566 142 L638 158 H734"/>
+
+  <circle class="badge" cx="158" cy="184" r="11"/><text class="badge-t" x="158" y="188.500">1</text>
+  <circle class="badge red" cx="302" cy="184" r="11"/><text class="badge-t" x="302" y="188.500">2</text>
+  <circle class="badge warm" cx="398" cy="184" r="11"/><text class="badge-t" x="398" y="188.500">3</text>
+  <circle class="badge warm" cx="494" cy="184" r="11"/><text class="badge-t" x="494" y="188.500">4</text>
+  <circle class="badge green" cx="638" cy="184" r="11"/><text class="badge-t" x="638" y="188.500">5</text>
+
+  <text class="t-mono t-b mid" x="158" y="214">10:00</text>
+  <text class="t-mono t-b mid" x="302" y="214">10:03</text>
+  <text class="t-mono t-b mid" x="398" y="214">10:05</text>
+  <text class="t-mono t-b mid" x="494" y="214">10:07</text>
+  <text class="t-mono t-b mid" x="638" y="214">10:10</text>
+
+  <text class="t-xs mid" x="158" y="234">새 버전</text>
+  <text class="t-xs mid" x="158" y="250">배포</text>
+  <text class="t-xs mid" x="302" y="234">알림 울림</text>
+  <text class="t-xs mid" x="302" y="250">실패율 5%</text>
+  <text class="t-xs mid" x="398" y="234">배포 기록</text>
+  <text class="t-xs mid" x="398" y="250">확인</text>
+  <text class="t-xs mid" x="494" y="234">이전 버전으로</text>
+  <text class="t-xs mid" x="494" y="250">되돌림</text>
+  <text class="t-xs mid" x="638" y="234">실패율</text>
+  <text class="t-xs mid" x="638" y="250">정상 확인</text>
+
+  <rect class="box gray" x="158" y="268" width="142" height="28" rx="6"/>
+  <text class="t-s t-b mid" x="229" y="287">모르고 지난 3분</text>
+  <rect class="box warm" x="304" y="268" width="188" height="28" rx="6"/>
+  <text class="t-s t-b mid" x="398" y="287">확인하고 되돌린 4분</text>
+  <rect class="box green" x="496" y="268" width="142" height="28" rx="6"/>
+  <text class="t-s t-b mid" x="567" y="287">회복 3분</text>
+
+  <text class="t-s" x="20" y="318">원인을 다 알기 전이라도 먼저 되돌려 피해를 멈춘다</text>
+</svg></div><figcaption><b>그림 22-10</b>어느 장애의 10분. 원인을 다 알기 전인 10:07에 먼저 되돌려, 알림 뒤 4분 만에 피해가 줄기 시작했습니다.</figcaption></figure>
+<ol type="1">
+<li><strong>영향을 확인합니다.</strong> 누가 얼마나 피해를 보는지 지표로 봅니다. 주문의 5%가 실패합니다.</li>
+<li><strong>피해를 멈춥니다.</strong> 이것을 <strong>완화</strong>(mitigation)라고 합니다. 조금 전에 배포가 있었다면 이전 버전으로 되돌리는 것이 가장 빠릅니다(<a href="ch20.html">20장</a>).</li>
+<li><strong>회복을 확인합니다.</strong> 실패율이 정상으로 돌아왔는지 숫자로 확인합니다.</li>
+<li><strong>원인을 조사합니다.</strong> 이제 추적과 로그를 차분히 읽습니다.</li>
+</ol>
+<p>진행하는 동안 "10:05 배포 기록 확인"처럼 <strong>시각과 함께 사실을 적어 둡니다.</strong> 사실과 가설도 구분합니다. "배포 때문이다"는 되돌린 뒤 실패율이 회복되기 전까지는 가설입니다. 자주 나는 증상에는 확인할 것과 조치 순서를 미리 적은 문서를 만들어 두는데, 이것을 <strong>런북</strong>(runbook)이라고 합니다.</p>
+<section class="level3" id="회고-사람이-아니라-구조를-고칩니다">
+<h3>회고: 사람이 아니라 구조를 고칩니다</h3>
+<p>장애가 끝나면 며칠 안에 <strong>포스트모템</strong>(postmortem)이라는 회고 문서를 씁니다. 타임라인, 피해 규모, 원인, 그리고 다시 일어나지 않게 할 조치를 적습니다.</p>
+<p>원칙은 <strong>비난하지 않는 것</strong>(blameless)입니다. "누가 잘못했나"가 아니라 "왜 그 실수가 운영까지 갈 수 있었나"를 묻습니다. 설정 한 줄을 잘못 고친 사람을 탓하면 다음 사람은 실수를 숨깁니다. "잘못된 설정이 검사 없이 배포될 수 있었다"를 원인으로 적으면 고칠 것이 생깁니다. 위 장애라면 "배포부터 알림까지 왜 3분이나 걸렸을까?"도 물어야 합니다.</p>
+</section>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>로그 / 지표</td>
+<td>사건 하나하나의 자세한 기록 / 여러 사건을 합친 숫자</td>
+</tr>
+<tr>
+<td>요청 ID / 트레이스</td>
+<td>한 요청의 로그를 묶는 번호표 / 그 요청이 거친 구간과 시간까지 그린 것</td>
+</tr>
+<tr>
+<td>카운터 / 게이지</td>
+<td>오르기만 하는 누적값, 늘어난 양을 봄 / 오르내리는 지금 값</td>
+</tr>
+<tr>
+<td>평균 / p95</td>
+<td>모두 더해 나눈 값 / 느린 쪽 5%가 시작되는 지점</td>
+</tr>
+<tr>
+<td>SLI / SLO</td>
+<td>실제로 잰 값 / 지키려는 목표</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 평균 응답은 190ms인데 '가끔 멈춘다'는 신고가 들어온다</div>
+<p>대시보드의 평균 응답 시간은 190ms로 멀쩡합니다. 그런데 "주문 버튼을 누르면 가끔 1초 넘게 멈춘다"는 신고가 이어집니다.</p>
+<ol type="1">
+<li><strong>평균 대신 분포를 봅니다.</strong> 지연 시간 히스토그램에서 p95를 구하니 1,000ms가 넘습니다. 평균이 느린 요청을 가리고 있었습니다.</li>
+<li><strong>레이블로 좁힙니다.</strong> 경로별로 나누니 <code>/orders</code>만 느립니다.</li>
+<li><strong>느린 요청의 추적을 엽니다.</strong> 1초 넘게 걸린 주문 몇 건을 보니 모두 결제 승인 스팬이 1초 안팎입니다.</li>
+<li><strong>로그로 이유를 읽습니다.</strong> 그 요청들의 ID로 로그를 모으니, 결제사와 새로 연결을 맺는 사건의 <code>duration_ms</code>가 모두 900 안팎입니다. 요청마다 연결을 새로 맺고 있었습니다.</li>
+<li><strong>고치고 같은 숫자로 확인합니다.</strong> 맺어 둔 연결을 다시 쓰도록 고친 뒤, 같은 경로의 p95가 내려갔는지 봅니다.</li>
+</ol>
+<p>지표로 알아차리고, 추적으로 좁히고, 로그로 이유를 읽었습니다.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li>운영 중인 서비스는 <strong>로그</strong>(사건), <strong>지표</strong>(숫자), <strong>추적</strong>(경로)이라는 신호로 안을 읽습니다.</li>
+<li>좋은 로그는 언제, 누가, 무엇을, 결과를 <strong>이름표 붙은 항목</strong>으로 적습니다. 비밀값은 적지 않습니다.</li>
+<li><strong>요청 ID</strong>를 모든 로그에 적어 두면 뒤섞인 기록에서 한 요청만 골라낼 수 있습니다.</li>
+<li>로그는 수집, 전송, 저장을 거쳐야 검색됩니다. <strong>검색 0건이 사건 0건은 아닙니다.</strong></li>
+<li>비율과 백분위는 평균 내지 않고 <strong>건수를 합친 뒤</strong> 다시 계산합니다. 끝없이 늘어나는 값은 지표의 레이블로 쓰지 않습니다.</li>
+<li><strong>SLO</strong>로 목표를 정하고, 알림은 사용자가 겪는 <strong>증상</strong>에 겁니다.</li>
+<li>장애가 나면 <strong>피해부터 멈추고</strong>, 끝난 뒤 사람을 탓하지 않는 회고로 구조를 고칩니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>사용자들은 결제 오류를 계속 신고하는데, 로그 검색 화면에서 최근 1시간의 <code>ERROR</code>는 0건입니다. "서버에는 문제가 없다"고 결론 내려도 될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>안 됩니다. 0건은 "찾지 못했다"는 뜻일 뿐입니다. 앱이 그 사건을 기록하는지, 수집기가 읽고 있는지, 버퍼에서 밀리거나 버려지지 않았는지, 검색 조건이 맞는지 차례로 확인합니다. 시험 요청을 하나 보내 그 요청 ID가 검색되는지 따라가 보면 끊긴 곳이 나옵니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>동료가 "요청 ID를 지표의 레이블로 넣으면 느린 요청을 바로 찾을 수 있다"고 제안합니다. 어떻게 답할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>요청마다 새 값이 생기므로 시계열이 요청 수만큼 늘어나 저장소가 감당하지 못합니다. 레이블에는 가짓수가 정해진 값만 쓰고, 요청 ID는 로그와 추적에 적습니다. 느린 요청은 지표로 "언제, 어느 경로"까지 좁힌 뒤 추적에서 찾습니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>서버 두 대의 p95 응답 시간이 각각 100ms와 2,000ms입니다. 대시보드에 "전체 p95 = 1,050ms"라고 적어도 될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>안 됩니다. 백분위는 값을 줄 세워야 나옵니다. 첫 서버가 95건을 모두 100ms에, 둘째 서버가 5건을 모두 2,000ms에 처리했다면 100건 전체의 95번째 값은 100ms입니다. 히스토그램의 구간별 건수를 합친 뒤 다시 구해야 합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>지난 30일 동안 주문 요청은 50,000건이었고 그중 48건이 실패했습니다. SLO는 성공률 99.9%입니다. 내일로 잡아 둔 큰 기능 배포를 어떻게 해야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>오류 예산은 50,000 × 0.1% = 50건이고, 남은 것은 2건뿐입니다. 큰 변경은 실패를 늘릴 수 있으므로 미루고, 실패 48건을 만든 원인부터 고칩니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>추적을 "정상 요청은 1%, 실패한 요청은 전부" 저장하고 있습니다. 저장된 추적 200건 중 100건이 실패입니다. 이 서비스의 오류율은 50%일까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>아닙니다. 저장된 정상 추적 100건은 1%만 남긴 것이므로 실제 정상 요청은 약 10,000건입니다. 오류율은 100 ÷ 10,100, 곧 약 1%입니다. 골라서 저장한 표본의 비율은 전체의 비율이 아닙니다. 오류율은 지표에서 읽습니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>AI 코딩 도구는 따로 시키지 않으면 문장만 찍는 로그를 만듭니다. 기능을 맡길 때 <strong>관측도 함께</strong> 요구하세요.</p>
+<blockquote>
+<p>주문 API에 관측을 넣어 줘. 모든 요청에 요청 ID를 붙이고, 로그는 한 줄에 JSON 하나로 쓰되 time, level, request_id, event, duration_ms를 꼭 넣어 줘. 비밀번호, 토큰, 카드 번호는 남기지 말고 요청 객체를 통째로 찍지 마. 지표는 요청 수, 실패 수, 응답 시간 히스토그램 세 가지만 만들고 레이블은 경로와 응답 코드만 써. 일부러 실패하는 시험 요청을 하나 보내서, 그 요청 ID로 로그가 검색되고 실패 수가 1 늘어나는 것까지 보여 주면 완료야.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: 로그에 비밀값이나 요청 본문 전체가 찍히지 않는가, 사용자의 실수와 시스템의 실패를 다른 수준으로 적었는가, 레이블에 끝없이 늘어나는 값이 없는가, 시험 요청의 실제 결과를 보여 주는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>관측 가능성<small>observability</small></dt>
+<dd>
+밖으로 나온 신호만으로 시스템 안의 상태를 알아낼 수 있는 정도.
+</dd>
+<dt>구조화 로그<small>structured log</small></dt>
+<dd>
+항목마다 이름표를 붙여 프로그램이 골라내고 셀 수 있게 적은 로그.
+</dd>
+<dt>로그 수준<small>log level</small></dt>
+<dd>
+사건이 얼마나 급한지 나타내는 딱지. DEBUG, INFO, WARN, ERROR.
+</dd>
+<dt>요청 ID<small>request ID</small></dt>
+<dd>
+한 요청이 남긴 기록을 묶는 번호표. 상관 ID라고도 한다.
+</dd>
+<dt>지표<small>metric</small></dt>
+<dd>
+시간에 따라 변하는 숫자. 메트릭이라고도 한다.
+</dd>
+<dt>카운터<small>counter</small></dt>
+<dd>
+오르기만 하는 누적 지표. 늘어난 양을 본다.
+</dd>
+<dt>게이지<small>gauge</small></dt>
+<dd>
+오르내리는 지금 값을 나타내는 지표.
+</dd>
+<dt>히스토그램<small>histogram</small></dt>
+<dd>
+값을 구간에 나눠 담고 구간별 건수를 세는 지표.
+</dd>
+<dt>카디널리티<small>cardinality</small></dt>
+<dd>
+레이블이 가질 수 있는 값의 가짓수. 클수록 저장할 시계열이 늘어난다.
+</dd>
+<dt>트레이스<small>trace</small></dt>
+<dd>
+요청 하나가 거친 전체 경로와 구간별 시간의 기록.
+</dd>
+<dt>스팬<small>span</small></dt>
+<dd>
+트레이스 안의 한 구간.
+</dd>
+<dt>샘플링<small>sampling</small></dt>
+<dd>
+전체 중 일부만 골라 저장하는 일.
+</dd>
+<dt>SLO<small>Service Level Objective</small></dt>
+<dd>
+서비스가 지키려는 목표 수준. 실제로 잰 값은 SLI라고 한다.
+</dd>
+<dt>오류 예산<small>error budget</small></dt>
+<dd>
+목표를 지키면서 허락되는 실패의 양.
+</dd>
+<dt>포스트모템<small>postmortem</small></dt>
+<dd>
+장애가 끝난 뒤 경과와 원인, 재발 방지 조치를 적는 회고.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://opentelemetry.io/docs/concepts/signals/" rel="noopener" target="_blank">OpenTelemetry — Signals</a> — 로그, 지표, 추적이 각각 무엇이고 어떻게 이어지는지 설명하는 공식 문서입니다.</li>
+<li><a href="https://sre.google/sre-book/service-level-objectives/" rel="noopener" target="_blank">Google SRE — Service Level Objectives</a> — SLI와 SLO를 어떻게 정하는지 설명한 책의 한 장입니다.</li>
+<li><a href="https://missing.csail.mit.edu/2020/data-wrangling/" rel="noopener" target="_blank">MIT Missing Semester — Data Wrangling</a> — <code>grep</code>, <code>sort</code>, <code>uniq</code>로 로그를 다듬고 세는 과정을 따라 해 보는 강의입니다.</li>
+<li><a href="https://learn.microsoft.com/ko-kr/azure/azure-monitor/logs/data-platform-logs" rel="noopener" target="_blank">Microsoft Learn — Azure Monitor 로그</a> — 로그를 모으고 검색하고 보존하는 흐름을 한국어로 읽을 수 있습니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch21.html"><small>← 이전 · 21장</small><b>인프라와 클라우드</b></a><a class="next" href="ch23.html"><small>다음 · 23장 →</small><b>공간과 움직임의 수학</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#observe">보닛을 닫고 달리는 자동차: 관측</a><a href="#log">로그: 나중의 나를 위한 블랙박스</a><a href="#follow">요청 하나를 끝까지 따라가기: 요청 ID와 명령줄</a><a href="#pipeline">로그가 모이는 길: 수집, 전송, 저장, 검색</a><a href="#metrics">지표: 숫자로 보는 계기판</a><a href="#aggregate">숫자를 합칠 때의 함정</a><a href="#trace">추적: 어느 구간이 느렸는지 보는 송장 조회</a><a href="#slo">목표와 알림: 새벽에 깨울 가치가 있는가</a><a href="#incident">장애가 났을 때: 먼저 멈추고, 나중에 배웁니다</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

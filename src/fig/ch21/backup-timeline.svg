@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 326" xmlns="http://www.w3.org/2000/svg">
+  <title>백업을 하루 한 번 하면 사고 때 11시간 20분치 기록을 잃고, 한 시간마다 하면 20분치만 잃는다</title>
+
+  <text class="t-b" x="20" y="36">하루 한 번 백업한 경우</text>
+  <path class="ln thin muted" d="M60 100 H724"/>
+  <rect class="solid red" x="80" y="91" width="567" height="18" rx="4"/>
+  <rect class="solid warm" x="647" y="91" width="33" height="18" rx="4"/>
+  <text class="t-s t-on t-b mid" x="364" y="105">잃는 기록 11시간 20분</text>
+  <circle class="f-green" cx="80" cy="100" r="8"/>
+  <text class="t-mono" x="58" y="74">03:00 백업</text>
+  <path class="ln red" d="M647 82 V118"/>
+  <text class="t-mono tc-red mid" x="647" y="74">14:20 사고</text>
+  <text class="t-s t-b tc-warm mid" x="663" y="138">15:00까지 40분 멈춤</text>
+
+  <path class="ln thin muted dash" d="M20 160 H740"/>
+
+  <text class="t-b" x="20" y="192">한 시간마다 백업한 경우</text>
+  <path class="ln thin muted" d="M60 250 H724"/>
+  <rect class="solid red" x="630" y="241" width="17" height="18" rx="4"/>
+  <rect class="solid warm" x="647" y="241" width="33" height="18" rx="4"/>
+  <circle class="f-green" cx="80" cy="250" r="6"/>
+  <circle class="f-green" cx="130" cy="250" r="6"/>
+  <circle class="f-green" cx="180" cy="250" r="6"/>
+  <circle class="f-green" cx="230" cy="250" r="6"/>
+  <circle class="f-green" cx="280" cy="250" r="6"/>
+  <circle class="f-green" cx="330" cy="250" r="6"/>
+  <circle class="f-green" cx="380" cy="250" r="6"/>
+  <circle class="f-green" cx="430" cy="250" r="6"/>
+  <circle class="f-green" cx="480" cy="250" r="6"/>
+  <circle class="f-green" cx="530" cy="250" r="6"/>
+  <circle class="f-green" cx="580" cy="250" r="6"/>
+  <circle class="f-green" cx="630" cy="250" r="6"/>
+  <text class="t-xs" x="72" y="278">03:00부터 매시 정각에 백업</text>
+  <path class="ln red" d="M647 232 V268"/>
+  <text class="t-s t-b tc-red end" x="638" y="224">잃는 기록 20분 (14:00 백업 이후)</text>
+  <text class="t-mono tc-red" x="656" y="224">14:20 사고</text>
+  <text class="t-s t-b tc-warm mid" x="663" y="290">15:00까지 40분 멈춤</text>
+
+  <text class="t-xs" x="20" y="314">백업 간격이 '얼마나 잃는가'를, 복구 연습이 '얼마나 오래 멈추는가'를 정합니다.</text>
+</svg>

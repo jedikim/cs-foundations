@@ -1,0 +1,50 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>참·거짓 값 세 개는 있으면 안 되는 조합 네 가지까지 만들지만, 상태를 이름 하나로 적으면 정해진 네 가지 사이만 오갈 수 있다</title>
+
+  <rect class="panel" x="20" y="16" width="310" height="288" rx="16"/>
+  <text class="t-l" x="40" y="46">참·거짓 세 개</text>
+  <text class="t-s" x="40" y="68">2 × 2 × 2 = 8가지</text>
+  <text class="t-xs mid" x="70" y="96">로딩</text>
+  <text class="t-xs mid" x="118" y="96">성공</text>
+  <text class="t-xs mid" x="166" y="96">오류</text>
+
+  <circle class="ghost" cx="70" cy="116" r="7"/><circle class="ghost" cx="118" cy="116" r="7"/><circle class="ghost" cx="166" cy="116" r="7"/>
+  <text class="t-s tc-green" x="200" y="120.500">대기</text>
+  <circle class="f-blue" cx="70" cy="138" r="7"/><circle class="ghost" cx="118" cy="138" r="7"/><circle class="ghost" cx="166" cy="138" r="7"/>
+  <text class="t-s tc-green" x="200" y="142.500">저장 중</text>
+  <circle class="ghost" cx="70" cy="160" r="7"/><circle class="f-blue" cx="118" cy="160" r="7"/><circle class="ghost" cx="166" cy="160" r="7"/>
+  <text class="t-s tc-green" x="200" y="164.500">완료</text>
+  <circle class="ghost" cx="70" cy="182" r="7"/><circle class="ghost" cx="118" cy="182" r="7"/><circle class="f-blue" cx="166" cy="182" r="7"/>
+  <text class="t-s tc-green" x="200" y="186.500">오류</text>
+
+  <path class="ln thin muted" d="M40 197 H310"/>
+  <circle class="f-red" cx="70" cy="212" r="7"/><circle class="f-red" cx="118" cy="212" r="7"/><circle class="ghost" cx="166" cy="212" r="7"/>
+  <circle class="f-red" cx="70" cy="234" r="7"/><circle class="ghost" cx="118" cy="234" r="7"/><circle class="f-red" cx="166" cy="234" r="7"/>
+  <circle class="ghost" cx="70" cy="256" r="7"/><circle class="f-red" cx="118" cy="256" r="7"/><circle class="f-red" cx="166" cy="256" r="7"/>
+  <circle class="f-red" cx="70" cy="278" r="7"/><circle class="f-red" cx="118" cy="278" r="7"/><circle class="f-red" cx="166" cy="278" r="7"/>
+  <path class="ln thin red" d="M190 208 H198 V282 H190"/>
+  <text class="t-s t-b tc-red" x="210" y="240">있으면 안 되는</text>
+  <text class="t-s t-b tc-red" x="210" y="260">조합 4가지</text>
+
+  <rect class="panel" x="350" y="16" width="390" height="288" rx="16"/>
+  <text class="t-l" x="370" y="46">이름 하나</text>
+  <text class="t-s" x="370" y="68">status 칸에는 넷 중 하나만</text>
+  <rect class="box gray" x="370" y="112" width="70" height="44" rx="10"/>
+  <text class="t-b mid" x="405" y="139">대기</text>
+  <path class="ln" d="M444 134 H498" marker-end="url(#ah)"/>
+  <text class="t-xs mid" x="472" y="124">저장 누름</text>
+  <rect class="box blue" x="506" y="112" width="92" height="44" rx="10"/>
+  <text class="t-b mid" x="552" y="139">저장 중</text>
+  <path class="ln green" d="M602 134 H642" marker-end="url(#ah-green)"/>
+  <text class="t-xs mid" x="622" y="124">성공</text>
+  <rect class="box green" x="650" y="112" width="74" height="44" rx="10"/>
+  <text class="t-b mid" x="687" y="139">완료</text>
+  <text class="t-xs mid" x="687" y="176">+ 받은 데이터</text>
+  <path class="ln red" d="M532 160 V218" marker-end="url(#ah-red)"/>
+  <text class="t-xs end" x="524" y="194">실패</text>
+  <path class="ln blue dash" d="M572 222 V164" marker-end="url(#ah-blue)"/>
+  <text class="t-xs" x="580" y="194">다시 시도</text>
+  <rect class="box red" x="506" y="226" width="92" height="44" rx="10"/>
+  <text class="t-b mid" x="552" y="253">오류</text>
+  <text class="t-xs mid" x="552" y="290">+ 실패한 이유</text>
+</svg>

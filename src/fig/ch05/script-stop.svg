@@ -1,0 +1,55 @@
+<svg viewBox="0 0 760 336" xmlns="http://www.w3.org/2000/svg">
+  <title>set -e가 없으면 실패한 뒤에도 끝까지 달려 거짓 성공을 내고, 있으면 실패한 줄에서 멈춘다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="304" rx="16"/>
+  <text class="t-l" x="36" y="46"><tspan class="t-mono">set -e</tspan> 없음</text>
+  <text class="t-s" x="150" y="46">실패해도 다음 줄로 간다</text>
+
+  <rect class="box" x="36" y="62" width="200" height="32" rx="8"/>
+  <text class="t-mono" x="48" y="83">mkdir -p backup</text>
+  <use href="#i-check" x="248" y="68" width="20" height="20" class="ic green"/>
+  <rect class="box" x="36" y="100" width="200" height="32" rx="8"/>
+  <text class="t-mono" x="48" y="121">cp a.json backup/</text>
+  <use href="#i-check" x="248" y="106" width="20" height="20" class="ic green"/>
+  <rect class="box red" x="36" y="138" width="200" height="32" rx="8"/>
+  <text class="t-mono" x="48" y="159">cp b.json backup/</text>
+  <use href="#i-cross" x="248" y="144" width="20" height="20" class="ic red"/>
+  <text class="t-s t-b tc-red" x="276" y="159">실패</text>
+  <rect class="box" x="36" y="176" width="200" height="32" rx="8"/>
+  <text class="t-mono" x="48" y="197">cp c.json backup/</text>
+  <use href="#i-check" x="248" y="182" width="20" height="20" class="ic green"/>
+  <text class="t-s" x="276" y="197">계속 실행</text>
+  <rect class="box" x="36" y="214" width="200" height="32" rx="8"/>
+  <text class="t-mono" x="48" y="235">echo "백업 완료"</text>
+  <use href="#i-check" x="248" y="220" width="20" height="20" class="ic green"/>
+  <text class="t-s" x="276" y="235">출력됨</text>
+
+  <rect class="box red" x="36" y="260" width="318" height="46" rx="10"/>
+  <text class="t-b tc-red" x="50" y="288">종료 코드 0</text>
+  <text class="t-s" x="146" y="288">실패했는데 성공처럼 보인다</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="304" rx="16"/>
+  <text class="t-l" x="406" y="46"><tspan class="t-mono">set -e</tspan> 있음</text>
+  <text class="t-s" x="520" y="46">실패한 줄에서 멈춘다</text>
+
+  <rect class="box" x="406" y="62" width="200" height="32" rx="8"/>
+  <text class="t-mono" x="418" y="83">mkdir -p backup</text>
+  <use href="#i-check" x="618" y="68" width="20" height="20" class="ic green"/>
+  <rect class="box" x="406" y="100" width="200" height="32" rx="8"/>
+  <text class="t-mono" x="418" y="121">cp a.json backup/</text>
+  <use href="#i-check" x="618" y="106" width="20" height="20" class="ic green"/>
+  <rect class="box red" x="406" y="138" width="200" height="32" rx="8"/>
+  <text class="t-mono" x="418" y="159">cp b.json backup/</text>
+  <use href="#i-cross" x="618" y="144" width="20" height="20" class="ic red"/>
+  <text class="t-s t-b tc-red" x="646" y="159">실패 → 멈춤</text>
+  <rect class="ghost dash" x="406" y="176" width="200" height="32" rx="8"/>
+  <text class="t-mono tc-muted" x="418" y="197">cp c.json backup/</text>
+  <text class="t-s" x="646" y="197">실행 안 됨</text>
+  <rect class="ghost dash" x="406" y="214" width="200" height="32" rx="8"/>
+  <text class="t-mono tc-muted" x="418" y="235">echo "백업 완료"</text>
+  <text class="t-s" x="646" y="235">실행 안 됨</text>
+
+  <rect class="box green" x="406" y="260" width="318" height="46" rx="10"/>
+  <text class="t-b tc-green" x="420" y="288">종료 코드 1</text>
+  <text class="t-s" x="516" y="288">정리(trap)를 하고 실패를 알린다</text>
+</svg>

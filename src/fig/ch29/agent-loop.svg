@@ -1,0 +1,62 @@
+<svg viewBox="0 0 760 394" xmlns="http://www.w3.org/2000/svg">
+  <title>에이전트는 생각, 행동, 관찰을 한 바퀴로 삼아 반복한다. 첫 바퀴의 실패를 관찰하고 둘째 바퀴에서 방법을 바꾸며, 멈춤 조건에 걸리면 끝난다</title>
+
+  <text class="t-b" x="58" y="36">생각</text>
+  <text class="t-s" x="96" y="36">모델이 다음 할 일을 고른다</text>
+  <text class="t-b" x="290" y="36">행동</text>
+  <text class="t-s" x="328" y="36">내 코드가 도구를 실행한다</text>
+  <text class="t-b" x="532" y="36">관찰</text>
+  <text class="t-s" x="570" y="36">결과가 모델에게 돌아간다</text>
+
+  <circle class="badge" cx="34" cy="78" r="12"/><text class="badge-t" x="34" y="82.500">1</text>
+  <rect class="box purple" x="58" y="54" width="210" height="48" rx="10"/>
+  <text x="70" y="83">cart.py를 열어 보자</text>
+  <path class="ln" d="M272 78 H283" marker-end="url(#ah)"/>
+  <rect class="box blue" x="290" y="54" width="220" height="48" rx="10"/>
+  <text class="t-mono" x="302" y="83">read_file("cart.py")</text>
+  <path class="ln" d="M514 78 H525" marker-end="url(#ah)"/>
+  <rect class="box red" x="532" y="54" width="208" height="48" rx="10"/>
+  <text class="t-mono tc-red" x="544" y="83">오류: 파일 없음</text>
+
+  <circle class="badge" cx="34" cy="136" r="12"/><text class="badge-t" x="34" y="140.500">2</text>
+  <rect class="box purple" x="58" y="112" width="210" height="48" rx="10"/>
+  <text x="70" y="141">어디 있는지 찾아보자</text>
+  <path class="ln" d="M272 136 H283" marker-end="url(#ah)"/>
+  <rect class="box blue" x="290" y="112" width="220" height="48" rx="10"/>
+  <text class="t-mono" x="302" y="141">search("cart.py")</text>
+  <path class="ln" d="M514 136 H525" marker-end="url(#ah)"/>
+  <rect class="box green" x="532" y="112" width="208" height="48" rx="10"/>
+  <text class="t-mono" x="544" y="141">src/shop/cart.py</text>
+
+  <circle class="badge" cx="34" cy="194" r="12"/><text class="badge-t" x="34" y="198.500">3</text>
+  <rect class="box purple" x="58" y="170" width="210" height="48" rx="10"/>
+  <text x="70" y="199">할인 조건을 고치자</text>
+  <path class="ln" d="M272 194 H283" marker-end="url(#ah)"/>
+  <rect class="box blue" x="290" y="170" width="220" height="48" rx="10"/>
+  <text class="t-mono" x="302" y="199">edit_file(cart.py, …)</text>
+  <path class="ln" d="M514 194 H525" marker-end="url(#ah)"/>
+  <rect class="box green" x="532" y="170" width="208" height="48" rx="10"/>
+  <text class="t-mono" x="544" y="199">1줄 수정됨</text>
+
+  <circle class="badge" cx="34" cy="252" r="12"/><text class="badge-t" x="34" y="256.500">4</text>
+  <rect class="box purple" x="58" y="228" width="210" height="48" rx="10"/>
+  <text x="70" y="257">정말 고쳐졌나 돌려 보자</text>
+  <path class="ln" d="M272 252 H283" marker-end="url(#ah)"/>
+  <rect class="box blue" x="290" y="228" width="220" height="48" rx="10"/>
+  <text class="t-mono" x="302" y="257">run_tests()</text>
+  <path class="ln" d="M514 252 H525" marker-end="url(#ah)"/>
+  <rect class="box green" x="532" y="228" width="208" height="48" rx="10"/>
+  <text class="t-mono" x="544" y="257">12개 통과, 0개 실패</text>
+
+  <text class="t-s t-b" x="20" y="314">루프를 끝내는 조건 — 하나라도 걸리면 멈춥니다</text>
+  <path class="ln green" d="M655 280 V326" marker-end="url(#ah-green)"/>
+
+  <rect class="box warm" x="20" y="334" width="170" height="40" rx="10"/>
+  <text class="t-s t-b t-ink mid" x="105" y="359">한도: 최대 20바퀴</text>
+  <rect class="box warm" x="203" y="334" width="170" height="40" rx="10"/>
+  <text class="t-s t-b t-ink mid" x="288" y="359">예산: 토큰 20만 개</text>
+  <rect class="box red" x="387" y="334" width="170" height="40" rx="10"/>
+  <text class="t-s t-b t-ink mid" x="472" y="359">같은 오류 3번 → 중단</text>
+  <rect class="box green" x="570" y="334" width="170" height="40" rx="10"/>
+  <text class="t-s t-b t-ink mid" x="655" y="359">테스트 통과 → 완료</text>
+</svg>

@@ -1,0 +1,51 @@
+<svg viewBox="0 0 760 292" xmlns="http://www.w3.org/2000/svg">
+  <title>온도가 낮으면 1등 후보에 확률이 몰리고, 온도가 높으면 드문 후보도 자주 뽑힌다</title>
+
+  <rect class="panel blue" x="110" y="20" width="200" height="228" rx="14"/>
+  <rect class="panel" x="325" y="20" width="200" height="228" rx="14"/>
+  <rect class="panel warm" x="540" y="20" width="200" height="228" rx="14"/>
+
+  <text class="t-l mid" x="210" y="50">온도 0.5</text>
+  <text class="t-s mid" x="210" y="72">1등에 몰린다</text>
+  <text class="t-l mid" x="425" y="50">온도 1</text>
+  <text class="t-s mid" x="425" y="72">계산한 그대로</text>
+  <text class="t-l mid" x="640" y="50">온도 2</text>
+  <text class="t-s mid" x="640" y="72">고르게 퍼진다</text>
+
+  <text class="end" x="96" y="113">좋다</text>
+  <text class="end" x="96" y="151">흐리다</text>
+  <text class="end" x="96" y="189">춥다</text>
+  <text class="end" x="96" y="227">수상하다</text>
+
+  <!-- 온도 0.5 -->
+  <rect class="solid blue" x="126" y="98" width="122" height="20" rx="4"/>
+  <text class="t-mono" x="256" y="113">68%</text>
+  <rect class="solid blue" x="126" y="136" width="45" height="20" rx="4"/>
+  <text class="t-mono" x="179" y="151">25%</text>
+  <rect class="solid blue" x="126" y="174" width="11" height="20" rx="3"/>
+  <text class="t-mono" x="145" y="189">6%</text>
+  <rect class="solid blue" x="126" y="212" width="2" height="20" rx="1"/>
+  <text class="t-mono" x="136" y="227">1%</text>
+
+  <!-- 온도 1 -->
+  <rect class="solid purple" x="341" y="98" width="90" height="20" rx="4"/>
+  <text class="t-mono" x="439" y="113">50%</text>
+  <rect class="solid purple" x="341" y="136" width="54" height="20" rx="4"/>
+  <text class="t-mono" x="403" y="151">30%</text>
+  <rect class="solid purple" x="341" y="174" width="27" height="20" rx="4"/>
+  <text class="t-mono" x="376" y="189">15%</text>
+  <rect class="solid purple" x="341" y="212" width="9" height="20" rx="3"/>
+  <text class="t-mono" x="358" y="227">5%</text>
+
+  <!-- 온도 2 -->
+  <rect class="solid warm" x="556" y="98" width="68" height="20" rx="4"/>
+  <text class="t-mono" x="632" y="113">38%</text>
+  <rect class="solid warm" x="556" y="136" width="52" height="20" rx="4"/>
+  <text class="t-mono" x="616" y="151">29%</text>
+  <rect class="solid warm" x="556" y="174" width="38" height="20" rx="4"/>
+  <text class="t-mono" x="602" y="189">21%</text>
+  <rect class="solid warm" x="556" y="212" width="22" height="20" rx="4"/>
+  <text class="t-mono" x="586" y="227">12%</text>
+
+  <text class="t-s" x="20" y="274">입력은 셋 다 ‘오늘 날씨가’로 같습니다. 달라진 것은 뽑기 설정뿐입니다.</text>
+</svg>

@@ -1,0 +1,50 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>컨텍스트 윈도에는 시스템 프롬프트, 대화, 자료, 답이 모두 들어가야 하고, 넘치면 오래된 대화부터 창 밖으로 밀려난다</title>
+
+  <!-- 대화 초반 -->
+  <text class="t-b" x="20" y="36">대화 초반</text>
+  <text class="t-s end" x="730" y="36">한 번에 볼 수 있는 창: 8,000토큰</text>
+
+  <rect class="box purple" x="210" y="50" width="65" height="44" rx="6"/>
+  <text class="t-mono mid" x="242.500" y="77">1,000</text>
+  <rect class="box blue" x="275" y="50" width="130" height="44" rx="6"/>
+  <text class="t-mono mid" x="340" y="77">2,000</text>
+  <rect class="box green" x="405" y="50" width="130" height="44" rx="6"/>
+  <text class="t-mono mid" x="470" y="77">2,000</text>
+  <rect class="box warm" x="535" y="50" width="65" height="44" rx="6"/>
+  <text class="t-mono mid" x="567.500" y="77">1,000</text>
+  <rect class="ghost dash" x="600" y="50" width="130" height="44" rx="6"/>
+  <text class="t-mono mid tc-muted" x="665" y="77">2,000</text>
+
+  <text class="t-s mid" x="242.500" y="114">시스템 프롬프트</text>
+  <text class="t-s mid" x="340" y="114">대화</text>
+  <text class="t-s mid" x="470" y="114">첨부 자료</text>
+  <text class="t-s mid" x="567.500" y="114">답변 자리</text>
+  <text class="t-s mid" x="665" y="114">빈 자리</text>
+
+  <!-- 대화가 길어진 뒤 -->
+  <text class="t-b" x="20" y="170">대화가 길어진 뒤</text>
+  <text class="t-s end" x="730" y="170">대화가 6,500으로 늘어 2,500이 넘친다</text>
+
+  <path class="ln red dash" d="M292 190 C 272 172, 172 172, 152 190" marker-end="url(#ah-red)"/>
+
+  <rect class="box red dash" x="20" y="196" width="176" height="44" rx="6"/>
+  <text class="t-mono mid tc-red" x="108" y="223">2,500</text>
+  <rect class="box purple" x="210" y="196" width="65" height="44" rx="6"/>
+  <text class="t-mono mid" x="242.500" y="223">1,000</text>
+  <rect class="box blue" x="275" y="196" width="260" height="44" rx="6"/>
+  <text class="t-mono mid" x="405" y="223">4,000</text>
+  <rect class="box green" x="535" y="196" width="130" height="44" rx="6"/>
+  <text class="t-mono mid" x="600" y="223">2,000</text>
+  <rect class="box warm" x="665" y="196" width="65" height="44" rx="6"/>
+  <text class="t-mono mid" x="697.500" y="223">1,000</text>
+
+  <text class="t-s mid tc-red" x="108" y="260">밀려난 초반 대화</text>
+  <text class="t-s mid" x="242.500" y="260">시스템 프롬프트</text>
+  <text class="t-s mid" x="405" y="260">최근 대화</text>
+  <text class="t-s mid" x="600" y="260">첨부 자료</text>
+  <text class="t-s mid" x="697.500" y="260">답변 자리</text>
+  <text class="t-xs mid tc-red" x="108" y="282">‘결제 기능은 빼 주세요’</text>
+
+  <text class="t-s" x="20" y="312">창 밖으로 나간 말은 모델이 다시 볼 수 없습니다.</text>
+</svg>

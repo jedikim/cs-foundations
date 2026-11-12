@@ -1,0 +1,47 @@
+<svg viewBox="0 0 760 334" xmlns="http://www.w3.org/2000/svg">
+  <title>계산대를 둘로 늘리면 2분 동안 나가는 손님은 4명에서 8명으로 늘지만 한 명을 계산하는 30초는 그대로다</title>
+  <text class="t-l" x="20" y="62">계산대 1개</text>
+  <text class="t-s" x="20" y="84">2분 동안 4명</text>
+  <path class="ln thin muted" d="M200 36 H316 M200 31 V41 M316 31 V41"/>
+  <text class="t-xs mid" x="258" y="26">계산 30초</text>
+  <rect class="solid blue" x="200" y="48" width="116" height="40" rx="6"/>
+  <text class="t-on t-b mid" x="258" y="73">손님 1</text>
+  <rect class="solid blue" x="320" y="48" width="116" height="40" rx="6"/>
+  <text class="t-on t-b mid" x="378" y="73">손님 2</text>
+  <rect class="solid blue" x="440" y="48" width="116" height="40" rx="6"/>
+  <text class="t-on t-b mid" x="498" y="73">손님 3</text>
+  <rect class="solid warm" x="560" y="48" width="116" height="40" rx="6"/>
+  <text class="t-on t-b mid" x="618" y="73">손님 4</text>
+  <path class="ln warm dash" d="M200 106 H554"/>
+  <path class="ln thick warm" d="M562 106 H678"/>
+  <text class="t-s tc-warm" x="200" y="128">손님 4가 겪은 시간: 줄 서기 90초 + 계산 30초 = 120초</text>
+  <path class="ln thin muted" d="M20 146 H740"/>
+  <text class="t-l" x="20" y="190">계산대 2개</text>
+  <text class="t-s" x="20" y="212">2분 동안 8명</text>
+  <rect class="solid blue" x="200" y="162" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="258" y="184">손님 1</text>
+  <rect class="solid blue" x="200" y="200" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="258" y="222">손님 2</text>
+  <rect class="solid blue" x="320" y="162" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="378" y="184">손님 3</text>
+  <rect class="solid warm" x="320" y="200" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="378" y="222">손님 4</text>
+  <rect class="solid blue" x="440" y="162" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="498" y="184">손님 5</text>
+  <rect class="solid blue" x="440" y="200" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="498" y="222">손님 6</text>
+  <rect class="solid blue" x="560" y="162" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="618" y="184">손님 7</text>
+  <rect class="solid blue" x="560" y="200" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="618" y="222">손님 8</text>
+  <path class="ln warm dash" d="M200 252 H314"/>
+  <path class="ln thick warm" d="M322 252 H438"/>
+  <text class="t-s tc-warm" x="200" y="274">손님 4가 겪은 시간: 줄 서기 30초 + 계산 30초 = 60초</text>
+  <path class="ln thin muted" d="M200 296 H680"/>
+  <path class="ln thin muted" d="M200 291 V301 M320 291 V301 M440 291 V301 M560 291 V301 M680 291 V301"/>
+  <text class="t-xs mid" x="200" y="320">0초</text>
+  <text class="t-xs mid" x="320" y="320">30초</text>
+  <text class="t-xs mid" x="440" y="320">1분</text>
+  <text class="t-xs mid" x="560" y="320">1분 30초</text>
+  <text class="t-xs mid" x="680" y="320">2분</text>
+</svg>

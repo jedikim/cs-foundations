@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>세션은 번호표만 브라우저에 주고 내용은 서버 장부에 두며, 토큰은 내용과 서명이 담긴 출입증을 브라우저가 통째로 들고 다닌다</title>
+
+  <rect class="panel" x="20" y="20" width="350" height="290" rx="14"/>
+  <text class="t-l" x="36" y="50">세션: 번호표 방식</text>
+
+  <rect class="box blue" x="36" y="70" width="136" height="96" rx="10"/>
+  <text class="t-xs" x="48" y="92">브라우저의 쿠키</text>
+  <text class="t-mono t-b" x="48" y="122">sid=8f3a2c</text>
+  <text class="t-xs" x="48" y="148">뜻 없는 번호뿐</text>
+
+  <path class="ln blue" d="M176 118 H202" marker-end="url(#ah-blue)"/>
+
+  <rect class="box green" x="210" y="70" width="144" height="150" rx="10"/>
+  <text class="t-xs" x="222" y="92">서버의 세션 장부</text>
+  <rect class="s-yellow" x="218" y="102" width="128" height="30" rx="6"/>
+  <text class="t-mono t-b" x="226" y="122">8f3a2c 민지</text>
+  <text class="t-mono" x="226" y="152">77b0e1 준호</text>
+  <text class="t-mono" x="226" y="180">c41d09 서연</text>
+  <text class="t-xs" x="222" y="208">번호로 찾아본다</text>
+
+  <text class="t-s tc-green" x="36" y="258">+ 장부에서 지우면 즉시 로그아웃</text>
+  <text class="t-s tc-warm" x="36" y="284">− 요청마다 장부를 찾아봐야 한다</text>
+
+  <rect class="panel" x="390" y="20" width="350" height="290" rx="14"/>
+  <text class="t-l" x="406" y="50">토큰(JWT): 도장 찍힌 출입증</text>
+
+  <rect class="box blue" x="406" y="70" width="172" height="150" rx="10"/>
+  <text class="t-xs" x="418" y="92">브라우저가 든 토큰</text>
+  <text class="t-mono" x="418" y="122">sub: 민지</text>
+  <text class="t-mono" x="418" y="150">exp: 14:00</text>
+  <path class="ln thin muted" d="M418 164 H566"/>
+  <text class="t-mono t-b tc-warm" x="418" y="188">서명: Xk9f…</text>
+  <text class="t-xs" x="418" y="210">내용이 다 적혀 있다</text>
+
+  <path class="ln blue" d="M582 118 H608" marker-end="url(#ah-blue)"/>
+
+  <rect class="box green" x="616" y="70" width="108" height="96" rx="10"/>
+  <text class="t-xs" x="628" y="92">서버</text>
+  <use href="#i-key" x="628" y="98" width="36" height="36" class="ic warm"/>
+  <text class="t-xs" x="628" y="152">서명 키만 보관</text>
+
+  <text class="t-s tc-green" x="406" y="258">+ 장부 없이 서명만 확인하면 된다</text>
+  <text class="t-s tc-warm" x="406" y="284">− 만료 전에는 회수하기 어렵다</text>
+</svg>

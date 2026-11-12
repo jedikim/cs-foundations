@@ -1,0 +1,48 @@
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
+  <title>부품함이 하나면 두 프로젝트가 같은 패키지의 다른 버전을 쓸 수 없고, 프로젝트마다 부품함을 두면 둘 다 동작한다</title>
+
+  <text class="t-b" x="20" y="36">부품함이 컴퓨터에 하나뿐일 때</text>
+
+  <rect class="box blue" x="20" y="54" width="160" height="66" rx="12"/>
+  <text class="t-mono t-b mid" x="100" y="81">old-ai/</text>
+  <text class="t-xs mid" x="100" y="103">numpy 1.26이 필요</text>
+  <rect class="box blue" x="200" y="54" width="160" height="66" rx="12"/>
+  <text class="t-mono t-b mid" x="280" y="81">mygame/</text>
+  <text class="t-xs mid" x="280" y="103">numpy 2.0이 필요</text>
+
+  <path class="ln red" d="M100 125 L128 172" marker-end="url(#ah-red)"/>
+  <text class="t-b tc-red end" x="96" y="156">오류</text>
+  <path class="ln green" d="M280 125 L252 172" marker-end="url(#ah-green)"/>
+  <text class="t-b tc-green" x="284" y="156">동작</text>
+
+  <rect class="box warm" x="70" y="180" width="240" height="78" rx="12"/>
+  <text class="t-s mid" x="190" y="203">모두가 함께 쓰는 부품함</text>
+  <rect class="box" x="110" y="213" width="160" height="32" rx="8"/>
+  <text class="t-mono t-b mid" x="190" y="234">numpy 2.0</text>
+  <text class="t-xs mid tc-red" x="190" y="280">1.26은 2.0으로 덮어써졌다</text>
+  <text class="t-s mid" x="190" y="314">나중에 설치한 쪽만 살아남는다</text>
+
+  <path class="ln thin muted dash" d="M380 20 V320"/>
+
+  <text class="t-b" x="400" y="36">프로젝트마다 부품함을 따로 둘 때</text>
+
+  <rect class="panel blue" x="400" y="54" width="160" height="212" rx="12"/>
+  <text class="t-mono t-b mid" x="480" y="81">old-ai/</text>
+  <rect class="box green" x="414" y="96" width="132" height="92" rx="10"/>
+  <text class="t-mono mid" x="480" y="120">.venv/</text>
+  <rect class="box" x="424" y="134" width="112" height="34" rx="8"/>
+  <text class="t-mono t-b mid" x="480" y="156">numpy 1.26</text>
+  <use href="#i-check" x="446" y="212" width="24" height="24" class="ic green"/>
+  <text class="t-b tc-green" x="476" y="229">동작</text>
+
+  <rect class="panel blue" x="580" y="54" width="160" height="212" rx="12"/>
+  <text class="t-mono t-b mid" x="660" y="81">mygame/</text>
+  <rect class="box green" x="594" y="96" width="132" height="92" rx="10"/>
+  <text class="t-mono mid" x="660" y="120">.venv/</text>
+  <rect class="box" x="604" y="134" width="112" height="34" rx="8"/>
+  <text class="t-mono t-b mid" x="660" y="156">numpy 2.0</text>
+  <use href="#i-check" x="626" y="212" width="24" height="24" class="ic green"/>
+  <text class="t-b tc-green" x="656" y="229">동작</text>
+
+  <text class="t-s mid" x="570" y="314">서로의 부품함을 건드리지 않는다</text>
+</svg>

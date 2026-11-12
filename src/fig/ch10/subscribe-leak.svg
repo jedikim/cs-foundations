@@ -1,0 +1,61 @@
+<svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg">
+  <title>화면을 닫을 때 구독을 해제하지 않으면 명단에 구독이 쌓여, 세 번째로 열었을 때 알림 한 번에 세 번 반응한다</title>
+
+  <text class="t-s t-b" x="20" y="41">화면을</text>
+  <rect class="box blue" x="160" y="22" width="70" height="30" rx="8"/>
+  <text class="t-s t-b mid" x="195" y="42">열기</text>
+  <rect class="box gray" x="250" y="22" width="70" height="30" rx="8"/>
+  <text class="t-s mid" x="285" y="42">닫기</text>
+  <rect class="box blue" x="340" y="22" width="70" height="30" rx="8"/>
+  <text class="t-s t-b mid" x="375" y="42">열기</text>
+  <rect class="box gray" x="430" y="22" width="70" height="30" rx="8"/>
+  <text class="t-s mid" x="465" y="42">닫기</text>
+  <rect class="box blue" x="520" y="22" width="70" height="30" rx="8"/>
+  <text class="t-s t-b mid" x="555" y="42">열기</text>
+  <text class="t-s t-b mid" x="680" y="42">상품을 담으면</text>
+
+  <text class="t-b" x="20" y="116">해제 안 함</text>
+  <text class="t-s" x="20" y="136">명단에 쌓인다</text>
+  <rect class="solid blue" x="163" y="140" width="64" height="20" rx="5"/>
+  <rect class="solid gray" x="253" y="140" width="64" height="20" rx="5"/>
+  <rect class="solid gray" x="343" y="140" width="64" height="20" rx="5"/>
+  <rect class="solid blue" x="343" y="116" width="64" height="20" rx="5"/>
+  <rect class="solid gray" x="433" y="140" width="64" height="20" rx="5"/>
+  <rect class="solid gray" x="433" y="116" width="64" height="20" rx="5"/>
+  <rect class="solid gray" x="523" y="140" width="64" height="20" rx="5"/>
+  <rect class="solid gray" x="523" y="116" width="64" height="20" rx="5"/>
+  <rect class="solid blue" x="523" y="92" width="64" height="20" rx="5"/>
+  <text class="t-mono mid" x="195" y="182">1</text>
+  <text class="t-mono mid" x="285" y="182">1</text>
+  <text class="t-mono mid" x="375" y="182">2</text>
+  <text class="t-mono mid" x="465" y="182">2</text>
+  <text class="t-mono t-b mid tc-red" x="555" y="182">3</text>
+  <path class="ln red" d="M596 126 H617" marker-end="url(#ah-red)"/>
+  <rect class="box red" x="625" y="90" width="110" height="72" rx="12"/>
+  <text class="t-s mid" x="680" y="116">배지 갱신</text>
+  <text class="t-l mid tc-red" x="680" y="144">3번</text>
+
+  <path class="ln thin muted" d="M20 204 H740"/>
+
+  <text class="t-b" x="20" y="252">닫을 때 해제</text>
+  <text class="t-s" x="20" y="272">명단에서 뺀다</text>
+  <rect class="solid blue" x="163" y="252" width="64" height="20" rx="5"/>
+  <rect class="ghost dash" x="253" y="252" width="64" height="20" rx="5"/>
+  <rect class="solid blue" x="343" y="252" width="64" height="20" rx="5"/>
+  <rect class="ghost dash" x="433" y="252" width="64" height="20" rx="5"/>
+  <rect class="solid blue" x="523" y="252" width="64" height="20" rx="5"/>
+  <text class="t-mono mid" x="195" y="294">1</text>
+  <text class="t-mono mid" x="285" y="294">0</text>
+  <text class="t-mono mid" x="375" y="294">1</text>
+  <text class="t-mono mid" x="465" y="294">0</text>
+  <text class="t-mono t-b mid tc-green" x="555" y="294">1</text>
+  <path class="ln green" d="M596 262 H617" marker-end="url(#ah-green)"/>
+  <rect class="box green" x="625" y="226" width="110" height="72" rx="12"/>
+  <text class="t-s mid" x="680" y="252">배지 갱신</text>
+  <text class="t-l mid tc-green" x="680" y="280">1번</text>
+
+  <rect class="solid blue" x="160" y="320" width="14" height="14" rx="3"/>
+  <text class="t-xs" x="182" y="332">열려 있는 화면의 구독</text>
+  <rect class="solid gray" x="340" y="320" width="14" height="14" rx="3"/>
+  <text class="t-xs" x="362" y="332">닫힌 화면이 남기고 간 구독</text>
+</svg>

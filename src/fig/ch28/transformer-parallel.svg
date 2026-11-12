@@ -1,0 +1,61 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>순환 신경망은 단어 정보를 차례로 건네지만, Transformer는 한 단어가 문장의 모든 단어를 한 번에 참고한다</title>
+
+  <rect class="panel" x="20" y="20" width="350" height="290" rx="14"/>
+  <text class="t-b" x="36" y="50">차례로 건네기 (이전 방식)</text>
+
+  <path class="ln blue" d="M70 136 Q98 96 124 134" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M134 136 Q162 96 188 134" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M198 136 Q226 96 252 134" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M262 136 Q290 96 316 134" marker-end="url(#ah-blue)"/>
+  <circle class="badge blue" cx="98" cy="102" r="11"/><text class="badge-t" x="98" y="106.500">1</text>
+  <circle class="badge blue" cx="162" cy="102" r="11"/><text class="badge-t" x="162" y="106.500">2</text>
+  <circle class="badge blue" cx="226" cy="102" r="11"/><text class="badge-t" x="226" y="106.500">3</text>
+  <circle class="badge blue" cx="290" cy="102" r="11"/><text class="badge-t" x="290" y="106.500">4</text>
+
+  <rect class="box" x="36" y="142" width="58" height="40" rx="9"/>
+  <text class="mid" x="65" y="167">그는</text>
+  <rect class="box" x="100" y="142" width="58" height="40" rx="9"/>
+  <text class="mid" x="129" y="167">배를</text>
+  <rect class="box" x="164" y="142" width="58" height="40" rx="9"/>
+  <text class="mid" x="193" y="167">타고</text>
+  <rect class="box" x="228" y="142" width="58" height="40" rx="9"/>
+  <text class="mid" x="257" y="167">강을</text>
+  <rect class="box" x="292" y="142" width="58" height="40" rx="9"/>
+  <text class="mid" x="321" y="167">건넜다</text>
+
+  <text class="t-s" x="36" y="222">맨 앞 단어의 정보가 맨 끝에 닿으려면</text>
+  <text class="t-s" x="36" y="242">네 번을 차례로 건너가야 한다</text>
+  <text class="t-s t-b tc-warm" x="36" y="278">앞 칸이 끝나야 다음 칸을 계산한다</text>
+
+  <rect class="panel blue" x="390" y="20" width="350" height="290" rx="14"/>
+  <text class="t-b" x="406" y="50">서로 한 번에 보기 (Transformer)</text>
+
+  <text class="t-mono mid tc-muted" x="435" y="84">0.05</text>
+  <text class="t-mono mid tc-muted" x="499" y="84">0.10</text>
+  <text class="t-mono t-b mid tc-blue" x="563" y="84">0.35</text>
+  <text class="t-mono t-b mid tc-blue" x="627" y="84">0.40</text>
+  <text class="t-mono mid tc-muted" x="691" y="84">0.10</text>
+
+  <rect class="box" x="406" y="96" width="58" height="40" rx="9"/>
+  <text class="mid" x="435" y="121">그는</text>
+  <rect class="box" x="470" y="96" width="58" height="40" rx="9"/>
+  <text class="mid" x="499" y="121">배를</text>
+  <rect class="box" x="534" y="96" width="58" height="40" rx="9"/>
+  <text class="mid" x="563" y="121">타고</text>
+  <rect class="box" x="598" y="96" width="58" height="40" rx="9"/>
+  <text class="mid" x="627" y="121">강을</text>
+  <rect class="box" x="662" y="96" width="58" height="40" rx="9"/>
+  <text class="mid" x="691" y="121">건넜다</text>
+
+  <path class="ln thin muted" d="M486 214 L440 142"/>
+  <path class="ln thin muted" d="M499 214 V142"/>
+  <path class="ln thick blue" d="M510 214 L556 142"/>
+  <path class="ln thick blue" d="M522 218 L618 142"/>
+  <path class="ln thin muted" d="M530 226 L682 142"/>
+
+  <rect class="solid blue" x="466" y="218" width="66" height="42" rx="9"/>
+  <text class="t-on t-b mid" x="499" y="244">배를</text>
+  <text class="t-s" x="548" y="246">지금 뜻을 정하는 단어</text>
+  <text class="t-s t-b tc-blue" x="406" y="290">모든 단어를 동시에 참고한다</text>
+</svg>

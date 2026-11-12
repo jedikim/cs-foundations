@@ -1,0 +1,75 @@
+<svg viewBox="0 0 760 346" xmlns="http://www.w3.org/2000/svg">
+  <title>프레임마다 5씩 더하면 0.1초 동안 30fps에서는 15, 60fps에서는 30을 가지만, 속도 300에 프레임 간격 Δt를 곱해 더하면 둘 다 30을 간다</title>
+  <text class="t-h" x="20" y="34">0.1초 동안 캐릭터가 간 거리</text>
+  <use href="#i-cross" x="56" y="52" width="28" height="28" class="ic red"/>
+  <text class="t-b" x="92" y="65">프레임마다 5씩 더하기</text>
+  <text class="t-mono tc-muted" x="92" y="86">x += 5</text>
+  <text class="t-s" x="60" y="130">30fps · 3프레임</text>
+  <text class="t-mono t-b end tc-red" x="330" y="130">5 × 3 = 15</text>
+  <path class="ln muted" d="M60 170 H330"/>
+  <path class="ln blue" d="M60 170 Q82.5 134.8 105 170"/>
+  <path class="ln blue" d="M105 170 Q127.5 134.8 150 170"/>
+  <path class="ln blue" d="M150 170 Q172.5 134.8 195 170"/>
+  <circle class="f-blue" cx="60" cy="170" r="5"/>
+  <circle class="f-blue" cx="105" cy="170" r="5"/>
+  <circle class="f-blue" cx="150" cy="170" r="5"/>
+  <circle class="f-blue" cx="195" cy="170" r="7"/>
+  <text class="t-xs mid" x="60" y="192">0</text>
+  <text class="t-xs mid tc-red" x="195" y="192">15</text>
+  <path class="ln thin muted" d="M330 164 V176"/>
+  <text class="t-xs mid" x="330" y="192">30</text>
+  <text class="t-s" x="60" y="226">60fps · 6프레임</text>
+  <text class="t-mono t-b end" x="330" y="226">5 × 6 = 30</text>
+  <path class="ln muted" d="M60 266 H330"/>
+  <path class="ln blue" d="M60 266 Q82.5 230.8 105 266"/>
+  <path class="ln blue" d="M105 266 Q127.5 230.8 150 266"/>
+  <path class="ln blue" d="M150 266 Q172.5 230.8 195 266"/>
+  <path class="ln blue" d="M195 266 Q217.5 230.8 240 266"/>
+  <path class="ln blue" d="M240 266 Q262.5 230.8 285 266"/>
+  <path class="ln blue" d="M285 266 Q307.5 230.8 330 266"/>
+  <circle class="f-blue" cx="60" cy="266" r="5"/>
+  <circle class="f-blue" cx="105" cy="266" r="5"/>
+  <circle class="f-blue" cx="150" cy="266" r="5"/>
+  <circle class="f-blue" cx="195" cy="266" r="5"/>
+  <circle class="f-blue" cx="240" cy="266" r="5"/>
+  <circle class="f-blue" cx="285" cy="266" r="5"/>
+  <circle class="f-blue" cx="330" cy="266" r="7"/>
+  <text class="t-xs mid" x="60" y="288">0</text>
+  <text class="t-xs mid" x="330" y="288">30</text>
+  <text class="t-s t-b tc-red" x="60" y="328">컴퓨터에 따라 속도가 달라진다</text>
+  <use href="#i-check" x="426" y="52" width="28" height="28" class="ic green"/>
+  <text class="t-b" x="462" y="65">속도 300에 Δt를 곱하기</text>
+  <text class="t-mono tc-muted" x="462" y="86">x += 300 * dt</text>
+  <text class="t-s" x="430" y="130">30fps · Δt = 1/30초</text>
+  <text class="t-mono t-b end tc-green" x="700" y="130">10 × 3 = 30</text>
+  <path class="ln muted" d="M430 170 H700"/>
+  <path class="ln blue" d="M430 170 Q475 122.0 520 170"/>
+  <path class="ln blue" d="M520 170 Q565 122.0 610 170"/>
+  <path class="ln blue" d="M610 170 Q655 122.0 700 170"/>
+  <circle class="f-blue" cx="430" cy="170" r="5"/>
+  <circle class="f-blue" cx="520" cy="170" r="5"/>
+  <circle class="f-blue" cx="610" cy="170" r="5"/>
+  <circle class="f-blue" cx="700" cy="170" r="7"/>
+  <text class="t-xs mid" x="430" y="192">0</text>
+  <text class="t-xs mid" x="700" y="192">30</text>
+  <text class="t-s" x="430" y="226">60fps · Δt = 1/60초</text>
+  <text class="t-mono t-b end tc-green" x="700" y="226">5 × 6 = 30</text>
+  <path class="ln muted" d="M430 266 H700"/>
+  <path class="ln blue" d="M430 266 Q452.5 230.8 475 266"/>
+  <path class="ln blue" d="M475 266 Q497.5 230.8 520 266"/>
+  <path class="ln blue" d="M520 266 Q542.5 230.8 565 266"/>
+  <path class="ln blue" d="M565 266 Q587.5 230.8 610 266"/>
+  <path class="ln blue" d="M610 266 Q632.5 230.8 655 266"/>
+  <path class="ln blue" d="M655 266 Q677.5 230.8 700 266"/>
+  <circle class="f-blue" cx="430" cy="266" r="5"/>
+  <circle class="f-blue" cx="475" cy="266" r="5"/>
+  <circle class="f-blue" cx="520" cy="266" r="5"/>
+  <circle class="f-blue" cx="565" cy="266" r="5"/>
+  <circle class="f-blue" cx="610" cy="266" r="5"/>
+  <circle class="f-blue" cx="655" cy="266" r="5"/>
+  <circle class="f-blue" cx="700" cy="266" r="7"/>
+  <text class="t-xs mid" x="430" y="288">0</text>
+  <text class="t-xs mid" x="700" y="288">30</text>
+  <text class="t-s t-b tc-green" x="430" y="328">어느 컴퓨터에서나 같은 속도</text>
+  <path class="ln thin muted dash" d="M380 52 V332"/>
+</svg>

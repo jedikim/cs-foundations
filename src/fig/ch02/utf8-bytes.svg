@@ -1,0 +1,53 @@
+<svg viewBox="0 0 760 296" xmlns="http://www.w3.org/2000/svg">
+  <title>글자는 먼저 유니코드 번호를 받고, UTF-8 규칙에 따라 1~4바이트로 저장된다</title>
+  <text class="t-s t-b mid" x="75" y="30">글자</text>
+  <circle class="badge blue" cx="186" cy="25" r="11"/><text class="badge-t" x="186" y="29.5">1</text>
+  <text class="t-s t-b" x="204" y="30">번호를 붙인다</text>
+  <circle class="badge green" cx="414" cy="25" r="11"/><text class="badge-t" x="414" y="29.5">2</text>
+  <text class="t-s t-b" x="432" y="30">바이트로 적는다 (UTF-8)</text>
+  <text class="t-s t-b end" x="740" y="30">크기</text>
+  <path class="ln thin muted" d="M20 44 H740"/>
+  <rect class="box yellow" x="45" y="63" width="60" height="50" rx="10"/>
+  <text class="t-h mid" x="75" y="94">A</text>
+  <text class="t-xs mid" x="75" y="129">영문</text>
+  <path class="ln muted" d="M112 88 H164" marker-end="url(#ah-muted)"/>
+  <rect class="box blue" x="174" y="63" width="160" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="254" y="85">U+0041</text>
+  <text class="t-xs mid" x="254" y="103">65번</text>
+  <path class="ln muted" d="M342 88 H392" marker-end="url(#ah-muted)"/>
+  <rect class="box green" x="404" y="68" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="428" y="93">41</text>
+  <text class="t-b end" x="740" y="93">1바이트</text>
+  <rect class="box yellow" x="45" y="139" width="60" height="50" rx="10"/>
+  <text class="t-h mid" x="75" y="170">가</text>
+  <text class="t-xs mid" x="75" y="205">한글</text>
+  <path class="ln muted" d="M112 164 H164" marker-end="url(#ah-muted)"/>
+  <rect class="box blue" x="174" y="139" width="160" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="254" y="161">U+AC00</text>
+  <text class="t-xs mid" x="254" y="179">44032번</text>
+  <path class="ln muted" d="M342 164 H392" marker-end="url(#ah-muted)"/>
+  <rect class="box green" x="404" y="144" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="428" y="169">EA</text>
+  <rect class="box green" x="458" y="144" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="482" y="169">B0</text>
+  <rect class="box green" x="512" y="144" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="536" y="169">80</text>
+  <text class="t-b end" x="740" y="169">3바이트</text>
+  <rect class="box yellow" x="45" y="215" width="60" height="50" rx="10"/>
+  <g class="ic yellow"><circle class="i-f" cx="75" cy="240" r="15"/><circle class="i-d" cx="70" cy="236" r="1.8"/><circle class="i-d" cx="80" cy="236" r="1.8"/><path class="i-s" d="M68 244 q7 7 14 0"/></g>
+  <text class="t-xs mid" x="75" y="281">이모지</text>
+  <path class="ln muted" d="M112 240 H164" marker-end="url(#ah-muted)"/>
+  <rect class="box blue" x="174" y="215" width="160" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="254" y="237">U+1F600</text>
+  <text class="t-xs mid" x="254" y="255">128512번</text>
+  <path class="ln muted" d="M342 240 H392" marker-end="url(#ah-muted)"/>
+  <rect class="box green" x="404" y="220" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="428" y="245">F0</text>
+  <rect class="box green" x="458" y="220" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="482" y="245">9F</text>
+  <rect class="box green" x="512" y="220" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="536" y="245">98</text>
+  <rect class="box green" x="566" y="220" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="590" y="245">80</text>
+  <text class="t-b end" x="740" y="245">4바이트</text>
+</svg>

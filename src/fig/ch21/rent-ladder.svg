@@ -1,0 +1,67 @@
+<svg viewBox="0 0 760 392" xmlns="http://www.w3.org/2000/svg">
+  <title>빌리는 방식이 가상 머신, 컨테이너, 서버리스, 관리형 서비스로 갈수록 내가 관리하는 층이 줄어든다</title>
+
+  <use href="#i-house" x="184" y="14" width="36" height="36" class="ic blue"/>
+  <text class="t-l mid" x="202" y="72">가상 머신</text>
+  <text class="t-s mid" x="202" y="92">단독 주택</text>
+
+  <use href="#i-building" x="339" y="14" width="36" height="36" class="ic blue"/>
+  <text class="t-l mid" x="357" y="72">컨테이너</text>
+  <text class="t-s mid" x="357" y="92">오피스텔 한 호실</text>
+
+  <use href="#i-table" x="494" y="14" width="36" height="36" class="ic blue"/>
+  <text class="t-l mid" x="512" y="72">서버리스</text>
+  <text class="t-s mid" x="512" y="92">공유 오피스</text>
+
+  <use href="#i-db" x="649" y="14" width="36" height="36" class="ic blue"/>
+  <text class="t-l mid" x="667" y="72">관리형 서비스</text>
+  <text class="t-s mid" x="667" y="92">전문 업체에 맡기기</text>
+
+  <text class="t-s end" x="118" y="134">데이터·설정</text>
+  <rect class="box blue" x="130" y="112" width="145" height="34" rx="8"/>
+  <rect class="box blue" x="285" y="112" width="145" height="34" rx="8"/>
+  <rect class="box blue" x="440" y="112" width="145" height="34" rx="8"/>
+  <rect class="box blue" x="595" y="112" width="145" height="34" rx="8"/>
+  <text class="t-s t-b tc-blue mid" x="202" y="134">내가 관리</text>
+  <text class="t-s t-b tc-blue mid" x="357" y="134">내가 관리</text>
+  <text class="t-s t-b tc-blue mid" x="512" y="134">내가 관리</text>
+  <text class="t-s t-b tc-blue mid" x="667" y="134">내가 관리</text>
+
+  <text class="t-s end" x="118" y="174">앱 코드</text>
+  <rect class="box blue" x="130" y="152" width="145" height="34" rx="8"/>
+  <rect class="box blue" x="285" y="152" width="145" height="34" rx="8"/>
+  <rect class="box blue" x="440" y="152" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="595" y="152" width="145" height="34" rx="8"/>
+  <text class="t-s t-b tc-blue mid" x="202" y="174">내가 관리</text>
+  <text class="t-s t-b tc-blue mid" x="357" y="174">내가 관리</text>
+  <text class="t-s t-b tc-blue mid" x="512" y="174">내가 관리</text>
+
+  <text class="t-s end" x="118" y="214">실행 환경</text>
+  <rect class="box blue" x="130" y="192" width="145" height="34" rx="8"/>
+  <rect class="box blue" x="285" y="192" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="440" y="192" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="595" y="192" width="145" height="34" rx="8"/>
+  <text class="t-s t-b tc-blue mid" x="202" y="214">내가 관리</text>
+  <text class="t-s t-b tc-blue mid" x="357" y="214">내가 관리</text>
+
+  <text class="t-s end" x="118" y="254">운영체제</text>
+  <rect class="box blue" x="130" y="232" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="285" y="232" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="440" y="232" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="595" y="232" width="145" height="34" rx="8"/>
+  <text class="t-s t-b tc-blue mid" x="202" y="254">내가 관리</text>
+
+  <text class="t-s end" x="118" y="294">서버 기계</text>
+  <rect class="box gray" x="130" y="272" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="285" y="272" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="440" y="272" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="595" y="272" width="145" height="34" rx="8"/>
+
+  <path class="ln muted" d="M134 328 H732" marker-end="url(#ah-muted)"/>
+  <text class="t-s mid" x="435" y="350">오른쪽으로 갈수록 손이 덜 가고, 내 마음대로 바꿀 수 있는 것도 줄어든다</text>
+
+  <rect class="box blue" x="130" y="364" width="16" height="16" rx="4"/>
+  <text class="t-xs" x="153" y="377">내가 관리</text>
+  <rect class="box gray" x="230" y="364" width="16" height="16" rx="4"/>
+  <text class="t-xs" x="253" y="377">클라우드 업체가 관리</text>
+</svg>

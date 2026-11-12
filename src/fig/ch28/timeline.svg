@@ -1,0 +1,68 @@
+<svg viewBox="0 0 760 414" xmlns="http://www.w3.org/2000/svg">
+  <title>논문 15편을 일곱 갈래와 공개 연도로 늘어놓으면 왼쪽 위에서 오른쪽 아래로 흐름이 이어진다</title>
+
+  <rect class="s-bg" x="16" y="44" width="728" height="40" rx="8"/>
+  <rect class="s-bg" x="16" y="140" width="728" height="40" rx="8"/>
+  <rect class="s-bg" x="16" y="236" width="728" height="40" rx="8"/>
+  <rect class="s-bg" x="16" y="332" width="728" height="40" rx="8"/>
+
+  <text class="t-xs mid" x="152" y="28">2013</text>
+  <text class="t-xs mid" x="204" y="28">2014</text>
+  <text class="t-xs mid" x="256" y="28">2015</text>
+  <text class="t-xs mid" x="308" y="28">2016</text>
+  <text class="t-xs mid" x="360" y="28">2017</text>
+  <text class="t-xs mid" x="412" y="28">2018</text>
+  <text class="t-xs mid" x="464" y="28">2019</text>
+  <text class="t-xs mid" x="516" y="28">2020</text>
+  <text class="t-xs mid" x="568" y="28">2021</text>
+  <text class="t-xs mid" x="620" y="28">2022</text>
+  <text class="t-xs mid" x="672" y="28">2023</text>
+  <path class="ln thin muted" d="M152 34 V40 M204 34 V40 M256 34 V40 M308 34 V40 M360 34 V40 M412 34 V40 M464 34 V40 M516 34 V40 M568 34 V40 M620 34 V40 M672 34 V40"/>
+  <path class="ln thin muted" d="M152 376 V382 M204 376 V382 M256 376 V382 M308 376 V382 M360 376 V382 M412 376 V382 M464 376 V382 M516 376 V382 M568 376 V382 M620 376 V382 M672 376 V382"/>
+
+  <text class="t-s t-b tc-blue" x="26" y="69">표현 배우기</text>
+  <circle class="f-blue" cx="152" cy="64" r="6"/>
+  <text class="t-b" x="164" y="69">Word2Vec</text>
+  <circle class="f-blue" cx="256" cy="64" r="6"/>
+  <text class="t-b" x="268" y="69">ResNet</text>
+
+  <text class="t-s t-b tc-green" x="26" y="117">문맥 섞기</text>
+  <circle class="f-green" cx="204" cy="100" r="6"/>
+  <text class="t-b" x="216" y="105">Seq2Seq</text>
+  <circle class="f-green" cx="204" cy="124" r="6"/>
+  <text class="t-b" x="216" y="129">어텐션</text>
+  <circle class="f-green" cx="360" cy="100" r="6"/>
+  <text class="t-b" x="372" y="105">Transformer</text>
+  <circle class="f-green" cx="412" cy="124" r="6"/>
+  <text class="t-b" x="424" y="129">BERT</text>
+
+  <text class="t-s t-b tc-purple" x="26" y="165">큰 모델과 예시</text>
+  <circle class="f-purple" cx="516" cy="160" r="6"/>
+  <text class="t-b" x="528" y="165">GPT-3</text>
+
+  <text class="t-s t-b tc-warm" x="26" y="213">이미지와 생성</text>
+  <circle class="f-warm" cx="516" cy="196" r="6"/>
+  <text class="t-b" x="528" y="201">DDPM</text>
+  <circle class="f-warm" cx="568" cy="220" r="6"/>
+  <text class="t-b" x="580" y="225">CLIP</text>
+
+  <text class="t-s t-b tc-blue" x="26" y="261">밖의 자료와 행동</text>
+  <circle class="f-blue" cx="516" cy="256" r="6"/>
+  <text class="t-b" x="528" y="261">RAG</text>
+  <circle class="f-blue" cx="620" cy="256" r="6"/>
+  <text class="t-b" x="632" y="261">ReAct</text>
+
+  <text class="t-s t-b tc-green" x="26" y="309">싸게 고쳐 쓰기</text>
+  <circle class="f-green" cx="568" cy="292" r="6"/>
+  <text class="t-b" x="580" y="297">LoRA</text>
+  <circle class="f-green" cx="620" cy="316" r="6"/>
+  <text class="t-b" x="632" y="321">InstructGPT</text>
+  <circle class="f-green" cx="672" cy="292" r="6"/>
+  <text class="t-b" x="684" y="297">DPO</text>
+
+  <text class="t-s t-b tc-purple" x="26" y="357">빨리 돌리기</text>
+  <circle class="f-purple" cx="620" cy="352" r="6"/>
+  <text class="t-b" x="632" y="357">FlashAttention</text>
+
+  <text class="t-xs" x="26" y="402">점의 가로 위치는 논문이 처음 공개된 해입니다.</text>
+</svg>

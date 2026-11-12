@@ -1,0 +1,74 @@
+<svg viewBox="0 0 760 370" xmlns="http://www.w3.org/2000/svg">
+  <title>보물 위치에서 내 위치를 빼면 가야 할 화살표 (4, 3)이 나오고, 같은 숫자도 y가 아래로 커지는 화면에서는 아래쪽을 향해 그려진다</title>
+  <text class="t-b" x="70" y="34">수학 시간의 좌표계</text>
+  <text class="t-s" x="70" y="56">y가 위로 갈수록 커진다</text>
+  <text class="t-b" x="440" y="34">화면 좌표계</text>
+  <text class="t-s" x="440" y="56">y가 아래로 갈수록 커진다</text>
+  <path class="ln thin muted" d="M70 300 V100"/>
+  <path class="ln thin muted" d="M110 300 V100"/>
+  <path class="ln thin muted" d="M150 300 V100"/>
+  <path class="ln thin muted" d="M190 300 V100"/>
+  <path class="ln thin muted" d="M230 300 V100"/>
+  <path class="ln thin muted" d="M270 300 V100"/>
+  <path class="ln thin muted" d="M310 300 V100"/>
+  <path class="ln thin muted" d="M350 300 V100"/>
+  <path class="ln thin muted" d="M70 300 H350"/>
+  <path class="ln thin muted" d="M70 260 H350"/>
+  <path class="ln thin muted" d="M70 220 H350"/>
+  <path class="ln thin muted" d="M70 180 H350"/>
+  <path class="ln thin muted" d="M70 140 H350"/>
+  <path class="ln thin muted" d="M70 100 H350"/>
+  <path class="ln" d="M70 300 H364" marker-end="url(#ah)"/>
+  <path class="ln" d="M70 300 V86" marker-end="url(#ah)"/>
+  <text class="t-s t-b" x="372" y="305">x</text>
+  <text class="t-s t-b end" x="62" y="94">y</text>
+  <text class="t-xs mid" x="70" y="318">0</text>
+  <text class="t-xs mid" x="150" y="318">2</text>
+  <text class="t-xs mid" x="230" y="318">4</text>
+  <text class="t-xs mid" x="310" y="318">6</text>
+  <text class="t-xs end" x="62" y="224">2</text>
+  <text class="t-xs end" x="62" y="144">4</text>
+  <path class="ln thin warm dash" d="M150 260 H310 V140"/>
+  <path class="ln thick blue" d="M156.4 255.2 L302 146" marker-end="url(#ah-blue)"/>
+  <circle class="f-blue" cx="150" cy="260" r="6"/>
+  <circle class="f-warm" cx="310" cy="140" r="7"/>
+  <text class="t-b end" x="140" y="254">나 (2, 1)</text>
+  <text class="t-b mid" x="310" y="126">보물 (6, 4)</text>
+  <text class="t-s mid tc-warm" x="230" y="278">오른쪽으로 4</text>
+  <text class="t-s tc-warm" x="318" y="214">위로 3</text>
+  <text class="t-mono t-b end tc-blue" x="218" y="188">(4, 3)</text>
+  <path class="ln thin muted" d="M440 100 V300"/>
+  <path class="ln thin muted" d="M480 100 V300"/>
+  <path class="ln thin muted" d="M520 100 V300"/>
+  <path class="ln thin muted" d="M560 100 V300"/>
+  <path class="ln thin muted" d="M600 100 V300"/>
+  <path class="ln thin muted" d="M640 100 V300"/>
+  <path class="ln thin muted" d="M680 100 V300"/>
+  <path class="ln thin muted" d="M720 100 V300"/>
+  <path class="ln thin muted" d="M440 100 H720"/>
+  <path class="ln thin muted" d="M440 140 H720"/>
+  <path class="ln thin muted" d="M440 180 H720"/>
+  <path class="ln thin muted" d="M440 220 H720"/>
+  <path class="ln thin muted" d="M440 260 H720"/>
+  <path class="ln thin muted" d="M440 300 H720"/>
+  <path class="ln" d="M440 100 H734" marker-end="url(#ah)"/>
+  <path class="ln" d="M440 100 V314" marker-end="url(#ah)"/>
+  <text class="t-s t-b" x="742" y="105">x</text>
+  <text class="t-s t-b end" x="432" y="316">y</text>
+  <text class="t-xs mid" x="440" y="91">0</text>
+  <text class="t-xs mid" x="520" y="91">2</text>
+  <text class="t-xs mid" x="600" y="91">4</text>
+  <text class="t-xs mid" x="680" y="91">6</text>
+  <text class="t-xs end" x="432" y="184">2</text>
+  <text class="t-xs end" x="432" y="264">4</text>
+  <path class="ln thin warm dash" d="M520 140 H680 V260"/>
+  <path class="ln thick blue" d="M526.4 144.8 L672 254" marker-end="url(#ah-blue)"/>
+  <circle class="f-blue" cx="520" cy="140" r="6"/>
+  <circle class="f-warm" cx="680" cy="260" r="7"/>
+  <text class="t-b end" x="510" y="156">나 (2, 1)</text>
+  <text class="t-b mid" x="680" y="286">보물 (6, 4)</text>
+  <text class="t-s mid tc-warm" x="600" y="132">오른쪽으로 4</text>
+  <text class="t-s tc-warm" x="688" y="194">아래로 3</text>
+  <text class="t-mono t-b end tc-blue" x="588" y="224">(4, 3)</text>
+  <text class="t-mono mid" x="380" y="352">보물 − 나 = (6 − 2, 4 − 1) = (4, 3)</text>
+</svg>

@@ -1,0 +1,28 @@
+<svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg">
+  <title>실패할 때 파일을 닫지 않으면 열린 파일이 쌓여 한도에 닿는다</title>
+  <text class="t-h" x="20" y="34">프로세스의 파일 대여 장부</text>
+  <text class="t-s" x="248" y="34">한도가 10칸이라고 하면</text>
+
+  <text class="t-b" x="20" y="86">항상 닫는 코드</text>
+  <text class="t-xs" x="20" y="105">실패 10번 뒤</text>
+  <rect class="solid green" x="190" y="66" width="46" height="40" rx="6"/>
+  <g>
+    <rect class="box" x="244" y="66" width="46" height="40" rx="6"/><rect class="box" x="298" y="66" width="46" height="40" rx="6"/>
+    <rect class="box" x="352" y="66" width="46" height="40" rx="6"/><rect class="box" x="406" y="66" width="46" height="40" rx="6"/>
+    <rect class="box" x="460" y="66" width="46" height="40" rx="6"/><rect class="box" x="514" y="66" width="46" height="40" rx="6"/>
+    <rect class="box" x="568" y="66" width="46" height="40" rx="6"/><rect class="box" x="622" y="66" width="46" height="40" rx="6"/>
+    <rect class="box" x="676" y="66" width="46" height="40" rx="6"/>
+  </g>
+  <text class="t-s" x="190" y="128">지금 쓰는 1칸만 차지 — 나머지는 비어 있음</text>
+
+  <text class="t-b" x="20" y="176">실패하면 안 닫는 코드</text>
+  <text class="t-xs" x="20" y="195">실패 10번 뒤</text>
+  <g>
+    <rect class="solid red" x="190" y="156" width="46" height="40" rx="6"/><rect class="solid red" x="244" y="156" width="46" height="40" rx="6"/>
+    <rect class="solid red" x="298" y="156" width="46" height="40" rx="6"/><rect class="solid red" x="352" y="156" width="46" height="40" rx="6"/>
+    <rect class="solid red" x="406" y="156" width="46" height="40" rx="6"/><rect class="solid red" x="460" y="156" width="46" height="40" rx="6"/>
+    <rect class="solid red" x="514" y="156" width="46" height="40" rx="6"/><rect class="solid red" x="568" y="156" width="46" height="40" rx="6"/>
+    <rect class="solid red" x="622" y="156" width="46" height="40" rx="6"/><rect class="solid red" x="676" y="156" width="46" height="40" rx="6"/>
+  </g>
+  <text class="t-s t-b tc-red" x="190" y="220">꽉 참 → 새 파일을 열 수 없음 (Too many open files)</text>
+</svg>

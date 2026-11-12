@@ -1,0 +1,46 @@
+<svg viewBox="0 0 760 346" xmlns="http://www.w3.org/2000/svg">
+  <title>잠금 파일이 없으면 설치하는 날에 따라 버전이 달라지고, 있으면 언제 설치해도 같은 버전이 깔린다</title>
+  <text class="t-s t-b mid" x="340" y="30">월요일 · 내 노트북</text>
+  <text class="t-s t-b mid" x="500" y="30">수요일</text>
+  <text class="t-s t-b mid" x="660" y="30">금요일 · 서버</text>
+  <path class="ln thin muted" d="M260 46 H740"/>
+  <circle class="f-gray" cx="340" cy="46" r="4"/>
+  <circle class="f-gray" cx="500" cy="46" r="4"/>
+  <circle class="f-gray" cx="660" cy="46" r="4"/>
+
+  <rect class="panel" x="20" y="62" width="720" height="122" rx="14"/>
+  <rect class="box" x="34" y="76" width="196" height="94" rx="10"/>
+  <use href="#i-file" x="44" y="84" width="28" height="28" class="ic warm"/>
+  <text class="t-b" x="80" y="104">잠금 파일 없이</text>
+  <text class="t-xs" x="46" y="130">허용 범위만 적혀 있다</text>
+  <text class="t-mono" x="46" y="154">chart-lib ^1.4.2</text>
+  <path class="ln muted" d="M234 123 H272" marker-end="url(#ah-muted)"/>
+  <rect class="box green" x="280" y="92" width="120" height="62" rx="10"/>
+  <text class="t-xs mid" x="340" y="115">설치된 버전</text>
+  <text class="t-mono t-b mid" x="340" y="139">1.4.2</text>
+  <rect class="box gray" x="445" y="101" width="110" height="44" rx="10"/>
+  <text class="t-s mid" x="500" y="128">1.5.0 출시</text>
+  <path class="ln red" d="M559 123 H592" marker-end="url(#ah-red)"/>
+  <rect class="box red" x="600" y="92" width="120" height="62" rx="10"/>
+  <text class="t-xs mid" x="660" y="115">설치된 버전</text>
+  <text class="t-mono t-b mid tc-red" x="660" y="139">1.5.0</text>
+  <text class="t-xs t-b mid tc-red" x="660" y="174">재료가 달라졌다</text>
+
+  <rect class="panel" x="20" y="204" width="720" height="122" rx="14"/>
+  <rect class="box" x="34" y="218" width="196" height="94" rx="10"/>
+  <use href="#i-lock" x="44" y="226" width="28" height="28" class="ic green"/>
+  <text class="t-b" x="80" y="246">잠금 파일과 함께</text>
+  <text class="t-xs" x="46" y="272">실제로 받은 것을 적었다</text>
+  <text class="t-mono" x="46" y="296">chart-lib 1.4.2</text>
+  <path class="ln muted" d="M234 265 H272" marker-end="url(#ah-muted)"/>
+  <rect class="box green" x="280" y="234" width="120" height="62" rx="10"/>
+  <text class="t-xs mid" x="340" y="257">설치된 버전</text>
+  <text class="t-mono t-b mid" x="340" y="281">1.4.2</text>
+  <rect class="box gray" x="445" y="243" width="110" height="44" rx="10"/>
+  <text class="t-s mid" x="500" y="270">1.5.0 출시</text>
+  <use href="#i-lock" x="565" y="252" width="26" height="26" class="ic green"/>
+  <rect class="box green" x="600" y="234" width="120" height="62" rx="10"/>
+  <text class="t-xs mid" x="660" y="257">설치된 버전</text>
+  <text class="t-mono t-b mid" x="660" y="281">1.4.2</text>
+  <text class="t-xs t-b mid tc-green" x="660" y="316">같은 재료</text>
+</svg>

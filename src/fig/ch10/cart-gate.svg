@@ -1,0 +1,46 @@
+<svg viewBox="0 0 760 410" xmlns="http://www.w3.org/2000/svg">
+  <title>장바구니 목록을 아무나 직접 고치면 규칙이 깨진 줄이 섞이고, addItem이라는 창구 하나로만 고치면 규칙이 지켜진다</title>
+
+  <rect class="panel" x="20" y="16" width="720" height="178" rx="16"/>
+  <text class="t-l" x="40" y="46">아무나 직접 고칠 때</text>
+  <text class="t-mono tc-muted" x="226" y="46">cart.items.push(…)</text>
+  <rect class="box" x="40" y="62" width="120" height="32" rx="8"/>
+  <text class="t-s mid" x="100" y="83">담기 버튼</text>
+  <rect class="box" x="40" y="102" width="120" height="32" rx="8"/>
+  <text class="t-s mid" x="100" y="123">다시 담기</text>
+  <rect class="box" x="40" y="142" width="120" height="32" rx="8"/>
+  <text class="t-s mid" x="100" y="163">추천 담기</text>
+  <path class="ln red" d="M166 78 L510 104" marker-end="url(#ah-red)"/>
+  <path class="ln red" d="M166 118 H510" marker-end="url(#ah-red)"/>
+  <path class="ln red" d="M166 158 L510 132" marker-end="url(#ah-red)"/>
+  <rect class="box red" x="520" y="58" width="200" height="120" rx="12"/>
+  <text class="t-mono t-b" x="536" y="84">items</text>
+  <text class="t-mono" x="536" y="110">김밥 ×2</text>
+  <text class="t-mono" x="536" y="134">김밥 ×1</text>
+  <text class="t-xs t-b tc-red end" x="706" y="134">같은 상품이 두 줄</text>
+  <text class="t-mono" x="536" y="158">떡볶이 ×0</text>
+  <text class="t-xs t-b tc-red end" x="706" y="158">수량이 0</text>
+
+  <rect class="panel" x="20" y="214" width="720" height="178" rx="16"/>
+  <text class="t-l" x="40" y="244">창구 하나로만 고칠 때</text>
+  <text class="t-mono tc-muted" x="242" y="244">cart.addItem(…)</text>
+  <rect class="box" x="40" y="260" width="120" height="32" rx="8"/>
+  <text class="t-s mid" x="100" y="281">담기 버튼</text>
+  <rect class="box" x="40" y="300" width="120" height="32" rx="8"/>
+  <text class="t-s mid" x="100" y="321">다시 담기</text>
+  <rect class="box" x="40" y="340" width="120" height="32" rx="8"/>
+  <text class="t-s mid" x="100" y="361">추천 담기</text>
+  <path class="ln blue" d="M166 276 L272 302" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M166 316 H272" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M166 356 L272 330" marker-end="url(#ah-blue)"/>
+  <rect class="box blue" x="282" y="262" width="180" height="108" rx="12"/>
+  <text class="t-mono t-b mid" x="372" y="292">addItem()</text>
+  <text class="t-s mid" x="372" y="322">같은 상품은 합친다</text>
+  <text class="t-s mid" x="372" y="344">수량은 1 이상만</text>
+  <path class="ln green" d="M466 316 H510" marker-end="url(#ah-green)"/>
+  <rect class="box green" x="520" y="262" width="200" height="108" rx="12"/>
+  <text class="t-mono t-b" x="536" y="290">items</text>
+  <text class="t-mono" x="536" y="318">김밥 ×3</text>
+  <text class="t-mono" x="536" y="344">떡볶이 ×1</text>
+  <use href="#i-check" x="672" y="300" width="32" height="32" class="ic green"/>
+</svg>

@@ -1,0 +1,35 @@
+<svg viewBox="0 0 760 362" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 8명을 두고 재현율은 문제 있는 10명을 분모로, 정밀도는 경보가 울린 28명을 분모로 센다</title>
+  <text class="t-b mid" x="250" y="50">경보가 울림</text>
+  <text class="t-b mid" x="400" y="50">울리지 않음</text>
+  <text class="t-b" x="20" y="108">문제 있는 손님</text>
+  <text class="t-s" x="20" y="130">실제로 10명</text>
+  <text class="t-b" x="20" y="202">문제 없는 손님</text>
+  <text class="t-s" x="20" y="224">실제로 990명</text>
+  <rect class="box green" x="180" y="70" width="140" height="84" rx="12"/>
+  <text class="t-h mid" x="250" y="110">8명</text>
+  <text class="t-s mid" x="250" y="133">제대로 잡음</text>
+  <rect class="box red" x="330" y="70" width="140" height="84" rx="12"/>
+  <text class="t-h mid" x="400" y="110">2명</text>
+  <text class="t-s mid" x="400" y="133">놓침</text>
+  <rect class="box warm" x="180" y="164" width="140" height="84" rx="12"/>
+  <text class="t-h mid" x="250" y="204">20명</text>
+  <text class="t-s mid" x="250" y="227">잘못 울림</text>
+  <rect class="box gray" x="330" y="164" width="140" height="84" rx="12"/>
+  <text class="t-h mid" x="400" y="204">970명</text>
+  <text class="t-s mid" x="400" y="227">조용히 통과</text>
+  <path class="ln blue" d="M476 76 H486 V148 H476 M486 112 H496"/>
+  <rect class="box blue" x="500" y="70" width="240" height="84" rx="12"/>
+  <text class="t-b tc-blue" x="516" y="98">재현율 = 8 ÷ 10 = 80%</text>
+  <text class="t-s" x="516" y="120">문제 있는 10명 중</text>
+  <text class="t-s" x="516" y="138">경보가 잡아낸 비율</text>
+  <path class="ln purple" d="M186 254 V264 H314 V254 M250 264 V274"/>
+  <rect class="box purple" x="180" y="278" width="290" height="66" rx="12"/>
+  <text class="t-b tc-purple" x="196" y="305">정밀도 = 8 ÷ 28 ≈ 29%</text>
+  <text class="t-s" x="196" y="328">울린 28명 중 진짜 문제였던 비율</text>
+  <rect class="box yellow" x="500" y="186" width="240" height="124" rx="12"/>
+  <text class="t-b" x="516" y="216">같은 8명, 다른 분모</text>
+  <text class="t-s" x="516" y="242">가로줄로 나누면 80%</text>
+  <text class="t-s" x="516" y="262">세로줄로 나누면 29%</text>
+  <text class="t-s" x="516" y="290">둘은 서로 다른 질문의 답</text>
+</svg>

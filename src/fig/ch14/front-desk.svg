@@ -1,0 +1,48 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>바깥 요청은 방화벽을 통과한 뒤 리버스 프록시에 닿고, 프록시가 정상인 뒤쪽 서버에 나눠 준다</title>
+
+  <rect class="box blue" x="20" y="116" width="110" height="100" rx="14"/>
+  <use href="#i-users" x="53" y="126" width="44" height="44" class="ic blue"/>
+  <text class="t-b mid" x="75" y="198">사용자</text>
+
+  <path class="ln green" d="M136 146 H182" marker-end="url(#ah-green)"/>
+  <text class="t-xs mid" x="158" y="136">443</text>
+  <path class="ln red" d="M136 192 H182" marker-end="url(#ah-red)"/>
+  <text class="t-xs mid" x="158" y="212">8080</text>
+
+  <rect class="box red" x="190" y="36" width="140" height="260" rx="14"/>
+  <use href="#i-shield" x="240" y="46" width="40" height="40" class="ic red"/>
+  <text class="t-l mid" x="260" y="110">방화벽</text>
+  <text class="t-mono mid tc-green" x="260" y="151">443 통과</text>
+  <text class="t-mono mid tc-red" x="260" y="197">8080 차단</text>
+  <text class="t-s mid" x="260" y="250">경비실: 명단에</text>
+  <text class="t-s mid" x="260" y="268">있는 문만 연다</text>
+
+  <path class="ln green" d="M336 146 H392" marker-end="url(#ah-green)"/>
+
+  <rect class="box warm" x="400" y="76" width="150" height="140" rx="14"/>
+  <use href="#i-bell" x="455" y="84" width="40" height="40" class="ic warm"/>
+  <text class="t-l mid" x="475" y="148">리버스 프록시</text>
+  <text class="t-s mid" x="475" y="170">안내 데스크</text>
+  <text class="t-xs mid" x="475" y="194">+ 로드 밸런서</text>
+
+  <rect class="box green" x="620" y="30" width="120" height="64" rx="12"/>
+  <use href="#i-server" x="628" y="48" width="28" height="28" class="ic green"/>
+  <text class="t-b" x="664" y="58">앱 서버 1</text>
+  <text class="t-xs tc-green" x="664" y="78">정상</text>
+
+  <rect class="box green" x="620" y="114" width="120" height="64" rx="12"/>
+  <use href="#i-server" x="628" y="132" width="28" height="28" class="ic green"/>
+  <text class="t-b" x="664" y="142">앱 서버 2</text>
+  <text class="t-xs tc-green" x="664" y="162">정상</text>
+
+  <rect class="ghost dash" x="620" y="232" width="120" height="64" rx="12"/>
+  <use href="#i-server" x="628" y="250" width="28" height="28" class="ic gray"/>
+  <text class="t-b tc-muted" x="664" y="260">앱 서버 3</text>
+  <text class="t-xs tc-red" x="664" y="280">응답 없음</text>
+
+  <path class="ln warm" d="M556 126 L612 68" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M556 146 H612" marker-end="url(#ah-warm)"/>
+  <path class="ln muted dash" d="M556 180 L612 256"/>
+  <text class="t-xs mid tc-red" x="548" y="246">보내지 않음</text>
+</svg>

@@ -1,0 +1,73 @@
+<svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg">
+  <title>켜고 끄는 스위치가 하나 늘 때마다 경우의 수가 두 배가 되어 스무 개면 백만 가지를 넘는다</title>
+  <rect class="solid blue" x="20" y="18" width="14" height="14" rx="3"/>
+  <text class="t-s" x="42" y="30">켬</text>
+  <rect class="ghost" x="74" y="18" width="14" height="14" rx="3"/>
+  <text class="t-s" x="96" y="30">끔</text>
+  <path class="ln muted" d="M251 69 L135 111"/>
+  <path class="ln blue" d="M251 69 L367 111"/>
+  <path class="ln muted" d="M135 137 L77 179"/>
+  <path class="ln blue" d="M135 137 L193 179"/>
+  <path class="ln muted" d="M367 137 L309 179"/>
+  <path class="ln blue" d="M367 137 L425 179"/>
+  <path class="ln muted" d="M77 205 L48 247"/>
+  <path class="ln blue" d="M77 205 L106 247"/>
+  <path class="ln muted" d="M193 205 L164 247"/>
+  <path class="ln blue" d="M193 205 L222 247"/>
+  <path class="ln muted" d="M309 205 L280 247"/>
+  <path class="ln blue" d="M309 205 L338 247"/>
+  <path class="ln muted" d="M425 205 L396 247"/>
+  <path class="ln blue" d="M425 205 L454 247"/>
+  <circle class="box" cx="251" cy="56" r="9"/>
+  <text class="t-s" x="269" y="61">스위치 없음: 1가지</text>
+  <rect class="box" x="128" y="117" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="360" y="117" width="14" height="14" rx="3"/>
+  <text class="t-s" x="500" y="129">스위치 1개</text>
+  <text class="t-b end" x="740" y="129">2가지</text>
+  <rect class="box" x="62" y="185" width="14" height="14" rx="3"/>
+  <rect class="box" x="78" y="185" width="14" height="14" rx="3"/>
+  <rect class="box" x="178" y="185" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="194" y="185" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="294" y="185" width="14" height="14" rx="3"/>
+  <rect class="box" x="310" y="185" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="410" y="185" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="426" y="185" width="14" height="14" rx="3"/>
+  <text class="t-s" x="500" y="197">스위치 2개</text>
+  <text class="t-b end" x="740" y="197">4가지</text>
+  <rect class="box" x="25" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="41" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="57" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="83" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="99" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="115" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="141" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="157" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="173" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="199" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="215" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="231" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="257" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="273" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="289" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="315" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="331" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="347" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="373" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="389" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="405" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="431" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="447" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="463" y="253" width="14" height="14" rx="3"/>
+  <text class="t-s" x="500" y="265">스위치 3개</text>
+  <text class="t-b end" x="740" y="265">8가지</text>
+  <text class="t-b tc-warm end" x="740" y="61">하나 늘 때마다 두 배</text>
+  <rect class="box yellow" x="20" y="300" width="226" height="62" rx="12"/>
+  <text class="t-s mid" x="133" y="325">스위치 10개</text>
+  <text class="t-l mid" x="133" y="349">1,024가지</text>
+  <rect class="box warm" x="267" y="300" width="226" height="62" rx="12"/>
+  <text class="t-s mid" x="380" y="325">스위치 20개</text>
+  <text class="t-l mid" x="380" y="349">1,048,576가지</text>
+  <rect class="box red" x="514" y="300" width="226" height="62" rx="12"/>
+  <text class="t-s mid" x="627" y="325">스위치 30개</text>
+  <text class="t-l mid" x="627" y="349">약 10억 가지</text>
+</svg>

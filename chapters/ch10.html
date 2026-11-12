@@ -1,0 +1,994 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>10장 상태와 프로그램 설계 — 개발의 기초</title>
+<meta name="description" content="버그가 덜 생기는 구조">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch10" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html" aria-current="page"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">3부 프로그램을 짓는 재료 › <b>10장 상태와 프로그램 설계</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-warm">
+<div class="ch-kicker"><span class="ch-no">10장</span><span class="part">3부 · 프로그램을 짓는 재료</span></div>
+<h1>상태와 프로그램 설계</h1>
+<p class="ch-sub">버그가 덜 생기는 구조</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 35분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch08.html">8장 자료구조</a></div>
+</header><div class="lead">
+<p>프로필 편집 화면에서 '취소'를 눌렀는데 태그가 이미 바뀌어 있습니다. 장바구니에는 상품이 세 개인데 배지에는 2라고 적혀 있습니다. '서울역'을 검색했는데 잠시 뒤 화면이 '서울' 결과로 돌아갑니다. 셋 다 계산이 틀린 것이 아닙니다. 프로그램이 <strong>기억하고 있던 것</strong>이 꼬인 것입니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>화면 뒤에서 어떤 상태가 화면을 정하는지, 그 상태의 주인이 누구인지 말할 수 있습니다.</li>
+<li>같은 사실을 두 곳에 적지 않고, 계산하면 나오는 값은 저장하지 않는 구조를 잡을 수 있습니다.</li>
+<li>"복사했는데 같이 바뀐다", "로딩과 오류가 동시에 뜬다" 같은 버그의 원인을 설명할 수 있습니다.</li>
+<li>해제하지 않은 구독, 늦게 도착한 응답처럼 시간이 만드는 버그를 미리 막을 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="state">
+<h2><span class="sec-n">10.1</span>상태: 프로그램이 기억하고 있는 것<a aria-label="이 절의 링크" class="anchor" href="#state">#</a></h2>
+<p>계산기에서 <code>2 + 3</code>은 언제 눌러도 5입니다. 쇼핑 앱의 '담기' 버튼은 다릅니다. 처음 누르면 장바구니가 1개, 한 번 더 누르면 2개가 됩니다. 같은 버튼인데 결과가 다릅니다. 프로그램이 <strong>앞에서 있었던 일을 기억하고 있기</strong> 때문입니다.</p>
+<p>프로그램이 지금 기억하고 있는 것을 <strong>상태</strong>(state)라고 합니다. 장바구니에 담긴 상품, 로그인한 사람, 입력 칸에 친 글자, "지금 불러오는 중인가"까지 모두 상태입니다.</p>
+<div class="callout analogy"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bulb"></use></svg>비유로 이해하기 · 가게의 장부</div>
+<p>분식집 카운터에 장부가 한 권 있습니다. 직원은 장부에 적힌 주문과 재고를 보고 다음 일을 정합니다. 장부가 틀리면 직원이 아무리 성실해도 가게는 틀리게 돌아갑니다. 이 장에서는 상태를 <strong>장부</strong>에 빗대겠습니다.</p>
+</div>
+<p>화면은 장부를 보고 그린 그림입니다. 장부가 바뀌면 화면을 다시 그리고, 버튼을 누르면 장부를 고칩니다.</p>
+<figure class="fig" id="fig-state-screen"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>화면에 보이는 장바구니는 프로그램이 기억하는 상태를 보고 그린 결과다</title>
+
+  <text class="t-s t-b" x="20" y="30">화면 — 사용자가 보는 것</text>
+  <rect class="box" x="20" y="42" width="290" height="258" rx="16"/>
+  <use href="#i-cart" x="36" y="56" width="32" height="32" class="ic blue"/>
+  <text class="t-l" x="78" y="79">장바구니</text>
+  <circle class="badge red" cx="168" cy="72" r="12"/><text class="badge-t" x="168" y="76.500">3</text>
+  <path class="ln thin muted" d="M36 100 H294"/>
+  <text x="36" y="132">김밥</text>
+  <text class="t-s" x="112" y="132">2줄</text>
+  <text class="t-mono end" x="294" y="132">6,000원</text>
+  <text x="36" y="164">떡볶이</text>
+  <text class="t-s" x="112" y="164">1인분</text>
+  <text class="t-mono end" x="294" y="164">4,500원</text>
+  <path class="ln thin muted" d="M36 182 H294"/>
+  <text class="t-b" x="36" y="212">합계</text>
+  <text class="t-mono t-b end" x="294" y="212">10,500원</text>
+  <rect class="solid blue" x="36" y="236" width="258" height="44" rx="10"/>
+  <text class="t-on t-b mid" x="165" y="263">주문하기</text>
+
+  <text class="t-s t-b" x="450" y="30">상태 — 프로그램이 기억하는 것</text>
+  <rect class="panel green" x="450" y="42" width="290" height="258" rx="16"/>
+  <use href="#i-book" x="466" y="56" width="32" height="32" class="ic green"/>
+  <text class="t-l" x="508" y="79">장부</text>
+  <rect class="box" x="466" y="104" width="258" height="44" rx="8"/>
+  <text class="t-mono t-b" x="480" y="131">items</text>
+  <text class="t-mono end" x="710" y="131">김밥×2, 떡볶이×1</text>
+  <rect class="box" x="466" y="156" width="258" height="44" rx="8"/>
+  <text class="t-mono t-b" x="480" y="183">coupon</text>
+  <text class="t-mono end" x="710" y="183">없음</text>
+  <rect class="box" x="466" y="208" width="258" height="44" rx="8"/>
+  <text class="t-mono t-b" x="480" y="235">status</text>
+  <text class="t-mono end" x="710" y="235">"대기"</text>
+  <text class="t-xs mid" x="595" y="280">배지 3과 합계는 적지 않는다 — items로 계산</text>
+
+  <path class="ln green" d="M444 122 H318" marker-end="url(#ah-green)"/>
+  <text class="t-s t-b mid tc-green" x="380" y="110">그린다</text>
+  <text class="t-xs mid" x="380" y="142">장부가 바뀔 때마다</text>
+  <path class="ln blue" d="M316 256 H442" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b mid tc-blue" x="380" y="244">고친다</text>
+  <text class="t-xs mid" x="380" y="276">버튼을 누르면</text>
+</svg></div><figcaption><b>그림 10-1</b>왼쪽은 사용자가 보는 화면, 오른쪽은 프로그램이 기억하는 상태입니다. 화면에 보이는 숫자가 모두 장부에 적혀 있는 것은 아닙니다.</figcaption></figure>
+<p>계산은 틀리면 금방 드러납니다. 장부는 다릅니다. 한참 전에 잘못 적힌 한 줄이 나중에 엉뚱한 화면에서 사고를 냅니다. 장부가 꼬이는 길은 크게 네 가지입니다.</p>
+<ol type="1">
+<li>같은 사실을 <strong>두 군데에 적고</strong> 한쪽만 고쳤다.</li>
+<li>고치면 안 되는 곳에서 <strong>몰래 고쳤다.</strong></li>
+<li>"조리 중이면서 취소됨"처럼 <strong>있을 수 없는 내용</strong>이 적혔다.</li>
+<li><strong>늦게 도착한 소식</strong>이 최신 내용을 덮어썼다.</li>
+</ol>
+<p>이 장은 이 네 가지를 구조로 막는 방법을 다룹니다. 코드는 JavaScript로 적습니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>노트북 셀의 숨은 상태</summary><div class="deep-body">
+<p>Jupyter 같은 노트북에서 셀을 실행하면, 만든 변수는 <strong>커널</strong>이라는 실행 프로그램의 메모리에 남습니다(운영체제의 커널과는 이름만 같습니다).</p>
+<p>A 셀에서 <code>x = 2</code>를, B 셀에서 <code>print(x * 3)</code>을 실행하면 6이 나옵니다. A 셀의 글자만 <code>x = 10</code>으로 고치고 B만 다시 실행해도 6입니다. 고친 A를 실행한 적이 없으니 커널의 <code>x</code>는 아직 2입니다. 화면의 글자와 커널의 기억은 따로 놉니다.</p>
+<p>그래서 결과를 남에게 보여 주기 전에는 커널을 다시 시작해 위에서부터 전부 실행해 봅니다.</p>
+</div></details>
+</section>
+<section class="level2" id="function">
+<h2><span class="sec-n">10.2</span>함수와 클로저: 기억은 어디에 사는가<a aria-label="이 절의 링크" class="anchor" href="#function">#</a></h2>
+<p>장부를 지키려면 먼저 기억이 어디에 사는지 알아야 합니다.</p>
+<p><strong>함수</strong>(function)는 입력을 받아 일을 하고 결과를 돌려주는 코드 묶음입니다. 함수 안에서 만든 변수는 그 함수 안에서만 보입니다. 이렇게 이름이 보이는 범위를 <strong>스코프</strong>(scope)라고 합니다. 직원이 일하는 동안만 쓰는 개인 메모지와 같습니다. 남은 볼 수 없고, 일이 끝나면 버립니다.</p>
+<p>그런데 메모지를 버리지 않고 들고 나오는 함수가 있습니다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><span class="kw">function</span> <span class="fu">makeCounter</span>() {</span>
+<span id="cb1-2">  <span class="kw">let</span> n <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-3">  <span class="cf">return</span> () <span class="kw">=&gt;</span> <span class="op">++</span>n<span class="op">;</span></span>
+<span id="cb1-4">}</span>
+<span id="cb1-5"><span class="kw">const</span> a <span class="op">=</span> <span class="fu">makeCounter</span>()<span class="op">;</span></span>
+<span id="cb1-6"><span class="kw">const</span> b <span class="op">=</span> <span class="fu">makeCounter</span>()<span class="op">;</span></span>
+<span id="cb1-7"><span class="fu">a</span>()<span class="op">;</span> <span class="fu">a</span>()<span class="op">;</span> <span class="fu">b</span>()<span class="op">;</span>   <span class="co">// 차례로 1, 2, 1</span></span></code></pre></div>
+<p>3행의 <code>() =&gt; ++n</code>은 "<code>n</code>을 1 늘려서 돌려주는 이름 없는 함수"입니다. <code>makeCounter</code>는 이 함수를 내보내고 끝나지만 <code>n</code>은 사라지지 않습니다. 내보낸 함수가 계속 쓰기 때문입니다. 이렇게 <strong>자기가 만들어진 곳의 변수를 붙잡고 있는 함수</strong>를 <strong>클로저</strong>(closure)라고 합니다.</p>
+<figure class="fig" id="fig-closure-counters"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>makeCounter를 부를 때마다 n이 따로 생기고, 만들어진 함수가 자기 n을 붙잡고 있다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="218" rx="16"/>
+  <text class="t-mono t-b" x="40" y="48">a = makeCounter()</text>
+  <rect class="box blue" x="40" y="66" width="140" height="84" rx="12"/>
+  <text class="t-l mid" x="110" y="100">함수 a</text>
+  <text class="t-mono mid" x="110" y="128">() =&gt; ++n</text>
+  <path class="ln blue" d="M184 108 H212" marker-end="url(#ah-blue)"/>
+  <rect class="box green" x="220" y="66" width="130" height="84" rx="12"/>
+  <text class="t-s mid" x="285" y="94">a만 아는 변수</text>
+  <text class="t-mono t-b mid" x="285" y="128">n = 2</text>
+  <text class="t-s" x="40" y="184">부른 기록</text>
+  <text class="t-mono" x="112" y="184">a() → 1</text>
+  <text class="t-mono" x="200" y="184">a() → 2</text>
+  <text class="t-xs" x="40" y="212">함수가 붙잡고 있어서 n이 사라지지 않는다</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="218" rx="16"/>
+  <text class="t-mono t-b" x="410" y="48">b = makeCounter()</text>
+  <rect class="box blue" x="410" y="66" width="140" height="84" rx="12"/>
+  <text class="t-l mid" x="480" y="100">함수 b</text>
+  <text class="t-mono mid" x="480" y="128">() =&gt; ++n</text>
+  <path class="ln blue" d="M554 108 H582" marker-end="url(#ah-blue)"/>
+  <rect class="box green" x="590" y="66" width="130" height="84" rx="12"/>
+  <text class="t-s mid" x="655" y="94">b만 아는 변수</text>
+  <text class="t-mono t-b mid" x="655" y="128">n = 1</text>
+  <text class="t-s" x="410" y="184">부른 기록</text>
+  <text class="t-mono" x="482" y="184">b() → 1</text>
+  <text class="t-xs" x="410" y="212">a를 두 번 불러도 b의 n은 그대로다</text>
+
+  <text class="t-s mid" x="380" y="266">makeCounter()를 부를 때마다 n이 새로 하나씩 생긴다</text>
+</svg></div><figcaption><b>그림 10-2</b><code>makeCounter</code>를 부를 때마다 <code>n</code>이 새로 하나씩 생깁니다. <code>a</code>와 <code>b</code>는 서로의 <code>n</code>을 볼 수 없습니다.</figcaption></figure>
+<p>붙잡힌 <code>n</code>은 밖에서 직접 고칠 길이 없습니다. 상태를 숨기는 가장 작은 금고입니다. 대신 그 함수가 살아 있는 동안에는 <code>n</code>도 사라지지 않습니다.</p>
+<section class="level3" id="계산만-하는-함수-바깥을-바꾸는-함수">
+<h3>계산만 하는 함수, 바깥을 바꾸는 함수</h3>
+<p><strong>순수 함수</strong>(pure function)는 입력만 보고 결과만 돌려줍니다. 같은 입력에는 언제나 같은 결과가 나오고, 장부는 건드리지 않습니다. 금액 목록을 받아 합계를 돌려주는 함수가 그렇습니다.</p>
+<p>반대로 함수가 자기 바깥의 무언가를 바꾸는 것을 <strong>부수 효과</strong>(side effect)라고 합니다. 바깥 변수 고치기, 화면 바꾸기, 파일 저장, 결제 요청 보내기가 모두 부수 효과입니다.</p>
+<figure class="fig" id="fig-pure-vs-effect"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>순수 함수는 몇 번을 불러도 바깥이 그대로지만, 부수 효과가 있는 함수는 부른 횟수만큼 바깥이 바뀐다</title>
+
+  <rect class="panel" x="20" y="16" width="720" height="140" rx="16"/>
+  <text class="t-l" x="40" y="84">순수 함수</text>
+  <text class="t-s" x="40" y="106">계산만 한다</text>
+  <rect class="box green" x="180" y="60" width="140" height="50" rx="10"/>
+  <text class="t-mono mid" x="250" y="90">[6000, 4500]</text>
+  <path class="ln blue" d="M324 85 H352" marker-end="url(#ah-blue)"/>
+  <rect class="box blue" x="360" y="60" width="130" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="425" y="90">total()</text>
+  <path class="ln blue" d="M494 85 H522" marker-end="url(#ah-blue)"/>
+  <rect class="box green" x="530" y="60" width="80" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="570" y="90">10500</text>
+  <text class="t-xs" x="180" y="136">같은 입력이면 언제나 같은 결과</text>
+  <use href="#i-check" x="624" y="50" width="26" height="26" class="ic green"/>
+  <text class="t-s" x="656" y="68">두 번 불러도</text>
+  <text class="t-s t-b tc-green" x="656" y="88">바깥은 그대로</text>
+
+  <rect class="panel" x="20" y="176" width="720" height="158" rx="16"/>
+  <text class="t-l" x="40" y="234">부수 효과</text>
+  <text class="t-s" x="40" y="256">바깥을 바꾼다</text>
+  <rect class="box green" x="180" y="204" width="140" height="50" rx="10"/>
+  <text class="t-mono mid" x="250" y="234">[6000, 4500]</text>
+  <path class="ln blue" d="M324 229 H352" marker-end="url(#ah-blue)"/>
+  <rect class="box warm" x="360" y="204" width="130" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="425" y="234">totalAndPay()</text>
+  <path class="ln blue" d="M494 229 H522" marker-end="url(#ah-blue)"/>
+  <rect class="box green" x="530" y="204" width="80" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="570" y="234">10500</text>
+  <path class="ln red" d="M400 258 V278" marker-end="url(#ah-red)"/>
+  <text class="t-s t-b tc-red" x="412" y="273">결제 요청</text>
+  <rect class="box purple" x="360" y="286" width="130" height="36" rx="10"/>
+  <text class="mid" x="425" y="309">결제 서버</text>
+  <use href="#i-warn" x="624" y="194" width="26" height="26" class="ic red"/>
+  <text class="t-s" x="656" y="212">두 번 부르면</text>
+  <text class="t-s t-b tc-red" x="656" y="232">결제도 두 번</text>
+</svg></div><figcaption><b>그림 10-3</b>순수 함수는 몇 번을 불러도 바깥이 그대로이고, 부수 효과가 있는 함수는 부른 횟수만큼 바깥이 바뀝니다.</figcaption></figure>
+<p>부수 효과가 나쁜 것은 아닙니다. 저장도 결제도 못 하는 앱은 쓸모가 없습니다. 문제는 <strong>계산인 줄 알았던 함수에 효과가 숨어 있을 때</strong>입니다. 화면을 그리는 함수는 필요할 때마다 다시 불립니다. 그 안에 결제 요청이 섞여 있으면 화면이 다시 그려질 때마다 결제가 나갑니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>계산은 순수 함수로, 바깥을 바꾸는 일은 눈에 띄는 한곳에서 합니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="object">
+<h2><span class="sec-n">10.3</span>객체와 인터페이스: 장부는 창구로만 고칩니다<a aria-label="이 절의 링크" class="anchor" href="#object">#</a></h2>
+<p>장바구니에는 규칙이 있습니다. 같은 상품을 또 담으면 수량을 합치고, 수량은 1 이상이어야 합니다. 그런데 <code>cart.items</code> 배열을 누구나 직접 고칠 수 있다면 규칙을 모르는 코드가 섞여 듭니다. 장부를 카운터에 펼쳐 두고 아무나 적게 하는 꼴입니다.</p>
+<p>그래서 데이터와 그 데이터를 고치는 함수를 한 묶음으로 만듭니다. 이 묶음이 <strong>객체</strong>(object)이고, 같은 모양의 객체를 찍어 내는 틀이 <strong>클래스</strong>(class)입니다.</p>
+<p>그리고 안쪽 데이터는 숨기고 <code>addItem()</code> 같은 정해진 함수로만 고치게 합니다. 이것이 <strong>캡슐화</strong>(encapsulation)입니다. 장부를 창구 안쪽에 두고 창구 직원만 적게 하는 것입니다.</p>
+<figure class="fig" id="fig-cart-gate"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 410" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>장바구니 목록을 아무나 직접 고치면 규칙이 깨진 줄이 섞이고, addItem이라는 창구 하나로만 고치면 규칙이 지켜진다</title>
+
+  <rect class="panel" x="20" y="16" width="720" height="178" rx="16"/>
+  <text class="t-l" x="40" y="46">아무나 직접 고칠 때</text>
+  <text class="t-mono tc-muted" x="226" y="46">cart.items.push(…)</text>
+  <rect class="box" x="40" y="62" width="120" height="32" rx="8"/>
+  <text class="t-s mid" x="100" y="83">담기 버튼</text>
+  <rect class="box" x="40" y="102" width="120" height="32" rx="8"/>
+  <text class="t-s mid" x="100" y="123">다시 담기</text>
+  <rect class="box" x="40" y="142" width="120" height="32" rx="8"/>
+  <text class="t-s mid" x="100" y="163">추천 담기</text>
+  <path class="ln red" d="M166 78 L510 104" marker-end="url(#ah-red)"/>
+  <path class="ln red" d="M166 118 H510" marker-end="url(#ah-red)"/>
+  <path class="ln red" d="M166 158 L510 132" marker-end="url(#ah-red)"/>
+  <rect class="box red" x="520" y="58" width="200" height="120" rx="12"/>
+  <text class="t-mono t-b" x="536" y="84">items</text>
+  <text class="t-mono" x="536" y="110">김밥 ×2</text>
+  <text class="t-mono" x="536" y="134">김밥 ×1</text>
+  <text class="t-xs t-b tc-red end" x="706" y="134">같은 상품이 두 줄</text>
+  <text class="t-mono" x="536" y="158">떡볶이 ×0</text>
+  <text class="t-xs t-b tc-red end" x="706" y="158">수량이 0</text>
+
+  <rect class="panel" x="20" y="214" width="720" height="178" rx="16"/>
+  <text class="t-l" x="40" y="244">창구 하나로만 고칠 때</text>
+  <text class="t-mono tc-muted" x="242" y="244">cart.addItem(…)</text>
+  <rect class="box" x="40" y="260" width="120" height="32" rx="8"/>
+  <text class="t-s mid" x="100" y="281">담기 버튼</text>
+  <rect class="box" x="40" y="300" width="120" height="32" rx="8"/>
+  <text class="t-s mid" x="100" y="321">다시 담기</text>
+  <rect class="box" x="40" y="340" width="120" height="32" rx="8"/>
+  <text class="t-s mid" x="100" y="361">추천 담기</text>
+  <path class="ln blue" d="M166 276 L272 302" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M166 316 H272" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M166 356 L272 330" marker-end="url(#ah-blue)"/>
+  <rect class="box blue" x="282" y="262" width="180" height="108" rx="12"/>
+  <text class="t-mono t-b mid" x="372" y="292">addItem()</text>
+  <text class="t-s mid" x="372" y="322">같은 상품은 합친다</text>
+  <text class="t-s mid" x="372" y="344">수량은 1 이상만</text>
+  <path class="ln green" d="M466 316 H510" marker-end="url(#ah-green)"/>
+  <rect class="box green" x="520" y="262" width="200" height="108" rx="12"/>
+  <text class="t-mono t-b" x="536" y="290">items</text>
+  <text class="t-mono" x="536" y="318">김밥 ×3</text>
+  <text class="t-mono" x="536" y="344">떡볶이 ×1</text>
+  <use href="#i-check" x="672" y="300" width="32" height="32" class="ic green"/>
+</svg></div><figcaption><b>그림 10-4</b>직접 고치게 두면 규칙을 어긴 줄이 섞여 듭니다. 창구를 하나로 모으면 규칙을 한 곳에만 적어도 됩니다.</figcaption></figure>
+<p>밖에 열어 둔 창구의 목록과 약속을 <strong>인터페이스</strong>(interface)라고 합니다.</p>
+<div class="callout analogy"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bulb"></use></svg>비유로 이해하기 · 콘센트 규격</div>
+<p>벽의 콘센트는 구멍 모양과 전압만 약속합니다. 약속만 맞으면 어떤 가전제품이든 꽂을 수 있고, 벽 뒤의 배선을 바꿔도 가전제품은 그대로 씁니다. <code>addItem(상품)</code>이라는 약속만 지키면, 안에서 쓰던 배열을 해시 맵으로 바꿔도 부르는 쪽은 고칠 것이 없습니다.</p>
+</div>
+<section class="level3" id="물려받기보다-끼워-넣기">
+<h3>물려받기보다 끼워 넣기</h3>
+<p>기능을 다시 쓰는 방법은 두 가지입니다. <strong>상속</strong>(inheritance)은 기존 클래스의 것을 통째로 물려받고, <strong>조합</strong>(composition)은 필요한 기능을 부품으로 만들어 끼워 넣습니다.</p>
+<p>게임에서 상속으로 '나는 캐릭터'와 '헤엄치는 캐릭터'를 만들면, 날면서 헤엄치는 캐릭터가 필요할 때 막힙니다. 조합에서는 '날기 부품'과 '헤엄 부품'을 필요한 만큼 꽂습니다. 코드가 겹친다는 이유뿐이라면 상속보다 조합이 먼저입니다.</p>
+</section>
+<section class="level3" id="약속에는-없음과-실패도-적습니다">
+<h3>약속에는 '없음'과 '실패'도 적습니다</h3>
+<p>회원을 찾는 함수가 <code>null</code>(값이 없다는 표시)을 돌려줬습니다. 그런 회원이 없을 수도, 볼 권한이 없을 수도, 서버가 잠깐 멈췄을 수도 있습니다. 경우마다 다음에 할 일이 다릅니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>결과</th>
+<th>뜻</th>
+<th>다음에 할 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>찾음</td>
+<td>회원 정보가 있다</td>
+<td>화면에 보여 준다</td>
+</tr>
+<tr>
+<td>없음</td>
+<td>정상인데 그런 회원이 없다</td>
+<td>가입을 안내한다</td>
+</tr>
+<tr>
+<td>거절</td>
+<td>볼 권한이 없다</td>
+<td>접근을 막는다</td>
+</tr>
+<tr>
+<td>장애</td>
+<td>지금은 알 수 없다</td>
+<td>잠시 뒤 다시 시도한다</td>
+</tr>
+</tbody>
+</table></div>
+<p>넷을 <code>null</code> 하나로 뭉치면 서버가 멈췄는데 가입 화면이 뜹니다. <strong>없음은 정상 결과이고, 실패는 사고입니다.</strong> 결과에 <code>found</code>, <code>not_found</code> 같은 이름표를 붙여 돌려주면 부르는 쪽이 헷갈리지 않습니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>다형성과 대체 가능성</summary><div class="deep-body">
+<p>같은 인터페이스 뒤에 여러 구현을 둘 수 있습니다. <code>save(data)</code> 뒤에 파일 저장소가 있든 서버 저장소가 있든 부르는 쪽은 <code>save</code>만 부릅니다. 이것이 <strong>다형성</strong>(polymorphism)입니다.</p>
+<p>다만 이름이 같다고 바꿔 끼워도 되는 것은 아닙니다. 파일 저장은 성공 아니면 실패지만, 서버 저장에는 "보냈는데 답이 없어 결과를 모름"이 있습니다. 구현을 바꿔도 부르는 쪽이 기대한 약속이 그대로일 때만 안전합니다. 이 성질이 <strong>대체 가능성</strong>입니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="owner">
+<h2><span class="sec-n">10.4</span>원본은 한 곳에: 주인과 파생 값<a aria-label="이 절의 링크" class="anchor" href="#owner">#</a></h2>
+<p>첫머리의 장바구니 버그로 돌아갑시다. 상품은 세 개인데 배지에는 2라고 나옵니다. 코드를 보니 상품 목록 <code>items</code>와 개수 <code>count</code>를 따로 저장하고 있었습니다. 담을 때도 지울 때도 둘을 함께 고칩니다. 그런데 '삭제 취소' 기능을 나중에 붙이면서 <code>count</code>를 되돌리는 줄을 빠뜨렸습니다.</p>
+<figure class="fig" id="fig-derived-drift"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>목록과 개수를 따로 저장하면 삭제 취소에서 개수 되돌리기를 빠뜨렸을 때 둘이 어긋나지만, 목록을 세어 구한 개수는 항상 맞는다</title>
+
+  <circle class="badge" cx="238" cy="30" r="11"/><text class="badge-t" x="238" y="34.500">1</text>
+  <text class="t-s t-b" x="256" y="35">처음</text>
+  <circle class="badge" cx="414" cy="30" r="11"/><text class="badge-t" x="414" y="34.500">2</text>
+  <text class="t-s t-b" x="432" y="35">순대 삭제</text>
+  <circle class="badge" cx="604" cy="30" r="11"/><text class="badge-t" x="604" y="34.500">3</text>
+  <text class="t-s t-b" x="622" y="35">삭제 취소</text>
+
+  <text class="t-mono t-b" x="20" y="80">items</text>
+  <text class="t-s" x="20" y="100">원본 목록</text>
+  <rect class="box green" x="185" y="62" width="54" height="36" rx="8"/>
+  <text class="t-s mid" x="212" y="85">김밥</text>
+  <rect class="box green" x="245" y="62" width="54" height="36" rx="8"/>
+  <text class="t-s mid" x="272" y="85">떡볶이</text>
+  <rect class="box green" x="305" y="62" width="54" height="36" rx="8"/>
+  <text class="t-s mid" x="332" y="85">순대</text>
+  <rect class="box green" x="375" y="62" width="54" height="36" rx="8"/>
+  <text class="t-s mid" x="402" y="85">김밥</text>
+  <rect class="box green" x="435" y="62" width="54" height="36" rx="8"/>
+  <text class="t-s mid" x="462" y="85">떡볶이</text>
+  <rect class="ghost dash" x="495" y="62" width="54" height="36" rx="8"/>
+  <rect class="box green" x="565" y="62" width="54" height="36" rx="8"/>
+  <text class="t-s mid" x="592" y="85">김밥</text>
+  <rect class="box green" x="625" y="62" width="54" height="36" rx="8"/>
+  <text class="t-s mid" x="652" y="85">떡볶이</text>
+  <rect class="box warm" x="685" y="62" width="54" height="36" rx="8"/>
+  <text class="t-s t-b mid" x="712" y="85">순대</text>
+
+  <text class="t-mono t-b" x="20" y="158">count</text>
+  <text class="t-s" x="20" y="178">따로 저장한 개수</text>
+  <rect class="box" x="185" y="138" width="174" height="48" rx="10"/>
+  <text class="t-mono t-b mid" x="272" y="167">3</text>
+  <rect class="box" x="375" y="138" width="174" height="48" rx="10"/>
+  <text class="t-mono t-b mid" x="462" y="167">2</text>
+  <rect class="box red" x="565" y="138" width="174" height="48" rx="10"/>
+  <text class="t-mono t-b tc-red" x="584" y="167">2</text>
+  <text class="t-xs t-b tc-red" x="606" y="166">되돌리는 줄을 깜빡</text>
+
+  <text class="t-mono t-b" x="20" y="234">items.length</text>
+  <text class="t-s" x="20" y="254">그때그때 센 개수</text>
+  <rect class="box green" x="185" y="214" width="174" height="48" rx="10"/>
+  <text class="t-mono t-b mid" x="272" y="243">3</text>
+  <rect class="box green" x="375" y="214" width="174" height="48" rx="10"/>
+  <text class="t-mono t-b mid" x="462" y="243">2</text>
+  <rect class="box green" x="565" y="214" width="174" height="48" rx="10"/>
+  <text class="t-mono t-b mid" x="652" y="243">3</text>
+
+  <text class="t-s" x="185" y="296">저장한 count는 한 군데만 빠뜨려도 어긋나고, 센 개수는 늘 원본과 맞는다</text>
+</svg></div><figcaption><b>그림 10-5</b>같은 사실을 두 번 적으면, 고치는 길 가운데 하나만 빠져도 둘이 어긋납니다.</figcaption></figure>
+<p>개수는 목록을 세면 나옵니다. 이렇게 <strong>다른 상태에서 계산하면 나오는 값</strong>을 <strong>파생 값</strong>(derived value)이라고 합니다. 합계, 걸러 낸 목록, "전부 선택됨" 표시가 모두 파생 값입니다. 필요할 때마다 원본에서 계산하면 어긋날 방법이 없습니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>같은 사실은 한 곳에만 적습니다. <strong>계산하면 나오는 것은 저장하지 않습니다.</strong></p>
+</div>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>이미 끝난 주문의 결제 금액은 파생 값이 아닙니다. 나중에 김밥 값이 올라도 그날 낸 돈은 그대로여야 하므로, "그때 일어난 사실"로 따로 적어 둡니다.</p>
+</div>
+<p>더 큰 데이터도 같습니다. 댓글마다 글쓴이의 이름을 복사해 넣으면, 이름을 바꿀 때 댓글 백 개를 찾아 고쳐야 합니다. 댓글에는 <code>userId: 7</code>처럼 <a href="ch08.html">8장</a>에서 배운 ID만 적고, 보여 줄 때 7번 회원의 이름을 읽어 옵니다. 이름이 적힌 곳이 하나뿐이니 고칠 곳도 하나입니다.</p>
+<p>여러 사본 가운데 "이것이 진짜"라고 정해 둔 한 곳을 <strong>기준 데이터</strong>(source of truth), 쉽게 말해 <strong>원본</strong>이라고 합니다. 원본마다 <strong>주인</strong>을 하나만 둡니다. 주인만 그 값을 고치고, 나머지는 읽기만 하거나 주인에게 고쳐 달라고 부탁합니다.</p>
+<div class="callout myth"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-cross"></use></svg>흔한 오해 · 모든 상태를 어디서나 쓰는 전역 저장소에 넣으면 관리가 쉽다</div>
+<p>주인이 하나라는 말은 전부 한 바구니에 담으라는 뜻이 아닙니다. 어디서나 고칠 수 있는 값은 누가 고쳤는지 찾기 어렵습니다. 상태는 <strong>그것을 쓰는 가장 좁은 범위</strong>에 둡니다. 입력 중인 글자의 주인은 그 입력 화면입니다.</p>
+</div>
+</section>
+<section class="level2" id="copy">
+<h2><span class="sec-n">10.5</span>복사했는데 같이 바뀐다: 얕은 복사<a aria-label="이 절의 링크" class="anchor" href="#copy">#</a></h2>
+<p>프로필 편집 화면을 만듭니다. 원본을 복사해 초안을 만들고, '취소'를 누르면 초안만 버리면 됩니다. 그런데 취소했는데도 원본의 태그가 바뀌어 있습니다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><span class="kw">const</span> original <span class="op">=</span> { <span class="dt">name</span><span class="op">:</span> <span class="st">"하늘"</span><span class="op">,</span> <span class="dt">tags</span><span class="op">:</span> [<span class="st">"업무"</span>] }<span class="op">;</span></span>
+<span id="cb2-2"><span class="kw">const</span> draft <span class="op">=</span> { <span class="op">...</span>original }<span class="op">;</span>   <span class="co">// 칸들을 새 객체에 옮겨 담는다</span></span>
+<span id="cb2-3">draft<span class="op">.</span><span class="at">name</span> <span class="op">=</span> <span class="st">"바다"</span><span class="op">;</span>             <span class="co">// 원본은 그대로 "하늘"</span></span>
+<span id="cb2-4">draft<span class="op">.</span><span class="at">tags</span><span class="op">.</span><span class="fu">push</span>(<span class="st">"긴급"</span>)<span class="op">;</span>         <span class="co">// 원본의 tags도 바뀐다</span></span></code></pre></div>
+<p><a href="ch03.html">3장</a>에서 본 것처럼, 객체의 칸에는 배열 자체가 아니라 <strong>배열이 있는 곳을 적은 쪽지</strong>(참조)가 들어 있습니다. 2행은 바깥 상자를 새로 만들고 칸의 내용을 옮겨 적습니다. <code>name</code> 칸의 글자는 값이 그대로 옮겨집니다. 하지만 <code>tags</code> 칸에 든 것은 쪽지입니다. 쪽지만 옮겨 적었으니 두 상자가 <strong>같은 배열</strong>을 가리킵니다.</p>
+<p>이렇게 겉만 새로 만드는 복사가 <strong>얕은 복사</strong>(shallow copy)입니다. 장부의 표지만 새로 만들고 속지는 같은 것을 끼워 둔 셈입니다. 안쪽까지 전부 새로 만드는 복사는 <strong>깊은 복사</strong>(deep copy)입니다.</p>
+<figure class="fig" id="fig-shallow-copy"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>얕은 복사를 하면 원본과 초안이 같은 tags 배열을 함께 쓰고, 안쪽 배열까지 복사해야 서로 떨어진다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="288" rx="16"/>
+  <text class="t-mono t-b" x="40" y="46">draft = { ...original }</text>
+  <text class="t-s" x="246" y="46">얕은 복사</text>
+  <rect class="box" x="40" y="70" width="150" height="88" rx="10"/>
+  <text class="t-mono t-b" x="54" y="94">original</text>
+  <text class="t-mono" x="54" y="120">name: "하늘"</text>
+  <text class="t-mono" x="54" y="144">tags:</text>
+  <circle class="f-blue" cx="108" cy="139" r="5"/>
+  <rect class="box blue" x="40" y="196" width="150" height="88" rx="10"/>
+  <text class="t-mono t-b" x="54" y="220">draft</text>
+  <text class="t-mono" x="54" y="246">name: "바다"</text>
+  <text class="t-mono" x="54" y="270">tags:</text>
+  <circle class="f-blue" cx="108" cy="265" r="5"/>
+  <rect class="box green" x="256" y="156" width="50" height="40" rx="6"/>
+  <text class="t-s mid" x="281" y="181">업무</text>
+  <rect class="box warm" x="306" y="156" width="50" height="40" rx="6"/>
+  <text class="t-s t-b mid" x="331" y="181">긴급</text>
+  <path class="ln blue" d="M114 139 H198 C226 139 220 168 248 168" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M114 265 H198 C230 265 216 184 248 184" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b tc-red mid" x="306" y="222">배열은 하나뿐</text>
+  <text class="t-xs mid" x="306" y="242">초안에 넣은 긴급이</text>
+  <text class="t-xs mid" x="306" y="260">원본에도 보인다</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="288" rx="16"/>
+  <text class="t-mono t-b" x="410" y="46">tags: [...original.tags]</text>
+  <text class="t-s" x="624" y="46">안쪽도 복사</text>
+  <rect class="box" x="410" y="70" width="150" height="88" rx="10"/>
+  <text class="t-mono t-b" x="424" y="94">original</text>
+  <text class="t-mono" x="424" y="120">name: "하늘"</text>
+  <text class="t-mono" x="424" y="144">tags:</text>
+  <circle class="f-blue" cx="478" cy="139" r="5"/>
+  <rect class="box blue" x="410" y="196" width="150" height="88" rx="10"/>
+  <text class="t-mono t-b" x="424" y="220">draft</text>
+  <text class="t-mono" x="424" y="246">name: "바다"</text>
+  <text class="t-mono" x="424" y="270">tags:</text>
+  <circle class="f-blue" cx="478" cy="265" r="5"/>
+  <rect class="box green" x="620" y="119" width="50" height="40" rx="6"/>
+  <text class="t-s mid" x="645" y="144">업무</text>
+  <path class="ln blue" d="M484 139 H612" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b tc-green" x="620" y="182">원본은 그대로</text>
+  <rect class="box green" x="620" y="245" width="50" height="40" rx="6"/>
+  <text class="t-s mid" x="645" y="270">업무</text>
+  <rect class="box warm" x="670" y="245" width="50" height="40" rx="6"/>
+  <text class="t-s t-b mid" x="695" y="270">긴급</text>
+  <path class="ln blue" d="M484 265 H612" marker-end="url(#ah-blue)"/>
+</svg></div><figcaption><b>그림 10-6</b>얕은 복사는 안쪽 배열을 함께 씁니다. 고칠 부분까지 따로 복사해야 초안이 원본에서 떨어져 나옵니다.</figcaption></figure>
+<p>고치는 방법은 두 가지입니다. 고칠 곳만 한 겹 더 복사하거나(<code>tags: [...original.tags]</code>), 통째로 깊은 복사를 합니다(<code>structuredClone(original)</code>). 깊은 복사는 간단하지만 데이터가 크면 그만큼 시간과 메모리가 듭니다. "복사했다"는 말을 들으면 <strong>어디까지 따로이고 어디부터 함께 쓰는지</strong> 물어보세요.</p>
+<div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
+<p>브라우저 개발자 도구(F12)의 콘솔에 위 네 줄을 붙여 넣고 <code>original.tags</code>를 쳐 보세요. 건드린 적 없는 원본에 "긴급"이 들어 있습니다.</p>
+</div>
+</section>
+<section class="level2" id="immutable">
+<h2><span class="sec-n">10.6</span>고치지 말고 새로 쓰기: 불변 업데이트와 실행 취소<a aria-label="이 절의 링크" class="anchor" href="#immutable">#</a></h2>
+<p>함께 써서 생기는 사고를 뿌리부터 막는 규칙이 있습니다. <strong>한 번 만든 값은 고치지 않는다</strong>는 규칙입니다. 바꿀 일이 생기면 바뀐 내용으로 <strong>새 값을 만들어 통째로 갈아 끼웁니다.</strong> 이것을 <strong>불변 업데이트</strong>(immutable update)라고 합니다. 장부에 지우개를 쓰지 않는 것입니다. 고칠 일이 있으면 새 쪽에 다시 적고, 옛 쪽은 그대로 둡니다.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><span class="kw">const</span> next <span class="op">=</span> { <span class="op">...</span>user<span class="op">,</span> <span class="dt">name</span><span class="op">:</span> <span class="st">"바다"</span> }<span class="op">;</span></span></code></pre></div>
+<p><code>user</code>에는 손대지 않았고, 이름만 다른 새 객체 <code>next</code>가 생겼습니다. 얻는 것이 세 가지입니다.</p>
+<ul>
+<li>옛 값을 들고 있던 다른 코드가 <strong>몰래 바뀐 값</strong>을 보는 일이 없습니다.</li>
+<li>바뀌었는지 알려면 <strong>쪽지가 같은지만</strong> 보면 됩니다. React 같은 화면 도구가 이 방법을 쓰기 때문에, 객체 안을 직접 고치면 화면이 바뀌지 않는 일이 생깁니다.</li>
+<li>옛 쪽이 남아 있으니 <strong>되돌리기</strong>가 쉽습니다.</li>
+</ul>
+<section class="level3" id="실행-취소-과거-현재-미래-세-칸">
+<h3>실행 취소: 과거, 현재, 미래 세 칸</h3>
+<p><strong>실행 취소</strong>(undo)는 옛 쪽을 다시 펼치는 일입니다. 버전을 과거, 현재, 미래 세 칸에 나눠 담습니다. 고칠 때마다 그전의 현재를 과거 칸에 넣습니다. 취소하면 과거에서 하나를 꺼내 현재로 삼고, 밀려난 것은 미래 칸으로 보냅니다. 다시 실행(redo)은 그 반대입니다.</p>
+<figure class="fig" id="fig-undo-history"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>실행 취소는 버전을 과거, 현재, 미래 세 칸에 나눠 담고 현재를 앞뒤로 옮기는 일이다</title>
+
+  <rect class="panel blue" x="445" y="14" width="120" height="270" rx="14"/>
+  <text class="t-s t-b mid" x="320" y="38">과거</text>
+  <text class="t-s t-b mid tc-blue" x="505" y="38">현재</text>
+  <text class="t-s t-b mid" x="662" y="38">미래</text>
+  <path class="ln thin muted" d="M20 126 H740"/>
+  <path class="ln thin muted" d="M20 204 H740"/>
+
+  <text class="t-b" x="20" y="82">이름을 두 번 고침</text>
+  <text class="t-s" x="20" y="102">하늘 → 바다 → 구름</text>
+  <rect class="box" x="234" y="64" width="76" height="40" rx="8"/>
+  <text class="mid" x="272" y="89">하늘</text>
+  <rect class="box" x="330" y="64" width="76" height="40" rx="8"/>
+  <text class="mid" x="368" y="89">바다</text>
+  <rect class="solid blue" x="467" y="64" width="76" height="40" rx="8"/>
+  <text class="t-on t-b mid" x="505" y="89">구름</text>
+  <text class="t-s mid" x="662" y="89">비어 있음</text>
+
+  <text class="t-b" x="20" y="160">실행 취소</text>
+  <text class="t-s" x="20" y="180">현재가 한 칸 뒤로</text>
+  <rect class="box" x="234" y="142" width="76" height="40" rx="8"/>
+  <text class="mid" x="272" y="167">하늘</text>
+  <rect class="solid blue" x="467" y="142" width="76" height="40" rx="8"/>
+  <text class="t-on t-b mid" x="505" y="167">바다</text>
+  <rect class="box" x="624" y="142" width="76" height="40" rx="8"/>
+  <text class="mid" x="662" y="167">구름</text>
+
+  <text class="t-b" x="20" y="238">취소 뒤 새로 고침</text>
+  <text class="t-s" x="20" y="258">이름을 노을로</text>
+  <rect class="box" x="234" y="220" width="76" height="40" rx="8"/>
+  <text class="mid" x="272" y="245">하늘</text>
+  <rect class="box" x="330" y="220" width="76" height="40" rx="8"/>
+  <text class="mid" x="368" y="245">바다</text>
+  <rect class="solid blue" x="467" y="220" width="76" height="40" rx="8"/>
+  <text class="t-on t-b mid" x="505" y="245">노을</text>
+  <rect class="ghost dash" x="594" y="220" width="76" height="40" rx="8"/>
+  <text class="mid tc-muted" x="632" y="245">구름</text>
+  <text class="t-xs t-b tc-red" x="680" y="245">버려짐</text>
+</svg></div><figcaption><b>그림 10-7</b>이름을 하늘, 바다, 구름 순서로 고친 뒤의 세 칸. 취소한 다음 새로 고치면 미래 칸에 있던 것은 버립니다.</figcaption></figure>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 장부 밖의 일은 취소되지 않습니다</div>
+<p>실행 취소가 되돌리는 것은 프로그램 안의 상태뿐입니다. 이미 보낸 메일이나 끝난 결제는 환불처럼 <strong>반대 방향의 일을 새로 해야</strong> 합니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>서로 가리키는 객체와 아주 큰 데이터</summary><div class="deep-body">
+<p><strong>순환 참조.</strong> 부모가 자식을 가리키고 자식이 다시 부모를 가리키면 쪽지를 따라가는 길이 원이 됩니다. 단순하게 짠 깊은 복사는 이 원을 끝없이 돌고, JSON으로 바꾸려 하면 오류가 납니다. 저장할 때는 자식에 <code>parentId</code>만 적어 원을 끊습니다.</p>
+<p><strong>구조 공유.</strong> 블록이 천 개인 문서에서 한 블록만 고칠 때는 새 목록과 고친 블록 하나만 만들고, 나머지 999개는 옛 버전과 함께 씁니다. 아무도 값을 직접 고치지 않으니 함께 써도 안전합니다. 이것이 <strong>구조 공유</strong>(structural sharing)입니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="machine">
+<h2><span class="sec-n">10.7</span>상태 기계: 있을 수 없는 상태를 못 만들게<a aria-label="이 절의 링크" class="anchor" href="#machine">#</a></h2>
+<p>저장 버튼을 눌렀더니 로딩 표시와 "저장 완료"와 오류 문구가 한꺼번에 떴습니다. 코드에는 <code>isLoading</code>, <code>isSuccess</code>, <code>isError</code>라는 참·거짓 값이 세 개 있었습니다.</p>
+<p>세 개로 만들 수 있는 조합은 2 × 2 × 2 = 8가지인데, 말이 되는 것은 네 가지뿐입니다. 나머지 네 가지는 값을 되돌리는 코드 한 줄만 빠뜨려도 만들어집니다.</p>
+<p>해결은 상태를 <strong>이름 하나</strong>로 적는 것입니다. <code>status</code> 칸 하나에 <code>"idle"</code>(대기), <code>"saving"</code>(저장 중), <code>"done"</code>(완료), <code>"error"</code>(오류) 중 하나만 적습니다. 주문서에 도장 칸이 하나뿐이면 '조리 중'과 '취소'가 동시에 찍힐 수 없는 것과 같습니다.</p>
+<p>이렇게 <strong>가능한 상태의 목록</strong>과 <strong>무슨 일이 생기면 어느 상태로 넘어가는지</strong>를 정해 둔 것을 <strong>상태 기계</strong>(state machine)라고 합니다. 상태가 넘어가는 것은 <strong>전이</strong>(transition)라고 부릅니다.</p>
+<figure class="fig" id="fig-state-machine"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>참·거짓 값 세 개는 있으면 안 되는 조합 네 가지까지 만들지만, 상태를 이름 하나로 적으면 정해진 네 가지 사이만 오갈 수 있다</title>
+
+  <rect class="panel" x="20" y="16" width="310" height="288" rx="16"/>
+  <text class="t-l" x="40" y="46">참·거짓 세 개</text>
+  <text class="t-s" x="40" y="68">2 × 2 × 2 = 8가지</text>
+  <text class="t-xs mid" x="70" y="96">로딩</text>
+  <text class="t-xs mid" x="118" y="96">성공</text>
+  <text class="t-xs mid" x="166" y="96">오류</text>
+
+  <circle class="ghost" cx="70" cy="116" r="7"/><circle class="ghost" cx="118" cy="116" r="7"/><circle class="ghost" cx="166" cy="116" r="7"/>
+  <text class="t-s tc-green" x="200" y="120.500">대기</text>
+  <circle class="f-blue" cx="70" cy="138" r="7"/><circle class="ghost" cx="118" cy="138" r="7"/><circle class="ghost" cx="166" cy="138" r="7"/>
+  <text class="t-s tc-green" x="200" y="142.500">저장 중</text>
+  <circle class="ghost" cx="70" cy="160" r="7"/><circle class="f-blue" cx="118" cy="160" r="7"/><circle class="ghost" cx="166" cy="160" r="7"/>
+  <text class="t-s tc-green" x="200" y="164.500">완료</text>
+  <circle class="ghost" cx="70" cy="182" r="7"/><circle class="ghost" cx="118" cy="182" r="7"/><circle class="f-blue" cx="166" cy="182" r="7"/>
+  <text class="t-s tc-green" x="200" y="186.500">오류</text>
+
+  <path class="ln thin muted" d="M40 197 H310"/>
+  <circle class="f-red" cx="70" cy="212" r="7"/><circle class="f-red" cx="118" cy="212" r="7"/><circle class="ghost" cx="166" cy="212" r="7"/>
+  <circle class="f-red" cx="70" cy="234" r="7"/><circle class="ghost" cx="118" cy="234" r="7"/><circle class="f-red" cx="166" cy="234" r="7"/>
+  <circle class="ghost" cx="70" cy="256" r="7"/><circle class="f-red" cx="118" cy="256" r="7"/><circle class="f-red" cx="166" cy="256" r="7"/>
+  <circle class="f-red" cx="70" cy="278" r="7"/><circle class="f-red" cx="118" cy="278" r="7"/><circle class="f-red" cx="166" cy="278" r="7"/>
+  <path class="ln thin red" d="M190 208 H198 V282 H190"/>
+  <text class="t-s t-b tc-red" x="210" y="240">있으면 안 되는</text>
+  <text class="t-s t-b tc-red" x="210" y="260">조합 4가지</text>
+
+  <rect class="panel" x="350" y="16" width="390" height="288" rx="16"/>
+  <text class="t-l" x="370" y="46">이름 하나</text>
+  <text class="t-s" x="370" y="68">status 칸에는 넷 중 하나만</text>
+  <rect class="box gray" x="370" y="112" width="70" height="44" rx="10"/>
+  <text class="t-b mid" x="405" y="139">대기</text>
+  <path class="ln" d="M444 134 H498" marker-end="url(#ah)"/>
+  <text class="t-xs mid" x="472" y="124">저장 누름</text>
+  <rect class="box blue" x="506" y="112" width="92" height="44" rx="10"/>
+  <text class="t-b mid" x="552" y="139">저장 중</text>
+  <path class="ln green" d="M602 134 H642" marker-end="url(#ah-green)"/>
+  <text class="t-xs mid" x="622" y="124">성공</text>
+  <rect class="box green" x="650" y="112" width="74" height="44" rx="10"/>
+  <text class="t-b mid" x="687" y="139">완료</text>
+  <text class="t-xs mid" x="687" y="176">+ 받은 데이터</text>
+  <path class="ln red" d="M532 160 V218" marker-end="url(#ah-red)"/>
+  <text class="t-xs end" x="524" y="194">실패</text>
+  <path class="ln blue dash" d="M572 222 V164" marker-end="url(#ah-blue)"/>
+  <text class="t-xs" x="580" y="194">다시 시도</text>
+  <rect class="box red" x="506" y="226" width="92" height="44" rx="10"/>
+  <text class="t-b mid" x="552" y="253">오류</text>
+  <text class="t-xs mid" x="552" y="290">+ 실패한 이유</text>
+</svg></div><figcaption><b>그림 10-8</b>참·거짓 세 개는 있으면 안 되는 조합까지 만들어 냅니다. 이름 하나로 적으면 화살표로 이어진 길만 갈 수 있습니다.</figcaption></figure>
+<p>상태마다 딸린 데이터도 함께 정합니다. 받아 온 데이터는 완료일 때만, 실패한 이유는 오류일 때만 있습니다. 빈 목록 <code>[]</code>도 구분합니다. <strong>성공했는데 결과가 0건인 것</strong>은 받는 중인 것과도, 실패한 것과도 다릅니다.</p>
+<section class="level3" id="고치는-규칙을-함수-하나에">
+<h3>고치는 규칙을 함수 하나에</h3>
+<p>전이 규칙이 버튼 처리 코드, 타이머, 응답 처리 코드에 흩어져 있으면 서로 다르게 적히기 쉽습니다. 그래서 순수 함수 하나에 모읍니다. 지금 상태와 일어난 일을 받아 다음 상태를 돌려주는 이런 함수를 <strong>리듀서</strong>(reducer)라고 부릅니다.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><span class="kw">function</span> <span class="fu">next</span>(state<span class="op">,</span> <span class="bu">event</span>) {</span>
+<span id="cb4-2">  <span class="cf">if</span> (state<span class="op">.</span><span class="at">status</span> <span class="op">===</span> <span class="st">"idle"</span> <span class="op">&amp;&amp;</span> <span class="bu">event</span><span class="op">.</span><span class="at">type</span> <span class="op">===</span> <span class="st">"submit"</span>)</span>
+<span id="cb4-3">    <span class="cf">return</span> { <span class="dt">status</span><span class="op">:</span> <span class="st">"saving"</span> }<span class="op">;</span></span>
+<span id="cb4-4">  <span class="cf">if</span> (state<span class="op">.</span><span class="at">status</span> <span class="op">===</span> <span class="st">"saving"</span> <span class="op">&amp;&amp;</span> <span class="bu">event</span><span class="op">.</span><span class="at">type</span> <span class="op">===</span> <span class="st">"ok"</span>)</span>
+<span id="cb4-5">    <span class="cf">return</span> { <span class="dt">status</span><span class="op">:</span> <span class="st">"done"</span><span class="op">,</span> <span class="dt">data</span><span class="op">:</span> <span class="bu">event</span><span class="op">.</span><span class="at">data</span> }<span class="op">;</span></span>
+<span id="cb4-6">  <span class="cf">if</span> (state<span class="op">.</span><span class="at">status</span> <span class="op">===</span> <span class="st">"saving"</span> <span class="op">&amp;&amp;</span> <span class="bu">event</span><span class="op">.</span><span class="at">type</span> <span class="op">===</span> <span class="st">"fail"</span>)</span>
+<span id="cb4-7">    <span class="cf">return</span> { <span class="dt">status</span><span class="op">:</span> <span class="st">"error"</span><span class="op">,</span> <span class="dt">reason</span><span class="op">:</span> <span class="bu">event</span><span class="op">.</span><span class="at">reason</span> }<span class="op">;</span></span>
+<span id="cb4-8">  <span class="cf">return</span> state<span class="op">;</span>   <span class="co">// 그 밖의 조합은 무시한다</span></span>
+<span id="cb4-9">}</span></code></pre></div>
+<p><code>if</code> 하나가 그림의 화살표 하나입니다('다시 시도'도 한 줄 더하면 됩니다). 마지막 줄 덕분에 저장 중에 저장 버튼을 또 눌러도 아무 일이 없습니다. 두 번 저장되는 버그가 구조에서 사라집니다.</p>
+</section>
+<section class="level3" id="부탁과-사실을-구분하기">
+<h3>부탁과 사실을 구분하기</h3>
+<p><strong>명령</strong>(command)은 "해 주세요"라는 부탁이고, 거절될 수 있습니다. <strong>이벤트</strong>(event)는 "이미 일어났습니다"라는 사실입니다. '주문하기' 버튼을 누르자마자 "주문 완료"를 알리면 저장에 실패해도 알림이 나갑니다. 완료 알림은 저장이 끝났다는 답을 받은 뒤에 보냅니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>상태 안의 상태: 계층 상태 기계</summary><div class="deep-body">
+<p>문서 앱의 '대기', '저장 중', '편집 중' 어느 상태에서든 인터넷이 끊기면 '오프라인'으로 가야 합니다. 상태마다 화살표를 그리면 같은 규칙이 세 번 반복됩니다. 세 상태를 '온라인'이라는 큰 상태로 묶고 화살표를 한 번만 그립니다. 상태 안에 상태를 넣는 이 방식이 <strong>계층 상태 기계</strong>입니다.</p>
+</div></details>
+<details class="deep"><summary><small>한 걸음 더</small>답을 기다리지 않고 먼저 바꾸기: 낙관적 갱신</summary><div class="deep-body">
+<p>'좋아요'를 누르면 하트가 바로 빨개집니다. 서버의 답을 기다리지 않고, 성공하리라 믿고 화면부터 바꾼 것입니다. 이것이 <strong>낙관적 갱신</strong>(optimistic update)입니다. 실패하면 되돌려야 하는데, 그 사이에 한 다른 변경까지 지우지 않도록 실패한 작업만 되돌립니다. 결제 완료처럼 틀리면 안 되는 것은 서버의 답을 받은 뒤에만 표시합니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="subscribe">
+<h2><span class="sec-n">10.8</span>바뀌면 알려 주기: 구독과 뒷정리<a aria-label="이 절의 링크" class="anchor" href="#subscribe">#</a></h2>
+<p>장바구니가 바뀌면 배지도, 합계도, 주문 버튼도 다시 그려야 합니다. 장바구니 코드가 셋을 하나하나 부르면, 화면이 늘 때마다 장바구니 코드를 고쳐야 합니다.</p>
+<p>가게에서는 "떡볶이 다시 나오면 알려 주세요" 하는 손님의 연락처를 명단에 적어 두고, 나오면 명단의 모두에게 알립니다. 프로그램에서는 "바뀌면 이 함수를 불러 달라"고 등록하는 것이 <strong>구독</strong>(subscribe), 바뀌었을 때 등록된 함수를 모두 부르는 것이 <strong>발행</strong>(publish)입니다. 알리는 쪽은 누가 듣는지 몰라도 됩니다.</p>
+<p>함정이 하나 있습니다. <strong>명단에서 이름을 빼는 일은 저절로 되지 않습니다.</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><span class="kw">const</span> unsubscribe <span class="op">=</span> cart<span class="op">.</span><span class="fu">subscribe</span>(updateBadge)<span class="op">;</span>  <span class="co">// 화면을 열 때</span></span>
+<span id="cb5-2"><span class="fu">unsubscribe</span>()<span class="op">;</span>                                    <span class="co">// 화면을 닫을 때</span></span></code></pre></div>
+<p>1행은 구독하면서 해제용 함수를 받아 둡니다. 2행을 빠뜨리면 닫힌 화면의 함수가 명단에 남고, 화면을 다시 열면 하나가 더 등록됩니다.</p>
+<figure class="fig" id="fig-subscribe-leak"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>화면을 닫을 때 구독을 해제하지 않으면 명단에 구독이 쌓여, 세 번째로 열었을 때 알림 한 번에 세 번 반응한다</title>
+
+  <text class="t-s t-b" x="20" y="41">화면을</text>
+  <rect class="box blue" x="160" y="22" width="70" height="30" rx="8"/>
+  <text class="t-s t-b mid" x="195" y="42">열기</text>
+  <rect class="box gray" x="250" y="22" width="70" height="30" rx="8"/>
+  <text class="t-s mid" x="285" y="42">닫기</text>
+  <rect class="box blue" x="340" y="22" width="70" height="30" rx="8"/>
+  <text class="t-s t-b mid" x="375" y="42">열기</text>
+  <rect class="box gray" x="430" y="22" width="70" height="30" rx="8"/>
+  <text class="t-s mid" x="465" y="42">닫기</text>
+  <rect class="box blue" x="520" y="22" width="70" height="30" rx="8"/>
+  <text class="t-s t-b mid" x="555" y="42">열기</text>
+  <text class="t-s t-b mid" x="680" y="42">상품을 담으면</text>
+
+  <text class="t-b" x="20" y="116">해제 안 함</text>
+  <text class="t-s" x="20" y="136">명단에 쌓인다</text>
+  <rect class="solid blue" x="163" y="140" width="64" height="20" rx="5"/>
+  <rect class="solid gray" x="253" y="140" width="64" height="20" rx="5"/>
+  <rect class="solid gray" x="343" y="140" width="64" height="20" rx="5"/>
+  <rect class="solid blue" x="343" y="116" width="64" height="20" rx="5"/>
+  <rect class="solid gray" x="433" y="140" width="64" height="20" rx="5"/>
+  <rect class="solid gray" x="433" y="116" width="64" height="20" rx="5"/>
+  <rect class="solid gray" x="523" y="140" width="64" height="20" rx="5"/>
+  <rect class="solid gray" x="523" y="116" width="64" height="20" rx="5"/>
+  <rect class="solid blue" x="523" y="92" width="64" height="20" rx="5"/>
+  <text class="t-mono mid" x="195" y="182">1</text>
+  <text class="t-mono mid" x="285" y="182">1</text>
+  <text class="t-mono mid" x="375" y="182">2</text>
+  <text class="t-mono mid" x="465" y="182">2</text>
+  <text class="t-mono t-b mid tc-red" x="555" y="182">3</text>
+  <path class="ln red" d="M596 126 H617" marker-end="url(#ah-red)"/>
+  <rect class="box red" x="625" y="90" width="110" height="72" rx="12"/>
+  <text class="t-s mid" x="680" y="116">배지 갱신</text>
+  <text class="t-l mid tc-red" x="680" y="144">3번</text>
+
+  <path class="ln thin muted" d="M20 204 H740"/>
+
+  <text class="t-b" x="20" y="252">닫을 때 해제</text>
+  <text class="t-s" x="20" y="272">명단에서 뺀다</text>
+  <rect class="solid blue" x="163" y="252" width="64" height="20" rx="5"/>
+  <rect class="ghost dash" x="253" y="252" width="64" height="20" rx="5"/>
+  <rect class="solid blue" x="343" y="252" width="64" height="20" rx="5"/>
+  <rect class="ghost dash" x="433" y="252" width="64" height="20" rx="5"/>
+  <rect class="solid blue" x="523" y="252" width="64" height="20" rx="5"/>
+  <text class="t-mono mid" x="195" y="294">1</text>
+  <text class="t-mono mid" x="285" y="294">0</text>
+  <text class="t-mono mid" x="375" y="294">1</text>
+  <text class="t-mono mid" x="465" y="294">0</text>
+  <text class="t-mono t-b mid tc-green" x="555" y="294">1</text>
+  <path class="ln green" d="M596 262 H617" marker-end="url(#ah-green)"/>
+  <rect class="box green" x="625" y="226" width="110" height="72" rx="12"/>
+  <text class="t-s mid" x="680" y="252">배지 갱신</text>
+  <text class="t-l mid tc-green" x="680" y="280">1번</text>
+
+  <rect class="solid blue" x="160" y="320" width="14" height="14" rx="3"/>
+  <text class="t-xs" x="182" y="332">열려 있는 화면의 구독</text>
+  <rect class="solid gray" x="340" y="320" width="14" height="14" rx="3"/>
+  <text class="t-xs" x="362" y="332">닫힌 화면이 남기고 간 구독</text>
+</svg></div><figcaption><b>그림 10-9</b>열 때마다 구독하고 닫을 때 해제하지 않으면, 세 번째로 열었을 때는 상품을 한 번 담아도 배지를 세 번 갱신합니다.</figcaption></figure>
+<p>증상은 "같은 알림이 두 번, 세 번 뜬다", "들어갔다 나올수록 느려진다"입니다. 명단에 남은 함수는 클로저라서 닫힌 화면의 데이터까지 붙잡고 있습니다. <a href="ch03.html">3장</a>에서 본 메모리 누수의 흔한 원인입니다.</p>
+<p>타이머, 열어 둔 파일, 서버와의 연결처럼 <strong>쓰고 나서 정리해야 하는 것</strong>을 통틀어 <strong>자원</strong>(resource)이라고 합니다. 규칙은 하나입니다. <strong>만든 곳이 치웁니다.</strong> 화면을 열 때 만든 것은 그 화면을 닫을 때 정리합니다. 화면을 열 번 열고 닫은 뒤 구독 수가 처음과 같은지 세어 보면 확인할 수 있습니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>알아서 다시 계산해 주는 도구: 반응형과 묶어서 갱신하기</summary><div class="deep-body">
+<p>요즘 화면 도구는 "합계는 가격과 수량을 읽는다"는 관계를 기억했다가, 둘 중 하나가 바뀌면 합계를 알아서 다시 계산합니다. 이것이 <strong>반응형</strong>(reactive)이고, 무엇이 무엇을 읽는지가 <strong>의존성</strong>(dependency)입니다. 의존성을 손으로 적는 도구에서 쿠폰을 빠뜨리면, 쿠폰을 바꿔도 합계가 옛 값으로 남습니다.</p>
+<p>이런 도구는 변경 요청을 모았다가 화면을 한 번만 다시 그리기도 합니다. <strong>배칭</strong>(batching)입니다. React에서 클릭 한 번에 <code>setCount(count + 1)</code>을 세 번 불러도 1만 늘어납니다. 셋 다 같은 옛 <code>count</code>로 계산했기 때문입니다. <code>setCount(c =&gt; c + 1)</code>처럼 함수를 넘기면 3이 늘어납니다.</p>
+</div></details>
+</section>
+<section class="level2" id="stale">
+<h2><span class="sec-n">10.9</span>늦게 도착한 응답: 번호표로 걸러 내기<a aria-label="이 절의 링크" class="anchor" href="#stale">#</a></h2>
+<p>검색창에 '서울'을 치자 프로그램이 서버에 검색을 요청했습니다. 이어서 '역'을 치자 '서울역' 요청이 또 나갔습니다. 그런데 서버가 '서울역'에 먼저 답하고, '서울'에는 한참 뒤에 답했습니다. 화면은 '서울역' 결과를 잠깐 보여 주다가 '서울' 결과로 바뀌어 버립니다.</p>
+<figure class="fig" id="fig-stale-response"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>먼저 보낸 서울 요청의 응답이 나중에 도착해 서울역 결과를 덮어쓰고, 요청 번호를 확인하면 늦은 응답을 버릴 수 있다</title>
+
+  <text class="t-xs mid" x="170" y="24">0초</text>
+  <text class="t-xs mid" x="280" y="24">0.2초</text>
+  <text class="t-xs mid" x="390" y="24">0.4초</text>
+  <text class="t-xs mid" x="610" y="24">0.8초</text>
+  <path class="ln thin muted" d="M170 34 H724" marker-end="url(#ah-muted)"/>
+  <path class="ln thin muted" d="M170 30 V38 M280 30 V38 M390 30 V38 M610 30 V38"/>
+
+  <text class="t-b" x="20" y="64">1번 요청</text>
+  <text class="t-s" x="20" y="83">서울</text>
+  <rect class="box warm" x="170" y="48" width="440" height="36" rx="8"/>
+  <text class="t-s mid" x="390" y="71">서버가 늦게 답한다</text>
+
+  <text class="t-b" x="20" y="112">2번 요청</text>
+  <text class="t-s" x="20" y="131">서울역</text>
+  <rect class="box blue" x="280" y="96" width="110" height="36" rx="8"/>
+  <text class="t-s mid" x="335" y="119">금방 답한다</text>
+
+  <path class="ln blue" d="M390 136 V158" marker-end="url(#ah-blue)"/>
+  <path class="ln warm" d="M610 88 V158" marker-end="url(#ah-warm)"/>
+
+  <text class="t-b" x="20" y="184">화면</text>
+  <text class="t-s" x="20" y="203">오는 대로 반영</text>
+  <rect class="ghost dash" x="170" y="166" width="220" height="40" rx="8"/>
+  <text class="t-s mid" x="280" y="191">불러오는 중</text>
+  <rect class="box green" x="390" y="166" width="220" height="40" rx="8"/>
+  <text class="mid" x="500" y="191">서울역 결과</text>
+  <rect class="box red" x="610" y="166" width="114" height="40" rx="8"/>
+  <text class="t-b mid tc-red" x="667" y="191">서울 결과</text>
+  <text class="t-xs t-b tc-red mid" x="667" y="224">옛 결과로 덮임</text>
+
+  <text class="t-b" x="20" y="254">화면</text>
+  <text class="t-s" x="20" y="273">번호표 확인</text>
+  <rect class="ghost dash" x="170" y="236" width="220" height="40" rx="8"/>
+  <text class="t-s mid" x="280" y="261">불러오는 중</text>
+  <rect class="box green" x="390" y="236" width="334" height="40" rx="8"/>
+  <text class="mid" x="500" y="261">서울역 결과</text>
+  <path class="ln thin dash muted" d="M610 240 V272"/>
+  <text class="t-s mid" x="667" y="261">그대로</text>
+  <text class="t-xs mid" x="590" y="300">1번 응답 도착 — 기다리는 번호는 2번이라 버린다</text>
+</svg></div><figcaption><b>그림 10-10</b>먼저 보낸 요청의 응답이 나중에 도착했습니다. 오는 대로 반영하는 화면은 옛 결과로 덮이고, 번호를 확인하는 화면은 그대로입니다.</figcaption></figure>
+<p>요청은 <strong>보낸 순서대로 돌아온다는 보장이 없습니다.</strong> "응답이 오면 화면에 반영한다"는 코드는 요청이 하나일 때만 옳습니다.</p>
+<p>은행 창구의 번호표가 해결책입니다. 요청마다 번호를 붙이고, 응답이 왔을 때 <strong>지금 기다리는 번호가 맞는지</strong> 확인합니다.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><span class="kw">let</span> latest <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-2"><span class="kw">async</span> <span class="kw">function</span> <span class="fu">search</span>(word) {</span>
+<span id="cb6-3">  <span class="kw">const</span> id <span class="op">=</span> <span class="op">++</span>latest<span class="op">;</span></span>
+<span id="cb6-4">  <span class="kw">const</span> result <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetchResults</span>(word)<span class="op">;</span></span>
+<span id="cb6-5">  <span class="cf">if</span> (id <span class="op">!==</span> latest) <span class="cf">return</span><span class="op">;</span>   <span class="co">// 옛 요청의 응답은 버린다</span></span>
+<span id="cb6-6">  <span class="fu">show</span>(result)<span class="op">;</span></span>
+<span id="cb6-7">}</span></code></pre></div>
+<p>3행에서 번호표를 뽑습니다. 2행의 <code>async</code>와 4행의 <code>await</code>는 응답이 올 때까지 이 함수만 잠시 멈춰 둔다는 표시입니다(<a href="ch11.html">11장</a>에서 다룹니다). 기다리는 사이에 <code>search</code>가 또 불리면 <code>latest</code>가 올라갑니다. 5행에서 내 번호 <code>id</code>가 최신 번호와 다르면 조용히 물러납니다. <code>id</code>는 부를 때마다 따로 생기는, 클로저가 붙잡은 값입니다.</p>
+<p>화면을 떠난 뒤에 도착한 응답도 같은 방법으로 걸러 냅니다. 필요 없어진 요청은 취소까지 하면 더 좋지만, 취소가 한발 늦을 수 있으므로 번호 확인은 남겨 둡니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>기다림이 끼어드는 곳마다 물어보세요. <strong>"이 응답이 도착했을 때, 화면은 아직 이 응답을 기다리고 있는가?"</strong></p>
+</div>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>원본 / 파생 값</td>
+<td>직접 적어 두는 사실 / 원본에서 계산하면 나오는 값</td>
+</tr>
+<tr>
+<td>얕은 복사 / 깊은 복사</td>
+<td>겉 상자만 새로 / 안쪽까지 전부 새로</td>
+</tr>
+<tr>
+<td>상속 / 조합</td>
+<td>통째로 물려받기 / 필요한 부품을 끼워 넣기</td>
+</tr>
+<tr>
+<td>명령 / 이벤트</td>
+<td>"해 주세요"라는 부탁 / "일어났습니다"라는 사실</td>
+</tr>
+<tr>
+<td>없음 / 실패</td>
+<td>정상인데 결과가 비었음 / 결과를 알아내지 못했음</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 취소를 눌렀는데 프로필이 바뀌어 있다</div>
+<p>AI가 만들어 준 프로필 편집 화면입니다. 태그를 추가하고 '취소'를 눌렀는데 프로필에 그 태그가 보입니다. 저장 버튼을 빠르게 두 번 누르면 저장도 두 번 됩니다.</p>
+<ol type="1">
+<li><strong>다시 일으켜 봅니다.</strong> 이름만 고치고 취소하면 멀쩡하고, 태그를 고쳤을 때만 문제가 생깁니다. 안쪽에 든 배열이 수상합니다.</li>
+<li><strong>쪽지를 비교합니다.</strong> <code>draft.tags === original.tags</code>를 찍어 보니 <code>true</code>입니다. 초안과 원본이 같은 배열을 함께 쓰는 얕은 복사였습니다.</li>
+<li><strong>주인을 정합니다.</strong> 초안의 주인은 편집 화면입니다. 편집을 시작할 때 태그 배열까지 복사해 초안을 떼어 내고, 원본은 저장에 성공했을 때만 고칩니다.</li>
+<li><strong>저장 상태에 이름을 붙입니다.</strong> 대기, 저장 중, 완료, 오류로 나누고, 저장 중에 또 들어온 요청은 무시합니다. 화면을 떠난 뒤 도착한 응답도 버립니다.</li>
+<li><strong>확인합니다.</strong> 태그를 고친 뒤 취소하기, 저장 버튼 연달아 누르기, 저장 중에 화면 떠나기를 각각 해 봅니다.</li>
+</ol>
+<p>고친 뒤의 취소는 "되돌리기"가 아닙니다. 애초에 원본을 건드린 적이 없으니 되돌릴 것도 없습니다.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li><strong>상태</strong>는 프로그램이 기억하고 있는 것입니다. 버그의 대부분은 상태가 꼬여서 생깁니다.</li>
+<li>계산은 <strong>순수 함수</strong>로 하고, <strong>부수 효과</strong>는 눈에 띄는 한곳에 둡니다.</li>
+<li>상태는 숨기고 정해진 창구(<strong>인터페이스</strong>)로만 고칩니다. '없음'과 '실패'는 구분합니다.</li>
+<li>같은 사실은 <strong>한 곳에만</strong> 적고 주인을 하나 둡니다. <strong>파생 값</strong>은 저장하지 않습니다.</li>
+<li><strong>얕은 복사</strong>는 안쪽을 함께 씁니다. 고치는 대신 새로 만들면(<strong>불변 업데이트</strong>) 실행 취소도 쉽습니다.</li>
+<li>참·거짓 여러 개 대신 <strong>상태 기계</strong>로 적으면 있을 수 없는 상태를 만들 수 없습니다.</li>
+<li>구독과 타이머는 <strong>만든 곳이 치웁니다.</strong> 늦게 도착한 응답은 <strong>번호표</strong>로 걸러 냅니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>동료가 장바구니 상태에 <code>items</code>와 <code>total</code>(합계)을 둘 다 저장하자고 합니다. 무엇을 먼저 확인해야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p><code>total</code>이 지금의 <code>items</code>에서 계산하면 나오는 값인지 확인합니다. 그렇다면 파생 값이므로 저장하지 않고 필요할 때 계산합니다. 다만 이미 결제한 주문의 금액이라면 과거의 사실이므로 따로 적어 둡니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p><code>const draft = { ...profile }</code>로 초안을 만든 뒤 <code>draft.address.city = "부산"</code>을 실행했습니다. <code>profile.address.city</code>는 어떻게 될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>"부산"으로 바뀝니다. 얕은 복사라서 <code>address</code> 칸의 쪽지만 옮겨 적었고, 두 객체가 같은 주소 객체를 가리킵니다. <code>address: { ...profile.address }</code>처럼 고칠 곳까지 새로 만들어야 합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>화면에 로딩 표시와 오류 문구가 동시에 떠 있습니다. 코드에는 <code>isLoading</code>과 <code>isError</code>가 따로 있습니다. 구조를 어떻게 바꿔야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>둘 다 참이 되는 조합을 코드가 만들 수 있다는 것이 원인입니다. <code>status</code> 하나에 대기, 불러오는 중, 완료, 오류 중 하나만 적고, 전이 규칙을 함수 하나에 모읍니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>검색 함수가 네트워크 오류가 나면 빈 배열 <code>[]</code>을 돌려줍니다. 화면에는 "검색 결과가 없습니다"가 뜹니다. 무엇이 문제일까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>'없음'과 '실패'를 하나로 뭉쳤습니다. 사용자는 정말 결과가 없는지 인터넷이 끊겼는지 알 수 없습니다. 성공(결과 0건)과 실패를 구분해 돌려주고, 화면도 따로 보여 줍니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>채팅방에 다섯 번 들어갔다 나온 뒤부터 새 메시지 알림음이 다섯 번씩 울립니다. 무엇을 의심해야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>들어갈 때마다 새 메시지 알림을 구독하고, 나갈 때 해제하지 않은 것입니다. 드나들 때마다 구독 수를 찍어 보면 1, 2, 3으로 늘어납니다. 구독할 때 받은 해제 함수를 화면을 닫을 때 부르면 됩니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>AI 코딩 도구는 돌아가는 화면은 금방 만들지만, 상태의 주인과 실패한 경우는 건너뛰기 쉽습니다. 코드를 쓰게 하기 전에 <strong>상태 설계부터 글로 적게</strong> 하세요.</p>
+<blockquote>
+<p>프로필 편집 화면을 고쳐 줘. 코드를 쓰기 전에 (1) 원본 프로필과 편집 중인 초안의 주인이 각각 어디인지, (2) 저장의 상태(대기, 저장 중, 완료, 오류)와 상태별로 허용되는 동작을 표로 적어 줘. 조건은 세 가지야. 취소하면 원본은 한 글자도 바뀌지 않는다. 저장 중에는 버튼을 다시 눌러도 요청이 한 번만 나간다. 화면을 떠난 뒤 도착한 응답은 반영하지 않는다. 완료 조건은 테스트 세 개 통과야. 태그를 고친 뒤 취소하기, 저장 버튼 연달아 누르기, 저장 중에 화면 떠나기.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: 초안을 만들 때 안쪽 배열까지 따로 복사했는가. 참·거짓 변수 여러 개가 아니라 상태 이름 하나로 적었는가. 응답을 반영하기 전에 최신 요청인지 확인하는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>상태<small>state</small></dt>
+<dd>
+프로그램이 지금 기억하고 있는 것.
+</dd>
+<dt>스코프<small>scope</small></dt>
+<dd>
+변수 이름이 보이는 범위.
+</dd>
+<dt>클로저<small>closure</small></dt>
+<dd>
+자기가 만들어진 곳의 변수를 붙잡고 있는 함수.
+</dd>
+<dt>순수 함수<small>pure function</small></dt>
+<dd>
+입력만으로 결과를 계산하고 바깥을 바꾸지 않는 함수.
+</dd>
+<dt>부수 효과<small>side effect</small></dt>
+<dd>
+함수가 자기 바깥의 것을 바꾸는 일.
+</dd>
+<dt>캡슐화<small>encapsulation</small></dt>
+<dd>
+안쪽 데이터를 숨기고 정해진 함수로만 고치게 하는 것.
+</dd>
+<dt>인터페이스<small>interface</small></dt>
+<dd>
+밖에서 쓸 수 있게 열어 둔 기능의 목록과 약속.
+</dd>
+<dt>기준 데이터<small>source of truth</small></dt>
+<dd>
+같은 사실의 여러 사본 가운데 진짜로 삼는 한 곳. 원본.
+</dd>
+<dt>파생 값<small>derived value</small></dt>
+<dd>
+다른 상태에서 계산하면 나오는 값.
+</dd>
+<dt>얕은 복사<small>shallow copy</small></dt>
+<dd>
+겉 상자만 새로 만들고 안쪽은 함께 쓰는 복사.
+</dd>
+<dt>불변 업데이트<small>immutable update</small></dt>
+<dd>
+값을 고치지 않고 새 값을 만들어 갈아 끼우는 방식.
+</dd>
+<dt>상태 기계<small>state machine</small></dt>
+<dd>
+가능한 상태의 목록과 상태 사이의 전이 규칙을 정해 둔 것.
+</dd>
+<dt>리듀서<small>reducer</small></dt>
+<dd>
+지금 상태와 일어난 일을 받아 다음 상태를 돌려주는 순수 함수.
+</dd>
+<dt>발행·구독<small>publish–subscribe</small></dt>
+<dd>
+바뀌면 알려 달라고 등록해 두고, 바뀌면 등록된 함수를 모두 부르는 방식.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://ko.react.dev/learn/choosing-the-state-structure" rel="noopener" target="_blank">React — State 구조 선택하기</a> — 모순되는 상태, 겹치는 상태, 파생 값을 피하는 법을 예제로 보여 줍니다.</li>
+<li><a href="https://ko.react.dev/learn/updating-objects-in-state" rel="noopener" target="_blank">React — 객체 State 업데이트하기</a> — 얕은 복사와 불변 업데이트를 그림과 함께 설명합니다.</li>
+<li><a href="https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Closures" rel="noopener" target="_blank">MDN — 클로저</a> — 스코프와 클로저를 예제로 차근차근 풀어 줍니다.</li>
+<li><a href="https://redux.js.org/usage/implementing-undo-history" rel="noopener" target="_blank">Redux — Implementing Undo History</a> — 과거·현재·미래 세 칸으로 실행 취소를 만듭니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch09.html"><small>← 이전 · 9장</small><b>알고리즘과 비용</b></a><a class="next" href="ch11.html"><small>다음 · 11장 →</small><b>동시성과 비동기</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#state">상태: 프로그램이 기억하고 있는 것</a><a href="#function">함수와 클로저: 기억은 어디에 사는가</a><a href="#object">객체와 인터페이스: 장부는 창구로만 고칩니다</a><a href="#owner">원본은 한 곳에: 주인과 파생 값</a><a href="#copy">복사했는데 같이 바뀐다: 얕은 복사</a><a href="#immutable">고치지 말고 새로 쓰기: 불변 업데이트와 실행 취소</a><a href="#machine">상태 기계: 있을 수 없는 상태를 못 만들게</a><a href="#subscribe">바뀌면 알려 주기: 구독과 뒷정리</a><a href="#stale">늦게 도착한 응답: 번호표로 걸러 내기</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

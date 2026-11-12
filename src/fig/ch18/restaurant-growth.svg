@@ -1,0 +1,57 @@
+<svg viewBox="0 0 760 416" xmlns="http://www.w3.org/2000/svg">
+  <title>식당이 1인 가게에서 주방과 홀, 여러 지점으로 커지듯 시스템도 한 프로그램에서 모듈, 여러 서비스로 커지고 단계마다 새 숙제가 생긴다</title>
+  <text class="t-s t-b" x="22" y="86">식당이</text>
+  <text class="t-s t-b" x="22" y="104">커지면</text>
+  <text class="t-s t-b" x="22" y="252">시스템도</text>
+  <text class="t-s t-b" x="22" y="270">커진다</text>
+  <text class="t-s t-b" x="22" y="368">그때 생기는</text>
+  <text class="t-s t-b" x="22" y="386">숙제</text>
+
+  <rect class="box yellow" x="112" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-chef" x="183" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="207" y="114">1인 식당</text>
+  <text class="t-s mid" x="207" y="135">사장 혼자 다 한다</text>
+
+  <rect class="box yellow" x="332" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-ticket" x="403" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="427" y="114">주방과 홀</text>
+  <text class="t-s mid" x="427" y="135">주문서로 일을 넘긴다</text>
+
+  <rect class="box yellow" x="552" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-phone" x="623" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="647" y="114">여러 지점</text>
+  <text class="t-s mid" x="647" y="135">전화로 일을 넘긴다</text>
+
+  <path class="ln" d="M306 89 H324" marker-end="url(#ah)"/>
+  <path class="ln" d="M526 89 H544" marker-end="url(#ah)"/>
+
+  <path class="ln muted" d="M207 154 V190" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M427 154 V190" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M647 154 V190" marker-end="url(#ah-muted)"/>
+
+  <rect class="box blue" x="112" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-box" x="183" y="206" width="48" height="48" class="ic blue"/>
+  <text class="t-l mid" x="207" y="280">프로그램 하나</text>
+  <text class="t-s mid" x="207" y="301">함수를 바로 부른다</text>
+
+  <rect class="box blue" x="332" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-layers" x="403" y="206" width="48" height="48" class="ic blue"/>
+  <text class="t-l mid" x="427" y="280">모듈로 나눈 프로그램</text>
+  <text class="t-s mid" x="427" y="301">정해진 창구로 부른다</text>
+
+  <rect class="box purple" x="552" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-network" x="623" y="206" width="48" height="48" class="ic purple"/>
+  <text class="t-l mid" x="647" y="280">여러 서비스</text>
+  <text class="t-s mid" x="647" y="301">네트워크로 부른다</text>
+
+  <path class="ln muted" d="M207 320 V338" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M427 320 V338" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M647 320 V338" marker-end="url(#ah-muted)"/>
+
+  <rect class="box warm" x="112" y="346" width="190" height="50" rx="12"/>
+  <text class="t-b mid" x="207" y="376">일이 뒤엉키기 쉽다</text>
+  <rect class="box warm" x="332" y="346" width="190" height="50" rx="12"/>
+  <text class="t-b mid" x="427" y="376">약속을 지켜야 한다</text>
+  <rect class="box red" x="552" y="346" width="190" height="50" rx="12"/>
+  <text class="t-b mid" x="647" y="376">늦고, 끊기고, 모른다</text>
+</svg>

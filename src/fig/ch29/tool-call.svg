@@ -1,0 +1,53 @@
+<svg viewBox="0 0 760 450" xmlns="http://www.w3.org/2000/svg">
+  <title>도구 호출에서 모델은 요청서를 쓸 뿐이고, 검사와 실제 실행은 내 코드가 한 뒤 결과를 모델에게 돌려준다</title>
+
+  <path class="ln thin muted dash" d="M130 76 V436"/>
+  <path class="ln thin muted dash" d="M400 76 V436"/>
+  <path class="ln thin muted dash" d="M660 76 V338"/>
+
+  <rect class="box purple" x="40" y="20" width="180" height="52" rx="12"/>
+  <use href="#i-robot" x="52" y="28" width="36" height="36" class="ic purple"/>
+  <text class="t-l" x="98" y="43">모델</text>
+  <text class="t-xs" x="98" y="61">글만 쓸 수 있다</text>
+
+  <rect class="box blue" x="310" y="20" width="180" height="52" rx="12"/>
+  <use href="#i-code" x="322" y="28" width="36" height="36" class="ic blue"/>
+  <text class="t-l" x="368" y="43">내 코드</text>
+  <text class="t-xs" x="368" y="61">검사하고 실행한다</text>
+
+  <rect class="box green" x="580" y="20" width="160" height="52" rx="12"/>
+  <use href="#i-db" x="590" y="28" width="36" height="36" class="ic green"/>
+  <text class="t-l" x="634" y="43">주문 DB</text>
+  <text class="t-xs" x="634" y="61">실제 주문 기록</text>
+
+  <circle class="badge blue" cx="152" cy="104" r="12"/><text class="badge-t" x="152" y="108.500">1</text>
+  <text x="172" y="109">“1042번 주문 어디쯤이에요?”</text>
+  <path class="ln blue" d="M394 122 H138" marker-end="url(#ah-blue)"/>
+
+  <circle class="badge purple" cx="152" cy="158" r="12"/><text class="badge-t" x="152" y="162.500">2</text>
+  <text class="t-mono" x="172" y="163">get_order(order_id=1042)</text>
+  <path class="ln purple" d="M136 176 H392" marker-end="url(#ah-purple)"/>
+  <text class="t-xs tc-purple" x="172" y="195">요청서일 뿐, 아직 실행 전</text>
+
+  <rect class="box blue" x="310" y="210" width="180" height="40" rx="10"/>
+  <circle class="badge blue" cx="330" cy="230" r="12"/><text class="badge-t" x="330" y="234.500">3</text>
+  <text class="t-s t-b t-ink" x="350" y="235">본인 주문인지 검사</text>
+
+  <circle class="badge blue" cx="424" cy="268" r="12"/><text class="badge-t" x="424" y="272.500">4</text>
+  <text class="t-mono" x="444" y="273">주문 1042 조회</text>
+  <path class="ln blue" d="M406 286 H652" marker-end="url(#ah-blue)"/>
+  <text class="t-mono" x="444" y="313">status: "배송 중"</text>
+  <path class="ln green" d="M654 324 H408" marker-end="url(#ah-green)"/>
+
+  <circle class="badge blue" cx="152" cy="356" r="12"/><text class="badge-t" x="152" y="360.500">5</text>
+  <text x="172" y="361">결과 전달: 배송 중</text>
+  <path class="ln blue" d="M394 374 H138" marker-end="url(#ah-blue)"/>
+
+  <circle class="badge purple" cx="152" cy="404" r="12"/><text class="badge-t" x="152" y="408.500">6</text>
+  <text x="172" y="409">“1042번은 배송 중입니다.”</text>
+  <path class="ln purple" d="M136 422 H392" marker-end="url(#ah-purple)"/>
+
+  <rect class="box yellow" x="480" y="358" width="260" height="72" rx="12"/>
+  <text class="t-s t-ink" x="496" y="386">모델이 쓴 것: 요청서(2)와 답(6)</text>
+  <text class="t-s t-b t-ink" x="496" y="410">DB를 만진 것: 내 코드뿐</text>
+</svg>

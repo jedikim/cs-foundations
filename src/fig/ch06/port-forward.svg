@@ -1,0 +1,36 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>포트 포워딩은 내 노트북의 9000번으로 들어온 연결을 SSH 통로 건너편, 서버 자신의 8000번으로 넘겨 준다</title>
+
+  <text class="t-mono" x="195" y="36">ssh -L <tspan class="t-b tc-blue">9000</tspan>:<tspan class="t-b tc-green">localhost:8000</tspan> mina@203.0.113.10</text>
+  <text class="t-xs tc-blue end" x="290" y="60">내 노트북에 여는 포트</text>
+  <text class="t-xs tc-green" x="300" y="60">서버 쪽에서 찾아갈 곳</text>
+
+  <rect class="panel blue" x="20" y="84" width="280" height="196" rx="14"/>
+  <text class="t-s t-b" x="36" y="110">내 노트북</text>
+  <rect class="box" x="36" y="130" width="112" height="60" rx="10"/>
+  <use href="#i-browser" x="44" y="146" width="28" height="28" class="ic blue"/>
+  <text class="t-b" x="78" y="166">브라우저</text>
+  <path class="ln blue" d="M154 160 H194" marker-end="url(#ah-blue)"/>
+  <rect class="box blue" x="202" y="138" width="82" height="44" rx="10"/>
+  <text class="t-mono t-b mid" x="243" y="165">:9000</text>
+  <text class="t-mono" x="36" y="226">localhost:9000</text>
+  <text class="t-xs tc-blue" x="36" y="250">여기서 localhost는 내 노트북</text>
+
+  <rect class="panel green" x="460" y="84" width="280" height="196" rx="14"/>
+  <text class="t-s t-b" x="476" y="110">원격 서버</text>
+  <text class="t-mono end" x="724" y="110">203.0.113.10</text>
+  <rect class="box green" x="476" y="138" width="82" height="44" rx="10"/>
+  <text class="t-mono t-b mid" x="517" y="165">:8000</text>
+  <path class="ln green" d="M564 160 H604" marker-end="url(#ah-green)"/>
+  <rect class="box" x="612" y="130" width="112" height="60" rx="10"/>
+  <use href="#i-server" x="620" y="146" width="28" height="28" class="ic green"/>
+  <text class="t-b" x="654" y="166">앱 서버</text>
+  <text class="t-mono" x="476" y="226">localhost:8000</text>
+  <text class="t-xs tc-green" x="476" y="250">여기서 localhost는 서버 자신</text>
+
+  <rect class="box purple" x="284" y="146" width="192" height="28" rx="14"/>
+  <text class="t-xs t-b mid tc-purple" x="380" y="164.500">SSH 통로</text>
+  <text class="t-xs mid" x="380" y="196">암호화되어 지나감</text>
+
+  <text class="t-s mid" x="380" y="306">글자는 같은 localhost, 가리키는 컴퓨터는 서로 다르다</text>
+</svg>

@@ -1,0 +1,79 @@
+<svg viewBox="0 0 760 362" xmlns="http://www.w3.org/2000/svg">
+  <title>스냅샷을 받는 대로 그리면 위치가 계단처럼 건너뛰고, 100ms 늦춰 두 스냅샷 사이를 채우면 매끄럽게 움직인다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="330" rx="16"/>
+  <text class="t-l" x="40" y="46">받는 대로 그리면</text>
+  <text class="t-s" x="40" y="68">0.1초마다 2칸씩 건너뛴다</text>
+  <circle class="f-warm" cx="46" cy="92" r="5"/>
+  <text class="t-xs" x="58" y="96">도착한 스냅샷</text>
+  <path class="ln red" d="M170 92 H194"/>
+  <text class="t-xs" x="202" y="96">화면에 그린 위치</text>
+  <text class="t-xs" x="40" y="126">위치(칸)</text>
+  <path class="ln thin muted" d="M70 288 H354"/>
+  <text class="t-xs end" x="62" y="292">6</text>
+  <path class="ln thin muted" d="M70 242 H354"/>
+  <text class="t-xs end" x="62" y="246">8</text>
+  <path class="ln thin muted" d="M70 196 H354"/>
+  <text class="t-xs end" x="62" y="200">10</text>
+  <path class="ln thin muted" d="M70 150 H354"/>
+  <text class="t-xs end" x="62" y="154">12</text>
+  <path class="ln thin" d="M70 134 V304 H354"/>
+  <text class="t-xs mid" x="80" y="322">0</text>
+  <text class="t-xs mid" x="165" y="322">100</text>
+  <text class="t-xs mid" x="250" y="322">200</text>
+  <text class="t-xs mid" x="335" y="322">300ms</text>
+  <path class="ln thick red" d="M80 288 H165 V242 H250 V196 H335 V150"/>
+  <circle class="f-warm" cx="80" cy="288" r="5.500"/>
+  <circle class="f-warm" cx="165" cy="242" r="5.500"/>
+  <circle class="f-warm" cx="250" cy="196" r="5.500"/>
+  <circle class="f-warm" cx="335" cy="150" r="5.500"/>
+  <text class="t-xs t-b tc-red" x="175" y="270">순간이동</text>
+  <text class="t-xs t-b tc-red" x="260" y="224">순간이동</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="330" rx="16"/>
+  <text class="t-l" x="410" y="46">0.1초 늦춰 사이를 채우면</text>
+  <text class="t-s" x="410" y="68">프레임마다 조금씩 움직인다</text>
+  <circle class="f-warm" cx="416" cy="92" r="5"/>
+  <text class="t-xs" x="428" y="96">도착한 스냅샷</text>
+  <path class="ln green" d="M540 92 H564"/>
+  <text class="t-xs" x="572" y="96">화면에 그린 위치</text>
+  <text class="t-xs" x="410" y="126">위치(칸)</text>
+  <path class="ln thin muted" d="M440 288 H724"/>
+  <text class="t-xs end" x="432" y="292">6</text>
+  <path class="ln thin muted" d="M440 242 H724"/>
+  <text class="t-xs end" x="432" y="246">8</text>
+  <path class="ln thin muted" d="M440 196 H724"/>
+  <text class="t-xs end" x="432" y="200">10</text>
+  <path class="ln thin muted" d="M440 150 H724"/>
+  <text class="t-xs end" x="432" y="154">12</text>
+  <path class="ln thin" d="M440 134 V304 H724"/>
+  <text class="t-xs mid" x="450" y="322">0</text>
+  <text class="t-xs mid" x="535" y="322">100</text>
+  <text class="t-xs mid" x="620" y="322">200</text>
+  <text class="t-xs mid" x="705" y="322">300ms</text>
+  <path class="ln thin green dash" d="M450 288 H535"/>
+  <path class="ln green" d="M535 288 L620 242 L705 196"/>
+  <circle class="f-green" cx="535.0" cy="288.0" r="3.500"/>
+  <circle class="f-green" cx="549.2" cy="280.3" r="3.500"/>
+  <circle class="f-green" cx="563.3" cy="272.7" r="3.500"/>
+  <circle class="f-green" cx="577.5" cy="265.0" r="3.500"/>
+  <circle class="f-green" cx="591.7" cy="257.3" r="3.500"/>
+  <circle class="f-green" cx="605.8" cy="249.7" r="3.500"/>
+  <circle class="f-green" cx="620.0" cy="242.0" r="3.500"/>
+  <circle class="f-green" cx="634.2" cy="234.3" r="3.500"/>
+  <circle class="f-green" cx="648.3" cy="226.7" r="3.500"/>
+  <circle class="f-green" cx="662.5" cy="219.0" r="3.500"/>
+  <circle class="f-green" cx="676.7" cy="211.3" r="3.500"/>
+  <circle class="f-green" cx="690.8" cy="203.7" r="3.500"/>
+  <circle class="f-green" cx="705.0" cy="196.0" r="3.500"/>
+  <circle class="f-warm" cx="450" cy="288" r="5.500"/>
+  <circle class="f-warm" cx="535" cy="242" r="5.500"/>
+  <circle class="f-warm" cx="620" cy="196" r="5.500"/>
+  <circle class="f-warm" cx="705" cy="150" r="5.500"/>
+  <path class="ln thin dash warm" d="M544 242 H612"/>
+  <text class="t-xs tc-warm mid" x="577.5" y="234">100ms 뒤에 그림</text>
+  <circle class="ln blue" cx="577.5" cy="265" r="8"/>
+  <path class="ln thin dash blue" d="M577.5 274 V304"/>
+  <text class="t-xs tc-blue mid" x="577.5" y="322">150</text>
+  <text class="t-s t-b tc-blue" x="593.5" y="284">6과 8의 중간 = 7</text>
+</svg>

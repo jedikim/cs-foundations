@@ -1,0 +1,54 @@
+<svg viewBox="0 0 760 500" xmlns="http://www.w3.org/2000/svg">
+  <title>재고가 1개일 때 두 구매자가 각자 읽고 저장하면 주문이 2건 생기지만, 조건을 붙인 UPDATE 한 번으로 고치면 한 명만 성공한다</title>
+  <text class="t-l tc-red" x="20" y="28">읽고 → 계산하고 → 저장하면</text>
+  <text class="t-xs end" x="740" y="28">시간 →</text>
+
+  <text class="t-b" x="20" y="67">구매자 A</text>
+  <rect class="box blue" x="120" y="40" width="145" height="44" rx="9"/>
+  <text class="t-s mid" x="192.5" y="58">재고를 읽는다</text>
+  <text class="t-mono t-b mid" x="192.5" y="76">qty = 1</text>
+  <rect class="box blue" x="430" y="40" width="145" height="44" rx="9"/>
+  <text class="t-s mid" x="502.5" y="58">0을 저장한다</text>
+  <text class="t-b mid" x="502.5" y="76">주문 생성</text>
+  <text class="t-b" x="20" y="128">재고 qty</text>
+  <rect class="box green" x="120" y="108" width="145" height="30" rx="8"/>
+  <text class="t-mono t-b mid" x="192.5" y="128">1</text>
+  <rect class="box green" x="275" y="108" width="145" height="30" rx="8"/>
+  <text class="t-mono t-b mid" x="347.5" y="128">1</text>
+  <rect class="box green" x="430" y="108" width="145" height="30" rx="8"/>
+  <text class="t-mono t-b mid" x="502.5" y="128">0</text>
+  <rect class="box green" x="585" y="108" width="145" height="30" rx="8"/>
+  <text class="t-mono t-b mid" x="657.5" y="128">0</text>
+  <text class="t-b" x="20" y="189">구매자 B</text>
+  <rect class="box warm" x="275" y="162" width="145" height="44" rx="9"/>
+  <text class="t-s mid" x="347.5" y="180">재고를 읽는다</text>
+  <text class="t-mono t-b mid" x="347.5" y="198">qty = 1</text>
+  <rect class="box warm" x="585" y="162" width="145" height="44" rx="9"/>
+  <text class="t-s mid" x="657.5" y="180">0을 저장한다</text>
+  <text class="t-b mid" x="657.5" y="198">주문 생성</text>
+  <path class="ln blue" d="M192.5 104 V90" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M502.5 88 V102" marker-end="url(#ah-blue)"/>
+  <path class="ln warm" d="M347.5 142 V156" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M657.5 158 V144" marker-end="url(#ah-warm)"/>
+  <text class="t-b tc-red" x="120" y="230">재고는 0인데 주문은 2건 — 없는 상품을 팔았다</text>
+
+  <text class="t-l tc-green" x="20" y="268">조건을 붙여 한 번에 고치면</text>
+  <text class="t-mono" x="120" y="290">UPDATE stock SET qty = qty - 1 WHERE id = 7 AND qty &gt; 0</text>
+
+  <text class="t-b" x="20" y="329">구매자 A</text>
+  <rect class="box blue" x="120" y="302" width="300" height="44" rx="9"/>
+  <text class="t-s mid" x="270" y="320">조건부 UPDATE 실행</text>
+  <text class="t-b mid" x="270" y="338">1행이 바뀜 → 주문 생성</text>
+  <text class="t-b" x="20" y="390">재고 qty</text>
+  <rect class="box green" x="120" y="370" width="300" height="30" rx="8"/>
+  <text class="t-mono t-b mid" x="270" y="390">1 → 0</text>
+  <rect class="box green" x="430" y="370" width="300" height="30" rx="8"/>
+  <text class="t-mono t-b mid" x="580" y="390">0 그대로</text>
+  <text class="t-b" x="20" y="451">구매자 B</text>
+  <rect class="box warm" x="430" y="424" width="300" height="44" rx="9"/>
+  <text class="t-s mid" x="580" y="442">조건부 UPDATE 실행</text>
+  <text class="t-b mid" x="580" y="460">0행이 바뀜 → 품절 안내</text>
+  <path class="ln blue" d="M270 350 V364" marker-end="url(#ah-blue)"/>
+  <path class="ln warm" d="M580 420 V406" marker-end="url(#ah-warm)"/>
+  <text class="t-b tc-green" x="120" y="490">재고 0, 주문 1건 — 한 명만 성공한다</text>
+</svg>

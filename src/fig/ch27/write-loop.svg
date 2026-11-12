@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 296" xmlns="http://www.w3.org/2000/svg">
+  <title>LLM은 토큰 하나를 뽑아 뒤에 붙이고, 늘어난 글 전체를 다시 읽어 다음 토큰을 뽑는 일을 끝 토큰이 나올 때까지 되풀이한다</title>
+  <text class="t-h" x="20" y="34">한 번에 하나씩, 뽑을 때마다 전부 다시 읽는다</text>
+
+  <!-- 1 -->
+  <circle class="badge purple" cx="36" cy="78" r="12"/><text class="badge-t" x="36" y="82.500">1</text>
+  <rect class="box gray" x="60" y="59" width="104" height="38" rx="8"/>
+  <text class="mid" x="112" y="83">오늘 날씨가</text>
+  <rect class="solid purple" x="172" y="59" width="66" height="38" rx="8"/>
+  <text class="mid t-on t-b" x="205" y="83">좋아서</text>
+  <text class="t-s" x="430" y="83">‘좋아서’를 뽑아 뒤에 붙인다</text>
+  <path class="ln muted" d="M36 93 V109" marker-end="url(#ah-muted)"/>
+
+  <!-- 2 -->
+  <circle class="badge purple" cx="36" cy="128" r="12"/><text class="badge-t" x="36" y="132.500">2</text>
+  <rect class="box gray" x="60" y="109" width="154" height="38" rx="8"/>
+  <text class="mid" x="137" y="133">오늘 날씨가 좋아서</text>
+  <rect class="solid purple" x="222" y="109" width="66" height="38" rx="8"/>
+  <text class="mid t-on t-b" x="255" y="133">산책을</text>
+  <text class="t-s" x="430" y="133">늘어난 글을 다시 읽고 ‘산책을’</text>
+  <path class="ln muted" d="M36 143 V159" marker-end="url(#ah-muted)"/>
+
+  <!-- 3 -->
+  <circle class="badge purple" cx="36" cy="178" r="12"/><text class="badge-t" x="36" y="182.500">3</text>
+  <rect class="box gray" x="60" y="159" width="204" height="38" rx="8"/>
+  <text class="mid" x="162" y="183">오늘 날씨가 좋아서 산책을</text>
+  <rect class="solid purple" x="272" y="159" width="72" height="38" rx="8"/>
+  <text class="mid t-on t-b" x="308" y="183">나갔다.</text>
+  <text class="t-s" x="430" y="183">또 전부 읽고 ‘나갔다.’</text>
+  <path class="ln muted" d="M36 193 V209" marker-end="url(#ah-muted)"/>
+
+  <!-- 4 -->
+  <circle class="badge purple" cx="36" cy="228" r="12"/><text class="badge-t" x="36" y="232.500">4</text>
+  <rect class="box gray" x="60" y="209" width="262" height="38" rx="8"/>
+  <text class="mid" x="191" y="233">오늘 날씨가 좋아서 산책을 나갔다.</text>
+  <rect class="solid" x="330" y="209" width="52" height="38" rx="8"/>
+  <text class="mid t-on t-b" x="356" y="233">끝</text>
+  <text class="t-s" x="430" y="233">‘끝’ 토큰이 뽑히면 멈춘다</text>
+
+  <!-- 범례 -->
+  <rect class="box gray" x="60" y="264" width="22" height="16" rx="4"/>
+  <text class="t-xs" x="90" y="277">지금까지의 글 (모델이 매번 읽는 입력)</text>
+  <rect class="solid purple" x="330" y="264" width="22" height="16" rx="4"/>
+  <text class="t-xs" x="360" y="277">이번에 새로 뽑힌 토큰</text>
+</svg>

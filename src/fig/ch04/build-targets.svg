@@ -1,0 +1,37 @@
+<svg viewBox="0 0 760 310" xmlns="http://www.w3.org/2000/svg">
+  <title>소스 코드는 한 벌이지만 운영체제와 CPU의 조합마다 결과물을 따로 빌드한다</title>
+
+  <rect class="box blue" x="20" y="108" width="150" height="100" rx="12"/>
+  <use href="#i-code" x="75" y="118" width="40" height="40" class="ic blue"/>
+  <text class="t-l mid" x="95" y="180">소스 코드</text>
+  <text class="t-s mid" x="95" y="199">한 벌</text>
+
+  <path class="ln warm" d="M178 158 H228" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b mid tc-warm" x="203" y="144">빌드</text>
+
+  <text class="t-s t-b mid" x="440" y="40">x86-64 CPU용</text>
+  <text class="t-s t-b mid" x="642" y="40">ARM64 CPU용</text>
+
+  <use href="#i-monitor" x="244" y="70" width="32" height="32" class="ic"/>
+  <text class="t-b" x="284" y="91">윈도우</text>
+  <rect class="box green" x="345" y="56" width="190" height="60" rx="10"/>
+  <text class="t-mono mid" x="440" y="91">app-win-x64.exe</text>
+  <rect class="box green" x="547" y="56" width="190" height="60" rx="10"/>
+  <text class="t-mono mid" x="642" y="91">app-win-arm64.exe</text>
+
+  <use href="#i-laptop" x="244" y="142" width="32" height="32" class="ic"/>
+  <text class="t-b" x="284" y="163">맥</text>
+  <rect class="box green" x="345" y="128" width="190" height="60" rx="10"/>
+  <text class="t-mono mid" x="440" y="163">app-mac-x64</text>
+  <rect class="box green" x="547" y="128" width="190" height="60" rx="10"/>
+  <text class="t-mono mid" x="642" y="163">app-mac-arm64</text>
+
+  <use href="#i-server" x="244" y="214" width="32" height="32" class="ic"/>
+  <text class="t-b" x="284" y="235">리눅스</text>
+  <rect class="box green" x="345" y="200" width="190" height="60" rx="10"/>
+  <text class="t-mono mid" x="440" y="235">app-linux-x64</text>
+  <rect class="box green" x="547" y="200" width="190" height="60" rx="10"/>
+  <text class="t-mono mid" x="642" y="235">app-linux-arm64</text>
+
+  <text class="t-s mid" x="541" y="290">칸마다 다른 번역본 — 다른 칸에 가져가면 그대로는 실행되지 않는다</text>
+</svg>

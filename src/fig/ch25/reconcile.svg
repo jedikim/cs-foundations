@@ -1,0 +1,62 @@
+<svg viewBox="0 0 760 396" xmlns="http://www.w3.org/2000/svg">
+  <title>서버가 입력 40번까지 반영한 위치 20을 보내오면, 그 위치에서 아직 확인받지 못한 41, 42, 43번 입력을 다시 적용해 23을 유지한다</title>
+
+  <text class="t-b" x="20" y="46">지우가 보낸 입력</text>
+  <text class="t-s" x="20" y="66">번호를 붙여 보낸다</text>
+  <rect class="box green" x="200" y="24" width="116" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="258" y="46">#40</text>
+  <text class="t-xs mid" x="258" y="64">오른쪽 1칸</text>
+  <rect class="box blue" x="328" y="24" width="116" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="386" y="46">#41</text>
+  <text class="t-xs mid" x="386" y="64">오른쪽 1칸</text>
+  <rect class="box blue" x="456" y="24" width="116" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="514" y="46">#42</text>
+  <text class="t-xs mid" x="514" y="64">오른쪽 1칸</text>
+  <rect class="box blue" x="584" y="24" width="116" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="642" y="46">#43</text>
+  <text class="t-xs mid" x="642" y="64">오른쪽 1칸</text>
+  <text class="t-xs t-b tc-green mid" x="258" y="96">서버가 반영함</text>
+  <path class="ln thin blue" d="M328 88 V82 H700 V88"/>
+  <text class="t-xs t-b tc-blue mid" x="514" y="104">아직 답이 오지 않음: 내 화면에만 반영</text>
+
+  <text class="t-b" x="20" y="150">서버의 답</text>
+  <rect class="box green" x="200" y="124" width="500" height="42" rx="10"/>
+  <text class="t-mono t-b mid" x="450" y="150">"입력 #40까지 반영했더니 x = 20"</text>
+
+  <text class="t-b tc-red" x="20" y="222">덮어쓰기만 하면</text>
+  <text class="t-s" x="20" y="242">3칸 뒤로 끌려간다</text>
+  <path class="ln thin" d="M215 240 H735"/>
+  <path class="ln thin" d="M250 235 V245 M340 235 V245 M430 235 V245 M520 235 V245 M610 235 V245 M700 235 V245"/>
+  <text class="t-xs mid" x="250" y="262">19</text>
+  <text class="t-xs mid" x="340" y="262">20</text>
+  <text class="t-xs mid" x="430" y="262">21</text>
+  <text class="t-xs mid" x="520" y="262">22</text>
+  <text class="t-xs mid" x="610" y="262">23</text>
+  <text class="t-xs mid" x="700" y="262">24</text>
+  <circle class="ghost dash" cx="610" cy="220" r="11"/>
+  <circle class="f-red" cx="340" cy="220" r="11"/>
+  <path class="ln red" d="M595 220 H358" marker-end="url(#ah-red)"/>
+  <text class="t-mono tc-red mid" x="475" y="208">화면: 23 → 20</text>
+
+  <text class="t-b tc-green" x="20" y="332">다시 적용하면</text>
+  <text class="t-s" x="20" y="352">제자리에 그대로 있다</text>
+  <path class="ln thin" d="M215 350 H735"/>
+  <path class="ln thin" d="M250 345 V355 M340 345 V355 M430 345 V355 M520 345 V355 M610 345 V355 M700 345 V355"/>
+  <text class="t-xs mid" x="250" y="372">19</text>
+  <text class="t-xs mid" x="340" y="372">20</text>
+  <text class="t-xs mid" x="430" y="372">21</text>
+  <text class="t-xs mid" x="520" y="372">22</text>
+  <text class="t-xs mid" x="610" y="372">23</text>
+  <text class="t-xs mid" x="700" y="372">24</text>
+  <circle class="ghost dash" cx="340" cy="330" r="11"/>
+  <circle class="f-green" cx="430" cy="335" r="4"/>
+  <circle class="f-green" cx="520" cy="335" r="4"/>
+  <circle class="f-green" cx="610" cy="330" r="11"/>
+  <path class="ln green" d="M346 316 Q385 286 424 322" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M436 322 Q475 286 514 322" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M526 322 Q565 286 601 314" marker-end="url(#ah-green)"/>
+  <text class="t-mono mid" x="385" y="292">#41</text>
+  <text class="t-mono mid" x="475" y="292">#42</text>
+  <text class="t-mono mid" x="565" y="292">#43</text>
+  <text class="t-mono t-b tc-green" x="630" y="326">x = 23</text>
+</svg>

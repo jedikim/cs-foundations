@@ -1,0 +1,73 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg">
+  <title>4×4 변화량 표 16칸은 세로 4칸짜리 U와 가로 4칸짜리 V의 곱으로 만들 수 있어 8칸만 학습하면 된다. 1000×1000 표라면 100만 칸 대신 1만 6천 칸이다</title>
+
+  <text class="t-b" x="40" y="36">통째로 배우면</text>
+  <text class="t-s" x="40" y="58">변화량 표 4 × 4 = 16칸</text>
+  <rect class="box" x="40" y="88" width="40" height="34" rx="5"/>
+  <rect class="box" x="80" y="88" width="40" height="34" rx="5"/>
+  <rect class="box" x="120" y="88" width="40" height="34" rx="5"/>
+  <rect class="box" x="160" y="88" width="40" height="34" rx="5"/>
+  <rect class="box" x="40" y="122" width="40" height="34" rx="5"/>
+  <rect class="box" x="80" y="122" width="40" height="34" rx="5"/>
+  <rect class="box" x="120" y="122" width="40" height="34" rx="5"/>
+  <rect class="box" x="160" y="122" width="40" height="34" rx="5"/>
+  <rect class="box" x="40" y="156" width="40" height="34" rx="5"/>
+  <rect class="box" x="80" y="156" width="40" height="34" rx="5"/>
+  <rect class="box" x="120" y="156" width="40" height="34" rx="5"/>
+  <rect class="box" x="160" y="156" width="40" height="34" rx="5"/>
+  <rect class="box" x="40" y="190" width="40" height="34" rx="5"/>
+  <rect class="box" x="80" y="190" width="40" height="34" rx="5"/>
+  <rect class="box" x="120" y="190" width="40" height="34" rx="5"/>
+  <rect class="box" x="160" y="190" width="40" height="34" rx="5"/>
+  <text class="t-mono mid" x="60" y="110">2</text>
+  <text class="t-mono mid" x="100" y="110">0</text>
+  <text class="t-mono mid" x="140" y="110">1</text>
+  <text class="t-mono mid" x="180" y="110">1</text>
+  <text class="t-mono mid" x="60" y="144">4</text>
+  <text class="t-mono mid" x="100" y="144">0</text>
+  <text class="t-mono mid" x="140" y="144">2</text>
+  <text class="t-mono mid" x="180" y="144">2</text>
+  <text class="t-mono mid" x="60" y="178">0</text>
+  <text class="t-mono mid" x="100" y="178">0</text>
+  <text class="t-mono mid" x="140" y="178">0</text>
+  <text class="t-mono mid" x="180" y="178">0</text>
+  <text class="t-mono mid" x="60" y="212">6</text>
+  <text class="t-mono mid" x="100" y="212">0</text>
+  <text class="t-mono mid" x="140" y="212">3</text>
+  <text class="t-mono mid" x="180" y="212">3</text>
+
+  <text class="t-h mid" x="232" y="162">=</text>
+
+  <text class="t-b" x="264" y="36">둘로 쪼개 배우면</text>
+  <text class="t-s" x="264" y="58">세로 4칸 + 가로 4칸 = 8칸</text>
+  <text class="t-s t-b mid tc-warm" x="284" y="80">U</text>
+  <rect class="box warm" x="264" y="88" width="40" height="34" rx="5"/>
+  <rect class="box warm" x="264" y="122" width="40" height="34" rx="5"/>
+  <rect class="box warm" x="264" y="156" width="40" height="34" rx="5"/>
+  <rect class="box warm" x="264" y="190" width="40" height="34" rx="5"/>
+  <text class="t-mono t-b mid" x="284" y="110">1</text>
+  <text class="t-mono t-b mid" x="284" y="144">2</text>
+  <text class="t-mono t-b mid" x="284" y="178">0</text>
+  <text class="t-mono t-b mid" x="284" y="212">3</text>
+
+  <text class="t-h mid" x="330" y="162">×</text>
+
+  <text class="t-s t-b mid tc-green" x="436" y="131">V</text>
+  <rect class="box green" x="356" y="139" width="40" height="34" rx="5"/>
+  <rect class="box green" x="396" y="139" width="40" height="34" rx="5"/>
+  <rect class="box green" x="436" y="139" width="40" height="34" rx="5"/>
+  <rect class="box green" x="476" y="139" width="40" height="34" rx="5"/>
+  <text class="t-mono t-b mid" x="376" y="161">2</text>
+  <text class="t-mono t-b mid" x="416" y="161">0</text>
+  <text class="t-mono t-b mid" x="456" y="161">1</text>
+  <text class="t-mono t-b mid" x="496" y="161">1</text>
+
+  <text class="t-s" x="40" y="256">왼쪽 표의 각 행은 V의 1배, 2배, 0배, 3배 — 서로 다른 방향은 하나뿐(랭크 1)</text>
+
+  <rect class="box purple" x="546" y="88" width="194" height="136" rx="12"/>
+  <text class="t-b" x="562" y="114">실제 크기에서는</text>
+  <text class="t-s" x="562" y="138">1000 × 1000 표 통째로</text>
+  <text class="t-mono t-b" x="562" y="158">1,000,000칸</text>
+  <text class="t-s" x="562" y="184">랭크 8로 쪼개면</text>
+  <text class="t-mono t-b tc-purple" x="562" y="204">16,000칸 (1.6%)</text>
+</svg>

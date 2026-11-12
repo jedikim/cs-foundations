@@ -1,0 +1,64 @@
+<svg viewBox="0 0 760 322" xmlns="http://www.w3.org/2000/svg">
+  <title>토크나이저는 글을 조각으로 자르고 조각마다 번호를 붙인다. 뜻이 같은 문장도 한국어가 영어보다 토큰이 더 많이 들 수 있다</title>
+
+  <text class="t-s t-b mid" x="110" y="32">원래 글</text>
+  <text class="t-s t-b mid" x="400" y="32">토큰으로 자른 모습</text>
+  <text class="t-s t-b mid" x="670" y="32">세어 보면</text>
+  <path class="ln thin muted" d="M20 44 H740"/>
+
+  <!-- 영어 -->
+  <rect class="box" x="20" y="66" width="180" height="48" rx="10"/>
+  <text class="t-mono mid" x="110" y="95">I ate an apple.</text>
+  <path class="ln muted" d="M206 90 H236" marker-end="url(#ah-muted)"/>
+
+  <rect class="box blue" x="246" y="71" width="36" height="38" rx="8"/>
+  <text class="t-mono mid" x="264" y="95">I</text>
+  <rect class="box blue" x="288" y="71" width="50" height="38" rx="8"/>
+  <text class="t-mono mid" x="313" y="95">ate</text>
+  <rect class="box blue" x="344" y="71" width="42" height="38" rx="8"/>
+  <text class="t-mono mid" x="365" y="95">an</text>
+  <rect class="box blue" x="392" y="71" width="66" height="38" rx="8"/>
+  <text class="t-mono mid" x="425" y="95">apple</text>
+  <rect class="box blue" x="464" y="71" width="32" height="38" rx="8"/>
+  <text class="t-mono mid" x="480" y="95">.</text>
+
+  <text class="t-mono mid tc-muted" x="264" y="132">40</text>
+  <text class="t-mono mid tc-muted" x="313" y="132">3214</text>
+  <text class="t-mono mid tc-muted" x="365" y="132">281</text>
+  <text class="t-mono mid tc-muted" x="425" y="132">9117</text>
+  <text class="t-mono mid tc-muted" x="480" y="132">13</text>
+  <text class="t-xs" x="508" y="132">← 번호(ID)</text>
+
+  <rect class="box yellow" x="610" y="62" width="120" height="56" rx="10"/>
+  <text class="t-s mid" x="670" y="84">글자 15개</text>
+  <text class="t-b mid" x="670" y="106">토큰 5개</text>
+
+  <!-- 한국어 -->
+  <rect class="box" x="20" y="176" width="180" height="48" rx="10"/>
+  <text class="mid" x="110" y="205">나는 사과를 먹었다.</text>
+  <path class="ln muted" d="M206 200 H236" marker-end="url(#ah-muted)"/>
+
+  <rect class="box warm" x="246" y="181" width="36" height="38" rx="8"/>
+  <text class="mid" x="264" y="205">나</text>
+  <rect class="box warm" x="288" y="181" width="36" height="38" rx="8"/>
+  <text class="mid" x="306" y="205">는</text>
+  <rect class="box warm" x="330" y="181" width="36" height="38" rx="8"/>
+  <text class="mid" x="348" y="205">사</text>
+  <rect class="box warm" x="372" y="181" width="36" height="38" rx="8"/>
+  <text class="mid" x="390" y="205">과</text>
+  <rect class="box warm" x="414" y="181" width="36" height="38" rx="8"/>
+  <text class="mid" x="432" y="205">를</text>
+  <rect class="box warm" x="456" y="181" width="36" height="38" rx="8"/>
+  <text class="mid" x="474" y="205">먹</text>
+  <rect class="box warm" x="498" y="181" width="50" height="38" rx="8"/>
+  <text class="mid" x="523" y="205">었다</text>
+  <rect class="box warm" x="554" y="181" width="32" height="38" rx="8"/>
+  <text class="mid" x="570" y="205">.</text>
+
+  <rect class="box yellow" x="610" y="172" width="120" height="56" rx="10"/>
+  <text class="t-s mid" x="670" y="194">글자 11개</text>
+  <text class="t-b mid tc-warm" x="670" y="216">토큰 8개</text>
+
+  <text class="t-b" x="20" y="272">뜻은 같고 글자는 더 적은데, 토큰은 더 많이 든다</text>
+  <text class="t-xs" x="20" y="298">설명을 위한 예시입니다. 실제로 어디서 잘리고 몇 번이 붙는지는 모델의 토크나이저마다 다릅니다.</text>
+</svg>

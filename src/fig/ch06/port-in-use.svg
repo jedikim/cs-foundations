@@ -1,0 +1,54 @@
+<svg viewBox="0 0 760 336" xmlns="http://www.w3.org/2000/svg">
+  <title>끝난 줄 알았던 이전 서버가 3000번 포트를 차지하고 있으면 새 서버는 켜지지 못하며, 그 프로세스를 찾아 끝내면 해결된다</title>
+
+  <rect class="box blue" x="20" y="24" width="190" height="92" rx="12"/>
+  <use href="#i-terminal" x="32" y="34" width="28" height="28" class="ic blue"/>
+  <text class="t-b" x="68" y="54">방금 켠 새 서버</text>
+  <text class="t-mono" x="34" y="84">npm run dev</text>
+  <text class="t-xs" x="34" y="104">3000번을 쓰려고 함</text>
+
+  <path class="ln red dash" d="M216 70 H260"/>
+  <use href="#i-cross" x="264" y="57" width="26" height="26" class="ic red"/>
+  <text class="t-xs mid tc-red" x="254" y="102">거절됨</text>
+
+  <rect class="box warm" x="300" y="24" width="160" height="92" rx="12"/>
+  <use href="#i-door" x="312" y="34" width="30" height="30" class="ic warm"/>
+  <text class="t-l" x="350" y="56">포트 3000</text>
+  <text class="t-xs mid" x="380" y="96">한 번에 한 프로그램만</text>
+
+  <path class="ln thick warm" d="M546 70 H472" marker-end="url(#ah-warm)"/>
+  <text class="t-xs mid tc-warm" x="506" y="56">차지 중</text>
+
+  <rect class="box gray" x="550" y="24" width="190" height="92" rx="12"/>
+  <use href="#i-server" x="562" y="34" width="28" height="28" class="ic gray"/>
+  <text class="t-b" x="598" y="54">어제 켠 서버</text>
+  <text class="t-mono" x="564" y="84">node · PID 4312</text>
+  <text class="t-xs" x="564" y="104">창은 닫았지만 아직 실행 중</text>
+
+  <rect class="box red" x="20" y="132" width="720" height="38" rx="10"/>
+  <text class="t-mono tc-red" x="34" y="156">Error: listen EADDRINUSE: address already in use :::3000</text>
+  <text class="t-xs" x="524" y="156">그 포트는 이미 쓰는 중이라는 뜻</text>
+
+  <rect class="box" x="20" y="196" width="226" height="120" rx="12"/>
+  <circle class="badge blue" cx="44" cy="219" r="12"/><text class="badge-t" x="44" y="223.500">1</text>
+  <text class="t-b" x="64" y="224">누가 쓰는지 찾기</text>
+  <text class="t-mono" x="36" y="254">$ lsof -i :3000</text>
+  <text class="t-mono tc-muted" x="36" y="278">COMMAND</text>
+  <text class="t-mono tc-muted" x="124" y="278">PID</text>
+  <text class="t-mono t-b" x="36" y="299">node</text>
+  <text class="t-mono t-b" x="124" y="299">4312</text>
+
+  <rect class="box" x="267" y="196" width="226" height="120" rx="12"/>
+  <circle class="badge blue" cx="291" cy="219" r="12"/><text class="badge-t" x="291" y="223.500">2</text>
+  <text class="t-b" x="311" y="224">끝내 달라고 요청</text>
+  <text class="t-mono" x="283" y="254">$ kill 4312</text>
+  <text class="t-xs" x="283" y="279">하던 일을 정리하고 끝난다</text>
+  <text class="t-xs" x="283" y="299">버티면 그때 kill -9</text>
+
+  <rect class="box green" x="514" y="196" width="226" height="120" rx="12"/>
+  <circle class="badge green" cx="538" cy="219" r="12"/><text class="badge-t" x="538" y="223.500">3</text>
+  <text class="t-b" x="558" y="224">다시 켜기</text>
+  <text class="t-mono" x="530" y="254">$ npm run dev</text>
+  <use href="#i-check" x="530" y="268" width="22" height="22" class="ic green"/>
+  <text class="t-xs tc-green" x="558" y="284">3000번이 비어서 정상 시작</text>
+</svg>

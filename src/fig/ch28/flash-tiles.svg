@@ -1,0 +1,57 @@
+<svg viewBox="0 0 760 376" xmlns="http://www.w3.org/2000/svg">
+  <title>기존 방식은 점수표 16칸을 큰 메모리에 통째로 썼다가 다시 읽고, FlashAttention은 4칸씩 빠른 메모리에서 계산을 끝내 결과만 보낸다</title>
+  <text class="t-b" x="20" y="34">기존: 점수표를 통째로 창고에 오간다</text>
+  <rect class="box blue" x="20" y="50" width="350" height="70" rx="14"/>
+  <use href="#i-table" x="30" y="63" width="44" height="44" class="ic blue"/>
+  <text class="t-b" x="86" y="80">조리대</text>
+  <text class="t-s" x="86" y="101">칩 안의 작고 빠른 메모리</text>
+  <path class="ln thick warm" d="M150 126 V184" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b tc-warm end" x="138" y="160">16칸 내려놓기</text>
+  <path class="ln thick warm" d="M200 190 V132" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b tc-warm" x="212" y="160">16칸 다시 가져오기</text>
+  <rect class="box green" x="20" y="196" width="350" height="140" rx="14"/>
+  <use href="#i-shelf" x="30" y="209" width="44" height="44" class="ic green"/>
+  <text class="t-b" x="86" y="226">창고</text>
+  <text class="t-s" x="86" y="247">크고 느린 GPU 메모리</text>
+  <text class="t-s t-b t-ink" x="86" y="300">점수표 16칸을 통째로</text>
+  <rect class="solid warm" x="262" y="234" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="284" y="234" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="306" y="234" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="328" y="234" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="262" y="256" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="284" y="256" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="306" y="256" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="328" y="256" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="262" y="278" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="284" y="278" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="306" y="278" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="328" y="278" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="262" y="300" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="284" y="300" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="306" y="300" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="328" y="300" width="20" height="20" rx="4"/>
+  <text class="t-b" x="390" y="34">FlashAttention: 4칸씩 조리대에서 끝낸다</text>
+  <rect class="box blue" x="390" y="50" width="350" height="70" rx="14"/>
+  <use href="#i-table" x="400" y="63" width="44" height="44" class="ic blue"/>
+  <text class="t-b" x="456" y="80">조리대</text>
+  <text class="t-s" x="456" y="101">점수, 비중, 섞기를 여기서</text>
+  <text class="t-xs end" x="664" y="80">네 묶음 중 2번째</text>
+  <rect class="solid warm" x="676" y="64" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="698" y="64" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="676" y="86" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="698" y="86" width="20" height="20" rx="4"/>
+  <path class="ln thin blue" d="M520 190 V130" marker-end="url(#ah-blue)"/>
+  <text class="t-s end" x="508" y="160">재료 한 묶음</text>
+  <path class="ln thin green" d="M570 126 V186" marker-end="url(#ah-green)"/>
+  <text class="t-s" x="582" y="160">결과만 내려놓기</text>
+  <rect class="box green" x="390" y="196" width="350" height="140" rx="14"/>
+  <use href="#i-shelf" x="400" y="209" width="44" height="44" class="ic green"/>
+  <text class="t-b" x="456" y="226">창고</text>
+  <text class="t-s" x="456" y="247">점수표는 두지 않는다</text>
+  <text class="t-s t-b t-ink" x="456" y="300">결과 4칸만</text>
+  <rect class="solid green" x="632" y="285" width="20" height="20" rx="4"/>
+  <rect class="solid green" x="654" y="285" width="20" height="20" rx="4"/>
+  <rect class="solid green" x="676" y="285" width="20" height="20" rx="4"/>
+  <rect class="solid green" x="698" y="285" width="20" height="20" rx="4"/>
+  <text class="t-s mid" x="380" y="362">두 방식 모두 16쌍을 빠짐없이 계산합니다. 달라지는 것은 창고를 오가는 양입니다.</text>
+</svg>

@@ -1,0 +1,32 @@
+<svg viewBox="0 0 760 314" xmlns="http://www.w3.org/2000/svg">
+  <title>0.1은 2진 소수의 눈금 사이에 떨어지므로 가장 가까운 눈금 값으로 저장된다</title>
+  <text class="t-h" x="20" y="34">2진 소수의 눈금에는 0.1이 없습니다</text>
+  <text class="t-s" x="70" y="62">2진수로 소수점 아래 네 자리만 쓰는 자 — 눈금 간격 1/16</text>
+  <path class="ln" d="M70 150 H690"/>
+  <path class="ln" d="M70 138 V162"/>
+  <text class="t-mono mid" x="70" y="184">0</text>
+  <path class="ln" d="M225 138 V162"/>
+  <text class="t-mono mid" x="225" y="184">1/16</text>
+  <text class="t-xs mid" x="225" y="202">0.0625</text>
+  <path class="ln" d="M380 138 V162"/>
+  <text class="t-mono mid" x="380" y="184">1/8</text>
+  <text class="t-xs mid" x="380" y="202">0.125</text>
+  <path class="ln" d="M535 138 V162"/>
+  <text class="t-mono mid" x="535" y="184">3/16</text>
+  <text class="t-xs mid" x="535" y="202">0.1875</text>
+  <path class="ln" d="M690 138 V162"/>
+  <text class="t-mono mid" x="690" y="184">1/4</text>
+  <text class="t-xs mid" x="690" y="202">0.25</text>
+  <path class="ln red dash" d="M318 102 V150"/>
+  <circle class="f-red" cx="318" cy="150" r="5"/>
+  <text class="t-b mid tc-red" x="318" y="92">적고 싶은 값 0.1</text>
+  <path class="ln warm" d="M326 128 H370" marker-end="url(#ah-warm)"/>
+  <circle class="f-warm" cx="380" cy="150" r="6"/>
+  <text class="t-s tc-warm" x="394" y="124">가장 가까운 눈금에 저장</text>
+  <rect class="box green" x="20" y="226" width="400" height="70" rx="12"/>
+  <text class="t-s" x="38" y="252">실제 컴퓨터는 눈금이 훨씬 촘촘하지만, 저장된 0.1은</text>
+  <text class="t-mono t-b" x="38" y="278">0.1000000000000000055511…</text>
+  <rect class="box red" x="440" y="226" width="300" height="70" rx="12"/>
+  <text class="t-s" x="458" y="252">그래서 0.1 + 0.2를 계산하면</text>
+  <text class="t-mono t-b" x="458" y="278">0.30000000000000004</text>
+</svg>

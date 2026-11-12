@@ -1,0 +1,1087 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>20장 빌드와 배포 — 개발의 기초</title>
+<meta name="description" content="같은 것을 만들고, 안전하게 내보내기">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch20" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html" aria-current="page"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">5부 내보내고 운영하기 › <b>20장 빌드와 배포</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-red">
+<div class="ch-kicker"><span class="ch-no">20장</span><span class="part">5부 · 내보내고 운영하기</span></div>
+<h1>빌드와 배포</h1>
+<p class="ch-sub">같은 것을 만들고, 안전하게 내보내기</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 35분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch06.html">6장 개발 환경 꾸리기</a><a class="chip" href="ch07.html">7장 Git과 변경 이력</a></div>
+</header><div class="lead">
+<p>AI가 "수정했습니다"라고 했고, 내 노트북에서는 잘 돌아갑니다. 그런데 사용자 화면은 어제 그대로이거나, 올리자마자 서버가 죽습니다. 코드를 고치는 일과 그 코드가 사용자에게 <strong>무사히 도착하는 일</strong>은 별개이기 때문입니다. 이 장에서는 도시락 공장의 생산 라인을 따라가며, 매번 <strong>같은 것을 만들고</strong> 그것을 <strong>안전하게 내보내는</strong> 법을 배웁니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>버전 번호 <code>1.4.2</code>의 세 자리를 읽고, 잠금 파일이 왜 필요한지 설명할 수 있습니다.</li>
+<li>"CI가 초록불"이 보장하는 것과 아닌 것을 구분할 수 있습니다.</li>
+<li>한 번에 교체, 롤링, 블루-그린, 카나리 배포 가운데 상황에 맞는 것을 고를 수 있습니다.</li>
+<li>배포 전에 되돌릴 수 있는 것과 없는 것을 나눠 롤백 계획을 세울 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="line">
+<h2><span class="sec-n">20.1</span>코드가 사용자에게 가는 길: 공장의 생산 라인<a aria-label="이 절의 링크" class="anchor" href="#line">#</a></h2>
+<p>도시락 공장을 떠올려 봅시다. 주방장이 레시피에서 간장을 10g에서 8g으로 줄였습니다. 그렇다고 편의점 진열대의 도시락 맛이 바로 바뀌지는 않습니다. 공장이 새 레시피로 도시락을 <strong>만들고</strong>, 출고 전에 <strong>검사하고</strong>, 트럭에 실어 매장에 <strong>진열해야</strong> 손님이 그 맛을 봅니다.</p>
+<p>코드도 같은 길을 갑니다.</p>
+<ol type="1">
+<li><strong>커밋.</strong> 고친 코드를 저장소에 기록합니다(<a href="ch07.html">7장</a>). 어느 레시피로 만들지가 여기서 정해집니다.</li>
+<li><strong>빌드.</strong> 소스 코드와 외부 재료를 모아 실행할 수 있는 결과물로 만듭니다(<a href="ch04.html">4장</a>).</li>
+<li><strong>테스트.</strong> 결과물이 기대한 대로 움직이는지 확인합니다(<a href="ch12.html">12장</a>).</li>
+<li><strong>배포.</strong> 결과물을 사용자가 쓰는 곳에 가져다 놓고 실행합니다. 이 일을 <strong>배포</strong>(deployment)라고 합니다.</li>
+</ol>
+<figure class="fig" id="fig-factory-line"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 342" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>도시락 공장의 레시피 수정, 생산, 출고 검사, 진열이 개발의 커밋, 빌드, 테스트, 배포에 대응한다</title>
+  <text class="t-s t-b" x="20" y="104">공장</text>
+  <text class="t-s t-b" x="20" y="268">개발</text>
+
+  <rect class="box yellow" x="64" y="40" width="150" height="118" rx="14"/>
+  <use href="#i-pencil" x="117" y="50" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="139" y="120">레시피 수정</text>
+  <text class="t-s mid" x="139" y="142">간장 10g → 8g</text>
+
+  <rect class="box yellow" x="239" y="40" width="150" height="118" rx="14"/>
+  <use href="#i-gear" x="292" y="50" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="314" y="120">생산 라인</text>
+  <text class="t-s mid" x="314" y="142">재료를 받아 상자로</text>
+
+  <rect class="box yellow" x="414" y="40" width="150" height="118" rx="14"/>
+  <use href="#i-search" x="467" y="50" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="489" y="120">출고 검사</text>
+  <text class="t-s mid" x="489" y="142">무게, 맛, 포장 확인</text>
+
+  <rect class="box yellow" x="589" y="40" width="150" height="118" rx="14"/>
+  <use href="#i-truck" x="642" y="50" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="664" y="120">매장 진열</text>
+  <text class="t-s mid" x="664" y="142">손님이 집어 간다</text>
+
+  <path class="ln" d="M218 99 H233" marker-end="url(#ah)"/>
+  <path class="ln" d="M393 99 H408" marker-end="url(#ah)"/>
+  <path class="ln" d="M568 99 H583" marker-end="url(#ah)"/>
+
+  <path class="ln muted" d="M139 162 V196" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M314 162 V196" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M489 162 V196" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M664 162 V196" marker-end="url(#ah-muted)"/>
+
+  <rect class="box blue" x="64" y="204" width="150" height="118" rx="14"/>
+  <use href="#i-branch" x="117" y="214" width="44" height="44" class="ic blue"/>
+  <text class="t-l mid" x="139" y="284">커밋</text>
+  <text class="t-mono mid" x="139" y="306">a1b2c3d</text>
+
+  <rect class="box warm" x="239" y="204" width="150" height="118" rx="14"/>
+  <use href="#i-box" x="292" y="214" width="44" height="44" class="ic warm"/>
+  <text class="t-l mid" x="314" y="284">빌드</text>
+  <text class="t-mono mid" x="314" y="306">app-57.zip</text>
+
+  <rect class="box green" x="414" y="204" width="150" height="118" rx="14"/>
+  <use href="#i-check" x="467" y="214" width="44" height="44" class="ic green"/>
+  <text class="t-l mid" x="489" y="284">테스트</text>
+  <text class="t-s mid" x="489" y="306">212개 통과</text>
+
+  <rect class="box purple" x="589" y="204" width="150" height="118" rx="14"/>
+  <use href="#i-server" x="642" y="214" width="44" height="44" class="ic purple"/>
+  <text class="t-l mid" x="664" y="284">배포</text>
+  <text class="t-s mid" x="664" y="306">운영 서버에서 실행</text>
+
+  <path class="ln" d="M218 263 H233" marker-end="url(#ah)"/>
+  <path class="ln" d="M393 263 H408" marker-end="url(#ah)"/>
+  <path class="ln" d="M568 263 H583" marker-end="url(#ah)"/>
+</svg></div><figcaption><b>그림 20-1</b>레시피를 고친 뒤 손님이 맛보기까지, 그리고 코드를 고친 뒤 사용자가 쓰기까지. 네 정거장이 하나씩 대응합니다.</figcaption></figure>
+<p>AI 도구가 "수정 완료"라고 말하는 지점은 대개 첫 정거장입니다.</p>
+<p>이 길에서 사고는 두 군데서 납니다. 하나는 <strong>만들 때</strong>입니다. 같은 레시피인데 어제와 오늘의 도시락이 다르게 나옵니다. 다른 하나는 <strong>내보낼 때</strong>입니다. 전국 매장에 한꺼번에 깔았는데 상한 재료가 들어 있었습니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>사용자가 쓰는 것은 내 코드가 아니라 <strong>그 코드로 만든 상자</strong>입니다. 코드가 맞는지와 맞는 상자가 갔는지는 따로 확인합니다.</p>
+</div>
+</section>
+<section class="level2" id="semver">
+<h2><span class="sec-n">20.2</span>버전 번호 읽기: 1.4.2의 세 자리<a aria-label="이 절의 링크" class="anchor" href="#semver">#</a></h2>
+<p>도시락에는 공장이 직접 만들지 않는 재료가 들어갑니다. 간장은 다른 업체에서 납품받습니다. 프로그램도 그래프를 그리는 코드 같은 것은 대개 남이 만든 패키지를 가져다 씁니다. 이런 외부 코드를 <strong>의존성</strong>이라고 했습니다(<a href="ch04.html">4장</a>).</p>
+<p>납품업체가 간장 맛을 바꾸면 내 레시피가 그대로여도 도시락 맛이 달라집니다. 그래서 재료에는 버전 번호가 붙습니다. 가장 널리 쓰이는 규칙이 <strong>유의적 버전</strong>(Semantic Versioning, 줄여서 semver)입니다. 번호를 세 자리로 쓰고, 자리마다 뜻이 다릅니다.</p>
+<figure class="fig" id="fig-semver-digits"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>버전 번호 1.4.2의 세 자리는 각각 주 버전, 부 버전, 수 버전이며 올라가는 자리에 따라 위험이 다르다</title>
+  <text class="t-h" x="20" y="34">버전 번호의 세 자리</text>
+
+  <text class="t-mono end" x="276" y="90">chart-lib</text>
+  <rect class="solid red" x="290" y="60" width="48" height="48" rx="8"/>
+  <text class="t-h t-on mid" x="314" y="91">1</text>
+  <circle class="f-ink" cx="347" cy="102" r="3"/>
+  <rect class="solid warm" x="356" y="60" width="48" height="48" rx="8"/>
+  <text class="t-h t-on mid" x="380" y="91">4</text>
+  <circle class="f-ink" cx="413" cy="102" r="3"/>
+  <rect class="solid green" x="422" y="60" width="48" height="48" rx="8"/>
+  <text class="t-h t-on mid" x="446" y="91">2</text>
+
+  <path class="ln red" d="M314 113 V128 H140 V142" marker-end="url(#ah-red)"/>
+  <path class="ln warm" d="M380 113 V142" marker-end="url(#ah-warm)"/>
+  <path class="ln green" d="M446 113 V128 H620 V142" marker-end="url(#ah-green)"/>
+
+  <rect class="box red" x="30" y="150" width="220" height="136" rx="14"/>
+  <text class="t-l mid" x="140" y="180">주 버전 (major)</text>
+  <text class="t-s mid" x="140" y="202">쓰는 법이 바뀌었다</text>
+  <rect class="box" x="70" y="214" width="140" height="30" rx="8"/>
+  <text class="t-mono mid" x="140" y="234">1.4.2 → 2.0.0</text>
+  <text class="t-s t-b mid tc-red" x="140" y="268">내 코드를 고쳐야 할 수 있다</text>
+
+  <rect class="box warm" x="270" y="150" width="220" height="136" rx="14"/>
+  <text class="t-l mid" x="380" y="180">부 버전 (minor)</text>
+  <text class="t-s mid" x="380" y="202">기능이 늘었다</text>
+  <rect class="box" x="310" y="214" width="140" height="30" rx="8"/>
+  <text class="t-mono mid" x="380" y="234">1.4.2 → 1.5.0</text>
+  <text class="t-s t-b mid tc-warm" x="380" y="268">쓰던 코드는 그대로 돈다</text>
+
+  <rect class="box green" x="510" y="150" width="220" height="136" rx="14"/>
+  <text class="t-l mid" x="620" y="180">수 버전 (patch)</text>
+  <text class="t-s mid" x="620" y="202">버그만 고쳤다</text>
+  <rect class="box" x="550" y="214" width="140" height="30" rx="8"/>
+  <text class="t-mono mid" x="620" y="234">1.4.2 → 1.4.3</text>
+  <text class="t-s t-b mid tc-green" x="620" y="268">쓰던 코드는 그대로 돈다</text>
+
+  <text class="t-xs" x="30" y="312">버전 번호는 만든 사람의 약속입니다. 검사 결과가 아닙니다.</text>
+</svg></div><figcaption><b>그림 20-2</b><code>chart-lib 1.4.2</code>를 읽는 법. 왼쪽 자리가 오를수록 내 코드에 미치는 영향이 큽니다.</figcaption></figure>
+<p>간장으로 치면 병뚜껑 불량을 고친 것이 수 버전, 대용량 병이 새로 나온 것이 부 버전입니다. 염도가 바뀌어 레시피의 간장 양을 다시 정해야 한다면 주 버전입니다.</p>
+<p>프로젝트에는 필요한 패키지를 적어 두는 선언 파일이 있습니다. JavaScript라면 <code>package.json</code>이고, 그 안에 <code>"chart-lib": "^1.4.2"</code> 같은 줄이 있습니다. 앞에 붙은 <code>^</code>는 "1.4.2 이상, 2.0.0 미만이면 무엇이든 좋다"는 표시입니다.</p>
+<p>이렇게 적어 둔 허용 폭을 <strong>버전 범위</strong>라고 합니다. 버그 수정을 저절로 받을 수 있어 편리하지만, 바로 이 편리함이 다음 절의 문제를 만듭니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 버전 번호는 약속이지 검사 결과가 아닙니다</div>
+<p>수 버전만 올렸는데 내 코드가 깨지는 일은 실제로 일어납니다. 만든 사람이 버그라고 보고 고친 동작에 내 코드가 기대고 있었을 수 있습니다. 숫자가 조금 올랐어도 테스트는 돌립니다.</p>
+</div>
+<section class="level3" id="의존성-충돌-옛-간장과-새-간장이-둘-다-필요할-때">
+<h3>의존성 충돌: 옛 간장과 새 간장이 둘 다 필요할 때</h3>
+<p>패키지 A는 <code>chart-lib</code> 1.x가, 패키지 B는 2.x가 필요하다고 해 봅시다. 한 주방에서 옛 간장과 새 간장을 둘 다 달라는 상황입니다. 이것이 <strong>의존성 충돌</strong>입니다. 도구에 따라 두 버전을 모두 설치하기도 하고, 설치를 거부하기도 합니다.</p>
+<p>이때 "무시하고 강제로 설치"하는 옵션이 눈에 띕니다. 하지만 이 옵션은 설치만 통과시키고 문제를 실행 중으로 미룰 뿐입니다. AI가 설치 오류를 <code>--force</code> 같은 옵션으로 넘기자고 하면 멈추고, <strong>어느 패키지가 어느 버전을 요구하는지</strong>부터 보여 달라고 하세요.</p>
+<details class="deep"><summary><small>한 걸음 더</small>범위 기호는 도구마다 뜻이 다릅니다</summary><div class="deep-body">
+<p>npm에서 <code>^2.1.0</code>은 2.1.0 이상 3.0.0 미만입니다. Python에서 <code>~=2.1.0</code>은 2.1.0 이상 2.2.0 미만입니다. 모양이 비슷해도 뜻이 다릅니다.</p>
+<p><code>0.3.1</code>처럼 주 버전이 0인 패키지는 아직 틀을 잡는 중이어서, 부 버전만 올라도 쓰는 법이 바뀔 수 있습니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="lockfile">
+<h2><span class="sec-n">20.3</span>잠금 파일: 오늘과 내일 같은 재료를 받는 법<a aria-label="이 절의 링크" class="anchor" href="#lockfile">#</a></h2>
+<p>월요일에 내 노트북에서 <code>chart-lib</code>을 설치했더니 1.4.2가 깔렸습니다. 수요일에 1.5.0이 새로 나왔습니다. 금요일에 서버에서 같은 프로젝트를 설치합니다. 선언 파일의 <code>^1.4.2</code>는 1.5.0도 허용하므로 서버에는 1.5.0이 깔립니다.</p>
+<p><strong>내 코드는 한 글자도 바뀌지 않았는데 재료가 바뀌었습니다.</strong> 게다가 <code>chart-lib</code>도 자기 재료를 따로 납품받습니다. 내가 적은 패키지는 열 개인데 실제로 설치되는 것은 수백 개인 일이 흔합니다.</p>
+<p>해결책은 <strong>실제로 받은 것을 전부 적어 두는 것</strong>입니다. 이 기록이 <strong>잠금 파일</strong>(lockfile)입니다. npm은 <code>package-lock.json</code>, Python 도구들은 <code>uv.lock</code>이나 <code>poetry.lock</code> 같은 이름을 씁니다.</p>
+<div class="callout analogy"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bulb"></use></svg>비유로 이해하기 · 발주서와 납품 기록표</div>
+<p>선언 파일은 발주서입니다. "간장, 1.x대면 됩니다." 잠금 파일은 납품 기록표입니다. "간장 1.4.2, 제조 번호 8841." 내일도 똑같은 도시락을 만들려면 납품 기록표대로 받아야 합니다.</p>
+</div>
+<figure class="fig" id="fig-lockfile-timeline"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 346" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>잠금 파일이 없으면 설치하는 날에 따라 버전이 달라지고, 있으면 언제 설치해도 같은 버전이 깔린다</title>
+  <text class="t-s t-b mid" x="340" y="30">월요일 · 내 노트북</text>
+  <text class="t-s t-b mid" x="500" y="30">수요일</text>
+  <text class="t-s t-b mid" x="660" y="30">금요일 · 서버</text>
+  <path class="ln thin muted" d="M260 46 H740"/>
+  <circle class="f-gray" cx="340" cy="46" r="4"/>
+  <circle class="f-gray" cx="500" cy="46" r="4"/>
+  <circle class="f-gray" cx="660" cy="46" r="4"/>
+
+  <rect class="panel" x="20" y="62" width="720" height="122" rx="14"/>
+  <rect class="box" x="34" y="76" width="196" height="94" rx="10"/>
+  <use href="#i-file" x="44" y="84" width="28" height="28" class="ic warm"/>
+  <text class="t-b" x="80" y="104">잠금 파일 없이</text>
+  <text class="t-xs" x="46" y="130">허용 범위만 적혀 있다</text>
+  <text class="t-mono" x="46" y="154">chart-lib ^1.4.2</text>
+  <path class="ln muted" d="M234 123 H272" marker-end="url(#ah-muted)"/>
+  <rect class="box green" x="280" y="92" width="120" height="62" rx="10"/>
+  <text class="t-xs mid" x="340" y="115">설치된 버전</text>
+  <text class="t-mono t-b mid" x="340" y="139">1.4.2</text>
+  <rect class="box gray" x="445" y="101" width="110" height="44" rx="10"/>
+  <text class="t-s mid" x="500" y="128">1.5.0 출시</text>
+  <path class="ln red" d="M559 123 H592" marker-end="url(#ah-red)"/>
+  <rect class="box red" x="600" y="92" width="120" height="62" rx="10"/>
+  <text class="t-xs mid" x="660" y="115">설치된 버전</text>
+  <text class="t-mono t-b mid tc-red" x="660" y="139">1.5.0</text>
+  <text class="t-xs t-b mid tc-red" x="660" y="174">재료가 달라졌다</text>
+
+  <rect class="panel" x="20" y="204" width="720" height="122" rx="14"/>
+  <rect class="box" x="34" y="218" width="196" height="94" rx="10"/>
+  <use href="#i-lock" x="44" y="226" width="28" height="28" class="ic green"/>
+  <text class="t-b" x="80" y="246">잠금 파일과 함께</text>
+  <text class="t-xs" x="46" y="272">실제로 받은 것을 적었다</text>
+  <text class="t-mono" x="46" y="296">chart-lib 1.4.2</text>
+  <path class="ln muted" d="M234 265 H272" marker-end="url(#ah-muted)"/>
+  <rect class="box green" x="280" y="234" width="120" height="62" rx="10"/>
+  <text class="t-xs mid" x="340" y="257">설치된 버전</text>
+  <text class="t-mono t-b mid" x="340" y="281">1.4.2</text>
+  <rect class="box gray" x="445" y="243" width="110" height="44" rx="10"/>
+  <text class="t-s mid" x="500" y="270">1.5.0 출시</text>
+  <use href="#i-lock" x="565" y="252" width="26" height="26" class="ic green"/>
+  <rect class="box green" x="600" y="234" width="120" height="62" rx="10"/>
+  <text class="t-xs mid" x="660" y="257">설치된 버전</text>
+  <text class="t-mono t-b mid" x="660" y="281">1.4.2</text>
+  <text class="t-xs t-b mid tc-green" x="660" y="316">같은 재료</text>
+</svg></div><figcaption><b>그림 20-3</b>같은 프로젝트를 월요일과 금요일에 설치한 결과. 잠금 파일이 없으면 그 사이에 나온 새 버전이 섞여 들어옵니다.</figcaption></figure>
+<p>설치 명령도 둘로 나뉩니다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><span class="ex">npm</span> install   <span class="co"># 범위 안에서 고르고, 고른 결과를 잠금 파일에 적는다</span></span>
+<span id="cb1-2"><span class="ex">npm</span> ci        <span class="co"># 잠금 파일에 적힌 그대로만 설치한다</span></span></code></pre></div>
+<ul>
+<li>1행 — 개발하면서 패키지를 새로 넣거나 버전을 올릴 때 씁니다.</li>
+<li>2행 — 서버와 자동 검사에서 씁니다. 선언 파일과 잠금 파일이 어긋나 있으면 알아서 고치지 않고 실패합니다.</li>
+</ul>
+<p>지킬 것은 세 가지입니다. 잠금 파일은 <strong>Git에 함께 올립니다.</strong> 서버와 자동 검사에서는 <strong>잠금대로만 설치</strong>합니다. 버전을 올릴 때는 <strong>그 일만 담은 커밋</strong>으로 따로 올립니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>선언 파일은 "받아도 되는 범위"이고, 잠금 파일은 "실제로 받은 것"입니다.</p>
+</div>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>잠금 파일이 고정하는 것은 패키지 버전까지입니다. 운영체제와 런타임 버전까지 한 묶음으로 굳히는 방법은 <a href="ch21.html">21장</a>의 컨테이너입니다.</p>
+</div>
+<div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
+<p>내 프로젝트의 잠금 파일을 열어 보세요. 선언 파일에 적은 패키지는 몇 개이고, 잠금 파일에는 몇 개가 적혀 있나요?</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>내가 패키지를 만들어 나눠 주는 쪽이라면</summary><div class="deep-body">
+<p>잠금 파일은 최종 앱을 위한 도구입니다. 남이 가져다 쓸 라이브러리는 다른 패키지와 함께 설치되어야 하므로 범위를 넉넉히 적습니다.</p>
+<p>또 소스 폴더에서 잘 돈다고 포장해 설치해도 잘 도는 것은 아닙니다. 설정 파일이나 이미지가 포장에서 빠지는 실수가 흔합니다. 공개하기 전에 빈 환경에 <strong>포장한 파일을 직접 설치해</strong> 보세요.</p>
+</div></details>
+</section>
+<section class="level2" id="artifact">
+<h2><span class="sec-n">20.4</span>빌드와 산출물: 밀봉한 상자<a aria-label="이 절의 링크" class="anchor" href="#artifact">#</a></h2>
+<p>재료가 정해졌으니 생산 라인을 돌릴 차례입니다. 실제 빌드는 <a href="ch04.html">4장</a>에서 본 번역 말고도 파일 수백 개를 몇 개로 묶고, 이미지를 줄이고, 쓰지 않는 코드를 덜어 냅니다.</p>
+<p>빌드가 끝나고 나온, <strong>실제로 내보낼 결과물</strong>을 <strong>산출물</strong>(artifact)이라고 합니다. 웹이라면 한 폴더에 모인 HTML과 JavaScript 파일 묶음이고, 모바일 게임이라면 스토어에 올리는 앱 파일입니다. 공장으로 치면 <strong>밀봉한 도시락 상자</strong>입니다.</p>
+<p>개발 중에는 잘 보이던 아이콘이 상자에는 빠져 있을 수 있습니다. 포장 목록에 그 파일을 넣지 않았기 때문입니다. 그래서 마지막 확인은 <strong>내보낼 상자를 직접 실행해서</strong> 합니다.</p>
+<p>상자에는 이름표도 필요합니다. <code>latest</code>나 <code>final</code> 같은 이름은 내일이면 다른 상자를 가리킵니다. 대신 두 가지를 적어 둡니다.</p>
+<ul>
+<li><strong>어느 커밋으로 만들었는가.</strong> 예를 들어 <code>a1b2c3d</code>.</li>
+<li><strong>상자의 지문.</strong> 파일 내용으로 계산한 짧은 글자열을 <strong>해시</strong>(hash)라고 합니다. 내용이 1바이트만 달라도 전혀 다른 값이 나오므로, 해시가 같으면 같은 상자입니다.</li>
+</ul>
+<section class="level3" id="바뀐-것만-다시-만들기">
+<h3>바뀐 것만 다시 만들기</h3>
+<p>간장 양만 바꿨는데 밥까지 새로 지을 필요는 없습니다. 빌드 도구는 <strong>무엇으로 무엇을 만드는지</strong>를 이어 놓은 관계도를 가지고 있습니다. 이 관계도를 따라 바뀐 재료의 영향을 받는 것만 다시 만드는 방식을 <strong>증분 빌드</strong>(incremental build)라고 합니다.</p>
+<figure class="fig" id="fig-build-graph"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 322" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>ui.c 하나만 고치면 ui.o와 game만 다시 만들고 player.o는 그대로 재사용한다</title>
+  <text class="t-s t-b mid" x="130" y="30">소스 파일</text>
+  <text class="t-s t-b mid" x="380" y="30">중간 결과</text>
+  <text class="t-s t-b mid" x="630" y="30">실행 파일</text>
+
+  <rect class="box gray" x="40" y="46" width="180" height="64" rx="12"/>
+  <use href="#i-file" x="52" y="62" width="30" height="30" class="ic gray"/>
+  <text class="t-mono t-b" x="94" y="74">player.c</text>
+  <text class="t-xs" x="94" y="95">손대지 않음</text>
+
+  <rect class="box green" x="290" y="46" width="180" height="64" rx="12"/>
+  <use href="#i-check" x="302" y="62" width="30" height="30" class="ic green"/>
+  <text class="t-mono t-b" x="344" y="74">player.o</text>
+  <text class="t-xs t-b tc-green" x="344" y="95">재사용 · 0초</text>
+
+  <rect class="box warm" x="40" y="166" width="180" height="64" rx="12"/>
+  <use href="#i-pencil" x="52" y="182" width="30" height="30" class="ic warm"/>
+  <text class="t-mono t-b" x="94" y="194">ui.c</text>
+  <text class="t-xs t-b tc-warm" x="94" y="215">방금 고침</text>
+
+  <rect class="box warm" x="290" y="166" width="180" height="64" rx="12"/>
+  <use href="#i-refresh" x="302" y="182" width="30" height="30" class="ic warm"/>
+  <text class="t-mono t-b" x="344" y="194">ui.o</text>
+  <text class="t-xs t-b tc-warm" x="344" y="215">다시 컴파일 · 20초</text>
+
+  <rect class="box warm" x="540" y="106" width="180" height="64" rx="12"/>
+  <use href="#i-refresh" x="552" y="122" width="30" height="30" class="ic warm"/>
+  <text class="t-mono t-b" x="594" y="134">game</text>
+  <text class="t-xs t-b tc-warm" x="594" y="155">다시 링크 · 5초</text>
+
+  <path class="ln muted dash" d="M224 78 H282" marker-end="url(#ah-muted)"/>
+  <path class="ln warm" d="M224 198 H282" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M474 86 L533 124" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M474 190 L533 152" marker-end="url(#ah-warm)"/>
+
+  <path class="ln thin muted" d="M20 250 H740"/>
+  <text class="t-s end" x="250" y="279">전부 다시 만들면</text>
+  <rect class="solid gray" x="264" y="263" width="270" height="22" rx="5"/>
+  <text class="t-mono" x="544" y="279">45초</text>
+  <text class="t-s end" x="250" y="309">바뀐 것만 만들면</text>
+  <rect class="solid warm" x="264" y="293" width="150" height="22" rx="5"/>
+  <text class="t-mono" x="424" y="309">25초</text>
+</svg></div><figcaption><b>그림 20-4</b><code>ui.c</code>만 고쳤을 때. 주황색으로 칠한 것만 다시 만들고, <code>player.o</code>는 지난번 결과를 그대로 씁니다.</figcaption></figure>
+<p>이 관계도를 직접 적는 오래된 도구가 <code>make</code>입니다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb2-1"><span class="dv">game:</span><span class="dt"> player.o ui.o</span></span>
+<span id="cb2-2"><span class="er">    </span>cc -o game player.o ui.o</span>
+<span id="cb2-3"></span>
+<span id="cb2-4"><span class="dv">ui.o:</span><span class="dt"> ui.c</span></span>
+<span id="cb2-5"><span class="er">    </span>cc -c ui.c</span></code></pre></div>
+<ul>
+<li>1행 — 쌍점 왼쪽이 만들 것, 오른쪽이 재료입니다. "<code>game</code>을 만들려면 <code>player.o</code>와 <code>ui.o</code>가 필요하다"는 뜻입니다.</li>
+<li>2행 — 만드는 명령입니다. 줄 앞은 탭으로 들여 씁니다. 4~5행도 같은 모양입니다.</li>
+</ul>
+<p><code>make</code>는 결과가 아직 없거나 재료가 결과보다 나중에 고쳐졌을 때만 그 명령을 실행합니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 관계도에서 빠진 재료</div>
+<p><code>ui.c</code>가 읽는 <code>colors.h</code>를 관계도에 적지 않았다면, <code>colors.h</code>를 고쳐도 <code>make</code>는 옛 결과를 그대로 씁니다. "고쳤는데 반영이 안 되는" 버그의 흔한 원인입니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>다른 기계에서 돌 상자 만들기 (크로스 빌드)</summary><div class="deep-body">
+<p>ARM64 맥북에서 만든 상자를 x86-64 리눅스 서버에 올리는 것처럼, 빌드하는 컴퓨터와 실행할 컴퓨터가 다를 때가 많습니다. 내 컴퓨터에서 다른 대상용 결과물을 만드는 것을 <strong>크로스 빌드</strong>(cross build)라고 합니다.</p>
+<p>내 컴퓨터에 깔린 라이브러리 파일은 내 컴퓨터용 번역본이므로 상자에 그대로 넣으면 안 됩니다. 또 빌드 성공이 대상에서 돈다는 뜻은 아니니, 실제 대상이나 닮은 환경에서 켜 봐야 합니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="environments">
+<h2><span class="sec-n">20.5</span>한 번 만들어 여러 환경에: 상자는 그대로, 설정만 다르게<a aria-label="이 절의 링크" class="anchor" href="#environments">#</a></h2>
+<p>도시락 공장은 새 도시락을 먼저 시식 매장에서 팔아 봅니다. 소프트웨어도 프로그램이 돌아가는 무대를 여러 벌 마련합니다. 서버, 데이터베이스, 설정을 한 벌로 묶은 이 무대를 <strong>환경</strong>(environment)이라고 합니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>환경</th>
+<th>누가 쓰나</th>
+<th>공장으로 치면</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>개발</td>
+<td>개발자 혼자, 내 노트북에서</td>
+<td>시험 주방</td>
+</tr>
+<tr>
+<td><strong>스테이징</strong>(staging)</td>
+<td>팀 내부. 운영을 닮은 연습 무대</td>
+<td>시식 매장</td>
+</tr>
+<tr>
+<td>운영 (production)</td>
+<td>실제 사용자</td>
+<td>본 매장</td>
+</tr>
+</tbody>
+</table></div>
+<p>지킬 규칙은 둘입니다.</p>
+<p><strong>첫째, 검사한 그 상자를 그대로 올립니다.</strong> 흔한 실수는 스테이징에 올릴 때 한 번, 운영에 올릴 때 또 한 번 빌드하는 것입니다. 시식 매장에서 합격한 도시락과 본 매장에 깔리는 도시락이 다른 솥에서 나온 셈입니다.</p>
+<p>같은 커밋으로 빌드해도 같은 상자가 나온다는 보장은 없습니다. 빌드가 현재 시각을 파일에 적어 넣거나 인터넷에서 가장 새 것을 받아 오면 결과가 달라집니다. 같은 입력이면 언제 만들어도 똑같은 산출물이 나오는 성질을 <strong>재현 가능한 빌드</strong>(reproducible build)라고 합니다. 잠금 파일이 여기에 다가가는 길이지만, 가장 쉬운 길은 <strong>한 번만 만드는 것</strong>입니다.</p>
+<p><strong>둘째, 환경마다 달라야 하는 것은 상자 밖에 둡니다.</strong> 스테이징은 연습용 데이터베이스에, 운영은 진짜 데이터베이스에 붙어야 합니다. 이 주소를 코드에 적어 넣으면 환경마다 상자를 따로 만들어야 합니다. 그래서 이런 값은 프로그램을 켤 때 바깥에서 건넵니다. 가장 흔한 통로가 <strong>환경 변수</strong>(environment variable), 곧 실행할 때 운영체제가 함께 건네주는 이름 붙은 값입니다.</p>
+<figure class="fig" id="fig-build-once"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>한 번 만든 같은 상자가 스테이징과 운영으로 그대로 가고, 환경마다 다른 것은 바깥에서 건네는 설정뿐이다</title>
+  <rect class="panel" x="215" y="20" width="240" height="290" rx="14"/>
+  <rect class="panel" x="505" y="20" width="235" height="290" rx="14"/>
+
+  <text class="t-s t-b" x="20" y="50">빌드는 한 번만</text>
+  <text class="t-mono" x="20" y="74">커밋 a1b2c3d</text>
+  <text class="t-l" x="231" y="52">스테이징</text>
+  <text class="t-s" x="231" y="74">운영을 닮은 연습 무대</text>
+  <text class="t-l" x="521" y="52">운영</text>
+  <text class="t-s" x="521" y="74">실제 사용자가 쓰는 곳</text>
+
+  <rect class="box warm" x="20" y="92" width="170" height="64" rx="12"/>
+  <use href="#i-box" x="30" y="108" width="32" height="32" class="ic warm"/>
+  <text class="t-mono t-b" x="70" y="120">app-57.zip</text>
+  <text class="t-xs" x="70" y="141">지문 9f2c…e1</text>
+
+  <rect class="box warm" x="229" y="92" width="212" height="64" rx="12"/>
+  <use href="#i-box" x="241" y="108" width="32" height="32" class="ic warm"/>
+  <text class="t-mono t-b" x="283" y="120">app-57.zip</text>
+  <text class="t-xs" x="283" y="141">지문 9f2c…e1</text>
+
+  <rect class="box warm" x="519" y="92" width="207" height="64" rx="12"/>
+  <use href="#i-box" x="531" y="108" width="32" height="32" class="ic warm"/>
+  <text class="t-mono t-b" x="573" y="120">app-57.zip</text>
+  <text class="t-xs" x="573" y="141">지문 9f2c…e1</text>
+
+  <path class="ln warm" d="M194 124 H221" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M445 124 H511" marker-end="url(#ah-warm)"/>
+  <text class="t-xs t-b mid tc-warm" x="480" y="112">그대로</text>
+
+  <text class="t-l mid" x="335" y="178">+</text>
+  <text class="t-l mid" x="622" y="178">+</text>
+
+  <rect class="ghost dash" x="20" y="190" width="170" height="104" rx="12"/>
+  <text class="t-s t-b mid" x="105" y="236">설정은 상자 밖에</text>
+  <text class="t-s mid" x="105" y="258">실행할 때 건넨다</text>
+
+  <rect class="box" x="229" y="190" width="212" height="104" rx="12"/>
+  <use href="#i-gear" x="241" y="200" width="24" height="24" class="ic"/>
+  <text class="t-s t-b" x="273" y="217">환경 변수</text>
+  <text class="t-mono" x="243" y="248">DB_URL=staging-db</text>
+  <text class="t-mono" x="243" y="274">PAY_KEY=test_4f…</text>
+
+  <rect class="box" x="519" y="190" width="207" height="104" rx="12"/>
+  <use href="#i-gear" x="531" y="200" width="24" height="24" class="ic"/>
+  <text class="t-s t-b" x="563" y="217">환경 변수</text>
+  <text class="t-mono" x="533" y="248">DB_URL=prod-db</text>
+  <text class="t-mono" x="533" y="274">PAY_KEY=live_9a…</text>
+</svg></div><figcaption><b>그림 20-5</b>상자는 하나, 설정은 환경마다. 두 환경의 상자는 지문까지 같고, 다른 것은 바깥에서 건넨 환경 변수뿐입니다.</figcaption></figure>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><span class="im">import</span> os</span>
+<span id="cb3-2"></span>
+<span id="cb3-3">DB_URL <span class="op">=</span> os.environ[<span class="st">"DB_URL"</span>]</span></code></pre></div>
+<ul>
+<li>3행 — 코드에는 "<code>DB_URL</code>이라는 이름의 값을 받아 쓴다"는 것만 적습니다. 스테이징에서 켜면 연습용 주소가, 운영에서 켜면 진짜 주소가 들어옵니다.</li>
+</ul>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 이름만 나눈 환경은 나눈 것이 아닙니다</div>
+<p>스테이징 서버가 실수로 운영의 결제 키를 읽으면, 연습 삼아 넣은 주문이 진짜로 청구됩니다. 환경을 나눈다는 것은 데이터베이스, 계정, 키까지 <strong>실제로 다른 것을 쓰게</strong> 한다는 뜻입니다.</p>
+</div>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · 설정이 언제 읽히는지 확인하세요</div>
+<p>브라우저로 보내는 화면 코드는 빌드할 때 설정값이 <strong>파일 안에 글자 그대로 박힙니다.</strong> 나중에 환경 변수를 바꿔도 이미 만든 파일은 그대로입니다. 또 브라우저로 간 값은 누구나 볼 수 있으니 비밀 키를 넣으면 안 됩니다(<a href="ch19.html">19장</a>).</p>
+</div>
+</section>
+<section class="level2" id="ci">
+<h2><span class="sec-n">20.6</span>CI: 올릴 때마다 도는 출고 검사<a aria-label="이 절의 링크" class="anchor" href="#ci">#</a></h2>
+<p>"잠금 파일대로 설치하고, 빌드하고, 테스트하고, 통과한 상자를 보관한다." 사람은 이것을 매번 지키지 못합니다.</p>
+<p>공장은 컨베이어 벨트 위에 검사대를 놓아 <strong>모든 상자가 반드시 지나가게</strong> 합니다. 소프트웨어에서 이 검사대가 <strong>CI</strong>(Continuous Integration, 지속적 통합)입니다. 누군가 저장소에 코드를 올릴 때마다 깨끗한 컴퓨터 한 대가 자동으로 켜져서, 정해 둔 명령을 차례로 실행합니다. 이렇게 줄지어 선 단계를 <strong>파이프라인</strong>(pipeline)이라고 합니다.</p>
+<figure class="fig" id="fig-pipeline"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 286" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>push 한 번에 설치, 빌드, 테스트, 보관이 차례로 돌고, 테스트가 실패하면 뒤 단계는 실행되지 않는다</title>
+  <text class="t-h" x="20" y="34">코드를 올릴 때마다 도는 검사 라인</text>
+
+  <rect class="box blue" x="20" y="62" width="90" height="124" rx="12"/>
+  <use href="#i-branch" x="47" y="74" width="36" height="36" class="ic blue"/>
+  <text class="t-b mid" x="65" y="136">올리기</text>
+  <text class="t-mono mid" x="65" y="160">a1b2c3d</text>
+
+  <rect class="box green" x="132" y="62" width="135" height="124" rx="12"/>
+  <circle class="badge green" cx="152" cy="84" r="12"/><text class="badge-t" x="152" y="88.500">1</text>
+  <text class="t-l" x="172" y="90">설치</text>
+  <text class="t-mono" x="146" y="126">npm ci</text>
+  <text class="t-s" x="146" y="158">잠금 파일 그대로</text>
+
+  <rect class="box green" x="289" y="62" width="135" height="124" rx="12"/>
+  <circle class="badge green" cx="309" cy="84" r="12"/><text class="badge-t" x="309" y="88.500">2</text>
+  <text class="t-l" x="329" y="90">빌드</text>
+  <text class="t-mono" x="303" y="126">npm run build</text>
+  <text class="t-s" x="303" y="158">상자를 만든다</text>
+
+  <rect class="box red" x="446" y="62" width="135" height="124" rx="12"/>
+  <circle class="badge red" cx="466" cy="84" r="12"/><text class="badge-t" x="466" y="88.500">3</text>
+  <text class="t-l" x="486" y="90">테스트</text>
+  <text class="t-mono" x="460" y="126">npm test</text>
+  <text class="t-s t-b tc-red" x="460" y="158">212개 중 1개 실패</text>
+
+  <rect class="ghost dash" x="603" y="62" width="135" height="124" rx="12"/>
+  <circle class="badge" cx="623" cy="84" r="12"/><text class="badge-t" x="623" y="88.500">4</text>
+  <text class="t-l tc-muted" x="643" y="90">보관</text>
+  <text class="t-s" x="617" y="126">검사한 상자를</text>
+  <text class="t-s" x="617" y="146">보관소에 넣는다</text>
+
+  <path class="ln blue" d="M113 124 H125" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M270 124 H282" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M427 124 H439" marker-end="url(#ah-green)"/>
+  <path class="ln muted dash" d="M584 124 H596" marker-end="url(#ah-muted)"/>
+
+  <rect class="box green" x="144" y="200" width="111" height="28" rx="14"/>
+  <text class="t-s mid" x="199.500" y="219">종료 코드 0</text>
+  <rect class="box green" x="301" y="200" width="111" height="28" rx="14"/>
+  <text class="t-s mid" x="356.500" y="219">종료 코드 0</text>
+  <rect class="box red" x="458" y="200" width="111" height="28" rx="14"/>
+  <text class="t-s t-b mid tc-red" x="513.500" y="219">종료 코드 1</text>
+  <rect class="box gray" x="615" y="200" width="111" height="28" rx="14"/>
+  <text class="t-s mid" x="670.500" y="219">실행 안 됨</text>
+
+  <text class="t-b tc-red" x="20" y="266">빨간불: 검사에서 떨어진 상자는 보관소에 들어가지 못한다</text>
+</svg></div><figcaption><b>그림 20-6</b>커밋 <code>a1b2c3d</code>를 올리자 돌아간 파이프라인. 3번에서 테스트 하나가 실패해 종료 코드 1이 나왔고, 4번은 실행되지 않았습니다.</figcaption></figure>
+<ul>
+<li><strong>매번 빈 주방에서 시작합니다.</strong> 내 노트북에는 몇 달 전에 깔아 둔 도구가 남아 있지만, CI 컴퓨터에는 저장소에 적힌 것만 있습니다. "내 컴퓨터에서는 되는데요"의 원인인 <strong>적어 두지 않은 재료</strong>가 여기서 드러납니다.</li>
+<li><strong>종료 코드만 봅니다.</strong> CI는 명령이 0으로 끝나면 초록불을, 아니면 빨간불을 켜고 멈춥니다(<a href="ch05.html">5장</a>). 그 검사가 충분한지는 판단하지 않습니다.</li>
+</ul>
+<div class="callout myth"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-cross"></use></svg>흔한 오해 · CI가 초록불이면 배포해도 안전하다</div>
+<p>초록불은 "시킨 명령이 모두 0으로 끝났다"는 뜻일 뿐입니다. 테스트가 한 개도 실행되지 않아도 초록불입니다. 그래서 세 가지를 함께 봅니다. <strong>어느 커밋</strong>을 검사했는가, 테스트가 <strong>몇 개</strong> 돌았는가, 상자가 <strong>실제로 만들어졌는가</strong>. AI가 빨간불을 없애려고 실패하는 테스트를 꺼 버리는 일도 있습니다.</p>
+</div>
+<p>CI 뒤에 배포까지 자동으로 이은 것은 <strong>CD</strong>(Continuous Delivery, 지속적 제공)라고 부릅니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>CI를 빠르게, 넓게: 캐시와 매트릭스</summary><div class="deep-body">
+<p>CI는 지난번에 내려받은 의존성을 캐시로 보관했다가 다시 써서 시간을 줄입니다. 어떤 조건에서 만든 캐시인지 나타내는 이름표가 <strong>캐시 키</strong>이고, 보통 운영체제 이름과 잠금 파일의 해시를 이어 붙여 만듭니다. 키를 늘 <code>deps</code>처럼 같은 이름으로 두면 잠금 파일이 바뀌어도 옛 재료를 꺼내 씁니다.</p>
+<p><strong>매트릭스</strong>(matrix)는 같은 검사를 여러 조합에서 돌리는 기능입니다. 운영체제 3종과 런타임 버전 4개를 지원한다면 3 × 4 = 12가지입니다. 조합은 곱으로 늘어나므로, 평소에는 대표 조합만 돌리고 전체는 하루에 한 번 돌립니다.</p>
+</div></details>
+<details class="deep"><summary><small>한 걸음 더</small>올리기 전에 내 컴퓨터에서 먼저: 묶음 명령과 Git 훅</summary><div class="deep-body">
+<p>형식 검사, 타입 검사, 핵심 테스트를 <code>check</code> 같은 이름 하나로 묶어 두면 사람도 AI도 CI도 같은 명령을 씁니다.</p>
+<p><strong>Git 훅</strong>(hook)은 커밋 직전 같은 때에 자동으로 실행되는 스크립트입니다. 빠른 검사를 걸어 두면 실수를 일찍 잡습니다. 다만 각자 설치해야 하고 건너뛸 수도 있어서 CI를 대신하지는 못합니다.</p>
+</div></details>
+</section>
+<section class="level2" id="rollout">
+<h2><span class="sec-n">20.7</span>배포 전략: 새 버전을 어떻게 갈아 끼울까<a aria-label="이 절의 링크" class="anchor" href="#rollout">#</a></h2>
+<p>검사를 통과한 상자가 준비됐습니다. 운영 서버 네 대가 지금 구버전을 돌리고 있습니다. 어떻게 갈아 끼울까요?</p>
+<figure class="fig" id="fig-deploy-strategies"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 446" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>서버 네 대를 새 버전으로 바꾸는 네 가지 방법: 한 번에 교체, 롤링, 블루-그린, 카나리</title>
+  <text class="t-h" x="20" y="34">서버 4대를 새 버전으로 바꾸는 네 가지 길</text>
+  <rect class="solid blue" x="478" y="20" width="16" height="16" rx="4"/>
+  <text class="t-s" x="500" y="33">구버전</text>
+  <rect class="solid green" x="562" y="20" width="16" height="16" rx="4"/>
+  <text class="t-s" x="584" y="33">신버전</text>
+  <rect class="ghost dash" x="646" y="20" width="16" height="16" rx="4"/>
+  <text class="t-s" x="668" y="33">꺼짐</text>
+  <text class="t-s t-b mid" x="310" y="68">시작</text>
+  <text class="t-s t-b mid" x="480" y="68">도중</text>
+  <text class="t-s t-b mid" x="650" y="68">끝</text>
+  <path class="ln thin muted" d="M20 80 H740"/>
+  <path class="ln thin muted" d="M20 168 H740"/>
+  <path class="ln thin muted" d="M20 256 H740"/>
+  <path class="ln thin muted" d="M20 344 H740"/>
+  <text class="t-b" x="20" y="120">한 번에 교체</text>
+  <text class="t-s" x="20" y="142">모두 끄고 새로 켠다</text>
+  <text class="t-b" x="20" y="208">롤링</text>
+  <text class="t-s" x="20" y="230">몇 대씩 차례로 바꾼다</text>
+  <text class="t-b" x="20" y="296">블루-그린</text>
+  <text class="t-s" x="20" y="318">새 무대로 한 번에 넘긴다</text>
+  <text class="t-b" x="20" y="384">카나리</text>
+  <text class="t-s" x="20" y="406">소수에게 먼저 보낸다</text>
+  <rect class="solid blue" x="249" y="104" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="281" y="104" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="313" y="104" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="345" y="104" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="419" y="104" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="451" y="104" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="483" y="104" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="515" y="104" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="589" y="104" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="621" y="104" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="653" y="104" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="685" y="104" width="26" height="26" rx="5"/>
+  <text class="t-xs t-b mid tc-red" x="480" y="152">잠깐 접속 불가</text>
+  <rect class="solid blue" x="249" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="281" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="313" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="345" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="419" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="451" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="483" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="515" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="589" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="621" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="653" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="685" y="192" width="26" height="26" rx="5"/>
+  <text class="t-xs t-b mid tc-warm" x="480" y="240">두 버전이 함께 돈다</text>
+  <rect class="solid blue" x="249" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="281" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="313" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="345" y="268" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="249" y="306" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="281" y="306" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="313" y="306" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="345" y="306" width="26" height="26" rx="5"/>
+  <text class="t-xs t-b t-ink" x="377" y="286">요청</text>
+  <text class="t-xs" x="377" y="324">준비</text>
+  <rect class="solid blue" x="419" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="451" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="483" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="515" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="419" y="306" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="451" y="306" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="483" y="306" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="515" y="306" width="26" height="26" rx="5"/>
+  <text class="t-xs t-b t-ink" x="547" y="286">요청</text>
+  <text class="t-xs" x="547" y="324">대기</text>
+  <rect class="solid blue" x="589" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="621" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="653" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="685" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="589" y="306" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="621" y="306" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="653" y="306" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="685" y="306" width="26" height="26" rx="5"/>
+  <text class="t-xs" x="717" y="286">대기</text>
+  <text class="t-xs t-b t-ink" x="717" y="324">요청</text>
+  <rect class="solid blue" x="249" y="368" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="281" y="368" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="313" y="368" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="345" y="368" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="419" y="356" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="451" y="356" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="483" y="356" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="515" y="356" width="26" height="26" rx="5"/>
+  <text class="t-xs" x="547" y="374">95%</text>
+  <rect class="solid green" x="419" y="394" width="26" height="26" rx="5"/>
+  <text class="t-xs t-b t-ink" x="453" y="412">요청의 5%만</text>
+  <rect class="solid green" x="589" y="368" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="621" y="368" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="653" y="368" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="685" y="368" width="26" height="26" rx="5"/>
+</svg></div><figcaption><b>그림 20-7</b>칸 하나가 서버 한 대입니다. 파란 칸은 구버전을, 초록 칸은 신버전을 돌리고 있습니다.</figcaption></figure>
+<ul>
+<li><strong>한 번에 교체.</strong> 모두 끄고 새 버전으로 켭니다. 간단하지만 바꾸는 동안 서비스가 멈추고, 문제가 있으면 모든 사용자가 겪습니다.</li>
+<li><strong>롤링 배포</strong>(rolling deployment). 한두 대씩 차례로 바꿉니다. 멈추지 않지만, 바꾸는 동안 두 버전이 함께 요청을 받습니다.</li>
+<li><strong>블루-그린 배포</strong>(blue-green deployment). 지금 서버 묶음(블루) 옆에 새 버전 묶음(그린)을 따로 차려 미리 검사한 뒤, 요청이 들어오는 길을 한 번에 그린으로 돌립니다. 문제가 생기면 길만 다시 블루로 돌립니다. 대신 한동안 서버가 두 배로 필요합니다.</li>
+<li><strong>카나리 배포</strong>(canary release). 요청의 5%만 새 버전으로 보내고 오류율을 구버전과 비교합니다. 괜찮으면 25%, 50%, 100%로 넓히고 나쁘면 멈춥니다. 탄광에 카나리아를 먼저 들여보내 위험을 살피던 데서 온 이름입니다.</li>
+</ul>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · 멈출 조건은 배포 전에 정합니다</div>
+<p>"오류율이 1%를 넘으면 중단한다"처럼 숫자로 미리 정해 두세요. 로그에는 <code>app-57</code> 같은 버전 이름을 남깁니다(<a href="ch22.html">22장</a>).</p>
+</div>
+<section class="level3" id="기능-플래그-배포와-출시를-떼어-놓기">
+<h3>기능 플래그: 배포와 출시를 떼어 놓기</h3>
+<p>여기까지는 새 코드를 서버에 올리는 순간이 곧 사용자가 새 기능을 보는 순간이었습니다. 이 둘을 떼어 놓는 장치가 <strong>기능 플래그</strong>(feature flag)입니다. 코드 안에 스위치를 넣어 두고, 켤지 말지는 설정에서 읽어 옵니다.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><span class="cf">if</span> flags.is_on(<span class="st">"new_search"</span>, user):</span>
+<span id="cb4-2">    show_new_search(user)</span>
+<span id="cb4-3"><span class="cf">else</span>:</span>
+<span id="cb4-4">    show_old_search(user)</span></code></pre></div>
+<ul>
+<li>1행 — <code>new_search</code>라는 스위치가 이 사용자에게 켜져 있는지 묻습니다.</li>
+<li>2~4행 — 켜져 있으면 새 검색 화면을, 아니면 옛 화면을 보여 줍니다.</li>
+</ul>
+<p>새 검색 코드는 월요일에 <strong>꺼진 채로</strong> 배포합니다. 수요일에 직원에게만 켜고, 금요일에 사용자 10%에게 켭니다. 문제가 보이면 스위치만 끕니다. 신메뉴를 매장 창고에 미리 가져다 두고, 진열하는 날은 따로 정하는 것과 같습니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p><strong>배포</strong>는 코드를 서버에 올리는 일이고, <strong>출시</strong>는 사용자에게 보여 주는 일입니다. 둘을 떼어 놓으면 따로 되돌릴 수 있습니다.</p>
+</div>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
+<p>스위치마다 길이 둘로 갈라지므로 켠 쪽과 끈 쪽을 모두 테스트해야 합니다. 모두에게 켠 뒤에는 플래그와 옛 코드를 지웁니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="compat">
+<h2><span class="sec-n">20.8</span>구버전과 신버전이 함께 사는 시간<a aria-label="이 절의 링크" class="anchor" href="#compat">#</a></h2>
+<p>롤링이든 카나리든 블루-그린이든 <strong>한동안 구버전과 신버전이 함께 살아 있습니다.</strong> 그리고 두 버전은 대개 <strong>같은 데이터베이스</strong>를 봅니다. 가장 아픈 사고가 여기서 납니다.</p>
+<p>사용자 표의 <code>name</code> 열을 <code>nickname</code>으로 바꾸고 싶다고 해 봅시다. 열 이름을 곧바로 바꾸면, 아직 돌고 있는 구버전 서버는 <code>name</code>을 찾지 못해 오류를 냅니다. 구버전으로 되돌려도 똑같습니다. 데이터베이스의 구조를 바꾸는 작업을 <strong>마이그레이션</strong>(migration)이라고 하는데(<a href="ch17.html">17장</a>), 안전한 마이그레이션은 세 번에 나눠서 합니다.</p>
+<figure class="fig" id="fig-expand-contract"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 318" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>열 이름을 name에서 nickname으로 바꿀 때 확장, 이전, 축소의 세 단계를 거치면 구버전과 신버전이 함께 돌 수 있는 구간이 생긴다</title>
+  <rect class="panel green" x="432" y="176" width="154" height="96" rx="12"/>
+  <text class="t-s t-b" x="20" y="124">users 표</text>
+  <text class="t-s t-b" x="20" y="206">구버전 코드</text>
+  <text class="t-xs" x="20" y="223">name을 읽는다</text>
+  <text class="t-s t-b" x="20" y="250">신버전 코드</text>
+  <text class="t-xs" x="20" y="267">nickname을 읽는다</text>
+  <text class="t-b mid" x="189" y="36">처음</text>
+  <text class="t-s mid" x="189" y="58">열은 name 하나</text>
+  <circle class="badge" cx="325" cy="31" r="12"/><text class="badge-t" x="325" y="35.500">1</text>
+  <text class="t-b" x="343" y="36">확장</text>
+  <text class="t-s mid" x="349" y="58">새 열을 더한다</text>
+  <circle class="badge" cx="485" cy="31" r="12"/><text class="badge-t" x="485" y="35.500">2</text>
+  <text class="t-b" x="503" y="36">이전</text>
+  <text class="t-s mid" x="509" y="58">값을 옮겨 채운다</text>
+  <circle class="badge" cx="645" cy="31" r="12"/><text class="badge-t" x="645" y="35.500">3</text>
+  <text class="t-b" x="663" y="36">축소</text>
+  <text class="t-s mid" x="669" y="58">옛 열을 지운다</text>
+  <rect class="box gray" x="121" y="74" width="56" height="30"/>
+  <text class="t-mono t-b mid" x="149" y="94">name</text>
+  <rect class="box" x="121" y="104" width="56" height="30"/>
+  <text class="mid" x="149" y="125">민지</text>
+  <rect class="box" x="121" y="134" width="56" height="30"/>
+  <text class="mid" x="149" y="155">준호</text>
+  <rect class="box gray" x="281" y="74" width="56" height="30"/>
+  <text class="t-mono t-b mid" x="309" y="94">name</text>
+  <rect class="box" x="281" y="104" width="56" height="30"/>
+  <text class="mid" x="309" y="125">민지</text>
+  <rect class="box" x="281" y="134" width="56" height="30"/>
+  <text class="mid" x="309" y="155">준호</text>
+  <rect class="box green" x="337" y="74" width="80" height="30"/>
+  <text class="t-mono t-b mid" x="377" y="94">nickname</text>
+  <rect class="box" x="337" y="104" width="80" height="30"/>
+  <rect class="box" x="337" y="134" width="80" height="30"/>
+  <rect class="box gray" x="441" y="74" width="56" height="30"/>
+  <text class="t-mono t-b mid" x="469" y="94">name</text>
+  <rect class="box" x="441" y="104" width="56" height="30"/>
+  <text class="mid" x="469" y="125">민지</text>
+  <rect class="box" x="441" y="134" width="56" height="30"/>
+  <text class="mid" x="469" y="155">준호</text>
+  <rect class="box green" x="497" y="74" width="80" height="30"/>
+  <text class="t-mono t-b mid" x="537" y="94">nickname</text>
+  <rect class="box" x="497" y="104" width="80" height="30"/>
+  <text class="mid" x="537" y="125">민지</text>
+  <rect class="box" x="497" y="134" width="80" height="30"/>
+  <text class="mid" x="537" y="155">준호</text>
+  <rect class="ghost dash" x="601" y="74" width="56" height="90"/>
+  <path class="ln thin red" d="M617 107 L641 131 M641 107 L617 131"/>
+  <rect class="box green" x="657" y="74" width="80" height="30"/>
+  <text class="t-mono t-b mid" x="697" y="94">nickname</text>
+  <rect class="box" x="657" y="104" width="80" height="30"/>
+  <text class="mid" x="697" y="125">민지</text>
+  <rect class="box" x="657" y="134" width="80" height="30"/>
+  <text class="mid" x="697" y="155">준호</text>
+  <use href="#i-check" x="174" y="186" width="30" height="30" class="ic green"/>
+  <use href="#i-cross" x="174" y="230" width="30" height="30" class="ic red"/>
+  <use href="#i-check" x="334" y="186" width="30" height="30" class="ic green"/>
+  <use href="#i-cross" x="334" y="230" width="30" height="30" class="ic red"/>
+  <use href="#i-check" x="494" y="186" width="30" height="30" class="ic green"/>
+  <use href="#i-check" x="494" y="230" width="30" height="30" class="ic green"/>
+  <use href="#i-cross" x="654" y="186" width="30" height="30" class="ic red"/>
+  <use href="#i-check" x="654" y="230" width="30" height="30" class="ic green"/>
+  <text class="t-s t-b mid tc-green" x="509" y="296">함께 돌 수 있는 구간</text>
+  <text class="t-s t-b mid tc-red" x="669" y="296">옛 코드로 못 돌아간다</text>
+</svg></div><figcaption><b>그림 20-8</b><code>name</code>을 <code>nickname</code>으로 바꾸는 세 단계. 값이 다 채워진 초록 바탕 구간에서는 두 버전이 함께 돌 수 있습니다.</figcaption></figure>
+<ol type="1">
+<li><strong>확장.</strong> 새 열 <code>nickname</code>을 <strong>더하기만</strong> 합니다. 구버전은 새 열을 모르는 채로 잘 돕니다.</li>
+<li><strong>이전.</strong> 신버전을 배포합니다. 신버전은 당분간 <strong>두 열 모두에</strong> 씁니다. 구버전이 아직 <code>name</code>을 읽기 때문입니다. 그 사이 옛 값을 새 열로 옮겨 채우고, 다 채워지면 <code>nickname</code>을 읽도록 바꿉니다.</li>
+<li><strong>축소.</strong> 구버전이 완전히 사라지고 되돌릴 일도 없다고 확인한 뒤에 <code>name</code>을 지웁니다.</li>
+</ol>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>더하는 일은 먼저 하고, <strong>지우는 일은 맨 마지막에</strong> 합니다. 지우기 전까지는 언제든 구버전으로 돌아갈 수 있습니다.</p>
+</div>
+<section class="level3" id="이미-설치된-앱은-내가-바꿀-수-없습니다">
+<h3>이미 설치된 앱은 내가 바꿀 수 없습니다</h3>
+<p>서버는 내가 원할 때 바꿀 수 있지만, 사용자 휴대전화에 깔린 앱과 게임은 그렇지 않습니다. 업데이트를 몇 달씩 미루는 사용자도 있으니, 서버는 <strong>옛 앱이 보내는 요청도 한동안 받아 줘야</strong> 합니다.</p>
+<p>게임 서버가 아이템 번호를 숫자 <code>1024</code>에서 글자 <code>"sword_01"</code>로 바꿔 보내면, 숫자를 기다리던 옛 앱은 응답을 읽지 못하고 멈춥니다. 규칙은 같습니다. <strong>더하는</strong> 것은 대체로 안전하고, <strong>빼거나 뜻을 바꾸는</strong> 것은 옛 버전 사용자가 충분히 줄어든 뒤에 합니다.</p>
+</section>
+<section class="level3" id="롤백-되돌릴-수-있는-것과-없는-것">
+<h3>롤백: 되돌릴 수 있는 것과 없는 것</h3>
+<p>배포에 문제가 생겨 이전 상태로 되돌리는 것을 <strong>롤백</strong>(rollback)이라고 합니다. 이전 상자를 보관해 뒀다면 바꿔 끼우는 일은 쉽습니다. 하지만 상자를 되돌린다고 <strong>세상이 되돌아가지는 않습니다.</strong></p>
+<figure class="fig" id="fig-rollback-scope"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 318" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>롤백하면 실행 코드와 설정, 기능 플래그는 되돌아오지만 지운 데이터와 보낸 메일, 빠져나간 결제는 그대로 남는다</title>
+  <rect class="panel green" x="20" y="20" width="345" height="278" rx="14"/>
+  <use href="#i-refresh" x="36" y="34" width="30" height="30" class="ic green"/>
+  <text class="t-l" x="76" y="56">되돌리면 돌아오는 것</text>
+
+  <rect class="box" x="36" y="78" width="313" height="60" rx="10"/>
+  <use href="#i-box" x="48" y="92" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="94" y="104">실행하는 상자</text>
+  <text class="t-mono" x="94" y="125">app-57 → app-56</text>
+
+  <rect class="box" x="36" y="150" width="313" height="60" rx="10"/>
+  <use href="#i-gear" x="48" y="164" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="94" y="176">설정값</text>
+  <text class="t-mono" x="94" y="197">TIMEOUT=3 → 5</text>
+
+  <rect class="box" x="36" y="222" width="313" height="60" rx="10"/>
+  <use href="#i-plug" x="48" y="236" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="94" y="248">기능 플래그</text>
+  <text class="t-mono" x="94" y="269">new_search: on → off</text>
+
+  <rect class="panel red" x="395" y="20" width="345" height="278" rx="14"/>
+  <use href="#i-stop" x="411" y="34" width="30" height="30" class="ic red"/>
+  <text class="t-l" x="451" y="56">되돌려도 남는 것</text>
+
+  <rect class="box" x="411" y="78" width="313" height="60" rx="10"/>
+  <use href="#i-db" x="423" y="92" width="32" height="32" class="ic red"/>
+  <text class="t-b" x="469" y="104">DB에서 지운 열</text>
+  <text class="t-s" x="469" y="125">옛 코드가 읽을 값이 없다</text>
+
+  <rect class="box" x="411" y="150" width="313" height="60" rx="10"/>
+  <use href="#i-mail" x="423" y="164" width="32" height="32" class="ic red"/>
+  <text class="t-b" x="469" y="176">이미 보낸 메일 3,000통</text>
+  <text class="t-s" x="469" y="197">정정 메일을 따로 보내야 한다</text>
+
+  <rect class="box" x="411" y="222" width="313" height="60" rx="10"/>
+  <use href="#i-coin" x="423" y="236" width="32" height="32" class="ic red"/>
+  <text class="t-b" x="469" y="248">두 번 빠져나간 결제</text>
+  <text class="t-s" x="469" y="269">건마다 확인해 환불한다</text>
+</svg></div><figcaption><b>그림 20-9</b>롤백이 되돌리는 것과 되돌리지 못하는 것. 오른쪽에 속하는 변경이 있다면 배포 전에 따로 계획을 세웁니다.</figcaption></figure>
+<p>그래서 배포하기 전에 묻습니다. 이전 상자가 <strong>지금의 데이터를 읽을 수 있는가?</strong> 이번 변경에 삭제, 발송, 결제처럼 <strong>되돌릴 수 없는 일</strong>이 들어 있는가? 그리고 되돌리기는 스테이징에서 한 번 연습해 둡니다.</p>
+</section>
+</section>
+<section class="level2" id="supply">
+<h2><span class="sec-n">20.9</span>공장 문단속: 공급망과 CI의 열쇠<a aria-label="이 절의 링크" class="anchor" href="#supply">#</a></h2>
+<p>마지막은 공장 자체의 안전입니다. 내 도시락에는 납품받은 재료, 생산 기계, 검사 라인의 설정처럼 내가 만들지 않은 것이 잔뜩 들어갑니다. 소스 코드에서 산출물까지 이어지는 이 길 전체를 <strong>공급망</strong>(supply chain)이라고 합니다. 한 곳만 오염되어도 <strong>내 코드는 그대로인 채</strong> 산출물이 바뀝니다.</p>
+<p><strong>들어오는 재료.</strong> 패키지는 설치되는 순간에 스크립트를 실행할 수 있습니다. 그래서 꼭 필요한 패키지만 넣고 잠금 파일로 버전을 고정합니다. 잠금 파일에는 해시도 적혀 있어서, 번호는 같고 내용만 바꿔치기한 파일을 걸러 줍니다. AI가 추천한 패키지는 실제로 있는 것인지, 유명한 패키지와 철자만 비슷한 가짜는 아닌지 확인하세요.</p>
+<p><strong>CI가 쥔 열쇠.</strong> CI는 배포를 하려고 서버에 들어갈 열쇠, 곧 비밀값을 가지고 있습니다. 그런데 CI는 저장소에 올라온 코드를 <strong>그대로 실행하는 컴퓨터</strong>입니다. 공개 저장소라면 모르는 사람이 보낸 변경의 테스트 코드도 실행합니다.</p>
+<figure class="fig" id="fig-ci-keys"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>검사와 배포를 한 작업에 맡기면 밖에서 온 코드가 배포 열쇠를 읽을 수 있고, 작업을 나누면 열쇠는 배포 작업에만 남는다</title>
+  <rect class="panel red" x="20" y="20" width="330" height="290" rx="14"/>
+  <text class="t-l" x="38" y="52">한 작업에 다 맡기면</text>
+
+  <rect class="box" x="38" y="68" width="294" height="168" rx="12"/>
+  <text class="t-s t-b" x="54" y="92">검사 + 배포 작업</text>
+  <use href="#i-code" x="54" y="104" width="32" height="32" class="ic purple"/>
+  <text class="t-b" x="98" y="118">밖에서 온 코드</text>
+  <text class="t-xs" x="98" y="136">누구나 보낼 수 있다</text>
+  <path class="ln red" d="M70 142 V176" marker-end="url(#ah-red)"/>
+  <text class="t-xs t-b tc-red" x="84" y="164">같은 작업이라 읽을 수 있다</text>
+  <use href="#i-key" x="54" y="186" width="32" height="32" class="ic warm"/>
+  <text class="t-b" x="98" y="200">배포 열쇠</text>
+  <text class="t-mono" x="98" y="220">DEPLOY_KEY</text>
+
+  <text class="t-s t-b tc-red" x="38" y="264">열쇠가 밖으로 새어 나간다</text>
+  <text class="t-xs" x="38" y="286">사람이 검토하기도 전에 실행되기 때문</text>
+
+  <rect class="panel green" x="380" y="20" width="360" height="290" rx="14"/>
+  <text class="t-l" x="398" y="52">작업을 둘로 나누면</text>
+
+  <rect class="box blue" x="398" y="68" width="324" height="88" rx="12"/>
+  <use href="#i-code" x="412" y="82" width="32" height="32" class="ic purple"/>
+  <text class="t-b" x="456" y="96">검사 작업</text>
+  <text class="t-s" x="456" y="116">밖에서 온 코드도 실행한다</text>
+  <text class="t-xs t-b tc-blue" x="456" y="140">읽기 권한만, 열쇠 없음</text>
+
+  <path class="ln" d="M560 160 V186" marker-end="url(#ah)"/>
+  <text class="t-xs" x="574" y="178">검토하고 합친 뒤에만</text>
+
+  <rect class="box" x="398" y="196" width="324" height="98" rx="12"/>
+  <use href="#i-key" x="412" y="212" width="32" height="32" class="ic warm"/>
+  <text class="t-b" x="456" y="224">배포 작업</text>
+  <text class="t-s" x="456" y="244">합쳐진 코드만 실행한다</text>
+  <text class="t-xs t-b tc-warm" x="456" y="268">배포 열쇠는 여기에만</text>
+</svg></div><figcaption><b>그림 20-10</b>검사와 배포를 한 작업에 넣으면 밖에서 온 코드가 열쇠에 손이 닿습니다. 작업을 나누면 열쇠는 검토를 거친 코드만 만납니다.</figcaption></figure>
+<p>원칙은 <a href="ch19.html">19장</a>의 최소 권한 그대로입니다.</p>
+<ul>
+<li>검사 작업에는 코드를 읽고 테스트하는 권한만 줍니다.</li>
+<li>배포 열쇠는 사람이 검토하고 합친 코드만 실행하는 배포 작업에 둡니다.</li>
+<li>CI가 불러 쓰는 외부 도구도 "최신"이 아니라 정확한 버전으로 고정합니다.</li>
+<li>로그에서 비밀값이 <code>***</code>로 가려지는 것은 화면 표시일 뿐입니다. 실행 중인 코드는 그 값을 그대로 읽습니다.</li>
+</ul>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>버전 범위 / 잠금 파일</td>
+<td>받아도 되는 범위 / 실제로 받은 정확한 버전</td>
+</tr>
+<tr>
+<td>커밋 / 산출물</td>
+<td>사람이 쓴 원본의 한 시점 / 그것으로 만들어 내보내는 상자</td>
+</tr>
+<tr>
+<td>CI / CD</td>
+<td>올릴 때마다 자동으로 빌드하고 검사 / 검사한 상자를 배포까지 잇기</td>
+</tr>
+<tr>
+<td>배포 / 출시</td>
+<td>코드를 서버에 올리는 일 / 사용자에게 기능을 보여 주는 일</td>
+</tr>
+<tr>
+<td>블루-그린 / 카나리</td>
+<td>준비한 새 무대로 전체를 한 번에 넘김 / 일부부터 보내며 조금씩 넓힘</td>
+</tr>
+<tr>
+<td>롤백 / 전진 수정</td>
+<td>이전 상자로 되돌림 / 고친 새 상자를 서둘러 내보냄</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 새 패키지를 넣었더니 내 컴퓨터에서는 되고 CI에서만 실패한다</div>
+<p>AI가 이미지 크기를 줄이는 기능을 만들며 패키지를 하나 추가했습니다. 내 노트북에서는 잘 되는데, 올리자마자 CI에 빨간불이 켜졌습니다.</p>
+<ol type="1">
+<li><strong>어느 단계에서 멈췄는지 봅니다.</strong> 테스트가 아니라 설치 단계(<code>npm ci</code>)입니다. 재료 쪽 문제입니다.</li>
+<li><strong>선언 파일과 잠금 파일을 함께 봅니다.</strong> 커밋에 <code>package.json</code>만 있고 <code>package-lock.json</code>은 빠져 있습니다. <code>npm ci</code>는 둘이 어긋나면 실패합니다.</li>
+<li><strong>잠금 파일을 올리고 다시 돌립니다.</strong> 이번에는 설치 단계의 다른 줄에서 멈춥니다. 이 패키지는 설치하는 동안 C 코드를 컴파일하는데, CI 컴퓨터에는 그 도구가 없습니다. 내 노트북에는 예전에 깔아 둔 것이 있었습니다.</li>
+<li><strong>고릅니다.</strong> CI에 도구 설치 단계를 더하거나, 컴파일이 필요 없는 더 작은 패키지로 바꿉니다. 여기서는 뒤쪽을 택했습니다.</li>
+<li><strong>빈 폴더에서 확인합니다.</strong> 저장소를 새 폴더에 받아 설치, 빌드, 테스트가 통과하는지 보고 올립니다.</li>
+</ol>
+<p>CI의 빨간불은 방해꾼이 아니라 <strong>적어 두지 않은 재료를 찾아 준 검사원</strong>입니다.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li>코드는 <strong>커밋 → 빌드 → 테스트 → 배포</strong>를 거쳐 사용자에게 갑니다. 사용자가 쓰는 것은 그 코드로 만든 <strong>산출물</strong>입니다.</li>
+<li>버전 <code>1.4.2</code>는 주, 부, 수 세 자리입니다. 주 버전이 오르면 쓰는 법이 바뀐 것입니다.</li>
+<li><strong>잠금 파일</strong>은 실제로 받은 버전을 모두 적은 기록입니다. Git에 올리고, 서버와 CI는 잠금대로만 설치합니다.</li>
+<li>상자는 <strong>한 번만 만들어</strong> 검사한 그대로 운영에 올립니다. 환경마다 다른 값은 <strong>환경 변수</strong>로 밖에서 건넵니다.</li>
+<li><strong>CI</strong>는 올릴 때마다 빈 컴퓨터에서 설치, 빌드, 테스트를 돌립니다. 초록불은 "시킨 검사를 통과했다"는 뜻입니다.</li>
+<li>새 버전은 <strong>조금씩</strong> 내보내고, 기능은 <strong>플래그</strong>로 따로 켭니다.</li>
+<li>두 버전이 함께 사는 동안 더하기는 먼저, <strong>지우기는 마지막에</strong> 합니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>같은 커밋 <code>a1b2c3d</code>를 월요일과 금요일에 각각 빌드했습니다. 두 산출물이 서로 다를 수 있을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>다를 수 있습니다. 잠금 파일이 없으면 그 사이에 나온 새 버전의 의존성이 섞여 들어옵니다. 빌드가 현재 시각을 파일에 적어 넣어도 달라집니다. 그래서 재료를 잠금 파일로 고정하고, 검사한 상자를 그대로 올립니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>AI가 올린 변경에서 <code>chart-lib</code>이 1.4.2에서 2.0.0으로 바뀌었고 CI는 초록불입니다. 그대로 합쳐도 될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>초록불만으로는 부족합니다. 주 버전이 올랐으니 쓰는 법이 바뀌었을 수 있습니다. 패키지의 변경 기록을 읽고, 테스트가 <code>chart-lib</code>을 쓰는 화면을 실제로 지나가는지 확인합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>결제 서버 열 대에 새 버전을 내보냅니다. 서비스를 멈출 수 없고, 문제가 있더라도 소수의 사용자만 겪게 하고 싶습니다. 어떤 방식이 맞을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>카나리 배포가 맞습니다. 요청의 5% 정도만 새 버전으로 보내고 오류율을 구버전과 비교하며 넓힙니다. 다만 두 버전이 같은 데이터베이스를 쓰므로, 데이터를 잘못 바꾸는 버그는 5%에 그치지 않을 수 있습니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>새 추천 기능을 기능 플래그로 사용자 10%에게 켰다가 문제가 보여 플래그를 껐습니다. 이제 영향은 모두 사라졌을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>아닙니다. 새 요청이 그 코드로 가는 길은 막았지만, 켜져 있던 동안 저장된 데이터와 이미 보낸 알림은 그대로 남습니다. 따로 조사해 바로잡아야 합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>롤링 배포 중에 새 버전의 마이그레이션이 <code>name</code> 열의 이름을 곧바로 <code>nickname</code>으로 바꿨습니다. 어떤 일이 벌어지고, 어떻게 했어야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>아직 바뀌지 않은 구버전 서버가 <code>name</code>을 읽으려다 오류를 냅니다. 롤백해도 열이 없어서 똑같이 실패합니다. 새 열을 더하고(확장), 값을 옮기며 양쪽에 쓰고(이전), 구버전이 모두 사라진 뒤 옛 열을 지우는(축소) 세 단계로 나눴어야 합니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>배포 준비를 맡길 때는 "배포해 줘"라고 하지 말고, <strong>무엇이 바뀌었고, 무엇을 검사했고, 어떻게 되돌릴지</strong>를 적어 오게 하세요.</p>
+<blockquote>
+<p>이 변경을 배포할 수 있는 상태로 준비해 줘. 먼저 바뀐 것을 코드, 의존성(잠금 파일 포함), 설정, DB 구조로 나눠 표로 정리해. 그다음 저장소를 빈 폴더에 새로 받아 잠금 파일대로 설치하고 빌드와 테스트를 돌려. 실행한 명령, 돌아간 테스트 개수, 산출물의 이름과 해시를 보여 줘. 구버전 서버와 새 버전이 함께 돌아도 안전한지 판단하고, 되돌릴 수 없는 작업이 있으면 따로 표시해 롤백 순서를 적어 줘. 테스트를 끄거나 강제 설치 옵션으로 오류를 넘기지는 마.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: 잠금 파일이 선언 파일과 함께 바뀌었는가, 테스트 개수가 줄지 않았는가, 열을 지우거나 이름을 바꾸는 마이그레이션이 한 번에 들어 있지 않은가, 롤백 계획이 데이터까지 다루는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>배포<small>deployment</small></dt>
+<dd>
+산출물을 사용자가 쓰는 환경에 가져다 놓고 실행하는 일.
+</dd>
+<dt>유의적 버전<small>Semantic Versioning, semver</small></dt>
+<dd>
+버전을 주, 부, 수 세 자리로 적어 호환 여부를 알리는 규칙.
+</dd>
+<dt>잠금 파일<small>lockfile</small></dt>
+<dd>
+실제로 설치된 의존성의 정확한 버전을 모두 적어 둔 기록.
+</dd>
+<dt>산출물<small>artifact</small></dt>
+<dd>
+빌드가 만들어 낸, 실제로 내보내는 결과물.
+</dd>
+<dt>스테이징<small>staging</small></dt>
+<dd>
+운영을 닮게 꾸민 연습용 환경. 운영에 올리기 전에 검사하는 곳.
+</dd>
+<dt>CI<small>Continuous Integration</small></dt>
+<dd>
+지속적 통합. 코드를 올릴 때마다 자동으로 빌드하고 검사하는 방식.
+</dd>
+<dt>파이프라인<small>pipeline</small></dt>
+<dd>
+설치, 빌드, 테스트처럼 차례로 이어 실행하는 자동화 단계의 줄.
+</dd>
+<dt>롤링 배포<small>rolling deployment</small></dt>
+<dd>
+서버를 몇 대씩 차례로 새 버전으로 바꾸는 방식.
+</dd>
+<dt>블루-그린 배포<small>blue-green deployment</small></dt>
+<dd>
+새 버전 환경을 따로 차린 뒤 요청을 한 번에 넘기는 방식.
+</dd>
+<dt>카나리 배포<small>canary release</small></dt>
+<dd>
+일부 요청만 새 버전으로 보내 지켜보며 넓혀 가는 방식.
+</dd>
+<dt>기능 플래그<small>feature flag</small></dt>
+<dd>
+배포된 코드의 기능을 설정으로 켜고 끄는 스위치.
+</dd>
+<dt>롤백<small>rollback</small></dt>
+<dd>
+이전 산출물이나 설정으로 되돌리는 일.
+</dd>
+<dt>공급망<small>supply chain</small></dt>
+<dd>
+소스, 패키지, 빌드 도구, 자동화를 거쳐 산출물이 만들어지는 전체 경로.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://semver.org/lang/ko/" rel="noopener" target="_blank">Semantic Versioning — 유의적 버전</a> — 주, 부, 수 규칙의 원문(한국어)입니다.</li>
+<li><a href="https://docs.npmjs.com/cli/v11/commands/npm-ci/" rel="noopener" target="_blank">npm — npm ci</a> — 잠금 파일대로만 설치하는 명령의 정확한 동작입니다.</li>
+<li><a href="https://www.gnu.org/software/make/manual/html_node/How-Make-Works.html" rel="noopener" target="_blank">GNU Make — How make Works</a> — <code>make</code>가 무엇을 다시 만들지 정하는 과정입니다.</li>
+<li><a href="https://docs.github.com/ko/actions/get-started/continuous-integration" rel="noopener" target="_blank">GitHub Docs — 지속적 통합</a> — CI가 무엇이고 저장소에 어떻게 붙이는지 안내합니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch19.html"><small>← 이전 · 19장</small><b>보안</b></a><a class="next" href="ch21.html"><small>다음 · 21장 →</small><b>인프라와 클라우드</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#line">코드가 사용자에게 가는 길: 공장의 생산 라인</a><a href="#semver">버전 번호 읽기: 1.4.2의 세 자리</a><a href="#lockfile">잠금 파일: 오늘과 내일 같은 재료를 받는 법</a><a href="#artifact">빌드와 산출물: 밀봉한 상자</a><a href="#environments">한 번 만들어 여러 환경에: 상자는 그대로, 설정만 다르게</a><a href="#ci">CI: 올릴 때마다 도는 출고 검사</a><a href="#rollout">배포 전략: 새 버전을 어떻게 갈아 끼울까</a><a href="#compat">구버전과 신버전이 함께 사는 시간</a><a href="#supply">공장 문단속: 공급망과 CI의 열쇠</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

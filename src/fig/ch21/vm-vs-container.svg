@@ -1,0 +1,62 @@
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
+  <title>가상 머신은 저마다 운영체제를 통째로 갖고, 컨테이너는 운영체제 하나를 함께 쓴다</title>
+
+  <rect class="panel" x="20" y="20" width="350" height="300" rx="16"/>
+  <text class="t-l" x="36" y="48">가상 머신 2대</text>
+  <text class="t-s" x="36" y="68">단독 주택: 설비를 집마다 따로 둔다</text>
+
+  <rect class="box" x="36" y="84" width="150" height="130" rx="12"/>
+  <text class="t-xs" x="48" y="102">VM 1</text>
+  <rect class="box blue" x="46" y="110" width="130" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="111" y="129">앱 A</text>
+  <rect class="box green" x="46" y="143" width="130" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="111" y="162">라이브러리</text>
+  <rect class="box warm" x="46" y="176" width="130" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="111" y="195">운영체제</text>
+
+  <rect class="box" x="204" y="84" width="150" height="130" rx="12"/>
+  <text class="t-xs" x="216" y="102">VM 2</text>
+  <rect class="box blue" x="214" y="110" width="130" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="279" y="129">앱 B</text>
+  <rect class="box green" x="214" y="143" width="130" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="279" y="162">라이브러리</text>
+  <rect class="box warm" x="214" y="176" width="130" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="279" y="195">운영체제</text>
+
+  <rect class="box gray" x="36" y="222" width="318" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="195" y="241">하이퍼바이저: 기계를 쪼개 나눠 준다</text>
+  <rect class="box gray" x="36" y="256" width="318" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="195" y="275">물리 서버 한 대</text>
+  <text class="t-s" x="36" y="306">켜는 데 수십 초 이상 · 크기 수 GB</text>
+
+  <rect class="panel" x="390" y="20" width="350" height="300" rx="16"/>
+  <text class="t-l" x="406" y="48">컨테이너 3개</text>
+  <text class="t-s" x="406" y="68">한 건물의 방: 설비는 건물 것을 함께 쓴다</text>
+
+  <rect class="box" x="406" y="118" width="100" height="96" rx="12"/>
+  <text class="t-xs" x="416" y="136">컨테이너 1</text>
+  <rect class="box blue" x="414" y="143" width="84" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="456" y="162">앱 A</text>
+  <rect class="box green" x="414" y="176" width="84" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="456" y="195">라이브러리</text>
+
+  <rect class="box" x="515" y="118" width="100" height="96" rx="12"/>
+  <text class="t-xs" x="525" y="136">컨테이너 2</text>
+  <rect class="box blue" x="523" y="143" width="84" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="565" y="162">앱 B</text>
+  <rect class="box green" x="523" y="176" width="84" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="565" y="195">라이브러리</text>
+
+  <rect class="box" x="624" y="118" width="100" height="96" rx="12"/>
+  <text class="t-xs" x="634" y="136">컨테이너 3</text>
+  <rect class="box blue" x="632" y="143" width="84" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="674" y="162">앱 C</text>
+  <rect class="box green" x="632" y="176" width="84" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="674" y="195">라이브러리</text>
+
+  <rect class="box warm" x="406" y="222" width="318" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="565" y="241">운영체제 하나 (커널을 모두 함께 쓴다)</text>
+  <rect class="box gray" x="406" y="256" width="318" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="565" y="275">서버 한 대</text>
+  <text class="t-s" x="406" y="306">켜는 데 1초 안팎 · 크기 수십~수백 MB</text>
+</svg>

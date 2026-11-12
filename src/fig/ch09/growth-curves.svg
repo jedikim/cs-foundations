@@ -1,0 +1,37 @@
+<svg viewBox="0 0 760 366" xmlns="http://www.w3.org/2000/svg">
+  <title>데이터 개수 n이 커질 때 걸음 수가 늘어나는 다섯 가지 모양: n의 제곱은 치솟고 로그는 거의 눕는다</title>
+  <text class="t-s t-b" x="20" y="34">걸음 수</text>
+  <path class="ln thin muted" d="M70 310 H520"/>
+  <text class="t-xs end" x="60" y="314">0</text>
+  <path class="ln thin muted" d="M70 245 H520"/>
+  <text class="t-xs end" x="60" y="249">25</text>
+  <path class="ln thin muted" d="M70 180 H520"/>
+  <text class="t-xs end" x="60" y="184">50</text>
+  <path class="ln thin muted" d="M70 115 H520"/>
+  <text class="t-xs end" x="60" y="119">75</text>
+  <path class="ln thin muted" d="M70 50 H520"/>
+  <text class="t-xs end" x="60" y="54">100</text>
+  <text class="t-xs mid" x="70" y="330">0</text>
+  <text class="t-xs mid" x="182.5" y="330">5</text>
+  <text class="t-xs mid" x="295" y="330">10</text>
+  <text class="t-xs mid" x="407.5" y="330">15</text>
+  <text class="t-xs mid" x="520" y="330">20</text>
+  <text class="t-s mid" x="295" y="352">n (데이터 개수)</text>
+  <path class="ln thick" d="M70.0 307.4 L520.0 307.4"/>
+  <path class="ln thick green" d="M92.5 310.0 L103.8 308.5 L115.0 307.4 L126.2 306.6 L137.5 305.9 L148.8 305.3 L160.0 304.8 L171.2 304.4 L182.5 304.0 L193.8 303.6 L205.0 303.3 L216.2 303.0 L227.5 302.7 L238.8 302.4 L250.0 302.2 L261.2 302.0 L272.5 301.8 L283.8 301.6 L295.0 301.4 L306.2 301.2 L317.5 301.0 L328.8 300.8 L340.0 300.7 L351.2 300.5 L362.5 300.4 L373.8 300.2 L385.0 300.1 L396.2 300.0 L407.5 299.8 L418.8 299.7 L430.0 299.6 L441.2 299.5 L452.5 299.4 L463.8 299.3 L475.0 299.2 L486.2 299.1 L497.5 299.0 L508.8 298.9 L520.0 298.8"/>
+  <path class="ln thick blue" d="M70.0 310.0 L520.0 258.0"/>
+  <path class="ln thick warm" d="M92.5 310.0 L103.8 307.7 L115.0 304.8 L126.2 301.4 L137.5 297.6 L148.8 293.6 L160.0 289.2 L171.2 284.6 L182.5 279.8 L193.8 274.8 L205.0 269.7 L216.2 264.4 L227.5 258.9 L238.8 253.3 L250.0 247.6 L261.2 241.8 L272.5 235.8 L283.8 229.8 L295.0 223.6 L306.2 217.4 L317.5 211.1 L328.8 204.6 L340.0 198.1 L351.2 191.6 L362.5 184.9 L373.8 178.2 L385.0 171.4 L396.2 164.6 L407.5 157.6 L418.8 150.6 L430.0 143.6 L441.2 136.5 L452.5 129.3 L463.8 122.1 L475.0 114.8 L486.2 107.5 L497.5 100.2 L508.8 92.7 L520.0 85.3"/>
+  <path class="ln thick red" d="M70.0 310.0 L75.6 309.8 L81.2 309.4 L86.9 308.5 L92.5 307.4 L98.1 305.9 L103.8 304.1 L109.4 302.0 L115.0 299.6 L120.6 296.8 L126.2 293.8 L131.9 290.3 L137.5 286.6 L143.1 282.5 L148.8 278.1 L154.4 273.4 L160.0 268.4 L165.6 263.0 L171.2 257.4 L176.9 251.3 L182.5 245.0 L188.1 238.3 L193.8 231.3 L199.4 224.0 L205.0 216.4 L210.6 208.4 L216.2 200.1 L221.9 191.5 L227.5 182.6 L233.1 173.3 L238.8 163.8 L244.4 153.8 L250.0 143.6 L255.6 133.0 L261.2 122.2 L266.9 110.9 L272.5 99.4 L278.1 87.5 L283.8 75.3 L289.4 62.8 L295.0 50.0"/>
+  <text class="t-b tc-red" x="310" y="62">O(n²)</text>
+  <text class="t-s" x="310" y="82">n = 10에서 이미 100걸음</text>
+  <text class="t-s" x="310" y="100">n = 20이면 400걸음 (그림 밖)</text>
+  <text class="t-s t-b" x="536" y="34">n = 20일 때</text>
+  <text class="t-b tc-warm" x="536" y="90">O(n log n)</text>
+  <text class="t-s" x="632" y="90">약 86걸음</text>
+  <text class="t-b tc-blue" x="536" y="262">O(n)</text>
+  <text class="t-s" x="632" y="262">20걸음</text>
+  <text class="t-b tc-green" x="536" y="292">O(log n)</text>
+  <text class="t-s" x="632" y="292">약 4걸음</text>
+  <text class="t-b" x="536" y="314">O(1)</text>
+  <text class="t-s" x="632" y="314">1걸음</text>
+</svg>

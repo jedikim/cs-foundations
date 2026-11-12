@@ -1,0 +1,52 @@
+<svg viewBox="0 0 760 334" xmlns="http://www.w3.org/2000/svg">
+  <title>모델은 똑똑하지만 회사가 처음인 신입과 같아서, 모르는 것·손댈 수 없는 것·잊는 것·속는 것을 내 코드가 채워 준다</title>
+  <text class="t-s t-b" x="22" y="86">신입은</text>
+  <text class="t-xs" x="22" y="106">(모델)</text>
+  <text class="t-s t-b" x="22" y="252">회사는</text>
+  <text class="t-xs" x="22" y="272">(내 코드)</text>
+
+  <rect class="box yellow" x="112" y="30" width="146" height="118" rx="14"/>
+  <use href="#i-book" x="161" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="185" y="114">규정을 모른다</text>
+  <text class="t-s mid" x="185" y="135">입사 전 지식만 있다</text>
+
+  <rect class="box yellow" x="272" y="30" width="146" height="118" rx="14"/>
+  <use href="#i-chat" x="321" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="345" y="114">손이 없다</text>
+  <text class="t-s mid" x="345" y="135">글로만 답할 수 있다</text>
+
+  <rect class="box yellow" x="432" y="30" width="146" height="118" rx="14"/>
+  <use href="#i-hourglass" x="481" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="505" y="114">금방 잊는다</text>
+  <text class="t-s mid" x="505" y="135">대화가 끝나면 백지</text>
+
+  <rect class="box yellow" x="592" y="30" width="146" height="118" rx="14"/>
+  <use href="#i-mail" x="641" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="665" y="114">쪽지에 속는다</text>
+  <text class="t-s mid" x="665" y="135">자료와 지시를 혼동</text>
+
+  <path class="ln muted" d="M185 154 V190" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M345 154 V190" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M505 154 V190" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M665 154 V190" marker-end="url(#ah-muted)"/>
+
+  <rect class="box green" x="112" y="196" width="146" height="118" rx="14"/>
+  <use href="#i-search" x="161" y="206" width="48" height="48" class="ic green"/>
+  <text class="t-l mid" x="185" y="280">자료 찾아 주기</text>
+  <text class="t-s mid" x="185" y="301">컨텍스트 · RAG</text>
+
+  <rect class="box blue" x="272" y="196" width="146" height="118" rx="14"/>
+  <use href="#i-gear" x="321" y="206" width="48" height="48" class="ic blue"/>
+  <text class="t-l mid" x="345" y="280">대신 실행하기</text>
+  <text class="t-s mid" x="345" y="301">도구 호출</text>
+
+  <rect class="box warm" x="432" y="196" width="146" height="118" rx="14"/>
+  <use href="#i-list" x="481" y="206" width="48" height="48" class="ic warm"/>
+  <text class="t-l mid" x="505" y="280">일지 남기기</text>
+  <text class="t-s mid" x="505" y="301">기억 · 체크포인트</text>
+
+  <rect class="box red" x="592" y="196" width="146" height="118" rx="14"/>
+  <use href="#i-idcard" x="641" y="206" width="48" height="48" class="ic red"/>
+  <text class="t-l mid" x="665" y="280">권한 좁히기</text>
+  <text class="t-s mid" x="665" y="301">최소 권한 · 샌드박스</text>
+</svg>

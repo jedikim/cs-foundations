@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>1장 컴퓨터의 몸 — 개발의 기초</title>
+<meta name="description" content="CPU·메모리·저장장치가 하는 일">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch01" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html" aria-current="page"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">1부 컴퓨터라는 기계 › <b>1장 컴퓨터의 몸</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-blue">
+<div class="ch-kicker"><span class="ch-no">1장</span><span class="part">1부 · 컴퓨터라는 기계</span></div>
+<h1>컴퓨터의 몸</h1>
+<p class="ch-sub">CPU·메모리·저장장치가 하는 일</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 30분</span></div>
+</header><div class="lead">
+<p>"컴퓨터가 느려요." 이 한마디에는 사실 전혀 다른 여러 고장이 숨어 있습니다. 계산이 밀린 것일 수도 있고, 작업 공간이 모자란 것일 수도 있고, 파일을 읽어 오는 길이 막힌 것일 수도 있습니다. 어느 쪽인지 가려내려면 먼저 컴퓨터 안에 <strong>누가 있고, 각자 무슨 일을 하는지</strong> 알아야 합니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>CPU·메모리(RAM)·저장장치가 각각 무슨 일을 맡는지 한 문장으로 말할 수 있습니다.</li>
+<li>"저장 공간은 넉넉한데 메모리가 부족하다"는 말이 왜 성립하는지 설명할 수 있습니다.</li>
+<li>코어 수, GHz, GB 같은 사양표의 숫자를 읽고 증상과 연결할 수 있습니다.</li>
+<li>GPU가 CPU보다 빠른 일과 그렇지 않은 일을 구분할 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="kitchen">
+<h2><span class="sec-n">1.1</span>컴퓨터는 하나의 주방입니다<a aria-label="이 절의 링크" class="anchor" href="#kitchen">#</a></h2>
+<p>식당 주방을 떠올려 봅시다. <strong>요리사</strong>는 레시피를 한 줄씩 읽으며 손을 움직입니다. 요리사 앞에는 <strong>조리대</strong>가 있어서 지금 쓰는 재료와 그릇을 펼쳐 놓습니다. 주방 뒤편에는 <strong>창고</strong>가 있어서 당장 쓰지 않는 재료를 오래 보관합니다.</p>
+<p>컴퓨터도 똑같이 세 주인공으로 이루어져 있습니다.</p>
+<ul>
+<li><strong>CPU</strong>(중앙처리장치, Central Processing Unit)는 요리사입니다. 프로그램에 적힌 명령을 하나씩 읽고 계산합니다.</li>
+<li><strong>메모리</strong>(RAM, Random Access Memory)는 조리대입니다. 지금 실행 중인 프로그램과 그 프로그램이 다루는 데이터를 올려 둡니다.</li>
+<li><strong>저장장치</strong>(SSD나 하드디스크)는 창고입니다. 전원을 꺼도 파일을 그대로 보관합니다.</li>
+</ul>
+<figure class="fig" id="fig-kitchen-map"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>주방의 요리사·조리대·창고가 컴퓨터의 CPU·메모리·저장장치에 대응한다</title>
+  <text class="t-s t-b" x="22" y="96">주방에서는</text>
+  <text class="t-s t-b" x="22" y="262">컴퓨터에서는</text>
+
+  <rect class="box yellow" x="112" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-chef" x="183" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="207" y="114">요리사</text>
+  <text class="t-s mid" x="207" y="135">레시피대로 손을 움직인다</text>
+
+  <rect class="box yellow" x="332" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-table" x="403" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="427" y="114">조리대</text>
+  <text class="t-s mid" x="427" y="135">지금 쓰는 재료를 펼친다</text>
+
+  <rect class="box yellow" x="552" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-shelf" x="623" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="647" y="114">창고</text>
+  <text class="t-s mid" x="647" y="135">재료를 오래 보관한다</text>
+
+  <path class="ln muted" d="M207 154 V190" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M427 154 V190" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M647 154 V190" marker-end="url(#ah-muted)"/>
+
+  <rect class="box blue" x="112" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-chip" x="183" y="206" width="48" height="48" class="ic blue"/>
+  <text class="t-l mid" x="207" y="280">CPU</text>
+  <text class="t-s mid" x="207" y="301">명령을 읽고 계산한다</text>
+
+  <rect class="box green" x="332" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-ram" x="403" y="206" width="48" height="48" class="ic green"/>
+  <text class="t-l mid" x="427" y="280">메모리 (RAM)</text>
+  <text class="t-s mid" x="427" y="301">실행 중인 것을 올려 둔다</text>
+
+  <rect class="box warm" x="552" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-disk" x="623" y="206" width="48" height="48" class="ic warm"/>
+  <text class="t-l mid" x="647" y="280">저장장치 (SSD)</text>
+  <text class="t-s mid" x="647" y="301">전원을 꺼도 파일이 남는다</text>
+</svg></div><figcaption><b>그림 1-1</b>주방의 세 요소와 컴퓨터의 세 부품. 하는 일이 서로 다르기 때문에, 하나가 아무리 넉넉해도 다른 하나가 모자라면 전체가 느려집니다.</figcaption></figure>
+<p>이 비유 하나만 기억해도 많은 문제가 풀립니다. 창고가 아무리 커도 조리대가 좁으면 한 번에 펼칠 수 있는 요리 수는 늘지 않습니다. 마찬가지로 <strong>SSD를 큰 것으로 바꿔도 동시에 띄울 수 있는 프로그램 수는 늘지 않습니다.</strong> 그것은 메모리가 정하는 일이기 때문입니다.</p>
+<figure class="photo"><img alt="데스크톱 본체의 옆판을 연 모습. 왼쪽 위의 커다란 은색 방열판 아래에 CPU가 있고, 그 오른쪽에 세로로 꽂힌 막대 네 개가 메모리입니다. 가운데에 가로로 꽂힌 판이 그래픽카드, 왼쪽 아래 상자가 전원 공급 장치입니다." loading="lazy" src="../assets/photo/pc-inside.jpg"/><figcaption>데스크톱 본체의 옆판을 연 모습. 왼쪽 위의 커다란 은색 방열판 아래에 CPU가 있고, 그 오른쪽에 세로로 꽂힌 막대 네 개가 메모리입니다. 가운데에 가로로 꽂힌 판이 그래픽카드, 왼쪽 아래 상자가 전원 공급 장치입니다.<span class="credit">사진: Bretwa · CC BY-SA 4.0 · <a href="https://commons.wikimedia.org/wiki/File:ATX_computer_case_-_left_-_2018-05-18.jpg" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>노트북과 스마트폰에도 같은 부품이 들어 있습니다. 다만 얇게 만들기 위해 여러 부품을 칩 하나에 모아 두었을 뿐입니다. 이런 칩을 <strong>SoC</strong>(System on a Chip)라고 부릅니다.</p>
+</div>
+</section>
+<section class="level2" id="cpu">
+<h2><span class="sec-n">1.2</span>CPU: 명령을 하나씩 처리하는 요리사<a aria-label="이 절의 링크" class="anchor" href="#cpu">#</a></h2>
+<p>CPU가 하는 일은 놀랄 만큼 단순합니다. 아래 네 단계를 끝없이 되풀이할 뿐입니다.</p>
+<figure class="fig" id="fig-cpu-cycle"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>CPU는 가져오기, 해석하기, 실행하기, 기록하기를 끝없이 반복한다</title>
+  <text class="t-h" x="20" y="34">CPU 코어 하나가 하는 일</text>
+
+  <rect class="box blue" x="20" y="58" width="160" height="92" rx="12"/>
+  <circle class="badge blue" cx="44" cy="82" r="12"/><text class="badge-t" x="44" y="86.500">1</text>
+  <text class="t-l mid" x="100" y="110">가져오기</text>
+  <text class="t-s mid" x="100" y="132">메모리에서 다음 명령을</text>
+
+  <rect class="box blue" x="205" y="58" width="160" height="92" rx="12"/>
+  <circle class="badge blue" cx="229" cy="82" r="12"/><text class="badge-t" x="229" y="86.500">2</text>
+  <text class="t-l mid" x="285" y="110">해석하기</text>
+  <text class="t-s mid" x="285" y="132">무슨 일인지 알아낸다</text>
+
+  <rect class="box blue" x="390" y="58" width="160" height="92" rx="12"/>
+  <circle class="badge blue" cx="414" cy="82" r="12"/><text class="badge-t" x="414" y="86.500">3</text>
+  <text class="t-l mid" x="470" y="110">실행하기</text>
+  <text class="t-s mid" x="470" y="132">더하고, 비교하고, 옮긴다</text>
+
+  <rect class="box blue" x="575" y="58" width="160" height="92" rx="12"/>
+  <circle class="badge blue" cx="599" cy="82" r="12"/><text class="badge-t" x="599" y="86.500">4</text>
+  <text class="t-l mid" x="655" y="110">기록하기</text>
+  <text class="t-s mid" x="655" y="132">결과를 제자리에 둔다</text>
+
+  <path class="ln blue" d="M183 104 H199" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M368 104 H384" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M553 104 H569" marker-end="url(#ah-blue)"/>
+  <path class="ln blue dash" d="M655 154 V196 H100 V158" marker-end="url(#ah-blue)"/>
+  <text class="t-s mid" x="378" y="222">다음 명령으로 돌아가 반복 — 3GHz CPU라면 1초에 약 30억 박자</text>
+</svg></div><figcaption><b>그림 1-2</b>CPU의 기본 박자. 실제 CPU는 여러 명령을 겹쳐서 처리하는 등 훨씬 정교하지만, 큰 흐름은 이 네 단계입니다.</figcaption></figure>
+<p>예를 들어 <code>3 + 4</code>를 계산한다면 ① '더하기' 명령을 가져오고 ② 더할 값이 3과 4라는 것을 알아낸 뒤 ③ 덧셈 회로로 7을 구하고 ④ 그 7을 정해진 자리에 적어 둡니다. 그러고는 곧장 다음 명령으로 넘어갑니다.</p>
+<p>CPU가 할 줄 아는 명령은 "더해라", "비교해라", "저쪽으로 옮겨라", "몇 번째 명령으로 건너뛰어라" 같은 아주 작은 것뿐입니다. 동영상 재생도, 게임도, AI도 결국 이런 작은 명령 수십억 개를 이어 붙인 결과입니다. 대신 CPU는 그 일을 <strong>상상하기 어려울 만큼 빠르게</strong> 합니다.</p>
+<section class="level3" id="사양표의-ghz와-코어">
+<h3>사양표의 GHz와 코어</h3>
+<ul>
+<li><strong>클럭 속도(GHz)</strong>는 요리사의 손놀림 박자입니다. 3GHz는 1초에 약 30억 번 박자를 친다는 뜻입니다.</li>
+<li><strong>코어</strong>(core)는 요리사의 수입니다. 8코어 CPU에는 독립적으로 일하는 요리사가 8명 있습니다.</li>
+</ul>
+<p>여기서 흔히 놓치는 점이 있습니다. 요리사가 8명이어도 <strong>한 사람만 할 수 있게 짜인 레시피</strong>라면 나머지 7명은 서서 구경만 합니다.</p>
+<div class="callout myth"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-cross"></use></svg>흔한 오해 · 코어가 많으면 무조건 빠르다</div>
+<p>프로그램이 일을 여러 갈래로 나눠 주지 않으면 코어 하나만 바쁩니다. 8코어 PC에서 코어 하나만 100%로 일하면 전체 CPU 사용률은 약 12.5%(= 1 ÷ 8)로 표시됩니다. "사용률이 12%밖에 안 되는데 왜 느리지?" 싶을 때는 <strong>코어별 사용률</strong>을 확인하세요. 일을 여러 코어로 나누는 방법은 <a href="ch11.html">11장</a>에서 다룹니다.</p>
+</div>
+<figure class="photo half"><img alt="CPU 칩의 아랫면. 금색 점 하나하나가 메인보드와 전기 신호를 주고받는 접점입니다. 손톱 몇 개 크기의 이 칩 안에 수십억 개의 스위치(트랜지스터)가 들어 있습니다." loading="lazy" src="../assets/photo/cpu-chip.jpg"/><figcaption>CPU 칩의 아랫면. 금색 점 하나하나가 메인보드와 전기 신호를 주고받는 접점입니다. 손톱 몇 개 크기의 이 칩 안에 수십억 개의 스위치(트랜지스터)가 들어 있습니다.<span class="credit">사진: Eric Gaba · CC BY-SA 4.0 · <a href="https://commons.wikimedia.org/wiki/File:Intel_CPU_Core_i7_6700K_Skylake_perspective.jpg" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+<details class="deep"><summary><small>한 걸음 더</small>CPU마다 알아듣는 말이 다릅니다 (x86-64와 ARM64)</summary><div class="deep-body">
+<p>CPU가 알아듣는 명령의 목록과 규칙을 <strong>명령어 집합</strong>(ISA, Instruction Set Architecture)이라고 합니다. 요리사가 읽을 수 있는 레시피의 언어라고 생각하면 됩니다.</p>
+<p>대부분의 윈도우 PC와 서버는 <strong>x86-64</strong>, 스마트폰과 최근의 맥은 <strong>ARM64</strong>라는 명령어 집합을 씁니다. 한국어 레시피를 프랑스 요리사에게 건네면 읽지 못하듯, x86-64용으로 만든 실행 파일은 ARM64 CPU에서 그대로 돌아가지 않습니다. 프로그램을 내려받을 때 "Intel용 / Apple Silicon용"을 고르는 이유가 이것입니다. 이 이야기는 <a href="ch04.html">4장</a>에서 이어집니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="ram">
+<h2><span class="sec-n">1.3</span>메모리(RAM): 지금 쓰는 것을 올려 두는 조리대<a aria-label="이 절의 링크" class="anchor" href="#ram">#</a></h2>
+<p>요리사는 창고에 있는 재료로 바로 요리하지 못합니다. 먼저 조리대로 꺼내 와야 합니다. CPU도 마찬가지여서, <strong>저장장치에 있는 프로그램과 데이터는 메모리로 올라온 뒤에야 쓸 수 있습니다.</strong></p>
+<p>메모리의 특징은 두 가지입니다.</p>
+<ol type="1">
+<li><strong>빠릅니다.</strong> 요리사 손이 바로 닿는 곳이라 저장장치보다 수백~수천 배 빨리 꺼낼 수 있습니다.</li>
+<li><strong>전원이 꺼지면 내용이 사라집니다.</strong> 영업이 끝나면 조리대를 싹 치우는 것과 같습니다. 이런 성질을 <strong>휘발성</strong>이라고 합니다.</li>
+</ol>
+<p>저장하지 않은 문서가 정전 한 번에 날아가는 이유가 여기에 있습니다. 화면에 보이던 글은 메모리(조리대) 위에만 있었고, 아직 저장장치(창고)에는 들어가지 않았던 것입니다.</p>
+<figure class="photo"><img alt="데스크톱용 메모리 모듈. 검은 칩 하나하나가 데이터를 담는 메모리 칩이고, 아래쪽 금색 단자를 메인보드의 슬롯에 꽂습니다." loading="lazy" src="../assets/photo/ram-module.jpg"/><figcaption>데스크톱용 메모리 모듈. 검은 칩 하나하나가 데이터를 담는 메모리 칩이고, 아래쪽 금색 단자를 메인보드의 슬롯에 꽂습니다.<span class="credit">사진: ElooKoN · CC BY-SA 4.0 · <a href="https://commons.wikimedia.org/wiki/File:RAM_Module_(SDRAM-DDR4).jpg" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+<p>조리대가 좁으면 어떻게 될까요? 요리사는 재료를 창고에 도로 갖다 놓고, 필요할 때 다시 꺼내 오는 일을 반복해야 합니다. 컴퓨터도 메모리가 모자라면 당장 쓰지 않는 내용을 저장장치로 내보냈다가 다시 불러옵니다. 이때부터 모든 것이 눈에 띄게 굼떠집니다. 브라우저 탭을 수십 개 열었을 때 컴퓨터가 버벅거리는 전형적인 원인입니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>메모리 용량은 "얼마나 많이 보관하느냐"가 아니라 <strong>"한 번에 얼마나 많이 펼쳐 놓고 일할 수 있느냐"</strong>를 정합니다.</p>
+</div>
+</section>
+<section class="level2" id="storage">
+<h2><span class="sec-n">1.4</span>저장장치: 전원을 꺼도 남는 창고<a aria-label="이 절의 링크" class="anchor" href="#storage">#</a></h2>
+<p><strong>저장장치</strong>는 사진, 문서, 설치한 프로그램처럼 오래 두고 쓸 것을 <strong>파일</strong>로 보관합니다. 메모리보다 훨씬 크고 전원을 꺼도 내용이 남지만, 꺼내 오는 데 시간이 더 걸립니다.</p>
+<div class="photo-row">
+<figure class="photo"><img alt="SSD. 움직이는 부품 없이 반도체 칩에 전기로 기록합니다. 빠르고 조용합니다." loading="lazy" src="../assets/photo/ssd-nvme.jpg"/><figcaption><strong>SSD.</strong> 움직이는 부품 없이 반도체 칩에 전기로 기록합니다. 빠르고 조용합니다.<span class="credit">사진: D-Kuru · CC BY-SA 4.0 · <a href="https://commons.wikimedia.org/wiki/File:Samsung_980_PRO_PCIe_4.0_NVMe_SSD_1TB-top_PNr%C2%B00915.jpg" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+<figure class="photo"><img alt="하드디스크(HDD). 회전하는 원판 위를 바늘 같은 헤드가 오가며 읽고 씁니다. 느리지만 같은 값에 용량이 큽니다." loading="lazy" src="../assets/photo/hdd-open.jpg"/><figcaption><strong>하드디스크(HDD).</strong> 회전하는 원판 위를 바늘 같은 헤드가 오가며 읽고 씁니다. 느리지만 같은 값에 용량이 큽니다.<span class="credit">사진: Evan-Amos · CC BY-SA 3.0 · <a href="https://commons.wikimedia.org/wiki/File:Laptop-hard-drive-exposed.jpg" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+</div>
+<p>그렇다면 바탕화면의 아이콘을 더블클릭할 때 무슨 일이 벌어질까요?</p>
+<figure class="fig" id="fig-load-run"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>프로그램 파일은 저장장치에서 메모리로 올라온 뒤에야 CPU가 실행한다</title>
+  <rect class="box warm" x="20" y="34" width="180" height="170" rx="14"/>
+  <use href="#i-disk" x="86" y="48" width="48" height="48" class="ic warm"/>
+  <text class="t-l mid" x="110" y="124">저장장치</text>
+  <text class="t-s mid" x="110" y="148">프로그램이 파일로 보관됨</text>
+  <text class="t-s mid" x="110" y="168">전원을 꺼도 유지</text>
+
+  <rect class="box green" x="290" y="34" width="180" height="170" rx="14"/>
+  <use href="#i-ram" x="356" y="48" width="48" height="48" class="ic green"/>
+  <text class="t-l mid" x="380" y="124">메모리 (RAM)</text>
+  <text class="t-s mid" x="380" y="148">실행 중인 프로그램</text>
+  <text class="t-s mid" x="380" y="168">전원을 끄면 사라짐</text>
+
+  <rect class="box blue" x="560" y="34" width="180" height="170" rx="14"/>
+  <use href="#i-chip" x="626" y="48" width="48" height="48" class="ic blue"/>
+  <text class="t-l mid" x="650" y="124">CPU</text>
+  <text class="t-s mid" x="650" y="148">명령을 하나씩</text>
+  <text class="t-s mid" x="650" y="168">꺼내어 처리</text>
+
+  <path class="ln warm thick" d="M206 118 H282" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b mid tc-warm" x="245" y="104">① 불러오기</text>
+  <path class="ln blue thick" d="M478 118 H552" marker-end="url(#ah-blue)" marker-start="url(#ah-blue)"/>
+  <text class="t-s t-b mid tc-blue" x="515" y="104">② 실행</text>
+  <path class="ln green dash" d="M380 208 V246 H110 V212" marker-end="url(#ah-green)"/>
+  <text class="t-s mid" x="245" y="270"><tspan class="t-b tc-green">③ 저장</tspan> 버튼을 눌러야 결과가 파일로 기록됩니다</text>
+</svg></div><figcaption><b>그림 1-3</b>프로그램이 실행되는 길. 파일은 창고에 있다가 조리대로 올라온 뒤에야 요리사의 손에 닿습니다.</figcaption></figure>
+<ol type="1">
+<li><strong>불러오기(로드).</strong> 저장장치에 파일로 있던 프로그램을 메모리로 읽어 옵니다. 큰 게임을 켤 때 나오는 로딩 화면이 바로 이 과정입니다.</li>
+<li><strong>실행.</strong> CPU가 메모리에서 명령과 데이터를 꺼내 처리하고, 결과를 다시 메모리에 적습니다.</li>
+<li><strong>저장.</strong> 작업 결과는 저장하기 전까지 메모리에만 있습니다. 저장 버튼을 눌러야 저장장치의 파일로 기록됩니다.</li>
+</ol>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>같은 프로그램이라도 <strong>저장장치에 놓인 파일</strong>과 <strong>메모리에서 실행 중인 상태</strong>는 전혀 다른 것입니다. 실행 중인 프로그램을 <strong>프로세스</strong>라고 부르는데, <a href="ch03.html">3장</a>의 주인공입니다.</p>
+</div>
+</section>
+<section class="level2" id="hierarchy">
+<h2><span class="sec-n">1.5</span>왜 셋으로 나눴을까: 속도의 사다리<a aria-label="이 절의 링크" class="anchor" href="#hierarchy">#</a></h2>
+<p>하나로 합치면 편할 텐데 왜 굳이 메모리와 저장장치를 따로 둘까요? 답은 간단합니다. <strong>빠른 것은 비싸고 작으며, 싼 것은 크고 느리기</strong> 때문입니다. 그래서 컴퓨터는 빠르고 작은 것부터 느리고 큰 것까지를 사다리처럼 쌓아 두고 섞어 씁니다.</p>
+<p>숫자만 봐서는 감이 오지 않으니, CPU 안에서 값 하나를 꺼내는 시간(약 1나노초)을 <strong>1초</strong>로 늘려서 비교해 보겠습니다.</p>
+<figure class="fig" id="fig-speed-ladder"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>CPU에 가까울수록 빠르고 작으며, 멀수록 느리고 크다</title>
+  <text class="t-s t-b mid" x="170" y="30">데이터가 있는 곳</text>
+  <text class="t-s t-b mid" x="400" y="30">한 번 꺼내는 시간</text>
+  <text class="t-s t-b mid" x="545" y="30">1ns를 1초로 치면</text>
+  <text class="t-s t-b mid" x="685" y="30">보통 용량</text>
+  <path class="ln thin muted" d="M20 42 H740"/>
+
+  <rect class="box blue" x="20" y="54" width="300" height="46" rx="10"/>
+  <use href="#i-chip" x="30" y="61" width="32" height="32" class="ic blue"/>
+  <text class="t-b" x="74" y="82">CPU 안의 캐시</text>
+  <text class="t-mono mid" x="400" y="82">약 1ns</text>
+  <text class="t-l mid tc-blue" x="545" y="83">1초</text>
+  <text class="t-s mid" x="685" y="82">수십 MB</text>
+
+  <rect class="box green" x="20" y="112" width="300" height="46" rx="10"/>
+  <use href="#i-ram" x="30" y="119" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="74" y="140">메모리 (RAM)</text>
+  <text class="t-mono mid" x="400" y="140">약 100ns</text>
+  <text class="t-l mid tc-green" x="545" y="141">약 2분</text>
+  <text class="t-s mid" x="685" y="140">8~64GB</text>
+
+  <rect class="box warm" x="20" y="170" width="300" height="46" rx="10"/>
+  <use href="#i-disk" x="30" y="177" width="32" height="32" class="ic warm"/>
+  <text class="t-b" x="74" y="198">SSD</text>
+  <text class="t-mono mid" x="400" y="198">약 0.1ms</text>
+  <text class="t-l mid tc-warm" x="545" y="199">약 하루</text>
+  <text class="t-s mid" x="685" y="198">256GB~수 TB</text>
+
+  <rect class="box gray" x="20" y="228" width="300" height="46" rx="10"/>
+  <use href="#i-disk" x="30" y="235" width="32" height="32" class="ic gray"/>
+  <text class="t-b" x="74" y="256">하드디스크 (HDD)</text>
+  <text class="t-mono mid" x="400" y="256">약 10ms</text>
+  <text class="t-l mid" x="545" y="257">약 4개월</text>
+  <text class="t-s mid" x="685" y="256">수 TB</text>
+
+  <rect class="box purple" x="20" y="286" width="300" height="46" rx="10"/>
+  <use href="#i-globe" x="30" y="293" width="32" height="32" class="ic purple"/>
+  <text class="t-b" x="74" y="314">바다 건너 서버</text>
+  <text class="t-mono mid" x="400" y="314">약 150ms</text>
+  <text class="t-l mid tc-purple" x="545" y="315">약 5년</text>
+  <text class="t-s mid" x="685" y="314">사실상 무한</text>
+
+  <text class="t-xs" x="20" y="362">ns = 10억분의 1초 · ms = 1000분의 1초. 제품마다 다르며, 크기의 감을 잡기 위한 대략적인 값입니다.</text>
+</svg></div><figcaption><b>그림 1-4</b>속도의 사다리. 위로 갈수록 빠르고 작으며 비싸고, 아래로 갈수록 느리고 크며 쌉니다.</figcaption></figure>
+<p>CPU 입장에서 메모리는 "2분 걸리는 옆방", SSD는 "하루 걸리는 옆 도시", 바다 건너 서버는 "5년 걸리는 여행"입니다. 프로그램이 느릴 때 "지금 어디까지 다녀오고 있는가"를 먼저 묻는 이유가 이것입니다. 계산을 조금 줄이는 것보다 <strong>먼 곳에 다녀오는 횟수를 줄이는 쪽</strong>이 훨씬 큰 차이를 만듭니다.</p>
+<section class="level3" id="캐시-자주-쓰는-것은-손-닿는-곳에">
+<h3>캐시: 자주 쓰는 것은 손 닿는 곳에</h3>
+<p>사다리 맨 위에 있는 <strong>캐시</strong>(cache)는 CPU 안에 들어 있는 아주 작고 빠른 보관함입니다. 요리사가 소금과 후추를 창고가 아니라 손 옆 선반에 두는 것과 같습니다. 방금 쓴 것, 그리고 그 근처에 있던 것을 캐시에 미리 가져다 놓으면 대부분의 일을 "1초 거리"에서 끝낼 수 있습니다.</p>
+<p>"가까이 있는 것을 자주 쓴다"는 이 아이디어는 CPU에만 있지 않습니다. 브라우저 캐시, 서버 캐시처럼 이 책 곳곳에서 같은 이름으로 다시 만나게 됩니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>데이터를 나란히 놓으면 왜 빨라질까 (지역성)</summary><div class="deep-body">
+<p>CPU는 값 하나가 필요할 때 그 값만 달랑 가져오지 않고, <strong>주변 값까지 한 묶음(보통 64바이트)</strong>으로 캐시에 가져옵니다. 이 묶음을 캐시 라인이라고 합니다.</p>
+<p>그래서 데이터가 메모리에 나란히 놓여 있으면 한 번 가져온 묶음으로 여러 개를 연달아 처리할 수 있습니다. 반대로 여기저기 흩어져 있으면 값을 볼 때마다 "2분 걸리는 옆방"에 다녀와야 합니다. 같은 개수의 데이터라도 <strong>나란히 늘어선 배열</strong>이 <strong>이리저리 연결된 구조</strong>보다 빠른 경우가 많은 이유입니다. 이렇게 가까운 것을 이어서 쓰는 성질을 <strong>지역성</strong>(locality)이라고 합니다. <a href="ch08.html">8장</a>에서 자료구조를 고를 때 다시 나옵니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="gpu">
+<h2><span class="sec-n">1.6</span>GPU: 같은 일을 수천 개 동시에<a aria-label="이 절의 링크" class="anchor" href="#gpu">#</a></h2>
+<p>화면에는 수백만 개의 점(픽셀)이 있고, 게임은 그 점 하나하나의 색을 1초에 60번 이상 새로 계산해야 합니다. 계산 하나하나는 단순하지만 양이 어마어마합니다. 이런 일을 위해 만든 부품이 <strong>GPU</strong>(그래픽처리장치, Graphics Processing Unit)입니다.</p>
+<figure class="fig" id="fig-cpu-vs-gpu"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>CPU는 강한 코어 몇 개, GPU는 단순한 코어 수천 개</title>
+  <defs>
+    <pattern id="ch01-gpu-cells" x="416" y="96" width="13" height="13" patternUnits="userSpaceOnUse"><rect class="f-purple" width="10" height="10" rx="2"/></pattern>
+  </defs>
+  <rect class="panel" x="20" y="16" width="340" height="258" rx="16"/>
+  <text class="t-h mid" x="190" y="50">CPU</text>
+  <text class="t-s mid" x="190" y="72">복잡한 일을 차례로, 판단도 잘한다</text>
+  <g>
+    <rect class="box blue" x="64" y="96" width="54" height="54" rx="9"/><rect class="box blue" x="130" y="96" width="54" height="54" rx="9"/>
+    <rect class="box blue" x="196" y="96" width="54" height="54" rx="9"/><rect class="box blue" x="262" y="96" width="54" height="54" rx="9"/>
+    <rect class="box blue" x="64" y="162" width="54" height="54" rx="9"/><rect class="box blue" x="130" y="162" width="54" height="54" rx="9"/>
+    <rect class="box blue" x="196" y="162" width="54" height="54" rx="9"/><rect class="box blue" x="262" y="162" width="54" height="54" rx="9"/>
+  </g>
+  <text class="t-b mid tc-blue" x="190" y="252">강한 코어 8개</text>
+
+  <rect class="panel" x="400" y="16" width="340" height="258" rx="16"/>
+  <text class="t-h mid" x="570" y="50">GPU</text>
+  <text class="t-s mid" x="570" y="72">단순한 같은 계산을 한꺼번에</text>
+  <rect x="416" y="96" width="309" height="127" fill="url(#ch01-gpu-cells)"/>
+  <text class="t-b mid tc-purple" x="570" y="252">단순한 코어 수천 개</text>
+</svg></div><figcaption><b>그림 1-5</b>CPU는 솜씨 좋은 요리사 몇 명, GPU는 한 가지 동작만 하는 일꾼 수천 명에 가깝습니다.</figcaption></figure>
+<p>요리사 8명에게 감자 만 개를 깎게 하는 것보다, 감자 깎기만 할 줄 아는 일꾼 수천 명에게 하나씩 나눠 주는 편이 훨씬 빨리 끝납니다. 화면 그리기, 영상 처리, 그리고 AI 계산이 바로 이런 "똑같은 단순 계산을 엄청나게 많이" 하는 일입니다. AI 이야기에 GPU가 빠지지 않는 까닭입니다.</p>
+<p>GPU는 자기만의 조리대인 <strong>VRAM</strong>(비디오 메모리)을 따로 가지고 있는 경우가 많습니다. 그래서 "RAM은 남는데 VRAM이 부족하다"는 상황이 얼마든지 생깁니다.</p>
+<figure class="photo"><img alt="그래픽카드. 큰 팬 세 개 아래에 GPU 칩과 VRAM이 있습니다. 수천 개의 코어가 동시에 일하면 열이 많이 나기 때문에 냉각 장치가 본체보다 큽니다." loading="lazy" src="../assets/photo/gpu-card.jpg"/><figcaption>그래픽카드. 큰 팬 세 개 아래에 GPU 칩과 VRAM이 있습니다. 수천 개의 코어가 동시에 일하면 열이 많이 나기 때문에 냉각 장치가 본체보다 큽니다.<span class="credit">사진: TheStriker · CC BY 4.0 · <a href="https://commons.wikimedia.org/wiki/File:MSI_GeForce_RTX_3070_VENTUS_3X_OC.jpg" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · GPU가 항상 빠른 것은 아닙니다</div>
+<p>GPU에게 일을 시키려면 데이터를 메모리에서 VRAM으로 <strong>옮겨 주고</strong>, 결과를 다시 <strong>받아 와야</strong> 합니다. 계산할 양이 적으면 옮기는 시간이 계산 시간보다 길어집니다. 사진 한 장을 살짝 보정하는 일은 CPU가 더 빨리 끝낼 수 있습니다. 또한 조건에 따라 갈래가 복잡하게 나뉘는 일은 GPU에 잘 맞지 않습니다.</p>
+</div>
+</section>
+<section class="level2" id="board">
+<h2><span class="sec-n">1.7</span>부품을 잇는 길: 메인보드<a aria-label="이 절의 링크" class="anchor" href="#board">#</a></h2>
+<p>지금까지 만난 부품들은 <strong>메인보드</strong>(mainboard)라는 큰 기판에 꽂혀 서로 연결됩니다. 주방으로 치면 바닥과 통로입니다.</p>
+<figure class="fig" id="fig-data-path"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>메인보드 위에서 CPU가 메모리, 그래픽카드, SSD, 칩셋과 연결되는 길</title>
+  <rect class="panel" x="20" y="16" width="720" height="298" rx="18"/>
+  <text class="t-s t-b" x="40" y="44">메인보드 — 부품을 꽂고 서로 이어 주는 판</text>
+
+  <rect class="box purple" x="60" y="70" width="170" height="84" rx="12"/>
+  <use href="#i-gpu" x="70" y="88" width="48" height="48" class="ic purple"/>
+  <text class="t-l" x="126" y="108">그래픽카드</text>
+  <text class="t-s" x="126" y="130">GPU + VRAM</text>
+
+  <rect class="box blue" x="295" y="70" width="170" height="84" rx="12"/>
+  <use href="#i-chip" x="307" y="88" width="48" height="48" class="ic blue"/>
+  <text class="t-l" x="365" y="108">CPU</text>
+  <text class="t-s" x="365" y="130">계산 담당</text>
+
+  <rect class="box green" x="550" y="70" width="170" height="84" rx="12"/>
+  <use href="#i-ram" x="562" y="88" width="48" height="48" class="ic green"/>
+  <text class="t-l" x="620" y="108">메모리</text>
+  <text class="t-s" x="620" y="130">작업 공간</text>
+
+  <rect class="ghost dash" x="60" y="214" width="170" height="84" rx="12"/>
+  <use href="#i-plug" x="70" y="232" width="48" height="48" class="ic gray"/>
+  <text class="t-b" x="126" y="251">전원·냉각</text>
+  <text class="t-s" x="126" y="272">계산은 안 함</text>
+
+  <rect class="box warm" x="295" y="214" width="170" height="84" rx="12"/>
+  <use href="#i-disk" x="307" y="232" width="48" height="48" class="ic warm"/>
+  <text class="t-l" x="365" y="252">SSD</text>
+  <text class="t-s" x="365" y="274">파일 보관</text>
+
+  <rect class="box gray" x="550" y="214" width="170" height="84" rx="12"/>
+  <text class="t-l mid" x="635" y="244">칩셋</text>
+  <text class="t-s mid" x="635" y="265">USB · 네트워크 ·</text>
+  <text class="t-s mid" x="635" y="283">추가 저장장치 연결</text>
+
+  <path class="ln purple" d="M238 104 H287" marker-start="url(#ah-purple)" marker-end="url(#ah-purple)"/>
+  <text class="t-xs mid" x="262" y="92">PCIe</text>
+  <path class="ln green thick" d="M475 104 H540" marker-start="url(#ah-green)" marker-end="url(#ah-green)"/>
+  <text class="t-xs mid" x="508" y="92">가장 빠른 길</text>
+  <path class="ln warm" d="M380 162 V206" marker-start="url(#ah-warm)" marker-end="url(#ah-warm)"/>
+  <text class="t-xs" x="394" y="189">PCIe</text>
+  <path class="ln" d="M473 136 H508 V256 H542" marker-end="url(#ah)"/>
+  <text class="t-xs end" x="498" y="210">공용 통로</text>
+</svg></div><figcaption><b>그림 1-6</b>부품 사이의 길. 모든 길의 넓이가 같지는 않습니다. CPU와 메모리 사이가 가장 넓고 빠릅니다.</figcaption></figure>
+<p>여기서 기억할 것은 하나입니다. <strong>부품이 빨라도 길이 좁으면 소용없다</strong>는 점입니다. 요리사 손이 아무리 빨라도 창고로 가는 통로가 한 사람만 겨우 지나갈 너비라면 재료가 제때 도착하지 못합니다. 이렇게 전체 속도를 붙잡는 가장 좁은 지점을 <strong>병목</strong>(bottleneck)이라고 합니다. 병의 목이 좁아서 물이 천천히 나오는 것에 빗댄 말입니다.</p>
+<p>성능 문제를 푼다는 것은 대부분 <strong>병목이 어디인지 찾는 일</strong>입니다. 병목이 아닌 곳을 아무리 빠르게 만들어도 전체는 빨라지지 않습니다.</p>
+<figure class="photo"><img alt="신용카드 크기의 컴퓨터 '라즈베리 파이'. 가운데 은색 칩이 CPU, 그 옆 검은 칩이 메모리입니다. 크기는 달라도 구성은 데스크톱과 같습니다." loading="lazy" src="../assets/photo/raspberry-pi.jpg"/><figcaption>신용카드 크기의 컴퓨터 '라즈베리 파이'. 가운데 은색 칩이 CPU, 그 옆 검은 칩이 메모리입니다. 크기는 달라도 구성은 데스크톱과 같습니다.<span class="credit">사진: Laserlicht · CC BY-SA 4.0 · <a href="https://commons.wikimedia.org/wiki/File:Raspberry_Pi_4_Model_B_-_Side.jpg" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+</section>
+<section class="level2" id="spec">
+<h2><span class="sec-n">1.8</span>사양표를 증상과 연결하기<a aria-label="이 절의 링크" class="anchor" href="#spec">#</a></h2>
+<p>이제 컴퓨터 사양표의 숫자가 무슨 뜻인지 읽을 수 있습니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr>
+<th>사양표의 표기</th>
+<th>뜻</th>
+<th>모자랄 때 나타나는 증상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU 8코어 3.2GHz</td>
+<td>요리사 8명, 초당 32억 박자</td>
+<td>계산이 오래 걸림, 팬 소리가 커짐</td>
+</tr>
+<tr>
+<td>RAM 16GB</td>
+<td>조리대 넓이</td>
+<td>여러 프로그램을 띄우면 전체가 버벅임, 프로그램이 갑자기 꺼짐</td>
+</tr>
+<tr>
+<td>SSD 512GB</td>
+<td>창고 넓이</td>
+<td>"디스크 공간이 부족합니다", 파일을 저장하지 못함</td>
+</tr>
+<tr>
+<td>VRAM 8GB</td>
+<td>GPU 전용 조리대</td>
+<td>고해상도 게임이나 큰 AI 모델이 실행되지 않음</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · 용량 단위 한눈에</div>
+<p>1KB(킬로바이트)는 대략 글자 천 개, 1MB는 그 천 배, 1GB는 다시 그 천 배, 1TB는 또 그 천 배입니다. 사진 한 장이 몇 MB, 영화 한 편이 몇 GB쯤 됩니다. 바이트가 정확히 무엇인지는 바로 다음 <a href="ch02.html">2장</a>에서 다룹니다.</p>
+</div>
+<div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
+<p>지금 쓰는 컴퓨터에서 직접 확인해 보세요.</p>
+<ul>
+<li><strong>윈도우</strong>: <code>Ctrl + Shift + Esc</code>로 작업 관리자를 열고 '성능' 탭을 봅니다.</li>
+<li><strong>맥</strong>: '활성 상태 보기' 앱을 열고 CPU·메모리 탭을 봅니다.</li>
+</ul>
+<p>브라우저 탭을 열 개쯤 더 열어 보면서 CPU, 메모리, 디스크 중 어느 숫자가 움직이는지 관찰해 보세요.</p>
+</div>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>메모리(RAM) / 저장장치</td>
+<td>작업 중에 펼쳐 두는 곳 / 꺼도 남는 보관 장소</td>
+</tr>
+<tr>
+<td>파일 크기 / 메모리 사용량</td>
+<td>창고에서 차지하는 자리 / 펼쳐 놓았을 때 차지하는 자리. 서로 크게 다를 수 있음</td>
+</tr>
+<tr>
+<td>RAM / VRAM</td>
+<td>CPU가 쓰는 조리대 / GPU가 쓰는 조리대</td>
+</tr>
+<tr>
+<td>코어 수 / 클럭 속도</td>
+<td>요리사의 수 / 요리사 한 명의 손 빠르기</td>
+</tr>
+<tr>
+<td>CPU / GPU</td>
+<td>복잡한 일을 차례로 / 단순한 일을 한꺼번에</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 저장 공간은 넉넉한데 '메모리 부족'으로 꺼지는 앱</div>
+<p>사진 100장을 한꺼번에 불러와 크기를 줄여 주는 앱을 만들었습니다. 그런데 실행하면 얼마 못 가 꺼집니다. SSD에는 수백 GB가 남아 있습니다.</p>
+<ol type="1">
+<li><strong>파일 크기와 메모리 사용량을 구분합니다.</strong> 사진 파일은 압축되어 있습니다. 20MB짜리 파일도 화면에 그릴 수 있게 압축을 풀면 200MB가 될 수 있습니다.</li>
+<li><strong>복사본을 셉니다.</strong> 원본, 편집용 복사본, 화면용 데이터가 동시에 살아 있으면 한 장이 600MB를 차지합니다.</li>
+<li><strong>곱합니다.</strong> 100장을 동시에 열면 60GB가 필요합니다. 16GB 메모리로는 감당할 수 없습니다.</li>
+<li><strong>한 번에 펼치는 양을 줄입니다.</strong> 네 장씩만 열어서 처리하고, 끝난 사진은 메모리에서 치운 뒤 다음 네 장을 엽니다.</li>
+<li><strong>확인합니다.</strong> 같은 100장을 다시 처리하면서 메모리 최고 사용량과 전체 걸린 시간을 기록해 비교합니다.</li>
+</ol>
+<p>교훈은 조리대 비유 그대로입니다. 창고(SSD)가 아무리 넓어도 조리대(RAM)에 한꺼번에 다 펼칠 수는 없습니다.</p>
+</div>
+<figure class="fig" id="fig-unpack-size"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>20MB짜리 사진 파일 한 장이 실행 중에는 수백 MB의 메모리를 쓴다</title>
+  <text class="t-h" x="20" y="34">사진 한 장이 차지하는 공간</text>
+
+  <text class="t-s end" x="250" y="77">디스크의 압축 파일</text>
+  <rect class="solid warm" x="264" y="60" width="20" height="26" rx="5"/>
+  <text class="t-mono" x="294" y="78">20MB</text>
+
+  <text class="t-s end" x="250" y="121">압축을 푼 픽셀 (RAM)</text>
+  <rect class="solid green" x="264" y="104" width="200" height="26" rx="5"/>
+  <text class="t-mono" x="474" y="122">200MB</text>
+
+  <text class="t-s end" x="250" y="165">편집용 복사본 (RAM)</text>
+  <rect class="solid green" x="264" y="148" width="200" height="26" rx="5"/>
+  <text class="t-mono" x="474" y="166">+200MB</text>
+
+  <text class="t-s end" x="250" y="209">화면에 그릴 텍스처 (VRAM)</text>
+  <rect class="solid purple" x="264" y="192" width="200" height="26" rx="5"/>
+  <text class="t-mono" x="474" y="210">+200MB</text>
+
+  <rect class="box yellow" x="560" y="100" width="180" height="84" rx="12"/>
+  <text class="t-s mid" x="650" y="130">파일은 20MB인데</text>
+  <text class="t-b mid" x="650" y="154">실행 중에는 약 600MB</text>
+</svg></div><figcaption><b>그림 1-7</b>파일로 있을 때의 크기와 실행 중에 차지하는 메모리는 다릅니다.</figcaption></figure>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li><strong>CPU</strong>는 요리사입니다. 가져오기 → 해석 → 실행 → 기록을 1초에 수십억 번 반복합니다.</li>
+<li><strong>메모리(RAM)</strong>는 조리대입니다. 빠르지만 전원이 꺼지면 비워집니다. 한 번에 펼칠 수 있는 양을 정합니다.</li>
+<li><strong>저장장치</strong>는 창고입니다. 느리지만 크고, 꺼도 남습니다. 프로그램은 여기서 메모리로 올라온 뒤에야 실행됩니다.</li>
+<li>CPU에서 멀어질수록 느려집니다. 성능은 <strong>먼 곳에 몇 번 다녀오느냐</strong>에 크게 좌우됩니다.</li>
+<li><strong>GPU</strong>는 단순한 계산을 한꺼번에 처리하는 일꾼 수천 명입니다. 데이터를 옮기는 비용이 따로 듭니다.</li>
+<li>전체 속도는 가장 좁은 길인 <strong>병목</strong>이 정합니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>노트북의 SSD를 256GB에서 1TB로 바꿨습니다. 브라우저 탭을 많이 열면 느려지던 문제가 해결될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>해결되지 않습니다. 탭을 많이 열 때 모자라는 것은 조리대인 메모리(RAM)입니다. SSD는 창고라서, 커져도 한 번에 펼칠 수 있는 양은 그대로입니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>문서를 쓰다가 저장하지 않은 채 정전이 됐습니다. 내용이 사라지는 이유를 부품 이름으로 설명해 보세요.</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>작성 중인 내용은 메모리에만 있었습니다. 메모리는 전원이 끊기면 내용이 사라지는 휘발성 장치입니다. 저장 버튼을 눌러야 꺼져도 남는 저장장치에 파일로 기록됩니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>8코어 PC에서 프로그램이 한참 걸리는데 CPU 사용률은 13% 근처에 머뭅니다. 무엇을 의심할 수 있을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>코어 하나만 일하고 있을 가능성이 큽니다(1 ÷ 8 = 12.5%). 프로그램이 일을 여러 코어로 나누도록 짜여 있지 않으면 나머지 코어는 놀게 됩니다. 코어별 사용률을 확인해 보면 알 수 있습니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>사진 한 장의 밝기를 조금 올리는 작업을 GPU로 옮겼더니 오히려 느려졌습니다. 왜 그럴 수 있을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>GPU를 쓰려면 데이터를 VRAM으로 보내고 결과를 다시 받아 와야 합니다. 계산량이 적으면 이 왕복 시간이 계산 시간보다 길어집니다. GPU는 같은 계산을 아주 많이 할 때 이득을 봅니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>20MB짜리 사진 파일을 열었는데 메모리를 200MB나 씁니다. 버그일까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>버그가 아닐 가능성이 높습니다. 파일은 압축된 상태이고, 화면에 그리려면 압축을 풀어 픽셀 하나하나의 색을 메모리에 펼쳐야 합니다. 파일 크기와 메모리 사용량은 다른 숫자입니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>AI 코딩 도구에게 성능 문제를 맡길 때는 "느려요"라고만 하지 말고 <strong>어느 부품이 모자라는지 측정부터</strong> 하게 하세요.</p>
+<blockquote>
+<p>사진 일괄 변환 기능이 중간에 꺼지는 원인을 조사해 줘. 대상 PC는 RAM 8GB, VRAM 4GB야. 먼저 사진 한 장을 처리할 때 압축 해제, 복사, GPU 전송 단계별로 메모리를 얼마나 쓰는지 측정해서 표로 보여 줘. 그다음 동시에 처리하는 장수를 제한하는 방법을 제안해 줘. 100장을 끝까지 처리하는 것, 그리고 변경 전후의 메모리 최고 사용량과 걸린 시간을 비교해 보여 주는 것을 완료 조건으로 해.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: RAM과 VRAM을 따로 측정했는가, 추측이 아니라 실제 측정값을 보여 주는가, 변경 전후를 같은 사진으로 비교했는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>CPU<small>Central Processing Unit</small></dt>
+<dd>
+중앙처리장치. 프로그램의 명령을 읽고 계산하는 부품.
+</dd>
+<dt>코어<small>core</small></dt>
+<dd>
+CPU 안에서 명령을 독립적으로 처리하는 단위. 요리사 한 명에 해당.
+</dd>
+<dt>클럭 속도<small>clock speed</small></dt>
+<dd>
+CPU가 1초에 치는 박자 수. 단위는 GHz(기가헤르츠, 초당 10억 번).
+</dd>
+<dt>메모리<small>RAM, Random Access Memory</small></dt>
+<dd>
+실행 중인 프로그램과 데이터를 올려 두는 작업 공간. 전원이 꺼지면 내용이 사라진다.
+</dd>
+<dt>휘발성<small>volatile</small></dt>
+<dd>
+전원이 끊기면 내용이 사라지는 성질.
+</dd>
+<dt>저장장치<small>storage</small></dt>
+<dd>
+전원을 꺼도 파일을 보관하는 부품. SSD, 하드디스크가 대표적.
+</dd>
+<dt>SSD<small>Solid State Drive</small></dt>
+<dd>
+반도체 칩에 기록하는 저장장치. 움직이는 부품이 없어 빠르다.
+</dd>
+<dt>캐시<small>cache</small></dt>
+<dd>
+자주 쓰는 것을 더 빠른 곳에 미리 가져다 두는 보관함, 또는 그런 방법.
+</dd>
+<dt>GPU<small>Graphics Processing Unit</small></dt>
+<dd>
+단순한 계산을 대량으로 동시에 처리하는 부품. 그래픽과 AI 계산에 쓰인다.
+</dd>
+<dt>VRAM<small>Video RAM</small></dt>
+<dd>
+GPU가 쓰는 전용 메모리.
+</dd>
+<dt>메인보드<small>mainboard</small></dt>
+<dd>
+부품을 꽂고 서로 연결해 주는 기판. 마더보드라고도 한다.
+</dd>
+<dt>병목<small>bottleneck</small></dt>
+<dd>
+전체 속도를 붙잡고 있는 가장 느린 지점.
+</dd>
+<dt>명령어 집합<small>ISA, Instruction Set Architecture</small></dt>
+<dd>
+CPU가 알아듣는 명령의 목록과 규칙. x86-64, ARM64 등이 있다.
+</dd>
+<dt>SoC<small>System on a Chip</small></dt>
+<dd>
+CPU, GPU, 메모리 제어 등 여러 기능을 하나로 합친 칩. 스마트폰과 얇은 노트북에 쓰인다.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://www.intel.com/content/www/us/en/gaming/resources/how-to-choose-a-motherboard.html" rel="noopener" target="_blank">Intel — 메인보드 구조 살펴보기</a> — 실제 메인보드의 슬롯과 단자가 무엇인지 사진과 함께 설명합니다.</li>
+<li><a href="https://www.arm.com/glossary/isa" rel="noopener" target="_blank">Arm — Instruction Set Architecture</a> — 명령어 집합이 무엇인지 짧게 정리한 용어 설명입니다.</li>
+<li><a href="https://docs.nvidia.com/cuda/cuda-programming-guide/01-introduction/programming-model.html" rel="noopener" target="_blank">NVIDIA CUDA — Programming Model</a> — CPU와 GPU가 일을 나누고 데이터를 주고받는 방식을 설명합니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch00.html"><small>← 이전 · 0장</small><b>버튼 한 번에 일어나는 일</b></a><a class="next" href="ch02.html"><small>다음 · 2장 →</small><b>0과 1로 표현하기</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#kitchen">컴퓨터는 하나의 주방입니다</a><a href="#cpu">CPU: 명령을 하나씩 처리하는 요리사</a><a href="#ram">메모리(RAM): 지금 쓰는 것을 올려 두는 조리대</a><a href="#storage">저장장치: 전원을 꺼도 남는 창고</a><a href="#hierarchy">왜 셋으로 나눴을까: 속도의 사다리</a><a href="#gpu">GPU: 같은 일을 수천 개 동시에</a><a href="#board">부품을 잇는 길: 메인보드</a><a href="#spec">사양표를 증상과 연결하기</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

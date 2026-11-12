@@ -1,0 +1,27 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg">
+  <title>프로그램 파일은 저장장치에서 메모리로 올라온 뒤에야 CPU가 실행한다</title>
+  <rect class="box warm" x="20" y="34" width="180" height="170" rx="14"/>
+  <use href="#i-disk" x="86" y="48" width="48" height="48" class="ic warm"/>
+  <text class="t-l mid" x="110" y="124">저장장치</text>
+  <text class="t-s mid" x="110" y="148">프로그램이 파일로 보관됨</text>
+  <text class="t-s mid" x="110" y="168">전원을 꺼도 유지</text>
+
+  <rect class="box green" x="290" y="34" width="180" height="170" rx="14"/>
+  <use href="#i-ram" x="356" y="48" width="48" height="48" class="ic green"/>
+  <text class="t-l mid" x="380" y="124">메모리 (RAM)</text>
+  <text class="t-s mid" x="380" y="148">실행 중인 프로그램</text>
+  <text class="t-s mid" x="380" y="168">전원을 끄면 사라짐</text>
+
+  <rect class="box blue" x="560" y="34" width="180" height="170" rx="14"/>
+  <use href="#i-chip" x="626" y="48" width="48" height="48" class="ic blue"/>
+  <text class="t-l mid" x="650" y="124">CPU</text>
+  <text class="t-s mid" x="650" y="148">명령을 하나씩</text>
+  <text class="t-s mid" x="650" y="168">꺼내어 처리</text>
+
+  <path class="ln warm thick" d="M206 118 H282" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b mid tc-warm" x="245" y="104">① 불러오기</text>
+  <path class="ln blue thick" d="M478 118 H552" marker-end="url(#ah-blue)" marker-start="url(#ah-blue)"/>
+  <text class="t-s t-b mid tc-blue" x="515" y="104">② 실행</text>
+  <path class="ln green dash" d="M380 208 V246 H110 V212" marker-end="url(#ah-green)"/>
+  <text class="t-s mid" x="245" y="270"><tspan class="t-b tc-green">③ 저장</tspan> 버튼을 눌러야 결과가 파일로 기록됩니다</text>
+</svg>

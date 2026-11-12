@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>스택은 나중에 넣은 것이 먼저 나오고, 큐는 먼저 넣은 것이 먼저 나온다</title>
+
+  <!-- 스택 -->
+  <rect class="panel" x="20" y="16" width="340" height="268" rx="16"/>
+  <text class="t-h mid" x="190" y="48">스택: 접시 더미</text>
+  <text class="t-s mid" x="190" y="70">나중에 넣은 것이 먼저 나온다</text>
+  <path class="ln blue" d="M166 88 V118" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b tc-blue end" x="156" y="108">넣기</text>
+  <path class="ln warm" d="M214 120 V90" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b tc-warm" x="224" y="108">꺼내기</text>
+  <rect class="box warm" x="130" y="126" width="120" height="32" rx="8"/>
+  <rect class="box" x="130" y="162" width="120" height="32" rx="8"/>
+  <rect class="box" x="130" y="198" width="120" height="32" rx="8"/>
+  <text class="t-b mid" x="190" y="147">C</text>
+  <text class="t-b mid" x="190" y="183">B</text>
+  <text class="t-b mid" x="190" y="219">A</text>
+  <text class="t-xs" x="262" y="146">맨 위</text>
+  <text class="t-xs" x="262" y="218">맨 아래</text>
+  <path class="ln thick muted" d="M110 236 H270"/>
+  <text class="t-s mid" x="190" y="264">A, B, C로 넣으면 C, B, A로 나옴</text>
+
+  <!-- 큐 -->
+  <rect class="panel" x="400" y="16" width="340" height="268" rx="16"/>
+  <text class="t-h mid" x="570" y="48">큐: 줄 서기</text>
+  <text class="t-s mid" x="570" y="70">먼저 넣은 것이 먼저 나온다</text>
+  <rect class="box warm" x="476" y="140" width="56" height="48" rx="8"/>
+  <rect class="box" x="542" y="140" width="56" height="48" rx="8"/>
+  <rect class="box" x="608" y="140" width="56" height="48" rx="8"/>
+  <text class="t-b mid" x="504" y="170">A</text>
+  <text class="t-b mid" x="570" y="170">B</text>
+  <text class="t-b mid" x="636" y="170">C</text>
+  <path class="ln warm" d="M468 164 H424" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b tc-warm mid" x="446" y="148">꺼내기</text>
+  <path class="ln blue" d="M716 164 H672" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b tc-blue mid" x="694" y="148">넣기</text>
+  <text class="t-xs mid" x="504" y="208">맨 앞</text>
+  <text class="t-xs mid" x="636" y="208">맨 뒤</text>
+  <text class="t-s mid" x="570" y="264">A, B, C로 넣으면 A, B, C로 나옴</text>
+</svg>

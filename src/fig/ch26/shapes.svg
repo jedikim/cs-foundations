@@ -1,0 +1,65 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>숫자 하나는 스칼라, 한 줄은 벡터, 표 한 장은 행렬, 표를 여러 장 쌓으면 텐서이며, 모양은 축마다 칸이 몇 개인지 적은 것이다</title>
+
+  <path class="ln thin muted" d="M140 24 V284 M312 24 V284 M532 24 V284"/>
+
+  <text class="t-l mid" x="75" y="36">스칼라</text>
+  <text class="t-s mid" x="75" y="58">숫자 하나</text>
+  <rect class="box blue" x="53" y="142" width="44" height="36" rx="6"/>
+  <text class="t-mono t-b mid" x="75" y="165">3</text>
+  <text class="t-b mid" x="75" y="256">축 없음</text>
+  <text class="t-xs mid" x="75" y="278">짠맛</text>
+
+  <text class="t-l mid" x="225" y="36">벡터</text>
+  <text class="t-s mid" x="225" y="58">숫자 한 줄</text>
+  <text class="t-xs mid" x="203" y="134">짠맛</text>
+  <text class="t-xs mid" x="247" y="134">매운맛</text>
+  <rect class="box blue" x="181" y="142" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="225" y="142" width="44" height="36" rx="6"/>
+  <text class="t-mono t-b mid" x="203" y="165">3</text>
+  <text class="t-mono t-b mid" x="247" y="165">4</text>
+  <text class="t-mono t-b mid" x="225" y="256">모양 [2]</text>
+  <text class="t-xs mid" x="225" y="278">김치찌개의 맛 2가지</text>
+
+  <text class="t-l mid" x="424" y="36">행렬</text>
+  <text class="t-s mid" x="424" y="58">벡터를 쌓은 표 한 장</text>
+  <text class="t-xs mid" x="426" y="98">짠맛</text>
+  <text class="t-xs mid" x="470" y="98">매운맛</text>
+  <text class="t-xs end" x="396" y="129">김치찌개</text>
+  <text class="t-xs end" x="396" y="165">육개장</text>
+  <text class="t-xs end" x="396" y="201">미역국</text>
+  <rect class="box blue" x="404" y="106" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="448" y="106" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="404" y="142" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="448" y="142" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="404" y="178" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="448" y="178" width="44" height="36" rx="6"/>
+  <text class="t-mono t-b mid" x="426" y="129">3</text>
+  <text class="t-mono t-b mid" x="470" y="129">4</text>
+  <text class="t-mono t-b mid" x="426" y="165">6</text>
+  <text class="t-mono t-b mid" x="470" y="165">8</text>
+  <text class="t-mono t-b mid" x="426" y="201">5</text>
+  <text class="t-mono t-b mid" x="470" y="201">0</text>
+  <text class="t-mono t-b mid" x="424" y="256">모양 [3, 2]</text>
+  <text class="t-xs mid" x="424" y="278">국 3종 × 맛 2가지</text>
+
+  <text class="t-l mid" x="640" y="36">텐서</text>
+  <text class="t-s mid" x="640" y="58">표를 여러 장 쌓은 묶음</text>
+  <rect class="box gray" x="610" y="99" width="88" height="108" rx="6"/>
+  <text class="t-xs" x="704" y="114">어제</text>
+  <text class="t-xs end" x="588" y="136">오늘</text>
+  <rect class="box blue" x="596" y="113" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="640" y="113" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="596" y="149" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="640" y="149" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="596" y="185" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="640" y="185" width="44" height="36" rx="6"/>
+  <text class="t-mono t-b mid" x="618" y="136">3</text>
+  <text class="t-mono t-b mid" x="662" y="136">4</text>
+  <text class="t-mono t-b mid" x="618" y="172">6</text>
+  <text class="t-mono t-b mid" x="662" y="172">8</text>
+  <text class="t-mono t-b mid" x="618" y="208">5</text>
+  <text class="t-mono t-b mid" x="662" y="208">0</text>
+  <text class="t-mono t-b mid" x="640" y="256">모양 [2, 3, 2]</text>
+  <text class="t-xs mid" x="640" y="278">2일 × 국 3종 × 맛 2가지 = 12개</text>
+</svg>

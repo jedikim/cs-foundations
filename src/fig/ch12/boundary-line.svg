@@ -1,0 +1,47 @@
+<svg viewBox="0 0 760 296" xmlns="http://www.w3.org/2000/svg">
+  <title>수량 1~99 규칙을 시험할 때는 거부·허용·거부 세 무리에서 대표값을 하나씩 고르고, 규칙이 바뀌는 경계 0·1·2와 98·99·100을 꼭 넣는다</title>
+
+  <text class="t-b" x="20" y="32">규칙: 수량은 1개부터 99개까지</text>
+  <text class="t-s end" x="740" y="32">점 하나 = 테스트에 넣을 값</text>
+
+  <rect class="box red" x="40" y="52" width="135" height="44" rx="8"/>
+  <rect class="box green" x="175" y="52" width="410" height="44" rx="8"/>
+  <rect class="box red" x="585" y="52" width="135" height="44" rx="8"/>
+  <text class="t-b mid tc-red" x="88" y="79">거부</text>
+  <text class="t-b mid tc-green" x="315" y="79">허용</text>
+  <text class="t-b mid tc-red" x="672" y="79">거부</text>
+
+  <circle class="f-red" cx="150" cy="74" r="7"/>
+  <circle class="f-green" cx="200" cy="74" r="7"/>
+  <circle class="f-green" cx="250" cy="74" r="7"/>
+  <circle class="f-green" cx="380" cy="74" r="7"/>
+  <circle class="f-green" cx="510" cy="74" r="7"/>
+  <circle class="f-green" cx="560" cy="74" r="7"/>
+  <circle class="f-red" cx="610" cy="74" r="7"/>
+
+  <text class="t-mono t-b mid" x="150" y="118">0</text>
+  <text class="t-mono t-b mid" x="200" y="118">1</text>
+  <text class="t-mono t-b mid" x="250" y="118">2</text>
+  <text class="t-mono t-b mid" x="380" y="118">50</text>
+  <text class="t-mono t-b mid" x="510" y="118">98</text>
+  <text class="t-mono t-b mid" x="560" y="118">99</text>
+  <text class="t-mono t-b mid" x="610" y="118">100</text>
+
+  <path class="ln thin warm" d="M135 130 V138 H265 V130"/>
+  <text class="t-b mid tc-warm" x="200" y="160">경계값</text>
+  <text class="t-s mid" x="200" y="180">규칙이 바뀌는 자리</text>
+
+  <text class="t-b mid" x="380" y="160">대표값 하나</text>
+  <text class="t-s mid" x="380" y="180">안쪽은 모두 같은 규칙</text>
+
+  <path class="ln thin warm" d="M495 130 V138 H625 V130"/>
+  <text class="t-b mid tc-warm" x="560" y="160">경계값</text>
+  <text class="t-s mid" x="560" y="180">실수가 숨는 자리</text>
+
+  <rect class="box" x="40" y="212" width="680" height="62" rx="12"/>
+  <use href="#i-bug" x="54" y="227" width="32" height="32" class="ic red"/>
+  <text class="t-mono t-b" x="100" y="249">if 1 &lt;= qty &lt; 99:</text>
+  <text class="t-s" x="290" y="238">&lt;= 를 &lt; 로 잘못 쓴 코드</text>
+  <text class="t-b tc-red" x="290" y="260">50을 넣으면 통과, 99를 넣어야 들킨다</text>
+  <path class="ln red" d="M560 208 V190" marker-end="url(#ah-red)"/>
+</svg>

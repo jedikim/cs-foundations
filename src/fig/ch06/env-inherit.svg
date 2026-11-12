@@ -1,0 +1,47 @@
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
+  <title>프로그램은 켜지는 순간 셸의 환경 변수를 복사해 가고, 그 뒤 셸이 값을 바꿔도 따라 바뀌지 않는다</title>
+
+  <circle class="badge" cx="196" cy="30" r="12"/><text class="badge-t" x="196" y="34.500">1</text>
+  <text class="t-s t-b" x="214" y="35">서버 A를 켠다</text>
+  <circle class="badge" cx="396" cy="30" r="12"/><text class="badge-t" x="396" y="34.500">2</text>
+  <text class="t-s t-b" x="414" y="35">셸의 값을 바꾼다</text>
+  <circle class="badge" cx="596" cy="30" r="12"/><text class="badge-t" x="596" y="34.500">3</text>
+  <text class="t-s t-b" x="614" y="35">서버 B를 켠다</text>
+
+  <path class="ln thin muted" d="M185 100 H732" marker-end="url(#ah-muted)"/>
+  <path class="ln thin muted" d="M150 190 H732" marker-end="url(#ah-muted)"/>
+  <path class="ln thin muted" d="M585 280 H732" marker-end="url(#ah-muted)"/>
+
+  <use href="#i-server" x="20" y="84" width="30" height="30" class="ic green"/>
+  <text class="t-b" x="58" y="97">서버 A</text>
+  <text class="t-xs" x="58" y="115">먼저 켠 프로그램</text>
+  <rect class="box yellow" x="185" y="82" width="130" height="36" rx="8"/>
+  <text class="t-mono mid" x="250" y="105">MODE=dev</text>
+  <rect class="box yellow" x="385" y="82" width="130" height="36" rx="8"/>
+  <text class="t-mono mid" x="450" y="105">MODE=dev</text>
+  <rect class="box yellow" x="585" y="82" width="130" height="36" rx="8"/>
+  <text class="t-mono mid" x="650" y="105">MODE=dev</text>
+  <text class="t-xs mid tc-red" x="550" y="140">셸이 바꿔도 A의 값은 그대로</text>
+
+  <use href="#i-terminal" x="20" y="174" width="30" height="30" class="ic blue"/>
+  <text class="t-b" x="58" y="187">셸</text>
+  <text class="t-xs" x="58" y="205">명령을 치는 곳</text>
+  <rect class="box yellow" x="185" y="172" width="130" height="36" rx="8"/>
+  <text class="t-mono mid" x="250" y="195">MODE=dev</text>
+  <rect class="box warm" x="385" y="172" width="130" height="36" rx="8"/>
+  <text class="t-mono t-b mid" x="450" y="195">MODE=prod</text>
+  <rect class="box warm" x="585" y="172" width="130" height="36" rx="8"/>
+  <text class="t-mono mid" x="650" y="195">MODE=prod</text>
+
+  <path class="ln" d="M250 167 V124" marker-end="url(#ah)"/>
+  <text class="t-xs" x="260" y="150">복사</text>
+  <path class="ln" d="M650 213 V256" marker-end="url(#ah)"/>
+  <text class="t-xs" x="660" y="238">복사</text>
+
+  <use href="#i-server" x="20" y="264" width="30" height="30" class="ic green"/>
+  <text class="t-b" x="58" y="277">서버 B</text>
+  <text class="t-xs" x="58" y="295">나중에 켠 프로그램</text>
+  <rect class="box warm" x="585" y="262" width="130" height="36" rx="8"/>
+  <text class="t-mono mid" x="650" y="285">MODE=prod</text>
+  <text class="t-xs mid" x="650" y="318">켜지는 순간의 값을 받는다</text>
+</svg>

@@ -1,0 +1,56 @@
+<svg viewBox="0 0 760 356" xmlns="http://www.w3.org/2000/svg">
+  <title>두 직원이 같은 잔액 10,000원을 읽고 각자 더해서 쓰면, 먼저 쓴 5,000원이 덮어써져 사라진다</title>
+
+  <text class="t-s t-b mid" x="188" y="30">처음</text>
+  <circle class="badge blue" cx="272" cy="25" r="11"/><text class="badge-t" x="272" y="29.500">1</text>
+  <text class="t-s t-b" x="288" y="30">A가 읽음</text>
+  <circle class="badge warm" cx="396" cy="25" r="11"/><text class="badge-t" x="396" y="29.500">2</text>
+  <text class="t-s t-b" x="412" y="30">B가 읽음</text>
+  <circle class="badge blue" cx="526" cy="25" r="11"/><text class="badge-t" x="526" y="29.500">3</text>
+  <text class="t-s t-b" x="542" y="30">A가 씀</text>
+  <circle class="badge warm" cx="650" cy="25" r="11"/><text class="badge-t" x="650" y="29.500">4</text>
+  <text class="t-s t-b" x="666" y="30">B가 씀</text>
+
+  <text class="t-b" x="20" y="76">직원 A</text>
+  <text class="t-s" x="20" y="96">5,000원 입금</text>
+  <rect class="box blue" x="256" y="50" width="112" height="56" rx="10"/>
+  <text class="t-s mid" x="312" y="72">잔액을 본다</text>
+  <text class="t-mono t-b mid" x="312" y="94">10,000</text>
+  <text class="t-xs mid" x="436" y="76">머릿속 계산</text>
+  <text class="t-mono mid tc-blue" x="436" y="95">15,000</text>
+  <rect class="box blue" x="504" y="50" width="112" height="56" rx="10"/>
+  <text class="t-s mid" x="560" y="72">고쳐 쓴다</text>
+  <text class="t-mono t-b mid" x="560" y="94">15,000</text>
+
+  <text class="t-b" x="20" y="166">칠판의 잔액</text>
+  <text class="t-s" x="20" y="186">함께 쓰는 값</text>
+  <rect class="box green" x="132" y="142" width="112" height="52" rx="10"/>
+  <text class="t-mono t-b mid" x="188" y="173">10,000</text>
+  <rect class="box green" x="256" y="142" width="112" height="52" rx="10"/>
+  <text class="t-mono t-b mid" x="312" y="173">10,000</text>
+  <rect class="box green" x="380" y="142" width="112" height="52" rx="10"/>
+  <text class="t-mono t-b mid" x="436" y="173">10,000</text>
+  <rect class="box green" x="504" y="142" width="112" height="52" rx="10"/>
+  <text class="t-mono t-b mid" x="560" y="173">15,000</text>
+  <rect class="box red" x="628" y="142" width="112" height="52" rx="10"/>
+  <text class="t-mono t-b mid tc-red" x="684" y="173">13,000</text>
+
+  <text class="t-b" x="20" y="256">직원 B</text>
+  <text class="t-s" x="20" y="276">3,000원 입금</text>
+  <rect class="box warm" x="380" y="230" width="112" height="56" rx="10"/>
+  <text class="t-s mid" x="436" y="252">잔액을 본다</text>
+  <text class="t-mono t-b mid" x="436" y="274">10,000</text>
+  <text class="t-xs mid" x="560" y="256">머릿속 계산</text>
+  <text class="t-mono mid tc-warm" x="560" y="275">13,000</text>
+  <rect class="box warm" x="628" y="230" width="112" height="56" rx="10"/>
+  <text class="t-s mid" x="684" y="252">고쳐 쓴다</text>
+  <text class="t-mono t-b mid" x="684" y="274">13,000</text>
+
+  <path class="ln blue" d="M312 138 V114" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M560 110 V134" marker-end="url(#ah-blue)"/>
+  <path class="ln warm" d="M436 198 V222" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M684 226 V202" marker-end="url(#ah-warm)"/>
+
+  <text class="t-s" x="132" y="322">기대한 값: 10,000 + 5,000 + 3,000 = 18,000</text>
+  <text class="t-b tc-red" x="132" y="344">실제 값: 13,000 — A가 넣은 5,000원이 사라졌다</text>
+</svg>

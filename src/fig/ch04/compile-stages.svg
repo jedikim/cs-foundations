@@ -1,0 +1,66 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>price * 2 + 1 한 줄이 토큰 나누기, 구조 세우기, 뜻 검사, 기계어 쓰기의 네 단계를 거친다</title>
+  <rect class="box blue" x="20" y="12" width="165" height="36" rx="10"/>
+  <text class="t-mono mid" x="102" y="35">price * 2 + 1</text>
+  <text class="t-s" x="200" y="35">이 한 줄이 네 단계를 차례로 지납니다</text>
+  <path class="ln blue" d="M102 52 V69" marker-end="url(#ah-blue)"/>
+
+  <rect class="box" x="20" y="74" width="165" height="210" rx="12"/>
+  <circle class="badge blue" cx="42" cy="98" r="12"/><text class="badge-t" x="42" y="102.500">1</text>
+  <text class="t-b" x="62" y="103">토큰 나누기</text>
+  <text class="t-xs" x="34" y="126">글자를 낱말로 자른다</text>
+  <rect class="box blue" x="32" y="150" width="54" height="30" rx="6"/>
+  <rect class="box blue" x="90" y="150" width="18" height="30" rx="6"/>
+  <rect class="box blue" x="112" y="150" width="18" height="30" rx="6"/>
+  <rect class="box blue" x="134" y="150" width="18" height="30" rx="6"/>
+  <rect class="box blue" x="156" y="150" width="18" height="30" rx="6"/>
+  <text class="t-mono mid" x="59" y="170">price</text>
+  <text class="t-mono mid" x="99" y="170">*</text>
+  <text class="t-mono mid" x="121" y="170">2</text>
+  <text class="t-mono mid" x="143" y="170">+</text>
+  <text class="t-mono mid" x="165" y="170">1</text>
+  <text class="t-xs mid" x="102" y="212">낱말(토큰) 5개</text>
+
+  <rect class="box" x="205" y="74" width="165" height="210" rx="12"/>
+  <circle class="badge blue" cx="227" cy="98" r="12"/><text class="badge-t" x="227" y="102.500">2</text>
+  <text class="t-b" x="247" y="103">구조 세우기</text>
+  <text class="t-xs" x="219" y="126">먼저 묶을 것을 정한다</text>
+  <path class="ln thin blue" d="M305 156 L270 200 M305 156 L340 200 M270 200 L243 248 M270 200 L300 248"/>
+  <circle class="box blue" cx="305" cy="156" r="13"/>
+  <circle class="box blue" cx="270" cy="200" r="13"/>
+  <circle class="box blue" cx="340" cy="200" r="13"/>
+  <rect class="box blue" x="215" y="235" width="56" height="26" rx="8"/>
+  <circle class="box blue" cx="300" cy="248" r="13"/>
+  <text class="t-mono mid" x="305" y="161">+</text>
+  <text class="t-mono mid" x="270" y="205">*</text>
+  <text class="t-mono mid" x="340" y="205">1</text>
+  <text class="t-mono mid" x="243" y="253">price</text>
+  <text class="t-mono mid" x="300" y="253">2</text>
+
+  <rect class="box" x="390" y="74" width="165" height="210" rx="12"/>
+  <circle class="badge blue" cx="412" cy="98" r="12"/><text class="badge-t" x="412" y="102.500">3</text>
+  <text class="t-b" x="432" y="103">뜻 검사하기</text>
+  <text class="t-xs" x="404" y="126">이름과 타입을 확인한다</text>
+  <use href="#i-check" x="402" y="150" width="20" height="20" class="ic green"/>
+  <text class="t-s" x="428" y="165">이름 price: 있음</text>
+  <use href="#i-check" x="402" y="186" width="20" height="20" class="ic green"/>
+  <text class="t-s" x="428" y="201">price의 타입: 숫자</text>
+  <use href="#i-check" x="402" y="222" width="20" height="20" class="ic green"/>
+  <text class="t-s" x="428" y="237">곱하기·더하기: 가능</text>
+
+  <rect class="box" x="575" y="74" width="165" height="210" rx="12"/>
+  <circle class="badge blue" cx="597" cy="98" r="12"/><text class="badge-t" x="597" y="102.500">4</text>
+  <text class="t-b" x="617" y="103">기계어 쓰기</text>
+  <text class="t-xs" x="589" y="126">작은 명령으로 옮긴다</text>
+  <rect class="box green" x="587" y="146" width="141" height="28" rx="6"/>
+  <rect class="box green" x="587" y="182" width="141" height="28" rx="6"/>
+  <rect class="box green" x="587" y="218" width="141" height="28" rx="6"/>
+  <text class="t-mono mid" x="657" y="165">가져와라 price</text>
+  <text class="t-mono mid" x="657" y="201">곱해라 2</text>
+  <text class="t-mono mid" x="657" y="237">더해라 1</text>
+  <text class="t-xs mid" x="657" y="268">실제로는 숫자로 적힌다</text>
+
+  <path class="ln blue" d="M188 179 H198" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M373 179 H383" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M558 179 H568" marker-end="url(#ah-blue)"/>
+</svg>

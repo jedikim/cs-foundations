@@ -1,0 +1,35 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>테스트 피라미드: 함수 하나를 보는 빠른 단위 테스트를 가장 많이, 부품의 연결을 보는 통합 테스트를 중간쯤, 사용자 흐름 전체를 보는 E2E 테스트를 조금만 둔다</title>
+
+  <text class="t-s t-b" x="20" y="38">넓게, 느리게</text>
+  <path class="ln thin muted" d="M36 52 V280" marker-start="url(#ah-muted)" marker-end="url(#ah-muted)"/>
+  <text class="t-s t-b" x="20" y="310">좁게, 빠르게</text>
+
+  <polygon class="box purple" points="225,44 175,124 275,124"/>
+  <polygon class="box green" points="175,124 125,204 325,204 275,124"/>
+  <polygon class="box blue" points="125,204 75,284 375,284 325,204"/>
+
+  <text class="t-b mid tc-purple" x="225" y="100">E2E</text>
+  <text class="t-xs mid" x="225" y="117">5개</text>
+  <text class="t-b mid tc-green" x="225" y="164">통합</text>
+  <text class="t-xs mid" x="225" y="184">30개</text>
+  <text class="t-b mid tc-blue" x="225" y="244">단위</text>
+  <text class="t-xs mid" x="225" y="264">200개</text>
+
+  <path class="ln thin muted dash" d="M283 124 H740"/>
+  <path class="ln thin muted dash" d="M333 204 H740"/>
+
+  <text class="t-b" x="400" y="64">손님처럼 처음부터 끝까지</text>
+  <text class="t-s" x="400" y="86">앱을 열어 주문 → 결제 → 주문 내역 확인</text>
+  <text class="t-xs" x="400" y="106">한 번에 수십 초 · 실패해도 원인이 멀다</text>
+
+  <text class="t-b" x="400" y="148">부품끼리 맞물리는지</text>
+  <text class="t-s" x="400" y="170">주문을 저장하면 진짜 DB에 들어가는가</text>
+  <text class="t-xs" x="400" y="190">한 번에 1초 안팎 · 중요한 연결마다</text>
+
+  <text class="t-b" x="400" y="228">함수 하나가 맞는지</text>
+  <text class="t-mono" x="400" y="251">apply_coupon(4000, 10) == 3600</text>
+  <text class="t-xs" x="400" y="271">한 번에 0.01초 · 실패하면 원인이 바로 옆</text>
+
+  <text class="t-xs" x="400" y="310">개수와 시간은 감을 잡기 위한 예시</text>
+</svg>

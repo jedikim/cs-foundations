@@ -1,0 +1,51 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>네트워크 탭의 한 줄은 요청 하나이고, 한 줄을 눌러 Timing을 보면 400ms가 준비, 기다림, 내려받기 중 어디에 쓰였는지 알 수 있다</title>
+
+  <text class="t-s t-b" x="34" y="34">이름</text>
+  <text class="t-s t-b mid" x="215" y="34">상태</text>
+  <text class="t-s t-b end" x="330" y="34">크기</text>
+  <text class="t-s t-b end" x="420" y="34">시간</text>
+  <text class="t-s t-b" x="450" y="34">폭포: 언제 시작해 얼마나 걸렸나</text>
+  <path class="ln thin muted" d="M20 44 H740"/>
+
+  <text class="t-mono" x="34" y="70">menu</text>
+  <text class="t-mono t-b mid tc-green" x="215" y="70">200</text>
+  <text class="t-mono end" x="330" y="70">5.1kB</text>
+  <text class="t-mono end" x="420" y="70">180ms</text>
+  <rect class="solid blue" x="450" y="58" width="63" height="14" rx="3"/>
+
+  <text class="t-mono" x="34" y="106">app.js</text>
+  <text class="t-mono mid tc-muted" x="215" y="106">304</text>
+  <text class="t-mono end" x="330" y="106">0.2kB</text>
+  <text class="t-mono end" x="420" y="106">30ms</text>
+  <rect class="solid blue" x="516" y="94" width="11" height="14" rx="3"/>
+
+  <rect class="box yellow" x="20" y="120" width="720" height="34" rx="8"/>
+  <text class="t-mono t-b" x="34" y="142">api/menu</text>
+  <text class="t-mono t-b mid tc-green" x="215" y="142">200</text>
+  <text class="t-mono end" x="330" y="142">1.2kB</text>
+  <text class="t-mono t-b end" x="420" y="142">400ms</text>
+  <rect class="solid gray" x="530" y="130" width="14" height="14" rx="3"/>
+  <rect class="solid warm" x="544" y="130" width="98" height="14"/>
+  <rect class="solid blue" x="642" y="130" width="28" height="14" rx="3"/>
+
+  <text class="t-mono" x="34" y="178">pizza.jpg</text>
+  <text class="t-mono t-b mid tc-red" x="215" y="178">404</text>
+  <text class="t-mono end" x="330" y="178">0.3kB</text>
+  <text class="t-mono end" x="420" y="178">25ms</text>
+  <rect class="solid red" x="534" y="166" width="9" height="14" rx="3"/>
+
+  <path class="ln thin muted" d="M20 194 H740"/>
+
+  <text class="t-b" x="20" y="224">api/menu 줄을 눌러 Timing을 보면</text>
+  <rect class="solid gray" x="40" y="238" width="68" height="30" rx="5"/>
+  <rect class="solid warm" x="108" y="238" width="476" height="30"/>
+  <rect class="solid blue" x="584" y="238" width="136" height="30" rx="5"/>
+  <text class="t-on t-b mid" x="74" y="258">40ms</text>
+  <text class="t-on t-b mid" x="346" y="258">280ms</text>
+  <text class="t-on t-b mid" x="652" y="258">80ms</text>
+  <text class="t-s mid" x="74" y="288">연결 준비</text>
+  <text class="t-s mid" x="346" y="288">서버의 첫 응답을 기다림 (TTFB)</text>
+  <text class="t-s mid" x="652" y="288">내려받기</text>
+  <text class="t-s" x="20" y="316">가장 긴 구간이 '기다림'이면 회선보다 서버가 답을 만드는 시간을 본다</text>
+</svg>

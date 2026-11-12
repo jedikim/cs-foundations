@@ -1,0 +1,38 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 모델에 예시만 바꿔 넣으면 가중치를 고치지 않아도 하는 일이 달라진다</title>
+
+  <rect class="box" x="20" y="20" width="340" height="146" rx="14"/>
+  <text class="t-s t-b" x="38" y="46">입력 ① 예시 2개 + 새 문제</text>
+  <text class="t-mono" x="38" y="76">배송이 빨라요 → 긍정</text>
+  <text class="t-mono" x="38" y="102">화면이 깨져 왔어요 → 부정</text>
+  <rect class="s-yellow" x="30" y="116" width="320" height="34" rx="8"/>
+  <text class="t-mono t-b" x="38" y="138">또 살 거예요 → ?</text>
+
+  <rect class="box" x="20" y="186" width="340" height="146" rx="14"/>
+  <text class="t-s t-b" x="38" y="212">입력 ② 예시만 바꿨다</text>
+  <text class="t-mono" x="38" y="242">배송이 빨라요 → 별 5개</text>
+  <text class="t-mono" x="38" y="268">화면이 깨져 왔어요 → 별 1개</text>
+  <rect class="s-yellow" x="30" y="282" width="320" height="34" rx="8"/>
+  <text class="t-mono t-b" x="38" y="304">또 살 거예요 → ?</text>
+
+  <rect class="box purple" x="430" y="116" width="130" height="120" rx="14"/>
+  <use href="#i-robot" x="471" y="126" width="48" height="48" class="ic purple"/>
+  <text class="t-l mid" x="495" y="198">같은 모델</text>
+  <text class="t-s mid" x="495" y="220">가중치 그대로</text>
+
+  <path class="ln" d="M366 93 H398 V152 H422" marker-end="url(#ah)"/>
+  <path class="ln" d="M366 259 H398 V200 H422" marker-end="url(#ah)"/>
+
+  <path class="ln green" d="M566 152 H594 V93 H622" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M566 200 H594 V259 H622" marker-end="url(#ah-green)"/>
+
+  <text class="t-xs mid" x="685" y="60">출력 ①</text>
+  <rect class="box green" x="630" y="70" width="110" height="46" rx="12"/>
+  <text class="t-l mid" x="685" y="99">긍정</text>
+
+  <text class="t-xs mid" x="685" y="226">출력 ②</text>
+  <rect class="box green" x="630" y="236" width="110" height="46" rx="12"/>
+  <text class="t-l mid" x="685" y="265">별 5개</text>
+
+  <text class="t-s mid" x="380" y="358">바뀐 것은 입력뿐입니다. 모델 안의 숫자는 하나도 달라지지 않았습니다.</text>
+</svg>

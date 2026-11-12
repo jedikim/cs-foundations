@@ -1,0 +1,76 @@
+<svg viewBox="0 0 760 430" xmlns="http://www.w3.org/2000/svg">
+  <title>은행의 손님·신청서·창구 직원·금고 속 장부가 앱·SQL·DBMS·디스크의 표에 대응한다</title>
+  <text class="t-s t-b" x="20" y="26">은행에서는</text>
+
+  <rect class="box yellow" x="20" y="38" width="156" height="112" rx="14"/>
+  <use href="#i-user" x="76" y="46" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="98" y="116">손님</text>
+  <text class="t-s mid" x="98" y="137">돈을 맡기고 찾는다</text>
+
+  <rect class="box yellow" x="208" y="38" width="156" height="112" rx="14"/>
+  <use href="#i-file" x="264" y="46" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="286" y="116">신청서</text>
+  <text class="t-s mid" x="286" y="137">원하는 일만 적는다</text>
+
+  <rect class="box yellow" x="396" y="38" width="156" height="112" rx="14"/>
+  <use href="#i-idcard" x="452" y="46" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="474" y="116">창구 직원</text>
+  <text class="t-s mid" x="474" y="137">장부를 혼자 다룬다</text>
+
+  <rect class="box yellow" x="584" y="38" width="156" height="112" rx="14"/>
+  <use href="#i-book" x="640" y="46" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="662" y="116">금고 속 장부</text>
+  <text class="t-s mid" x="662" y="137">손님은 손대지 못한다</text>
+
+  <path class="ln" d="M180 94 H200" marker-end="url(#ah)"/>
+  <path class="ln" d="M368 94 H388" marker-end="url(#ah)"/>
+  <path class="ln" d="M556 94 H576" marker-end="url(#ah)"/>
+
+  <path class="ln muted" d="M98 156 V180" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M286 156 V180" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M474 156 V180" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M662 156 V180" marker-end="url(#ah-muted)"/>
+
+  <text class="t-s t-b" x="20" y="204">데이터베이스에서는</text>
+
+  <rect class="box blue" x="20" y="214" width="156" height="112" rx="14"/>
+  <use href="#i-laptop" x="76" y="222" width="44" height="44" class="ic blue"/>
+  <text class="t-l mid" x="98" y="292">내 앱</text>
+  <text class="t-s mid" x="98" y="313">데이터를 읽고 쓴다</text>
+
+  <rect class="box blue" x="208" y="214" width="156" height="112" rx="14"/>
+  <use href="#i-terminal" x="264" y="222" width="44" height="44" class="ic blue"/>
+  <text class="t-l mid" x="286" y="292">SQL</text>
+  <text class="t-s mid" x="286" y="313">요청을 적은 문장</text>
+
+  <rect class="box green" x="396" y="214" width="156" height="112" rx="14"/>
+  <use href="#i-db" x="452" y="222" width="44" height="44" class="ic green"/>
+  <text class="t-l mid" x="474" y="292">DBMS</text>
+  <text class="t-s mid" x="474" y="313">PostgreSQL, SQLite 등</text>
+
+  <rect class="box warm" x="584" y="214" width="156" height="112" rx="14"/>
+  <use href="#i-grid" x="640" y="222" width="44" height="44" class="ic warm"/>
+  <text class="t-l mid" x="662" y="292">디스크의 표</text>
+  <text class="t-s mid" x="662" y="313">전원을 꺼도 남는다</text>
+
+  <path class="ln blue" d="M180 270 H200" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M368 270 H388" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M556 270 H576" marker-end="url(#ah-green)"/>
+
+  <text class="t-s t-b" x="20" y="358">창구 직원(DBMS)이 대신 책임지는 세 가지</text>
+
+  <rect class="box" x="20" y="370" width="226" height="48" rx="10"/>
+  <circle class="badge green" cx="42" cy="394" r="11"/><text class="badge-t" x="42" y="398.500">1</text>
+  <text class="t-b" x="62" y="390">줄을 세운다</text>
+  <text class="t-s" x="62" y="409">동시에 와도 섞이지 않게</text>
+
+  <rect class="box" x="267" y="370" width="226" height="48" rx="10"/>
+  <circle class="badge green" cx="289" cy="394" r="11"/><text class="badge-t" x="289" y="398.500">2</text>
+  <text class="t-b" x="309" y="390">하다 만 일은 되돌린다</text>
+  <text class="t-s" x="309" y="409">도중에 꺼져도 반쪽은 없게</text>
+
+  <rect class="box" x="514" y="370" width="226" height="48" rx="10"/>
+  <circle class="badge green" cx="536" cy="394" r="11"/><text class="badge-t" x="536" y="398.500">3</text>
+  <text class="t-b" x="556" y="390">찾아보기를 둔다</text>
+  <text class="t-s" x="556" y="409">수백만 줄에서도 바로 찾게</text>
+</svg>

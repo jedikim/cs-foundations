@@ -1,0 +1,125 @@
+<svg viewBox="0 0 760 284" xmlns="http://www.w3.org/2000/svg">
+  <title>요청 100개를 빠른 순으로 줄 세우면 평균 200ms는 90개보다 느리고 가장 느린 2개보다는 훨씬 빠른 어중간한 값이다</title>
+  <text class="t-h" x="30" y="32">빠른 순으로 줄 세운 요청 100개</text>
+  <rect class="solid green" x="30" y="50" width="14" height="14" rx="3"/>
+  <text class="t-s" x="52" y="62">90개 · 100ms</text>
+  <rect class="solid warm" x="170" y="50" width="14" height="14" rx="3"/>
+  <text class="t-s" x="192" y="62">8개 · 300ms</text>
+  <rect class="solid red" x="305" y="50" width="14" height="14" rx="3"/>
+  <text class="t-s" x="327" y="62">2개 · 4,300ms</text>
+  <rect class="solid green" x="30" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="37" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="44" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="51" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="58" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="65" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="72" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="79" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="86" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="93" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="100" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="107" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="114" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="121" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="128" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="135" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="142" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="149" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="156" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="163" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="170" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="177" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="184" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="191" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="198" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="205" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="212" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="219" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="226" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="233" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="240" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="247" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="254" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="261" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="268" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="275" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="282" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="289" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="296" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="303" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="310" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="317" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="324" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="331" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="338" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="345" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="352" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="359" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="366" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="373" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="380" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="387" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="394" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="401" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="408" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="415" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="422" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="429" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="436" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="443" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="450" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="457" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="464" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="471" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="478" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="485" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="492" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="499" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="506" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="513" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="520" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="527" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="534" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="541" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="548" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="555" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="562" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="569" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="576" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="583" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="590" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="597" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="604" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="611" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="618" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="625" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="632" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="639" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="646" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="653" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="660" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="667" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="674" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="681" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="688" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="695" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="702" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="709" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid red" x="716" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid red" x="723" y="112" width="5" height="40" rx="1"/>
+  <path class="ln thin blue dash" d="M659 94 V162"/>
+  <text class="t-b tc-blue mid" x="659" y="86">평균 200ms</text>
+  <path class="ln thin" d="M375.5 156 V182"/>
+  <text class="t-b mid" x="375.5" y="202">p50 = 100ms</text>
+  <text class="t-s mid" x="375.5" y="221">50번째 · 중앙값</text>
+  <path class="ln thin" d="M690.5 156 V180"/>
+  <text class="t-b end" x="702" y="200">p95 = 300ms</text>
+  <text class="t-s end" x="702" y="218">95번째</text>
+  <path class="ln thin red" d="M718.5 156 V232"/>
+  <text class="t-b tc-red end" x="740" y="252">p99 = 4,300ms</text>
+  <text class="t-s end" x="740" y="270">99번째</text>
+  <rect class="box blue" x="30" y="178" width="262" height="80" rx="12"/>
+  <text class="t-b tc-blue" x="46" y="204">평균 200ms의 정체</text>
+  <text class="t-s" x="46" y="226">요청 90개는 이보다 2배 빠르고</text>
+  <text class="t-s" x="46" y="244">2개는 20배 넘게 느리다</text>
+</svg>

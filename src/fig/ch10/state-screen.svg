@@ -1,0 +1,43 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>화면에 보이는 장바구니는 프로그램이 기억하는 상태를 보고 그린 결과다</title>
+
+  <text class="t-s t-b" x="20" y="30">화면 — 사용자가 보는 것</text>
+  <rect class="box" x="20" y="42" width="290" height="258" rx="16"/>
+  <use href="#i-cart" x="36" y="56" width="32" height="32" class="ic blue"/>
+  <text class="t-l" x="78" y="79">장바구니</text>
+  <circle class="badge red" cx="168" cy="72" r="12"/><text class="badge-t" x="168" y="76.500">3</text>
+  <path class="ln thin muted" d="M36 100 H294"/>
+  <text x="36" y="132">김밥</text>
+  <text class="t-s" x="112" y="132">2줄</text>
+  <text class="t-mono end" x="294" y="132">6,000원</text>
+  <text x="36" y="164">떡볶이</text>
+  <text class="t-s" x="112" y="164">1인분</text>
+  <text class="t-mono end" x="294" y="164">4,500원</text>
+  <path class="ln thin muted" d="M36 182 H294"/>
+  <text class="t-b" x="36" y="212">합계</text>
+  <text class="t-mono t-b end" x="294" y="212">10,500원</text>
+  <rect class="solid blue" x="36" y="236" width="258" height="44" rx="10"/>
+  <text class="t-on t-b mid" x="165" y="263">주문하기</text>
+
+  <text class="t-s t-b" x="450" y="30">상태 — 프로그램이 기억하는 것</text>
+  <rect class="panel green" x="450" y="42" width="290" height="258" rx="16"/>
+  <use href="#i-book" x="466" y="56" width="32" height="32" class="ic green"/>
+  <text class="t-l" x="508" y="79">장부</text>
+  <rect class="box" x="466" y="104" width="258" height="44" rx="8"/>
+  <text class="t-mono t-b" x="480" y="131">items</text>
+  <text class="t-mono end" x="710" y="131">김밥×2, 떡볶이×1</text>
+  <rect class="box" x="466" y="156" width="258" height="44" rx="8"/>
+  <text class="t-mono t-b" x="480" y="183">coupon</text>
+  <text class="t-mono end" x="710" y="183">없음</text>
+  <rect class="box" x="466" y="208" width="258" height="44" rx="8"/>
+  <text class="t-mono t-b" x="480" y="235">status</text>
+  <text class="t-mono end" x="710" y="235">"대기"</text>
+  <text class="t-xs mid" x="595" y="280">배지 3과 합계는 적지 않는다 — items로 계산</text>
+
+  <path class="ln green" d="M444 122 H318" marker-end="url(#ah-green)"/>
+  <text class="t-s t-b mid tc-green" x="380" y="110">그린다</text>
+  <text class="t-xs mid" x="380" y="142">장부가 바뀔 때마다</text>
+  <path class="ln blue" d="M316 256 H442" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b mid tc-blue" x="380" y="244">고친다</text>
+  <text class="t-xs mid" x="380" y="276">버튼을 누르면</text>
+</svg>

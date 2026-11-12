@@ -1,0 +1,129 @@
+<svg viewBox="0 0 760 296" xmlns="http://www.w3.org/2000/svg">
+  <title>삼각형 하나는 점 3개를 화면 위치로 옮기고, 덮는 픽셀 46개를 찾고, 그 픽셀마다 색을 계산하는 순서로 그려진다</title>
+  <defs>
+    <pattern id="ch24-px-grid" width="14" height="14" patternUnits="userSpaceOnUse">
+      <path class="ln thin muted" d="M14 0 H0 V14"/>
+    </pattern>
+  </defs>
+  <text class="t-h" x="20" y="34">삼각형 하나가 화면에 그려지는 세 단계</text>
+  <rect class="s-surface" x="25" y="56" width="210" height="140"/>
+  <rect x="25" y="56" width="210" height="140" fill="url(#ch24-px-grid)"/>
+  <rect class="ghost" x="25" y="56" width="210" height="140"/>
+  <path class="ln thin blue dash" d="M45 181 L220 148 L120 67 Z"/>
+  <circle class="f-blue" cx="45" cy="181" r="6"/>
+  <circle class="f-blue" cx="220" cy="148" r="6"/>
+  <circle class="f-blue" cx="120" cy="67" r="6"/>
+  <rect class="s-surface" x="275" y="56" width="210" height="140"/>
+  <rect class="s-blue" x="359" y="70" width="14" height="14"/>
+  <rect class="s-blue" x="373" y="70" width="14" height="14"/>
+  <rect class="s-blue" x="359" y="84" width="14" height="14"/>
+  <rect class="s-blue" x="373" y="84" width="14" height="14"/>
+  <rect class="s-blue" x="387" y="84" width="14" height="14"/>
+  <rect class="s-blue" x="345" y="98" width="14" height="14"/>
+  <rect class="s-blue" x="359" y="98" width="14" height="14"/>
+  <rect class="s-blue" x="373" y="98" width="14" height="14"/>
+  <rect class="s-blue" x="387" y="98" width="14" height="14"/>
+  <rect class="s-blue" x="401" y="98" width="14" height="14"/>
+  <rect class="s-blue" x="331" y="112" width="14" height="14"/>
+  <rect class="s-blue" x="345" y="112" width="14" height="14"/>
+  <rect class="s-blue" x="359" y="112" width="14" height="14"/>
+  <rect class="s-blue" x="373" y="112" width="14" height="14"/>
+  <rect class="s-blue" x="387" y="112" width="14" height="14"/>
+  <rect class="s-blue" x="401" y="112" width="14" height="14"/>
+  <rect class="s-blue" x="415" y="112" width="14" height="14"/>
+  <rect class="s-blue" x="331" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="345" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="359" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="373" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="387" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="401" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="415" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="429" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="443" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="317" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="331" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="345" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="359" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="373" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="387" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="401" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="415" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="429" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="443" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="457" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="303" y="154" width="14" height="14"/>
+  <rect class="s-blue" x="317" y="154" width="14" height="14"/>
+  <rect class="s-blue" x="331" y="154" width="14" height="14"/>
+  <rect class="s-blue" x="345" y="154" width="14" height="14"/>
+  <rect class="s-blue" x="359" y="154" width="14" height="14"/>
+  <rect class="s-blue" x="373" y="154" width="14" height="14"/>
+  <rect class="s-blue" x="387" y="154" width="14" height="14"/>
+  <rect class="s-blue" x="303" y="168" width="14" height="14"/>
+  <rect class="s-blue" x="317" y="168" width="14" height="14"/>
+  <rect x="275" y="56" width="210" height="140" fill="url(#ch24-px-grid)"/>
+  <rect class="ghost" x="275" y="56" width="210" height="140"/>
+  <path class="ln blue" d="M295 181 L470 148 L370 67 Z"/>
+  <rect class="s-surface" x="525" y="56" width="210" height="140"/>
+  <rect class="f-warm" opacity="0.36" x="609" y="70" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.41" x="623" y="70" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.41" x="609" y="84" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.46" x="623" y="84" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.51" x="637" y="84" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.41" x="595" y="98" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.46" x="609" y="98" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.51" x="623" y="98" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.56" x="637" y="98" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.61" x="651" y="98" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.42" x="581" y="112" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.47" x="595" y="112" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.52" x="609" y="112" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.57" x="623" y="112" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.62" x="637" y="112" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.67" x="651" y="112" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.72" x="665" y="112" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.47" x="581" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.52" x="595" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.57" x="609" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.62" x="623" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.67" x="637" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.72" x="651" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.77" x="665" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.82" x="679" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.87" x="693" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.47" x="567" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.52" x="581" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.57" x="595" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.62" x="609" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.67" x="623" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.72" x="637" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.77" x="651" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.82" x="665" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.87" x="679" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.92" x="693" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.97" x="707" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.47" x="553" y="154" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.52" x="567" y="154" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.57" x="581" y="154" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.62" x="595" y="154" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.67" x="609" y="154" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.72" x="623" y="154" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.77" x="637" y="154" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.52" x="553" y="168" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.57" x="567" y="168" width="14" height="14"/>
+  <rect x="525" y="56" width="210" height="140" fill="url(#ch24-px-grid)"/>
+  <rect class="ghost" x="525" y="56" width="210" height="140"/>
+  <circle class="badge blue" cx="37" cy="222" r="12"/><text class="badge-t" x="37" y="226.5">1</text>
+  <text class="t-l" x="57" y="228">정점 셰이더</text>
+  <text class="t-s" x="25" y="254">점 3개를 화면 위 자리로</text>
+  <text class="t-mono t-b" x="25" y="278">3번 실행</text>
+  <circle class="badge blue" cx="287" cy="222" r="12"/><text class="badge-t" x="287" y="226.5">2</text>
+  <text class="t-l" x="307" y="228">래스터화</text>
+  <text class="t-s" x="275" y="254">삼각형이 덮는 픽셀 찾기</text>
+  <text class="t-mono t-b" x="275" y="278">픽셀 46개</text>
+  <circle class="badge warm" cx="537" cy="222" r="12"/><text class="badge-t" x="537" y="226.5">3</text>
+  <text class="t-l" x="557" y="228">픽셀 셰이더</text>
+  <text class="t-s" x="525" y="254">픽셀마다 색을 계산</text>
+  <text class="t-mono t-b" x="525" y="278">46번 실행</text>
+  <path class="ln" d="M238 126 H260" marker-end="url(#ah)"/>
+  <path class="ln" d="M488 126 H510" marker-end="url(#ah)"/>
+</svg>

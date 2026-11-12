@@ -1,0 +1,116 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>정상인 1번 커밋과 실패하는 16번 커밋 사이를 절반씩 잘라 실행해 보면 네 번 만에 버그가 들어온 11번 커밋을 찾는다</title>
+  <text class="t-s t-b" x="176" y="32">옛 커밋</text>
+  <text class="t-s t-b end" x="736" y="32">최신 커밋</text>
+  <path class="ln thin muted" d="M232 27 H664" marker-end="url(#ah-muted)"/>
+
+  <text class="t-b" x="20" y="62">처음 아는 것</text>
+  <text class="t-s" x="20" y="81">1번 정상, 16번 실패</text>
+  <rect class="box green" x="176" y="48" width="29" height="30" rx="6"/>
+  <rect class="box" x="211" y="48" width="29" height="30" rx="6"/>
+  <rect class="box" x="246" y="48" width="29" height="30" rx="6"/>
+  <rect class="box" x="281" y="48" width="29" height="30" rx="6"/>
+  <rect class="box" x="316" y="48" width="29" height="30" rx="6"/>
+  <rect class="box" x="351" y="48" width="29" height="30" rx="6"/>
+  <rect class="box" x="386" y="48" width="29" height="30" rx="6"/>
+  <rect class="box" x="421" y="48" width="29" height="30" rx="6"/>
+  <rect class="box" x="456" y="48" width="29" height="30" rx="6"/>
+  <rect class="box" x="491" y="48" width="29" height="30" rx="6"/>
+  <rect class="box" x="526" y="48" width="29" height="30" rx="6"/>
+  <rect class="box" x="561" y="48" width="29" height="30" rx="6"/>
+  <rect class="box" x="596" y="48" width="29" height="30" rx="6"/>
+  <rect class="box" x="631" y="48" width="29" height="30" rx="6"/>
+  <rect class="box" x="666" y="48" width="29" height="30" rx="6"/>
+  <rect class="box red" x="701" y="48" width="29" height="30" rx="6"/>
+  <text class="t-mono t-b mid tc-green" x="190.5" y="68">1</text>
+  <text class="t-mono t-b mid tc-red" x="715.5" y="68">16</text>
+
+  <circle class="badge blue" cx="31" cy="111" r="11"/><text class="badge-t" x="31" y="115.500">1</text>
+  <text class="t-b" x="50" y="116">8번 실행</text>
+  <text class="t-s" x="50" y="135">정상 → 9~16 남음</text>
+  <rect class="box green" x="176" y="102" width="29" height="30" rx="6"/>
+  <rect class="box green" x="211" y="102" width="29" height="30" rx="6"/>
+  <rect class="box green" x="246" y="102" width="29" height="30" rx="6"/>
+  <rect class="box green" x="281" y="102" width="29" height="30" rx="6"/>
+  <rect class="box green" x="316" y="102" width="29" height="30" rx="6"/>
+  <rect class="box green" x="351" y="102" width="29" height="30" rx="6"/>
+  <rect class="box green" x="386" y="102" width="29" height="30" rx="6"/>
+  <rect class="solid green" x="421" y="102" width="29" height="30" rx="6"/>
+  <rect class="box" x="456" y="102" width="29" height="30" rx="6"/>
+  <rect class="box" x="491" y="102" width="29" height="30" rx="6"/>
+  <rect class="box" x="526" y="102" width="29" height="30" rx="6"/>
+  <rect class="box" x="561" y="102" width="29" height="30" rx="6"/>
+  <rect class="box" x="596" y="102" width="29" height="30" rx="6"/>
+  <rect class="box" x="631" y="102" width="29" height="30" rx="6"/>
+  <rect class="box" x="666" y="102" width="29" height="30" rx="6"/>
+  <rect class="box red" x="701" y="102" width="29" height="30" rx="6"/>
+  <text class="t-mono t-b t-on mid" x="435.5" y="122">8</text>
+
+  <circle class="badge blue" cx="31" cy="165" r="11"/><text class="badge-t" x="31" y="169.500">2</text>
+  <text class="t-b" x="50" y="170">12번 실행</text>
+  <text class="t-s" x="50" y="189">실패 → 9~12 남음</text>
+  <rect class="box green" x="176" y="156" width="29" height="30" rx="6"/>
+  <rect class="box green" x="211" y="156" width="29" height="30" rx="6"/>
+  <rect class="box green" x="246" y="156" width="29" height="30" rx="6"/>
+  <rect class="box green" x="281" y="156" width="29" height="30" rx="6"/>
+  <rect class="box green" x="316" y="156" width="29" height="30" rx="6"/>
+  <rect class="box green" x="351" y="156" width="29" height="30" rx="6"/>
+  <rect class="box green" x="386" y="156" width="29" height="30" rx="6"/>
+  <rect class="box green" x="421" y="156" width="29" height="30" rx="6"/>
+  <rect class="box" x="456" y="156" width="29" height="30" rx="6"/>
+  <rect class="box" x="491" y="156" width="29" height="30" rx="6"/>
+  <rect class="box" x="526" y="156" width="29" height="30" rx="6"/>
+  <rect class="solid red" x="561" y="156" width="29" height="30" rx="6"/>
+  <rect class="box red" x="596" y="156" width="29" height="30" rx="6"/>
+  <rect class="box red" x="631" y="156" width="29" height="30" rx="6"/>
+  <rect class="box red" x="666" y="156" width="29" height="30" rx="6"/>
+  <rect class="box red" x="701" y="156" width="29" height="30" rx="6"/>
+  <text class="t-mono t-b t-on mid" x="575.5" y="176">12</text>
+
+  <circle class="badge blue" cx="31" cy="219" r="11"/><text class="badge-t" x="31" y="223.500">3</text>
+  <text class="t-b" x="50" y="224">10번 실행</text>
+  <text class="t-s" x="50" y="243">정상 → 11~12 남음</text>
+  <rect class="box green" x="176" y="210" width="29" height="30" rx="6"/>
+  <rect class="box green" x="211" y="210" width="29" height="30" rx="6"/>
+  <rect class="box green" x="246" y="210" width="29" height="30" rx="6"/>
+  <rect class="box green" x="281" y="210" width="29" height="30" rx="6"/>
+  <rect class="box green" x="316" y="210" width="29" height="30" rx="6"/>
+  <rect class="box green" x="351" y="210" width="29" height="30" rx="6"/>
+  <rect class="box green" x="386" y="210" width="29" height="30" rx="6"/>
+  <rect class="box green" x="421" y="210" width="29" height="30" rx="6"/>
+  <rect class="box green" x="456" y="210" width="29" height="30" rx="6"/>
+  <rect class="solid green" x="491" y="210" width="29" height="30" rx="6"/>
+  <rect class="box" x="526" y="210" width="29" height="30" rx="6"/>
+  <rect class="box red" x="561" y="210" width="29" height="30" rx="6"/>
+  <rect class="box red" x="596" y="210" width="29" height="30" rx="6"/>
+  <rect class="box red" x="631" y="210" width="29" height="30" rx="6"/>
+  <rect class="box red" x="666" y="210" width="29" height="30" rx="6"/>
+  <rect class="box red" x="701" y="210" width="29" height="30" rx="6"/>
+  <text class="t-mono t-b t-on mid" x="505.5" y="230">10</text>
+
+  <circle class="badge blue" cx="31" cy="273" r="11"/><text class="badge-t" x="31" y="277.500">4</text>
+  <text class="t-b" x="50" y="278">11번 실행</text>
+  <text class="t-s" x="50" y="297">실패 → 범인 발견</text>
+  <rect class="box green" x="176" y="264" width="29" height="30" rx="6"/>
+  <rect class="box green" x="211" y="264" width="29" height="30" rx="6"/>
+  <rect class="box green" x="246" y="264" width="29" height="30" rx="6"/>
+  <rect class="box green" x="281" y="264" width="29" height="30" rx="6"/>
+  <rect class="box green" x="316" y="264" width="29" height="30" rx="6"/>
+  <rect class="box green" x="351" y="264" width="29" height="30" rx="6"/>
+  <rect class="box green" x="386" y="264" width="29" height="30" rx="6"/>
+  <rect class="box green" x="421" y="264" width="29" height="30" rx="6"/>
+  <rect class="box green" x="456" y="264" width="29" height="30" rx="6"/>
+  <rect class="box green" x="491" y="264" width="29" height="30" rx="6"/>
+  <rect class="solid red" x="526" y="264" width="29" height="30" rx="6"/>
+  <rect class="box red" x="561" y="264" width="29" height="30" rx="6"/>
+  <rect class="box red" x="596" y="264" width="29" height="30" rx="6"/>
+  <rect class="box red" x="631" y="264" width="29" height="30" rx="6"/>
+  <rect class="box red" x="666" y="264" width="29" height="30" rx="6"/>
+  <rect class="box red" x="701" y="264" width="29" height="30" rx="6"/>
+  <text class="t-mono t-b t-on mid" x="540.5" y="284">11</text>
+
+  <path class="ln red" d="M540.5 318 V302" marker-end="url(#ah-red)"/>
+  <text class="t-b mid tc-red" x="540.5" y="338">버그가 처음 들어온 커밋</text>
+  <text class="t-s" x="20" y="338">용의자 15 → 8 → 4 → 2 → 1</text>
+  <text class="t-s" x="20" y="358">하나씩 보면 최대 14번, 절반씩이면 4번</text>
+</svg>

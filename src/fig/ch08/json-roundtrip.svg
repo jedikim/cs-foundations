@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
+  <title>값을 JSON 글자로 내보냈다가 다시 읽으면 문자열은 그대로지만 시각, 집합, 큰 정수는 달라질 수 있다</title>
+
+  <rect class="panel green" x="20" y="16" width="200" height="308" rx="16"/>
+  <text class="t-b mid" x="120" y="44">보내는 쪽의 값</text>
+  <rect class="panel gray" x="262" y="16" width="216" height="308" rx="16"/>
+  <text class="t-b mid" x="370" y="44">전송되는 JSON 글자</text>
+  <rect class="panel green" x="520" y="16" width="220" height="308" rx="16"/>
+  <text class="t-b mid" x="630" y="44">받아서 다시 만든 값</text>
+
+  <path class="ln thick muted" d="M226 44 H254" marker-end="url(#ah-muted)"/>
+  <path class="ln thick muted" d="M484 44 H512" marker-end="url(#ah-muted)"/>
+
+  <!-- 문자열 -->
+  <rect class="box" x="32" y="62" width="176" height="54" rx="8"/>
+  <text class="t-mono mid" x="120" y="86">"라면"</text>
+  <text class="t-xs mid" x="120" y="105">문자열</text>
+  <text class="t-mono mid" x="370" y="94">"라면"</text>
+  <rect class="box" x="532" y="62" width="196" height="54" rx="8"/>
+  <text class="t-mono mid" x="630" y="86">"라면"</text>
+  <text class="t-xs mid tc-green" x="630" y="105">그대로</text>
+
+  <!-- 시각 -->
+  <rect class="box" x="32" y="126" width="176" height="54" rx="8"/>
+  <text class="mid" x="120" y="150">11월 7일 오전 9시</text>
+  <text class="t-xs mid" x="120" y="169">시각 (서울 기준)</text>
+  <text class="t-mono mid" x="370" y="158">"2026-11-07T00:00:00Z"</text>
+  <rect class="box warm" x="532" y="126" width="196" height="54" rx="8"/>
+  <text class="t-mono mid" x="630" y="150">"2026-11-07T00:00:00Z"</text>
+  <text class="t-xs mid tc-warm" x="630" y="169">시각이 아니라 글자</text>
+
+  <!-- 집합 -->
+  <rect class="box" x="32" y="190" width="176" height="54" rx="8"/>
+  <text class="t-mono mid" x="120" y="214">{"포장", "단골"}</text>
+  <text class="t-xs mid" x="120" y="233">집합</text>
+  <text class="t-mono mid" x="370" y="222">["포장", "단골"]</text>
+  <rect class="box warm" x="532" y="190" width="196" height="54" rx="8"/>
+  <text class="t-mono mid" x="630" y="214">["포장", "단골"]</text>
+  <text class="t-xs mid tc-warm" x="630" y="233">집합이 아니라 배열</text>
+
+  <!-- 큰 정수 -->
+  <rect class="box" x="32" y="254" width="176" height="54" rx="8"/>
+  <text class="t-mono mid" x="120" y="278">9007199254740993</text>
+  <text class="t-xs mid" x="120" y="297">아주 큰 정수 ID</text>
+  <text class="t-mono mid" x="370" y="286">9007199254740993</text>
+  <rect class="box red" x="532" y="254" width="196" height="54" rx="8"/>
+  <text class="t-mono mid" x="630" y="278">9007199254740992</text>
+  <text class="t-xs mid tc-red" x="630" y="297">JavaScript에서 끝자리가 바뀜</text>
+</svg>

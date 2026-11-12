@@ -1,0 +1,53 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>디렉터리는 이름과 아이노드 번호만 적은 목록이고, 아이노드가 크기와 내용물의 위치를 기억하며, 내용물은 블록에 따로 들어 있다</title>
+  <text class="t-s t-b mid" x="120" y="30">디렉터리: 이름표 목록</text>
+  <text class="t-s t-b mid" x="385" y="30">아이노드: 관리 카드</text>
+  <text class="t-s t-b mid" x="646" y="30">블록: 내용물</text>
+
+  <rect class="box" x="20" y="48" width="200" height="36" rx="8"/>
+  <text class="t-mono" x="34" y="71">report.txt</text>
+  <text class="t-mono t-b end" x="206" y="71">1042</text>
+  <rect class="box" x="20" y="92" width="200" height="36" rx="8"/>
+  <text class="t-mono" x="34" y="115">backup.txt</text>
+  <text class="t-mono t-b end" x="206" y="115">1042</text>
+  <rect class="box" x="20" y="172" width="200" height="36" rx="8"/>
+  <text class="t-mono" x="34" y="195">photo.jpg</text>
+  <text class="t-mono t-b end" x="206" y="195">1043</text>
+
+  <path class="ln thin blue" d="M226 66 L282 80" marker-end="url(#ah-blue)"/>
+  <path class="ln thin blue" d="M226 110 L282 98" marker-end="url(#ah-blue)"/>
+  <path class="ln thin blue" d="M226 190 H282" marker-end="url(#ah-blue)"/>
+
+  <rect class="box yellow" x="290" y="44" width="190" height="100" rx="12"/>
+  <text class="t-b" x="306" y="68">1042번 카드</text>
+  <text class="t-s" x="306" y="91">크기 12KB · 이름표 2개</text>
+  <text class="t-s" x="306" y="111">주인 · 권한 · 수정 시각</text>
+  <text class="t-s t-b tc-warm" x="306" y="131">내용물: 88, 89, 90번 칸</text>
+
+  <rect class="box yellow" x="290" y="160" width="190" height="60" rx="12"/>
+  <text class="t-b" x="306" y="184">1043번 카드</text>
+  <text class="t-s" x="306" y="206">크기 2MB · 이름표 1개</text>
+
+  <path class="ln warm" d="M486 94 H548" marker-end="url(#ah-warm)"/>
+  <path class="ln thin dash muted" d="M486 190 H548" marker-end="url(#ah-muted)"/>
+  <text class="t-s" x="558" y="195">120번 칸부터 …</text>
+
+  <rect class="box gray" x="560" y="48" width="54" height="40" rx="6"/>
+  <text class="t-mono mid tc-muted" x="587" y="73">87</text>
+  <rect class="solid warm" x="620" y="48" width="54" height="40" rx="6"/>
+  <text class="t-mono t-b t-on mid" x="647" y="73">88</text>
+  <rect class="solid warm" x="680" y="48" width="54" height="40" rx="6"/>
+  <text class="t-mono t-b t-on mid" x="707" y="73">89</text>
+  <rect class="solid warm" x="560" y="94" width="54" height="40" rx="6"/>
+  <text class="t-mono t-b t-on mid" x="587" y="119">90</text>
+  <rect class="box gray" x="620" y="94" width="54" height="40" rx="6"/>
+  <text class="t-mono mid tc-muted" x="647" y="119">91</text>
+  <rect class="box gray" x="680" y="94" width="54" height="40" rx="6"/>
+  <text class="t-mono mid tc-muted" x="707" y="119">92</text>
+  <text class="t-xs mid" x="647" y="154">진한 칸 = 1042번의 내용물</text>
+
+  <rect class="box green" x="20" y="244" width="350" height="40" rx="10"/>
+  <text class="t-s mid" x="195" y="269"><tspan class="t-b">이름 바꾸기</tspan> = 왼쪽 목록의 글자만 고침</text>
+  <rect class="box green" x="390" y="244" width="350" height="40" rx="10"/>
+  <text class="t-s mid" x="565" y="269"><tspan class="t-b">삭제</tspan> = 이름표 떼기. 카드와 내용물은 그다음</text>
+</svg>

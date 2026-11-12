@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg">
+  <title>git add는 작업 폴더의 지금 내용을 스테이지에 올리고, git commit은 스테이지에 올라온 내용을 새 커밋으로 저장한다</title>
+  <rect class="box blue" x="20" y="20" width="170" height="196" rx="14"/>
+  <use href="#i-pencil" x="83" y="30" width="44" height="44" class="ic blue"/>
+  <text class="t-l mid" x="105" y="98">작업 폴더</text>
+  <text class="t-s mid" x="105" y="118">지금 고치는 파일</text>
+  <rect class="box" x="35" y="134" width="140" height="64" rx="8"/>
+  <text class="t-xs" x="47" y="154">config.py</text>
+  <text class="t-mono t-b" x="47" y="180">SPEED = 12</text>
+
+  <rect class="box warm" x="295" y="20" width="170" height="196" rx="14"/>
+  <use href="#i-box" x="358" y="30" width="44" height="44" class="ic warm"/>
+  <text class="t-l mid" x="380" y="98">스테이지</text>
+  <text class="t-s mid" x="380" y="118">다음 커밋에 담을 것</text>
+  <rect class="box" x="310" y="134" width="140" height="64" rx="8"/>
+  <text class="t-xs" x="322" y="154">config.py</text>
+  <text class="t-mono t-b" x="322" y="180">SPEED = 11</text>
+
+  <rect class="box green" x="570" y="20" width="170" height="196" rx="14"/>
+  <use href="#i-layers" x="633" y="30" width="44" height="44" class="ic green"/>
+  <text class="t-l mid" x="655" y="98">저장소</text>
+  <text class="t-s mid" x="655" y="118">마지막 커밋</text>
+  <rect class="box" x="585" y="134" width="140" height="64" rx="8"/>
+  <text class="t-xs" x="597" y="154">config.py</text>
+  <text class="t-mono t-b" x="597" y="180">SPEED = 10</text>
+
+  <path class="ln blue" d="M197 118 H286" marker-end="url(#ah-blue)"/>
+  <text class="t-mono t-b mid" x="242.5" y="106">git add</text>
+  <text class="t-xs mid" x="242.5" y="138">올려놓기</text>
+  <path class="ln warm" d="M472 118 H561" marker-end="url(#ah-warm)"/>
+  <text class="t-mono t-b mid" x="517.5" y="106">git commit</text>
+  <text class="t-xs mid" x="517.5" y="138">세이브</text>
+
+  <path class="ln thin dash" d="M105 224 V246 H366 V224"/>
+  <text class="t-mono t-b mid" x="235.5" y="272">git diff</text>
+  <text class="t-s mid" x="235.5" y="294">12와 11을 비교</text>
+  <path class="ln thin dash" d="M394 224 V246 H655 V224"/>
+  <text class="t-mono t-b mid" x="524.5" y="272">git diff --staged</text>
+  <text class="t-s mid" x="524.5" y="294">11과 10을 비교</text>
+</svg>

@@ -1,0 +1,54 @@
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
+  <title>디버거로 10번 줄에 중단점을 걸고 한 줄 실행하면, 11번 줄 직전에 멈춘 채 변수 값과 호출 스택을 볼 수 있다</title>
+
+  <rect class="box" x="20" y="16" width="92" height="30" rx="8"/>
+  <text class="t-s mid" x="66" y="36">계속 실행</text>
+  <rect class="box blue" x="120" y="16" width="92" height="30" rx="8"/>
+  <text class="t-s t-b mid tc-blue" x="166" y="36">한 줄 실행</text>
+  <rect class="box" x="220" y="16" width="100" height="30" rx="8"/>
+  <text class="t-s mid" x="270" y="36">함수 안으로</text>
+  <text class="t-xs" x="332" y="36">방금 ‘한 줄 실행’을 눌렀다</text>
+
+  <rect class="panel" x="20" y="58" width="400" height="212" rx="12"/>
+  <text class="t-s t-b" x="36" y="82">shop.py</text>
+  <rect class="s-yellow" x="28" y="152" width="384" height="30" rx="6"/>
+
+  <text class="t-mono end tc-muted" x="58" y="112">9</text>
+  <text class="t-mono" x="92" y="112">def checkout(price, rate):</text>
+
+  <text class="t-mono end tc-muted" x="58" y="142">10</text>
+  <circle class="f-red" cx="74" cy="137" r="6"/>
+  <text class="t-mono" x="126" y="142">total = apply_coupon(price, rate)</text>
+
+  <text class="t-mono end tc-muted" x="58" y="172">11</text>
+  <path class="f-warm" d="M68 160 L81 167 L68 174 Z"/>
+  <text class="t-mono t-b" x="126" y="172">pay(total)</text>
+
+  <text class="t-mono end tc-muted" x="58" y="202">12</text>
+
+  <text class="t-mono end tc-muted" x="58" y="232">13</text>
+  <text class="t-mono" x="92" y="232">checkout(4000, 10)</text>
+
+  <rect class="panel green" x="440" y="58" width="300" height="118" rx="12"/>
+  <text class="t-s t-b" x="456" y="82">변수: 지금 이 순간의 값</text>
+  <text class="t-mono" x="456" y="108">price</text>
+  <text class="t-mono t-b" x="522" y="108">4000</text>
+  <text class="t-mono" x="456" y="134">rate</text>
+  <text class="t-mono t-b tc-warm" x="522" y="134">10</text>
+  <text class="t-s tc-warm" x="600" y="134">0.1이어야 하는데?</text>
+  <text class="t-mono" x="456" y="160">total</text>
+  <text class="t-mono t-b tc-red" x="522" y="160">-36000</text>
+  <text class="t-s tc-red" x="600" y="160">벌써 음수</text>
+
+  <rect class="panel" x="440" y="188" width="300" height="82" rx="12"/>
+  <text class="t-s t-b" x="456" y="212">호출 스택: 여기까지 온 길</text>
+  <text class="t-mono t-b" x="456" y="236">checkout</text>
+  <text class="t-s" x="556" y="236">11번 줄, 지금 여기</text>
+  <text class="t-mono" x="456" y="258">&lt;module&gt;</text>
+  <text class="t-s" x="556" y="258">13번 줄에서 불렀다</text>
+
+  <circle class="f-red" cx="34" cy="293" r="6"/>
+  <text class="t-s" x="50" y="298">중단점: “10번 줄에 오면 멈춰라”</text>
+  <path class="f-warm" d="M28 310 L41 317 L28 324 Z"/>
+  <text class="t-s" x="50" y="322">지금 멈춘 곳: 11번 줄을 실행하기 직전</text>
+</svg>

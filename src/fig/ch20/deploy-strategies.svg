@@ -1,0 +1,96 @@
+<svg viewBox="0 0 760 446" xmlns="http://www.w3.org/2000/svg">
+  <title>서버 네 대를 새 버전으로 바꾸는 네 가지 방법: 한 번에 교체, 롤링, 블루-그린, 카나리</title>
+  <text class="t-h" x="20" y="34">서버 4대를 새 버전으로 바꾸는 네 가지 길</text>
+  <rect class="solid blue" x="478" y="20" width="16" height="16" rx="4"/>
+  <text class="t-s" x="500" y="33">구버전</text>
+  <rect class="solid green" x="562" y="20" width="16" height="16" rx="4"/>
+  <text class="t-s" x="584" y="33">신버전</text>
+  <rect class="ghost dash" x="646" y="20" width="16" height="16" rx="4"/>
+  <text class="t-s" x="668" y="33">꺼짐</text>
+  <text class="t-s t-b mid" x="310" y="68">시작</text>
+  <text class="t-s t-b mid" x="480" y="68">도중</text>
+  <text class="t-s t-b mid" x="650" y="68">끝</text>
+  <path class="ln thin muted" d="M20 80 H740"/>
+  <path class="ln thin muted" d="M20 168 H740"/>
+  <path class="ln thin muted" d="M20 256 H740"/>
+  <path class="ln thin muted" d="M20 344 H740"/>
+  <text class="t-b" x="20" y="120">한 번에 교체</text>
+  <text class="t-s" x="20" y="142">모두 끄고 새로 켠다</text>
+  <text class="t-b" x="20" y="208">롤링</text>
+  <text class="t-s" x="20" y="230">몇 대씩 차례로 바꾼다</text>
+  <text class="t-b" x="20" y="296">블루-그린</text>
+  <text class="t-s" x="20" y="318">새 무대로 한 번에 넘긴다</text>
+  <text class="t-b" x="20" y="384">카나리</text>
+  <text class="t-s" x="20" y="406">소수에게 먼저 보낸다</text>
+  <rect class="solid blue" x="249" y="104" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="281" y="104" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="313" y="104" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="345" y="104" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="419" y="104" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="451" y="104" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="483" y="104" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="515" y="104" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="589" y="104" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="621" y="104" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="653" y="104" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="685" y="104" width="26" height="26" rx="5"/>
+  <text class="t-xs t-b mid tc-red" x="480" y="152">잠깐 접속 불가</text>
+  <rect class="solid blue" x="249" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="281" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="313" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="345" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="419" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="451" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="483" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="515" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="589" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="621" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="653" y="192" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="685" y="192" width="26" height="26" rx="5"/>
+  <text class="t-xs t-b mid tc-warm" x="480" y="240">두 버전이 함께 돈다</text>
+  <rect class="solid blue" x="249" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="281" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="313" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="345" y="268" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="249" y="306" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="281" y="306" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="313" y="306" width="26" height="26" rx="5"/>
+  <rect class="ghost dash" x="345" y="306" width="26" height="26" rx="5"/>
+  <text class="t-xs t-b t-ink" x="377" y="286">요청</text>
+  <text class="t-xs" x="377" y="324">준비</text>
+  <rect class="solid blue" x="419" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="451" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="483" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="515" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="419" y="306" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="451" y="306" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="483" y="306" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="515" y="306" width="26" height="26" rx="5"/>
+  <text class="t-xs t-b t-ink" x="547" y="286">요청</text>
+  <text class="t-xs" x="547" y="324">대기</text>
+  <rect class="solid blue" x="589" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="621" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="653" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="685" y="268" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="589" y="306" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="621" y="306" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="653" y="306" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="685" y="306" width="26" height="26" rx="5"/>
+  <text class="t-xs" x="717" y="286">대기</text>
+  <text class="t-xs t-b t-ink" x="717" y="324">요청</text>
+  <rect class="solid blue" x="249" y="368" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="281" y="368" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="313" y="368" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="345" y="368" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="419" y="356" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="451" y="356" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="483" y="356" width="26" height="26" rx="5"/>
+  <rect class="solid blue" x="515" y="356" width="26" height="26" rx="5"/>
+  <text class="t-xs" x="547" y="374">95%</text>
+  <rect class="solid green" x="419" y="394" width="26" height="26" rx="5"/>
+  <text class="t-xs t-b t-ink" x="453" y="412">요청의 5%만</text>
+  <rect class="solid green" x="589" y="368" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="621" y="368" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="653" y="368" width="26" height="26" rx="5"/>
+  <rect class="solid green" x="685" y="368" width="26" height="26" rx="5"/>
+</svg>

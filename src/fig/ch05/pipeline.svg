@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg">
+  <title>파이프는 앞 명령의 출력을 뒤 명령의 입력으로 흘려보내는 컨베이어 벨트다</title>
+
+  <rect class="s-gray" x="20" y="190" width="720" height="10" rx="5"/>
+
+  <rect class="box blue" x="20" y="92" width="140" height="94" rx="12"/>
+  <text class="t-mono t-b mid" x="90" y="132">cat app.log</text>
+  <text class="t-s mid" x="90" y="158">파일을 읽어 내보냄</text>
+
+  <rect class="box warm" x="205" y="24" width="30" height="28" rx="8"/>
+  <text class="t-mono t-b mid" x="220" y="43">|</text>
+  <text class="t-xs" x="242" y="43">파이프</text>
+  <rect class="box gray" x="188" y="70" width="64" height="20" rx="5"/>
+  <text class="t-xs mid" x="220" y="84.500">INFO</text>
+  <rect class="box red" x="188" y="94" width="64" height="20" rx="5"/>
+  <text class="t-xs t-b mid tc-red" x="220" y="108.500">ERROR</text>
+  <rect class="box gray" x="188" y="118" width="64" height="20" rx="5"/>
+  <text class="t-xs mid" x="220" y="132.500">INFO</text>
+  <rect class="box red" x="188" y="142" width="64" height="20" rx="5"/>
+  <text class="t-xs t-b mid tc-red" x="220" y="156.500">ERROR</text>
+  <rect class="box gray" x="188" y="166" width="64" height="20" rx="5"/>
+  <text class="t-xs mid" x="220" y="180.500">INFO</text>
+
+  <rect class="box blue" x="280" y="92" width="140" height="94" rx="12"/>
+  <text class="t-mono t-b mid" x="350" y="132">grep ERROR</text>
+  <text class="t-s mid" x="350" y="158">ERROR 든 줄만 통과</text>
+
+  <rect class="box warm" x="465" y="24" width="30" height="28" rx="8"/>
+  <text class="t-mono t-b mid" x="480" y="43">|</text>
+  <text class="t-xs" x="502" y="43">파이프</text>
+  <rect class="box red" x="448" y="142" width="64" height="20" rx="5"/>
+  <text class="t-xs t-b mid tc-red" x="480" y="156.500">ERROR</text>
+  <rect class="box red" x="448" y="166" width="64" height="20" rx="5"/>
+  <text class="t-xs t-b mid tc-red" x="480" y="180.500">ERROR</text>
+
+  <rect class="box blue" x="540" y="92" width="140" height="94" rx="12"/>
+  <text class="t-mono t-b mid" x="610" y="132">wc -l</text>
+  <text class="t-s mid" x="610" y="158">줄 수를 센다</text>
+
+  <rect class="box green" x="696" y="158" width="40" height="28" rx="6"/>
+  <text class="t-mono t-b mid" x="716" y="177">2</text>
+
+  <text class="t-s mid" x="220" y="224">5줄</text>
+  <text class="t-s mid" x="480" y="224">2줄</text>
+  <text class="t-s mid" x="716" y="224">화면</text>
+
+  <path class="ln muted" d="M20 246 H734" marker-end="url(#ah-muted)"/>
+  <text class="t-s mid" x="380" y="272">앞 명령의 표준 출력이 뒤 명령의 표준 입력으로 흘러갑니다</text>
+</svg>

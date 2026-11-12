@@ -1,0 +1,35 @@
+<svg viewBox="0 0 760 344" xmlns="http://www.w3.org/2000/svg">
+  <title>한 프레임의 시간은 CPU와 GPU 중 더 오래 걸리는 쪽이 정하고, 해상도를 낮춰 보면 어느 쪽이 병목인지 가려낼 수 있다</title>
+  <text class="t-h" x="20" y="34">한 프레임 동안 누가 더 오래 일했나</text>
+  <text class="t-xs tc-red mid" x="317" y="56">예산 16.7ms</text>
+
+  <rect class="panel" x="20" y="66" width="720" height="118" rx="12"/>
+  <use href="#i-chip" x="34" y="80" width="30" height="30" class="ic blue"/>
+  <text class="t-b" x="72" y="101">CPU</text>
+  <rect class="solid blue" x="150" y="83" width="240" height="24" rx="5"/>
+  <text class="t-mono" x="398" y="100">24ms</text>
+  <use href="#i-gpu" x="34" y="132" width="30" height="30" class="ic purple"/>
+  <text class="t-b" x="72" y="153">GPU</text>
+  <rect class="solid purple" x="150" y="135" width="70" height="24" rx="5"/>
+  <text class="t-mono" x="228" y="152">7ms</text>
+  <text class="t-l tc-blue" x="500" y="94">CPU 병목</text>
+  <text class="t-s" x="500" y="116">한 장에 24ms → 약 42FPS</text>
+  <text class="t-s" x="500" y="136">해상도를 낮춰도 그대로</text>
+  <text class="t-s" x="500" y="166">볼 곳: 스크립트, 물리, 드로 콜</text>
+
+  <rect class="panel" x="20" y="204" width="720" height="118" rx="12"/>
+  <use href="#i-chip" x="34" y="218" width="30" height="30" class="ic blue"/>
+  <text class="t-b" x="72" y="239">CPU</text>
+  <rect class="solid blue" x="150" y="221" width="60" height="24" rx="5"/>
+  <text class="t-mono" x="218" y="238">6ms</text>
+  <use href="#i-gpu" x="34" y="270" width="30" height="30" class="ic purple"/>
+  <text class="t-b" x="72" y="291">GPU</text>
+  <rect class="solid purple" x="150" y="273" width="280" height="24" rx="5"/>
+  <text class="t-mono" x="438" y="290">28ms</text>
+  <text class="t-l tc-purple" x="500" y="232">GPU 병목</text>
+  <text class="t-s" x="500" y="254">한 장에 28ms → 약 36FPS</text>
+  <text class="t-s" x="500" y="274">해상도를 낮추면 빨라짐</text>
+  <text class="t-s" x="500" y="304">볼 곳: 해상도, 투명 겹침, 셰이더</text>
+
+  <path class="ln thin red dash" d="M317 62 V330"/>
+</svg>

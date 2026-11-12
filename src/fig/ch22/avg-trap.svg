@@ -1,0 +1,39 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>요청 10건 중 1건 실패한 서버와 990건 중 9건 실패한 서버의 오류율을 그냥 평균 내면 5.45%지만, 건수를 합쳐 계산한 실제 오류율은 1%다</title>
+
+  <text class="t-s t-b" x="20" y="30">서버</text>
+  <text class="t-s t-b" x="110" y="30">받은 요청</text>
+  <text class="t-s t-b end" x="650" y="30">실패</text>
+  <text class="t-s t-b end" x="740" y="30">오류율</text>
+  <path class="ln thin muted" d="M20 42 H740"/>
+
+  <text class="t-b" x="20" y="72">서버 A</text>
+  <rect class="solid blue" x="110" y="54" width="5" height="26" rx="2"/>
+  <text class="t-mono" x="124" y="72">10건</text>
+  <text class="t-mono end" x="650" y="72">1건</text>
+  <text class="t-mono t-b end" x="740" y="72">10%</text>
+
+  <text class="t-b" x="20" y="112">서버 B</text>
+  <rect class="solid blue" x="110" y="94" width="446" height="26" rx="4"/>
+  <text class="t-mono t-on t-b" x="122" y="112">990건</text>
+  <text class="t-mono end" x="650" y="112">9건</text>
+  <text class="t-mono t-b end" x="740" y="112">0.9%</text>
+
+  <path class="ln thin muted" d="M20 134 H740"/>
+  <text class="t-b" x="20" y="160">합계</text>
+  <text class="t-mono t-b" x="110" y="160">1,000건</text>
+  <text class="t-mono t-b end" x="650" y="160">10건</text>
+  <text class="t-mono t-b end tc-green" x="740" y="160">1%</text>
+
+  <rect class="box red" x="20" y="186" width="350" height="94" rx="12"/>
+  <use href="#i-cross" x="32" y="198" width="28" height="28" class="ic red"/>
+  <text class="t-b tc-red" x="68" y="217">비율끼리 평균 내면</text>
+  <text class="t-mono" x="36" y="246">(10% + 0.9%) ÷ 2 = 5.45%</text>
+  <text class="t-s" x="36" y="267">10건짜리와 990건짜리를 똑같이 쳐 줌</text>
+
+  <rect class="box green" x="390" y="186" width="350" height="94" rx="12"/>
+  <use href="#i-check" x="402" y="198" width="28" height="28" class="ic green"/>
+  <text class="t-b tc-green" x="438" y="217">건수를 합친 뒤 나누면</text>
+  <text class="t-mono" x="406" y="246">(1 + 9) ÷ (10 + 990) = 1%</text>
+  <text class="t-s" x="406" y="267">요청 1,000건 전체에서 본 비율</text>
+</svg>

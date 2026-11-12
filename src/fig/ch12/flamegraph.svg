@@ -1,0 +1,29 @@
+<svg viewBox="0 0 760 312" xmlns="http://www.w3.org/2000/svg">
+  <title>플레임 그래프에서는 상자의 가로 너비가 시간 비중이다. 의심했던 apply_coupon은 5%뿐이고, 주문마다 메뉴 파일을 다시 해석하는 parse_json이 50%를 쓴다</title>
+
+  <text class="t-b" x="20" y="32">주문 처리 중인 CPU를 100번 찍어 쌓은 그래프</text>
+
+  <text class="t-s t-b mid tc-blue" x="533" y="62">의심했던 곳</text>
+  <text class="t-mono t-b mid tc-blue" x="533" y="82">apply_coupon 5%</text>
+  <path class="ln thin blue" d="M533 90 V150"/>
+
+  <rect class="box yellow" x="40" y="108" width="136" height="40" rx="6"/>
+  <text class="t-mono mid" x="108" y="133">read_file 20%</text>
+  <rect class="solid warm" x="176" y="108" width="340" height="40" rx="6"/>
+  <text class="t-mono t-b t-on mid" x="346" y="133">parse_json 50%</text>
+  <rect class="box yellow" x="550" y="108" width="136" height="40" rx="6"/>
+  <text class="t-mono mid" x="618" y="133">db_write 20%</text>
+
+  <rect class="box warm" x="40" y="152" width="476" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="278" y="177">load_menu 70%</text>
+  <rect class="box blue" x="516" y="152" width="34" height="40" rx="6"/>
+  <rect class="box yellow" x="550" y="152" width="170" height="40" rx="6"/>
+  <text class="t-mono mid" x="635" y="177">save_order 25%</text>
+
+  <rect class="box yellow" x="40" y="196" width="680" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="380" y="221">handle_order 100%</text>
+
+  <path class="ln thin muted" d="M44 250 H716" marker-start="url(#ah-muted)" marker-end="url(#ah-muted)"/>
+  <text class="t-s" x="40" y="274">가로 너비 = 그 함수가 찍힌 횟수, 곧 시간 비중 (왼쪽에서 오른쪽이 시간 순서가 아님)</text>
+  <text class="t-s" x="40" y="296">세로 = 호출 깊이. 아래 함수가 바로 위 함수를 불렀다</text>
+</svg>

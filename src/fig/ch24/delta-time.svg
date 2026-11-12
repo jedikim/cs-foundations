@@ -1,0 +1,34 @@
+<svg viewBox="0 0 760 344" xmlns="http://www.w3.org/2000/svg">
+  <title>프레임마다 같은 거리를 더하면 빠른 컴퓨터에서 4배 멀리 가지만, 속도에 지난 시간을 곱해 더하면 어디서나 3m를 간다</title>
+  <text class="t-h" x="20" y="34">똑같이 1초가 지났을 때 캐릭터가 간 거리</text>
+
+  <rect class="panel red" x="20" y="50" width="720" height="112" rx="12"/>
+  <text class="t-mono t-b" x="36" y="76">x += 0.1</text>
+  <text class="t-s" x="124" y="76">프레임마다 같은 거리를 더하면</text>
+  <text class="t-s end" x="160" y="109">느린 PC · 30FPS</text>
+  <rect class="solid red" x="172" y="92" width="120" height="24" rx="5"/>
+  <text class="t-mono" x="302" y="109">0.1 × 30장 = 3m</text>
+  <text class="t-s end" x="160" y="143">빠른 PC · 120FPS</text>
+  <rect class="solid red" x="172" y="126" width="480" height="24" rx="5"/>
+  <text class="t-mono t-on" x="184" y="143">0.1 × 120장 = 12m</text>
+  <text class="t-b tc-red" x="662" y="109">4배 차이</text>
+
+  <rect class="panel green" x="20" y="176" width="720" height="112" rx="12"/>
+  <text class="t-mono t-b" x="36" y="202">x += 3 * dt</text>
+  <text class="t-s" x="150" y="202">속도(초당 3m) × 지난 시간을 더하면</text>
+  <text class="t-s end" x="160" y="235">느린 PC · 30FPS</text>
+  <rect class="solid green" x="172" y="218" width="120" height="24" rx="5"/>
+  <text class="t-mono" x="302" y="235">0.1 × 30장 = 3m</text>
+  <text class="t-s end" x="160" y="269">빠른 PC · 120FPS</text>
+  <rect class="solid green" x="172" y="252" width="120" height="24" rx="5"/>
+  <text class="t-mono" x="302" y="269">0.025 × 120장 = 3m</text>
+  <text class="t-b tc-green" x="560" y="252">어디서나 3m</text>
+
+  <path class="ln thin" d="M172 304 H652"/>
+  <path class="ln thin" d="M172 300 V308 M292 300 V308 M412 300 V308 M532 300 V308 M652 300 V308"/>
+  <text class="t-xs mid" x="172" y="326">0m</text>
+  <text class="t-xs mid" x="292" y="326">3m</text>
+  <text class="t-xs mid" x="412" y="326">6m</text>
+  <text class="t-xs mid" x="532" y="326">9m</text>
+  <text class="t-xs mid" x="652" y="326">12m</text>
+</svg>

@@ -1,0 +1,41 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>경비병의 전방 화살표와 상대를 향한 화살표의 내적이 0.5 이상이면 좌우 60도 시야 안에 있고, 0이면 옆, 음수이면 등 뒤다</title>
+  <path class="s-yellow" d="M190 190 L265 60.1 A150 150 0 0 1 265 319.9 Z"/>
+  <path class="ln thin yellow dash" d="M265 60.1 L190 190 L265 319.9"/>
+  <text class="t-s mid" x="250" y="352">노란 부채꼴: 좌우 60°까지의 시야</text>
+  <path class="ln thin" d="M252 190 A62 62 0 0 0 221 136.3"/>
+  <text class="t-xs mid" x="247" y="135">60°</text>
+  <path class="ln green dash" d="M202.1 183 L281.8 137" marker-end="url(#ah-green)"/>
+  <circle class="f-green" cx="292.2" cy="131" r="8"/>
+  <path class="ln red dash" d="M190 176 L190 84" marker-end="url(#ah-red)"/>
+  <circle class="f-red" cx="190" cy="72" r="8"/>
+  <path class="ln red dash" d="M176 190 L84 190" marker-end="url(#ah-red)"/>
+  <circle class="f-red" cx="72" cy="190" r="8"/>
+  <text class="t-l" x="306.2" y="133">A</text>
+  <text class="t-l" x="204" y="70">B</text>
+  <text class="t-l mid" x="72" y="174">C</text>
+  <path class="ln thick blue" d="M190 190 H282" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b tc-blue" x="212" y="212">전방 (1, 0)</text>
+  <circle class="f-blue" cx="190" cy="190" r="10"/>
+  <text class="t-b end" x="176" y="218">경비병</text>
+  <text class="t-b" x="410" y="42">내적 = 전방 · 상대 쪽 방향</text>
+  <rect class="box green" x="410" y="58" width="330" height="80" rx="12"/>
+  <text class="t-l" x="428" y="90">A</text>
+  <text class="t-mono tc-muted" x="452" y="89">(0.87, 0.5)</text>
+  <text class="t-b end tc-green" x="722" y="90">보인다</text>
+  <text class="t-mono" x="428" y="118">1×0.87 + 0×0.5 <tspan class="t-b tc-green">= 0.87</tspan></text>
+  <text class="t-s end" x="722" y="118">0.5 이상</text>
+  <rect class="box red" x="410" y="152" width="330" height="80" rx="12"/>
+  <text class="t-l" x="428" y="184">B</text>
+  <text class="t-mono tc-muted" x="452" y="183">(0, 1)</text>
+  <text class="t-b end tc-red" x="722" y="184">안 보인다</text>
+  <text class="t-mono" x="428" y="212">1×0 + 0×1 <tspan class="t-b tc-red">= 0</tspan></text>
+  <text class="t-s end" x="722" y="212">바로 옆</text>
+  <rect class="box red" x="410" y="246" width="330" height="80" rx="12"/>
+  <text class="t-l" x="428" y="278">C</text>
+  <text class="t-mono tc-muted" x="452" y="277">(−1, 0)</text>
+  <text class="t-b end tc-red" x="722" y="278">안 보인다</text>
+  <text class="t-mono" x="428" y="306">1×(−1) + 0×0 <tspan class="t-b tc-red">= −1</tspan></text>
+  <text class="t-s end" x="722" y="306">등 뒤</text>
+  <text class="t-s" x="410" y="356">세 방향 모두 길이 1 · 기준값 0.5 = cos 60°</text>
+</svg>

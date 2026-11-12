@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 302" xmlns="http://www.w3.org/2000/svg">
+  <title>병합은 갈라진 두 흐름을 부모가 둘인 병합 커밋으로 잇는다</title>
+  <rect class="panel" x="20" y="16" width="340" height="270" rx="16"/>
+  <text class="t-b" x="40" y="46">병합 전</text>
+  <path class="ln" d="M83 130 L132 130"/>
+  <path class="ln" d="M77.7 142.7 L137.3 202.3"/>
+  <path class="ln thin muted dash" d="M25 130 H45"/>
+  <circle class="box green" cx="65" cy="130" r="18"/><text class="t-mono t-b mid" x="65" y="135">B</text>
+  <circle class="box green" cx="150" cy="130" r="18"/><text class="t-mono t-b mid" x="150" y="135">D</text>
+  <circle class="box green" cx="150" cy="215" r="18"/><text class="t-mono t-b mid" x="150" y="220">C</text>
+  <text class="t-xs mid" x="65" y="102">공통 조상</text>
+  <text class="t-xs mid" x="150" y="166">배경 변경</text>
+  <text class="t-xs" x="176" y="219">점프 수정</text>
+  <rect class="box blue" x="122" y="70" width="56" height="24" rx="6"/><text class="t-mono t-b mid" x="150" y="87">main</text><path class="ln blue" d="M150 95 V108" marker-end="url(#ah-blue)"/>
+  <rect class="solid" x="196" y="70" width="50" height="24" rx="12"/><text class="t-mono t-b t-on mid" x="221" y="87">HEAD</text><path class="ln" d="M195 82 H182" marker-end="url(#ah)"/>
+  <rect class="box warm" x="122" y="251" width="56" height="24" rx="6"/><text class="t-mono t-b mid" x="150" y="268">jump</text><path class="ln warm" d="M150 250 V237" marker-end="url(#ah-warm)"/>
+
+  <rect class="panel" x="400" y="16" width="340" height="270" rx="16"/>
+  <text class="t-mono t-b" x="420" y="46">git merge jump</text>
+  <text class="t-b" x="546" y="46">후</text>
+  <path class="ln" d="M463 130 L512 130"/>
+  <path class="ln" d="M457.7 142.7 L517.3 202.3"/>
+  <path class="ln" d="M548 130 L597 130"/>
+  <path class="ln" d="M542.7 202.3 L602.3 142.7"/>
+  <path class="ln thin muted dash" d="M405 130 H425"/>
+  <circle class="box green" cx="445" cy="130" r="18"/><text class="t-mono t-b mid" x="445" y="135">B</text>
+  <circle class="box green" cx="530" cy="130" r="18"/><text class="t-mono t-b mid" x="530" y="135">D</text>
+  <circle class="box green" cx="530" cy="215" r="18"/><text class="t-mono t-b mid" x="530" y="220">C</text>
+  <text class="t-xs mid" x="445" y="102">공통 조상</text>
+  <text class="t-xs mid" x="530" y="166">배경 변경</text>
+  <text class="t-xs" x="556" y="219">점프 수정</text>
+  <circle class="box warm" cx="615" cy="130" r="18"/><text class="t-mono t-b mid" x="615" y="135">M</text>
+  <rect class="box blue" x="587" y="70" width="56" height="24" rx="6"/><text class="t-mono t-b mid" x="615" y="87">main</text><path class="ln blue" d="M615 95 V108" marker-end="url(#ah-blue)"/>
+  <rect class="solid" x="661" y="70" width="50" height="24" rx="12"/><text class="t-mono t-b t-on mid" x="686" y="87">HEAD</text><path class="ln" d="M660 82 H647" marker-end="url(#ah)"/>
+  <text class="t-xs t-b tc-warm" x="641" y="128">병합 커밋</text>
+  <text class="t-xs" x="641" y="145">부모가 D와 C</text>
+  <rect class="box warm" x="502" y="251" width="56" height="24" rx="6"/><text class="t-mono t-b mid" x="530" y="268">jump</text><path class="ln warm" d="M530 250 V237" marker-end="url(#ah-warm)"/>
+
+  <path class="ln" d="M366 150 H392" marker-end="url(#ah)"/>
+</svg>

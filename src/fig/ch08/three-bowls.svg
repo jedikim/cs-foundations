@@ -1,0 +1,77 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 메뉴 네 개도 배열, 해시 맵, 트리 중 어디에 담느냐에 따라 잘 답하는 질문이 달라진다</title>
+
+  <!-- 배열 -->
+  <rect class="panel" x="20" y="16" width="230" height="298" rx="16"/>
+  <text class="t-l mid" x="135" y="48">배열</text>
+  <text class="t-s mid" x="135" y="70">번호 붙은 칸이 나란히</text>
+  <text class="t-mono mid tc-muted" x="63" y="128">0</text>
+  <text class="t-mono mid tc-muted" x="111" y="128">1</text>
+  <text class="t-mono mid tc-green t-b" x="159" y="128">2</text>
+  <text class="t-mono mid tc-muted" x="207" y="128">3</text>
+  <rect class="box" x="39" y="138" width="48" height="44"/>
+  <rect class="box" x="87" y="138" width="48" height="44"/>
+  <rect class="box green" x="135" y="138" width="48" height="44"/>
+  <rect class="box" x="183" y="138" width="48" height="44"/>
+  <text class="mid" x="63" y="165">라면</text>
+  <text class="mid" x="111" y="165">우동</text>
+  <text class="mid t-b" x="159" y="165">김밥</text>
+  <text class="mid" x="207" y="165">덮밥</text>
+  <path class="ln thin muted" d="M36 232 H234"/>
+  <text class="t-b mid" x="135" y="262">"2번 칸에는?"</text>
+  <text class="t-s mid tc-green" x="135" y="288">김밥을 바로 꺼냄</text>
+
+  <!-- 해시 맵 -->
+  <rect class="panel" x="265" y="16" width="230" height="298" rx="16"/>
+  <text class="t-l mid" x="380" y="48">해시 맵</text>
+  <text class="t-s mid" x="380" y="70">이름표로 찾는 서랍</text>
+  <rect class="box yellow" x="287" y="90" width="72" height="28" rx="6"/>
+  <rect class="box yellow" x="287" y="124" width="72" height="28" rx="6"/>
+  <rect class="box yellow" x="287" y="158" width="72" height="28" rx="6"/>
+  <rect class="box yellow" x="287" y="192" width="72" height="28" rx="6"/>
+  <text class="t-s mid" x="323" y="109">라면</text>
+  <text class="t-s mid t-b" x="323" y="143">우동</text>
+  <text class="t-s mid" x="323" y="177">김밥</text>
+  <text class="t-s mid" x="323" y="211">덮밥</text>
+  <path class="ln thin" d="M363 104 H388" marker-end="url(#ah)"/>
+  <path class="ln thin green" d="M363 138 H388" marker-end="url(#ah-green)"/>
+  <path class="ln thin" d="M363 172 H388" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M363 206 H388" marker-end="url(#ah)"/>
+  <rect class="box" x="394" y="90" width="80" height="28" rx="6"/>
+  <rect class="box green" x="394" y="124" width="80" height="28" rx="6"/>
+  <rect class="box" x="394" y="158" width="80" height="28" rx="6"/>
+  <rect class="box" x="394" y="192" width="80" height="28" rx="6"/>
+  <text class="t-mono mid" x="434" y="109">4500</text>
+  <text class="t-mono mid t-b" x="434" y="143">5000</text>
+  <text class="t-mono mid" x="434" y="177">3500</text>
+  <text class="t-mono mid" x="434" y="211">7000</text>
+  <path class="ln thin muted" d="M281 232 H479"/>
+  <text class="t-b mid" x="380" y="262">"우동은 얼마?"</text>
+  <text class="t-s mid tc-green" x="380" y="288">5000을 바로 찾음</text>
+
+  <!-- 트리 -->
+  <rect class="panel" x="510" y="16" width="230" height="298" rx="16"/>
+  <text class="t-l mid" x="625" y="48">트리</text>
+  <text class="t-s mid" x="625" y="70">위에서 아래로 갈라짐</text>
+  <path class="ln thin green" d="M625 116 L571 138"/>
+  <path class="ln thin" d="M625 116 L679 138"/>
+  <path class="ln thin green" d="M571 166 L544 190 M571 166 L598 190"/>
+  <path class="ln thin" d="M679 166 L652 190 M679 166 L706 190"/>
+  <rect class="box" x="595" y="88" width="60" height="28" rx="6"/>
+  <text class="t-s mid" x="625" y="107">메뉴</text>
+  <rect class="box green" x="543" y="138" width="56" height="28" rx="6"/>
+  <text class="t-s mid t-b" x="571" y="157">면류</text>
+  <rect class="box" x="651" y="138" width="56" height="28" rx="6"/>
+  <text class="t-s mid" x="679" y="157">밥류</text>
+  <rect class="box green" x="520" y="190" width="48" height="28" rx="6"/>
+  <rect class="box green" x="574" y="190" width="48" height="28" rx="6"/>
+  <rect class="box" x="628" y="190" width="48" height="28" rx="6"/>
+  <rect class="box" x="682" y="190" width="48" height="28" rx="6"/>
+  <text class="t-s mid" x="544" y="209">라면</text>
+  <text class="t-s mid" x="598" y="209">우동</text>
+  <text class="t-s mid" x="652" y="209">김밥</text>
+  <text class="t-s mid" x="706" y="209">덮밥</text>
+  <path class="ln thin muted" d="M526 232 H724"/>
+  <text class="t-b mid" x="625" y="262">"면류만 보여 줘"</text>
+  <text class="t-s mid tc-green" x="625" y="288">한 갈래만 보면 됨</text>
+</svg>

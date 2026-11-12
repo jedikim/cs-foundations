@@ -1,0 +1,43 @@
+<svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg">
+  <title>먼저 보낸 서울 요청의 응답이 나중에 도착해 서울역 결과를 덮어쓰고, 요청 번호를 확인하면 늦은 응답을 버릴 수 있다</title>
+
+  <text class="t-xs mid" x="170" y="24">0초</text>
+  <text class="t-xs mid" x="280" y="24">0.2초</text>
+  <text class="t-xs mid" x="390" y="24">0.4초</text>
+  <text class="t-xs mid" x="610" y="24">0.8초</text>
+  <path class="ln thin muted" d="M170 34 H724" marker-end="url(#ah-muted)"/>
+  <path class="ln thin muted" d="M170 30 V38 M280 30 V38 M390 30 V38 M610 30 V38"/>
+
+  <text class="t-b" x="20" y="64">1번 요청</text>
+  <text class="t-s" x="20" y="83">서울</text>
+  <rect class="box warm" x="170" y="48" width="440" height="36" rx="8"/>
+  <text class="t-s mid" x="390" y="71">서버가 늦게 답한다</text>
+
+  <text class="t-b" x="20" y="112">2번 요청</text>
+  <text class="t-s" x="20" y="131">서울역</text>
+  <rect class="box blue" x="280" y="96" width="110" height="36" rx="8"/>
+  <text class="t-s mid" x="335" y="119">금방 답한다</text>
+
+  <path class="ln blue" d="M390 136 V158" marker-end="url(#ah-blue)"/>
+  <path class="ln warm" d="M610 88 V158" marker-end="url(#ah-warm)"/>
+
+  <text class="t-b" x="20" y="184">화면</text>
+  <text class="t-s" x="20" y="203">오는 대로 반영</text>
+  <rect class="ghost dash" x="170" y="166" width="220" height="40" rx="8"/>
+  <text class="t-s mid" x="280" y="191">불러오는 중</text>
+  <rect class="box green" x="390" y="166" width="220" height="40" rx="8"/>
+  <text class="mid" x="500" y="191">서울역 결과</text>
+  <rect class="box red" x="610" y="166" width="114" height="40" rx="8"/>
+  <text class="t-b mid tc-red" x="667" y="191">서울 결과</text>
+  <text class="t-xs t-b tc-red mid" x="667" y="224">옛 결과로 덮임</text>
+
+  <text class="t-b" x="20" y="254">화면</text>
+  <text class="t-s" x="20" y="273">번호표 확인</text>
+  <rect class="ghost dash" x="170" y="236" width="220" height="40" rx="8"/>
+  <text class="t-s mid" x="280" y="261">불러오는 중</text>
+  <rect class="box green" x="390" y="236" width="334" height="40" rx="8"/>
+  <text class="mid" x="500" y="261">서울역 결과</text>
+  <path class="ln thin dash muted" d="M610 240 V272"/>
+  <text class="t-s mid" x="667" y="261">그대로</text>
+  <text class="t-xs mid" x="590" y="300">1번 응답 도착 — 기다리는 번호는 2번이라 버린다</text>
+</svg>

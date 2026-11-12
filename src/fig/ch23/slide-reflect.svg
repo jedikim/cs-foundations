@@ -1,0 +1,31 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>바닥으로 날아드는 속도 (3, −2)를 바닥을 따르는 몫 (3, 0)과 파고드는 몫 (0, −2)로 나누면, 파고드는 몫을 버려 미끄러지게 하거나 뒤집어 튕기게 할 수 있다</title>
+  <text class="t-b tc-blue" x="40" y="40">들어오는 속도 v = (3, −2)</text>
+  <text class="t-s" x="40" y="62">1초에 오른쪽으로 3, 아래로 2</text>
+  <rect class="s-gray" x="40" y="240" width="680" height="24"/>
+  <path class="ln thick" d="M40 240 H720"/>
+  <text class="t-s" x="52" y="257">바닥</text>
+  <path class="ln thin muted dash" d="M340 140 V240"/>
+  <path class="ln green" d="M190 140 H336" marker-end="url(#ah-green)"/>
+  <path class="ln red" d="M190 140 V235" marker-end="url(#ah-red)"/>
+  <path class="ln thick blue" d="M190 140 L335 236.7" marker-end="url(#ah-blue)"/>
+  <text class="t-b tc-blue" x="275" y="182">v</text>
+  <text class="t-s mid tc-green" x="265" y="130">(3, 0) 바닥을 따르는 몫</text>
+  <text class="t-mono t-b end tc-red" x="180" y="186">(0, −2)</text>
+  <text class="t-s end tc-red" x="180" y="205">바닥을 파고드는 몫</text>
+  <path class="ln thin warm dash" d="M490 236 V146"/>
+  <path class="ln thick green" d="M344 240 H487" marker-end="url(#ah-green)"/>
+  <path class="ln thick warm" d="M343 238 L487 142" marker-end="url(#ah-warm)"/>
+  <circle class="f-ink" cx="340" cy="240" r="5"/>
+  <text class="t-b tc-warm" x="500" y="142">튕기기 (3, 2)</text>
+  <text class="t-s tc-warm" x="500" y="196">(0, +2) 뒤집은 몫</text>
+  <text class="t-b mid tc-green" x="415" y="286">미끄러지기 (3, 0)</text>
+  <path class="ln purple" d="M668 240 V192" marker-end="url(#ah-purple)"/>
+  <text class="t-b mid tc-purple" x="668" y="158">법선 n = (0, 1)</text>
+  <text class="t-xs mid" x="668" y="178">바닥에 수직 · 길이 1</text>
+  <path class="ln thin muted" d="M40 304 H720"/>
+  <text class="t-mono" x="40" y="330">v·n = 3×0 + (−2)×1 = −2</text>
+  <text class="t-mono" x="40" y="354">법선 몫 = −2 × (0, 1) = (0, −2)</text>
+  <text class="t-mono tc-green" x="400" y="330">미끄러지기 = v − 법선 몫</text>
+  <text class="t-mono tc-warm" x="400" y="354">튕기기 = v − 2 × 법선 몫</text>
+</svg>

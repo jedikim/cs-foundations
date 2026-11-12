@@ -1,0 +1,93 @@
+<svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg">
+  <title>그림은 점의 격자이고, 점 하나의 색은 빨강·초록·파랑의 밝기를 적은 숫자 세 개다</title>
+  <text class="t-s t-b" x="30" y="30">가로 8점 × 세로 8점짜리 그림</text>
+  <rect class="box gray" x="31" y="45" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="55" y="45" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="79" y="45" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="103" y="45" width="22" height="22" rx="3"/>
+  <rect class="solid green" x="127" y="45" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="151" y="45" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="175" y="45" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="199" y="45" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="31" y="69" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="55" y="69" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="79" y="69" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="103" y="69" width="22" height="22" rx="3"/>
+  <rect class="solid green" x="127" y="69" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="151" y="69" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="175" y="69" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="199" y="69" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="31" y="93" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="55" y="93" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="79" y="93" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="103" y="93" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="127" y="93" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="151" y="93" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="175" y="93" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="199" y="93" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="31" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="55" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="79" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="103" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="127" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="151" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="175" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="199" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="31" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="55" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="79" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="103" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="127" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="151" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="175" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="199" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="31" y="165" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="55" y="165" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="79" y="165" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="103" y="165" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="127" y="165" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="151" y="165" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="175" y="165" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="199" y="165" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="31" y="189" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="55" y="189" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="79" y="189" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="103" y="189" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="127" y="189" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="151" y="189" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="175" y="189" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="199" y="189" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="31" y="213" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="55" y="213" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="79" y="213" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="103" y="213" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="127" y="213" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="151" y="213" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="175" y="213" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="199" y="213" width="22" height="22" rx="3"/>
+  <rect class="ln thick" x="197" y="139" width="26" height="26" rx="4"/>
+  <text class="t-s" x="30" y="262">점 64개 × 3바이트 = 192바이트</text>
+  <path class="ln" d="M227 152 H284" marker-end="url(#ah)"/>
+  <text class="t-s t-b mid" x="325" y="106">점(픽셀) 하나</text>
+  <rect class="solid warm" x="292" y="118" width="66" height="66" rx="8"/>
+  <path class="ln" d="M364 151 H392" marker-end="url(#ah)"/>
+  <text class="t-xs" x="462" y="62">밝기 (0~255)</text>
+  <text class="t-xs" x="640" y="62">10진수</text>
+  <text class="t-xs" x="696" y="62">16진수</text>
+  <text class="t-b tc-red" x="410" y="97">빨강</text>
+  <rect class="box gray" x="462" y="82" width="160" height="20" rx="5"/>
+  <rect class="solid red" x="462" y="82" width="160" height="20" rx="5"/>
+  <text class="t-mono" x="640" y="97">255</text>
+  <text class="t-mono t-b" x="696" y="97">FF</text>
+  <text class="t-b tc-green" x="410" y="147">초록</text>
+  <rect class="box gray" x="462" y="132" width="160" height="20" rx="5"/>
+  <rect class="solid green" x="462" y="132" width="85" height="20" rx="5"/>
+  <text class="t-mono" x="640" y="147">136</text>
+  <text class="t-mono t-b" x="696" y="147">88</text>
+  <text class="t-b tc-blue" x="410" y="197">파랑</text>
+  <rect class="box gray" x="462" y="182" width="160" height="20" rx="5"/>
+  <text class="t-mono" x="640" y="197">0</text>
+  <text class="t-mono t-b" x="696" y="197">00</text>
+  <path class="ln thin muted" d="M410 222 H730"/>
+  <text class="t-s" x="410" y="250">색 코드로 적으면 <tspan class="t-mono t-b t-ink">#FF8800</tspan> — 3바이트</text>
+</svg>

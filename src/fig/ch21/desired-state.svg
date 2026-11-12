@@ -1,0 +1,51 @@
+<svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg">
+  <title>관리인은 원하는 개수 3과 실제 개수를 계속 비교하다가, 하나가 응답하지 않으면 버리고 새것을 띄운다</title>
+
+  <rect class="box yellow" x="20" y="50" width="204" height="146" rx="14"/>
+  <text class="t-l" x="36" y="78">원하는 상태</text>
+  <text class="t-mono" x="36" y="108">image: photo-api:1.4</text>
+  <text class="t-mono t-b" x="36" y="132">replicas: 3</text>
+  <text class="t-s" x="36" y="162">"이 이미지로 3개를</text>
+  <text class="t-s" x="36" y="180">늘 유지해 줘"</text>
+
+  <use href="#i-refresh" x="36" y="216" width="34" height="34" class="ic blue"/>
+  <text class="t-b" x="80" y="230">관리인</text>
+  <text class="t-s" x="80" y="250">실제와 계속 비교</text>
+
+  <text class="t-s t-b" x="250" y="32">실제 상태</text>
+  <text class="t-s t-b mid" x="686" y="32">실제 / 원함</text>
+
+  <text class="t-mono" x="250" y="83">10:00</text>
+  <rect class="box green" x="312" y="50" width="100" height="56" rx="10"/>
+  <text class="mid" x="362" y="83">A 정상</text>
+  <rect class="box green" x="424" y="50" width="100" height="56" rx="10"/>
+  <text class="mid" x="474" y="83">B 정상</text>
+  <rect class="box green" x="536" y="50" width="100" height="56" rx="10"/>
+  <text class="mid" x="586" y="83">C 정상</text>
+  <text class="t-l mid tc-green" x="686" y="76">3 / 3</text>
+  <text class="t-xs mid" x="686" y="96">그대로 둔다</text>
+
+  <path class="ln thin muted" d="M270 112 V132" marker-end="url(#ah-muted)"/>
+
+  <text class="t-mono" x="250" y="173">10:05</text>
+  <rect class="box green" x="312" y="140" width="100" height="56" rx="10"/>
+  <text class="mid" x="362" y="173">A 정상</text>
+  <rect class="box red" x="424" y="140" width="100" height="56" rx="10"/>
+  <text class="mid tc-red t-b" x="474" y="173">B 응답 없음</text>
+  <rect class="box green" x="536" y="140" width="100" height="56" rx="10"/>
+  <text class="mid" x="586" y="173">C 정상</text>
+  <text class="t-l mid tc-red" x="686" y="166">2 / 3</text>
+  <text class="t-xs mid" x="686" y="186">하나 모자람</text>
+
+  <path class="ln thin muted" d="M270 202 V222" marker-end="url(#ah-muted)"/>
+
+  <text class="t-mono" x="250" y="263">10:06</text>
+  <rect class="box green" x="312" y="230" width="100" height="56" rx="10"/>
+  <text class="mid" x="362" y="263">A 정상</text>
+  <rect class="box blue" x="424" y="230" width="100" height="56" rx="10"/>
+  <text class="mid tc-blue t-b" x="474" y="263">D 새로 시작</text>
+  <rect class="box green" x="536" y="230" width="100" height="56" rx="10"/>
+  <text class="mid" x="586" y="263">C 정상</text>
+  <text class="t-l mid tc-green" x="686" y="256">3 / 3</text>
+  <text class="t-xs mid" x="686" y="276">B를 버리고 D로</text>
+</svg>

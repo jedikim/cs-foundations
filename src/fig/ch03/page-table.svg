@@ -1,0 +1,58 @@
+<svg viewBox="0 0 760 346" xmlns="http://www.w3.org/2000/svg">
+  <title>두 프로세스가 같은 0번 페이지를 써도 페이지 표를 거치면 서로 다른 실제 칸에 닿는다</title>
+  <text class="t-s t-b mid" x="108" y="30">프로세스가 쓰는 번호</text>
+  <text class="t-s t-b mid" x="350" y="30">지배인의 장부 (페이지 표)</text>
+  <text class="t-s t-b mid" x="615" y="30">실제 메모리 (RAM)</text>
+
+  <text class="t-b" x="20" y="107">프로세스 A</text>
+  <rect class="box blue" x="120" y="48" width="76" height="32" rx="6"/>
+  <text class="t-mono mid" x="158" y="69">0번</text>
+  <rect class="box blue" x="120" y="86" width="76" height="32" rx="6"/>
+  <text class="t-mono mid" x="158" y="107">1번</text>
+  <rect class="box blue" x="120" y="124" width="76" height="32" rx="6"/>
+  <text class="t-mono mid" x="158" y="145">2번</text>
+
+  <text class="t-b" x="20" y="250">프로세스 B</text>
+  <rect class="box purple" x="120" y="210" width="76" height="32" rx="6"/>
+  <text class="t-mono mid" x="158" y="231">0번</text>
+  <rect class="box purple" x="120" y="248" width="76" height="32" rx="6"/>
+  <text class="t-mono mid" x="158" y="269">1번</text>
+
+  <rect class="box yellow" x="270" y="44" width="160" height="116" rx="10"/>
+  <text class="t-mono" x="290" y="69">0번 → 2번 칸</text>
+  <text class="t-mono" x="290" y="107">1번 → 0번 칸</text>
+  <text class="t-mono" x="290" y="145">2번 → 3번 칸</text>
+  <rect class="box yellow" x="270" y="206" width="160" height="78" rx="10"/>
+  <text class="t-mono" x="290" y="231">0번 → 5번 칸</text>
+  <text class="t-mono" x="290" y="269">1번 → 창고</text>
+
+  <path class="ln thin blue" d="M201 64 H264" marker-end="url(#ah-blue)"/>
+  <path class="ln thin blue" d="M201 102 H264" marker-end="url(#ah-blue)"/>
+  <path class="ln thin blue" d="M201 140 H264" marker-end="url(#ah-blue)"/>
+  <path class="ln thin purple" d="M201 226 H264" marker-end="url(#ah-purple)"/>
+  <path class="ln thin purple" d="M201 264 H264" marker-end="url(#ah-purple)"/>
+
+  <rect class="box blue" x="540" y="44" width="150" height="32" rx="6"/>
+  <text class="t-s mid" x="615" y="65">0번 칸 · A</text>
+  <rect class="box gray" x="540" y="82" width="150" height="32" rx="6"/>
+  <text class="t-s mid" x="615" y="103">1번 칸 · 다른 앱</text>
+  <rect class="box blue" x="540" y="120" width="150" height="32" rx="6"/>
+  <text class="t-s mid" x="615" y="141">2번 칸 · A</text>
+  <rect class="box blue" x="540" y="158" width="150" height="32" rx="6"/>
+  <text class="t-s mid" x="615" y="179">3번 칸 · A</text>
+  <rect class="box gray" x="540" y="196" width="150" height="32" rx="6"/>
+  <text class="t-s mid" x="615" y="217">4번 칸 · 비어 있음</text>
+  <rect class="box purple" x="540" y="234" width="150" height="32" rx="6"/>
+  <text class="t-s mid" x="615" y="255">5번 칸 · B</text>
+
+  <path class="ln blue" d="M436 64 L532 133" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M436 102 L532 63" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M436 140 L532 172" marker-end="url(#ah-blue)"/>
+  <path class="ln purple" d="M436 226 L532 248" marker-end="url(#ah-purple)"/>
+  <path class="ln warm dash" d="M436 264 L532 304" marker-end="url(#ah-warm)"/>
+
+  <rect class="box warm" x="540" y="290" width="200" height="40" rx="8"/>
+  <text class="t-s mid" x="640" y="315">창고(SSD)의 스왑 공간</text>
+
+  <text class="t-s" x="20" y="320">같은 "0번"이 A에게는 2번 칸, B에게는 5번 칸</text>
+</svg>

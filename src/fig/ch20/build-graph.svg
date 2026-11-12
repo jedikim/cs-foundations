@@ -1,0 +1,44 @@
+<svg viewBox="0 0 760 322" xmlns="http://www.w3.org/2000/svg">
+  <title>ui.c 하나만 고치면 ui.o와 game만 다시 만들고 player.o는 그대로 재사용한다</title>
+  <text class="t-s t-b mid" x="130" y="30">소스 파일</text>
+  <text class="t-s t-b mid" x="380" y="30">중간 결과</text>
+  <text class="t-s t-b mid" x="630" y="30">실행 파일</text>
+
+  <rect class="box gray" x="40" y="46" width="180" height="64" rx="12"/>
+  <use href="#i-file" x="52" y="62" width="30" height="30" class="ic gray"/>
+  <text class="t-mono t-b" x="94" y="74">player.c</text>
+  <text class="t-xs" x="94" y="95">손대지 않음</text>
+
+  <rect class="box green" x="290" y="46" width="180" height="64" rx="12"/>
+  <use href="#i-check" x="302" y="62" width="30" height="30" class="ic green"/>
+  <text class="t-mono t-b" x="344" y="74">player.o</text>
+  <text class="t-xs t-b tc-green" x="344" y="95">재사용 · 0초</text>
+
+  <rect class="box warm" x="40" y="166" width="180" height="64" rx="12"/>
+  <use href="#i-pencil" x="52" y="182" width="30" height="30" class="ic warm"/>
+  <text class="t-mono t-b" x="94" y="194">ui.c</text>
+  <text class="t-xs t-b tc-warm" x="94" y="215">방금 고침</text>
+
+  <rect class="box warm" x="290" y="166" width="180" height="64" rx="12"/>
+  <use href="#i-refresh" x="302" y="182" width="30" height="30" class="ic warm"/>
+  <text class="t-mono t-b" x="344" y="194">ui.o</text>
+  <text class="t-xs t-b tc-warm" x="344" y="215">다시 컴파일 · 20초</text>
+
+  <rect class="box warm" x="540" y="106" width="180" height="64" rx="12"/>
+  <use href="#i-refresh" x="552" y="122" width="30" height="30" class="ic warm"/>
+  <text class="t-mono t-b" x="594" y="134">game</text>
+  <text class="t-xs t-b tc-warm" x="594" y="155">다시 링크 · 5초</text>
+
+  <path class="ln muted dash" d="M224 78 H282" marker-end="url(#ah-muted)"/>
+  <path class="ln warm" d="M224 198 H282" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M474 86 L533 124" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M474 190 L533 152" marker-end="url(#ah-warm)"/>
+
+  <path class="ln thin muted" d="M20 250 H740"/>
+  <text class="t-s end" x="250" y="279">전부 다시 만들면</text>
+  <rect class="solid gray" x="264" y="263" width="270" height="22" rx="5"/>
+  <text class="t-mono" x="544" y="279">45초</text>
+  <text class="t-s end" x="250" y="309">바뀐 것만 만들면</text>
+  <rect class="solid warm" x="264" y="293" width="150" height="22" rx="5"/>
+  <text class="t-mono" x="424" y="309">25초</text>
+</svg>

@@ -1,0 +1,55 @@
+<svg viewBox="0 0 760 318" xmlns="http://www.w3.org/2000/svg">
+  <title>x = 2 + 5t라는 식은 벽을 모르기 때문에 2초 뒤 12까지 가서 벽을 통과하고, 벽에서 멈춘다는 제약을 더한 모델만 8에서 멈춘다</title>
+  <text class="t-mono t-b" x="60" y="38">x = 2 + 5 × t</text>
+  <text class="t-s" x="196" y="38">2에서 출발해 1초에 5칸씩</text>
+  <rect class="solid red" x="457" y="60" width="6" height="224" rx="2"/>
+  <text class="t-b mid tc-red" x="460" y="50">벽 (x = 8)</text>
+  <text class="t-b" x="60" y="84">식만 따르면</text>
+  <path class="ln blue" d="M169 128 H399" marker-end="url(#ah-blue)"/>
+  <path class="ln red" d="M419 128 H649" marker-end="url(#ah-red)"/>
+  <circle class="f-blue" cx="160" cy="128" r="8"/>
+  <text class="t-s mid" x="160" y="112">0초</text>
+  <text class="t-mono mid" x="160" y="154">x = 2</text>
+  <circle class="f-blue" cx="410" cy="128" r="8"/>
+  <text class="t-s mid" x="410" y="112">1초</text>
+  <text class="t-mono mid" x="410" y="154">x = 7</text>
+  <circle class="f-red" cx="660" cy="128" r="8"/>
+  <text class="t-s mid" x="660" y="112">2초</text>
+  <text class="t-mono mid tc-red t-b" x="660" y="154">x = 12</text>
+  <text class="t-s t-b tc-red" x="474" y="112">벽을 뚫고 지나감</text>
+  <text class="t-b" x="60" y="192">벽 제약을 더하면</text>
+  <path class="ln blue" d="M169 236 H399" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M419 236 H448" marker-end="url(#ah-green)"/>
+  <circle class="f-blue" cx="160" cy="236" r="8"/>
+  <text class="t-s mid" x="160" y="220">0초</text>
+  <text class="t-mono mid" x="160" y="262">x = 2</text>
+  <circle class="f-blue" cx="410" cy="236" r="8"/>
+  <text class="t-s mid" x="410" y="220">1초</text>
+  <text class="t-mono mid" x="410" y="262">x = 7</text>
+  <circle class="f-green" cx="460" cy="236" r="8"/>
+  <text class="t-s" x="476" y="220">1.2초</text>
+  <text class="t-s t-b tc-green" x="476" y="241">벽에서 멈춤 (속도 0)</text>
+  <text class="t-mono t-b tc-green" x="476" y="262">x = 8</text>
+  <path class="ln" d="M60 284 H726" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M60 279 V289"/>
+  <text class="t-xs mid" x="60" y="306">0</text>
+  <path class="ln thin" d="M110 279 V289"/>
+  <path class="ln thin" d="M160 279 V289"/>
+  <text class="t-xs mid" x="160" y="306">2</text>
+  <path class="ln thin" d="M210 279 V289"/>
+  <path class="ln thin" d="M260 279 V289"/>
+  <text class="t-xs mid" x="260" y="306">4</text>
+  <path class="ln thin" d="M310 279 V289"/>
+  <path class="ln thin" d="M360 279 V289"/>
+  <text class="t-xs mid" x="360" y="306">6</text>
+  <path class="ln thin" d="M410 279 V289"/>
+  <path class="ln thin" d="M460 279 V289"/>
+  <text class="t-xs mid" x="460" y="306">8</text>
+  <path class="ln thin" d="M510 279 V289"/>
+  <path class="ln thin" d="M560 279 V289"/>
+  <text class="t-xs mid" x="560" y="306">10</text>
+  <path class="ln thin" d="M610 279 V289"/>
+  <path class="ln thin" d="M660 279 V289"/>
+  <text class="t-xs mid" x="660" y="306">12</text>
+  <path class="ln thin" d="M710 279 V289"/>
+</svg>

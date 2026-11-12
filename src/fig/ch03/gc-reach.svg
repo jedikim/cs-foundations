@@ -1,0 +1,27 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>가비지 컬렉터는 출발점에서 쪽지를 따라 닿는 것만 남기고, 닿지 않는 것을 치운다</title>
+  <rect class="box blue" x="20" y="36" width="150" height="164" rx="14"/>
+  <text class="t-l mid" x="95" y="108">출발점</text>
+  <text class="t-s mid" x="95" y="132">지금 쓰이는</text>
+  <text class="t-s mid" x="95" y="150">변수들</text>
+
+  <rect class="box green" x="250" y="36" width="170" height="60" rx="12"/>
+  <text class="t-b mid" x="335" y="71">현재 화면</text>
+  <path class="ln green" d="M176 66 H242" marker-end="url(#ah-green)"/>
+  <use href="#i-check" x="436" y="50" width="32" height="32" class="ic green"/>
+  <text class="t-s t-b tc-green" x="476" y="71">닿는다 → 남김</text>
+
+  <rect class="box green" x="250" y="140" width="170" height="60" rx="12"/>
+  <text class="t-b mid" x="335" y="175">이벤트 목록</text>
+  <path class="ln green" d="M176 170 H242" marker-end="url(#ah-green)"/>
+  <rect class="box warm" x="500" y="140" width="190" height="60" rx="12"/>
+  <text class="t-b mid" x="595" y="175">닫은 설정 화면</text>
+  <path class="ln warm" d="M426 170 H492" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b tc-warm mid" x="595" y="222">필요 없지만 닿는다 → 못 치움</text>
+  <text class="t-s tc-warm mid" x="595" y="240">이것이 메모리 누수</text>
+
+  <rect class="ghost dash" x="250" y="244" width="170" height="60" rx="12"/>
+  <text class="t-b tc-muted mid" x="335" y="279">임시 계산 결과</text>
+  <use href="#i-trash" x="436" y="258" width="32" height="32" class="ic gray"/>
+  <text class="t-s t-b" x="476" y="279">닿지 않는다 → 치움</text>
+</svg>

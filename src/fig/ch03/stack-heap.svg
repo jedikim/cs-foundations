@@ -1,0 +1,38 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>함수를 부를 때마다 스택에 메모가 쌓이고, 리스트 같은 데이터는 힙에 놓여 쪽지로 가리킨다</title>
+  <rect class="panel" x="20" y="16" width="360" height="288" rx="16"/>
+  <text class="t-h" x="40" y="46">호출 스택</text>
+  <text class="t-s" x="128" y="46">함수 하나에 메모 한 장</text>
+
+  <rect class="ghost dash" x="40" y="62" width="320" height="30" rx="8"/>
+  <text class="t-xs mid" x="200" y="82">새 함수를 부르면 위에 쌓이고, 끝나면 위부터 사라짐</text>
+
+  <rect class="box blue" x="40" y="100" width="320" height="88" rx="10"/>
+  <text class="t-b" x="56" y="126">add_all 의 메모</text>
+  <text class="t-xs end" x="348" y="126">지금 실행 중</text>
+  <text class="t-mono" x="56" y="150">items =</text>
+  <circle class="f-green" cx="130" cy="145" r="5"/>
+  <text class="t-mono" x="56" y="172">s     = 4500</text>
+
+  <rect class="box blue" x="40" y="198" width="320" height="88" rx="10"/>
+  <text class="t-b" x="56" y="224">main 의 메모</text>
+  <text class="t-mono" x="56" y="248">cart  =</text>
+  <circle class="f-green" cx="130" cy="243" r="5"/>
+  <text class="t-mono" x="56" y="270">total = ?</text>
+  <text class="t-xs end" x="348" y="270">돌아올 자리도 적혀 있음</text>
+
+  <rect class="panel green" x="460" y="16" width="280" height="288" rx="16"/>
+  <text class="t-h" x="480" y="46">힙</text>
+  <text class="t-s" x="512" y="46">크거나 오래 쓰는 데이터</text>
+
+  <rect class="box green" x="490" y="126" width="220" height="84" rx="10"/>
+  <text class="t-xs" x="504" y="148">리스트</text>
+  <rect class="box" x="504" y="158" width="92" height="36" rx="6"/>
+  <text class="t-mono mid" x="550" y="181">3000</text>
+  <rect class="box" x="606" y="158" width="92" height="36" rx="6"/>
+  <text class="t-mono mid" x="652" y="181">1500</text>
+  <text class="t-s mid" x="600" y="240">두 메모가 같은 리스트를 가리킴</text>
+
+  <path class="ln green" d="M136 145 L482 156" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M136 243 L482 188" marker-end="url(#ah-green)"/>
+</svg>

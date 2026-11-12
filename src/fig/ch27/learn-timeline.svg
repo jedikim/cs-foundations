@@ -1,0 +1,50 @@
+<svg viewBox="0 0 760 318" xmlns="http://www.w3.org/2000/svg">
+  <title>모델은 세 단계의 학습으로 만들어지고, 지식은 학습 자료가 끝난 날짜(컷오프)에서 멈추며, 쓰는 동안에는 파라미터가 바뀌지 않는다</title>
+
+  <text class="t-s t-b" x="20" y="32">학습하는 동안 — 머릿속(파라미터)이 바뀐다</text>
+  <text class="t-s t-b" x="575" y="32">쓰는 동안 — 그대로</text>
+
+  <rect class="box blue" x="20" y="46" width="165" height="104" rx="12"/>
+  <circle class="badge blue" cx="42" cy="70" r="12"/><text class="badge-t" x="42" y="74.500">1</text>
+  <text class="t-l" x="62" y="76">사전 학습</text>
+  <text class="t-s" x="34" y="108">엄청난 양의 글로</text>
+  <text class="t-s" x="34" y="128">다음 토큰 맞히기</text>
+
+  <rect class="box blue" x="205" y="46" width="165" height="104" rx="12"/>
+  <circle class="badge blue" cx="227" cy="70" r="12"/><text class="badge-t" x="227" y="74.500">2</text>
+  <text class="t-l" x="247" y="76">미세 조정</text>
+  <text class="t-s" x="219" y="108">질문과 좋은 답 예시로</text>
+  <text class="t-s" x="219" y="128">지시 따르는 법 익히기</text>
+
+  <rect class="box blue" x="390" y="46" width="165" height="104" rx="12"/>
+  <circle class="badge blue" cx="412" cy="70" r="12"/><text class="badge-t" x="412" y="74.500">3</text>
+  <text class="t-l" x="432" y="76">사람 피드백</text>
+  <text class="t-s" x="404" y="108">사람이 답을 평가해</text>
+  <text class="t-s" x="404" y="128">더 나은 쪽으로 다듬기</text>
+
+  <rect class="box green" x="575" y="46" width="165" height="104" rx="12"/>
+  <circle class="badge green" cx="597" cy="70" r="12"/><text class="badge-t" x="597" y="74.500">4</text>
+  <text class="t-l" x="617" y="76">추론</text>
+  <text class="t-s" x="589" y="108">굳은 머릿속으로</text>
+  <text class="t-s" x="589" y="128">책상 위 글을 이어 쓰기</text>
+
+  <path class="ln blue" d="M188 98 H199" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M373 98 H384" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M558 98 H569" marker-end="url(#ah-green)"/>
+
+  <!-- 달력 -->
+  <text class="t-s t-b" x="20" y="194">달력 위에 놓으면</text>
+  <rect class="box green" x="40" y="208" width="210" height="30" rx="6"/>
+  <text class="t-s mid" x="145" y="228">학습 자료에 담긴 세상</text>
+  <rect class="box red" x="250" y="208" width="440" height="30" rx="6"/>
+  <text class="t-s mid" x="470" y="228">모델이 모르는 일들 — 새 버전, 새 소식</text>
+
+  <path class="ln" d="M40 256 H716" marker-end="url(#ah)"/>
+  <path class="ln" d="M250 250 V262"/>
+  <path class="ln" d="M470 250 V262"/>
+  <path class="ln" d="M690 250 V262"/>
+  <text class="t-b mid tc-red" x="250" y="284">지식 컷오프</text>
+  <text class="t-xs mid" x="250" y="304">학습 자료가 끝난 날</text>
+  <text class="t-s mid" x="470" y="284">모델 출시</text>
+  <text class="t-s mid" x="690" y="284">오늘</text>
+</svg>

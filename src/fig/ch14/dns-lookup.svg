@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>이름으로 IP 주소를 찾는 순서: 가까운 캐시부터 보고, 없으면 리졸버가 여러 DNS 서버에 차례로 물어 온다</title>
+
+  <rect class="box blue" x="20" y="60" width="190" height="180" rx="14"/>
+  <use href="#i-browser" x="34" y="72" width="36" height="36" class="ic blue"/>
+  <text class="t-l" x="80" y="97">내 컴퓨터</text>
+  <text class="t-s" x="36" y="130">찾는 이름</text>
+  <text class="t-mono t-b" x="36" y="151">example.com</text>
+  <rect class="box green" x="36" y="168" width="158" height="56" rx="8"/>
+  <circle class="badge green" cx="56" cy="196" r="11"/><text class="badge-t" x="56" y="200.500">1</text>
+  <text class="t-s t-b" x="74" y="192">캐시부터 확인</text>
+  <text class="t-xs" x="74" y="210">브라우저, 운영체제</text>
+
+  <rect class="box purple" x="290" y="95" width="170" height="110" rx="14"/>
+  <use href="#i-search" x="357" y="103" width="36" height="36" class="ic purple"/>
+  <text class="t-l mid" x="375" y="162">리졸버</text>
+  <text class="t-s mid" x="375" y="184">대신 찾아 주는 서버</text>
+
+  <path class="ln blue" d="M216 130 H282" marker-end="url(#ah-blue)"/>
+  <circle class="badge blue" cx="249" cy="114" r="11"/><text class="badge-t" x="249" y="118.500">2</text>
+  <path class="ln green dash" d="M282 172 H218" marker-end="url(#ah-green)"/>
+  <circle class="badge green" cx="249" cy="190" r="11"/><text class="badge-t" x="249" y="194.500">6</text>
+
+  <rect class="box" x="540" y="20" width="200" height="72" rx="12"/>
+  <text class="t-b" x="556" y="48">루트 서버</text>
+  <text class="t-s" x="556" y="72">".com은 저쪽에 물어봐"</text>
+
+  <rect class="box" x="540" y="114" width="200" height="72" rx="12"/>
+  <text class="t-b" x="556" y="142">.com 서버</text>
+  <text class="t-s" x="556" y="166">"example.com은 저쪽에"</text>
+
+  <rect class="box green" x="540" y="208" width="200" height="72" rx="12"/>
+  <text class="t-b" x="556" y="236">example.com 담당 서버</text>
+  <text class="t-s tc-green" x="556" y="260">"주소는 203.0.113.9"</text>
+
+  <path class="ln purple" d="M466 132 L532 62" marker-end="url(#ah-purple)"/>
+  <circle class="badge purple" cx="499" cy="97" r="11"/><text class="badge-t" x="499" y="101.500">3</text>
+  <path class="ln purple" d="M466 150 H532" marker-end="url(#ah-purple)"/>
+  <circle class="badge purple" cx="499" cy="150" r="11"/><text class="badge-t" x="499" y="154.500">4</text>
+  <path class="ln purple" d="M466 168 L532 238" marker-end="url(#ah-purple)"/>
+  <circle class="badge purple" cx="499" cy="203" r="11"/><text class="badge-t" x="499" y="207.500">5</text>
+
+  <circle class="badge green" cx="31" cy="302" r="11"/><text class="badge-t" x="31" y="306.500">6</text>
+  <text class="t-s" x="50" y="307">찾은 주소를 돌려주고, <tspan class="t-b">TTL</tspan>로 정해진 시간 동안 캐시에 넣어 둔다</text>
+</svg>

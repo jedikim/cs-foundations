@@ -1,0 +1,38 @@
+<svg viewBox="0 0 760 326" xmlns="http://www.w3.org/2000/svg">
+  <title>메모리 제한이 1,000MB인 컨테이너에서 300MB짜리 작업 네 개를 동시에 하면 한도를 넘어 강제 종료된다</title>
+
+  <text class="t-h" x="20" y="34">메모리 제한 1,000MB인 컨테이너</text>
+  <text class="t-s" x="20" y="56">사진 한 장을 펼치는 데 300MB가 든다면</text>
+
+  <text class="t-s end" x="140" y="98">1장</text>
+  <rect class="solid green" x="150" y="80" width="120" height="26" rx="5"/>
+  <text class="t-mono t-on" x="160" y="98">300MB</text>
+  <text class="t-s t-b tc-green" x="650" y="98">정상</text>
+
+  <text class="t-s end" x="140" y="142">2장 동시에</text>
+  <rect class="solid green" x="150" y="124" width="240" height="26" rx="5"/>
+  <text class="t-mono t-on" x="160" y="142">600MB</text>
+  <text class="t-s t-b tc-green" x="650" y="142">정상</text>
+
+  <text class="t-s end" x="140" y="186">3장 동시에</text>
+  <rect class="solid green" x="150" y="168" width="360" height="26" rx="5"/>
+  <text class="t-mono t-on" x="160" y="186">900MB</text>
+  <text class="t-s t-b tc-green" x="650" y="186">정상</text>
+
+  <text class="t-s end" x="140" y="230">4장 동시에</text>
+  <rect class="solid green" x="150" y="212" width="400" height="26" rx="5"/>
+  <rect class="solid red" x="550" y="212" width="80" height="26" rx="5"/>
+  <text class="t-mono t-on" x="160" y="230">1,200MB</text>
+  <text class="t-mono t-on mid" x="590" y="230">+200</text>
+  <text class="t-s t-b tc-red" x="650" y="230">강제 종료</text>
+
+  <path class="ln red dash" d="M550 70 V250"/>
+  <text class="t-s t-b tc-red mid" x="550" y="62">제한 1,000MB</text>
+
+  <rect class="box" x="20" y="266" width="720" height="44" rx="10"/>
+  <use href="#i-terminal" x="32" y="275" width="26" height="26" class="ic gray"/>
+  <text class="t-s" x="68" y="293">종료된 뒤의 기록</text>
+  <text class="t-mono t-b" x="190" y="293">Exited (137)</text>
+  <text class="t-mono t-b tc-red" x="318" y="293">OOMKilled: true</text>
+  <text class="t-xs" x="470" y="293">메모리 초과로 운영체제가 끝냈다는 뜻</text>
+</svg>

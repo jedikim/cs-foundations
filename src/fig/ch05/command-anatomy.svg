@@ -1,0 +1,38 @@
+<svg viewBox="0 0 760 270" xmlns="http://www.w3.org/2000/svg">
+  <title>명령 한 줄은 명령, 옵션, 인수로 나뉘며 주문서의 메뉴, 요청, 대상에 대응한다</title>
+  <text class="t-s t-b" x="20" y="72">터미널에서는</text>
+  <text class="t-s t-b" x="20" y="232">주문서로 치면</text>
+
+  <text class="t-mono tc-muted end" x="130" y="72">$</text>
+  <rect class="box blue" x="140" y="44" width="110" height="46" rx="10"/>
+  <text class="t-mono t-b mid" x="195" y="72">cp</text>
+  <rect class="box warm" x="272" y="44" width="110" height="46" rx="10"/>
+  <text class="t-mono t-b mid" x="327" y="72">-r</text>
+  <rect class="box green" x="404" y="44" width="110" height="46" rx="10"/>
+  <text class="t-mono t-b mid" x="459" y="72">src</text>
+  <rect class="box green" x="536" y="44" width="130" height="46" rx="10"/>
+  <text class="t-mono t-b mid" x="601" y="72">backup</text>
+
+  <text class="t-s mid" x="195" y="112">복사해라</text>
+  <text class="t-s mid" x="327" y="112">폴더 속까지 통째로</text>
+  <text class="t-s mid" x="459" y="112">이것을</text>
+  <text class="t-s mid" x="601" y="112">여기로</text>
+
+  <path class="ln thin blue" d="M146 124 V132 H244 V124"/>
+  <path class="ln thin warm" d="M278 124 V132 H376 V124"/>
+  <path class="ln thin green" d="M410 124 V132 H660 V124"/>
+
+  <text class="t-l mid tc-blue" x="195" y="160">명령</text>
+  <text class="t-s mid" x="195" y="181">무엇을 할까</text>
+  <text class="t-l mid tc-warm" x="327" y="160">옵션</text>
+  <text class="t-s mid" x="327" y="181">어떻게 할까</text>
+  <text class="t-l mid tc-green" x="535" y="160">인수</text>
+  <text class="t-s mid" x="535" y="181">무엇을 대상으로 할까</text>
+
+  <rect class="box yellow" x="140" y="206" width="110" height="42" rx="10"/>
+  <text class="mid" x="195" y="232">볶음밥</text>
+  <rect class="box yellow" x="272" y="206" width="110" height="42" rx="10"/>
+  <text class="mid" x="327" y="232">맵게</text>
+  <rect class="box yellow" x="404" y="206" width="262" height="42" rx="10"/>
+  <text class="mid" x="535" y="232">2인분을, 3번 테이블로</text>
+</svg>

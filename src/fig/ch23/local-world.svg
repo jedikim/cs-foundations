@@ -1,0 +1,63 @@
+<svg viewBox="0 0 760 352" xmlns="http://www.w3.org/2000/svg">
+  <title>탱크 기준으로 (2, 2)에 있는 포신 끝은, 탱크가 월드 (5, 1)에 있을 때 월드 좌표로 (7, 3)이다</title>
+  <text class="t-b" x="60" y="34">월드: 게임 세계 전체의 모눈종이</text>
+  <path class="ln thin muted" d="M60 300 V80"/>
+  <path class="ln thin muted" d="M104 300 V80"/>
+  <path class="ln thin muted" d="M148 300 V80"/>
+  <path class="ln thin muted" d="M192 300 V80"/>
+  <path class="ln thin muted" d="M236 300 V80"/>
+  <path class="ln thin muted" d="M280 300 V80"/>
+  <path class="ln thin muted" d="M324 300 V80"/>
+  <path class="ln thin muted" d="M368 300 V80"/>
+  <path class="ln thin muted" d="M412 300 V80"/>
+  <path class="ln thin muted" d="M456 300 V80"/>
+  <path class="ln thin muted" d="M60 300 H456"/>
+  <path class="ln thin muted" d="M60 256 H456"/>
+  <path class="ln thin muted" d="M60 212 H456"/>
+  <path class="ln thin muted" d="M60 168 H456"/>
+  <path class="ln thin muted" d="M60 124 H456"/>
+  <path class="ln thin muted" d="M60 80 H456"/>
+  <path class="ln" d="M60 300 H470" marker-end="url(#ah)"/>
+  <path class="ln" d="M60 300 V66" marker-end="url(#ah)"/>
+  <text class="t-xs mid" x="104" y="318">1</text>
+  <text class="t-xs mid" x="148" y="318">2</text>
+  <text class="t-xs mid" x="192" y="318">3</text>
+  <text class="t-xs mid" x="236" y="318">4</text>
+  <text class="t-xs mid" x="280" y="318">5</text>
+  <text class="t-xs mid" x="324" y="318">6</text>
+  <text class="t-xs mid" x="368" y="318">7</text>
+  <text class="t-xs mid" x="412" y="318">8</text>
+  <text class="t-xs mid" x="456" y="318">9</text>
+  <text class="t-xs end" x="51" y="260">1</text>
+  <text class="t-xs end" x="51" y="216">2</text>
+  <text class="t-xs end" x="51" y="172">3</text>
+  <text class="t-xs end" x="51" y="128">4</text>
+  <text class="t-xs end" x="51" y="84">5</text>
+  <text class="t-s" x="52" y="338">월드 원점 (0, 0)</text>
+  <path class="s-green" opacity="0.55" d="M280 124 H456 V256 H280 Z"/>
+  <path class="ln thin green dash" d="M280 124 H456 V256"/>
+  <path class="ln thin green" d="M280 256 H452" marker-end="url(#ah-green)"/>
+  <path class="ln thin green" d="M280 256 V128" marker-end="url(#ah-green)"/>
+  <text class="t-xs tc-green" x="292" y="142">탱크의 모눈종이</text>
+  <path class="ln dash" d="M60 300 L258 260.4" marker-end="url(#ah)"/>
+  <path class="ln thick blue" d="M60 300 L358.8 171.9" marker-end="url(#ah-blue)"/>
+  <path class="ln thick green" d="M290 246 L361 175" marker-end="url(#ah-green)"/>
+  <rect class="box green" x="262" y="244" width="36" height="24" rx="5"/>
+  <circle class="f-green" cx="280" cy="256" r="5"/>
+  <circle class="f-warm" cx="368" cy="168" r="8"/>
+  <text class="t-b" x="382" y="160">포신 끝</text>
+  <text class="t-s tc-green" x="330" y="234">탱크 기준 (2, 2)</text>
+  <text class="t-s tc-blue" x="128" y="198">월드 기준 (7, 3)</text>
+  <text class="t-s t-b" x="266" y="287">탱크 (5, 1)</text>
+  <rect class="box gray" x="500" y="62" width="240" height="64" rx="12"/>
+  <text class="t-s" x="516" y="86">탱크의 월드 위치</text>
+  <text class="t-mono t-b" x="516" y="110">(5, 1)</text>
+  <text class="t-h mid" x="620" y="150">+</text>
+  <rect class="box green" x="500" y="160" width="240" height="64" rx="12"/>
+  <text class="t-s" x="516" y="184">탱크 기준 좌표 (로컬)</text>
+  <text class="t-mono t-b" x="516" y="208">(2, 2)</text>
+  <text class="t-h mid" x="620" y="248">=</text>
+  <rect class="box blue" x="500" y="258" width="240" height="64" rx="12"/>
+  <text class="t-s" x="516" y="282">월드 좌표</text>
+  <text class="t-mono t-b" x="516" y="306">(5+2, 1+2) = (7, 3)</text>
+</svg>

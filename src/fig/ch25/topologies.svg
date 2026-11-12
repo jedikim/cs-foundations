@@ -1,0 +1,56 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>전용 서버, 한 명이 호스트, P2P 세 가지 접속 구조와 판정하는 곳의 위치</title>
+
+  <rect class="panel" x="20" y="16" width="230" height="298" rx="16"/>
+  <text class="t-l mid" x="135" y="46">전용 서버</text>
+  <text class="t-s mid" x="135" y="68">판정만 하는 컴퓨터를 따로 둔다</text>
+  <use href="#i-server" x="113" y="90" width="44" height="44" class="ic green"/>
+  <rect class="solid green" x="165" y="101" width="46" height="22" rx="11"/>
+  <text class="t-xs t-b t-on mid" x="188" y="116">판정</text>
+  <path class="ln blue" d="M70 196 L120 142"/>
+  <path class="ln blue" d="M135 196 V142"/>
+  <path class="ln blue" d="M200 196 L150 142"/>
+  <use href="#i-gamepad" x="45" y="200" width="40" height="40" class="ic blue"/>
+  <use href="#i-gamepad" x="115" y="200" width="40" height="40" class="ic blue"/>
+  <use href="#i-gamepad" x="185" y="200" width="40" height="40" class="ic blue"/>
+  <text class="t-xs mid" x="65" y="254">지우</text>
+  <text class="t-xs mid" x="135" y="254">하준</text>
+  <text class="t-xs mid" x="205" y="254">서연</text>
+  <text class="t-s t-b mid" x="135" y="280">가장 공정하다</text>
+  <text class="t-s mid" x="135" y="300">서버 비용이 든다</text>
+
+  <rect class="panel" x="265" y="16" width="230" height="298" rx="16"/>
+  <text class="t-l mid" x="380" y="46">한 명이 호스트</text>
+  <text class="t-s mid" x="380" y="68">한 플레이어가 서버를 겸한다</text>
+  <use href="#i-gamepad" x="358" y="90" width="44" height="44" class="ic blue"/>
+  <text class="t-xs end" x="350" y="116">지우</text>
+  <rect class="solid green" x="410" y="101" width="46" height="22" rx="11"/>
+  <text class="t-xs t-b t-on mid" x="433" y="116">판정</text>
+  <text class="t-xs tc-warm mid" x="433" y="140">지연 0ms</text>
+  <path class="ln blue" d="M330 196 L368 142"/>
+  <path class="ln blue" d="M430 196 L392 142"/>
+  <text class="t-xs tc-warm end" x="336" y="168">60ms</text>
+  <text class="t-xs tc-warm" x="424" y="174">60ms</text>
+  <use href="#i-gamepad" x="305" y="200" width="40" height="40" class="ic blue"/>
+  <use href="#i-gamepad" x="415" y="200" width="40" height="40" class="ic blue"/>
+  <text class="t-xs mid" x="325" y="254">하준</text>
+  <text class="t-xs mid" x="435" y="254">서연</text>
+  <text class="t-s t-b mid" x="380" y="280">서버 비용이 없다</text>
+  <text class="t-s mid" x="380" y="300">호스트가 나가면 판이 끝난다</text>
+
+  <rect class="panel" x="510" y="16" width="230" height="298" rx="16"/>
+  <text class="t-l mid" x="625" y="46">P2P</text>
+  <text class="t-s mid" x="625" y="68">모두가 서로 직접 주고받는다</text>
+  <use href="#i-gamepad" x="603" y="90" width="44" height="44" class="ic blue"/>
+  <text class="t-xs" x="655" y="116">지우</text>
+  <path class="ln blue" d="M612 142 L578 196"/>
+  <path class="ln blue" d="M638 142 L672 196"/>
+  <path class="ln blue" d="M592 220 H658"/>
+  <text class="t-xs mid" x="625" y="186">각자 계산</text>
+  <use href="#i-gamepad" x="545" y="200" width="40" height="40" class="ic blue"/>
+  <use href="#i-gamepad" x="665" y="200" width="40" height="40" class="ic blue"/>
+  <text class="t-xs mid" x="565" y="254">하준</text>
+  <text class="t-xs mid" x="685" y="254">서연</text>
+  <text class="t-s t-b mid" x="625" y="280">서버가 필요 없다</text>
+  <text class="t-s mid" x="625" y="300">서로의 계산을 믿어야 한다</text>
+</svg>

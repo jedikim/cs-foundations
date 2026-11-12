@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg">
+  <title>다른 모듈이 재고표를 직접 고치면 표 모양을 바꿀 때 함께 깨지고, 창구 함수로만 부탁하면 안쪽을 바꿔도 바깥은 그대로다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="318" rx="16"/>
+  <text class="t-l tc-red" x="40" y="46">나쁜 예: 속을 직접 고친다</text>
+  <rect class="box blue" x="32" y="62" width="155" height="70" rx="12"/>
+  <text class="t-b mid" x="109.500" y="90">주문 모듈</text>
+  <text class="t-mono mid" x="109.500" y="114">stock["컵"] -= 1</text>
+  <rect class="box blue" x="203" y="62" width="155" height="70" rx="12"/>
+  <text class="t-b mid" x="280.500" y="90">관리 화면</text>
+  <text class="t-mono mid" x="280.500" y="114">stock["컵"] = 99</text>
+
+  <rect class="box green" x="32" y="192" width="326" height="104" rx="14"/>
+  <text class="t-b" x="48" y="240">재고 모듈</text>
+  <text class="t-s tc-red" x="48" y="262">아무나 고친다</text>
+  <rect class="box" x="186" y="228" width="75" height="44" rx="8"/>
+  <text class="t-s" x="198" y="255">컵</text>
+  <text class="t-mono t-b end" x="249" y="256">3</text>
+  <rect class="box" x="271" y="228" width="75" height="44" rx="8"/>
+  <text class="t-s" x="283" y="255">접시</text>
+  <text class="t-mono t-b end" x="334" y="256">5</text>
+  <path class="ln red" d="M109 136 V164 H212 V220" marker-end="url(#ah-red)"/>
+  <path class="ln red" d="M280 136 V164 H236 V220" marker-end="url(#ah-red)"/>
+  <text class="t-s t-b mid tc-red" x="195" y="320">재고표 모양을 바꾸면 두 곳이 함께 깨진다</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="318" rx="16"/>
+  <text class="t-l tc-green" x="410" y="46">좋은 예: 창구로 부탁한다</text>
+  <rect class="box blue" x="402" y="62" width="155" height="70" rx="12"/>
+  <text class="t-b mid" x="479.500" y="90">주문 모듈</text>
+  <text class="t-mono mid" x="479.500" y="114">reserve("컵", 1)</text>
+  <rect class="box blue" x="573" y="62" width="155" height="70" rx="12"/>
+  <text class="t-b mid" x="650.500" y="90">관리 화면</text>
+  <text class="t-mono mid" x="650.500" y="114">restock("컵", 96)</text>
+
+  <rect class="box green" x="402" y="192" width="326" height="104" rx="14"/>
+  <rect class="solid green" x="418" y="178" width="294" height="30" rx="8"/>
+  <text class="t-on t-b mid" x="565" y="198">창구: reserve · restock</text>
+  <text class="t-b" x="418" y="244">재고 모듈</text>
+  <text class="t-s" x="418" y="266">밖에서는 못 본다</text>
+  <rect class="box" x="556" y="228" width="75" height="44" rx="8"/>
+  <text class="t-s" x="568" y="255">컵</text>
+  <text class="t-mono t-b end" x="619" y="256">3</text>
+  <rect class="box" x="641" y="228" width="75" height="44" rx="8"/>
+  <text class="t-s" x="653" y="255">접시</text>
+  <text class="t-mono t-b end" x="704" y="256">5</text>
+  <path class="ln green" d="M479 136 V170" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M650 136 V170" marker-end="url(#ah-green)"/>
+  <text class="t-s t-b mid tc-green" x="565" y="320">재고표 모양을 바꿔도 밖은 그대로다</text>
+</svg>

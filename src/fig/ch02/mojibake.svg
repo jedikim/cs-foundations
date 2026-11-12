@@ -1,0 +1,38 @@
+<svg viewBox="0 0 760 262" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 바이트 여섯 개를 3바이트씩 끊어 읽으면 게임, 2바이트씩 끊어 읽으면 깨진 글자가 된다</title>
+  <text class="t-b tc-green" x="20" y="62">UTF-8로 읽으면</text>
+  <text class="t-s" x="20" y="83">3바이트씩 한 글자</text>
+  <path class="ln thin green" d="M252 110 v-8 H456 v8"/>
+  <rect class="box green" x="328" y="42" width="52" height="46" rx="10"/>
+  <text class="t-h mid" x="354" y="72">게</text>
+  <path class="ln thin green" d="M468 110 v-8 H672 v8"/>
+  <rect class="box green" x="544" y="42" width="52" height="46" rx="10"/>
+  <text class="t-h mid" x="570" y="72">임</text>
+  <use href="#i-check" x="696" y="46" width="38" height="38" class="ic green"/>
+  <text class="t-b" x="20" y="140">저장된 바이트</text>
+  <text class="t-s" x="20" y="160">여섯 개, 그대로</text>
+  <rect class="box" x="250" y="118" width="64" height="44" rx="9"/>
+  <text class="t-mono t-b mid" x="282" y="145">EA</text>
+  <rect class="box" x="322" y="118" width="64" height="44" rx="9"/>
+  <text class="t-mono t-b mid" x="354" y="145">B2</text>
+  <rect class="box" x="394" y="118" width="64" height="44" rx="9"/>
+  <text class="t-mono t-b mid" x="426" y="145">8C</text>
+  <rect class="box" x="466" y="118" width="64" height="44" rx="9"/>
+  <text class="t-mono t-b mid" x="498" y="145">EC</text>
+  <rect class="box" x="538" y="118" width="64" height="44" rx="9"/>
+  <text class="t-mono t-b mid" x="570" y="145">9E</text>
+  <rect class="box" x="610" y="118" width="64" height="44" rx="9"/>
+  <text class="t-mono t-b mid" x="642" y="145">84</text>
+  <text class="t-b tc-red" x="20" y="214">CP949로 읽으면</text>
+  <text class="t-s" x="20" y="235">2바이트씩 한 글자</text>
+  <path class="ln thin red" d="M252 170 v8 H384 v-8"/>
+  <rect class="box red" x="292" y="192" width="52" height="46" rx="10"/>
+  <text class="t-h mid" x="318" y="222">寃</text>
+  <path class="ln thin red" d="M396 170 v8 H528 v-8"/>
+  <rect class="box red" x="436" y="192" width="52" height="46" rx="10"/>
+  <text class="t-h mid" x="462" y="222">뚯</text>
+  <path class="ln thin red" d="M540 170 v8 H672 v-8"/>
+  <rect class="box red" x="580" y="192" width="52" height="46" rx="10"/>
+  <text class="t-h mid" x="606" y="222">엫</text>
+  <use href="#i-cross" x="696" y="196" width="38" height="38" class="ic red"/>
+</svg>

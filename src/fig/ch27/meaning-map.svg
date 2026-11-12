@@ -1,0 +1,54 @@
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
+  <title>임베딩은 토큰 번호를 좌표로 바꾼다. 뜻이 비슷한 말은 지도에서 가까이 모인다</title>
+
+  <!-- 토큰 → 번호 → 좌표 -->
+  <text class="t-s t-b" x="20" y="36">토큰 하나가 좌표가 되기까지</text>
+
+  <rect class="box blue" x="65" y="54" width="120" height="42" rx="10"/>
+  <text class="t-l mid" x="125" y="81">강아지</text>
+  <path class="ln muted" d="M125 100 V122" marker-end="url(#ah-muted)"/>
+
+  <rect class="box" x="45" y="130" width="160" height="42" rx="10"/>
+  <text class="t-mono mid" x="125" y="156">번호 5121</text>
+  <path class="ln muted" d="M125 176 V198" marker-end="url(#ah-muted)"/>
+
+  <rect class="box green" x="20" y="206" width="210" height="46" rx="10"/>
+  <text class="t-mono mid" x="125" y="234">[0.82, 0.10, -0.31, …]</text>
+  <text class="t-s mid" x="125" y="276">뜻을 담은 좌표 (임베딩)</text>
+  <text class="t-xs mid" x="125" y="296">실제로는 숫자 수백~수천 개</text>
+
+  <!-- 지도 -->
+  <rect class="panel" x="260" y="20" width="480" height="300" rx="14"/>
+  <text class="t-s t-b" x="278" y="44">뜻의 지도</text>
+
+  <ellipse class="box green" cx="368" cy="118" rx="92" ry="58"/>
+  <text class="t-s t-b mid" x="408" y="82">동물</text>
+  <circle class="f-blue" cx="316" cy="96" r="6"/>
+  <text class="t-b" x="328" y="101">강아지</text>
+  <circle class="f-green" cx="368" cy="124" r="5"/>
+  <text x="379" y="129">고양이</text>
+  <circle class="f-green" cx="312" cy="146" r="5"/>
+  <text x="323" y="151">햄스터</text>
+
+  <ellipse class="box warm" cx="612" cy="118" rx="100" ry="58"/>
+  <text class="t-s t-b mid" x="650" y="82">음식</text>
+  <circle class="f-warm" cx="556" cy="100" r="5"/>
+  <text x="567" y="105">라면</text>
+  <circle class="f-warm" cx="622" cy="124" r="5"/>
+  <text x="633" y="129">떡볶이</text>
+  <circle class="f-warm" cx="560" cy="148" r="5"/>
+  <text x="571" y="153">김밥</text>
+
+  <ellipse class="box purple" cx="476" cy="244" rx="112" ry="48"/>
+  <text class="t-s t-b mid" x="520" y="216">쇼핑</text>
+  <circle class="f-purple" cx="412" cy="236" r="5"/>
+  <text x="423" y="241">환불</text>
+  <circle class="f-purple" cx="436" cy="264" r="5"/>
+  <text x="447" y="269">반품</text>
+  <circle class="f-purple" cx="524" cy="250" r="5"/>
+  <text x="535" y="255">결제</text>
+
+  <text class="t-s t-b mid" x="664" y="240">가까울수록</text>
+  <text class="t-s t-b mid" x="664" y="260">뜻이 비슷하다</text>
+  <text class="t-xs mid" x="476" y="310">‘환불’과 ‘반품’은 글자가 달라도 이웃</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg">
+  <title>순수 함수는 몇 번을 불러도 바깥이 그대로지만, 부수 효과가 있는 함수는 부른 횟수만큼 바깥이 바뀐다</title>
+
+  <rect class="panel" x="20" y="16" width="720" height="140" rx="16"/>
+  <text class="t-l" x="40" y="84">순수 함수</text>
+  <text class="t-s" x="40" y="106">계산만 한다</text>
+  <rect class="box green" x="180" y="60" width="140" height="50" rx="10"/>
+  <text class="t-mono mid" x="250" y="90">[6000, 4500]</text>
+  <path class="ln blue" d="M324 85 H352" marker-end="url(#ah-blue)"/>
+  <rect class="box blue" x="360" y="60" width="130" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="425" y="90">total()</text>
+  <path class="ln blue" d="M494 85 H522" marker-end="url(#ah-blue)"/>
+  <rect class="box green" x="530" y="60" width="80" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="570" y="90">10500</text>
+  <text class="t-xs" x="180" y="136">같은 입력이면 언제나 같은 결과</text>
+  <use href="#i-check" x="624" y="50" width="26" height="26" class="ic green"/>
+  <text class="t-s" x="656" y="68">두 번 불러도</text>
+  <text class="t-s t-b tc-green" x="656" y="88">바깥은 그대로</text>
+
+  <rect class="panel" x="20" y="176" width="720" height="158" rx="16"/>
+  <text class="t-l" x="40" y="234">부수 효과</text>
+  <text class="t-s" x="40" y="256">바깥을 바꾼다</text>
+  <rect class="box green" x="180" y="204" width="140" height="50" rx="10"/>
+  <text class="t-mono mid" x="250" y="234">[6000, 4500]</text>
+  <path class="ln blue" d="M324 229 H352" marker-end="url(#ah-blue)"/>
+  <rect class="box warm" x="360" y="204" width="130" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="425" y="234">totalAndPay()</text>
+  <path class="ln blue" d="M494 229 H522" marker-end="url(#ah-blue)"/>
+  <rect class="box green" x="530" y="204" width="80" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="570" y="234">10500</text>
+  <path class="ln red" d="M400 258 V278" marker-end="url(#ah-red)"/>
+  <text class="t-s t-b tc-red" x="412" y="273">결제 요청</text>
+  <rect class="box purple" x="360" y="286" width="130" height="36" rx="10"/>
+  <text class="mid" x="425" y="309">결제 서버</text>
+  <use href="#i-warn" x="624" y="194" width="26" height="26" class="ic red"/>
+  <text class="t-s" x="656" y="212">두 번 부르면</text>
+  <text class="t-s t-b tc-red" x="656" y="232">결제도 두 번</text>
+</svg>

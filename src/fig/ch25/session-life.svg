@@ -1,0 +1,52 @@
+<svg viewBox="0 0 760 318" xmlns="http://www.w3.org/2000/svg">
+  <title>한 판은 로그인, 방, 매치메이킹, 경기, 결과 저장을 차례로 거치며, 경기 상태는 한 판 동안만 살고 계정 데이터는 데이터베이스에 영구히 남는다</title>
+
+  <rect class="box blue" x="20" y="24" width="128" height="104" rx="12"/>
+  <circle class="badge blue" cx="40" cy="44" r="12"/><text class="badge-t" x="40" y="48.500">1</text>
+  <use href="#i-idcard" x="66" y="34" width="36" height="36" class="ic blue"/>
+  <text class="t-b mid" x="84" y="94">로그인</text>
+  <text class="t-xs mid" x="84" y="114">누구인지 확인</text>
+
+  <rect class="box blue" x="168" y="24" width="128" height="104" rx="12"/>
+  <circle class="badge blue" cx="188" cy="44" r="12"/><text class="badge-t" x="188" y="48.500">2</text>
+  <use href="#i-users" x="214" y="34" width="36" height="36" class="ic blue"/>
+  <text class="t-b mid" x="232" y="94">방(로비)</text>
+  <text class="t-xs mid" x="232" y="114">모여서 준비</text>
+
+  <rect class="box blue" x="316" y="24" width="128" height="104" rx="12"/>
+  <circle class="badge blue" cx="336" cy="44" r="12"/><text class="badge-t" x="336" y="48.500">3</text>
+  <use href="#i-scale" x="362" y="34" width="36" height="36" class="ic blue"/>
+  <text class="t-b mid" x="380" y="94">매치메이킹</text>
+  <text class="t-xs mid" x="380" y="114">비슷한 실력끼리</text>
+
+  <rect class="box green" x="464" y="24" width="128" height="104" rx="12"/>
+  <circle class="badge green" cx="484" cy="44" r="12"/><text class="badge-t" x="484" y="48.500">4</text>
+  <use href="#i-gamepad" x="510" y="34" width="36" height="36" class="ic green"/>
+  <text class="t-b mid" x="528" y="94">경기</text>
+  <text class="t-xs mid" x="528" y="114">게임 서버에 접속</text>
+
+  <rect class="box warm" x="612" y="24" width="128" height="104" rx="12"/>
+  <circle class="badge warm" cx="632" cy="44" r="12"/><text class="badge-t" x="632" y="48.500">5</text>
+  <use href="#i-db" x="658" y="34" width="36" height="36" class="ic warm"/>
+  <text class="t-b mid" x="676" y="94">결과 저장</text>
+  <text class="t-xs mid" x="676" y="114">DB에 한 번만</text>
+
+  <path class="ln" d="M151 76 H162" marker-end="url(#ah)"/>
+  <path class="ln" d="M299 76 H310" marker-end="url(#ah)"/>
+  <path class="ln" d="M447 76 H458" marker-end="url(#ah)"/>
+  <path class="ln" d="M595 76 H606" marker-end="url(#ah)"/>
+
+  <text class="t-s t-b" x="20" y="166">무엇이 얼마나 오래 사는가</text>
+
+  <text class="t-s end" x="454" y="200">경기 중의 위치와 체력: 게임 서버 메모리에, 한 판 동안만</text>
+  <rect class="solid green" x="464" y="186" width="128" height="20" rx="6"/>
+
+  <text class="t-s end" x="454" y="238">지우의 연결: 끊겼다 돌아오면 최신 상태를 통째로 받는다</text>
+  <rect class="solid blue" x="464" y="224" width="44" height="20" rx="6"/>
+  <path class="ln red dash" d="M512 234 H544"/>
+  <rect class="solid blue" x="548" y="224" width="44" height="20" rx="6"/>
+  <text class="t-xs tc-red mid" x="528" y="260">끊김</text>
+
+  <rect class="box warm" x="20" y="272" width="720" height="32" rx="8"/>
+  <text class="t-s t-b mid" x="380" y="293">계정, 아이템, 재화: 데이터베이스에 영구 보관. 경기 전에도 후에도 그대로 있다</text>
+</svg>

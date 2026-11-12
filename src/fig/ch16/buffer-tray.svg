@@ -1,0 +1,51 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>로그 1,000줄을 한 줄씩 쓰면 커널을 1,000번 부르지만, 버퍼에 100줄씩 모아 쓰면 10번만 부른다</title>
+  <text class="t-h" x="20" y="34">로그 1,000줄을 파일에 쓰기</text>
+
+  <text class="t-b" x="20" y="84">한 줄씩 바로</text>
+  <text class="t-s" x="20" y="104">줄마다 커널 부르기</text>
+  <rect class="box blue" x="170" y="58" width="120" height="60" rx="12"/>
+  <text class="t-b mid" x="230" y="85">프로그램</text>
+  <text class="t-xs mid" x="230" y="105">1,000줄</text>
+  <g>
+    <path class="ln thin red" d="M302 88 h18" marker-end="url(#ah-red)"/>
+    <path class="ln thin red" d="M331 88 h18" marker-end="url(#ah-red)"/>
+    <path class="ln thin red" d="M360 88 h18" marker-end="url(#ah-red)"/>
+    <path class="ln thin red" d="M389 88 h18" marker-end="url(#ah-red)"/>
+    <path class="ln thin red" d="M418 88 h18" marker-end="url(#ah-red)"/>
+    <path class="ln thin red" d="M447 88 h18" marker-end="url(#ah-red)"/>
+    <path class="ln thin red" d="M476 88 h18" marker-end="url(#ah-red)"/>
+    <path class="ln thin red" d="M505 88 h18" marker-end="url(#ah-red)"/>
+    <path class="ln thin red" d="M534 88 h18" marker-end="url(#ah-red)"/>
+    <path class="ln thin red" d="M563 88 h18" marker-end="url(#ah-red)"/>
+  </g>
+  <text class="t-b tc-red mid" x="445" y="72">시스템 호출 1,000번</text>
+  <text class="t-xs mid" x="445" y="112">한 줄(80바이트)마다 왕복</text>
+  <rect class="box yellow" x="600" y="58" width="140" height="60" rx="12"/>
+  <text class="t-b mid" x="670" y="85">커널</text>
+  <text class="t-xs mid" x="670" y="105">디스크로 가는 문</text>
+
+  <path class="ln thin muted dash" d="M20 142 H740"/>
+
+  <text class="t-b" x="20" y="204">모아서 한 번에</text>
+  <text class="t-s" x="20" y="224">버퍼가 차면 넘기기</text>
+  <rect class="box blue" x="170" y="178" width="120" height="60" rx="12"/>
+  <text class="t-b mid" x="230" y="205">프로그램</text>
+  <text class="t-xs mid" x="230" y="225">1,000줄</text>
+  <path class="ln thin blue" d="M296 208 H342" marker-end="url(#ah-blue)"/>
+  <rect class="box green" x="350" y="160" width="150" height="96" rx="12"/>
+  <text class="t-b mid" x="425" y="183">버퍼 (쟁반)</text>
+  <rect class="f-green" x="368" y="194" width="114" height="5" rx="2"/>
+  <rect class="f-green" x="368" y="204" width="114" height="5" rx="2"/>
+  <rect class="f-green" x="368" y="214" width="114" height="5" rx="2"/>
+  <rect class="f-green" x="368" y="224" width="78" height="5" rx="2"/>
+  <text class="t-xs mid" x="425" y="247">100줄이 차면 출발</text>
+  <path class="ln thick green" d="M506 208 H590" marker-end="url(#ah-green)"/>
+  <text class="t-b tc-green mid" x="549" y="194">10번</text>
+  <rect class="box yellow" x="600" y="178" width="140" height="60" rx="12"/>
+  <text class="t-b mid" x="670" y="205">커널</text>
+  <text class="t-xs mid" x="670" y="225">디스크로 가는 문</text>
+
+  <rect class="box yellow" x="170" y="280" width="570" height="36" rx="10"/>
+  <text class="t-s mid" x="455" y="303">커널을 한 번 부르는 값은 한 줄이든 100줄이든 비슷합니다</text>
+</svg>

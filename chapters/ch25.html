@@ -1,0 +1,1058 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>25장 온라인 게임 — 개발의 기초</title>
+<meta name="description" content="지연 속에서 같은 세계 보여 주기">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch25" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html" aria-current="page"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">6부 게임 › <b>25장 온라인 게임</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-green">
+<div class="ch-kicker"><span class="ch-no">25장</span><span class="part">6부 · 게임</span></div>
+<h1>온라인 게임</h1>
+<p class="ch-sub">지연 속에서 같은 세계 보여 주기</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 35분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch24.html">24장 게임이 움직이고 그려지는 원리</a><a class="chip" href="ch14.html">14장 네트워크</a></div>
+</header><div class="lead">
+<p>축구 중계를 보는데 옆집에서 먼저 "골!" 하는 함성이 들린 적이 있나요? 같은 경기를 보고 있지만 우리 집 화면이 몇 초 늦었던 것입니다. 온라인 게임에서는 이런 일이 1초에도 수십 번씩 벌어집니다. 플레이어마다 조금씩 다른 과거를 보는데도 <strong>같은 세계에 있다고 느끼게 만드는 것</strong>, 온라인 게임 기술은 거의 다 여기에 쓰입니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>온라인 게임의 기법들이 '지연'이라는 한 가지 문제에서 나왔다는 것을 설명할 수 있습니다.</li>
+<li>클라이언트가 보낸 값을 서버가 그대로 믿으면 안 되는 이유를 말할 수 있습니다.</li>
+<li>보간, 예측, 조정, 지연 보상이 각각 어떤 증상을 고치는지 구분할 수 있습니다.</li>
+<li>"창 두 개로는 잘 되는데 친구와 하면 끊긴다"는 문제를 어디서부터 의심할지 알 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="delay">
+<h2><span class="sec-n">25.1</span>모두가 조금씩 다른 과거를 봅니다<a aria-label="이 절의 링크" class="anchor" href="#delay">#</a></h2>
+<p><a href="ch14.html#speed">14장</a>에서 패킷이 상대에게 닿는 데 걸리는 시간을 <strong>지연</strong>(latency), 갔다가 돌아오는 시간을 RTT라고 배웠습니다. 게임에서는 이 왕복 시간을 흔히 <strong>핑</strong>(ping)이라고 부릅니다.</p>
+<p>지우와 하준이 같은 게임에 접속해 있습니다. 두 사람 모두 서버까지 가는 데 50ms가 걸립니다. 지우가 점프 키를 누르면 어떻게 될까요?</p>
+<figure class="fig" id="fig-different-past"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 356" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>지우가 점프 키를 누른 순간은 서버에 50ms 뒤, 하준의 화면에는 100ms 뒤에야 도착한다</title>
+
+  <text class="t-s t-b mid" x="670" y="32">100ms 시점의 지우</text>
+  <path class="ln thin dash muted" d="M580 44 V312"/>
+
+  <text class="t-b" x="20" y="86">지우</text>
+  <text class="t-s" x="20" y="106">키를 누른 사람</text>
+  <path class="ln thin muted" d="M150 90 H592"/>
+  <circle class="f-blue" cx="200" cy="90" r="6"/>
+  <text class="t-b tc-blue mid" x="200" y="68">점프 키를 누름</text>
+  <rect class="box blue" x="600" y="52" width="140" height="64" rx="10"/>
+  <path class="ln thin blue" d="M612 102 H656"/>
+  <circle class="f-blue" cx="634" cy="64" r="7"/>
+  <text class="t-xs" x="666" y="88">뜬 지 100ms</text>
+
+  <text class="t-b" x="20" y="176">서버</text>
+  <text class="t-s" x="20" y="196">판정하는 곳</text>
+  <path class="ln thin muted" d="M150 180 H592"/>
+  <circle class="f-green" cx="390" cy="180" r="6"/>
+  <text class="t-b tc-green" x="404" y="170">점프를 반영</text>
+  <rect class="box green" x="600" y="142" width="140" height="64" rx="10"/>
+  <path class="ln thin green" d="M612 192 H656"/>
+  <circle class="f-green" cx="634" cy="168" r="7"/>
+  <text class="t-xs" x="666" y="178">뜬 지 50ms</text>
+
+  <text class="t-b" x="20" y="266">하준</text>
+  <text class="t-s" x="20" y="286">보는 사람</text>
+  <path class="ln thin muted" d="M150 270 H592"/>
+  <circle class="f-warm" cx="580" cy="270" r="6"/>
+  <text class="t-b tc-warm end" x="568" y="296">이제야 지우가 뛰어오름</text>
+  <rect class="box warm" x="600" y="232" width="140" height="64" rx="10"/>
+  <path class="ln thin warm" d="M612 282 H656"/>
+  <circle class="f-warm" cx="634" cy="272" r="7"/>
+  <text class="t-xs" x="666" y="268">방금 뜀</text>
+
+  <path class="ln blue" d="M205 95 L383 175" marker-end="url(#ah-blue)"/>
+  <text class="t-s" x="312" y="126">전달 50ms</text>
+  <path class="ln green" d="M395 185 L573 265" marker-end="url(#ah-green)"/>
+  <text class="t-s" x="502" y="216">전달 50ms</text>
+
+  <path class="ln thin muted" d="M200 318 H580"/>
+  <path class="ln thin muted" d="M200 313 V323 M390 313 V323 M580 313 V323"/>
+  <text class="t-xs mid" x="200" y="342">0ms</text>
+  <text class="t-xs mid" x="390" y="342">50ms</text>
+  <text class="t-xs mid" x="580" y="342">100ms</text>
+</svg></div><figcaption><b>그림 25-1</b>지우가 키를 누르고 100ms가 지난 순간입니다. 지우의 화면에서는 이미 높이 떠 있고, 서버에서는 절반쯤 떴고, 하준의 화면에서는 이제 막 발이 떨어집니다.</figcaption></figure>
+<p>하준이 보는 지우는 <strong>100ms 전의 지우</strong>입니다. 지우가 보는 하준도 100ms 전의 하준입니다. 같은 순간인데 지우의 컴퓨터, 서버, 하준의 컴퓨터가 저마다 다른 시점의 세계를 들고 있습니다.</p>
+<p>100ms는 짧아 보이지만, 1초에 60장을 그리는 화면에서는 6장에 해당합니다. 빠른 게임에서는 승패가 갈리는 시간입니다.</p>
+<p>통신 상태를 읽을 때는 지연 말고도 두 숫자를 더 봅니다.</p>
+<ul>
+<li><strong>지터</strong>(jitter): 지연이 들쭉날쭉한 정도입니다. 어떤 패킷은 40ms, 다음 패킷은 90ms 만에 온다면 평균이 낮아도 움직임이 덜컹거립니다.</li>
+<li><strong>패킷 손실</strong>(packet loss): 끝내 도착하지 않은 비율입니다. 100개 중 3개가 사라지면 3%입니다.</li>
+</ul>
+<div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
+<p>즐겨 하는 온라인 게임의 설정에서 '네트워크 정보 표시'를 켜 보세요. 화면 구석에 핑과 패킷 손실이 나옵니다. 공유기에서 멀어지면 어느 숫자가 움직이는지 보세요.</p>
+</div>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>이 장의 기법은 모두 한 가지 질문에 답합니다. <strong>"모두가 서로 다른 과거를 보는데, 어떻게 같은 세계처럼 느끼게 할까?"</strong></p>
+</div>
+</section>
+<section class="level2" id="authority">
+<h2><span class="sec-n">25.2</span>누가 진실을 정할까: 서버 권한<a aria-label="이 절의 링크" class="anchor" href="#authority">#</a></h2>
+<p>각자 보는 세계가 다르다면 누구의 세계가 진짜일까요? 지우의 화면에서는 총알이 맞았고 하준의 화면에서는 피했다면, 누군가는 판정을 내려야 합니다.</p>
+<div class="callout analogy"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bulb"></use></svg>비유로 이해하기 · 심판이 있는 편지 체스</div>
+<p>멀리 사는 두 사람이 편지로 체스를 둡니다. 각자 집에 체스판을 두고, 수를 적은 편지를 주고받습니다. 내 판에 놓인 상대 말은 편지가 쓰인 때의 위치입니다.</p>
+<p>여기에 심판을 둡니다. 두 사람은 심판에게 "나이트를 이 칸으로 옮기겠습니다"라는 <strong>신청</strong>만 보냅니다. 심판은 규칙에 맞는지 확인하고 자기 판에 반영한 뒤, 판의 모습을 두 사람에게 알려 줍니다. <strong>심판의 판이 진짜 판</strong>입니다.</p>
+</div>
+<p>게임에서는 서버가 심판입니다. 이렇게 서버가 최종 결과를 정하는 구조를 <strong>서버 권한</strong>(server authority)이라고 합니다. 플레이어의 컴퓨터에서 도는 게임 프로그램, 곧 클라이언트는 두 가지만 합니다. 누른 버튼을 서버에 알리고, 서버가 알려 준 세계를 화면에 그립니다.</p>
+<p>왜 이렇게 할까요? 클라이언트는 플레이어의 컴퓨터 위에 있어서 <strong>고쳐 쓸 수 있기</strong> 때문입니다. "상대 킹을 잡았습니다"라고 써 보낸 편지를 그대로 믿는 심판은 없습니다.</p>
+<figure class="fig" id="fig-input-not-result"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 364" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>클라이언트가 결과를 보내면 조작한 값이 그대로 통하고, 입력만 보내면 서버가 규칙대로 계산한다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="332" rx="16"/>
+  <use href="#i-cross" x="36" y="28" width="28" height="28" class="ic red"/>
+  <text class="t-h" x="72" y="48">결과를 받아 적는 서버</text>
+
+  <rect class="box blue" x="40" y="68" width="310" height="56" rx="12"/>
+  <use href="#i-gamepad" x="50" y="80" width="32" height="32" class="ic blue"/>
+  <text class="t-b" x="94" y="92">지우의 게임 프로그램</text>
+  <text class="t-s" x="94" y="112">고쳐 쓸 수 있는 내 컴퓨터 위에 있다</text>
+
+  <path class="ln blue" d="M100 128 V184" marker-end="url(#ah-blue)"/>
+  <text class="t-mono t-b" x="118" y="162">"하준 체력 = 0"</text>
+
+  <rect class="box green" x="40" y="190" width="310" height="110" rx="12"/>
+  <use href="#i-server" x="50" y="200" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="94" y="214">서버</text>
+  <text class="t-s" x="94" y="238">확인하지 않고 그대로 적는다</text>
+  <text class="t-mono t-b tc-red" x="94" y="278">하준 체력 100 → 0</text>
+
+  <text class="t-b tc-red" x="40" y="330">조작한 값이 그대로 통한다</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="332" rx="16"/>
+  <use href="#i-check" x="406" y="28" width="28" height="28" class="ic green"/>
+  <text class="t-h" x="442" y="48">입력만 받고 직접 계산하는 서버</text>
+
+  <rect class="box blue" x="410" y="68" width="310" height="56" rx="12"/>
+  <use href="#i-gamepad" x="420" y="80" width="32" height="32" class="ic blue"/>
+  <text class="t-b" x="464" y="92">지우의 게임 프로그램</text>
+  <text class="t-s" x="464" y="112">누른 버튼만 알려 준다</text>
+
+  <path class="ln blue" d="M470 128 V184" marker-end="url(#ah-blue)"/>
+  <text class="t-mono t-b" x="488" y="162">"공격, 대상 = 하준"</text>
+
+  <rect class="box green" x="410" y="190" width="310" height="110" rx="12"/>
+  <use href="#i-server" x="420" y="200" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="464" y="214">서버</text>
+  <use href="#i-check" x="462" y="224" width="18" height="18" class="ic green"/>
+  <text class="t-s" x="486" y="238">거리 3칸: 사거리 5칸 안</text>
+  <use href="#i-check" x="462" y="244" width="18" height="18" class="ic green"/>
+  <text class="t-s" x="486" y="258">지난 공격 뒤 0.5초 지남</text>
+  <text class="t-mono t-b tc-green" x="464" y="286">하준 체력 100 → 70</text>
+
+  <text class="t-b tc-green" x="410" y="330">규칙이 허락한 만큼만 깎인다</text>
+</svg></div><figcaption><b>그림 25-2</b>왼쪽 서버는 클라이언트가 보낸 결과를 받아 적습니다. 오른쪽 서버는 입력만 받고, 거리와 공격 간격을 직접 확인한 뒤 피해를 계산합니다.</figcaption></figure>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>클라이언트는 <strong>"하고 싶은 일"</strong>을 보내고, <strong>"일어난 일"</strong>은 서버가 정합니다.</p>
+</div>
+<p>위치도 그렇습니다. "나는 지금 x=500에 있다"가 아니라 "오른쪽 키를 누르고 있다"를 보냅니다. 서버가 속도 규칙대로 움직여 주므로, 벽을 뚫거나 순간이동하는 조작이 통하지 않습니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · AI가 만든 멀티플레이 코드에서 가장 먼저 볼 것</div>
+<p>AI 도구에게 "멀티플레이를 붙여 줘"라고만 하면, 클라이언트가 자기 위치와 상대에게 준 피해를 계산해 그대로 보내는 코드가 자주 나옵니다. 혼자 시험할 때는 잘 돌기 때문입니다. 승패, 피해, 재화처럼 속이면 이득이 생기는 값을 <strong>어느 쪽이 계산하는지</strong> 꼭 확인하세요.</p>
+</div>
+<section class="level3" id="심판을-어디에-앉힐까">
+<h3>심판을 어디에 앉힐까</h3>
+<p>심판 자리를 어디에 두느냐에 따라 접속 구조가 셋으로 나뉩니다.</p>
+<figure class="fig" id="fig-topologies"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>전용 서버, 한 명이 호스트, P2P 세 가지 접속 구조와 판정하는 곳의 위치</title>
+
+  <rect class="panel" x="20" y="16" width="230" height="298" rx="16"/>
+  <text class="t-l mid" x="135" y="46">전용 서버</text>
+  <text class="t-s mid" x="135" y="68">판정만 하는 컴퓨터를 따로 둔다</text>
+  <use href="#i-server" x="113" y="90" width="44" height="44" class="ic green"/>
+  <rect class="solid green" x="165" y="101" width="46" height="22" rx="11"/>
+  <text class="t-xs t-b t-on mid" x="188" y="116">판정</text>
+  <path class="ln blue" d="M70 196 L120 142"/>
+  <path class="ln blue" d="M135 196 V142"/>
+  <path class="ln blue" d="M200 196 L150 142"/>
+  <use href="#i-gamepad" x="45" y="200" width="40" height="40" class="ic blue"/>
+  <use href="#i-gamepad" x="115" y="200" width="40" height="40" class="ic blue"/>
+  <use href="#i-gamepad" x="185" y="200" width="40" height="40" class="ic blue"/>
+  <text class="t-xs mid" x="65" y="254">지우</text>
+  <text class="t-xs mid" x="135" y="254">하준</text>
+  <text class="t-xs mid" x="205" y="254">서연</text>
+  <text class="t-s t-b mid" x="135" y="280">가장 공정하다</text>
+  <text class="t-s mid" x="135" y="300">서버 비용이 든다</text>
+
+  <rect class="panel" x="265" y="16" width="230" height="298" rx="16"/>
+  <text class="t-l mid" x="380" y="46">한 명이 호스트</text>
+  <text class="t-s mid" x="380" y="68">한 플레이어가 서버를 겸한다</text>
+  <use href="#i-gamepad" x="358" y="90" width="44" height="44" class="ic blue"/>
+  <text class="t-xs end" x="350" y="116">지우</text>
+  <rect class="solid green" x="410" y="101" width="46" height="22" rx="11"/>
+  <text class="t-xs t-b t-on mid" x="433" y="116">판정</text>
+  <text class="t-xs tc-warm mid" x="433" y="140">지연 0ms</text>
+  <path class="ln blue" d="M330 196 L368 142"/>
+  <path class="ln blue" d="M430 196 L392 142"/>
+  <text class="t-xs tc-warm end" x="336" y="168">60ms</text>
+  <text class="t-xs tc-warm" x="424" y="174">60ms</text>
+  <use href="#i-gamepad" x="305" y="200" width="40" height="40" class="ic blue"/>
+  <use href="#i-gamepad" x="415" y="200" width="40" height="40" class="ic blue"/>
+  <text class="t-xs mid" x="325" y="254">하준</text>
+  <text class="t-xs mid" x="435" y="254">서연</text>
+  <text class="t-s t-b mid" x="380" y="280">서버 비용이 없다</text>
+  <text class="t-s mid" x="380" y="300">호스트가 나가면 판이 끝난다</text>
+
+  <rect class="panel" x="510" y="16" width="230" height="298" rx="16"/>
+  <text class="t-l mid" x="625" y="46">P2P</text>
+  <text class="t-s mid" x="625" y="68">모두가 서로 직접 주고받는다</text>
+  <use href="#i-gamepad" x="603" y="90" width="44" height="44" class="ic blue"/>
+  <text class="t-xs" x="655" y="116">지우</text>
+  <path class="ln blue" d="M612 142 L578 196"/>
+  <path class="ln blue" d="M638 142 L672 196"/>
+  <path class="ln blue" d="M592 220 H658"/>
+  <text class="t-xs mid" x="625" y="186">각자 계산</text>
+  <use href="#i-gamepad" x="545" y="200" width="40" height="40" class="ic blue"/>
+  <use href="#i-gamepad" x="665" y="200" width="40" height="40" class="ic blue"/>
+  <text class="t-xs mid" x="565" y="254">하준</text>
+  <text class="t-xs mid" x="685" y="254">서연</text>
+  <text class="t-s t-b mid" x="625" y="280">서버가 필요 없다</text>
+  <text class="t-s mid" x="625" y="300">서로의 계산을 믿어야 한다</text>
+</svg></div><figcaption><b>그림 25-3</b>세 가지 접속 구조. 초록색 '판정' 표시가 붙은 곳이 진실을 정합니다.</figcaption></figure>
+<ul>
+<li><strong>전용 서버</strong>(dedicated server): 판정만 맡는 컴퓨터를 따로 둡니다. 가장 공정하지만 서버 비용이 듭니다. 공정함이 중요한 경쟁 게임에서 많이 씁니다.</li>
+<li><strong>호스트</strong>(host): 플레이어 한 명의 컴퓨터가 서버를 겸합니다. 비용이 거의 없어 친구끼리 하는 협동 게임에 알맞습니다. 대신 호스트만 지연이 0이라 유리하고, 호스트가 나가면 판이 끝납니다.</li>
+<li><strong>P2P</strong>(peer-to-peer): 서버 없이 모두가 서로 직접 주고받습니다. 심판이 없으므로 각자의 계산이 정확히 같아야 합니다.</li>
+</ul>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>공유기 뒤의 컴퓨터끼리는 직접 연결하기 어렵습니다(<a href="ch14.html#router">14장</a>). 그래서 중간에서 패킷을 건네주기만 하는 <strong>릴레이</strong>(relay) 서버를 두기도 합니다. 릴레이는 우체부이지 심판이 아닙니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>호스트가 나가도 판을 이어 가려면 (호스트 이전)</summary><div class="deep-body">
+<p>남은 플레이어 한 명이 서버 역할을 넘겨받는 것을 <strong>호스트 이전</strong>(host migration)이라고 합니다. 새 호스트는 충분히 최신인 세계를 갖고 있어야 하고, 나머지는 새 호스트에 다시 접속해야 합니다.</p>
+<p>옛 호스트가 뒤늦게 돌아와 "경기 끝, 결과는 이렇다"를 보내는 일도 막아야 합니다. 그래서 '몇 번째 호스트인지' 번호를 매겨 두고, 옛 번호가 붙은 소식은 버립니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="tick">
+<h2><span class="sec-n">25.3</span>서버의 박자: 틱과 스냅샷<a aria-label="이 절의 링크" class="anchor" href="#tick">#</a></h2>
+<p><a href="ch24.html">24장</a>에서 게임은 입력 받기, 계산하기, 그리기를 되풀이하는 게임 루프로 돈다고 배웠습니다. 서버도 같은 루프를 돕니다. 다만 그리지는 않고 일정한 박자로 <strong>계산만</strong> 합니다. 이 한 박자가 <strong>틱</strong>(tick)이고, 1초에 몇 번 계산하는지가 <strong>틱 레이트</strong>(tick rate)입니다.</p>
+<p>편지 체스의 심판은 편지가 올 때마다 판을 고치지 않습니다. 정해진 시각마다 그사이 도착한 신청을 한꺼번에 반영합니다. 그러고는 판의 모습을 적어 선수들에게 부칩니다. 이 "지금 세계의 모습 한 장"이 <strong>스냅샷</strong>(snapshot)입니다. 다만 체스와 달리 차례를 기다리지 않습니다. 이 심판은 1초에 수십 번씩 판을 고칩니다.</p>
+<p>이 장에서는 계산하기 쉽게, 서버가 50ms마다 틱을 돌고(초당 20번) 두 틱에 한 번(초당 10번) 스냅샷을 보낸다고 하겠습니다.</p>
+<figure class="fig" id="fig-tick-send"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 310" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>서버는 50ms마다 세계를 계산하고 100ms마다 스냅샷을 보내며, 화면은 그 사이에도 여러 번 그려진다</title>
+
+  <text class="t-b" x="20" y="64">서버 틱</text>
+  <text class="t-s" x="20" y="84">50ms마다 계산</text>
+  <rect class="solid green" x="159" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="180" y="66">100</text>
+  <rect class="solid green" x="224" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="245" y="66">101</text>
+  <rect class="solid green" x="289" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="310" y="66">102</text>
+  <rect class="solid green" x="354" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="375" y="66">103</text>
+  <rect class="solid green" x="419" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="440" y="66">104</text>
+  <rect class="solid green" x="484" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="505" y="66">105</text>
+  <rect class="solid green" x="549" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="570" y="66">106</text>
+  <rect class="solid green" x="614" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="635" y="66">107</text>
+  <rect class="solid green" x="679" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="700" y="66">108</text>
+
+  <text class="t-b" x="20" y="136">스냅샷 전송</text>
+  <text class="t-s" x="20" y="156">2틱마다 한 번</text>
+  <path class="ln thin green" d="M180 80 V106" marker-end="url(#ah-green)"/>
+  <rect class="box warm" x="148" y="112" width="64" height="44" rx="8"/>
+  <text class="t-xs mid" x="180" y="129">하준</text>
+  <text class="t-mono t-b mid" x="180" y="148">x=6</text>
+  <path class="ln thin green" d="M310 80 V106" marker-end="url(#ah-green)"/>
+  <rect class="box warm" x="278" y="112" width="64" height="44" rx="8"/>
+  <text class="t-xs mid" x="310" y="129">하준</text>
+  <text class="t-mono t-b mid" x="310" y="148">x=8</text>
+  <path class="ln thin green" d="M440 80 V106" marker-end="url(#ah-green)"/>
+  <rect class="box warm" x="408" y="112" width="64" height="44" rx="8"/>
+  <text class="t-xs mid" x="440" y="129">하준</text>
+  <text class="t-mono t-b mid" x="440" y="148">x=10</text>
+  <path class="ln thin green" d="M570 80 V106" marker-end="url(#ah-green)"/>
+  <rect class="box warm" x="538" y="112" width="64" height="44" rx="8"/>
+  <text class="t-xs mid" x="570" y="129">하준</text>
+  <text class="t-mono t-b mid" x="570" y="148">x=12</text>
+  <path class="ln thin green" d="M700 80 V106" marker-end="url(#ah-green)"/>
+  <rect class="box warm" x="668" y="112" width="64" height="44" rx="8"/>
+  <text class="t-xs mid" x="700" y="129">하준</text>
+  <text class="t-mono t-b mid" x="700" y="148">x=14</text>
+
+  <text class="t-b" x="20" y="216">화면 프레임</text>
+  <text class="t-s" x="20" y="236">1초에 60장</text>
+  <rect class="f-blue" x="178.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="199.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="221.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="243.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="264.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="286.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="308.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="329.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="351.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="373.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="394.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="416.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="438.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="459.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="481.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="503.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="524.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="546.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="568.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="589.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="611.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="633.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="654.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="676.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="698.0" y="204" width="4" height="24" rx="2"/>
+  <path class="ln thin warm" d="M180 190 V196 H310 V190"/>
+  <text class="t-s tc-warm" x="322" y="194">스냅샷 한 장과 다음 장 사이에 화면은 6번 그려진다</text>
+
+  <path class="ln thin muted" d="M180 254 H700"/>
+  <path class="ln thin muted" d="M180 249 V259 M310 249 V259 M440 249 V259 M570 249 V259 M700 249 V259"/>
+  <text class="t-xs mid" x="180" y="278">0ms</text>
+  <text class="t-xs mid" x="310" y="278">100ms</text>
+  <text class="t-xs mid" x="440" y="278">200ms</text>
+  <text class="t-xs mid" x="570" y="278">300ms</text>
+  <text class="t-xs mid" x="700" y="278">400ms</text>
+</svg></div><figcaption><b>그림 25-4</b>서버의 계산(틱), 스냅샷 전송, 내 화면의 프레임. 세 박자는 빠르기가 서로 다릅니다. 틱에는 차례대로 번호가 붙습니다.</figcaption></figure>
+<p>틱 레이트와 스냅샷 전송 주기, 내 화면의 FPS는 따로 움직입니다. 내 컴퓨터가 초당 144장을 그려도 서버에서 오는 새 소식은 초당 10번뿐입니다.</p>
+<p>오가는 메시지는 이렇게 생겼습니다.</p>
+<pre class="text"><code>지우 → 서버   입력 #41: 오른쪽 키 누름
+서버 → 지우   스냅샷 틱 104: 지우 x=21, 하준 x=10 (입력 #41까지 반영)</code></pre>
+<ul>
+<li>첫 줄: 클라이언트는 입력에 번호를 붙여 보냅니다.</li>
+<li>둘째 줄: 서버는 스냅샷에 틱 번호와 "네 입력을 몇 번까지 반영했는지"를 함께 적습니다.</li>
+</ul>
+<p>"3시 정각에 눌렀다"처럼 시각을 적어 보내면 안 될까요? 컴퓨터마다 시계가 조금씩 다르고, 플레이어가 자기 시계를 바꿀 수도 있습니다. 그래서 온라인 게임은 <strong>서버의 틱 번호를 공통 시계</strong>로 삼습니다. 클라이언트는 RTT를 재서 "서버는 지금 틱 몇 번쯤이겠다"를 어림합니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>박자를 올리면 얼마나 더 보내야 할까 (틱 레이트와 통신량)</summary><div class="deep-body">
+<p>물체 하나의 상태(위치, 방향, 체력)가 40바이트이고 물체가 100개라면 스냅샷 한 장은 40 × 100 = 4,000바이트입니다.</p>
+<ul>
+<li>초당 10번 보내면 4,000 × 10 = 40,000바이트, 곧 초당 40KB입니다.</li>
+<li>초당 20번으로 올리면 80KB입니다. 박자가 두 배면 보내는 양도 두 배입니다.</li>
+<li>플레이어가 10명이면 서버는 80KB × 10 = 초당 800KB를 내보냅니다. 비트로 바꾸면 8을 곱해 약 6.4Mbps입니다.</li>
+</ul>
+<p>박자가 빠르면 판정이 정밀해지지만 계산량과 통신량도 함께 늘어납니다.</p>
+</div></details>
+</section>
+<section class="level2" id="interp">
+<h2><span class="sec-n">25.4</span>다른 플레이어를 부드럽게: 스냅샷 보간<a aria-label="이 절의 링크" class="anchor" href="#interp">#</a></h2>
+<p>스냅샷은 0.1초에 한 장 옵니다. 그사이 화면은 6번 그려집니다. 새 스냅샷이 올 때만 하준의 위치를 바꾸면, 하준은 5프레임 동안 멈춰 있다가 6번째 프레임에 2칸을 건너뜁니다. 움직임이 뚝뚝 끊깁니다.</p>
+<p>해결책은 뜻밖입니다. <strong>일부러 조금 더 과거를 보여 줍니다.</strong></p>
+<p>인터넷 생중계는 받은 영상을 곧바로 틀지 않고 몇 초 분량을 모아 둔 뒤에 틉니다. 통신이 잠깐 느려져도 끊기지 않게 하려는 것입니다. 게임도 같습니다. 스냅샷 두 장을 모두 받은 뒤, 앞 장에서 뒷장으로 가는 길을 프레임마다 조금씩 나눠 그립니다. 이것이 <strong>스냅샷 보간</strong>(snapshot interpolation)입니다. <a href="ch23.html">23장</a>에서 배운 보간, 곧 두 값 사이를 비율로 섞는 계산을 그대로 씁니다.</p>
+<figure class="fig" id="fig-interp-graph"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 362" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>스냅샷을 받는 대로 그리면 위치가 계단처럼 건너뛰고, 100ms 늦춰 두 스냅샷 사이를 채우면 매끄럽게 움직인다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="330" rx="16"/>
+  <text class="t-l" x="40" y="46">받는 대로 그리면</text>
+  <text class="t-s" x="40" y="68">0.1초마다 2칸씩 건너뛴다</text>
+  <circle class="f-warm" cx="46" cy="92" r="5"/>
+  <text class="t-xs" x="58" y="96">도착한 스냅샷</text>
+  <path class="ln red" d="M170 92 H194"/>
+  <text class="t-xs" x="202" y="96">화면에 그린 위치</text>
+  <text class="t-xs" x="40" y="126">위치(칸)</text>
+  <path class="ln thin muted" d="M70 288 H354"/>
+  <text class="t-xs end" x="62" y="292">6</text>
+  <path class="ln thin muted" d="M70 242 H354"/>
+  <text class="t-xs end" x="62" y="246">8</text>
+  <path class="ln thin muted" d="M70 196 H354"/>
+  <text class="t-xs end" x="62" y="200">10</text>
+  <path class="ln thin muted" d="M70 150 H354"/>
+  <text class="t-xs end" x="62" y="154">12</text>
+  <path class="ln thin" d="M70 134 V304 H354"/>
+  <text class="t-xs mid" x="80" y="322">0</text>
+  <text class="t-xs mid" x="165" y="322">100</text>
+  <text class="t-xs mid" x="250" y="322">200</text>
+  <text class="t-xs mid" x="335" y="322">300ms</text>
+  <path class="ln thick red" d="M80 288 H165 V242 H250 V196 H335 V150"/>
+  <circle class="f-warm" cx="80" cy="288" r="5.500"/>
+  <circle class="f-warm" cx="165" cy="242" r="5.500"/>
+  <circle class="f-warm" cx="250" cy="196" r="5.500"/>
+  <circle class="f-warm" cx="335" cy="150" r="5.500"/>
+  <text class="t-xs t-b tc-red" x="175" y="270">순간이동</text>
+  <text class="t-xs t-b tc-red" x="260" y="224">순간이동</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="330" rx="16"/>
+  <text class="t-l" x="410" y="46">0.1초 늦춰 사이를 채우면</text>
+  <text class="t-s" x="410" y="68">프레임마다 조금씩 움직인다</text>
+  <circle class="f-warm" cx="416" cy="92" r="5"/>
+  <text class="t-xs" x="428" y="96">도착한 스냅샷</text>
+  <path class="ln green" d="M540 92 H564"/>
+  <text class="t-xs" x="572" y="96">화면에 그린 위치</text>
+  <text class="t-xs" x="410" y="126">위치(칸)</text>
+  <path class="ln thin muted" d="M440 288 H724"/>
+  <text class="t-xs end" x="432" y="292">6</text>
+  <path class="ln thin muted" d="M440 242 H724"/>
+  <text class="t-xs end" x="432" y="246">8</text>
+  <path class="ln thin muted" d="M440 196 H724"/>
+  <text class="t-xs end" x="432" y="200">10</text>
+  <path class="ln thin muted" d="M440 150 H724"/>
+  <text class="t-xs end" x="432" y="154">12</text>
+  <path class="ln thin" d="M440 134 V304 H724"/>
+  <text class="t-xs mid" x="450" y="322">0</text>
+  <text class="t-xs mid" x="535" y="322">100</text>
+  <text class="t-xs mid" x="620" y="322">200</text>
+  <text class="t-xs mid" x="705" y="322">300ms</text>
+  <path class="ln thin green dash" d="M450 288 H535"/>
+  <path class="ln green" d="M535 288 L620 242 L705 196"/>
+  <circle class="f-green" cx="535.0" cy="288.0" r="3.500"/>
+  <circle class="f-green" cx="549.2" cy="280.3" r="3.500"/>
+  <circle class="f-green" cx="563.3" cy="272.7" r="3.500"/>
+  <circle class="f-green" cx="577.5" cy="265.0" r="3.500"/>
+  <circle class="f-green" cx="591.7" cy="257.3" r="3.500"/>
+  <circle class="f-green" cx="605.8" cy="249.7" r="3.500"/>
+  <circle class="f-green" cx="620.0" cy="242.0" r="3.500"/>
+  <circle class="f-green" cx="634.2" cy="234.3" r="3.500"/>
+  <circle class="f-green" cx="648.3" cy="226.7" r="3.500"/>
+  <circle class="f-green" cx="662.5" cy="219.0" r="3.500"/>
+  <circle class="f-green" cx="676.7" cy="211.3" r="3.500"/>
+  <circle class="f-green" cx="690.8" cy="203.7" r="3.500"/>
+  <circle class="f-green" cx="705.0" cy="196.0" r="3.500"/>
+  <circle class="f-warm" cx="450" cy="288" r="5.500"/>
+  <circle class="f-warm" cx="535" cy="242" r="5.500"/>
+  <circle class="f-warm" cx="620" cy="196" r="5.500"/>
+  <circle class="f-warm" cx="705" cy="150" r="5.500"/>
+  <path class="ln thin dash warm" d="M544 242 H612"/>
+  <text class="t-xs tc-warm mid" x="577.5" y="234">100ms 뒤에 그림</text>
+  <circle class="ln blue" cx="577.5" cy="265" r="8"/>
+  <path class="ln thin dash blue" d="M577.5 274 V304"/>
+  <text class="t-xs tc-blue mid" x="577.5" y="322">150</text>
+  <text class="t-s t-b tc-blue" x="593.5" y="284">6과 8의 중간 = 7</text>
+</svg></div><figcaption><b>그림 25-5</b>왼쪽은 스냅샷이 도착할 때마다 위치를 바꾼 화면, 오른쪽은 100ms 늦춰서 두 스냅샷 사이를 채운 화면입니다. 주황 점(도착한 스냅샷)은 양쪽이 똑같습니다.</figcaption></figure>
+<p>오른쪽 그래프의 파란 동그라미를 계산해 봅시다. 화면 시각 150ms는 x=6에서 x=8로 가는 길의 절반 지점입니다. 출발 값 6에, 두 값의 차이 2에 진행 비율 0.5를 곱한 1을 더합니다. 그래서 x=7에 그립니다.</p>
+<p>대가는 <strong>지연이 100ms 더 늘어난다</strong>는 것입니다. 서버에서 오는 데 50ms, 보간에 100ms가 들어, 지우의 화면에 보이는 하준은 서버보다 150ms 늦습니다. 그 대신 지터와 손실에 강해집니다. 스냅샷 한 장이 늦게 와도 모아 둔 여유 안에서 메울 수 있습니다.</p>
+<p>모아 둔 것이 바닥나면 마지막 속도 그대로 계속 간다고 치고 앞으로 밀어 그릴 수 있습니다. 이것이 <strong>외삽</strong>(extrapolation)입니다. 보간은 아는 두 점 사이를 채우고, 외삽은 모르는 앞날을 짐작합니다. 상대가 멈추거나 방향을 틀면 틀리므로 아주 짧은 시간만 씁니다. 캐릭터가 벽 속으로 밀려 들어갔다가 튕겨 나오는 장면은 외삽이 빗나간 것입니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>다른 플레이어는 <strong>조금 늦더라도 매끄럽게</strong> 보여 줍니다. 부드러움의 값은 추가 지연입니다.</p>
+</div>
+</section>
+<section class="level2" id="predict">
+<h2><span class="sec-n">25.5</span>내 캐릭터는 바로 움직이게: 예측과 조정<a aria-label="이 절의 링크" class="anchor" href="#predict">#</a></h2>
+<p>다른 사람은 조금 늦게 보여도 괜찮습니다. 하지만 <strong>내 캐릭터</strong>까지 늦으면 곤란합니다. 오른쪽 키를 눌렀는데 0.1초 뒤에야 움직이면 얼음판 위를 걷는 느낌이 납니다.</p>
+<p>편지 체스의 선수라면 이렇게 합니다. 심판에게 신청을 부치면서 <strong>내 판에는 말을 먼저 옮겨 둡니다.</strong> 규칙을 알고 있으니 결과가 뻔하기 때문입니다. 게임에서는 이것을 <strong>클라이언트 예측</strong>(client-side prediction)이라고 합니다. 클라이언트가 서버와 같은 이동 규칙을 직접 돌려, 답을 기다리지 않고 내 캐릭터를 먼저 움직입니다.</p>
+<figure class="fig" id="fig-predict-timeline"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 412" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>예측이 없으면 키를 누르고 100ms 뒤에야 캐릭터가 움직이고, 예측을 쓰면 누르는 순간 움직인 뒤 서버 답으로 확인만 한다</title>
+
+  <text class="t-l" x="20" y="34">예측 없이</text>
+  <text class="t-s" x="110" y="34">서버의 답이 와야 움직인다</text>
+
+  <text class="t-s t-b" x="20" y="92">지우의 화면</text>
+  <text class="t-s t-b" x="20" y="162">서버</text>
+  <path class="ln thin muted" d="M150 88 H740"/>
+  <path class="ln thin muted" d="M150 158 H740"/>
+  <path class="ln thick red dash" d="M212 88 H628"/>
+  <circle class="f-blue" cx="200" cy="88" r="6"/>
+  <text class="t-s mid" x="200" y="70">오른쪽 키 누름</text>
+  <text class="t-s t-b tc-red mid" x="420" y="70">100ms 동안 화면은 그대로</text>
+  <circle class="f-green" cx="640" cy="88" r="6"/>
+  <text class="t-s mid" x="640" y="70">이제야 움직임</text>
+  <path class="ln blue" d="M205 94 L413 153" marker-end="url(#ah-blue)"/>
+  <text class="t-mono" x="246" y="130">입력 #41</text>
+  <circle class="f-green" cx="420" cy="158" r="6"/>
+  <text class="t-mono mid" x="420" y="182">x: 20 → 21</text>
+  <path class="ln green" d="M427 153 L633 94" marker-end="url(#ah-green)"/>
+  <text class="t-mono" x="548" y="138">결과 x=21</text>
+
+  <path class="ln thin muted" d="M200 208 H640"/>
+  <path class="ln thin muted" d="M200 203 V213 M420 203 V213 M640 203 V213"/>
+  <text class="t-xs mid" x="200" y="230">0ms</text>
+  <text class="t-xs mid" x="420" y="230">50ms</text>
+  <text class="t-xs mid" x="640" y="230">100ms</text>
+
+  <text class="t-l" x="20" y="262">예측을 쓰면</text>
+  <text class="t-s" x="126" y="262">누르는 순간 내 화면에서 먼저 움직인다</text>
+
+  <text class="t-s t-b" x="20" y="320">지우의 화면</text>
+  <text class="t-s t-b" x="20" y="390">서버</text>
+  <path class="ln thin muted" d="M150 316 H740"/>
+  <path class="ln thin muted" d="M150 386 H740"/>
+  <path class="ln thick green" d="M212 316 H628"/>
+  <circle class="f-blue" cx="200" cy="316" r="6"/>
+  <text class="t-s t-b tc-green" x="154" y="298">누르자마자 x=21</text>
+  <text class="t-s mid" x="420" y="298">이미 움직이는 중</text>
+  <circle class="f-green" cx="640" cy="316" r="6"/>
+  <text class="t-s mid" x="640" y="298">답도 x=21: 그대로 진행</text>
+  <path class="ln blue" d="M205 322 L413 381" marker-end="url(#ah-blue)"/>
+  <text class="t-mono" x="246" y="358">입력 #41</text>
+  <circle class="f-green" cx="420" cy="386" r="6"/>
+  <text class="t-mono mid" x="420" y="406">x: 20 → 21</text>
+  <path class="ln green" d="M427 381 L633 322" marker-end="url(#ah-green)"/>
+  <text class="t-mono" x="548" y="366">결과 x=21</text>
+</svg></div><figcaption><b>그림 25-6</b>위는 서버의 답을 기다렸다가 움직이는 방식, 아래는 예측하는 방식입니다. 서버가 하는 일은 같지만 지우가 느끼는 반응 속도는 전혀 다릅니다.</figcaption></figure>
+<p>예측은 대개 맞습니다. 틀리는 것은 서버만 아는 일이 끼어들었을 때입니다. 지우가 달려가는 길목에 하준이 한발 먼저 벽을 세웠다면, 지우의 화면에서는 지나갔지만 서버에서는 막혔습니다. 권한은 서버에 있으므로 클라이언트가 자기 세계를 고칩니다. 이 바로잡기가 <strong>서버 조정</strong>(server reconciliation)입니다.</p>
+<p>조정에는 함정이 있습니다. 서버의 답도 <strong>과거의 답</strong>이라는 점입니다. 지우는 입력을 43번까지 보냈고 화면의 위치는 x=23입니다. 그때 "40번까지 반영했더니 x=20"이라는 답이 도착합니다.</p>
+<figure class="fig" id="fig-reconcile"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 396" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>서버가 입력 40번까지 반영한 위치 20을 보내오면, 그 위치에서 아직 확인받지 못한 41, 42, 43번 입력을 다시 적용해 23을 유지한다</title>
+
+  <text class="t-b" x="20" y="46">지우가 보낸 입력</text>
+  <text class="t-s" x="20" y="66">번호를 붙여 보낸다</text>
+  <rect class="box green" x="200" y="24" width="116" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="258" y="46">#40</text>
+  <text class="t-xs mid" x="258" y="64">오른쪽 1칸</text>
+  <rect class="box blue" x="328" y="24" width="116" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="386" y="46">#41</text>
+  <text class="t-xs mid" x="386" y="64">오른쪽 1칸</text>
+  <rect class="box blue" x="456" y="24" width="116" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="514" y="46">#42</text>
+  <text class="t-xs mid" x="514" y="64">오른쪽 1칸</text>
+  <rect class="box blue" x="584" y="24" width="116" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="642" y="46">#43</text>
+  <text class="t-xs mid" x="642" y="64">오른쪽 1칸</text>
+  <text class="t-xs t-b tc-green mid" x="258" y="96">서버가 반영함</text>
+  <path class="ln thin blue" d="M328 88 V82 H700 V88"/>
+  <text class="t-xs t-b tc-blue mid" x="514" y="104">아직 답이 오지 않음: 내 화면에만 반영</text>
+
+  <text class="t-b" x="20" y="150">서버의 답</text>
+  <rect class="box green" x="200" y="124" width="500" height="42" rx="10"/>
+  <text class="t-mono t-b mid" x="450" y="150">"입력 #40까지 반영했더니 x = 20"</text>
+
+  <text class="t-b tc-red" x="20" y="222">덮어쓰기만 하면</text>
+  <text class="t-s" x="20" y="242">3칸 뒤로 끌려간다</text>
+  <path class="ln thin" d="M215 240 H735"/>
+  <path class="ln thin" d="M250 235 V245 M340 235 V245 M430 235 V245 M520 235 V245 M610 235 V245 M700 235 V245"/>
+  <text class="t-xs mid" x="250" y="262">19</text>
+  <text class="t-xs mid" x="340" y="262">20</text>
+  <text class="t-xs mid" x="430" y="262">21</text>
+  <text class="t-xs mid" x="520" y="262">22</text>
+  <text class="t-xs mid" x="610" y="262">23</text>
+  <text class="t-xs mid" x="700" y="262">24</text>
+  <circle class="ghost dash" cx="610" cy="220" r="11"/>
+  <circle class="f-red" cx="340" cy="220" r="11"/>
+  <path class="ln red" d="M595 220 H358" marker-end="url(#ah-red)"/>
+  <text class="t-mono tc-red mid" x="475" y="208">화면: 23 → 20</text>
+
+  <text class="t-b tc-green" x="20" y="332">다시 적용하면</text>
+  <text class="t-s" x="20" y="352">제자리에 그대로 있다</text>
+  <path class="ln thin" d="M215 350 H735"/>
+  <path class="ln thin" d="M250 345 V355 M340 345 V355 M430 345 V355 M520 345 V355 M610 345 V355 M700 345 V355"/>
+  <text class="t-xs mid" x="250" y="372">19</text>
+  <text class="t-xs mid" x="340" y="372">20</text>
+  <text class="t-xs mid" x="430" y="372">21</text>
+  <text class="t-xs mid" x="520" y="372">22</text>
+  <text class="t-xs mid" x="610" y="372">23</text>
+  <text class="t-xs mid" x="700" y="372">24</text>
+  <circle class="ghost dash" cx="340" cy="330" r="11"/>
+  <circle class="f-green" cx="430" cy="335" r="4"/>
+  <circle class="f-green" cx="520" cy="335" r="4"/>
+  <circle class="f-green" cx="610" cy="330" r="11"/>
+  <path class="ln green" d="M346 316 Q385 286 424 322" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M436 322 Q475 286 514 322" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M526 322 Q565 286 601 314" marker-end="url(#ah-green)"/>
+  <text class="t-mono mid" x="385" y="292">#41</text>
+  <text class="t-mono mid" x="475" y="292">#42</text>
+  <text class="t-mono mid" x="565" y="292">#43</text>
+  <text class="t-mono t-b tc-green" x="630" y="326">x = 23</text>
+</svg></div><figcaption><b>그림 25-7</b>서버의 답에는 41~43번 입력이 아직 들어 있지 않습니다. 답으로 덮어쓰기만 하면 3칸 뒤로 끌려가고, 남은 입력을 다시 적용하면 제자리를 지킵니다.</figcaption></figure>
+<p>그래서 클라이언트는 보낸 입력을 번호와 함께 보관해 두고, 답이 오면 세 단계를 밟습니다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><span class="co"># 서버의 답: "입력 40번까지 반영했더니 x = 20"</span></span>
+<span id="cb2-2">x <span class="op">=</span> <span class="dv">20</span>                                       <span class="co"># ① 서버가 정한 위치로 맞춘다</span></span>
+<span id="cb2-3">pending <span class="op">=</span> [i <span class="cf">for</span> i <span class="kw">in</span> pending <span class="cf">if</span> i.no <span class="op">&gt;</span> <span class="dv">40</span>]  <span class="co"># ② 확인된 입력은 버린다</span></span>
+<span id="cb2-4"><span class="cf">for</span> i <span class="kw">in</span> pending:                            <span class="co"># ③ 남은 41, 42, 43번을</span></span>
+<span id="cb2-5">    x <span class="op">+=</span> i.dx                                <span class="co">#    다시 적용: 21 → 22 → 23</span></span></code></pre></div>
+<ul>
+<li>①: 서버가 정한 값을 일단 받아들입니다.</li>
+<li>②: <code>pending</code>은 보냈지만 아직 답을 받지 못한 입력 목록이고 <code>i.no</code>는 입력 번호입니다. 40번까지는 서버의 답에 이미 들어 있으므로 지웁니다.</li>
+<li>③: 남은 입력이 움직인 칸 수 <code>i.dx</code>를 서버 위치 위에 다시 쌓습니다. 예측이 맞았다면 결과는 원래 화면과 같은 23이라 플레이어는 아무것도 느끼지 못합니다. 서버가 x=19라고 답했다면 22가 되어 한 칸만 밀립니다.</li>
+</ul>
+<p>②와 ③ 없이 덮어쓰기만 하면 캐릭터가 고무줄에 묶인 듯 뒤로 당겨졌다가 튀어나갑니다. <strong>러버밴딩</strong>(rubber banding)이라고 부르는 증상입니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
+<p>다시 적용할 때는 위치 계산만 다시 합니다. 발소리를 또 내거나 총알을 또 만들면 안 됩니다. 그리고 예측은 화면을 미리 보여 줄 뿐입니다. 피해와 보상은 서버의 확정을 기다립니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>상태 대신 입력만 주고받기 (결정론적 락스텝)</summary><div class="deep-body">
+<p>유닛이 수백 개 나오는 전략 게임은 모든 유닛의 위치를 스냅샷으로 보내기 버겁습니다. 그래서 거꾸로 <strong>입력만</strong> 주고받고, 모든 컴퓨터가 같은 입력으로 같은 계산을 해서 같은 세계를 만듭니다. 이 방식이 <strong>결정론적 락스텝</strong>(deterministic lockstep)입니다. 같은 입력을 넣으면 언제나 똑같은 결과가 나오는 성질을 결정론이라고 합니다.</p>
+<p>조건이 까다롭습니다. 계산 결과가 조금만 달라도 두 세계가 점점 벌어집니다. <a href="ch02.html#float">2장</a>에서 본 실수 계산의 작은 오차가 CPU나 빌드 설정에 따라 달라질 수 있어서, 난수와 계산 순서까지 맞춰야 합니다. 또 모두의 입력이 모여야 다음 틱으로 넘어가므로 한 명이 느리면 모두가 느려집니다.</p>
+</div></details>
+<details class="deep"><summary><small>한 걸음 더</small>기다리지 않고 일단 진행하기 (롤백 넷코드)</summary><div class="deep-body">
+<p>격투 게임은 한두 프레임이 승부를 가르므로 상대 입력을 기다릴 수 없습니다. <strong>롤백 넷코드</strong>(rollback netcode)는 상대 입력이 아직 오지 않았으면 "조금 전과 같은 버튼을 누르고 있겠지"라고 짐작해 일단 진행합니다. 실제 입력이 도착했는데 짐작과 다르면, 그 시점의 세계로 되돌아가(롤백) 올바른 입력으로 지금까지를 한꺼번에 다시 계산합니다.</p>
+<p>앞에서 본 조정을 내 캐릭터 하나가 아니라 <strong>세계 전체에</strong> 하는 셈입니다. 그러려면 세계를 통째로 저장했다가 되돌릴 수 있어야 합니다.</p>
+</div></details>
+</section>
+<section class="level2" id="lagcomp">
+<h2><span class="sec-n">25.6</span>분명히 맞혔는데 왜 안 맞았을까: 지연 보상<a aria-label="이 절의 링크" class="anchor" href="#lagcomp">#</a></h2>
+<p>지우가 달리는 하준을 정확히 조준해 쐈습니다. 그런데 지우의 화면에 보이는 하준은 서버보다 150ms 늦습니다. 총알 소식이 서버에 닿는 데 또 50ms가 걸립니다. 서버가 판정할 때 하준은 지우가 본 자리에서 200ms만큼 더 달아나 있습니다.</p>
+<p>서버가 '지금' 위치로 판정하면 화면에서 정확히 맞힌 총알이 모두 빗나갑니다. 플레이어는 핑에 따라 상대의 한참 앞을 어림해 쏴야 합니다.</p>
+<p>편지 체스의 심판이라면 지난 판의 모습을 차례대로 적어 둘 것입니다. 편지가 오면 "이 선수가 편지를 쓸 때 보던 판"으로 돌아가 판단합니다. 서버도 그렇게 합니다. 최근 몇 틱의 위치를 보관해 두었다가, 쏜 사람이 보던 시점으로 <strong>되감아</strong> 판정합니다. 이것이 <strong>지연 보상</strong>(lag compensation)입니다.</p>
+<figure class="fig" id="fig-lag-comp"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>지우가 화면에서 본 하준은 200ms 전의 위치에 있으므로, 서버는 기록을 200ms 되감아 그때 위치로 명중을 판정한다</title>
+
+  <text class="t-mono mid" x="250" y="30">x=10</text>
+  <text class="t-mono mid" x="350" y="30">x=11</text>
+  <text class="t-mono mid" x="450" y="30">x=12</text>
+  <text class="t-mono mid" x="550" y="30">x=13</text>
+  <text class="t-mono mid" x="650" y="30">x=14</text>
+
+  <text class="t-b" x="20" y="72">지우의 화면</text>
+  <text class="t-s" x="20" y="92">쏘는 순간, 350ms</text>
+  <rect class="box blue" x="200" y="42" width="500" height="72" rx="12"/>
+  <path class="ln thin muted" d="M300 42 V52 M400 42 V52 M500 42 V52 M600 42 V52"/>
+  <use href="#i-user" x="232" y="58" width="36" height="36" class="ic warm"/>
+  <circle class="ln red" cx="250" cy="78" r="27"/>
+  <path class="ln thin red" d="M250 46 V58 M250 98 V110 M218 78 H230 M270 78 H282"/>
+  <text class="t-b" x="306" y="74">화면 속 하준을 조준해 발사</text>
+  <text class="t-s" x="306" y="96">이 모습은 서버 시각 200ms의 하준이다</text>
+
+  <path class="ln blue dash" d="M250 120 V186" marker-end="url(#ah-blue)"/>
+  <text class="t-s" x="264" y="158">총알 소식이 50ms 뒤 서버에 도착</text>
+
+  <text class="t-b" x="20" y="222">서버의 세계</text>
+  <text class="t-s" x="20" y="242">도착한 순간, 400ms</text>
+  <rect class="box green" x="200" y="192" width="500" height="72" rx="12"/>
+  <path class="ln thin muted" d="M300 192 V202 M400 192 V202 M500 192 V202 M600 192 V202"/>
+  <circle class="solid green" cx="250" cy="228" r="17"/>
+  <circle class="ghost dash" cx="350" cy="228" r="17"/>
+  <circle class="ghost dash" cx="450" cy="228" r="17"/>
+  <circle class="ghost dash" cx="550" cy="228" r="17"/>
+  <use href="#i-user" x="632" y="208" width="36" height="36" class="ic warm"/>
+  <text class="t-xs t-b tc-green mid" x="250" y="284">200ms 때</text>
+  <text class="t-xs mid" x="350" y="284">250ms 때</text>
+  <text class="t-xs mid" x="450" y="284">300ms 때</text>
+  <text class="t-xs mid" x="550" y="284">350ms 때</text>
+  <text class="t-xs t-b mid" x="650" y="284">지금 400ms</text>
+
+  <path class="ln green" d="M650 296 V310 H250 V298" marker-end="url(#ah-green)"/>
+  <text class="t-s t-b tc-green mid" x="450" y="328">200ms 되감기 = 왕복 100ms + 보간 지연 100ms</text>
+
+  <text class="t-b tc-red" x="20" y="358">지금 위치(x=14)로 판정하면 빗나감</text>
+  <text class="t-b tc-green end" x="740" y="358">되감은 위치(x=10)로 판정하면 명중</text>
+</svg></div><figcaption><b>그림 25-8</b>위는 지우가 쏘는 순간의 화면, 아래는 총알 소식이 도착한 순간의 서버입니다. 서버는 틱마다 적어 둔 기록에서 200ms 전 위치를 꺼내 판정합니다.</figcaption></figure>
+<p>공짜는 아닙니다. 하준은 이미 벽 뒤로 숨었는데 맞습니다. 서버 시각으로 200ms 전, 아직 벽 밖에 있던 자신이 맞은 것입니다. 지연 보상은 불공평을 없애는 기술이 아니라 <strong>쏜 사람의 억울함을 맞는 사람에게 조금 옮기는 선택</strong>입니다.</p>
+<p>그래서 되감는 시간에 상한을 둡니다. 핑이 아주 높은 플레이어를 위해 1초씩 되감아 주면 모두가 "숨었는데 맞았다"를 겪습니다. "나는 0.5초 전에 쐈다"는 클라이언트의 주장도 그대로 믿지 않고, 서버가 직접 잰 지연으로 되감을 시점을 정합니다.</p>
+</section>
+<section class="level2" id="messages">
+<h2><span class="sec-n">25.7</span>무엇을 어떻게 보낼까: 엽서, 상태, 사건<a aria-label="이 절의 링크" class="anchor" href="#messages">#</a></h2>
+<p><a href="ch14.html#transport">14장</a>에서 TCP는 등기 우편, UDP는 엽서라고 했습니다. 실시간 게임은 대부분 UDP를 씁니다. 틱 104의 스냅샷이 사라졌다고 합시다. TCP는 그것을 다시 받을 때까지 뒤따라온 틱 106을 붙잡아 둡니다. 하지만 106이 있으면 104는 필요 없습니다. <strong>낡은 소식을 다시 받느라 새 소식이 기다리는 것</strong>이 게임에는 가장 나쁩니다.</p>
+<p>그렇다고 모두 잃어도 되는 것은 아닙니다. "하준이 쓰러졌다"는 소식이나 채팅 한 줄은 꼭 도착해야 합니다. 그래서 게임은 UDP 위에 <strong>필요한 것만 다시 보내는 장치</strong>를 얹습니다. 메시지에 번호를 붙이고, 받은 쪽은 "몇 번 받았음"이라는 확인을 돌려주며, 확인이 없으면 다시 보냅니다. 같은 번호가 두 번 오면 한 번만 처리합니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr>
+<th>보내는 것</th>
+<th>잃어버리면</th>
+<th>보내는 방법</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>위치, 방향</td>
+<td>다음 스냅샷이 대신함</td>
+<td>엽서처럼, 다시 보내지 않음</td>
+</tr>
+<tr>
+<td>쓰러짐, 채팅, 아이템 획득</td>
+<td>세계가 어긋남</td>
+<td>번호를 붙여 확인될 때까지</td>
+</tr>
+</tbody>
+</table></div>
+<p>게임 엔진에서는 앞의 것을 <code>unreliable</code>, 뒤의 것을 <code>reliable</code>이라고 부릅니다.</p>
+<section class="level3" id="상태와-사건은-다르게-보냅니다">
+<h3>상태와 사건은 다르게 보냅니다</h3>
+<p>보내는 내용도 두 종류입니다. <strong>상태</strong>(state)는 "문이 열려 있다", "체력 70"처럼 지금의 값입니다. 사건은 "문 열어!", "폭발 효과 재생!"처럼 한 번 일어나는 일입니다. 사건을 보내는 흔한 방법이 <strong>RPC</strong>(Remote Procedure Call, 원격 프로시저 호출)로, "상대 컴퓨터에서 이 함수를 실행해 줘"라는 메시지입니다.</p>
+<figure class="fig" id="fig-state-vs-event"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 344" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>문을 여는 사건을 한 번만 알리면 늦게 들어온 서연은 닫힌 문을 보고, 문의 상태를 보내면 서연도 열린 문을 본다</title>
+
+  <text class="t-s t-b mid" x="300" y="34">10초: 지우가 문을 연다</text>
+  <text class="t-s t-b mid" x="580" y="34">30초: 서연이 늦게 들어온다</text>
+
+  <rect class="panel" x="20" y="48" width="720" height="134" rx="16"/>
+  <text class="t-b" x="36" y="106">사건으로만 알리면</text>
+  <text class="t-s" x="36" y="128">한 번 알리고 끝</text>
+  <rect class="box blue" x="220" y="60" width="160" height="34" rx="17"/>
+  <text class="t-mono t-b mid" x="300" y="82">"문 열어!"</text>
+  <path class="ln blue" d="M300 98 V112" marker-end="url(#ah-blue)"/>
+  <rect class="box green" x="230" y="118" width="140" height="52" rx="10"/>
+  <use href="#i-door" x="240" y="128" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="280" y="150">하준: 열림</text>
+  <rect class="ghost dash" x="500" y="60" width="160" height="34" rx="17"/>
+  <text class="t-xs mid" x="580" y="82">다시 알려 주지 않는다</text>
+  <rect class="box red" x="510" y="118" width="140" height="52" rx="10"/>
+  <use href="#i-door" x="520" y="128" width="32" height="32" class="ic red"/>
+  <text class="t-b tc-red" x="560" y="150">서연: 닫힘</text>
+  <use href="#i-cross" x="680" y="128" width="32" height="32" class="ic red"/>
+
+  <rect class="panel" x="20" y="196" width="720" height="134" rx="16"/>
+  <text class="t-b" x="36" y="254">상태로 알리면</text>
+  <text class="t-s" x="36" y="276">지금 값을 계속 보냄</text>
+  <rect class="box warm" x="220" y="208" width="160" height="34" rx="17"/>
+  <text class="t-mono t-b mid" x="300" y="230">문 = 열림</text>
+  <path class="ln warm" d="M300 246 V260" marker-end="url(#ah-warm)"/>
+  <rect class="box green" x="230" y="266" width="140" height="52" rx="10"/>
+  <use href="#i-door" x="240" y="276" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="280" y="298">하준: 열림</text>
+  <rect class="box warm" x="500" y="208" width="160" height="34" rx="17"/>
+  <text class="t-mono t-b mid" x="580" y="230">문 = 열림</text>
+  <path class="ln warm" d="M580 246 V260" marker-end="url(#ah-warm)"/>
+  <rect class="box green" x="510" y="266" width="140" height="52" rx="10"/>
+  <use href="#i-door" x="520" y="276" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="560" y="298">서연: 열림</text>
+  <use href="#i-check" x="680" y="276" width="32" height="32" class="ic green"/>
+</svg></div><figcaption><b>그림 25-9</b>문을 여는 사건만 한 번 알리면, 그 뒤에 들어온 서연은 소식을 듣지 못해 닫힌 문을 봅니다. 문의 상태를 보내면 언제 들어와도 같은 문을 봅니다.</figcaption></figure>
+<p>기준은 <strong>"늦게 들어온 사람도 알아야 하는가"</strong>입니다. 알아야 하면 상태로, 그 순간에만 뜻이 있으면 사건으로 보냅니다. 반대 실수도 있습니다. 체력 70이라는 상태를 받을 때마다 피격 소리를 내면 같은 소리가 여러 번 납니다. 소리는 사건입니다.</p>
+<p>물체가 생기고 사라지는 일도 맞춰야 합니다. 서버가 총알을 만들면 모든 클라이언트에 같은 번호표(ID)를 단 총알이 생겨야 "17번이 x=30으로 이동"이라는 소식을 적용할 수 있습니다. 이 일을 <strong>스폰</strong>(spawn)이라고 합니다. 물체마다 누가 움직일 수 있는지도 정해 두는데, 이것이 <strong>소유권</strong>(ownership)입니다. 지우의 캐릭터에는 지우의 입력만 통해야 합니다.</p>
+</section>
+<section class="level3" id="보낼-양-줄이기">
+<h3>보낼 양 줄이기</h3>
+<p>플레이어가 100명이면 스냅샷 한 장에 100명이 담기고, 그것을 100명에게 보냅니다. 사람이 10배 늘면 통신량은 100배가 됩니다. 줄이는 방법은 둘입니다.</p>
+<ul>
+<li><strong>관심 영역</strong>(interest management): 각 플레이어에게 그 사람 근처의 것만 보냅니다. 보안에도 도움이 됩니다. 벽 뒤에 있는 적의 위치를 보내 놓고 화면에서만 가리면, 조작한 클라이언트가 그 값을 읽어 벽 너머를 봅니다. <strong>보내지 않은 정보는 훔칠 수 없습니다.</strong></li>
+<li><strong>델타 압축</strong>(delta compression): 지난 스냅샷과 달라진 값만 보냅니다. 대신 받는 쪽이 기준이 되는 지난 스냅샷을 갖고 있어야 합니다. 기준을 놓쳤거나 방금 접속한 사람에게는 전체를 통째로 보냅니다.</li>
+</ul>
+<details class="deep"><summary><small>한 걸음 더</small>숫자를 접어서 보내기 (상태 압축)</summary><div class="deep-body">
+<p>좌표 값 하나를 실수 그대로 보내면 32비트가 듭니다. 맵이 0~100m이고 1cm 단위면 충분하다고 합시다. 그러면 0부터 10,000까지의 정수로 나타낼 수 있고, 2를 14번 곱하면 16,384이므로 14비트면 됩니다.</p>
+<p>이렇게 값을 정해진 눈금에 맞춰 반올림해 보내는 것을 <strong>양자화</strong>(quantization)라고 합니다. 1.234m는 1.23m가 되고, 오차는 많아야 0.5cm입니다. 서버와 클라이언트가 같은 반올림 값으로 계산해야 예측이 어긋나지 않습니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="session">
+<h2><span class="sec-n">25.8</span>경기의 앞과 뒤: 방, 재접속, 영구 데이터<a aria-label="이 절의 링크" class="anchor" href="#session">#</a></h2>
+<p>지금까지는 경기 한 판의 안쪽이었습니다. 경기에는 앞과 뒤도 있습니다.</p>
+<figure class="fig" id="fig-session-life"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 318" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>한 판은 로그인, 방, 매치메이킹, 경기, 결과 저장을 차례로 거치며, 경기 상태는 한 판 동안만 살고 계정 데이터는 데이터베이스에 영구히 남는다</title>
+
+  <rect class="box blue" x="20" y="24" width="128" height="104" rx="12"/>
+  <circle class="badge blue" cx="40" cy="44" r="12"/><text class="badge-t" x="40" y="48.500">1</text>
+  <use href="#i-idcard" x="66" y="34" width="36" height="36" class="ic blue"/>
+  <text class="t-b mid" x="84" y="94">로그인</text>
+  <text class="t-xs mid" x="84" y="114">누구인지 확인</text>
+
+  <rect class="box blue" x="168" y="24" width="128" height="104" rx="12"/>
+  <circle class="badge blue" cx="188" cy="44" r="12"/><text class="badge-t" x="188" y="48.500">2</text>
+  <use href="#i-users" x="214" y="34" width="36" height="36" class="ic blue"/>
+  <text class="t-b mid" x="232" y="94">방(로비)</text>
+  <text class="t-xs mid" x="232" y="114">모여서 준비</text>
+
+  <rect class="box blue" x="316" y="24" width="128" height="104" rx="12"/>
+  <circle class="badge blue" cx="336" cy="44" r="12"/><text class="badge-t" x="336" y="48.500">3</text>
+  <use href="#i-scale" x="362" y="34" width="36" height="36" class="ic blue"/>
+  <text class="t-b mid" x="380" y="94">매치메이킹</text>
+  <text class="t-xs mid" x="380" y="114">비슷한 실력끼리</text>
+
+  <rect class="box green" x="464" y="24" width="128" height="104" rx="12"/>
+  <circle class="badge green" cx="484" cy="44" r="12"/><text class="badge-t" x="484" y="48.500">4</text>
+  <use href="#i-gamepad" x="510" y="34" width="36" height="36" class="ic green"/>
+  <text class="t-b mid" x="528" y="94">경기</text>
+  <text class="t-xs mid" x="528" y="114">게임 서버에 접속</text>
+
+  <rect class="box warm" x="612" y="24" width="128" height="104" rx="12"/>
+  <circle class="badge warm" cx="632" cy="44" r="12"/><text class="badge-t" x="632" y="48.500">5</text>
+  <use href="#i-db" x="658" y="34" width="36" height="36" class="ic warm"/>
+  <text class="t-b mid" x="676" y="94">결과 저장</text>
+  <text class="t-xs mid" x="676" y="114">DB에 한 번만</text>
+
+  <path class="ln" d="M151 76 H162" marker-end="url(#ah)"/>
+  <path class="ln" d="M299 76 H310" marker-end="url(#ah)"/>
+  <path class="ln" d="M447 76 H458" marker-end="url(#ah)"/>
+  <path class="ln" d="M595 76 H606" marker-end="url(#ah)"/>
+
+  <text class="t-s t-b" x="20" y="166">무엇이 얼마나 오래 사는가</text>
+
+  <text class="t-s end" x="454" y="200">경기 중의 위치와 체력: 게임 서버 메모리에, 한 판 동안만</text>
+  <rect class="solid green" x="464" y="186" width="128" height="20" rx="6"/>
+
+  <text class="t-s end" x="454" y="238">지우의 연결: 끊겼다 돌아오면 최신 상태를 통째로 받는다</text>
+  <rect class="solid blue" x="464" y="224" width="44" height="20" rx="6"/>
+  <path class="ln red dash" d="M512 234 H544"/>
+  <rect class="solid blue" x="548" y="224" width="44" height="20" rx="6"/>
+  <text class="t-xs tc-red mid" x="528" y="260">끊김</text>
+
+  <rect class="box warm" x="20" y="272" width="720" height="32" rx="8"/>
+  <text class="t-s t-b mid" x="380" y="293">계정, 아이템, 재화: 데이터베이스에 영구 보관. 경기 전에도 후에도 그대로 있다</text>
+</svg></div><figcaption><b>그림 25-10</b>한 판의 일생. 단계마다 맡는 서버가 다르고, 데이터가 살아 있는 기간도 다릅니다.</figcaption></figure>
+<p>친구들과 <strong>방</strong>(로비, lobby)에 모여 준비를 마치면 <strong>매치메이킹</strong>(matchmaking)이 상대를 찾아 줍니다. 대기 중인 플레이어를 실력, 지역, 게임 모드에 맞춰 묶는 일입니다. 조건이 까다로울수록 잘 맞는 상대를 만나지만 오래 기다립니다. 그래서 "30초를 기다리면 실력 차 허용 범위를 두 배로" 하는 식으로 조건을 조금씩 풉니다. 게임 버전처럼 풀면 안 되는 조건도 있습니다.</p>
+<p>경기 하나가 열려서 닫힐 때까지를 <strong>세션</strong>(session)이라 하고, 세션마다 고유한 ID를 붙여 "어느 판의 소식인지"를 구분합니다.</p>
+<section class="level3" id="끊겼다-다시-들어오기">
+<h3>끊겼다 다시 들어오기</h3>
+<p>지하철이 터널에 들어가 10초간 끊겼습니다. 다시 연결되는 것만으로는 모자랍니다. 그 10초 동안에도 세계는 흘러갔습니다. 재접속한 클라이언트는 먼저 자신이 누구이고 어느 세션에 있었는지 서버에 확인받습니다. 그다음 <strong>최신 스냅샷을 통째로</strong> 받아 세계를 새로 맞춥니다. 놓친 사건을 하나하나 돌려받는 것이 아닙니다.</p>
+</section>
+<section class="level3" id="재화와-아이템은-데이터베이스로">
+<h3>재화와 아이템은 데이터베이스로</h3>
+<p>경기 중의 위치와 체력은 게임 서버의 메모리에만 있다가 판이 끝나면 사라집니다. 계정, 아이템, 재화는 다릅니다. 오래 남아야 하고 한 번도 틀리면 안 됩니다. 이런 데이터는 <a href="ch17.html">17장</a>에서 배운 데이터베이스에, 전부 되거나 전부 안 되는 <strong>트랜잭션</strong>으로 기록합니다.</p>
+<p>조심할 것은 "딱 한 번"입니다. 경기가 끝나 보상을 저장하라고 요청했는데 응답이 끊겼다면, 저장됐는지 알 수 없습니다. 무작정 다시 요청하면 두 번 줄 수 있습니다. 그래서 보상 기록에 <strong>경기 ID와 사용자 ID</strong>를 함께 적어 두고, 같은 짝이 이미 있으면 다시 주지 않습니다. 그리고 "코인 1만 개 추가" 같은 요청은 클라이언트에게서 받지 않습니다. 보상은 결과를 확정한 서버가 요청합니다.</p>
+</section>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>지연 / 지터</td>
+<td>도착하는 데 걸리는 시간 / 그 시간이 들쭉날쭉한 정도</td>
+</tr>
+<tr>
+<td>틱 레이트 / FPS</td>
+<td>서버가 세계를 계산하는 횟수 / 내 화면을 그리는 횟수</td>
+</tr>
+<tr>
+<td>보간 / 외삽</td>
+<td>이미 받은 두 스냅샷 사이를 채움 / 아직 받지 못한 앞날을 짐작</td>
+</tr>
+<tr>
+<td>보간 / 예측</td>
+<td>다른 플레이어를 늦게, 매끄럽게 / 내 캐릭터를 먼저, 곧바로</td>
+</tr>
+<tr>
+<td>상태 / 사건</td>
+<td>지금의 값, 늦게 와도 받음 / 한 번 일어난 일, 지나가면 끝</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 창 두 개로는 완벽했는데, 친구와 해 보니 끊기고 굼뜨다</div>
+<p>AI 도구로 2인용 대전 게임을 만들었습니다. 내 컴퓨터에 창 두 개를 띄워 시험할 때는 매끄러웠습니다. 그런데 다른 도시의 친구와 해 보니 친구 캐릭터는 뚝뚝 끊기고, 내 캐릭터는 한 박자 늦게 움직입니다.</p>
+<ol type="1">
+<li><strong>시험 환경을 의심합니다.</strong> 같은 컴퓨터의 창 두 개 사이는 지연이 거의 0ms이고 손실도 없습니다. 지연 때문에 생기는 문제가 드러나지 않습니다.</li>
+<li><strong>나쁜 통신을 일부러 만듭니다.</strong> 네트워크 시뮬레이션 도구로 지연 100ms, 지터 30ms, 손실 3%를 걸었더니 내 컴퓨터에서도 같은 증상이 나왔습니다.</li>
+<li><strong>증상을 둘로 나눕니다.</strong> 코드는 스냅샷이 올 때마다 모든 캐릭터의 위치를 그대로 덮어쓰고 있었습니다. "상대가 끊긴다"와 "내가 굼뜨다"는 서로 다른 문제입니다.</li>
+<li><strong>상대 캐릭터에는 보간을 넣습니다.</strong> 스냅샷 두 장을 모은 뒤 그 사이를 채워 그리게 하자 끊김이 사라졌습니다.</li>
+<li><strong>내 캐릭터에는 예측과 조정을 넣습니다.</strong> 입력에 번호를 붙여 곧바로 적용하고, 서버의 답이 오면 남은 입력을 다시 적용하게 했습니다.</li>
+<li><strong>다시 잽니다.</strong> 지연, 지터, 손실을 하나씩 바꿔 가며 화면 위치와 서버 위치의 차이를 기록했습니다.</li>
+</ol>
+<p>부드러움과 즉시성은 서로 다른 문제이고 처방도 다릅니다. 온라인 게임은 <strong>나쁜 통신 환경을 일부러 만들어서</strong> 시험해야 합니다.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li>플레이어는 모두 조금씩 <strong>다른 과거</strong>를 봅니다. 온라인 게임의 기법은 이 사실에서 나옵니다.</li>
+<li>클라이언트는 <strong>입력</strong>을 보내고 <strong>결과는 서버</strong>가 정합니다. 클라이언트가 보낸 값은 확인 전까지 주장일 뿐입니다.</li>
+<li>서버는 <strong>틱</strong>마다 세계를 계산하고 <strong>스냅샷</strong>을 보냅니다. 틱 레이트와 FPS는 서로 다른 숫자입니다.</li>
+<li>다른 플레이어는 <strong>보간</strong>으로 조금 늦게, 매끄럽게 그립니다. 내 캐릭터는 <strong>예측</strong>으로 바로 움직이고, 서버의 답이 오면 <strong>조정</strong>합니다.</li>
+<li><strong>지연 보상</strong>은 서버가 쏜 사람이 보던 과거로 되감아 판정하는 것입니다.</li>
+<li>위치는 엽서처럼, 꼭 도착해야 하는 것은 확인될 때까지 보냅니다. 오래 남아야 하면 <strong>상태</strong>, 그 순간뿐이면 <strong>사건</strong>입니다.</li>
+<li>재화와 아이템은 <strong>데이터베이스 트랜잭션</strong>으로, 경기마다 딱 한 번만 기록합니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>"결과는 서버가 정한다면서, 서버의 답도 받기 전에 내 캐릭터를 먼저 움직여도 되나요?"라는 질문에 어떻게 답하겠습니까?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>됩니다. 화면에 미리 보여 주는 것(예측)과 결과를 확정하는 것(권한)은 다른 일입니다. 서버가 다른 답을 주면 클라이언트가 고칩니다. 다만 피해나 보상은 서버의 답을 기다립니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>다른 플레이어가 뚝뚝 끊겨 보입니다. 팀원이 "UDP가 패킷을 잃어서 그래. 전부 reliable로 바꾸자"고 합니다. 좋아질까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>오히려 나빠질 수 있습니다. 위치는 잃어버려도 다음 스냅샷이 대신합니다. 전부 다시 보내게 하면 낡은 위치를 기다리느라 새 위치가 늦어집니다. 끊김은 보간으로 고칩니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>경기 도중에 들어온 플레이어의 화면에서만, 이미 무너진 다리가 멀쩡하게 서 있습니다. 원인은 무엇이고 어떻게 고칠까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>다리가 무너진 일을 사건(RPC)으로 한 번만 알렸기 때문입니다. "다리 = 무너짐"을 상태로 바꿔 스냅샷에 담기게 하고, 무너지는 효과와 소리만 사건으로 남깁니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>지연 100ms를 걸고 시험했더니, 달리는 동안 내 캐릭터가 자꾸 뒤로 당겨졌다가 돌아옵니다. 서버가 계산한 위치에는 이상이 없습니다. 무엇을 의심해야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>조정 단계입니다. 서버의 답은 과거 입력까지만 반영한 위치입니다. 그 값으로 덮어쓰기만 하면 뒤로 끌려갑니다. 스냅샷에 "몇 번 입력까지 반영했는지"가 들어 있는지, 클라이언트가 그 뒤의 입력을 다시 적용하는지 확인합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>경기가 끝나고 보상을 받는 순간 연결이 끊겼습니다. 다시 접속하니 보상이 두 번 들어와 있습니다. 어디를 고쳐야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>같은 경기의 보상을 새 요청으로 다시 처리한 것이 원인입니다. 보상 기록에 경기 ID와 사용자 ID를 함께 저장하고, 같은 짝이 이미 있으면 다시 지급하지 않게 합니다. 재접속했을 때는 먼저 그 경기의 보상이 저장됐는지 조회합니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>온라인 기능을 맡길 때는 <strong>누가 판정하는지</strong>와 <strong>어떤 통신 환경에서 확인할지</strong>를 먼저 정해 주세요.</p>
+<blockquote>
+<p>2인 대전 게임의 이동 동기화를 고쳐 줘. 서버 권한 구조이고, 서버 틱은 초당 20번, 스냅샷은 초당 10번이야. 클라이언트는 입력만 보내고 위치는 서버가 계산하게 해 줘. 상대 캐릭터는 스냅샷 보간으로, 내 캐릭터는 입력 번호를 붙인 예측과 재적용으로 처리해 줘. 완료 조건은 지연 100ms, 지터 30ms, 손실 3%를 건 상태에서 상대가 끊기지 않고, 벽에 부딪힐 때 내 캐릭터가 2칸 넘게 튀지 않는 거야. 화면 위치와 서버 위치의 최대 차이를 표로 보여 줘.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: 클라이언트가 위치나 피해를 직접 정해 보내는 코드가 남아 있지 않은가, 서버가 속도와 사거리를 검사하는가, 지연을 건 환경에서 실제로 쟀는가, 입력을 다시 적용할 때 소리와 효과가 겹치지 않는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>지연<small>latency</small></dt>
+<dd>
+패킷이 도착하는 데 걸리는 시간. 왕복 시간은 RTT 또는 핑이라고 한다.
+</dd>
+<dt>지터<small>jitter</small></dt>
+<dd>
+지연이 들쭉날쭉한 정도.
+</dd>
+<dt>서버 권한<small>server authority</small></dt>
+<dd>
+게임의 최종 결과를 서버가 정하는 구조. 클라이언트는 입력만 보낸다.
+</dd>
+<dt>틱<small>tick</small></dt>
+<dd>
+서버가 세계를 한 번 계산하는 박자. 1초당 횟수가 틱 레이트.
+</dd>
+<dt>스냅샷<small>snapshot</small></dt>
+<dd>
+어느 틱의 세계 상태를 담아 클라이언트에 보내는 한 장.
+</dd>
+<dt>스냅샷 보간<small>snapshot interpolation</small></dt>
+<dd>
+이미 받은 두 스냅샷 사이를 채워 다른 플레이어를 매끄럽게 그리는 방법.
+</dd>
+<dt>외삽<small>extrapolation</small></dt>
+<dd>
+마지막 위치와 속도로 아직 받지 못한 앞날의 위치를 짐작하는 방법.
+</dd>
+<dt>클라이언트 예측<small>client-side prediction</small></dt>
+<dd>
+서버의 답을 기다리지 않고 내 입력을 내 화면에 먼저 적용하는 방법.
+</dd>
+<dt>서버 조정<small>server reconciliation</small></dt>
+<dd>
+서버가 정한 상태로 맞춘 뒤, 아직 확인받지 못한 입력을 다시 적용하는 일.
+</dd>
+<dt>지연 보상<small>lag compensation</small></dt>
+<dd>
+서버가 쏜 사람이 보던 과거 시점으로 되감아 명중을 판정하는 방법.
+</dd>
+<dt>RPC<small>Remote Procedure Call</small></dt>
+<dd>
+다른 컴퓨터에서 정해진 함수를 실행해 달라고 보내는 메시지. 사건을 알릴 때 쓴다.
+</dd>
+<dt>관심 영역<small>interest management</small></dt>
+<dd>
+각 플레이어에게 필요한 범위의 정보만 골라 보내는 방법.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://gafferongames.com/post/snapshot_interpolation/" rel="noopener" target="_blank">Glenn Fiedler — Snapshot Interpolation</a> — 스냅샷 보간과 지터의 관계를 실험으로 보여 줍니다.</li>
+<li><a href="https://gafferongames.com/post/reliability_ordering_and_congestion_avoidance_over_udp/" rel="noopener" target="_blank">Glenn Fiedler — Reliability over UDP</a> — UDP 위에 번호와 확인 응답을 얹는 방법을 설명합니다.</li>
+<li><a href="https://gafferongames.com/post/deterministic_lockstep/" rel="noopener" target="_blank">Glenn Fiedler — Deterministic Lockstep</a> — 입력만 주고받는 방식의 조건과 대가를 다룹니다.</li>
+<li><a href="https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html" rel="noopener" target="_blank">Godot — High-level multiplayer</a> — 실제 엔진에서 권한, RPC, 전송 방식을 고르는 법을 볼 수 있습니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch24.html"><small>← 이전 · 24장</small><b>게임이 움직이고 그려지는 원리</b></a><a class="next" href="ch26.html"><small>다음 · 26장 →</small><b>AI 계산을 따라가는 수학</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#delay">모두가 조금씩 다른 과거를 봅니다</a><a href="#authority">누가 진실을 정할까: 서버 권한</a><a href="#tick">서버의 박자: 틱과 스냅샷</a><a href="#interp">다른 플레이어를 부드럽게: 스냅샷 보간</a><a href="#predict">내 캐릭터는 바로 움직이게: 예측과 조정</a><a href="#lagcomp">분명히 맞혔는데 왜 안 맞았을까: 지연 보상</a><a href="#messages">무엇을 어떻게 보낼까: 엽서, 상태, 사건</a><a href="#session">경기의 앞과 뒤: 방, 재접속, 영구 데이터</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

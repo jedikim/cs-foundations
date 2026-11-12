@@ -1,0 +1,94 @@
+<svg viewBox="0 0 760 352" xmlns="http://www.w3.org/2000/svg">
+  <title>카드 8장을 병합 정렬하면 세 층에 걸쳐 층마다 8장을 한 번씩 옮긴다</title>
+  <text class="t-b" x="20" y="52">처음</text>
+  <text class="t-s" x="20" y="71">낱장 8개</text>
+  <rect class="box" x="150" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="172" y="60">5</text>
+  <rect class="box" x="210" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="232" y="60">2</text>
+  <rect class="box" x="270" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="292" y="60">8</text>
+  <rect class="box" x="330" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="352" y="60">1</text>
+  <rect class="box" x="390" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="412" y="60">7</text>
+  <rect class="box" x="450" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="472" y="60">3</text>
+  <rect class="box" x="510" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="532" y="60">6</text>
+  <rect class="box" x="570" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="592" y="60">4</text>
+  <path class="ln" d="M202 85 V105" marker-end="url(#ah)"/>
+  <path class="ln" d="M322 85 V105" marker-end="url(#ah)"/>
+  <path class="ln" d="M442 85 V105" marker-end="url(#ah)"/>
+  <path class="ln" d="M562 85 V105" marker-end="url(#ah)"/>
+  <text class="t-s" x="640" y="101">8장을 옮김</text>
+  <text class="t-b" x="20" y="136">1층</text>
+  <text class="t-s" x="20" y="155">2장씩 정렬</text>
+  <rect class="panel green" x="145" y="112" width="114" height="52" rx="10"/>
+  <rect class="panel green" x="265" y="112" width="114" height="52" rx="10"/>
+  <rect class="panel green" x="385" y="112" width="114" height="52" rx="10"/>
+  <rect class="panel green" x="505" y="112" width="114" height="52" rx="10"/>
+  <rect class="box green" x="150" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="172" y="144">2</text>
+  <rect class="box green" x="210" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="232" y="144">5</text>
+  <rect class="box green" x="270" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="292" y="144">1</text>
+  <rect class="box green" x="330" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="352" y="144">8</text>
+  <rect class="box green" x="390" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="412" y="144">3</text>
+  <rect class="box green" x="450" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="472" y="144">7</text>
+  <rect class="box green" x="510" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="532" y="144">4</text>
+  <rect class="box green" x="570" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="592" y="144">6</text>
+  <path class="ln" d="M262 169 V189" marker-end="url(#ah)"/>
+  <path class="ln" d="M502 169 V189" marker-end="url(#ah)"/>
+  <text class="t-s" x="640" y="185">8장을 옮김</text>
+  <text class="t-b" x="20" y="220">2층</text>
+  <text class="t-s" x="20" y="239">4장씩 정렬</text>
+  <rect class="panel green" x="145" y="196" width="234" height="52" rx="10"/>
+  <rect class="panel green" x="385" y="196" width="234" height="52" rx="10"/>
+  <rect class="box green" x="150" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="172" y="228">1</text>
+  <rect class="box green" x="210" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="232" y="228">2</text>
+  <rect class="box green" x="270" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="292" y="228">5</text>
+  <rect class="box green" x="330" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="352" y="228">8</text>
+  <rect class="box green" x="390" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="412" y="228">3</text>
+  <rect class="box green" x="450" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="472" y="228">4</text>
+  <rect class="box green" x="510" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="532" y="228">6</text>
+  <rect class="box green" x="570" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="592" y="228">7</text>
+  <path class="ln" d="M382 253 V273" marker-end="url(#ah)"/>
+  <text class="t-s" x="640" y="269">8장을 옮김</text>
+  <text class="t-b" x="20" y="304">3층</text>
+  <text class="t-s" x="20" y="323">8장 모두 정렬</text>
+  <rect class="panel green" x="145" y="280" width="474" height="52" rx="10"/>
+  <rect class="box green" x="150" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="172" y="312">1</text>
+  <rect class="box green" x="210" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="232" y="312">2</text>
+  <rect class="box green" x="270" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="292" y="312">3</text>
+  <rect class="box green" x="330" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="352" y="312">4</text>
+  <rect class="box green" x="390" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="412" y="312">5</text>
+  <rect class="box green" x="450" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="472" y="312">6</text>
+  <rect class="box green" x="510" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="532" y="312">7</text>
+  <rect class="box green" x="570" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="592" y="312">8</text>
+  <text class="t-b" x="640" y="304">3층 × 8장</text>
+  <text class="t-b tc-green" x="640" y="324">= 24걸음</text>
+</svg>

@@ -1,0 +1,75 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 토큰 ‘배’도 앞에 놓인 말에 따라 어텐션이 섞어 오는 비중이 달라져, 탈것이 되기도 하고 과일이 되기도 한다</title>
+
+  <!-- 문맥 1: 항구에서 배 -->
+  <rect class="panel" x="20" y="20" width="720" height="150" rx="14"/>
+  <text class="t-s t-b" x="36" y="44">앞에 ‘항구에서’가 있을 때</text>
+
+  <rect class="box blue" x="36" y="56" width="76" height="34" rx="8"/>
+  <text class="mid" x="74" y="78">항구</text>
+  <rect class="box blue" x="124" y="56" width="76" height="34" rx="8"/>
+  <text class="mid" x="162" y="78">에서</text>
+  <rect class="box yellow" x="212" y="56" width="60" height="34" rx="8"/>
+  <text class="mid t-b" x="242" y="78">배</text>
+
+  <path class="ln thick blue" d="M74 94 L136 112" marker-end="url(#ah-blue)"/>
+  <path class="ln thin blue" d="M162 94 L257 113" marker-end="url(#ah-blue)"/>
+  <path class="ln muted" d="M242 94 L302 113" marker-end="url(#ah-muted)"/>
+
+  <rect class="solid blue" x="36" y="118" width="208" height="24" rx="4"/>
+  <text class="t-s t-on t-b mid" x="140" y="135">항구</text>
+  <rect class="solid blue" x="246" y="118" width="28" height="24" rx="4"/>
+  <rect class="box yellow" x="276" y="118" width="60" height="24" rx="4"/>
+  <text class="t-s mid" x="140" y="160">70%</text>
+  <text class="t-s mid" x="260" y="160">10%</text>
+  <text class="t-s mid" x="306" y="160">20%</text>
+
+  <path class="ln" d="M346 130 H410" marker-end="url(#ah)"/>
+  <text class="t-s" x="420" y="100">섞은 뒤 ‘배’가 가리키는 뜻</text>
+  <rect class="box gray" x="420" y="112" width="88" height="36" rx="8"/>
+  <text class="t-s mid" x="464" y="135">과일</text>
+  <rect class="box gray" x="518" y="112" width="88" height="36" rx="8"/>
+  <text class="t-s mid" x="562" y="135">몸</text>
+  <rect class="solid blue" x="616" y="112" width="88" height="36" rx="8"/>
+  <text class="mid t-on t-b" x="660" y="135">탈것</text>
+
+  <!-- 문맥 2: 과일 가게에서 배 -->
+  <rect class="panel" x="20" y="185" width="720" height="150" rx="14"/>
+  <text class="t-s t-b" x="36" y="209">앞에 ‘과일 가게에서’가 있을 때</text>
+
+  <rect class="box blue" x="36" y="221" width="62" height="34" rx="8"/>
+  <text class="mid" x="67" y="243">과일</text>
+  <rect class="box blue" x="106" y="221" width="62" height="34" rx="8"/>
+  <text class="mid" x="137" y="243">가게</text>
+  <rect class="box blue" x="176" y="221" width="62" height="34" rx="8"/>
+  <text class="mid" x="207" y="243">에서</text>
+  <rect class="box yellow" x="246" y="221" width="56" height="34" rx="8"/>
+  <text class="mid t-b" x="274" y="243">배</text>
+
+  <path class="ln thick blue" d="M67 259 L106 277" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M137 259 L218 278" marker-end="url(#ah-blue)"/>
+  <path class="ln thin blue" d="M207 259 L264 278" marker-end="url(#ah-blue)"/>
+  <path class="ln muted" d="M274 259 L303 278" marker-end="url(#ah-muted)"/>
+
+  <rect class="solid blue" x="36" y="283" width="148" height="24" rx="4"/>
+  <text class="t-s t-on t-b mid" x="110" y="300">과일</text>
+  <rect class="solid blue" x="186" y="283" width="73" height="24" rx="4"/>
+  <text class="t-s t-on t-b mid" x="222.500" y="300">가게</text>
+  <rect class="solid blue" x="261" y="283" width="13" height="24" rx="3"/>
+  <rect class="box yellow" x="276" y="283" width="60" height="24" rx="4"/>
+  <text class="t-s mid" x="110" y="325">50%</text>
+  <text class="t-s mid" x="222" y="325">25%</text>
+  <text class="t-s mid" x="267" y="325">5%</text>
+  <text class="t-s mid" x="306" y="325">20%</text>
+
+  <path class="ln" d="M346 295 H410" marker-end="url(#ah)"/>
+  <text class="t-s" x="420" y="265">섞은 뒤 ‘배’가 가리키는 뜻</text>
+  <rect class="solid blue" x="420" y="277" width="88" height="36" rx="8"/>
+  <text class="mid t-on t-b" x="464" y="300">과일</text>
+  <rect class="box gray" x="518" y="277" width="88" height="36" rx="8"/>
+  <text class="t-s mid" x="562" y="300">몸</text>
+  <rect class="box gray" x="616" y="277" width="88" height="36" rx="8"/>
+  <text class="t-s mid" x="660" y="300">탈것</text>
+
+  <text class="t-s" x="20" y="358">막대는 ‘배’가 각 토큰에서 정보를 섞어 오는 비중입니다. 노란 칸은 ‘배’ 자신의 몫.</text>
+</svg>

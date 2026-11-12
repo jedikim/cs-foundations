@@ -1,0 +1,60 @@
+<svg viewBox="0 0 760 416" xmlns="http://www.w3.org/2000/svg">
+  <title>코드가 같아도 런타임, 패키지, 환경 변수, 운영체제가 다르면 한쪽 컴퓨터에서만 실행된다</title>
+
+  <rect class="panel blue" x="180" y="20" width="260" height="376" rx="14"/>
+  <use href="#i-laptop" x="196" y="30" width="36" height="36" class="ic blue"/>
+  <text class="t-l" x="242" y="55">민아의 노트북</text>
+
+  <rect class="panel gray" x="480" y="20" width="260" height="376" rx="14"/>
+  <use href="#i-server" x="496" y="30" width="36" height="36" class="ic gray"/>
+  <text class="t-l" x="542" y="55">배포할 서버</text>
+
+  <text class="t-b" x="20" y="98">설계도</text>
+  <text class="t-s" x="20" y="116">코드</text>
+  <rect class="box green" x="196" y="80" width="228" height="42" rx="10"/>
+  <text class="t-mono mid" x="310" y="106">main.py</text>
+  <text class="t-l mid tc-green" x="460" y="107">=</text>
+  <rect class="box green" x="496" y="80" width="228" height="42" rx="10"/>
+  <text class="t-mono mid" x="610" y="106">main.py</text>
+
+  <text class="t-b" x="20" y="150">공구</text>
+  <text class="t-s" x="20" y="168">런타임과 그 버전</text>
+  <rect class="box" x="196" y="132" width="228" height="42" rx="10"/>
+  <text class="t-mono mid" x="310" y="158">Python 3.12</text>
+  <text class="t-l mid tc-red" x="460" y="159">≠</text>
+  <rect class="box warm" x="496" y="132" width="228" height="42" rx="10"/>
+  <text class="t-mono mid" x="610" y="158">Python 3.9</text>
+
+  <text class="t-b" x="20" y="202">부품</text>
+  <text class="t-s" x="20" y="220">패키지</text>
+  <rect class="box" x="196" y="184" width="228" height="42" rx="10"/>
+  <text class="t-mono mid" x="310" y="210">requests 2.32</text>
+  <text class="t-l mid tc-red" x="460" y="211">≠</text>
+  <rect class="box red" x="496" y="184" width="228" height="42" rx="10"/>
+  <text class="mid tc-red" x="610" y="210">설치 안 됨</text>
+
+  <text class="t-b" x="20" y="254">벽의 메모</text>
+  <text class="t-s" x="20" y="272">환경 변수</text>
+  <rect class="box" x="196" y="236" width="228" height="42" rx="10"/>
+  <text class="t-mono mid" x="310" y="262">API_KEY=****</text>
+  <text class="t-l mid tc-red" x="460" y="263">≠</text>
+  <rect class="box red" x="496" y="236" width="228" height="42" rx="10"/>
+  <text class="mid tc-red" x="610" y="262">정해 둔 값 없음</text>
+
+  <text class="t-b" x="20" y="306">건물</text>
+  <text class="t-s" x="20" y="324">운영체제와 CPU</text>
+  <rect class="box" x="196" y="288" width="228" height="42" rx="10"/>
+  <text class="t-mono mid" x="310" y="314">macOS · ARM64</text>
+  <text class="t-l mid tc-red" x="460" y="315">≠</text>
+  <rect class="box warm" x="496" y="288" width="228" height="42" rx="10"/>
+  <text class="t-mono mid" x="610" y="314">Linux · x86-64</text>
+
+  <path class="ln thin muted dash" d="M20 338 H170"/>
+  <text class="t-b" x="20" y="369">실행하면</text>
+  <rect class="box green" x="196" y="344" width="228" height="38" rx="10"/>
+  <use href="#i-check" x="268" y="352" width="22" height="22" class="ic green"/>
+  <text class="t-b tc-green" x="298" y="368">잘 된다</text>
+  <rect class="box red" x="496" y="344" width="228" height="38" rx="10"/>
+  <use href="#i-cross" x="510" y="352" width="22" height="22" class="ic red"/>
+  <text class="t-mono t-b tc-red" x="540" y="368">ModuleNotFoundError</text>
+</svg>

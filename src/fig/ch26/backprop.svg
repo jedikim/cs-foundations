@@ -1,0 +1,60 @@
+<svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg">
+  <title>앞으로 가며 3, 6, 7, 2, 4로 값을 계산하고, 거꾸로 돌아오며 각 단계의 배율을 곱해 1, 4, 4, 4, 8로 기울기를 구한다</title>
+
+  <circle class="badge blue" cx="32" cy="30" r="12"/><text class="badge-t" x="32" y="34.500">1</text>
+  <text class="t-b" x="52" y="35">앞으로: 값을 계산한다</text>
+
+  <rect class="box blue" x="20" y="54" width="92" height="64" rx="10"/>
+  <text class="t-s mid" x="66" y="76">레시피 w</text>
+  <text class="t-l mid" x="66" y="103">3</text>
+  <rect class="box blue" x="177" y="54" width="92" height="64" rx="10"/>
+  <text class="t-s mid" x="223" y="76">어른 2명분</text>
+  <text class="t-l mid" x="223" y="103">6</text>
+  <rect class="box blue" x="334" y="54" width="92" height="64" rx="10"/>
+  <text class="t-s mid" x="380" y="76">예측</text>
+  <text class="t-l mid" x="380" y="103">7</text>
+  <rect class="box blue" x="491" y="54" width="92" height="64" rx="10"/>
+  <text class="t-s mid" x="537" y="76">오차</text>
+  <text class="t-l mid" x="537" y="103">2</text>
+  <rect class="box blue" x="648" y="54" width="92" height="64" rx="10"/>
+  <text class="t-s mid" x="694" y="76">손실</text>
+  <text class="t-l mid" x="694" y="103">4</text>
+
+  <path class="ln blue" d="M118 90 H170" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M275 90 H327" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M432 90 H484" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M589 90 H641" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b mid" x="144" y="80">× 2</text>
+  <text class="t-s t-b mid" x="301" y="80">+ 1</text>
+  <text class="t-s t-b mid" x="458" y="80">− 5</text>
+  <text class="t-s t-b mid" x="615" y="80">제곱</text>
+  <text class="t-xs mid" x="301" y="110">기본 간</text>
+  <text class="t-xs mid" x="458" y="110">정답</text>
+
+  <path class="ln thin muted dash" d="M66 124 V166 M223 124 V166 M380 124 V166 M537 124 V166 M694 124 V166"/>
+
+  <rect class="box warm" x="20" y="172" width="92" height="52" rx="10"/>
+  <text class="t-l mid tc-warm" x="66" y="204">8</text>
+  <rect class="box warm" x="177" y="172" width="92" height="52" rx="10"/>
+  <text class="t-l mid tc-warm" x="223" y="204">4</text>
+  <rect class="box warm" x="334" y="172" width="92" height="52" rx="10"/>
+  <text class="t-l mid tc-warm" x="380" y="204">4</text>
+  <rect class="box warm" x="491" y="172" width="92" height="52" rx="10"/>
+  <text class="t-l mid tc-warm" x="537" y="204">4</text>
+  <rect class="box warm" x="648" y="172" width="92" height="52" rx="10"/>
+  <text class="t-l mid tc-warm" x="694" y="204">1</text>
+
+  <path class="ln warm" d="M642 198 H590" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M485 198 H433" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M328 198 H276" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M171 198 H119" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b mid tc-warm" x="615" y="188">× 4</text>
+  <text class="t-s t-b mid tc-warm" x="458" y="188">× 1</text>
+  <text class="t-s t-b mid tc-warm" x="301" y="188">× 1</text>
+  <text class="t-s t-b mid tc-warm" x="144" y="188">× 2</text>
+  <text class="t-xs mid" x="615" y="218">2×오차</text>
+
+  <circle class="badge warm" cx="32" cy="262" r="12"/><text class="badge-t" x="32" y="266.500">2</text>
+  <text class="t-b" x="52" y="267">거꾸로: 손실에서 출발해 배율을 곱하며 돌아온다</text>
+  <text class="t-s" x="52" y="292">아래 줄의 숫자 = 그 값을 1 올리면 손실이 오르는 양. 맨 왼쪽 8이 w의 기울기</text>
+</svg>

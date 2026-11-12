@@ -1,0 +1,44 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>힙은 부모가 자식보다 급하다는 규칙만 지켜서 가장 급한 환자를 항상 맨 위에 둔다</title>
+
+  <path class="ln" d="M285 70 L165 160"/>
+  <path class="ln" d="M285 70 L425 160"/>
+  <path class="ln" d="M165 160 L95 250"/>
+  <path class="ln" d="M165 160 L225 250"/>
+  <path class="ln" d="M425 160 L355 250"/>
+
+  <rect class="box warm" x="225" y="46" width="120" height="48" rx="12"/>
+  <text class="t-l mid tc-warm" x="250" y="76">1</text>
+  <text class="t-s" x="270" y="75">심정지</text>
+
+  <rect class="box" x="105" y="136" width="120" height="48" rx="12"/>
+  <text class="t-l mid" x="130" y="166">3</text>
+  <text class="t-s" x="150" y="165">골절</text>
+
+  <rect class="box" x="365" y="136" width="120" height="48" rx="12"/>
+  <text class="t-l mid" x="390" y="166">2</text>
+  <text class="t-s" x="410" y="165">호흡 곤란</text>
+
+  <rect class="box" x="40" y="226" width="110" height="48" rx="12"/>
+  <text class="t-l mid" x="65" y="256">5</text>
+  <text class="t-s" x="85" y="255">감기</text>
+
+  <rect class="box" x="170" y="226" width="110" height="48" rx="12"/>
+  <text class="t-l mid" x="195" y="256">4</text>
+  <text class="t-s" x="215" y="255">복통</text>
+
+  <rect class="box" x="300" y="226" width="110" height="48" rx="12"/>
+  <text class="t-l mid" x="325" y="256">6</text>
+  <text class="t-s" x="345" y="255">찰과상</text>
+
+  <path class="ln warm" d="M452 70 H354" marker-end="url(#ah-warm)"/>
+  <text class="t-b tc-warm" x="462" y="66">맨 위가 다음 차례</text>
+  <text class="t-s" x="462" y="88">언제나 가장 급한 환자</text>
+
+  <rect class="box yellow" x="540" y="130" width="200" height="144" rx="14"/>
+  <text class="t-l mid" x="640" y="162">규칙은 하나</text>
+  <text class="t-s mid" x="640" y="188">부모는 자식보다 급하다</text>
+  <text class="t-s mid" x="640" y="208">(숫자가 작을수록 급함)</text>
+  <text class="t-s mid" x="640" y="238">옆 칸끼리는 순서가 없다</text>
+  <text class="t-xs mid" x="640" y="256">3이 2보다 왼쪽이어도 됨</text>
+</svg>

@@ -1,0 +1,6 @@
+# 배포용 묶음과 로컬 작업 파일
+*.zip
+.claude/
+src/.preview/
+__pycache__/
+.DS_Store

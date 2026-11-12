@@ -1,0 +1,83 @@
+<svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg">
+  <title>번호순으로 꽂힌 책 15권에서 63번을 찾을 때 앞에서부터 보면 13권, 가운데부터 절반씩 버리면 4권만 확인한다</title>
+  <text class="t-h" x="20" y="32">번호순으로 꽂힌 책 15권에서 63번 찾기</text>
+  <text class="t-s t-b" x="20" y="68">방법 1 · 앞에서부터 한 권씩</text>
+  <text class="t-b tc-warm end" x="740" y="68">13권 확인</text>
+  <rect class="box warm" x="20" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="44" y="107">3</text>
+  <rect class="box warm" x="68" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="92" y="107">8</text>
+  <rect class="box warm" x="116" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="140" y="107">12</text>
+  <rect class="box warm" x="164" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="188" y="107">17</text>
+  <rect class="box warm" x="212" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="236" y="107">21</text>
+  <rect class="box warm" x="260" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="284" y="107">26</text>
+  <rect class="box warm" x="308" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="332" y="107">30</text>
+  <rect class="box warm" x="356" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="380" y="107">35</text>
+  <rect class="box warm" x="404" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="428" y="107">41</text>
+  <rect class="box warm" x="452" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="476" y="107">47</text>
+  <rect class="box warm" x="500" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="524" y="107">52</text>
+  <rect class="box warm" x="548" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="572" y="107">58</text>
+  <rect class="solid green" x="596" y="80" width="48" height="44"/>
+  <text class="t-mono mid t-on t-b" x="620" y="107">63</text>
+  <rect class="box" x="644" y="80" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="668" y="107">69</text>
+  <rect class="box" x="692" y="80" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="716" y="107">74</text>
+  <path class="ln warm" d="M30 138 H614" marker-end="url(#ah-warm)"/>
+  <text class="t-s" x="20" y="162">1번째, 2번째, … 13번째에서 발견</text>
+  <text class="t-s t-b" x="20" y="204">방법 2 · 가운데를 보고 절반씩 버리기</text>
+  <text class="t-b tc-green end" x="740" y="204">4권 확인</text>
+  <rect class="box gray" x="20" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="44" y="269">3</text>
+  <rect class="box gray" x="68" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="92" y="269">8</text>
+  <rect class="box gray" x="116" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="140" y="269">12</text>
+  <rect class="box gray" x="164" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="188" y="269">17</text>
+  <rect class="box gray" x="212" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="236" y="269">21</text>
+  <rect class="box gray" x="260" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="284" y="269">26</text>
+  <rect class="box gray" x="308" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="332" y="269">30</text>
+  <rect class="box blue" x="356" y="242" width="48" height="44"/>
+  <text class="t-mono mid t-b" x="380" y="269">35</text>
+  <rect class="box gray" x="404" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="428" y="269">41</text>
+  <rect class="box gray" x="452" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="476" y="269">47</text>
+  <rect class="box gray" x="500" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="524" y="269">52</text>
+  <rect class="box blue" x="548" y="242" width="48" height="44"/>
+  <text class="t-mono mid t-b" x="572" y="269">58</text>
+  <rect class="solid green" x="596" y="242" width="48" height="44"/>
+  <text class="t-mono mid t-on t-b" x="620" y="269">63</text>
+  <rect class="box blue" x="644" y="242" width="48" height="44"/>
+  <text class="t-mono mid t-b" x="668" y="269">69</text>
+  <rect class="box gray" x="692" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="716" y="269">74</text>
+  <circle class="badge blue" cx="380" cy="226" r="11"/><text class="badge-t" x="380" y="230.5">1</text>
+  <circle class="badge blue" cx="572" cy="226" r="11"/><text class="badge-t" x="572" y="230.5">2</text>
+  <circle class="badge blue" cx="668" cy="226" r="11"/><text class="badge-t" x="668" y="230.5">3</text>
+  <circle class="badge green" cx="620" cy="226" r="11"/><text class="badge-t" x="620" y="230.5">4</text>
+  <path class="ln thin" d="M24 292 V298 H400 V292"/>
+  <path class="ln thin" d="M408 292 V298 H592 V292"/>
+  <path class="ln thin" d="M648 292 V298 H736 V292"/>
+  <text class="t-s mid" x="212" y="318">63은 35보다 크다</text>
+  <text class="t-s t-b mid" x="212" y="336">왼쪽 8권 제외</text>
+  <text class="t-s mid" x="500" y="318">58보다도 크다</text>
+  <text class="t-s t-b mid" x="500" y="336">4권 더 제외</text>
+  <text class="t-s mid" x="692" y="318">69보다 작다</text>
+  <text class="t-s t-b mid" x="692" y="336">2권 제외</text>
+</svg>

@@ -1,0 +1,58 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 8칸을 읽어도 붙어 있는 칸을 차례로 읽으면 한 번만 찾아가면 되고, 흩어진 칸을 읽으면 칸마다 새로 찾아가야 한다</title>
+  <text class="t-h" x="20" y="34">같은 8칸을 읽는 두 가지 순서</text>
+
+  <text class="t-b" x="20" y="74">순차 접근</text>
+  <text class="t-s" x="20" y="94">붙어 있는 칸을 차례로</text>
+  <rect class="box gray" x="191" y="58" width="32" height="34" rx="5"/>
+  <rect class="box gray" x="225" y="58" width="32" height="34" rx="5"/>
+  <rect class="box gray" x="259" y="58" width="32" height="34" rx="5"/>
+  <rect class="box gray" x="293" y="58" width="32" height="34" rx="5"/>
+  <rect class="solid warm" x="327" y="58" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="343" y="80">1</text>
+  <rect class="solid warm" x="361" y="58" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="377" y="80">2</text>
+  <rect class="solid warm" x="395" y="58" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="411" y="80">3</text>
+  <rect class="solid warm" x="429" y="58" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="445" y="80">4</text>
+  <rect class="solid warm" x="463" y="58" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="479" y="80">5</text>
+  <rect class="solid warm" x="497" y="58" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="513" y="80">6</text>
+  <rect class="solid warm" x="531" y="58" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="547" y="80">7</text>
+  <rect class="solid warm" x="565" y="58" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="581" y="80">8</text>
+  <rect class="box gray" x="599" y="58" width="32" height="34" rx="5"/>
+  <rect class="box gray" x="633" y="58" width="32" height="34" rx="5"/>
+  <rect class="box gray" x="667" y="58" width="32" height="34" rx="5"/>
+  <rect class="box gray" x="701" y="58" width="32" height="34" rx="5"/>
+  <path class="ln warm" d="M343 104 H581" marker-end="url(#ah-warm)"/>
+  <text class="t-s mid" x="462" y="124">한 번 찾아가서 쭉 읽음</text>
+
+  <text class="t-b" x="20" y="208">랜덤 접근</text>
+  <text class="t-s" x="20" y="228">떨어진 칸을 오가며</text>
+  <rect class="solid warm" x="191" y="192" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="207" y="214">6</text>
+  <rect class="box gray" x="225" y="192" width="32" height="34" rx="5"/>
+  <rect class="solid warm" x="259" y="192" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="275" y="214">2</text>
+  <rect class="box gray" x="293" y="192" width="32" height="34" rx="5"/>
+  <rect class="box gray" x="327" y="192" width="32" height="34" rx="5"/>
+  <rect class="solid warm" x="361" y="192" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="377" y="214">4</text>
+  <rect class="box gray" x="395" y="192" width="32" height="34" rx="5"/>
+  <rect class="solid warm" x="429" y="192" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="445" y="214">8</text>
+  <rect class="box gray" x="463" y="192" width="32" height="34" rx="5"/>
+  <rect class="solid warm" x="497" y="192" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="513" y="214">1</text>
+  <rect class="box gray" x="531" y="192" width="32" height="34" rx="5"/>
+  <rect class="solid warm" x="565" y="192" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="581" y="214">7</text>
+  <rect class="box gray" x="599" y="192" width="32" height="34" rx="5"/>
+  <rect class="solid warm" x="633" y="192" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="649" y="214">3</text>
+  <rect class="box gray" x="667" y="192" width="32" height="34" rx="5"/>
+  <rect class="solid warm" x="701" y="192" width="32" height="34" rx="5"/><text class="t-s t-b t-on mid" x="717" y="214">5</text>
+  <path class="ln thin warm" d="M506 187 Q394 135 282 186" marker-end="url(#ah-warm)"/>
+  <path class="ln thin warm" d="M282 187 Q462 114 642 186" marker-end="url(#ah-warm)"/>
+  <path class="ln thin warm" d="M642 187 Q513 129 384 186" marker-end="url(#ah-warm)"/>
+  <path class="ln thin warm" d="M384 187 Q547 119 710 186" marker-end="url(#ah-warm)"/>
+  <path class="ln thin warm" d="M710 187 Q462 93 214 186" marker-end="url(#ah-warm)"/>
+  <path class="ln thin warm" d="M214 187 Q394 114 574 186" marker-end="url(#ah-warm)"/>
+  <path class="ln thin warm" d="M574 187 Q513 150 452 186" marker-end="url(#ah-warm)"/>
+  <text class="t-s mid" x="462" y="246">칸마다 새로 찾아감 — 8번</text>
+
+  <text class="t-s t-b" x="20" y="296">하드디스크라면</text>
+  <rect class="box green" x="190" y="270" width="262" height="42" rx="10"/>
+  <text class="t-s mid" x="321" y="296">순차: 1초에 <tspan class="t-b tc-green">약 100MB</tspan></text>
+  <rect class="box red" x="472" y="270" width="262" height="42" rx="10"/>
+  <text class="t-s mid" x="603" y="296">랜덤: 100번 × 4KB = <tspan class="t-b tc-red">0.4MB</tspan></text>
+</svg>

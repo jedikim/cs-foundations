@@ -1,0 +1,38 @@
+<svg viewBox="0 0 760 302" xmlns="http://www.w3.org/2000/svg">
+  <title>리베이스는 내 커밋을 최신 커밋 위에 다시 적용해 새 커밋을 만들고, 옛 커밋은 이름표를 잃는다</title>
+  <rect class="panel" x="20" y="16" width="340" height="270" rx="16"/>
+  <text class="t-b" x="40" y="46">리베이스 전</text>
+  <path class="ln" d="M83 124 L132 124"/>
+  <path class="ln" d="M77.7 136.7 L137.3 196.3"/>
+  <path class="ln thin muted dash" d="M25 124 H45"/>
+  <circle class="box green" cx="65" cy="124" r="18"/><text class="t-mono t-b mid" x="65" y="129">B</text>
+  <circle class="box green" cx="150" cy="124" r="18"/><text class="t-mono t-b mid" x="150" y="129">D</text>
+  <circle class="box warm" cx="150" cy="209" r="18"/><text class="t-mono t-b mid" x="150" y="214">C</text>
+  <rect class="box blue" x="122" y="64" width="56" height="24" rx="6"/><text class="t-mono t-b mid" x="150" y="81">main</text><path class="ln blue" d="M150 89 V102" marker-end="url(#ah-blue)"/>
+  <rect class="box warm" x="122" y="245" width="56" height="24" rx="6"/><text class="t-mono t-b mid" x="150" y="262">jump</text><path class="ln warm" d="M150 244 V231" marker-end="url(#ah-warm)"/>
+  <rect class="solid" x="196" y="245" width="50" height="24" rx="12"/><text class="t-mono t-b t-on mid" x="221" y="262">HEAD</text><path class="ln" d="M195 257 H182" marker-end="url(#ah)"/>
+  <text class="t-mono" x="178" y="214">e4f5a6b</text>
+  <text class="t-xs" x="178" y="128">main이 먼저 전진</text>
+
+  <rect class="panel" x="400" y="16" width="340" height="270" rx="16"/>
+  <text class="t-mono t-b" x="420" y="46">git rebase main</text>
+  <text class="t-b" x="554" y="46">후</text>
+  <path class="ln" d="M463 124 L512 124"/>
+  <path class="ln" d="M548 124 L597 124"/>
+  <path class="ln thin muted dash" d="M457.7 136.7 L517.3 196.3"/>
+  <path class="ln thin muted dash" d="M405 124 H425"/>
+  <circle class="box green" cx="445" cy="124" r="18"/><text class="t-mono t-b mid" x="445" y="129">B</text>
+  <circle class="box green" cx="530" cy="124" r="18"/><text class="t-mono t-b mid" x="530" y="129">D</text>
+  <circle class="box warm" cx="615" cy="124" r="18"/><text class="t-mono t-b mid" x="615" y="129">C′</text>
+  <circle class="ghost dash" cx="530" cy="209" r="18"/><text class="t-mono mid tc-muted" x="530" y="214">C</text>
+  <rect class="box blue" x="502" y="64" width="56" height="24" rx="6"/><text class="t-mono t-b mid" x="530" y="81">main</text><path class="ln blue" d="M530 89 V102" marker-end="url(#ah-blue)"/>
+  <rect class="box warm" x="587" y="64" width="56" height="24" rx="6"/><text class="t-mono t-b mid" x="615" y="81">jump</text><path class="ln warm" d="M615 89 V102" marker-end="url(#ah-warm)"/>
+  <rect class="solid" x="661" y="64" width="50" height="24" rx="12"/><text class="t-mono t-b t-on mid" x="686" y="81">HEAD</text><path class="ln" d="M660 76 H647" marker-end="url(#ah)"/>
+  <text class="t-mono" x="643" y="129">9d8c7b6</text>
+  <path class="ln warm dash" d="M551 205 Q608 200 614 150" marker-end="url(#ah-warm)"/>
+  <text class="t-xs t-b tc-warm" x="626" y="190">D 위에 다시 적용</text>
+  <text class="t-mono mid tc-muted" x="530" y="249">e4f5a6b</text>
+  <text class="t-xs mid" x="530" y="267">이름표를 잃은 옛 커밋</text>
+
+  <path class="ln" d="M366 150 H392" marker-end="url(#ah)"/>
+</svg>

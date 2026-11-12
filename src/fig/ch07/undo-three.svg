@@ -1,0 +1,56 @@
+<svg viewBox="0 0 760 452" xmlns="http://www.w3.org/2000/svg">
+  <title>되돌리기 세 가지: restore는 파일을, revert는 새 커밋으로, reset은 이름표를 과거로 되돌린다</title>
+  <rect class="panel" x="20" y="16" width="720" height="132" rx="16"/>
+  <text class="t-mono t-b" x="40" y="52">git restore config.py</text>
+  <text class="t-s" x="40" y="78">커밋하지 않은 수정을 버린다</text>
+  <text class="t-xs t-b tc-red" x="40" y="122">버린 수정은 되살릴 수 없다</text>
+  <rect class="box warm" x="290" y="46" width="150" height="66" rx="8"/>
+  <text class="t-xs" x="302" y="68">작업 폴더 · 수정 중</text>
+  <text class="t-mono t-b" x="302" y="96">SPEED = 99</text>
+  <path class="ln" d="M452 79 H508" marker-end="url(#ah)"/>
+  <rect class="box green" x="520" y="46" width="150" height="66" rx="8"/>
+  <text class="t-xs" x="532" y="68">마지막 커밋과 같아짐</text>
+  <text class="t-mono t-b" x="532" y="96">SPEED = 10</text>
+  <text class="t-xs mid" x="595" y="134">커밋 이력은 그대로</text>
+
+  <rect class="panel" x="20" y="160" width="720" height="132" rx="16"/>
+  <text class="t-mono t-b" x="40" y="196">git revert C</text>
+  <text class="t-s" x="40" y="222">C를 뒤집는 새 커밋을 덧붙인다</text>
+  <text class="t-xs t-b tc-green" x="40" y="266">이미 공유한 커밋도 안전하게 취소</text>
+  <path class="ln" d="M315 240 L340 240"/>
+  <path class="ln" d="M370 240 L395 240"/>
+  <circle class="box green" cx="300" cy="240" r="15"/><text class="t-mono t-b mid" x="300" y="245">A</text>
+  <circle class="box green" cx="355" cy="240" r="15"/><text class="t-mono t-b mid" x="355" y="245">B</text>
+  <circle class="box green" cx="410" cy="240" r="15"/><text class="t-mono t-b mid" x="410" y="245">C</text>
+  <rect class="box blue" x="385" y="185" width="50" height="22" rx="6"/><text class="t-mono t-b mid" x="410" y="201">main</text><path class="ln blue" d="M410 208 V221" marker-end="url(#ah-blue)"/>
+  <path class="ln" d="M446 240 H496" marker-end="url(#ah)"/>
+  <path class="ln" d="M545 240 L570 240"/>
+  <path class="ln" d="M600 240 L625 240"/>
+  <path class="ln" d="M655 240 L680 240"/>
+  <circle class="box green" cx="530" cy="240" r="15"/><text class="t-mono t-b mid" x="530" y="245">A</text>
+  <circle class="box green" cx="585" cy="240" r="15"/><text class="t-mono t-b mid" x="585" y="245">B</text>
+  <circle class="box green" cx="640" cy="240" r="15"/><text class="t-mono t-b mid" x="640" y="245">C</text>
+  <circle class="box warm" cx="695" cy="240" r="15"/><text class="t-mono t-b mid" x="695" y="245">-C</text>
+  <rect class="box blue" x="670" y="185" width="50" height="22" rx="6"/><text class="t-mono t-b mid" x="695" y="201">main</text><path class="ln blue" d="M695 208 V221" marker-end="url(#ah-blue)"/>
+  <text class="t-xs mid" x="695" y="274">C 취소</text>
+
+  <rect class="panel" x="20" y="304" width="720" height="132" rx="16"/>
+  <text class="t-mono t-b" x="40" y="340">git reset --hard B</text>
+  <text class="t-s" x="40" y="366">이름표를 B로 되돌려 놓는다</text>
+  <text class="t-xs t-b tc-red" x="40" y="410">아직 공유하지 않은 커밋에만</text>
+  <path class="ln" d="M315 384 L340 384"/>
+  <path class="ln" d="M370 384 L395 384"/>
+  <circle class="box green" cx="300" cy="384" r="15"/><text class="t-mono t-b mid" x="300" y="389">A</text>
+  <circle class="box green" cx="355" cy="384" r="15"/><text class="t-mono t-b mid" x="355" y="389">B</text>
+  <circle class="box green" cx="410" cy="384" r="15"/><text class="t-mono t-b mid" x="410" y="389">C</text>
+  <rect class="box blue" x="385" y="329" width="50" height="22" rx="6"/><text class="t-mono t-b mid" x="410" y="345">main</text><path class="ln blue" d="M410 352 V365" marker-end="url(#ah-blue)"/>
+  <path class="ln" d="M446 384 H496" marker-end="url(#ah)"/>
+  <path class="ln" d="M545 384 L570 384"/>
+  <path class="ln thin muted dash" d="M600 384 L625 384"/>
+  <circle class="box green" cx="530" cy="384" r="15"/><text class="t-mono t-b mid" x="530" y="389">A</text>
+  <circle class="box green" cx="585" cy="384" r="15"/><text class="t-mono t-b mid" x="585" y="389">B</text>
+  <circle class="ghost dash" cx="640" cy="384" r="15"/><text class="t-mono mid tc-muted" x="640" y="389">C</text>
+  <rect class="box blue" x="560" y="329" width="50" height="22" rx="6"/><text class="t-mono t-b mid" x="585" y="345">main</text><path class="ln blue" d="M585 352 V365" marker-end="url(#ah-blue)"/>
+  <text class="t-xs" x="664" y="388">이력에서</text>
+  <text class="t-xs" x="664" y="404">안 보인다</text>
+</svg>

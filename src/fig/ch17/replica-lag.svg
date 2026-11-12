@@ -1,0 +1,55 @@
+<svg viewBox="0 0 760 312" xmlns="http://www.w3.org/2000/svg">
+  <title>닉네임을 원본 DB에 저장한 직후 복제본에서 읽으면, 변경이 아직 도착하지 않아 옛 닉네임이 보인다</title>
+  <circle class="badge" cx="172" cy="24" r="10"/><text class="badge-t" x="172" y="28.5">1</text>
+  <text class="t-mono" x="188" y="29">0.0초</text>
+  <circle class="badge" cx="326" cy="24" r="10"/><text class="badge-t" x="326" y="28.5">2</text>
+  <text class="t-mono" x="342" y="29">0.1초</text>
+  <circle class="badge" cx="480" cy="24" r="10"/><text class="badge-t" x="480" y="28.5">3</text>
+  <text class="t-mono" x="496" y="29">0.5초</text>
+  <circle class="badge" cx="634" cy="24" r="10"/><text class="badge-t" x="634" y="28.5">4</text>
+  <text class="t-mono" x="650" y="29">1.0초</text>
+
+  <text class="t-b" x="20" y="64">원본 DB</text>
+  <text class="t-s" x="20" y="82">쓰기를 받는다</text>
+  <rect class="box green" x="130" y="46" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="200" y="72">밍</text>
+  <rect class="box green" x="284" y="46" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="354" y="72">밍</text>
+  <rect class="box green" x="438" y="46" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="508" y="72">밍</text>
+  <rect class="box green" x="592" y="46" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="662" y="72">밍</text>
+
+  <text class="t-b" x="20" y="146">민지의 앱</text>
+  <text class="t-s" x="20" y="164">닉네임 민지 → 밍</text>
+  <rect class="box blue" x="130" y="124" width="140" height="56" rx="9"/>
+  <text class="t-s mid" x="200" y="146">밍으로 저장</text>
+  <text class="t-b mid" x="200" y="167">저장 완료</text>
+  <rect class="box red" x="284" y="124" width="140" height="56" rx="9"/>
+  <text class="t-s mid" x="354" y="146">프로필 새로고침</text>
+  <text class="t-b mid tc-red" x="354" y="167">화면: 민지</text>
+  <rect class="box blue" x="592" y="124" width="140" height="56" rx="9"/>
+  <text class="t-s mid" x="662" y="146">다시 새로고침</text>
+  <text class="t-b mid" x="662" y="167">화면: 밍</text>
+
+  <text class="t-b" x="20" y="236">복제본 DB</text>
+  <text class="t-s" x="20" y="254">읽기를 맡는다</text>
+  <rect class="box warm" x="130" y="218" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="200" y="244">민지</text>
+  <rect class="box warm" x="284" y="218" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="354" y="244">민지</text>
+  <rect class="box green" x="438" y="218" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="508" y="244">밍</text>
+  <rect class="box green" x="592" y="218" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="662" y="244">밍</text>
+
+  <path class="ln blue" d="M200 120 V92" marker-end="url(#ah-blue)"/>
+  <path class="ln red" d="M354 214 V186" marker-end="url(#ah-red)"/>
+  <path class="ln green dash" d="M508 90 V212" marker-end="url(#ah-green)"/>
+  <text class="t-s t-b tc-green" x="518" y="148">변경이</text>
+  <text class="t-s t-b tc-green" x="518" y="166">이제 도착</text>
+  <path class="ln blue" d="M662 214 V186" marker-end="url(#ah-blue)"/>
+
+  <path class="ln warm" d="M134 266 V273 H420 V266"/>
+  <text class="t-s t-b mid tc-warm" x="277" y="294">복제 지연: 이 동안 복제본에는 옛 값이 남아 있다</text>
+</svg>

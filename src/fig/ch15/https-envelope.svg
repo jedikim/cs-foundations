@@ -1,0 +1,48 @@
+<svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg">
+  <title>HTTP는 가는 길에서 내용이 그대로 읽히고, HTTPS는 어느 서버와 통신하는지만 보이고 내용은 잠긴 채 지나간다</title>
+
+  <text class="t-h" x="20" y="34">HTTP</text>
+  <text class="t-s" x="78" y="33">가는 길의 장비가 내용을 그대로 읽을 수 있다</text>
+
+  <rect class="box blue" x="20" y="52" width="120" height="92" rx="12"/>
+  <use href="#i-laptop" x="58" y="62" width="44" height="44" class="ic blue"/>
+  <text class="t-b mid" x="80" y="130">브라우저</text>
+
+  <rect class="box red" x="200" y="52" width="360" height="92" rx="12"/>
+  <text class="t-mono" x="218" y="90">POST /login</text>
+  <text class="t-mono" x="218" y="116">id=mina&amp;pw=1234</text>
+  <use href="#i-eye" x="462" y="62" width="40" height="40" class="ic red"/>
+  <text class="t-s t-b mid tc-red" x="482" y="126">전부 읽힘</text>
+
+  <rect class="box green" x="620" y="52" width="120" height="92" rx="12"/>
+  <use href="#i-server" x="658" y="62" width="44" height="44" class="ic green"/>
+  <text class="t-b mid" x="680" y="130">서버</text>
+
+  <path class="ln" d="M145 98 H193" marker-end="url(#ah)"/>
+  <path class="ln" d="M565 98 H613" marker-end="url(#ah)"/>
+
+  <text class="t-h" x="20" y="204">HTTPS</text>
+  <text class="t-s" x="90" y="203">내용은 잠긴 채로 지나간다</text>
+
+  <rect class="box blue" x="20" y="222" width="120" height="92" rx="12"/>
+  <use href="#i-laptop" x="58" y="232" width="44" height="44" class="ic blue"/>
+  <text class="t-b mid" x="80" y="300">브라우저</text>
+
+  <rect class="box green" x="200" y="222" width="360" height="92" rx="12"/>
+  <use href="#i-lock" x="212" y="250" width="36" height="36" class="ic green"/>
+  <text class="t-mono" x="258" y="260">pizza.example.com</text>
+  <text class="t-xs t-b" x="420" y="260">보임</text>
+  <text class="t-mono tc-muted" x="258" y="286">x9$Kq2…7fZp#…Lm0v</text>
+  <text class="t-xs t-b" x="420" y="286">잠김</text>
+  <use href="#i-eye" x="472" y="232" width="40" height="40" class="ic gray"/>
+  <text class="t-s t-b mid" x="492" y="298">이름만 보임</text>
+
+  <rect class="box green" x="620" y="222" width="120" height="92" rx="12"/>
+  <use href="#i-server" x="658" y="232" width="44" height="44" class="ic green"/>
+  <text class="t-b mid" x="680" y="300">서버</text>
+
+  <path class="ln green" d="M145 268 H193" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M565 268 H613" marker-end="url(#ah-green)"/>
+
+  <text class="t-s" x="20" y="344">HTTPS에서도 보이는 것: 어느 서버와 통신하는지, 주고받은 양과 시각</text>
+</svg>

@@ -1,0 +1,81 @@
+<svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 지도에서 너비 우선 탐색은 가까운 칸부터 퍼져 4걸음 길을 찾고 깊이 우선 탐색은 한 길로 끝까지 가서 10걸음 길을 찾는다</title>
+  <text class="t-s t-b" x="40" y="30">너비 우선(BFS): 가까운 칸부터 물결처럼</text>
+  <text class="t-s" x="40" y="50">숫자 = 출발점에서 몇 걸음 떨어졌나</text>
+  <text class="t-s t-b" x="500" y="30">깊이 우선(DFS): 한 길로 끝까지</text>
+  <text class="t-s" x="500" y="50">숫자 = 들른 순서</text>
+  <rect class="solid blue" x="40" y="70" width="44" height="44"/>
+  <text class="t-l mid t-on" x="62" y="98">0</text>
+  <rect class="box blue" x="84" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="106" y="98">1</text>
+  <rect class="box blue" x="128" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="150" y="98">2</text>
+  <rect class="box blue" x="172" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="194" y="98">3</text>
+  <rect class="box blue" x="216" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="238" y="98">4</text>
+  <rect class="box blue" x="40" y="114" width="44" height="44"/>
+  <text class="t-l mid" x="62" y="142">1</text>
+  <rect class="solid gray" x="84" y="114" width="44" height="44"/>
+  <rect class="solid gray" x="128" y="114" width="44" height="44"/>
+  <rect class="box blue" x="172" y="114" width="44" height="44"/>
+  <text class="t-l mid" x="194" y="142">4</text>
+  <rect class="box" x="216" y="114" width="44" height="44"/>
+  <rect class="box blue" x="40" y="158" width="44" height="44"/>
+  <text class="t-l mid" x="62" y="186">2</text>
+  <rect class="box blue" x="84" y="158" width="44" height="44"/>
+  <text class="t-l mid" x="106" y="186">3</text>
+  <rect class="solid gray" x="128" y="158" width="44" height="44"/>
+  <rect class="box" x="172" y="158" width="44" height="44"/>
+  <rect class="box" x="216" y="158" width="44" height="44"/>
+  <rect class="box blue" x="40" y="202" width="44" height="44"/>
+  <text class="t-l mid" x="62" y="230">3</text>
+  <rect class="solid green" x="84" y="202" width="44" height="44"/>
+  <text class="t-l mid t-on" x="106" y="230">4</text>
+  <rect class="box" x="128" y="202" width="44" height="44"/>
+  <rect class="box" x="172" y="202" width="44" height="44"/>
+  <rect class="box" x="216" y="202" width="44" height="44"/>
+  <rect class="solid blue" x="500" y="70" width="44" height="44"/>
+  <text class="t-l mid t-on" x="522" y="98">0</text>
+  <rect class="box warm" x="544" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="566" y="98">1</text>
+  <rect class="box warm" x="588" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="610" y="98">2</text>
+  <rect class="box warm" x="632" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="654" y="98">3</text>
+  <rect class="box warm" x="676" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="698" y="98">4</text>
+  <rect class="box" x="500" y="114" width="44" height="44"/>
+  <rect class="solid gray" x="544" y="114" width="44" height="44"/>
+  <rect class="solid gray" x="588" y="114" width="44" height="44"/>
+  <rect class="box" x="632" y="114" width="44" height="44"/>
+  <rect class="box warm" x="676" y="114" width="44" height="44"/>
+  <text class="t-l mid" x="698" y="142">5</text>
+  <rect class="box" x="500" y="158" width="44" height="44"/>
+  <rect class="box" x="544" y="158" width="44" height="44"/>
+  <rect class="solid gray" x="588" y="158" width="44" height="44"/>
+  <rect class="box" x="632" y="158" width="44" height="44"/>
+  <rect class="box warm" x="676" y="158" width="44" height="44"/>
+  <text class="t-l mid" x="698" y="186">6</text>
+  <rect class="box" x="500" y="202" width="44" height="44"/>
+  <rect class="solid green" x="544" y="202" width="44" height="44"/>
+  <text class="t-l mid t-on" x="566" y="230">10</text>
+  <rect class="box warm" x="588" y="202" width="44" height="44"/>
+  <text class="t-l mid" x="610" y="230">9</text>
+  <rect class="box warm" x="632" y="202" width="44" height="44"/>
+  <text class="t-l mid" x="654" y="230">8</text>
+  <rect class="box warm" x="676" y="202" width="44" height="44"/>
+  <text class="t-l mid" x="698" y="230">7</text>
+  <text class="t-b tc-green mid" x="150" y="276">4걸음짜리 길 = 가장 짧은 길</text>
+  <text class="t-s mid" x="150" y="298">큐에 넣어, 먼저 발견한 칸부터 간다</text>
+  <text class="t-b tc-warm mid" x="610" y="276">10걸음짜리 길</text>
+  <text class="t-s mid" x="610" y="298">스택에 넣어, 방금 발견한 칸부터 간다</text>
+  <rect class="solid blue" x="312" y="92" width="20" height="20"/>
+  <text class="t-s" x="342" y="107">출발 (집)</text>
+  <rect class="solid green" x="312" y="124" width="20" height="20"/>
+  <text class="t-s" x="342" y="139">도착 (도서관)</text>
+  <rect class="solid gray" x="312" y="156" width="20" height="20"/>
+  <text class="t-s" x="342" y="171">벽</text>
+  <rect class="box" x="312" y="188" width="20" height="20"/>
+  <text class="t-s" x="342" y="203">가 보지 않은 칸</text>
+</svg>

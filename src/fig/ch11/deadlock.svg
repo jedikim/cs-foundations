@@ -1,0 +1,42 @@
+<svg viewBox="0 0 760 332" xmlns="http://www.w3.org/2000/svg">
+  <title>두 요리사가 화구와 프라이팬을 서로 반대 순서로 잡으면 영원히 서로를 기다리고, 같은 순서로 잡으면 교착이 생기지 않는다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="300" rx="16"/>
+  <text class="t-l tc-red" x="40" y="46">교착: 서로 반대 순서로 잡았다</text>
+  <rect class="box yellow" x="148" y="68" width="94" height="50" rx="10"/>
+  <text class="t-b mid" x="195" y="98">화구</text>
+  <rect class="box yellow" x="148" y="226" width="94" height="50" rx="10"/>
+  <text class="t-b mid" x="195" y="256">프라이팬</text>
+  <rect class="box blue" x="34" y="142" width="90" height="60" rx="10"/>
+  <text class="t-b mid" x="79" y="177">요리사 A</text>
+  <rect class="box warm" x="266" y="142" width="90" height="60" rx="10"/>
+  <text class="t-b mid" x="311" y="177">요리사 B</text>
+  <path class="ln green thick" d="M79 138 V93 H143"/>
+  <text class="t-xs t-b mid tc-green" x="108" y="83">쥐고 있음</text>
+  <path class="ln red dash" d="M79 206 V251 H140" marker-end="url(#ah-red)"/>
+  <text class="t-xs t-b mid tc-red" x="108" y="270">기다림</text>
+  <path class="ln green thick" d="M311 206 V251 H247"/>
+  <text class="t-xs t-b mid tc-green" x="284" y="270">쥐고 있음</text>
+  <path class="ln red dash" d="M311 138 V93 H250" marker-end="url(#ah-red)"/>
+  <text class="t-xs t-b mid tc-red" x="284" y="83">기다림</text>
+  <text class="t-s t-b mid tc-red" x="195" y="302">둘 다 영원히 기다린다</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="300" rx="16"/>
+  <text class="t-l tc-green" x="410" y="46">해결: 둘 다 화구부터 잡는다</text>
+  <rect class="box yellow" x="518" y="68" width="94" height="50" rx="10"/>
+  <text class="t-b mid" x="565" y="98">화구</text>
+  <rect class="box yellow" x="518" y="226" width="94" height="50" rx="10"/>
+  <text class="t-b mid" x="565" y="256">프라이팬</text>
+  <rect class="box blue" x="404" y="142" width="90" height="60" rx="10"/>
+  <text class="t-b mid" x="449" y="177">요리사 A</text>
+  <rect class="box warm" x="636" y="142" width="90" height="60" rx="10"/>
+  <text class="t-b mid" x="681" y="177">요리사 B</text>
+  <path class="ln green thick" d="M449 138 V93 H513"/>
+  <text class="t-xs t-b mid tc-green" x="478" y="83">① 먼저 쥠</text>
+  <path class="ln green thick" d="M449 206 V251 H513"/>
+  <text class="t-xs t-b mid tc-green" x="478" y="270">② 다음에 쥠</text>
+  <path class="ln dash" d="M681 138 V93 H620" marker-end="url(#ah)"/>
+  <text class="t-xs t-b mid" x="654" y="83">기다림</text>
+  <text class="t-xs mid" x="681" y="222">빈손</text>
+  <text class="t-s t-b mid tc-green" x="565" y="302">A가 끝나면 B 차례가 온다</text>
+</svg>

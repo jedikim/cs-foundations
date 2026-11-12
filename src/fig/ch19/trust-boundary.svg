@@ -1,0 +1,44 @@
+<svg viewBox="0 0 760 352" xmlns="http://www.w3.org/2000/svg">
+  <title>브라우저에서 온 값은 사용자가 고칠 수 있으므로, 서버가 가격표에서 값을 다시 확인해야 한다</title>
+
+  <rect class="panel" x="20" y="20" width="250" height="296" rx="14"/>
+  <text class="t-b" x="36" y="46">건물 밖: 브라우저</text>
+  <text class="t-xs" x="36" y="65">사용자가 무엇이든 고칠 수 있다</text>
+
+  <rect class="box blue" x="36" y="78" width="218" height="84" rx="10"/>
+  <use href="#i-browser" x="46" y="94" width="36" height="36" class="ic blue"/>
+  <text class="t-s" x="94" y="103">화면에 보이는 가격</text>
+  <text class="t-b" x="94" y="127">운동화 59,000원</text>
+  <text class="t-xs" x="94" y="148">[주문하기] 버튼</text>
+
+  <path class="ln red" d="M145 166 V194" marker-end="url(#ah-red)"/>
+  <text class="t-xs tc-red" x="157" y="185">고쳐서 보낸다</text>
+
+  <rect class="box red" x="36" y="202" width="218" height="100" rx="10"/>
+  <text class="t-s" x="50" y="225">실제로 보낸 요청</text>
+  <text class="t-mono" x="50" y="250">POST /orders</text>
+  <text class="t-mono" x="50" y="270">item=shoes</text>
+  <text class="t-mono t-b tc-red" x="50" y="290">price=100</text>
+
+  <path class="ln warm dash" d="M295 20 V318"/>
+  <text class="t-s t-b tc-warm mid" x="295" y="340">신뢰 경계: 이 선을 넘어온 값은 다시 확인한다</text>
+
+  <rect class="panel" x="320" y="20" width="420" height="296" rx="14"/>
+  <text class="t-b" x="336" y="46">건물 안: 서버</text>
+  <text class="t-xs" x="336" y="65">내가 통제하는 곳</text>
+
+  <rect class="box red" x="350" y="78" width="374" height="84" rx="10"/>
+  <use href="#i-cross" x="362" y="102" width="36" height="36" class="ic red"/>
+  <text class="t-b" x="412" y="106">받은 값을 그대로 믿으면</text>
+  <text class="t-mono" x="412" y="130">price=100 → 100원 결제</text>
+  <text class="t-xs tc-red" x="412" y="150">59,000원짜리가 100원에 팔린다</text>
+
+  <rect class="box green" x="350" y="202" width="374" height="100" rx="10"/>
+  <use href="#i-check" x="362" y="234" width="36" height="36" class="ic green"/>
+  <text class="t-b" x="412" y="228">서버의 가격표에서 다시 찾으면</text>
+  <text class="t-mono" x="412" y="254">shoes → 59,000원</text>
+  <text class="t-xs tc-green" x="412" y="278">보내온 price=100은 쓰지 않는다</text>
+
+  <path class="ln" d="M258 240 H306 V120 H342" marker-end="url(#ah)"/>
+  <path class="ln" d="M258 260 H342" marker-end="url(#ah)"/>
+</svg>

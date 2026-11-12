@@ -1,0 +1,56 @@
+<svg viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg">
+  <title>주소창에서 엔터를 누르면 주소 읽기, 이름 찾기, 연결, 요청, 응답, 그리기의 여섯 단계가 차례로 일어난다</title>
+
+  <path class="ln thin muted" d="M34 56 V110 M34 142 V172 M34 204 V234 M34 266 V296 M34 328 V358"/>
+
+  <circle class="badge" cx="34" cy="40" r="12"/><text class="badge-t" x="34" y="44.500">1</text>
+  <text class="t-b" x="58" y="37">주소 읽기</text>
+  <text class="t-s" x="58" y="57">URL을 조각으로 나눈다</text>
+  <rect class="box blue" x="300" y="22" width="84" height="36" rx="8"/>
+  <text class="t-mono mid" x="342" y="45">https://</text>
+  <rect class="box purple" x="390" y="22" width="164" height="36" rx="8"/>
+  <text class="t-mono mid" x="472" y="45">pizza.example.com</text>
+  <rect class="box warm" x="560" y="22" width="64" height="36" rx="8"/>
+  <text class="t-mono mid" x="592" y="45">/menu</text>
+  <rect class="box warm" x="630" y="22" width="80" height="36" rx="8"/>
+  <text class="t-mono mid" x="670" y="45">?size=L</text>
+  <text class="t-xs mid" x="342" y="76">방식 (스킴)</text>
+  <text class="t-xs mid" x="472" y="76">가게 이름 (호스트)</text>
+  <text class="t-xs mid" x="592" y="76">경로</text>
+  <text class="t-xs mid" x="670" y="76">쿼리</text>
+
+  <circle class="badge purple" cx="34" cy="126" r="12"/><text class="badge-t" x="34" y="130.500">2</text>
+  <text class="t-b" x="58" y="123">이름을 주소로</text>
+  <text class="t-s" x="58" y="143">DNS에 묻는다</text>
+  <rect class="box purple" x="300" y="104" width="410" height="44" rx="10"/>
+  <text class="t-mono" x="316" y="131">pizza.example.com → 203.0.113.9</text>
+
+  <circle class="badge blue" cx="34" cy="188" r="12"/><text class="badge-t" x="34" y="192.500">3</text>
+  <text class="t-b" x="58" y="185">연결 맺기</text>
+  <text class="t-s" x="58" y="205">https는 443번 포트로</text>
+  <rect class="box blue" x="300" y="166" width="410" height="44" rx="10"/>
+  <text class="t-mono" x="316" y="193">203.0.113.9:443</text>
+  <use href="#i-lock" x="560" y="174" width="28" height="28" class="ic blue"/>
+  <text class="t-s end" x="698" y="193">잠글 준비까지</text>
+
+  <circle class="badge warm" cx="34" cy="250" r="12"/><text class="badge-t" x="34" y="254.500">4</text>
+  <text class="t-b" x="58" y="247">요청 보내기</text>
+  <text class="t-s" x="58" y="267">주문서를 건넨다</text>
+  <rect class="box warm" x="300" y="228" width="410" height="44" rx="10"/>
+  <text class="t-mono" x="316" y="255">GET /menu?size=L</text>
+  <text class="t-s end" x="698" y="255">브라우저 → 서버</text>
+
+  <circle class="badge green" cx="34" cy="312" r="12"/><text class="badge-t" x="34" y="316.500">5</text>
+  <text class="t-b" x="58" y="309">응답 받기</text>
+  <text class="t-s" x="58" y="329">답변서가 돌아온다</text>
+  <rect class="box green" x="300" y="290" width="410" height="44" rx="10"/>
+  <text class="t-mono" x="316" y="317">200 OK + HTML 문서</text>
+  <text class="t-s end" x="698" y="317">서버 → 브라우저</text>
+
+  <circle class="badge" cx="34" cy="374" r="12"/><text class="badge-t" x="34" y="378.500">6</text>
+  <text class="t-b" x="58" y="371">화면 그리기</text>
+  <text class="t-s" x="58" y="391">필요한 파일을 더 받아 온다</text>
+  <rect class="box" x="300" y="352" width="410" height="44" rx="10"/>
+  <text class="t-mono" x="316" y="379">style.css · app.js · pizza.jpg</text>
+  <text class="t-s end" x="698" y="379">4~5를 반복</text>
+</svg>

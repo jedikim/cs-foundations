@@ -1,0 +1,37 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>파일을 복사해 쌓으면 무엇이 왜 바뀌었는지 알 수 없지만, 커밋은 순간마다 누가 언제 왜 바꿨는지를 남긴다</title>
+  <rect class="panel" x="20" y="16" width="340" height="288" rx="16"/>
+  <text class="t-l" x="40" y="48">복사해서 쌓기</text>
+  <rect class="box" x="40" y="66" width="300" height="36" rx="8"/>
+  <use href="#i-file" x="48" y="70" width="28" height="28" class="ic gray"/>
+  <text class="t-mono" x="86" y="89">mygame_최종.zip</text>
+  <rect class="box" x="40" y="110" width="300" height="36" rx="8"/>
+  <use href="#i-file" x="48" y="114" width="28" height="28" class="ic gray"/>
+  <text class="t-mono" x="86" y="133">mygame_진짜최종.zip</text>
+  <rect class="box" x="40" y="154" width="300" height="36" rx="8"/>
+  <use href="#i-file" x="48" y="158" width="28" height="28" class="ic gray"/>
+  <text class="t-mono" x="86" y="177">mygame_진짜최종_수정.zip</text>
+  <rect class="box" x="40" y="198" width="300" height="36" rx="8"/>
+  <use href="#i-file" x="48" y="202" width="28" height="28" class="ic gray"/>
+  <text class="t-mono" x="86" y="221">mygame_이게진짜.zip</text>
+  <rect class="box red" x="40" y="250" width="300" height="38" rx="10"/>
+  <text class="t-b tc-red mid" x="190" y="274">무엇을 왜 바꿨는지 모른다</text>
+
+  <rect class="panel green" x="400" y="16" width="340" height="288" rx="16"/>
+  <text class="t-l" x="420" y="48">Git으로 세이브하기</text>
+  <path class="ln green" d="M442 88 V212"/>
+  <circle class="solid green" cx="442" cy="88" r="9"/>
+  <text class="t-b" x="466" y="86">플레이어 이동 추가</text>
+  <text class="t-mono tc-green" x="466" y="107">a1b2c3d</text>
+  <text class="t-s" x="536" y="107">미나 · 월요일</text>
+  <circle class="solid green" cx="442" cy="150" r="9"/>
+  <text class="t-b" x="466" y="148">점프 기능 추가</text>
+  <text class="t-mono tc-green" x="466" y="169">e4f5a6b</text>
+  <text class="t-s" x="536" y="169">미나 · 화요일</text>
+  <circle class="solid green" cx="442" cy="212" r="9"/>
+  <text class="t-b" x="466" y="210">착지 직후 점프 안 되던 버그 수정</text>
+  <text class="t-mono tc-green" x="466" y="231">c7d8e9f</text>
+  <text class="t-s" x="536" y="231">준호 · 수요일</text>
+  <rect class="box green" x="420" y="250" width="300" height="38" rx="10"/>
+  <text class="t-b tc-green mid" x="570" y="274">누가 언제 왜 바꿨는지 남는다</text>
+</svg>

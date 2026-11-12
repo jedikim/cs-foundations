@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 276" xmlns="http://www.w3.org/2000/svg">
+  <title>소프트맥스는 점수 2, 1, 0을 e의 거듭제곱으로 바꾼 뒤 합으로 나누어 확률 0.665, 0.245, 0.090으로 만들고, 정답에 준 확률이 낮을수록 손실이 커진다</title>
+
+  <text class="t-s t-b" x="20" y="32">다음 낱말 후보</text>
+  <text class="t-s t-b mid" x="190" y="32">점수</text>
+  <text class="t-s t-b mid" x="306" y="32">e의 점수 제곱</text>
+  <text class="t-s t-b" x="400" y="32">합 11.11로 나눈 확률</text>
+  <text class="t-s t-b mid" x="686" y="32">정답일 때 손실</text>
+  <path class="ln thin muted" d="M20 46 H740"/>
+
+  <text class="t-b" x="20" y="87">김치찌개</text>
+  <rect class="box blue" x="166" y="64" width="48" height="36" rx="8"/>
+  <text class="t-mono t-b mid" x="190" y="87">2</text>
+  <path class="ln thin muted" d="M224 82 H256" marker-end="url(#ah-muted)"/>
+  <text class="t-mono mid" x="306" y="87">7.39</text>
+  <path class="ln thin muted" d="M348 82 H388" marker-end="url(#ah-muted)"/>
+  <rect class="solid purple" x="400" y="69" width="133" height="26" rx="5"/>
+  <text class="t-mono t-b" x="543" y="87">0.665</text>
+  <text class="t-mono mid tc-warm" x="686" y="87">0.41</text>
+
+  <text class="t-b" x="20" y="141">된장국</text>
+  <rect class="box blue" x="166" y="118" width="48" height="36" rx="8"/>
+  <text class="t-mono t-b mid" x="190" y="141">1</text>
+  <path class="ln thin muted" d="M224 136 H256" marker-end="url(#ah-muted)"/>
+  <text class="t-mono mid" x="306" y="141">2.72</text>
+  <path class="ln thin muted" d="M348 136 H388" marker-end="url(#ah-muted)"/>
+  <rect class="solid purple" x="400" y="123" width="49" height="26" rx="5"/>
+  <text class="t-mono t-b" x="459" y="141">0.245</text>
+  <text class="t-mono mid tc-warm" x="686" y="141">1.41</text>
+
+  <text class="t-b" x="20" y="195">미역국</text>
+  <rect class="box blue" x="166" y="172" width="48" height="36" rx="8"/>
+  <text class="t-mono t-b mid" x="190" y="195">0</text>
+  <path class="ln thin muted" d="M224 190 H256" marker-end="url(#ah-muted)"/>
+  <text class="t-mono mid" x="306" y="195">1.00</text>
+  <path class="ln thin muted" d="M348 190 H388" marker-end="url(#ah-muted)"/>
+  <rect class="solid purple" x="400" y="177" width="18" height="26" rx="5"/>
+  <text class="t-mono t-b" x="428" y="195">0.090</text>
+  <text class="t-mono mid tc-warm" x="686" y="195">2.41</text>
+
+  <path class="ln thin muted" d="M20 222 H740"/>
+  <text class="t-s mid" x="306" y="248">합 11.11</text>
+  <text class="t-s" x="400" y="248">합 1 (100%)</text>
+  <text class="t-s mid tc-warm" x="686" y="248">−ln(확률)</text>
+</svg>

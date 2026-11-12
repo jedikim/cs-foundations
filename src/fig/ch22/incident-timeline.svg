@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>장애 타임라인. 10:00 배포 뒤 주문 실패율이 올라 10:03에 알림이 울렸고, 10:07에 이전 버전으로 되돌려 10:10에 정상으로 돌아왔다</title>
+
+  <text class="t-s t-b" x="20" y="28">주문 실패율</text>
+  <text class="t-xs end" x="54" y="56">6%</text>
+  <text class="t-xs end" x="54" y="162">0%</text>
+  <path class="ln thin red dash" d="M62 70 H734"/>
+  <text class="t-xs tc-red" x="66" y="63">알림 기준 5%</text>
+  <path class="ln thin muted" d="M62 160 H734"/>
+
+  <path class="ln thin muted dash" d="M302 74 V170 M398 57 V170 M494 56 V170"/>
+  <path class="ln thick red" d="M62 158 H158 L302 70 L350 54 L494 52 L566 142 L638 158 H734"/>
+
+  <circle class="badge" cx="158" cy="184" r="11"/><text class="badge-t" x="158" y="188.500">1</text>
+  <circle class="badge red" cx="302" cy="184" r="11"/><text class="badge-t" x="302" y="188.500">2</text>
+  <circle class="badge warm" cx="398" cy="184" r="11"/><text class="badge-t" x="398" y="188.500">3</text>
+  <circle class="badge warm" cx="494" cy="184" r="11"/><text class="badge-t" x="494" y="188.500">4</text>
+  <circle class="badge green" cx="638" cy="184" r="11"/><text class="badge-t" x="638" y="188.500">5</text>
+
+  <text class="t-mono t-b mid" x="158" y="214">10:00</text>
+  <text class="t-mono t-b mid" x="302" y="214">10:03</text>
+  <text class="t-mono t-b mid" x="398" y="214">10:05</text>
+  <text class="t-mono t-b mid" x="494" y="214">10:07</text>
+  <text class="t-mono t-b mid" x="638" y="214">10:10</text>
+
+  <text class="t-xs mid" x="158" y="234">새 버전</text>
+  <text class="t-xs mid" x="158" y="250">배포</text>
+  <text class="t-xs mid" x="302" y="234">알림 울림</text>
+  <text class="t-xs mid" x="302" y="250">실패율 5%</text>
+  <text class="t-xs mid" x="398" y="234">배포 기록</text>
+  <text class="t-xs mid" x="398" y="250">확인</text>
+  <text class="t-xs mid" x="494" y="234">이전 버전으로</text>
+  <text class="t-xs mid" x="494" y="250">되돌림</text>
+  <text class="t-xs mid" x="638" y="234">실패율</text>
+  <text class="t-xs mid" x="638" y="250">정상 확인</text>
+
+  <rect class="box gray" x="158" y="268" width="142" height="28" rx="6"/>
+  <text class="t-s t-b mid" x="229" y="287">모르고 지난 3분</text>
+  <rect class="box warm" x="304" y="268" width="188" height="28" rx="6"/>
+  <text class="t-s t-b mid" x="398" y="287">확인하고 되돌린 4분</text>
+  <rect class="box green" x="496" y="268" width="142" height="28" rx="6"/>
+  <text class="t-s t-b mid" x="567" y="287">회복 3분</text>
+
+  <text class="t-s" x="20" y="318">원인을 다 알기 전이라도 먼저 되돌려 피해를 멈춘다</text>
+</svg>

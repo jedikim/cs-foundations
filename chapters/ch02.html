@@ -1,0 +1,1086 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2장 0과 1로 표현하기 — 개발의 기초</title>
+<meta name="description" content="비트·숫자·글자·그림">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch02" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html" aria-current="page"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">1부 컴퓨터라는 기계 › <b>2장 0과 1로 표현하기</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-blue">
+<div class="ch-kicker"><span class="ch-no">2장</span><span class="part">1부 · 컴퓨터라는 기계</span></div>
+<h1>0과 1로 표현하기</h1>
+<p class="ch-sub">비트·숫자·글자·그림</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 30분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch01.html">1장 컴퓨터의 몸</a></div>
+</header><div class="lead">
+<p>엑셀로 연 주문 목록에서 "주문"이라는 글자가 "二쇰Ц"으로 보입니다. 0.1과 0.2를 더하게 했더니 0.30000000000000004가 나옵니다. 고장처럼 보이지만, 둘 다 컴퓨터가 정해진 규칙대로 움직인 결과입니다. 컴퓨터가 숫자와 글자와 그림을 <strong>무엇으로 적어 두는지</strong> 알면, 이런 일이 왜 생기고 어디를 고쳐야 하는지 보입니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>비트와 바이트가 무엇인지, 스위치 몇 개로 몇 가지를 나타낼 수 있는지 계산할 수 있습니다.</li>
+<li>정수가 넘치는 이유와 0.1 + 0.2가 0.3이 아닌 이유를 설명하고, 돈 계산에 쓸 숫자를 고를 수 있습니다.</li>
+<li>한글이 깨졌을 때 "어떤 규칙으로 저장했고, 어떤 규칙으로 읽었는가"를 따져 볼 수 있습니다.</li>
+<li>주소와 값, GB와 GiB, 32비트와 64비트처럼 헷갈리는 말을 구분할 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="bit">
+<h2><span class="sec-n">2.1</span>비트: 켜거나 끄거나, 스위치 하나<a aria-label="이 절의 링크" class="anchor" href="#bit">#</a></h2>
+<p>1장에서 CPU 칩 안에 스위치가 수십억 개 들어 있다고 했습니다. 메모리와 저장장치도 마찬가지입니다. 컴퓨터는 결국 <strong>아주 작은 스위치를 엄청나게 많이 모아 놓은 기계</strong>입니다.</p>
+<p>전등 스위치를 떠올려 봅시다. 스위치 하나는 꺼짐과 켜짐, 두 가지 상태만 가집니다. 꺼짐을 0, 켜짐을 1이라고 적기로 하면, 이 스위치 하나가 바로 <strong>비트</strong>(bit)입니다. 컴퓨터가 다루는 가장 작은 정보 단위입니다.</p>
+<p>왜 하필 두 가지일까요? 전기 신호를 "아주 약함, 약함, 보통…" 하고 열 단계로 나누면, 신호가 조금만 흔들려도 옆 단계와 헷갈립니다. "있다"와 "없다" 둘로만 나누면 웬만큼 흔들려도 틀리지 않습니다. 단순해서 튼튼한 것입니다.</p>
+<p>스위치 하나로는 "예, 아니요"밖에 적지 못합니다. 하지만 여러 개를 나란히 놓으면 이야기가 달라집니다.</p>
+<figure class="fig" id="fig-bit-switches"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>스위치가 하나 늘 때마다 나타낼 수 있는 경우의 수가 두 배가 되고, 여덟 개면 256가지가 된다</title>
+  <text class="t-b" x="20" y="43">스위치 1개</text>
+  <rect class="box gray" x="150" y="30" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="158" y="63">0</text>
+  <rect class="solid yellow" x="178" y="30" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="186" y="63">1</text>
+  <text class="t-l end tc-blue" x="740" y="44">2가지</text>
+  <text class="t-b" x="20" y="105">스위치 2개</text>
+  <rect class="box gray" x="150" y="92" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="169" y="92" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="167.5" y="125">00</text>
+  <rect class="box gray" x="197" y="92" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="216" y="92" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="214.5" y="125">01</text>
+  <rect class="solid yellow" x="244" y="92" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="263" y="92" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="261.5" y="125">10</text>
+  <rect class="solid yellow" x="291" y="92" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="310" y="92" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="308.5" y="125">11</text>
+  <text class="t-l end tc-blue" x="740" y="106">4가지</text>
+  <text class="t-b" x="20" y="167">스위치 3개</text>
+  <rect class="box gray" x="150" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="169" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="188" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="177" y="187">000</text>
+  <rect class="box gray" x="216" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="235" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="254" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="243" y="187">001</text>
+  <rect class="box gray" x="282" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="301" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="320" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="309" y="187">010</text>
+  <rect class="box gray" x="348" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="367" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="386" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="375" y="187">011</text>
+  <rect class="solid yellow" x="414" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="433" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="452" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="441" y="187">100</text>
+  <rect class="solid yellow" x="480" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="499" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="518" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="507" y="187">101</text>
+  <rect class="solid yellow" x="546" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="565" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="584" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="573" y="187">110</text>
+  <rect class="solid yellow" x="612" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="631" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="650" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="639" y="187">111</text>
+  <text class="t-l end tc-blue" x="740" y="168">8가지</text>
+  <text class="t-s end" x="740" y="78">× 2</text>
+  <text class="t-s end" x="740" y="140">× 2</text>
+  <rect class="panel yellow" x="20" y="212" width="720" height="74" rx="14"/>
+  <text class="t-b" x="36" y="244">스위치 8개</text>
+  <text class="t-s t-b" x="36" y="265">= 1바이트</text>
+  <rect class="box gray" x="150" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono mid tc-muted" x="167" y="254">0</text>
+  <rect class="solid yellow" x="190" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono t-b t-on mid" x="207" y="254">1</text>
+  <rect class="box gray" x="230" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono mid tc-muted" x="247" y="254">0</text>
+  <rect class="box gray" x="270" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono mid tc-muted" x="287" y="254">0</text>
+  <rect class="box gray" x="310" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono mid tc-muted" x="327" y="254">0</text>
+  <rect class="box gray" x="350" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono mid tc-muted" x="367" y="254">0</text>
+  <rect class="box gray" x="390" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono mid tc-muted" x="407" y="254">0</text>
+  <rect class="solid yellow" x="430" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono t-b t-on mid" x="447" y="254">1</text>
+  <text class="t-s" x="488" y="254">2를 여덟 번 곱한 수</text>
+  <text class="t-l end tc-blue" x="724" y="246">256가지</text>
+  <text class="t-s end" x="724" y="267">0부터 255까지</text>
+</svg></div><figcaption><b>그림 2-1</b>스위치가 하나 늘 때마다 만들 수 있는 조합이 두 배가 됩니다. 여덟 개를 나란히 놓으면 256가지입니다.</figcaption></figure>
+<p>하나 늘 때마다 두 배이니, <strong>스위치 n개로는 2를 n번 곱한 만큼</strong>의 서로 다른 상태를 만들 수 있습니다. 기호로는 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>n</mi></msup><annotation encoding="application/x-tex">2^n</annotation></semantics></math>이라 쓰고 "2의 n제곱"이라고 읽습니다.</p>
+<p>비트 여덟 개를 한 묶음으로 부르는 이름이 <strong>바이트</strong>(byte)입니다. 1바이트로는 256가지를 구분할 수 있습니다. 메모리와 파일의 크기를 잴 때 쓰는 기본 단위가 이 바이트입니다. 1장에서 본 16GB 메모리는 바이트가 백억 개 넘게 늘어선 것입니다.</p>
+<figure class="photo"><img alt='초기의 컴퓨터는 종이 카드에 구멍을 뚫어 정보를 적었습니다. 이 천공 카드는 세로 한 줄이 글자 하나를 뜻합니다. 자리마다 구멍이 "있다, 없다" 두 가지뿐이라는 점은 스위치와 같습니다. 맨 윗줄의 글자는 사람이 읽으라고 인쇄해 둔 것입니다.' loading="lazy" src="../assets/photo/punch-card.jpg"/><figcaption>초기의 컴퓨터는 종이 카드에 구멍을 뚫어 정보를 적었습니다. 이 천공 카드는 세로 한 줄이 글자 하나를 뜻합니다. 자리마다 구멍이 "있다, 없다" 두 가지뿐이라는 점은 스위치와 같습니다. 맨 윗줄의 글자는 사람이 읽으라고 인쇄해 둔 것입니다.<span class="credit">사진: Gwern, agr · Public domain · <a href="https://commons.wikimedia.org/wiki/File:Blue-punch-card-front-horiz.png" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>컴퓨터 안의 모든 것은 스위치 줄입니다. 그 줄을 <strong>어떤 약속으로 읽느냐</strong>에 따라 숫자도, 글자도, 그림도 됩니다.</p>
+</div>
+</section>
+<section class="level2" id="binary">
+<h2><span class="sec-n">2.2</span>2진수와 16진수: 스위치 줄을 숫자로 읽기<a aria-label="이 절의 링크" class="anchor" href="#binary">#</a></h2>
+<p>먼저 스위치 줄을 숫자로 읽는 약속부터 봅시다. 우리가 쓰는 10진수에서 345는 "100이 3개, 10이 4개, 1이 5개"라는 뜻입니다. 자리가 하나 올라갈 때마다 값이 열 배가 됩니다.</p>
+<p>스위치는 0과 1 두 가지뿐이니, 자리가 올라갈 때마다 값이 <strong>두 배</strong>가 되게 하면 됩니다. 오른쪽부터 1, 2, 4, 8, 16, 32, 64, 128입니다. 이렇게 적은 수가 <strong>2진수</strong>(binary)입니다. 읽는 법은 하나뿐입니다. <strong>켜진 자리의 값만 더합니다.</strong></p>
+<figure class="fig" id="fig-binary-place"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 212" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>스위치 여덟 개 01000001은 자릿값을 더하면 65이고, 네 칸씩 묶으면 16진수 41이다</title>
+  <text class="t-s" x="20" y="38">자릿값</text>
+  <text class="t-mono mid tc-muted" x="103" y="38">128</text>
+  <rect class="box gray" x="80" y="50" width="46" height="46" rx="9"/>
+  <text class="t-l mid tc-muted" x="103" y="79">0</text>
+  <text class="t-mono mid t-b" x="155" y="38">64</text>
+  <rect class="solid yellow" x="132" y="50" width="46" height="46" rx="9"/>
+  <text class="t-l t-on mid" x="155" y="79">1</text>
+  <text class="t-mono mid tc-muted" x="207" y="38">32</text>
+  <rect class="box gray" x="184" y="50" width="46" height="46" rx="9"/>
+  <text class="t-l mid tc-muted" x="207" y="79">0</text>
+  <text class="t-mono mid tc-muted" x="259" y="38">16</text>
+  <rect class="box gray" x="236" y="50" width="46" height="46" rx="9"/>
+  <text class="t-l mid tc-muted" x="259" y="79">0</text>
+  <text class="t-mono mid tc-muted" x="323" y="38">8</text>
+  <rect class="box gray" x="300" y="50" width="46" height="46" rx="9"/>
+  <text class="t-l mid tc-muted" x="323" y="79">0</text>
+  <text class="t-mono mid tc-muted" x="375" y="38">4</text>
+  <rect class="box gray" x="352" y="50" width="46" height="46" rx="9"/>
+  <text class="t-l mid tc-muted" x="375" y="79">0</text>
+  <text class="t-mono mid tc-muted" x="427" y="38">2</text>
+  <rect class="box gray" x="404" y="50" width="46" height="46" rx="9"/>
+  <text class="t-l mid tc-muted" x="427" y="79">0</text>
+  <text class="t-mono mid t-b" x="479" y="38">1</text>
+  <rect class="solid yellow" x="456" y="50" width="46" height="46" rx="9"/>
+  <text class="t-l t-on mid" x="479" y="79">1</text>
+  <path class="ln thin" d="M82 106 v8 H280 v-8"/>
+  <path class="ln thin" d="M302 106 v8 H500 v-8"/>
+  <text class="t-s" x="20" y="142">네 칸씩</text>
+  <text class="t-mono mid" x="181" y="142">0100 → <tspan class="t-b tc-blue">4</tspan></text>
+  <text class="t-mono mid" x="401" y="142">0001 → <tspan class="t-b tc-blue">1</tspan></text>
+  <text class="t-s mid" x="291" y="182">켜진 자리의 값만 더하면 64 + 1 = 65</text>
+  <rect class="box" x="545" y="20" width="195" height="176" rx="12"/>
+  <text class="t-s" x="563" y="46">2진수</text>
+  <text class="t-mono t-b" x="563" y="68">0100 0001</text>
+  <text class="t-s" x="563" y="102">10진수</text>
+  <text class="t-mono t-b" x="563" y="124">65</text>
+  <text class="t-s" x="563" y="158">16진수</text>
+  <text class="t-mono t-b" x="563" y="180">0x41</text>
+  <path class="ln thin muted" d="M563 80 H722"/>
+  <path class="ln thin muted" d="M563 136 H722"/>
+</svg></div><figcaption><b>그림 2-2</b>스위치 여덟 개 <code>01000001</code>을 읽는 법. 켜진 자리의 값을 더하면 65이고, 네 칸씩 묶어 16진수로 적으면 41입니다.</figcaption></figure>
+<p><code>01000001</code>은 64 자리와 1 자리가 켜져 있으니 64 + 1 = 65입니다. 여덟 개를 모두 켠 <code>11111111</code>은 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 = 255입니다. 1바이트에 담기는 수가 0부터 255까지인 이유입니다.</p>
+<section class="level3" id="진수-길어서-줄여-적기">
+<h3>16진수: 길어서 줄여 적기</h3>
+<p>2진수는 사람이 읽기에 너무 깁니다. 그래서 <strong>네 칸씩 묶어 한 글자로</strong> 줄여 적습니다. 네 칸으로 만들 수 있는 값은 0부터 15까지 16가지입니다. 숫자는 9까지밖에 없으니 10부터 15까지는 A, B, C, D, E, F로 적습니다. 이것이 <strong>16진수</strong>(hexadecimal)입니다.</p>
+<p>1바이트는 네 칸짜리 묶음 두 개이므로 16진수 <strong>두 글자</strong>로 딱 떨어집니다. <code>0100 0001</code>은 4와 1, 곧 41입니다. 10진수 41과 헷갈리지 않도록 코드에서는 <code>0x41</code>처럼 앞에 <code>0x</code>를 붙입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>2진수</th>
+<th>10진수</th>
+<th>16진수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0000 1010</code></td>
+<td>10</td>
+<td><code>0x0A</code></td>
+</tr>
+<tr>
+<td><code>0100 0001</code></td>
+<td>65</td>
+<td><code>0x41</code></td>
+</tr>
+<tr>
+<td><code>1111 1111</code></td>
+<td>255</td>
+<td><code>0xFF</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>색 코드 <code>#FF8800</code>이나 오류 창에 뜨는 <code>0x80070005</code> 같은 값이 모두 16진수입니다. 암호가 아니라 바이트를 짧게 적은 것뿐입니다.</p>
+<div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
+<p>Python을 켜고 <code>bin(65)</code>, <code>hex(255)</code>, <code>int("ff", 16)</code>을 차례로 입력해 보세요. 같은 값이 2진수, 16진수, 10진수로 바뀌어 나옵니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="integer">
+<h2><span class="sec-n">2.3</span>정수: 칸이 꽉 차면 처음으로 돌아갑니다<a aria-label="이 절의 링크" class="anchor" href="#integer">#</a></h2>
+<p>종이에는 숫자를 얼마든지 길게 쓸 수 있습니다. 컴퓨터는 다릅니다. 숫자 하나에 <strong>스위치를 몇 개 쓸지 미리 정해 둡니다.</strong> 소수점이 없는 수인 <strong>정수</strong>(integer)는 보통 8, 16, 32, 64비트 가운데 하나에 담습니다. 칸 수가 정해지면 담을 수 있는 범위도 정해집니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>칸 수</th>
+<th>0 이상만 담을 때</th>
+<th>음수도 담을 때</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8비트</td>
+<td>0 ~ 255</td>
+<td>−128 ~ 127</td>
+</tr>
+<tr>
+<td>32비트</td>
+<td>0 ~ 약 43억</td>
+<td>약 −21억 ~ 21억</td>
+</tr>
+<tr>
+<td>64비트</td>
+<td>0 ~ 약 1844경</td>
+<td>약 −922경 ~ 922경</td>
+</tr>
+</tbody>
+</table></div>
+<p>음수까지 담으려면 맨 앞 비트를 부호 표시에 씁니다. 그래서 칸 수가 같아도 양수 쪽 범위는 절반으로 줄어듭니다. 표의 "경"은 조의 만 배입니다.</p>
+<p>범위를 넘기면 어떻게 될까요? 자동차의 주행 거리계가 999999 다음에 000000으로 돌아가는 것과 같은 일이 벌어집니다. 8비트 칸에 든 255에 1을 더하면 256이 아니라 <strong>0</strong>이 됩니다. 이것이 <strong>오버플로</strong>(overflow)입니다.</p>
+<figure class="fig" id="fig-overflow-ring"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 345" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>정해진 칸이 꽉 찬 정수는 시계처럼 처음으로 돌아간다</title>
+  <text class="t-b mid" x="200" y="30">8비트 숫자 칸: 255 다음은 0</text>
+  <circle class="ghost" cx="200" cy="190" r="92"/>
+  <circle class="box green" cx="200" cy="98" r="18"/>
+  <text class="t-mono mid" x="200" y="103">0</text>
+  <circle class="box" cx="246" cy="110.3" r="18"/>
+  <text class="t-mono mid" x="246" y="115.3">1</text>
+  <circle class="box" cx="279.7" cy="144" r="18"/>
+  <text class="t-mono mid" x="279.7" y="149">2</text>
+  <circle class="box" cx="292" cy="190" r="18"/>
+  <text class="t-mono mid" x="292" y="195">3</text>
+  <circle class="s-surface" cx="279.7" cy="236" r="14"/>
+  <text class="t-b mid tc-muted" x="279.7" y="239">…</text>
+  <circle class="box" cx="246" cy="269.7" r="18"/>
+  <text class="t-mono mid" x="246" y="274.7">127</text>
+  <circle class="box" cx="200" cy="282" r="18"/>
+  <text class="t-mono mid" x="200" y="287">128</text>
+  <circle class="box" cx="154" cy="269.7" r="18"/>
+  <text class="t-mono mid" x="154" y="274.7">129</text>
+  <circle class="s-surface" cx="120.3" cy="236" r="14"/>
+  <text class="t-b mid tc-muted" x="120.3" y="239">…</text>
+  <circle class="box" cx="108" cy="190" r="18"/>
+  <text class="t-mono mid" x="108" y="195">253</text>
+  <circle class="box" cx="120.3" cy="144" r="18"/>
+  <text class="t-mono mid" x="120.3" y="149">254</text>
+  <circle class="box red" cx="154" cy="110.3" r="18"/>
+  <text class="t-mono mid" x="154" y="115.3">255</text>
+  <path class="ln red" d="M133.6 87.7 A122 122 0 0 1 189.4 68.5" marker-end="url(#ah-red)"/>
+  <text class="t-b mid tc-red" x="147.6" y="65.2">+1</text>
+  <text class="t-s mid" x="200" y="186">칸이 꽉 차면</text>
+  <text class="t-b mid" x="200" y="208">처음으로</text>
+  <text class="t-mono mid" x="200" y="326">255 + 1 → 0</text>
+  <text class="t-b mid" x="560" y="30">시계: 12시 다음은 1시</text>
+  <circle class="box" cx="560" cy="190" r="92"/>
+  <text class="t-s mid" x="596" y="132.6">1</text>
+  <text class="t-s mid" x="622.4" y="159">2</text>
+  <circle class="box blue" cx="632" cy="190" r="15"/>
+  <text class="t-b mid" x="632" y="195">3</text>
+  <text class="t-s mid" x="622.4" y="231">4</text>
+  <text class="t-s mid" x="596" y="257.4">5</text>
+  <text class="t-s mid" x="560" y="267">6</text>
+  <text class="t-s mid" x="524" y="257.4">7</text>
+  <text class="t-s mid" x="497.6" y="231">8</text>
+  <text class="t-s mid" x="488" y="195">9</text>
+  <circle class="box yellow" cx="497.6" cy="154" r="15"/>
+  <text class="t-b mid" x="497.6" y="159">10</text>
+  <text class="t-s mid" x="524" y="132.6">11</text>
+  <text class="t-s mid" x="560" y="123">12</text>
+  <path class="ln muted dash" d="M560 190 L521.9 168"/>
+  <path class="ln blue thick" d="M560 190 L606 190"/>
+  <circle class="f-ink" cx="560" cy="190" r="4"/>
+  <path class="ln blue" d="M470.5 129.6 A108 108 0 0 1 667.4 178.7" marker-end="url(#ah-blue)"/>
+  <text class="t-b tc-blue" x="607.9" y="71.3">+5시간</text>
+  <text class="t-mono mid" x="560" y="326">(10 + 5) % 12 = 3</text>
+</svg></div><figcaption><b>그림 2-3</b>칸 수가 정해진 정수는 고리 모양입니다. 끝에 닿으면 시계처럼 처음으로 돌아갑니다.</figcaption></figure>
+<p>오버플로는 많은 언어에서 오류 메시지도 없이 조용히 일어나기 때문에 위험합니다. 체력이 250인 캐릭터가 10을 회복했는데 체력이 4가 되어 버리는 식입니다(250 + 10 = 260, 260 − 256 = 4).</p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>유튜브는 조회수를 32비트 정수로 세다가, '강남스타일'의 조회수가 그 한계인 약 21억 회를 넘보자 64비트로 바꿨다고 밝힌 적이 있습니다. 넉넉해 보이던 칸도 언젠가 모자랄 수 있습니다.</p>
+</div>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · AI가 만든 코드에서 확인할 것</div>
+<p>Python의 정수는 칸을 알아서 늘려 주므로 넘치지 않습니다. 하지만 Java, C#, Go 같은 언어와 데이터베이스의 숫자 칸은 크기가 고정입니다. 주문 번호, 조회수, 금액처럼 계속 커지는 값을 32비트 칸에 담고 있지 않은지 살펴보세요.</p>
+</div>
+<section class="level3" id="나머지-연산-일부러-돌게-만들기">
+<h3>나머지 연산: 일부러 돌게 만들기</h3>
+<p>끝에 닿으면 처음으로 돌아가는 성질을 일부러 쓰기도 합니다. 시계가 그렇습니다. 10시에서 5시간이 지나면 15시가 아니라 3시입니다. 15를 12로 나눈 <strong>나머지</strong>가 3이기 때문입니다.</p>
+<p>나머지를 구하는 계산을 <strong>나머지 연산</strong>(modulo)이라 하고, 대부분의 언어에서 <code>%</code> 기호로 씁니다. <code>15 % 12</code>는 3입니다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1">players <span class="op">=</span> [<span class="st">"민지"</span>, <span class="st">"준호"</span>, <span class="st">"서연"</span>, <span class="st">"태윤"</span>]</span>
+<span id="cb1-2">turn <span class="op">=</span> <span class="dv">3</span>                          <span class="co"># 지금은 태윤 차례</span></span>
+<span id="cb1-3">turn <span class="op">=</span> (turn <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="bu">len</span>(players)  <span class="co"># (3 + 1) % 4 = 0</span></span>
+<span id="cb1-4"><span class="bu">print</span>(players[turn])              <span class="co"># 민지</span></span></code></pre></div>
+<p>네 사람은 0번부터 3번까지 번호를 받았습니다. 3번 다음 차례는 4번이 아니라 0번이어야 하는데, <code>% 4</code>가 4를 0으로 되돌려 줍니다. 요일, 각도, 되풀이되는 재생 목록처럼 "끝 다음이 처음"인 것은 모두 이렇게 다룹니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>음수의 나머지는 언어마다 다릅니다</summary><div class="deep-body">
+<p>차례를 거꾸로 돌리는 <code>(turn - 1) % 4</code>는 <code>turn</code>이 0일 때 <code>-1 % 4</code>가 됩니다. 이 값은 Python에서는 3이지만 JavaScript, Java, C에서는 −1이라서 없는 차례를 가리키게 됩니다. <code>(turn - 1 + 4) % 4</code>처럼 한 바퀴만큼 먼저 더하면 어느 언어에서나 안전합니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="float">
+<h2><span class="sec-n">2.4</span>실수: 0.1 + 0.2가 0.3이 아닌 이유<a aria-label="이 절의 링크" class="anchor" href="#float">#</a></h2>
+<p>Python에게 쉬운 덧셈을 하나 시켜 봅시다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><span class="op">&gt;&gt;&gt;</span> <span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.2</span></span>
+<span id="cb2-2"><span class="fl">0.30000000000000004</span></span>
+<span id="cb2-3"><span class="op">&gt;&gt;&gt;</span> <span class="fl">0.1</span> <span class="op">+</span> <span class="fl">0.2</span> <span class="op">==</span> <span class="fl">0.3</span></span>
+<span id="cb2-4"><span class="va">False</span></span></code></pre></div>
+<p>Python이 고장 난 것이 아닙니다. JavaScript에서도 똑같습니다. 덧셈 결과가 0.3보다 아주 조금 커서, 둘째 줄의 "0.3과 같은가?"라는 물음에 거짓(False)이 나옵니다.</p>
+<p>10진수로 3분의 1을 적어 봅시다. 0.3333…이 끝없이 이어지므로 어디선가 잘라야 하고, 잘린 값은 3분의 1과 아주 조금 다릅니다. 2진수에도 이런 수가 있는데, 하필 <strong>0.1이 그렇습니다.</strong> 2진수의 소수 자리는 2분의 1, 4분의 1, 8분의 1, 16분의 1…을 뜻합니다. 이 값들을 아무리 골라 더해도 0.1에 딱 맞출 수 없습니다.</p>
+<p>눈금이 새겨진 자를 떠올리면 쉽습니다. 컴퓨터의 소수는 <strong>눈금 위의 값만</strong> 가질 수 있습니다. 0.1은 눈금과 눈금 사이에 떨어지므로 가장 가까운 눈금으로 옮겨 적습니다.</p>
+<figure class="fig" id="fig-float-ruler"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 314" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>0.1은 2진 소수의 눈금 사이에 떨어지므로 가장 가까운 눈금 값으로 저장된다</title>
+  <text class="t-h" x="20" y="34">2진 소수의 눈금에는 0.1이 없습니다</text>
+  <text class="t-s" x="70" y="62">2진수로 소수점 아래 네 자리만 쓰는 자 — 눈금 간격 1/16</text>
+  <path class="ln" d="M70 150 H690"/>
+  <path class="ln" d="M70 138 V162"/>
+  <text class="t-mono mid" x="70" y="184">0</text>
+  <path class="ln" d="M225 138 V162"/>
+  <text class="t-mono mid" x="225" y="184">1/16</text>
+  <text class="t-xs mid" x="225" y="202">0.0625</text>
+  <path class="ln" d="M380 138 V162"/>
+  <text class="t-mono mid" x="380" y="184">1/8</text>
+  <text class="t-xs mid" x="380" y="202">0.125</text>
+  <path class="ln" d="M535 138 V162"/>
+  <text class="t-mono mid" x="535" y="184">3/16</text>
+  <text class="t-xs mid" x="535" y="202">0.1875</text>
+  <path class="ln" d="M690 138 V162"/>
+  <text class="t-mono mid" x="690" y="184">1/4</text>
+  <text class="t-xs mid" x="690" y="202">0.25</text>
+  <path class="ln red dash" d="M318 102 V150"/>
+  <circle class="f-red" cx="318" cy="150" r="5"/>
+  <text class="t-b mid tc-red" x="318" y="92">적고 싶은 값 0.1</text>
+  <path class="ln warm" d="M326 128 H370" marker-end="url(#ah-warm)"/>
+  <circle class="f-warm" cx="380" cy="150" r="6"/>
+  <text class="t-s tc-warm" x="394" y="124">가장 가까운 눈금에 저장</text>
+  <rect class="box green" x="20" y="226" width="400" height="70" rx="12"/>
+  <text class="t-s" x="38" y="252">실제 컴퓨터는 눈금이 훨씬 촘촘하지만, 저장된 0.1은</text>
+  <text class="t-mono t-b" x="38" y="278">0.1000000000000000055511…</text>
+  <rect class="box red" x="440" y="226" width="300" height="70" rx="12"/>
+  <text class="t-s" x="458" y="252">그래서 0.1 + 0.2를 계산하면</text>
+  <text class="t-mono t-b" x="458" y="278">0.30000000000000004</text>
+</svg></div><figcaption><b>그림 2-4</b>눈금이 성긴 자로 본 원리. 실제 컴퓨터의 눈금은 훨씬 촘촘하지만, 0.1에 딱 맞는 눈금이 없다는 점은 같습니다.</figcaption></figure>
+<p>이렇게 소수점이 있는 수를 정해진 비트 안에 <strong>가장 가까운 값</strong>으로 담는 방식을 <strong>부동소수점</strong>(floating point)이라고 합니다. 여러 언어에서 <code>float</code>나 <code>double</code>이라고 부르는 <strong>실수</strong>가 이것입니다. 64비트 실수는 앞에서부터 15자리쯤까지 정확하므로 거리, 속도, 온도 같은 <strong>측정값</strong>에는 충분합니다. 문제는 <strong>딱 맞아야 하는 값</strong>에 쓸 때 생깁니다.</p>
+<section class="level3" id="돈은-실수로-계산하지-않습니다">
+<h3>돈은 실수로 계산하지 않습니다</h3>
+<p>19.99달러를 센트로 바꾸려고 100을 곱하면 1999가 아니라 <code>1998.9999999999998</code>이 나옵니다. 여기서 소수점 아래를 버리면 1998센트가 되어 1센트가 사라집니다. 이런 오차가 주문 수만 건에 쌓이면 장부가 맞지 않습니다.</p>
+<p>해법은 두 가지입니다.</p>
+<ol type="1">
+<li><strong>가장 작은 단위의 정수로 다룹니다.</strong> 19.99달러는 1999센트, 원화는 원 단위 정수로 저장합니다. 정수끼리의 덧셈과 곱셈은 정확합니다.</li>
+<li><strong>10진수 전용 숫자를 씁니다.</strong> Python의 <code>Decimal</code>이나 데이터베이스의 <code>DECIMAL</code>은 10진수 그대로 계산합니다.</li>
+</ol>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 실수끼리는 ==로 비교하지 않습니다</div>
+<p>0.1을 열 번 더한 값은 1.0이 아니라 0.9999999999999999입니다. 그래서 <code>t == 1.0</code> 같은 조건은 영영 참이 되지 않을 수 있습니다. <code>t &gt;= 1.0</code>처럼 범위로 묻거나, Python의 <code>math.isclose(a, b)</code>처럼 "차이가 아주 작은가"를 묻습니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>큰 수에 작은 수를 더하면 작은 수가 사라집니다</summary><div class="deep-body">
+<p>실수의 눈금은 수가 커질수록 성겨집니다. 1경(1 뒤에 0이 16개, 코드에서는 <code>1e16</code>) 근처에서는 눈금 간격이 2입니다. 그래서 <code>(1e16 + 1) - 1e16</code>은 0이 되고, 순서만 바꾼 <code>(1e16 - 1e16) + 1</code>은 1이 됩니다. 수학에서는 같은 식이 계산 순서에 따라 다른 답을 냅니다.</p>
+<p>JavaScript의 숫자는 정수처럼 보여도 모두 64비트 실수입니다. 약 9007조를 넘는 정수는 눈금 사이에 떨어져 끝자리가 바뀔 수 있습니다. 서버가 보내 준 아주 큰 ID는 숫자가 아니라 <strong>문자열</strong>로 다루는 편이 안전합니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="text">
+<h2><span class="sec-n">2.5</span>글자: 번호를 붙이고 바이트로 적기<a aria-label="이 절의 링크" class="anchor" href="#text">#</a></h2>
+<p>글자를 스위치로 적으려면 <strong>글자마다 번호를 붙여야</strong> 합니다. "A는 65번, B는 66번" 하는 식입니다. 이런 번호표 가운데 가장 오래 쓰인 것이 <strong>ASCII</strong>(아스키)입니다. 영어 알파벳과 숫자, 기호 등 128개에 번호를 붙였고, 한 글자가 1바이트에 들어갑니다.</p>
+<p>128개로는 한글도 한자도 담지 못합니다. 그래서 나라마다 자기 번호표를 따로 만들었습니다. 한국의 CP949가 그 하나입니다. 번호표가 다른 컴퓨터끼리는 글자가 엉뚱하게 보였습니다. 이 혼란을 끝내려고 세계의 모든 글자에 번호를 하나씩 붙인 것이 <strong>유니코드</strong>(Unicode)입니다. 이 번호를 <strong>코드 포인트</strong>(code point)라 하고 <code>U+AC00</code>처럼 16진수로 적습니다. '가'는 U+AC00, 10진수로 44032번입니다.</p>
+<p>번호를 정했으면, 그 번호를 <strong>바이트로 어떻게 적을지</strong>도 정해야 합니다. 이 규칙이 <strong>인코딩</strong>(encoding)입니다. 오늘날 웹과 개발 도구가 기본으로 쓰는 인코딩은 <strong>UTF-8</strong>입니다. 자주 쓰는 글자는 짧게, 드문 글자는 길게 적습니다.</p>
+<figure class="fig" id="fig-utf8-bytes"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 296" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>글자는 먼저 유니코드 번호를 받고, UTF-8 규칙에 따라 1~4바이트로 저장된다</title>
+  <text class="t-s t-b mid" x="75" y="30">글자</text>
+  <circle class="badge blue" cx="186" cy="25" r="11"/><text class="badge-t" x="186" y="29.5">1</text>
+  <text class="t-s t-b" x="204" y="30">번호를 붙인다</text>
+  <circle class="badge green" cx="414" cy="25" r="11"/><text class="badge-t" x="414" y="29.5">2</text>
+  <text class="t-s t-b" x="432" y="30">바이트로 적는다 (UTF-8)</text>
+  <text class="t-s t-b end" x="740" y="30">크기</text>
+  <path class="ln thin muted" d="M20 44 H740"/>
+  <rect class="box yellow" x="45" y="63" width="60" height="50" rx="10"/>
+  <text class="t-h mid" x="75" y="94">A</text>
+  <text class="t-xs mid" x="75" y="129">영문</text>
+  <path class="ln muted" d="M112 88 H164" marker-end="url(#ah-muted)"/>
+  <rect class="box blue" x="174" y="63" width="160" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="254" y="85">U+0041</text>
+  <text class="t-xs mid" x="254" y="103">65번</text>
+  <path class="ln muted" d="M342 88 H392" marker-end="url(#ah-muted)"/>
+  <rect class="box green" x="404" y="68" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="428" y="93">41</text>
+  <text class="t-b end" x="740" y="93">1바이트</text>
+  <rect class="box yellow" x="45" y="139" width="60" height="50" rx="10"/>
+  <text class="t-h mid" x="75" y="170">가</text>
+  <text class="t-xs mid" x="75" y="205">한글</text>
+  <path class="ln muted" d="M112 164 H164" marker-end="url(#ah-muted)"/>
+  <rect class="box blue" x="174" y="139" width="160" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="254" y="161">U+AC00</text>
+  <text class="t-xs mid" x="254" y="179">44032번</text>
+  <path class="ln muted" d="M342 164 H392" marker-end="url(#ah-muted)"/>
+  <rect class="box green" x="404" y="144" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="428" y="169">EA</text>
+  <rect class="box green" x="458" y="144" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="482" y="169">B0</text>
+  <rect class="box green" x="512" y="144" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="536" y="169">80</text>
+  <text class="t-b end" x="740" y="169">3바이트</text>
+  <rect class="box yellow" x="45" y="215" width="60" height="50" rx="10"/>
+  <g class="ic yellow"><circle class="i-f" cx="75" cy="240" r="15"/><circle class="i-d" cx="70" cy="236" r="1.8"/><circle class="i-d" cx="80" cy="236" r="1.8"/><path class="i-s" d="M68 244 q7 7 14 0"/></g>
+  <text class="t-xs mid" x="75" y="281">이모지</text>
+  <path class="ln muted" d="M112 240 H164" marker-end="url(#ah-muted)"/>
+  <rect class="box blue" x="174" y="215" width="160" height="50" rx="10"/>
+  <text class="t-mono t-b mid" x="254" y="237">U+1F600</text>
+  <text class="t-xs mid" x="254" y="255">128512번</text>
+  <path class="ln muted" d="M342 240 H392" marker-end="url(#ah-muted)"/>
+  <rect class="box green" x="404" y="220" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="428" y="245">F0</text>
+  <rect class="box green" x="458" y="220" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="482" y="245">9F</text>
+  <rect class="box green" x="512" y="220" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="536" y="245">98</text>
+  <rect class="box green" x="566" y="220" width="48" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="590" y="245">80</text>
+  <text class="t-b end" x="740" y="245">4바이트</text>
+</svg></div><figcaption><b>그림 2-5</b>글자가 저장되는 두 단계. 유니코드가 번호를 붙이고, UTF-8이 그 번호를 1~4바이트로 적습니다.</figcaption></figure>
+<p>영문과 숫자는 1바이트, 한글은 3바이트, 이모지는 대부분 4바이트입니다. 그래서 <strong>글자 수와 바이트 수는 다릅니다.</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1">s <span class="op">=</span> <span class="st">"가나다"</span></span>
+<span id="cb3-2"><span class="bu">print</span>(<span class="bu">len</span>(s))                  <span class="co"># 3 (글자 수)</span></span>
+<span id="cb3-3"><span class="bu">print</span>(<span class="bu">len</span>(s.encode(<span class="st">"utf-8"</span>)))  <span class="co"># 9 (바이트 수)</span></span></code></pre></div>
+<p><code>encode</code>는 글자를 바이트로 바꾸는 명령입니다. 세 글자가 9바이트가 되었습니다. "닉네임은 12바이트까지"라는 제한이 있다면 한글은 네 글자까지만 들어갑니다.</p>
+<section class="level3" id="글자가-깨지는-이유">
+<h3>글자가 깨지는 이유</h3>
+<p>바이트에는 "나는 UTF-8로 적혔다"는 표시가 없습니다. 저장할 때 쓴 규칙과 읽을 때 쓴 규칙이 다르면, 같은 바이트가 엉뚱한 글자로 바뀝니다.</p>
+<figure class="fig" id="fig-mojibake"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 262" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>같은 바이트 여섯 개를 3바이트씩 끊어 읽으면 게임, 2바이트씩 끊어 읽으면 깨진 글자가 된다</title>
+  <text class="t-b tc-green" x="20" y="62">UTF-8로 읽으면</text>
+  <text class="t-s" x="20" y="83">3바이트씩 한 글자</text>
+  <path class="ln thin green" d="M252 110 v-8 H456 v8"/>
+  <rect class="box green" x="328" y="42" width="52" height="46" rx="10"/>
+  <text class="t-h mid" x="354" y="72">게</text>
+  <path class="ln thin green" d="M468 110 v-8 H672 v8"/>
+  <rect class="box green" x="544" y="42" width="52" height="46" rx="10"/>
+  <text class="t-h mid" x="570" y="72">임</text>
+  <use href="#i-check" x="696" y="46" width="38" height="38" class="ic green"/>
+  <text class="t-b" x="20" y="140">저장된 바이트</text>
+  <text class="t-s" x="20" y="160">여섯 개, 그대로</text>
+  <rect class="box" x="250" y="118" width="64" height="44" rx="9"/>
+  <text class="t-mono t-b mid" x="282" y="145">EA</text>
+  <rect class="box" x="322" y="118" width="64" height="44" rx="9"/>
+  <text class="t-mono t-b mid" x="354" y="145">B2</text>
+  <rect class="box" x="394" y="118" width="64" height="44" rx="9"/>
+  <text class="t-mono t-b mid" x="426" y="145">8C</text>
+  <rect class="box" x="466" y="118" width="64" height="44" rx="9"/>
+  <text class="t-mono t-b mid" x="498" y="145">EC</text>
+  <rect class="box" x="538" y="118" width="64" height="44" rx="9"/>
+  <text class="t-mono t-b mid" x="570" y="145">9E</text>
+  <rect class="box" x="610" y="118" width="64" height="44" rx="9"/>
+  <text class="t-mono t-b mid" x="642" y="145">84</text>
+  <text class="t-b tc-red" x="20" y="214">CP949로 읽으면</text>
+  <text class="t-s" x="20" y="235">2바이트씩 한 글자</text>
+  <path class="ln thin red" d="M252 170 v8 H384 v-8"/>
+  <rect class="box red" x="292" y="192" width="52" height="46" rx="10"/>
+  <text class="t-h mid" x="318" y="222">寃</text>
+  <path class="ln thin red" d="M396 170 v8 H528 v-8"/>
+  <rect class="box red" x="436" y="192" width="52" height="46" rx="10"/>
+  <text class="t-h mid" x="462" y="222">뚯</text>
+  <path class="ln thin red" d="M540 170 v8 H672 v-8"/>
+  <rect class="box red" x="580" y="192" width="52" height="46" rx="10"/>
+  <text class="t-h mid" x="606" y="222">엫</text>
+  <use href="#i-cross" x="696" y="196" width="38" height="38" class="ic red"/>
+</svg></div><figcaption><b>그림 2-6</b>"게임"을 UTF-8로 저장한 여섯 바이트. 한글을 2바이트로 적는 CP949 규칙으로 읽으면 두 바이트씩 끊겨 전혀 다른 글자가 됩니다.</figcaption></figure>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>글자가 깨졌어도 <strong>데이터는 멀쩡합니다.</strong> 틀린 것은 읽는 규칙뿐이므로, 올바른 규칙으로 다시 읽으면 됩니다.</p>
+</div>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · 인코딩은 항상 적어 줍니다</div>
+<p>파일을 열 때 <code>open("memo.txt", encoding="utf-8")</code>처럼 인코딩을 밝혀 적으세요. 적지 않으면 컴퓨터 설정에 따라 다른 규칙이 골라질 수 있습니다. AI가 만든 코드에서 이 부분이 빠져 있지 않은지 확인합니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>똑같아 보이는 글자가 다를 때 (정규화)</summary><div class="deep-body">
+<p>유니코드에서 '가'를 적는 방법은 두 가지입니다. 완성된 한 글자(U+AC00)로 적을 수도 있고, 자음 ㄱ과 모음 ㅏ 두 조각을 이어 적을 수도 있습니다. 화면에는 똑같이 보이지만 바이트가 다르므로, 컴퓨터는 둘을 다른 글자로 봅니다. 맥에서 만든 파일의 이름이 윈도우에서 'ㅎㅏㄴㄱㅡㄹ'처럼 풀려 보이거나, 분명히 있는 이름이 검색되지 않는 까닭입니다.</p>
+<p>이럴 때는 비교하기 전에 양쪽을 한 가지 형태로 맞춥니다. 이 작업을 <strong>정규화</strong>(normalization)라 하고, 완성된 글자 쪽으로 모으는 방식을 NFC라고 부릅니다. JavaScript에서는 <code>이름.normalize("NFC")</code>로 맞출 수 있습니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="pixel">
+<h2><span class="sec-n">2.6</span>색과 그림: 점 하나에 숫자 세 개<a aria-label="이 절의 링크" class="anchor" href="#pixel">#</a></h2>
+<p>화면을 아주 가까이서 들여다보면 작은 점들이 바둑판처럼 늘어서 있습니다. 이 점 하나를 <strong>픽셀</strong>(pixel)이라고 합니다.</p>
+<figure class="photo half"><img alt="여러 종류의 화면을 확대한 모습. 점의 모양과 늘어선 방식은 달라도, 빨강과 초록과 파랑 세 가지 빛으로 이루어진 것은 같습니다. 오른쪽 아래가 흔히 쓰는 LCD입니다." loading="lazy" src="../assets/photo/pixels-closeup.jpg"/><figcaption>여러 종류의 화면을 확대한 모습. 점의 모양과 늘어선 방식은 달라도, 빨강과 초록과 파랑 세 가지 빛으로 이루어진 것은 같습니다. 오른쪽 아래가 흔히 쓰는 LCD입니다.<span class="credit">사진: Pengo · CC BY-SA 3.0 · <a href="https://commons.wikimedia.org/wiki/File:Pixel_geometry_01_Pengo.jpg" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+<p>픽셀은 빨강(Red), 초록(Green), 파랑(Blue) 세 가지 빛을 섞어 색을 냅니다. 빛마다 밝기를 0부터 255까지, 곧 1바이트로 적으면 <strong>점 하나가 3바이트</strong>가 됩니다. 이 방식을 세 빛의 머리글자를 따서 <strong>RGB</strong>라고 합니다. 셋 다 0이면 검정, 셋 다 255이면 흰색입니다.</p>
+<figure class="fig" id="fig-pixel-rgb"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>그림은 점의 격자이고, 점 하나의 색은 빨강·초록·파랑의 밝기를 적은 숫자 세 개다</title>
+  <text class="t-s t-b" x="30" y="30">가로 8점 × 세로 8점짜리 그림</text>
+  <rect class="box gray" x="31" y="45" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="55" y="45" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="79" y="45" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="103" y="45" width="22" height="22" rx="3"/>
+  <rect class="solid green" x="127" y="45" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="151" y="45" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="175" y="45" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="199" y="45" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="31" y="69" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="55" y="69" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="79" y="69" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="103" y="69" width="22" height="22" rx="3"/>
+  <rect class="solid green" x="127" y="69" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="151" y="69" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="175" y="69" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="199" y="69" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="31" y="93" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="55" y="93" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="79" y="93" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="103" y="93" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="127" y="93" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="151" y="93" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="175" y="93" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="199" y="93" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="31" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="55" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="79" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="103" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="127" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="151" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="175" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="199" y="117" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="31" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="55" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="79" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="103" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="127" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="151" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="175" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="199" y="141" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="31" y="165" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="55" y="165" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="79" y="165" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="103" y="165" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="127" y="165" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="151" y="165" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="175" y="165" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="199" y="165" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="31" y="189" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="55" y="189" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="79" y="189" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="103" y="189" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="127" y="189" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="151" y="189" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="175" y="189" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="199" y="189" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="31" y="213" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="55" y="213" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="79" y="213" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="103" y="213" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="127" y="213" width="22" height="22" rx="3"/>
+  <rect class="solid warm" x="151" y="213" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="175" y="213" width="22" height="22" rx="3"/>
+  <rect class="box gray" x="199" y="213" width="22" height="22" rx="3"/>
+  <rect class="ln thick" x="197" y="139" width="26" height="26" rx="4"/>
+  <text class="t-s" x="30" y="262">점 64개 × 3바이트 = 192바이트</text>
+  <path class="ln" d="M227 152 H284" marker-end="url(#ah)"/>
+  <text class="t-s t-b mid" x="325" y="106">점(픽셀) 하나</text>
+  <rect class="solid warm" x="292" y="118" width="66" height="66" rx="8"/>
+  <path class="ln" d="M364 151 H392" marker-end="url(#ah)"/>
+  <text class="t-xs" x="462" y="62">밝기 (0~255)</text>
+  <text class="t-xs" x="640" y="62">10진수</text>
+  <text class="t-xs" x="696" y="62">16진수</text>
+  <text class="t-b tc-red" x="410" y="97">빨강</text>
+  <rect class="box gray" x="462" y="82" width="160" height="20" rx="5"/>
+  <rect class="solid red" x="462" y="82" width="160" height="20" rx="5"/>
+  <text class="t-mono" x="640" y="97">255</text>
+  <text class="t-mono t-b" x="696" y="97">FF</text>
+  <text class="t-b tc-green" x="410" y="147">초록</text>
+  <rect class="box gray" x="462" y="132" width="160" height="20" rx="5"/>
+  <rect class="solid green" x="462" y="132" width="85" height="20" rx="5"/>
+  <text class="t-mono" x="640" y="147">136</text>
+  <text class="t-mono t-b" x="696" y="147">88</text>
+  <text class="t-b tc-blue" x="410" y="197">파랑</text>
+  <rect class="box gray" x="462" y="182" width="160" height="20" rx="5"/>
+  <text class="t-mono" x="640" y="197">0</text>
+  <text class="t-mono t-b" x="696" y="197">00</text>
+  <path class="ln thin muted" d="M410 222 H730"/>
+  <text class="t-s" x="410" y="250">색 코드로 적으면 <tspan class="t-mono t-b t-ink">#FF8800</tspan> — 3바이트</text>
+</svg></div><figcaption><b>그림 2-7</b>그림은 점의 색을 차례로 적은 숫자 목록입니다. 주황색 점 하나는 빨강 255, 초록 136, 파랑 0입니다.</figcaption></figure>
+<p>웹에서 쓰는 색 코드 <code>#FF8800</code>은 이 세 바이트를 16진수로 이어 적은 것입니다. FF는 255, 88은 136, 00은 0입니다.</p>
+<p>그림이 숫자 목록이라면 크기도 계산할 수 있습니다. 가로 1920, 세로 1080인 화면 한 장은 약 207만 점이고, 점마다 3바이트이니 약 6.2MB입니다. 1장에서 "20MB짜리 사진 파일이 메모리에서는 200MB가 된다"고 했던 까닭이 이것입니다. 파일은 이 숫자 목록을 압축해 둔 것이고, 화면에 그리려면 다시 점 하나하나로 펼쳐야 합니다.</p>
+</section>
+<section class="level2" id="file">
+<h2><span class="sec-n">2.7</span>파일: 같은 바이트, 다른 약속<a aria-label="이 절의 링크" class="anchor" href="#file">#</a></h2>
+<p>숫자, 글자, 색을 차례로 보았습니다. 셋을 꿰는 사실이 하나 있습니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>바이트는 자기가 무엇인지 스스로 말하지 않습니다.</p>
+</div>
+<figure class="fig" id="fig-same-bytes"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 270" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>같은 바이트 세 개라도 어떤 약속으로 읽느냐에 따라 글자, 숫자, 색이 된다</title>
+  <text class="t-b" x="30" y="104">같은 바이트 세 개</text>
+  <rect class="box" x="30" y="118" width="54" height="46" rx="9"/>
+  <text class="t-mono t-b mid" x="57" y="146">EA</text>
+  <rect class="box" x="90" y="118" width="54" height="46" rx="9"/>
+  <text class="t-mono t-b mid" x="117" y="146">B0</text>
+  <rect class="box" x="150" y="118" width="54" height="46" rx="9"/>
+  <text class="t-mono t-b mid" x="177" y="146">80</text>
+  <text class="t-xs" x="30" y="186">11101010 10110000 10000000</text>
+  <path class="ln" d="M212 141 H250 V63 H292" marker-end="url(#ah)"/>
+  <path class="ln" d="M212 141 H292" marker-end="url(#ah)"/>
+  <path class="ln" d="M250 141 V219 H292" marker-end="url(#ah)"/>
+  <rect class="box blue" x="300" y="30" width="440" height="66" rx="12"/>
+  <text class="t-b" x="320" y="59">글자로 읽으면</text>
+  <text class="t-s" x="320" y="80">UTF-8이라는 약속</text>
+  <rect class="box green" x="300" y="108" width="440" height="66" rx="12"/>
+  <text class="t-b" x="320" y="137">숫자 세 개로 읽으면</text>
+  <text class="t-s" x="320" y="158">바이트 하나가 0~255</text>
+  <rect class="box warm" x="300" y="186" width="440" height="66" rx="12"/>
+  <text class="t-b" x="320" y="215">색으로 읽으면</text>
+  <text class="t-s" x="320" y="236">빨강·초록·파랑의 밝기</text>
+  <text class="t-h mid" x="640" y="70">가</text>
+  <text class="t-mono t-b mid" x="640" y="146">234, 176, 128</text>
+  <rect class="solid warm" x="584" y="201" width="40" height="36" rx="7"/>
+  <text class="t-s" x="634" y="224">연한 주황색 점</text>
+</svg></div><figcaption><b>그림 2-8</b>같은 바이트 세 개가 읽는 약속에 따라 글자 '가'도 되고, 숫자 세 개도 되고, 점 하나의 색도 됩니다.</figcaption></figure>
+<p>어느 쪽이 맞는지는 바이트가 아니라 <strong>읽는 쪽의 약속</strong>이 정합니다. 이 약속을 <strong>형식</strong>(format)이라고 합니다. 그리고 <strong>파일</strong>은 바이트를 한 줄로 늘어놓고 이름을 붙인 것입니다. 파일은 크게 두 가지로 나뉩니다.</p>
+<ul>
+<li><strong>텍스트 파일</strong>은 처음부터 끝까지 글자 인코딩 하나로 읽으면 뜻이 통하는 파일입니다. <code>.txt</code>, <code>.py</code>, <code>.html</code>, <code>.csv</code>가 그렇습니다. 메모장 같은 편집기로 열어 읽고 고칠 수 있습니다.</li>
+<li><strong>바이너리 파일</strong>(binary file)은 그 밖의 모든 파일입니다. 사진, 음악, 압축 파일, 실행 파일이 여기에 듭니다. 저마다의 형식에 따라 숫자와 색이 빽빽이 들어 있어서, 그 형식을 아는 프로그램으로 열어야 합니다.</li>
+</ul>
+<pre class="text"><code>memo.txt   48 65 6C 6C 6F            → 글자로 읽으면 Hello
+logo.png   89 50 4E 47 0D 0A 1A 0A   → 글자로 읽으면 뜻 없는 기호</code></pre>
+<p>첫 줄은 텍스트 파일이라 다섯 바이트가 그대로 다섯 글자입니다. 둘째 줄은 사진 파일의 첫머리입니다. PNG 형식의 파일은 언제나 이 여덟 바이트로 시작하고, 프로그램은 이 첫머리를 보고 형식을 확인합니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 확장자는 이름표일 뿐입니다</div>
+<p><code>photo.png</code>의 이름을 <code>photo.txt</code>로 바꿔도 내용은 한 바이트도 달라지지 않습니다. 반대로 사진이나 압축 파일을 글자로 읽었다가 다시 저장하면 내용이 망가집니다. 이런 파일은 Python의 <code>open(path, "rb")</code>처럼 바이트 그대로 읽어야 합니다.</p>
+</div>
+<p>파일이 놓이는 자리인 폴더와 경로는 <a href="ch05.html">5장</a>에서, 데이터를 텍스트로 주고받는 JSON 같은 형식은 <a href="ch08.html">8장</a>에서 다룹니다.</p>
+<section class="level3" id="용량-단위-gb와-gib">
+<h3>용량 단위: GB와 GiB</h3>
+<p>바이트가 많아지면 묶어서 부릅니다. 그런데 묶는 방식이 두 가지라서 헷갈립니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>1000씩 묶는 단위</th>
+<th>1024씩 묶는 단위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1KB(킬로바이트) = 1000바이트</td>
+<td>1KiB(키비바이트) = 1024바이트</td>
+</tr>
+<tr>
+<td>1MB = 1000KB</td>
+<td>1MiB = 1024KiB</td>
+</tr>
+<tr>
+<td>1GB = 1000MB</td>
+<td>1GiB = 1024MiB</td>
+</tr>
+</tbody>
+</table></div>
+<p>1024는 2를 열 번 곱한 수입니다. 스위치로 세는 컴퓨터에게는 1000보다 딱 떨어지는 수라서 예전부터 1024바이트를 "1킬로바이트"라고 불러 왔습니다. 둘을 구분하려고 KiB, MiB, GiB라는 이름을 따로 만들었지만, 지금도 섞여 쓰입니다.</p>
+<figure class="fig" id="fig-units-ruler"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 252" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>같은 바이트 수라도 1000씩 묶어 세면 1000GB, 1024씩 묶어 세면 약 931GiB가 된다</title>
+  <text class="t-h" x="20" y="34">같은 1TB 디스크를 두 가지 자로 재면</text>
+  <text class="t-s t-b" x="60" y="68">1000씩 묶는 자 (GB)</text>
+  <text class="t-b end tc-blue" x="700" y="68">1000GB = 1TB</text>
+  <path class="ln thin blue" d="M60 100 V112"/>
+  <text class="t-xs mid" x="60" y="92">0</text>
+  <path class="ln thin blue" d="M124 100 V112"/>
+  <text class="t-xs mid" x="124" y="92">100</text>
+  <path class="ln thin blue" d="M188 100 V112"/>
+  <text class="t-xs mid" x="188" y="92">200</text>
+  <path class="ln thin blue" d="M252 100 V112"/>
+  <text class="t-xs mid" x="252" y="92">300</text>
+  <path class="ln thin blue" d="M316 100 V112"/>
+  <text class="t-xs mid" x="316" y="92">400</text>
+  <path class="ln thin blue" d="M380 100 V112"/>
+  <text class="t-xs mid" x="380" y="92">500</text>
+  <path class="ln thin blue" d="M444 100 V112"/>
+  <text class="t-xs mid" x="444" y="92">600</text>
+  <path class="ln thin blue" d="M508 100 V112"/>
+  <text class="t-xs mid" x="508" y="92">700</text>
+  <path class="ln thin blue" d="M572 100 V112"/>
+  <text class="t-xs mid" x="572" y="92">800</text>
+  <path class="ln thin blue" d="M636 100 V112"/>
+  <text class="t-xs mid" x="636" y="92">900</text>
+  <path class="ln thin blue" d="M700 100 V112"/>
+  <text class="t-xs mid" x="700" y="92">1000</text>
+  <rect class="solid warm" x="60" y="114" width="640" height="30" rx="5"/>
+  <text class="t-on t-b mid" x="380" y="134">디스크 = 1,000,000,000,000바이트</text>
+  <path class="ln thin warm" d="M60 146 V158"/>
+  <text class="t-xs mid" x="60" y="174">0</text>
+  <path class="ln thin warm" d="M128.7 146 V158"/>
+  <text class="t-xs mid" x="128.7" y="174">100</text>
+  <path class="ln thin warm" d="M197.4 146 V158"/>
+  <text class="t-xs mid" x="197.4" y="174">200</text>
+  <path class="ln thin warm" d="M266.2 146 V158"/>
+  <text class="t-xs mid" x="266.2" y="174">300</text>
+  <path class="ln thin warm" d="M334.9 146 V158"/>
+  <text class="t-xs mid" x="334.9" y="174">400</text>
+  <path class="ln thin warm" d="M403.6 146 V158"/>
+  <text class="t-xs mid" x="403.6" y="174">500</text>
+  <path class="ln thin warm" d="M472.3 146 V158"/>
+  <text class="t-xs mid" x="472.3" y="174">600</text>
+  <path class="ln thin warm" d="M541 146 V158"/>
+  <text class="t-xs mid" x="541" y="174">700</text>
+  <path class="ln thin warm" d="M609.8 146 V158"/>
+  <text class="t-xs mid" x="609.8" y="174">800</text>
+  <path class="ln thin warm" d="M678.5 146 V158"/>
+  <path class="ln warm" d="M700 146 V162"/>
+  <text class="t-s t-b mid tc-warm" x="704" y="178">931</text>
+  <text class="t-s t-b" x="60" y="204">1024씩 묶는 자 (GiB)</text>
+  <text class="t-b end tc-warm" x="700" y="204">약 931GiB</text>
+  <text class="t-xs" x="60" y="234">윈도우는 GiB로 잰 값에 ‘GB’라고 적습니다. 그래서 1TB 디스크가 931GB로 보입니다.</text>
+</svg></div><figcaption><b>그림 2-9</b>같은 디스크를 눈금 간격이 다른 두 자로 잰 모습. 바이트 수는 같고 숫자만 다릅니다.</figcaption></figure>
+<p>저장장치 회사는 1000씩 묶어 "1TB"라고 적고, 윈도우는 1024씩 묶어 센 값에 "GB"를 붙여 보여 줍니다. 새로 산 1TB 디스크가 931GB로 보이는 것은 고장도 속임수도 아닙니다. 메모리(RAM)는 보통 1024씩 묶어 셉니다.</p>
+</section>
+</section>
+<section class="level2" id="address">
+<h2><span class="sec-n">2.8</span>메모리 주소: 번호 붙은 사물함<a aria-label="이 절의 링크" class="anchor" href="#address">#</a></h2>
+<p>1장에서 메모리를 조리대라고 했습니다. 이 조리대를 아주 가까이서 보면 <strong>1바이트짜리 칸이 한 줄로 길게 늘어선 모습</strong>입니다. 긴 사물함 줄을 떠올리면 됩니다. 사물함마다 0번부터 차례로 번호가 붙어 있는데, 이 번호가 <strong>주소</strong>(address)입니다.</p>
+<p>프로그램이 "변수 <code>b</code>에 20을 넣어라"라고 하면, 컴퓨터는 이를 "1004번 사물함부터 네 칸에 20을 넣어라"로 바꿔서 처리합니다. 32비트 정수는 4바이트이니 사물함 네 칸을 씁니다. 변수 이름은 사람을 위한 별명이고, 컴퓨터는 주소로 찾아갑니다.</p>
+<figure class="fig" id="fig-lockers"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 270" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>주소는 사물함 번호, 값은 사물함 속 내용물, 포인터는 번호를 적어 둔 쪽지다</title>
+  <text class="t-s t-b end" x="138" y="52">포인터 p</text>
+  <text class="t-xs end" x="138" y="70">주소를 적은 쪽지</text>
+  <rect class="box blue" x="150" y="28" width="150" height="56" rx="10"/>
+  <text class="t-mono t-b mid" x="225" y="61">1004</text>
+  <path class="ln blue" d="M306 56 H431 V122" marker-end="url(#ah-blue)"/>
+  <text class="t-s mid tc-blue" x="368" y="46">가리킨다</text>
+  <text class="t-s" x="470" y="50">p에 적힌 것: <tspan class="t-mono t-b t-ink">1004</tspan> (주소)</text>
+  <text class="t-s" x="470" y="74">p가 가리키는 것: <tspan class="t-mono t-b t-ink">20</tspan> (값)</text>
+  <text class="t-s t-b end" x="138" y="145">주소 (번호)</text>
+  <text class="t-s t-b end" x="138" y="190">값 (내용물)</text>
+  <text class="t-mono mid" x="181" y="145">1000</text>
+  <text class="t-mono mid" x="243" y="145">1001</text>
+  <text class="t-mono mid" x="305" y="145">1002</text>
+  <text class="t-mono mid" x="367" y="145">1003</text>
+  <text class="t-mono mid t-b tc-blue" x="429" y="145">1004</text>
+  <text class="t-mono mid" x="491" y="145">1005</text>
+  <text class="t-mono mid" x="553" y="145">1006</text>
+  <text class="t-mono mid" x="615" y="145">1007</text>
+  <rect class="box green" x="150" y="156" width="246" height="56" rx="10"/>
+  <path class="ln thin muted dash" d="M211 160 V208"/>
+  <path class="ln thin muted dash" d="M273 160 V208"/>
+  <path class="ln thin muted dash" d="M335 160 V208"/>
+  <text class="t-l mid" x="273" y="190">10</text>
+  <path class="ln thin" d="M152 220 v8 H394 v-8"/>
+  <text class="t-s mid" x="273" y="250">정수 a — 사물함 4칸(4바이트)</text>
+  <rect class="box green" x="400" y="156" width="246" height="56" rx="10"/>
+  <path class="ln thin muted dash" d="M459 160 V208"/>
+  <path class="ln thin muted dash" d="M521 160 V208"/>
+  <path class="ln thin muted dash" d="M583 160 V208"/>
+  <text class="t-l mid" x="523" y="190">20</text>
+  <path class="ln thin" d="M402 220 v8 H644 v-8"/>
+  <text class="t-s mid" x="523" y="250">정수 b — 사물함 4칸(4바이트)</text>
+</svg></div><figcaption><b>그림 2-10</b>주소는 사물함 번호, 값은 사물함에 든 내용물입니다. 포인터 <code>p</code>에는 20이 아니라 20이 든 곳의 번호 1004가 적혀 있습니다.</figcaption></figure>
+<p>주소도 숫자이므로 어딘가에 적어 둘 수 있습니다. 이렇게 <strong>주소를 적어 둔 쪽지</strong>를 <strong>포인터</strong>(pointer)라고 부릅니다. Python이나 JavaScript에서는 비슷한 것을 <strong>참조</strong>(reference)라고 합니다.</p>
+<p>쪽지와 사물함 속 물건은 다른 것입니다. 쪽지를 복사해도 물건은 하나뿐입니다.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1">a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb5-2">b <span class="op">=</span> a          <span class="co"># 목록이 아니라 쪽지를 복사합니다</span></span>
+<span id="cb5-3">b.append(<span class="dv">4</span>)</span>
+<span id="cb5-4"><span class="bu">print</span>(a)       <span class="co"># [1, 2, 3, 4]</span></span></code></pre></div>
+<p>둘째 줄에서 목록이 하나 더 생긴 것이 아닙니다. 같은 사물함을 가리키는 쪽지가 두 장이 되었을 뿐입니다. 그래서 <code>b</code>로 4를 넣으면 <code>a</code>로 들여다봐도 4가 보입니다. "건드린 적 없는 값이 바뀌었다"는 버그의 흔한 원인이며, <a href="ch10.html">10장</a>에서 다시 다룹니다.</p>
+<section class="level3" id="비트와-64비트">
+<h3>32비트와 64비트</h3>
+<p>쪽지에 주소를 적으려면 쪽지에도 칸 수가 정해져 있어야 합니다. <strong>32비트 프로그램</strong>은 주소를 32비트로 적습니다. 32비트로 만들 수 있는 번호는 약 43억 개이고, 사물함 하나가 1바이트이니 가리킬 수 있는 메모리는 4GiB까지입니다. 메모리를 16GB 꽂아도 32비트 프로그램 하나는 그 너머를 가리킬 번호가 없습니다. <strong>64비트</strong>에서는 번호가 사실상 바닥나지 않습니다. 요즘 PC와 스마트폰은 대부분 64비트입니다.</p>
+<div class="callout myth"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-cross"></use></svg>흔한 오해 · 64비트는 32비트보다 두 배 빠르다</div>
+<p>64는 속도가 아니라 주소를 적는 칸 수입니다. 더 넓은 메모리를 쓸 수 있게 될 뿐, 계산이 두 배로 빨라지지는 않습니다. 오히려 쪽지 한 장이 4바이트에서 8바이트로 커지므로, 쪽지를 많이 쓰는 프로그램은 메모리를 더 씁니다.</p>
+</div>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>사물함 비유와 다른 점이 하나 있습니다. 실제로는 프로그램마다 자기만의 사물함 번호를 따로 받고, 윈도우나 macOS 같은 운영체제가 그 번호를 메모리의 진짜 위치로 바꿔 줍니다. 그래서 한 프로그램이 다른 프로그램의 사물함을 함부로 열지 못합니다. <a href="ch03.html">3장</a>에서 이어집니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>비트 / 바이트</td>
+<td>스위치 하나 / 여덟 개 묶음. 인터넷 속도 100Mbps는 비트 기준이라 1초에 약 12.5MB</td>
+</tr>
+<tr>
+<td>글자 수 / 바이트 수</td>
+<td>눈에 보이는 개수 / 저장에 드는 칸 수. "가나다"는 3글자, 9바이트</td>
+</tr>
+<tr>
+<td>유니코드 / UTF-8</td>
+<td>글자에 붙인 번호표 / 그 번호를 바이트로 적는 규칙</td>
+</tr>
+<tr>
+<td>정수 / 실수(부동소수점)</td>
+<td>범위 안에서는 정확함 / 넓은 범위를 가장 가까운 값으로 담음</td>
+</tr>
+<tr>
+<td>GB / GiB</td>
+<td>1000씩 묶은 단위 / 1024씩 묶은 단위. 1GiB가 약 7% 큼</td>
+</tr>
+<tr>
+<td>주소(포인터) / 값</td>
+<td>사물함 번호 / 사물함에 든 내용물</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 엑셀로 열면 한글이 깨지는 CSV 파일</div>
+<p>주문 목록을 CSV 파일(쉼표로 칸을 나눈 표 모양의 텍스트 파일)로 내려받는 기능을 만들었습니다. 그런데 엑셀에서 열면 "주문"이 "二쇰Ц"으로 보인다는 문의가 들어옵니다.</p>
+<ol type="1">
+<li><strong>데이터가 망가졌는지, 읽기만 틀렸는지 가립니다.</strong> 같은 파일을 코드 편집기로 열면 한글이 멀쩡합니다. 바이트는 정상이라는 뜻입니다.</li>
+<li><strong>저장한 규칙을 확인합니다.</strong> 코드를 보니 UTF-8로 저장하고 있습니다. "주문"은 3바이트씩 여섯 바이트입니다.</li>
+<li><strong>읽는 쪽의 규칙을 확인합니다.</strong> 한글 윈도우의 엑셀은 파일에 아무 표시가 없으면 CP949로 읽습니다. 여섯 바이트를 두 개씩 끊어 읽어 "二쇰Ц"이 된 것입니다.</li>
+<li><strong>읽는 쪽이 알아볼 표시를 붙입니다.</strong> 파일 맨 앞에 "이 파일은 UTF-8"이라는 뜻의 3바이트 표식(BOM)을 붙여 저장합니다. Python에서는 인코딩 이름을 <code>utf-8-sig</code>로 적으면 됩니다.</li>
+<li><strong>왕복해서 확인합니다.</strong> 한글, 이모지, 쉼표가 든 상품명을 넣어 저장한 뒤, 엑셀과 편집기 양쪽에서 열어 같은 글자가 보이는지 봅니다.</li>
+</ol>
+<p>글자가 깨졌을 때 파일부터 다시 만들면 원인을 놓칩니다. <strong>저장한 규칙과 읽은 규칙을 따로</strong> 확인하는 것이 먼저입니다.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li><strong>비트</strong>는 스위치 하나, <strong>바이트</strong>는 여덟 개 묶음입니다. 스위치 n개로 2를 n번 곱한 만큼을 나타냅니다.</li>
+<li>2진수는 켜진 자리의 값을 더해 읽고, <strong>16진수</strong>는 네 칸씩 묶어 한 글자로 줄여 적은 것입니다.</li>
+<li><strong>정수</strong>는 칸이 꽉 차면 처음으로 돌아갑니다. <strong>실수</strong>는 가장 가까운 눈금 값이라 0.1조차 정확하지 않습니다. 돈은 정수로 계산합니다.</li>
+<li><strong>글자</strong>는 유니코드 번호를 받고 UTF-8 규칙으로 바이트가 됩니다. 한글은 한 글자에 3바이트입니다. 저장한 규칙과 읽는 규칙이 다르면 깨집니다.</li>
+<li><strong>그림</strong>은 점마다 빨강, 초록, 파랑 세 숫자를 적은 목록입니다.</li>
+<li>바이트는 스스로 무엇인지 말하지 않습니다. <strong>읽는 약속</strong>이 뜻을 정합니다.</li>
+<li><strong>주소</strong>는 사물함 번호, <strong>포인터</strong>는 그 번호를 적은 쪽지입니다. 쪽지를 복사해도 물건은 하나입니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>게임 캐릭터의 레벨은 1부터 100까지입니다. 레벨 하나를 저장하는 데 비트가 적어도 몇 개 필요할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>7개입니다. 6비트로는 64가지뿐이고, 7비트면 128가지입니다. 실제로는 바이트 단위로 저장하므로 1바이트를 씁니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>체력을 8비트(0~255) 칸에 저장하는 게임이 있습니다. 체력 250인 캐릭터가 회복약으로 10을 얻었더니 체력이 4가 되었습니다. 무슨 일이 일어났고, 어떻게 막을 수 있을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>오버플로입니다. 260은 8비트 칸에 들어가지 않아 처음으로 돌아가 4가 되었습니다(260 − 256). 더하기 전에 최댓값을 넘는지 확인해 255에서 멈추게 하거나, 더 큰 칸을 씁니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>AI가 만든 타이머 코드가 시간 <code>t</code>에 0.1씩 더하다가 <code>t == 1.0</code>이 되면 알림을 띄우도록 되어 있습니다. 그런데 알림이 뜨지 않습니다. 왜 그럴까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>0.1은 2진수로 정확히 담기지 않아서, 열 번 더한 값이 0.9999999999999999가 됩니다. <code>==</code> 대신 <code>t &gt;= 1.0</code>으로 비교하거나, 정수로 횟수를 세어 열 번째에 알림을 띄웁니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>회원 닉네임을 "UTF-8로 최대 12바이트"까지 저장하는 데이터베이스가 있습니다. "개발의기초"라는 닉네임을 저장할 수 있을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>저장할 수 없습니다. 한글은 UTF-8에서 한 글자에 3바이트이므로 다섯 글자는 15바이트입니다. 길이 제한을 만들 때는 기준이 글자 수인지 바이트 수인지부터 정해야 합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>기본 설정 목록을 <code>backup = settings</code>로 따로 챙겨 둔 뒤 <code>settings</code>에 항목을 추가했습니다. 그런데 <code>backup</code>에도 그 항목이 들어 있습니다. 왜 그럴까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p><code>backup = settings</code>는 목록이 아니라 목록이 있는 곳의 주소(쪽지)를 복사합니다. 두 이름이 같은 사물함을 가리키므로 한쪽에서 바꾸면 다른 쪽에서도 바뀌어 보입니다. 따로 보관하려면 <code>settings.copy()</code>처럼 내용물을 복사해야 합니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>숫자와 글자를 다루는 기능을 AI에게 맡길 때는 <strong>어떤 칸에, 어떤 규칙으로 담을지</strong>를 요청문에 적어 주세요.</p>
+<blockquote>
+<p>주문 내역을 CSV 파일로 내보내는 기능을 만들어 줘. 금액은 실수(float)를 쓰지 말고 원 단위 정수로 계산하고 저장해 줘. 파일은 엑셀에서도 열 수 있게 BOM이 붙은 UTF-8로 쓰고, 파일을 읽고 쓰는 모든 곳에 인코딩을 명시해 줘. 주문 번호는 21억을 넘을 수 있으니 64비트 정수로 다뤄 줘. 한글, 이모지, 쉼표가 든 상품명으로 테스트 데이터를 만들고, 내보낸 파일을 다시 읽어 원래 값과 똑같은지 비교하는 테스트가 통과하는 것을 완료 조건으로 해.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: 금액 계산에 실수가 섞인 곳은 없는가, 파일을 여는 곳마다 인코딩이 적혀 있는가, 길이 제한의 기준이 글자 수인지 바이트 수인지 밝혔는가, 왕복 테스트를 실제로 실행한 결과를 보여 주는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>비트<small>bit</small></dt>
+<dd>
+0 또는 1, 두 가지 상태만 가지는 가장 작은 정보 단위.
+</dd>
+<dt>바이트<small>byte</small></dt>
+<dd>
+비트 여덟 개 묶음. 256가지 값을 나타내며, 용량을 재는 기본 단위.
+</dd>
+<dt>2진수<small>binary</small></dt>
+<dd>
+0과 1만으로 적은 수. 자리가 올라갈 때마다 값이 두 배가 된다.
+</dd>
+<dt>16진수<small>hexadecimal</small></dt>
+<dd>
+2진수를 네 자리씩 묶어 0~9와 A~F로 적은 수. 1바이트가 두 글자가 된다.
+</dd>
+<dt>오버플로<small>overflow</small></dt>
+<dd>
+계산 결과가 정해진 칸의 범위를 넘어 엉뚱한 값이 되는 일.
+</dd>
+<dt>나머지 연산<small>modulo</small></dt>
+<dd>
+나눗셈의 나머지를 구하는 계산. 끝 다음이 처음인 값을 다룰 때 쓴다.
+</dd>
+<dt>부동소수점<small>floating point</small></dt>
+<dd>
+소수점이 있는 수를 정해진 비트 안에 가장 가까운 값으로 담는 방식.
+</dd>
+<dt>유니코드<small>Unicode</small></dt>
+<dd>
+세계의 모든 글자에 번호를 하나씩 붙인 번호표.
+</dd>
+<dt>코드 포인트<small>code point</small></dt>
+<dd>
+유니코드가 글자 하나에 붙인 번호. U+AC00처럼 적는다.
+</dd>
+<dt>인코딩<small>encoding</small></dt>
+<dd>
+글자를 바이트로 바꾸는 규칙. 읽을 때도 같은 규칙을 써야 한다.
+</dd>
+<dt>UTF-8<small>8-bit Unicode Transformation Format</small></dt>
+<dd>
+유니코드 번호를 1~4바이트로 적는 인코딩. 영문 1바이트, 한글 3바이트.
+</dd>
+<dt>픽셀<small>pixel</small></dt>
+<dd>
+화면과 그림을 이루는 점 하나.
+</dd>
+<dt>RGB<small>Red, Green, Blue</small></dt>
+<dd>
+빨강, 초록, 파랑 세 빛의 밝기로 색을 나타내는 방식.
+</dd>
+<dt>바이너리 파일<small>binary file</small></dt>
+<dd>
+글자로 읽을 수 없고 자기 형식대로 해석해야 하는 파일. 사진, 실행 파일 등.
+</dd>
+<dt>주소<small>address</small></dt>
+<dd>
+메모리의 바이트 칸마다 붙은 번호.
+</dd>
+<dt>포인터<small>pointer</small></dt>
+<dd>
+주소를 담은 값. 데이터가 있는 곳을 가리킨다.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://docs.python.org/ko/3/tutorial/floatingpoint.html" rel="noopener" target="_blank">Python 자습서 — 부동 소수점 산술</a> — 0.1이 왜 정확히 저장되지 않는지 한국어로 차근차근 설명합니다.</li>
+<li><a href="https://docs.python.org/3/library/codecs.html" rel="noopener" target="_blank">Python — codecs</a> — 글자와 바이트를 오가는 방법과 쓸 수 있는 인코딩 목록이 있습니다.</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize" rel="noopener" target="_blank">MDN — String.prototype.normalize()</a> — 똑같아 보이는 글자를 한 형태로 맞추는 정규화를 예제와 함께 보여 줍니다.</li>
+<li><a href="https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html" rel="noopener" target="_blank">Goldberg — 부동소수점 산술</a> — 실수 계산의 오차를 다룬 고전입니다. 어려우니 앞부분의 반올림 오차 예만 읽어도 좋습니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch01.html"><small>← 이전 · 1장</small><b>컴퓨터의 몸</b></a><a class="next" href="ch03.html"><small>다음 · 3장 →</small><b>운영체제와 프로세스</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#bit">비트: 켜거나 끄거나, 스위치 하나</a><a href="#binary">2진수와 16진수: 스위치 줄을 숫자로 읽기</a><a href="#integer">정수: 칸이 꽉 차면 처음으로 돌아갑니다</a><a href="#float">실수: 0.1 + 0.2가 0.3이 아닌 이유</a><a href="#text">글자: 번호를 붙이고 바이트로 적기</a><a href="#pixel">색과 그림: 점 하나에 숫자 세 개</a><a href="#file">파일: 같은 바이트, 다른 약속</a><a href="#address">메모리 주소: 번호 붙은 사물함</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

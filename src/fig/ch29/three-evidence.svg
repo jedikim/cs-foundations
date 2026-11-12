@@ -1,0 +1,36 @@
+<svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg">
+  <title>에이전트의 완료했다는 말은 증거가 아니다. diff로 무엇이 바뀌었는지 보고, 실행 결과로 정말 되는지 확인한다</title>
+
+  <text class="t-h" x="20" y="34">‘완료했습니다’를 믿기 전에 볼 세 가지</text>
+
+  <rect class="box gray" x="20" y="52" width="226" height="196" rx="14"/>
+  <circle class="badge" cx="42" cy="77" r="12"/><text class="badge-t" x="42" y="81.500">1</text>
+  <text class="t-l" x="62" y="83">에이전트의 말</text>
+  <rect class="box" x="34" y="98" width="198" height="66" rx="8"/>
+  <text class="t-s t-ink" x="46" y="125">“할인 버그를 고쳤고,</text>
+  <text class="t-s t-ink" x="46" y="147">테스트도 통과합니다.”</text>
+  <text class="t-s t-b t-ink" x="34" y="194">보고일 뿐, 증거는 아님</text>
+  <text class="t-xs" x="34" y="218">실행하지 않고도 쓸 수 있는 말</text>
+
+  <rect class="box blue" x="267" y="52" width="226" height="196" rx="14"/>
+  <circle class="badge blue" cx="289" cy="77" r="12"/><text class="badge-t" x="289" y="81.500">2</text>
+  <text class="t-l" x="309" y="83">바뀐 코드 (diff)</text>
+  <rect class="box" x="281" y="98" width="198" height="66" rx="8"/>
+  <text class="t-mono tc-red" x="293" y="125">- if qty &gt; 10:</text>
+  <text class="t-mono tc-green" x="293" y="147">+ if qty &gt;= 10:</text>
+  <text class="t-s t-b t-ink" x="281" y="194">무엇을 건드렸는지 보인다</text>
+  <text class="t-xs" x="281" y="218">테스트를 지우지는 않았나?</text>
+
+  <rect class="box green" x="514" y="52" width="226" height="196" rx="14"/>
+  <circle class="badge green" cx="536" cy="77" r="12"/><text class="badge-t" x="536" y="81.500">3</text>
+  <text class="t-l" x="556" y="83">실행한 결과</text>
+  <rect class="box" x="528" y="98" width="198" height="66" rx="8"/>
+  <text class="t-mono" x="540" y="125">$ pytest</text>
+  <text class="t-mono tc-green" x="540" y="147">12 passed</text>
+  <text class="t-s t-b t-ink" x="528" y="194">정말 되는지 보인다</text>
+  <text class="t-xs" x="528" y="218">내가 직접 다시 돌려 본다</text>
+
+  <path class="ln muted" d="M20 276 H732" marker-end="url(#ah-muted)"/>
+  <text class="t-s" x="20" y="300">약한 증거</text>
+  <text class="t-s end" x="740" y="300">강한 증거</text>
+</svg>

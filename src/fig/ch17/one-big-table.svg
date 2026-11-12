@@ -1,0 +1,71 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg">
+  <title>주문 표 하나에 회원 이름과 전화번호까지 적으면 고칠 때, 지울 때, 넣을 때 각각 문제가 생긴다</title>
+  <text class="t-l" x="20" y="34">주문 표 하나에 전부 적으면</text>
+
+  <rect class="box gray" x="20" y="58" width="60" height="30"/>
+  <text class="t-mono t-b mid" x="50" y="78">id</text>
+  <rect class="box gray" x="80" y="58" width="80" height="30"/>
+  <text class="t-mono t-b mid" x="120" y="78">item</text>
+  <rect class="box gray" x="160" y="58" width="90" height="30"/>
+  <text class="t-mono t-b mid" x="205" y="78">name</text>
+  <rect class="box gray" x="250" y="58" width="150" height="30"/>
+  <text class="t-mono t-b mid" x="325" y="78">phone</text>
+  <rect class="box" x="20" y="88" width="60" height="30"/>
+  <text class="t-mono mid" x="50" y="108">101</text>
+  <rect class="box" x="80" y="88" width="80" height="30"/>
+  <text class="mid" x="120" y="108">키보드</text>
+  <rect class="box" x="160" y="88" width="90" height="30"/>
+  <text class="mid" x="205" y="108">김민지</text>
+  <rect class="box red" x="250" y="88" width="150" height="30"/>
+  <text class="t-mono t-b mid tc-red" x="325" y="108">010-9999-0000</text>
+  <rect class="box gray" x="20" y="118" width="60" height="30"/>
+  <text class="t-mono mid tc-muted" x="50" y="138">102</text>
+  <rect class="box gray" x="80" y="118" width="80" height="30"/>
+  <text class="mid tc-muted" x="120" y="138">마우스</text>
+  <rect class="box gray" x="160" y="118" width="90" height="30"/>
+  <text class="mid tc-muted" x="205" y="138">이준호</text>
+  <rect class="box gray" x="250" y="118" width="150" height="30"/>
+  <text class="t-mono mid tc-muted" x="325" y="138">010-3333-4444</text>
+  <rect class="box" x="20" y="148" width="60" height="30"/>
+  <text class="t-mono mid" x="50" y="168">103</text>
+  <rect class="box" x="80" y="148" width="80" height="30"/>
+  <text class="mid" x="120" y="168">충전기</text>
+  <rect class="box" x="160" y="148" width="90" height="30"/>
+  <text class="mid" x="205" y="168">김민지</text>
+  <rect class="box yellow" x="250" y="148" width="150" height="30"/>
+  <text class="t-mono mid" x="325" y="168">010-1111-2222</text>
+  <rect class="box" x="20" y="178" width="60" height="30"/>
+  <text class="t-mono mid" x="50" y="198">104</text>
+  <rect class="box" x="80" y="178" width="80" height="30"/>
+  <text class="mid" x="120" y="198">케이블</text>
+  <rect class="box" x="160" y="178" width="90" height="30"/>
+  <text class="mid" x="205" y="198">김민지</text>
+  <rect class="box yellow" x="250" y="178" width="150" height="30"/>
+  <text class="t-mono mid" x="325" y="198">010-1111-2222</text>
+
+  <rect class="ghost dash" x="20" y="216" width="60" height="30"/>
+  <rect class="ghost dash" x="80" y="216" width="80" height="30"/>
+  <rect class="ghost dash" x="160" y="216" width="90" height="30"/>
+  <rect class="ghost dash" x="250" y="216" width="150" height="30"/>
+  <text class="t-mono t-b mid tc-red" x="50" y="236">?</text>
+  <text class="t-mono t-b mid tc-red" x="120" y="236">?</text>
+  <text class="mid" x="205" y="236">박서연</text>
+  <text class="t-mono mid tc-muted" x="325" y="236">NULL</text>
+
+  <circle class="badge red" cx="418" cy="103" r="11"/><text class="badge-t" x="418" y="107.5">1</text>
+  <circle class="badge red" cx="418" cy="133" r="11"/><text class="badge-t" x="418" y="137.5">2</text>
+  <circle class="badge red" cx="418" cy="231" r="11"/><text class="badge-t" x="418" y="235.5">3</text>
+
+  <rect class="box" x="440" y="58" width="300" height="62" rx="10"/>
+  <circle class="badge red" cx="462" cy="80" r="11"/><text class="badge-t" x="462" y="84.5">1</text>
+  <text class="t-b" x="482" y="85">고칠 때 — 한 줄만 고쳤다</text>
+  <text class="t-s" x="482" y="106">민지의 번호가 두 가지. 어느 쪽이 맞을까?</text>
+  <rect class="box" x="440" y="132" width="300" height="62" rx="10"/>
+  <circle class="badge red" cx="462" cy="154" r="11"/><text class="badge-t" x="462" y="158.5">2</text>
+  <text class="t-b" x="482" y="159">지울 때 — 102번 주문 삭제</text>
+  <text class="t-s" x="482" y="180">준호의 연락처도 함께 사라진다</text>
+  <rect class="box" x="440" y="206" width="300" height="62" rx="10"/>
+  <circle class="badge red" cx="462" cy="228" r="11"/><text class="badge-t" x="462" y="232.5">3</text>
+  <text class="t-b" x="482" y="233">넣을 때 — 주문 없는 회원</text>
+  <text class="t-s" x="482" y="254">서연은 적을 줄이 없다</text>
+</svg>

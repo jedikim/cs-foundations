@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 376" xmlns="http://www.w3.org/2000/svg">
+  <title>반지름 1인 원 위에서 각도 60도는 좌표 (cos 60°, sin 60°) = (0.5, 0.87)이 되고, atan2는 그 좌표를 다시 각도로 바꾼다</title>
+  <path class="ln thin muted" d="M75 195 H355"/>
+  <path class="ln thin muted" d="M215 335 V55"/>
+  <circle class="ghost" cx="215" cy="195" r="120"/>
+  <circle class="f-ink" cx="335" cy="195" r="4"/>
+  <circle class="f-ink" cx="215" cy="75" r="4"/>
+  <circle class="f-ink" cx="95" cy="195" r="4"/>
+  <circle class="f-ink" cx="215" cy="315" r="4"/>
+  <text class="t-b" x="347" y="187">0°</text>
+  <text class="t-mono tc-muted" x="347" y="215">(1, 0)</text>
+  <text class="t-b mid" x="215" y="47">90° = π/2</text>
+  <text class="t-mono tc-muted" x="225" y="69">(0, 1)</text>
+  <text class="t-b end" x="83" y="187">180° = π</text>
+  <text class="t-mono tc-muted end" x="83" y="215">(−1, 0)</text>
+  <text class="t-b mid" x="215" y="355">270° = 3π/2</text>
+  <text class="t-mono tc-muted" x="225" y="333">(0, −1)</text>
+  <path class="ln thick warm" d="M215 195 H275"/>
+  <path class="ln thick green" d="M275 195 V91.1"/>
+  <path class="ln thick blue" d="M215 195 L273.5 93.7" marker-end="url(#ah-blue)"/>
+  <path class="ln thin" d="M243 195 A28 28 0 0 0 229 170.8"/>
+  <text class="t-s t-b" x="247" y="183">60°</text>
+  <circle class="f-blue" cx="275" cy="91.1" r="5"/>
+  <text class="t-mono t-b tc-blue" x="285" y="85.1">(0.5, 0.87)</text>
+  <text class="t-mono t-b mid tc-warm" x="245" y="215">0.5</text>
+  <text class="t-mono t-b tc-green" x="283" y="155">0.87</text>
+  <text class="t-xs mid" x="163" y="155">반지름 1</text>
+  <rect class="box blue" x="440" y="52" width="300" height="100" rx="12"/>
+  <text class="t-l" x="458" y="82">각도 → 방향</text>
+  <text class="t-mono" x="458" y="108">(<tspan class="tc-warm">cos 60°</tspan>, <tspan class="tc-green">sin 60°</tspan>)</text>
+  <text class="t-mono t-b" x="458" y="132">= (<tspan class="tc-warm">0.5</tspan>, <tspan class="tc-green">0.87</tspan>)</text>
+  <rect class="box green" x="440" y="168" width="300" height="100" rx="12"/>
+  <text class="t-l" x="458" y="198">방향 → 각도</text>
+  <text class="t-mono" x="458" y="224">atan2(<tspan class="tc-green">0.87</tspan>, <tspan class="tc-warm">0.5</tspan>)</text>
+  <text class="t-mono t-b" x="458" y="248">= 60°</text>
+  <text class="t-s" x="530" y="248">y를 먼저, x를 나중에</text>
+  <rect class="box yellow" x="440" y="284" width="300" height="66" rx="12"/>
+  <text class="t-s" x="458" y="310">한 바퀴</text>
+  <text class="t-mono t-b" x="458" y="334">360° = 2π ≈ 6.28 라디안</text>
+</svg>

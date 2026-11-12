@@ -1,0 +1,39 @@
+<svg viewBox="0 0 760 310" xmlns="http://www.w3.org/2000/svg">
+  <title>서버가 Set-Cookie로 번호표를 주면 브라우저는 그 뒤의 요청마다 Cookie 헤더에 번호표를 붙이고, 서버는 세션 장부에서 손님을 찾는다</title>
+
+  <rect class="panel blue" x="20" y="20" width="172" height="270" rx="14"/>
+  <use href="#i-browser" x="34" y="32" width="36" height="36" class="ic blue"/>
+  <text class="t-l" x="80" y="57">브라우저</text>
+  <rect class="box yellow" x="32" y="124" width="148" height="80" rx="10"/>
+  <text class="t-s t-b" x="44" y="147">쿠키 보관함</text>
+  <text class="t-mono t-b" x="44" y="171">sid=k3x9</text>
+  <text class="t-xs" x="44" y="191">이 가게에 갈 때만</text>
+
+  <rect class="panel green" x="568" y="20" width="172" height="270" rx="14"/>
+  <use href="#i-server" x="582" y="32" width="36" height="36" class="ic green"/>
+  <text class="t-l" x="628" y="57">서버</text>
+  <rect class="box" x="580" y="166" width="148" height="100" rx="10"/>
+  <text class="t-s t-b" x="592" y="189">세션 장부</text>
+  <text class="t-mono t-b" x="592" y="213">k3x9 → 민아</text>
+  <text class="t-mono tc-muted" x="592" y="235">p7m2 → 준호</text>
+  <text class="t-xs" x="592" y="255">번호표로 손님 찾기</text>
+
+  <circle class="badge blue" cx="214" cy="68" r="12"/><text class="badge-t" x="214" y="72.500">1</text>
+  <path class="ln blue" d="M232 68 H556" marker-end="url(#ah-blue)"/>
+  <text class="t-mono mid" x="394" y="57">POST /login</text>
+
+  <circle class="badge green" cx="214" cy="114" r="12"/><text class="badge-t" x="214" y="118.500">2</text>
+  <path class="ln green" d="M556 114 H236" marker-end="url(#ah-green)"/>
+  <text class="t-mono mid" x="394" y="103">200 OK · Set-Cookie: sid=k3x9</text>
+
+  <path class="ln thin muted dash" d="M240 146 H548"/>
+  <text class="t-s mid" x="394" y="168">이제부터 브라우저가 알아서 붙인다</text>
+
+  <circle class="badge blue" cx="214" cy="212" r="12"/><text class="badge-t" x="214" y="216.500">3</text>
+  <path class="ln blue" d="M232 212 H556" marker-end="url(#ah-blue)"/>
+  <text class="t-mono mid" x="394" y="201">GET /cart · Cookie: sid=k3x9</text>
+
+  <circle class="badge green" cx="214" cy="258" r="12"/><text class="badge-t" x="214" y="262.500">4</text>
+  <path class="ln green" d="M556 258 H236" marker-end="url(#ah-green)"/>
+  <text class="t-mono mid" x="394" y="247">200 OK · 민아 님의 장바구니</text>
+</svg>

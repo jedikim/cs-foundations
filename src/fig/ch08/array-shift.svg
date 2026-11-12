@@ -1,0 +1,52 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>배열 맨 앞에 값을 끼워 넣으면 뒤의 값이 모두 한 칸씩 밀리고 번호도 바뀐다</title>
+
+  <text class="t-s t-b" x="20" y="92">넣기 전</text>
+  <text class="t-mono mid tc-muted" x="196" y="48">0</text>
+  <text class="t-mono mid tc-muted" x="288" y="48">1</text>
+  <text class="t-mono mid tc-green t-b" x="380" y="48">2</text>
+  <text class="t-mono mid tc-muted" x="472" y="48">3</text>
+  <text class="t-mono mid tc-muted" x="564" y="48">4</text>
+  <text class="t-mono mid tc-muted" x="656" y="48">5</text>
+  <rect class="box" x="150" y="60" width="92" height="48"/>
+  <rect class="box" x="242" y="60" width="92" height="48"/>
+  <rect class="box green" x="334" y="60" width="92" height="48"/>
+  <rect class="box" x="426" y="60" width="92" height="48"/>
+  <rect class="ghost dash" x="518" y="60" width="92" height="48"/>
+  <rect class="ghost dash" x="610" y="60" width="92" height="48"/>
+  <text class="mid" x="196" y="90">라면</text>
+  <text class="mid" x="288" y="90">우동</text>
+  <text class="mid t-b" x="380" y="90">김밥</text>
+  <text class="mid" x="472" y="90">덮밥</text>
+  <text class="t-s mid" x="564" y="89">빈 칸</text>
+  <text class="t-s mid" x="656" y="89">빈 칸</text>
+
+  <path class="ln warm" d="M196 114 L282 181" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M288 114 L374 181" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M380 114 L466 181" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M472 114 L558 181" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b tc-warm" x="590" y="146">네 개 모두</text>
+  <text class="t-s t-b tc-warm" x="590" y="166">한 칸씩 밀림</text>
+
+  <text class="t-s t-b" x="20" y="212">맨 앞에</text>
+  <text class="t-s t-b" x="20" y="230">넣은 뒤</text>
+  <rect class="box warm" x="150" y="188" width="92" height="48"/>
+  <rect class="box" x="242" y="188" width="92" height="48"/>
+  <rect class="box" x="334" y="188" width="92" height="48"/>
+  <rect class="box green" x="426" y="188" width="92" height="48"/>
+  <rect class="box" x="518" y="188" width="92" height="48"/>
+  <rect class="ghost dash" x="610" y="188" width="92" height="48"/>
+  <text class="mid t-b tc-warm" x="196" y="218">떡볶이</text>
+  <text class="mid" x="288" y="218">라면</text>
+  <text class="mid" x="380" y="218">우동</text>
+  <text class="mid t-b" x="472" y="218">김밥</text>
+  <text class="mid" x="564" y="218">덮밥</text>
+  <text class="t-s mid" x="656" y="217">빈 칸</text>
+  <text class="t-mono mid tc-muted" x="196" y="258">0</text>
+  <text class="t-mono mid tc-muted" x="288" y="258">1</text>
+  <text class="t-mono mid tc-muted" x="380" y="258">2</text>
+  <text class="t-mono mid tc-green t-b" x="472" y="258">3</text>
+  <text class="t-mono mid tc-muted" x="564" y="258">4</text>
+  <text class="t-mono mid tc-muted" x="656" y="258">5</text>
+  <text class="t-s mid tc-green" x="472" y="284">김밥의 번호가 2에서 3으로 바뀜</text>
+</svg>

@@ -1,0 +1,26 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>10GB 파일을 통째로 올리면 8GB RAM을 넘쳐 죽지만, 한 줄씩 흘려보내면 메모리에는 언제나 한 줄만 올라온다</title>
+  <text class="t-h" x="20" y="34">10GB 로그 파일을 RAM 8GB로 처리하기</text>
+
+  <text class="t-b" x="20" y="81">디스크의 파일</text>
+  <rect class="solid warm" x="190" y="60" width="500" height="32" rx="5"/>
+  <text class="t-s t-b t-on mid" x="440" y="81">access.log · 10GB</text>
+
+  <path class="ln thin dash muted" d="M590 104 V282"/>
+  <text class="t-xs mid" x="590" y="302">RAM 8GB (조리대 넓이)</text>
+
+  <text class="t-b" x="20" y="142">통째로 올리기</text>
+  <text class="t-mono tc-muted" x="20" y="164">f.read()</text>
+  <rect class="solid red" x="190" y="124" width="500" height="36" rx="5"/>
+  <text class="t-s t-b t-on mid" x="390" y="147">10GB를 전부 올리려 함</text>
+  <text class="t-s t-b t-on mid" x="640" y="147">2GB 넘침</text>
+  <rect class="ghost" x="190" y="120" width="400" height="44" rx="6"/>
+  <text class="t-s t-b tc-red" x="190" y="186">다 올리기 전에 메모리 부족으로 종료</text>
+
+  <text class="t-b" x="20" y="238">한 줄씩 흘리기</text>
+  <text class="t-mono tc-muted" x="20" y="260">for line in f</text>
+  <rect class="ghost" x="190" y="216" width="400" height="44" rx="6"/>
+  <rect class="solid green" x="194" y="220" width="6" height="36" rx="2"/>
+  <text class="t-s" x="212" y="243">지금 읽는 한 줄만 올라옴 — 수백 바이트</text>
+  <text class="t-s t-b tc-green" x="190" y="282">파일이 100GB가 되어도 메모리는 그대로</text>
+</svg>

@@ -1,0 +1,91 @@
+<svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg">
+  <title>회원 표와 주문 표. 기본 키 id가 행을 구분하고, 주문 표의 외래 키 member_id가 회원 표의 id를 가리킨다</title>
+  <text class="t-l" x="20" y="26">회원 표 members</text>
+  <text class="t-l" x="400" y="26">주문 표 orders</text>
+
+  <text class="t-s t-b mid tc-blue" x="50" y="46">기본 키</text>
+  <text class="t-s mid" x="250" y="44">열: 같은 종류의 값</text>
+  <path class="ln thin" d="M184 54 V50 H316 V54"/>
+  <text class="t-s t-b mid tc-blue" x="435" y="46">기본 키</text>
+  <text class="t-s t-b mid tc-warm" x="520" y="46">외래 키</text>
+
+  <rect class="box blue" x="20" y="58" width="60" height="30"/>
+  <text class="t-mono t-b mid" x="50" y="78">id</text>
+  <rect class="box gray" x="80" y="58" width="100" height="30"/>
+  <text class="t-mono t-b mid" x="130" y="78">name</text>
+  <rect class="box gray" x="180" y="58" width="140" height="30"/>
+  <text class="t-mono t-b mid" x="250" y="78">phone</text>
+  <rect class="box blue" x="20" y="88" width="60" height="30"/>
+  <text class="t-mono t-b mid" x="50" y="108">1</text>
+  <rect class="box" x="80" y="88" width="100" height="30"/>
+  <text class="mid" x="130" y="108">김민지</text>
+  <rect class="box" x="180" y="88" width="140" height="30"/>
+  <text class="t-mono mid" x="250" y="108">010-1111-2222</text>
+  <rect class="box blue" x="20" y="118" width="60" height="30"/>
+  <text class="t-mono t-b mid" x="50" y="138">2</text>
+  <rect class="box" x="80" y="118" width="100" height="30"/>
+  <text class="mid" x="130" y="138">이준호</text>
+  <rect class="box" x="180" y="118" width="140" height="30"/>
+  <text class="t-mono mid" x="250" y="138">010-3333-4444</text>
+  <rect class="box blue" x="20" y="148" width="60" height="30"/>
+  <text class="t-mono t-b mid" x="50" y="168">3</text>
+  <rect class="box" x="80" y="148" width="100" height="30"/>
+  <text class="mid" x="130" y="168">박서연</text>
+  <rect class="box" x="180" y="148" width="140" height="30"/>
+  <text class="t-mono mid tc-muted" x="250" y="168">NULL</text>
+
+  <rect class="box blue" x="400" y="58" width="70" height="30"/>
+  <text class="t-mono t-b mid" x="435" y="78">id</text>
+  <rect class="box warm" x="470" y="58" width="100" height="30"/>
+  <text class="t-mono t-b mid" x="520" y="78">member_id</text>
+  <rect class="box gray" x="570" y="58" width="80" height="30"/>
+  <text class="t-mono t-b mid" x="610" y="78">item</text>
+  <rect class="box gray" x="650" y="58" width="90" height="30"/>
+  <text class="t-mono t-b mid" x="695" y="78">amount</text>
+  <rect class="box blue" x="400" y="88" width="70" height="30"/>
+  <text class="t-mono t-b mid" x="435" y="108">101</text>
+  <rect class="box warm" x="470" y="88" width="100" height="30"/>
+  <text class="t-mono t-b mid" x="520" y="108">1</text>
+  <rect class="box" x="570" y="88" width="80" height="30"/>
+  <text class="mid" x="610" y="108">키보드</text>
+  <rect class="box" x="650" y="88" width="90" height="30"/>
+  <text class="t-mono mid" x="695" y="108">45000</text>
+  <rect class="box blue" x="400" y="118" width="70" height="30"/>
+  <text class="t-mono t-b mid" x="435" y="138">102</text>
+  <rect class="box warm" x="470" y="118" width="100" height="30"/>
+  <text class="t-mono t-b mid" x="520" y="138">2</text>
+  <rect class="box" x="570" y="118" width="80" height="30"/>
+  <text class="mid" x="610" y="138">마우스</text>
+  <rect class="box" x="650" y="118" width="90" height="30"/>
+  <text class="t-mono mid" x="695" y="138">18000</text>
+  <rect class="box blue" x="400" y="148" width="70" height="30"/>
+  <text class="t-mono t-b mid" x="435" y="168">103</text>
+  <rect class="box warm" x="470" y="148" width="100" height="30"/>
+  <text class="t-mono t-b mid" x="520" y="168">1</text>
+  <rect class="box" x="570" y="148" width="80" height="30"/>
+  <text class="mid" x="610" y="168">충전기</text>
+  <rect class="box" x="650" y="148" width="90" height="30"/>
+  <text class="t-mono mid" x="695" y="168">12000</text>
+  <rect class="box blue" x="400" y="178" width="70" height="30"/>
+  <text class="t-mono t-b mid" x="435" y="198">104</text>
+  <rect class="box warm" x="470" y="178" width="100" height="30"/>
+  <text class="t-mono t-b mid" x="520" y="198">1</text>
+  <rect class="box" x="570" y="178" width="80" height="30"/>
+  <text class="mid" x="610" y="198">케이블</text>
+  <rect class="box" x="650" y="178" width="90" height="30"/>
+  <text class="t-mono mid" x="695" y="198">5000</text>
+
+  <path class="ln dash" d="M17 86 H323 V120 H17 Z"/>
+  <text class="t-s" x="331" y="108">행: 한 명</text>
+
+  <path class="ln warm" d="M520 214 V240 H50 V186" marker-end="url(#ah-warm)"/>
+  <text class="t-s mid" x="285" y="262">주문 표의 member_id 칸에는 회원 표의 id를 적는다</text>
+
+  <rect class="box red" x="20" y="292" width="720" height="42" rx="10"/>
+  <use href="#i-cross" x="32" y="299" width="28" height="28" class="ic red"/>
+  <text class="t-mono" x="70" y="318">member_id = 9</text>
+  <text x="187" y="318">인 주문 추가</text>
+  <path class="ln red" d="M292 313 H322" marker-end="url(#ah-red)"/>
+  <text class="t-b tc-red" x="336" y="318">거절</text>
+  <text class="t-s" x="378" y="318">회원 표에 9번이 없다</text>
+</svg>

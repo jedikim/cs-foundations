@@ -1,0 +1,42 @@
+<svg viewBox="0 0 760 294" xmlns="http://www.w3.org/2000/svg">
+  <title>두 서버 모두 평균은 10ms지만 A는 값이 평균 가까이 모여 있고 B는 멀리 흩어져 있다</title>
+  <text class="t-b tc-blue mid" x="470" y="32">평균 10ms</text>
+  <path class="ln thin blue dash" d="M470 40 V120"/>
+  <path class="ln thin muted" d="M220 110 H720"/>
+  <path class="ln thin muted" d="M220 105 V115 M345 105 V115 M470 105 V115 M595 105 V115 M720 105 V115"/>
+  <text class="t-xs mid" x="220" y="136">0</text>
+  <text class="t-xs mid" x="345" y="136">5</text>
+  <text class="t-xs mid" x="470" y="136">10</text>
+  <text class="t-xs mid" x="595" y="136">15</text>
+  <text class="t-xs mid" x="720" y="136">20</text>
+  <circle class="f-green" cx="445" cy="110" r="8"/>
+  <text class="t-mono t-b mid" x="445" y="92">9</text>
+  <circle class="f-green" cx="470" cy="110" r="8"/>
+  <circle class="f-green" cx="495" cy="110" r="8"/>
+  <text class="t-mono t-b mid" x="495" y="92">11</text>
+  <text class="t-l" x="20" y="92">서버 A</text>
+  <text class="t-mono" x="20" y="114">9, 10, 11</text>
+  <text class="t-s t-b tc-green" x="20" y="136">표준편차 약 0.8ms</text>
+  <path class="ln thin blue dash" d="M470 160 V240"/>
+  <path class="ln thin muted" d="M220 230 H720"/>
+  <path class="ln thin muted" d="M220 225 V235 M345 225 V235 M470 225 V235 M595 225 V235 M720 225 V235"/>
+  <text class="t-xs mid" x="220" y="256">0</text>
+  <text class="t-xs mid" x="345" y="256">5</text>
+  <text class="t-xs mid" x="470" y="256">10</text>
+  <text class="t-xs mid" x="595" y="256">15</text>
+  <text class="t-xs mid" x="720" y="256">20</text>
+  <circle class="f-warm" cx="245" cy="230" r="8"/>
+  <text class="t-mono t-b mid" x="245" y="212">1</text>
+  <circle class="f-warm" cx="470" cy="230" r="8"/>
+  <circle class="f-warm" cx="695" cy="230" r="8"/>
+  <text class="t-mono t-b mid" x="695" y="212">19</text>
+  <text class="t-l" x="20" y="212">서버 B</text>
+  <text class="t-mono" x="20" y="234">1, 10, 19</text>
+  <text class="t-s t-b tc-warm" x="20" y="256">표준편차 약 7.3ms</text>
+  <text class="t-s tc-green" x="530" y="88">평균에서 1씩 떨어짐</text>
+  <path class="ln warm" d="M460 186 H257" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M480 186 H683" marker-end="url(#ah-warm)"/>
+  <text class="t-s tc-warm mid" x="357" y="177">9만큼 떨어짐</text>
+  <text class="t-s tc-warm mid" x="582" y="177">9만큼 떨어짐</text>
+  <text class="t-xs end" x="740" y="282">눈금 단위: ms</text>
+</svg>

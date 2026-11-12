@@ -1,0 +1,52 @@
+<svg viewBox="0 0 760 296" xmlns="http://www.w3.org/2000/svg">
+  <title>쓴 데이터는 프로그램 버퍼, 커널의 페이지 캐시, 디스크를 차례로 거치며, 어디까지 갔느냐에 따라 사고가 났을 때 남는지가 달라진다</title>
+  <text class="t-h" x="20" y="34">쓴 데이터가 거쳐 가는 세 곳</text>
+
+  <rect class="box blue" x="150" y="56" width="150" height="92" rx="12"/>
+  <circle class="badge blue" cx="172" cy="78" r="12"/><text class="badge-t" x="172" y="82.500">1</text>
+  <text class="t-b" x="192" y="83">프로그램 버퍼</text>
+  <text class="t-s" x="166" y="110">내 프로세스 안</text>
+  <text class="t-xs" x="166" y="131">쟁반에 담긴 상태</text>
+
+  <path class="ln" d="M306 102 H362" marker-end="url(#ah)"/>
+  <text class="t-mono t-b mid" x="335" y="90">flush()</text>
+
+  <rect class="box green" x="370" y="56" width="150" height="92" rx="12"/>
+  <circle class="badge green" cx="392" cy="78" r="12"/><text class="badge-t" x="392" y="82.500">2</text>
+  <text class="t-b" x="412" y="83">페이지 캐시</text>
+  <text class="t-s" x="386" y="110">커널의 RAM</text>
+  <text class="t-xs" x="386" y="131">아직 디스크엔 없음</text>
+
+  <path class="ln" d="M526 102 H582" marker-end="url(#ah)"/>
+  <text class="t-mono t-b mid" x="555" y="90">fsync()</text>
+
+  <rect class="box warm" x="590" y="56" width="150" height="92" rx="12"/>
+  <circle class="badge warm" cx="612" cy="78" r="12"/><text class="badge-t" x="612" y="82.500">3</text>
+  <text class="t-b" x="632" y="83">디스크</text>
+  <text class="t-s" x="606" y="110">창고 선반</text>
+  <text class="t-xs" x="606" y="131">기록 완료</text>
+
+  <text class="t-s t-b" x="20" y="196">프로그램이 죽으면</text>
+  <rect class="box red" x="150" y="174" width="150" height="34" rx="8"/>
+  <use href="#i-cross" x="176" y="180" width="22" height="22" class="ic red"/>
+  <text class="t-b tc-red" x="206" y="196">사라짐</text>
+  <rect class="box green" x="370" y="174" width="150" height="34" rx="8"/>
+  <use href="#i-check" x="402" y="180" width="22" height="22" class="ic green"/>
+  <text class="t-b tc-green" x="432" y="196">남음</text>
+  <rect class="box green" x="590" y="174" width="150" height="34" rx="8"/>
+  <use href="#i-check" x="622" y="180" width="22" height="22" class="ic green"/>
+  <text class="t-b tc-green" x="652" y="196">남음</text>
+
+  <text class="t-s t-b" x="20" y="240">전원이 꺼지면</text>
+  <rect class="box red" x="150" y="218" width="150" height="34" rx="8"/>
+  <use href="#i-cross" x="176" y="224" width="22" height="22" class="ic red"/>
+  <text class="t-b tc-red" x="206" y="240">사라짐</text>
+  <rect class="box red" x="370" y="218" width="150" height="34" rx="8"/>
+  <use href="#i-cross" x="396" y="224" width="22" height="22" class="ic red"/>
+  <text class="t-b tc-red" x="426" y="240">사라짐</text>
+  <rect class="box green" x="590" y="218" width="150" height="34" rx="8"/>
+  <use href="#i-check" x="622" y="224" width="22" height="22" class="ic green"/>
+  <text class="t-b tc-green" x="652" y="240">남음</text>
+
+  <text class="t-xs" x="150" y="278">2 → 3은 커널이 잠시 뒤 스스로도 합니다. fsync는 "지금 끝내 달라"는 부탁입니다.</text>
+</svg>

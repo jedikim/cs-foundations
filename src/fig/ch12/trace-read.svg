@@ -1,0 +1,37 @@
+<svg viewBox="0 0 760 346" xmlns="http://www.w3.org/2000/svg">
+  <title>스택 트레이스는 맨 아래 줄의 오류 종류부터 읽고, 위로 거슬러 올라가며 잘못된 값이 어디서 왔는지 찾는다</title>
+
+  <use href="#i-terminal" x="20" y="12" width="26" height="26" class="ic"/>
+  <text class="t-s t-b" x="54" y="30">python3 shop.py 를 실행한 결과</text>
+
+  <rect class="panel" x="20" y="46" width="720" height="226" rx="12"/>
+  <rect class="s-warm" x="30" y="80" width="700" height="48" rx="6"/>
+  <rect class="s-blue" x="30" y="132" width="700" height="48" rx="6"/>
+  <rect class="s-gray" x="30" y="184" width="700" height="48" rx="6"/>
+  <rect class="s-red" x="30" y="236" width="700" height="28" rx="6"/>
+
+  <text class="t-mono tc-muted" x="40" y="70">Traceback (most recent call last):</text>
+
+  <text class="t-mono" x="57" y="100">File "shop.py", line 13, in &lt;module&gt;</text>
+  <text class="t-mono t-b" x="74" y="120">checkout(4000, 10)</text>
+  <text class="t-s t-b end tc-warm" x="696" y="100">출발점: 10을 넘긴 줄</text>
+  <circle class="badge warm" cx="714" cy="95" r="11"/><text class="badge-t" x="714" y="99.500">4</text>
+
+  <text class="t-mono" x="57" y="152">File "shop.py", line 11, in checkout</text>
+  <text class="t-mono t-b" x="74" y="172">pay(total)</text>
+  <text class="t-s t-b end tc-blue" x="696" y="152">한 칸 위: total은 어디서 왔나</text>
+  <circle class="badge blue" cx="714" cy="147" r="11"/><text class="badge-t" x="714" y="151.500">3</text>
+
+  <text class="t-mono" x="57" y="204">File "shop.py", line 6, in pay</text>
+  <text class="t-mono t-b" x="74" y="224">raise ValueError(f"결제 금액이 올바르지 않습니다: {amount}")</text>
+  <text class="t-s t-b end" x="696" y="204">오류가 드러난 줄</text>
+  <circle class="badge" cx="714" cy="199" r="11"/><text class="badge-t" x="714" y="203.500">2</text>
+
+  <text class="t-mono t-b tc-red" x="40" y="255">ValueError: 결제 금액이 올바르지 않습니다: -36000</text>
+  <text class="t-s t-b end tc-red" x="696" y="255">먼저 읽기: 무슨 오류인가</text>
+  <circle class="badge red" cx="714" cy="250" r="11"/><text class="badge-t" x="714" y="254.500">1</text>
+
+  <use href="#i-up" x="20" y="284" width="24" height="24" class="ic"/>
+  <text class="t-b" x="52" y="302">읽는 순서는 아래에서 위로</text>
+  <text class="t-s" x="52" y="326">total을 계산한 apply_coupon은 이미 끝난 함수라 이 목록에 없다</text>
+</svg>

@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 266" xmlns="http://www.w3.org/2000/svg">
+  <title>요청 하나에 걸리는 시간은 첫 토큰까지의 기다림과 토큰이 하나씩 나오는 시간으로 나뉘고, 대부분은 출력 길이가 정한다</title>
+  <text class="t-h" x="20" y="34">요청 하나를 시간 위에 펼치면</text>
+
+  <text class="t-s" x="60" y="62">입력 4,000토큰 읽기</text>
+  <text class="t-s end" x="718" y="62">출력 500토큰 — 1초에 50개씩</text>
+
+  <rect class="box blue" x="60" y="72" width="58" height="40" rx="6"/>
+  <text class="t-mono mid" x="89" y="97">4,000</text>
+  <rect class="box purple" x="122" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="150" y="97">50</text>
+  <rect class="box purple" x="182" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="210" y="97">50</text>
+  <rect class="box purple" x="242" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="270" y="97">50</text>
+  <rect class="box purple" x="302" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="330" y="97">50</text>
+  <rect class="box purple" x="362" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="390" y="97">50</text>
+  <rect class="box purple" x="422" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="450" y="97">50</text>
+  <rect class="box purple" x="482" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="510" y="97">50</text>
+  <rect class="box purple" x="542" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="570" y="97">50</text>
+  <rect class="box purple" x="602" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="630" y="97">50</text>
+  <rect class="box purple" x="662" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="690" y="97">50</text>
+
+  <path class="ln warm dash" d="M120 68 V128"/>
+
+  <path class="ln thin" d="M60 134 H724"/>
+  <path class="ln thin" d="M60 129 V139 M120 129 V139 M180 129 V139 M240 129 V139 M300 129 V139 M360 129 V139 M420 129 V139 M480 129 V139 M540 129 V139 M600 129 V139 M660 129 V139 M720 129 V139"/>
+  <text class="t-xs mid" x="60" y="156">0</text>
+  <text class="t-xs mid" x="120" y="156">1초</text>
+  <text class="t-xs mid" x="420" y="156">6초</text>
+  <text class="t-xs mid" x="720" y="156">11초</text>
+
+  <path class="ln warm" d="M120 178 V166" marker-end="url(#ah-warm)"/>
+  <rect class="box warm" x="60" y="182" width="300" height="66" rx="12"/>
+  <text class="t-b" x="76" y="209">첫 토큰까지 1초</text>
+  <text class="t-s" x="76" y="231">화면에 첫 글자가 뜨는 시간 (TTFT)</text>
+
+  <path class="ln purple" d="M700 178 V166" marker-end="url(#ah-purple)"/>
+  <rect class="box purple" x="400" y="182" width="320" height="66" rx="12"/>
+  <text class="t-b" x="416" y="209">끝까지 11초</text>
+  <text class="t-s" x="416" y="231">출력이 길수록 늘어난다 (500 ÷ 50 = 10초)</text>
+</svg>

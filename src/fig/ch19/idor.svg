@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 366" xmlns="http://www.w3.org/2000/svg">
+  <title>주문 번호만 1043으로 바꾼 요청을 서버가 주인 확인 없이 처리하면 남의 주문이 보이고, 주인을 확인하면 거부된다</title>
+
+  <use href="#i-user" x="24" y="24" width="44" height="44" class="ic blue"/>
+  <text class="t-b" x="80" y="42">민지 (회원 7번)</text>
+  <text class="t-s" x="80" y="63">정상적으로 로그인한 상태</text>
+
+  <rect class="box" x="430" y="16" width="310" height="68" rx="10"/>
+  <text class="t-xs" x="444" y="36">주문 장부</text>
+  <text class="t-mono" x="444" y="56">1042 · 주인 7번 · 운동화</text>
+  <text class="t-mono" x="444" y="76">1043 · 주인 8번 · 노트북</text>
+
+  <rect class="panel red" x="20" y="100" width="720" height="118" rx="14"/>
+  <text class="t-b tc-red" x="36" y="125">주인을 확인하지 않는 서버</text>
+  <rect class="box" x="36" y="138" width="200" height="66" rx="10"/>
+  <text class="t-mono t-b" x="50" y="165">GET /orders/1043</text>
+  <text class="t-xs" x="50" y="188">1042를 1043으로 바꿈</text>
+  <path class="ln" d="M240 171 H262" marker-end="url(#ah)"/>
+  <rect class="box" x="270" y="138" width="220" height="66" rx="10"/>
+  <text class="t-s" x="284" y="165">1043번 주문을 찾아서</text>
+  <text class="t-s" x="284" y="188">그대로 돌려준다</text>
+  <path class="ln red" d="M494 171 H516" marker-end="url(#ah-red)"/>
+  <rect class="box red" x="524" y="138" width="200" height="66" rx="10"/>
+  <text class="t-mono t-b tc-red" x="538" y="165">200 OK</text>
+  <text class="t-xs tc-red" x="538" y="188">준호의 주소와 전화번호</text>
+
+  <rect class="panel green" x="20" y="230" width="720" height="118" rx="14"/>
+  <text class="t-b tc-green" x="36" y="255">주인을 확인하는 서버</text>
+  <rect class="box" x="36" y="268" width="200" height="66" rx="10"/>
+  <text class="t-mono t-b" x="50" y="295">GET /orders/1043</text>
+  <text class="t-xs" x="50" y="318">똑같은 요청</text>
+  <path class="ln" d="M240 301 H262" marker-end="url(#ah)"/>
+  <rect class="box" x="270" y="268" width="220" height="66" rx="10"/>
+  <text class="t-s" x="284" y="295">주문의 주인은 8번,</text>
+  <text class="t-s t-b" x="284" y="318">요청한 사람은 7번 → 다르다</text>
+  <path class="ln green" d="M494 301 H516" marker-end="url(#ah-green)"/>
+  <rect class="box green" x="524" y="268" width="200" height="66" rx="10"/>
+  <text class="t-mono t-b tc-green" x="538" y="295">403 Forbidden</text>
+  <text class="t-xs tc-green" x="538" y="318">아무것도 보여 주지 않는다</text>
+</svg>

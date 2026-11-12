@@ -1,0 +1,43 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>지우가 화면에서 본 하준은 200ms 전의 위치에 있으므로, 서버는 기록을 200ms 되감아 그때 위치로 명중을 판정한다</title>
+
+  <text class="t-mono mid" x="250" y="30">x=10</text>
+  <text class="t-mono mid" x="350" y="30">x=11</text>
+  <text class="t-mono mid" x="450" y="30">x=12</text>
+  <text class="t-mono mid" x="550" y="30">x=13</text>
+  <text class="t-mono mid" x="650" y="30">x=14</text>
+
+  <text class="t-b" x="20" y="72">지우의 화면</text>
+  <text class="t-s" x="20" y="92">쏘는 순간, 350ms</text>
+  <rect class="box blue" x="200" y="42" width="500" height="72" rx="12"/>
+  <path class="ln thin muted" d="M300 42 V52 M400 42 V52 M500 42 V52 M600 42 V52"/>
+  <use href="#i-user" x="232" y="58" width="36" height="36" class="ic warm"/>
+  <circle class="ln red" cx="250" cy="78" r="27"/>
+  <path class="ln thin red" d="M250 46 V58 M250 98 V110 M218 78 H230 M270 78 H282"/>
+  <text class="t-b" x="306" y="74">화면 속 하준을 조준해 발사</text>
+  <text class="t-s" x="306" y="96">이 모습은 서버 시각 200ms의 하준이다</text>
+
+  <path class="ln blue dash" d="M250 120 V186" marker-end="url(#ah-blue)"/>
+  <text class="t-s" x="264" y="158">총알 소식이 50ms 뒤 서버에 도착</text>
+
+  <text class="t-b" x="20" y="222">서버의 세계</text>
+  <text class="t-s" x="20" y="242">도착한 순간, 400ms</text>
+  <rect class="box green" x="200" y="192" width="500" height="72" rx="12"/>
+  <path class="ln thin muted" d="M300 192 V202 M400 192 V202 M500 192 V202 M600 192 V202"/>
+  <circle class="solid green" cx="250" cy="228" r="17"/>
+  <circle class="ghost dash" cx="350" cy="228" r="17"/>
+  <circle class="ghost dash" cx="450" cy="228" r="17"/>
+  <circle class="ghost dash" cx="550" cy="228" r="17"/>
+  <use href="#i-user" x="632" y="208" width="36" height="36" class="ic warm"/>
+  <text class="t-xs t-b tc-green mid" x="250" y="284">200ms 때</text>
+  <text class="t-xs mid" x="350" y="284">250ms 때</text>
+  <text class="t-xs mid" x="450" y="284">300ms 때</text>
+  <text class="t-xs mid" x="550" y="284">350ms 때</text>
+  <text class="t-xs t-b mid" x="650" y="284">지금 400ms</text>
+
+  <path class="ln green" d="M650 296 V310 H250 V298" marker-end="url(#ah-green)"/>
+  <text class="t-s t-b tc-green mid" x="450" y="328">200ms 되감기 = 왕복 100ms + 보간 지연 100ms</text>
+
+  <text class="t-b tc-red" x="20" y="358">지금 위치(x=14)로 판정하면 빗나감</text>
+  <text class="t-b tc-green end" x="740" y="358">되감은 위치(x=10)로 판정하면 명중</text>
+</svg>

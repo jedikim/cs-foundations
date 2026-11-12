@@ -1,0 +1,26 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>입력을 SQL 문장에 이어 붙이면 입력이 조건의 일부가 되어 회원 전체가 조회되고, 값을 따로 건네면 입력은 끝까지 값으로만 쓰인다</title>
+
+  <text class="t-b" x="20" y="41">이름 칸에 들어온 값</text>
+  <rect class="box yellow" x="176" y="18" width="150" height="36" rx="8"/>
+  <text class="t-mono t-b tc-red mid" x="251" y="41">' OR '1'='1</text>
+  <text class="t-s" x="344" y="41">이름이 아니라 SQL 조각이다</text>
+
+  <rect class="panel red" x="20" y="68" width="720" height="140" rx="14"/>
+  <text class="t-b tc-red" x="36" y="94">문장에 이어 붙이면: 입력이 명령의 일부가 된다</text>
+  <text class="t-xs" x="36" y="116">DB가 받은 문장</text>
+  <rect class="box" x="36" y="124" width="688" height="38" rx="8"/>
+  <text class="t-mono" x="50" y="148">SELECT * FROM users WHERE name = '<tspan class="t-b tc-red">' OR '1'='1</tspan>'</text>
+  <text class="t-s" x="36" y="188">조건이 “이름이 빈칸이거나 1이 1과 같으면”으로 바뀐다 → 항상 참 → <tspan class="t-b tc-red">회원 전체가 조회된다</tspan></text>
+
+  <rect class="panel green" x="20" y="220" width="720" height="134" rx="14"/>
+  <text class="t-b tc-green" x="36" y="246">값을 따로 건네면: 입력은 끝까지 값으로 남는다</text>
+  <text class="t-xs" x="36" y="268">문장의 틀 (먼저 확정)</text>
+  <rect class="box" x="36" y="276" width="330" height="38" rx="8"/>
+  <text class="t-mono" x="50" y="300">SELECT * FROM users WHERE name = ?</text>
+  <text class="t-l mid" x="388" y="301">+</text>
+  <text class="t-xs" x="410" y="268">물음표 자리에 들어갈 값 (나중에 전달)</text>
+  <rect class="box yellow" x="410" y="276" width="314" height="38" rx="8"/>
+  <text class="t-mono t-b tc-red" x="424" y="300">' OR '1'='1</text>
+  <text class="t-s" x="36" y="338">이름이 글자 그대로 그 문자열인 회원을 찾는다 → <tspan class="t-b tc-green">0명</tspan></text>
+</svg>

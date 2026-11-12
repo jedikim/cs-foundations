@@ -1,0 +1,67 @@
+<svg viewBox="0 0 760 378" xmlns="http://www.w3.org/2000/svg">
+  <title>대칭키는 같은 열쇠로 잠그고 열고, 공개키는 잠그는 열쇠와 여는 열쇠가 다르며, 해시는 되돌릴 수 없고, 전자 서명은 개인키로 찍고 공개키로 확인한다</title>
+
+  <rect class="box blue" x="20" y="24" width="144" height="72" rx="12"/>
+  <text class="t-b" x="34" y="56">대칭키 암호</text>
+  <text class="t-xs" x="34" y="78">열쇠 하나로</text>
+  <rect class="box" x="188" y="36" width="76" height="48" rx="8"/>
+  <text class="mid" x="226" y="65">안녕</text>
+  <path class="ln blue" d="M270 60 H328" marker-end="url(#ah-blue)"/>
+  <text class="t-xs t-b mid tc-blue" x="300" y="50">열쇠 K</text>
+  <rect class="box gray" x="336" y="36" width="124" height="48" rx="8"/>
+  <text class="t-mono mid" x="398" y="65">x9$Lq2…</text>
+  <path class="ln blue" d="M466 60 H524" marker-end="url(#ah-blue)"/>
+  <text class="t-xs t-b mid tc-blue" x="496" y="50">같은 K</text>
+  <rect class="box" x="532" y="36" width="76" height="48" rx="8"/>
+  <text class="mid" x="570" y="65">안녕</text>
+  <text class="t-xs" x="628" y="56">파일·DB 암호화,</text>
+  <text class="t-xs" x="628" y="76">HTTPS의 본문</text>
+
+  <rect class="box purple" x="20" y="110" width="144" height="72" rx="12"/>
+  <text class="t-b" x="34" y="142">공개키 암호</text>
+  <text class="t-xs" x="34" y="164">열쇠 한 쌍으로</text>
+  <rect class="box" x="188" y="122" width="76" height="48" rx="8"/>
+  <text class="mid" x="226" y="151">안녕</text>
+  <path class="ln purple" d="M270 146 H328" marker-end="url(#ah-purple)"/>
+  <text class="t-xs t-b mid tc-purple" x="300" y="136">공개키</text>
+  <rect class="box gray" x="336" y="122" width="124" height="48" rx="8"/>
+  <text class="t-mono mid" x="398" y="151">Tz7#p0…</text>
+  <path class="ln warm" d="M466 146 H524" marker-end="url(#ah-warm)"/>
+  <text class="t-xs t-b mid tc-warm" x="496" y="136">개인키</text>
+  <rect class="box" x="532" y="122" width="76" height="48" rx="8"/>
+  <text class="mid" x="570" y="151">안녕</text>
+  <text class="t-xs" x="628" y="142">열쇠를 안전하게</text>
+  <text class="t-xs" x="628" y="162">나눠 가질 때</text>
+
+  <rect class="box green" x="20" y="196" width="144" height="72" rx="12"/>
+  <text class="t-b" x="34" y="228">해시</text>
+  <text class="t-xs" x="34" y="250">열쇠 없이</text>
+  <rect class="box" x="188" y="208" width="76" height="48" rx="8"/>
+  <text class="mid" x="226" y="237">안녕</text>
+  <path class="ln green" d="M270 232 H328" marker-end="url(#ah-green)"/>
+  <text class="t-xs t-b mid tc-green" x="300" y="222">해시 함수</text>
+  <rect class="box gray" x="336" y="208" width="124" height="48" rx="8"/>
+  <text class="t-mono mid" x="398" y="237">e8f817f3…</text>
+  <path class="ln red dash" d="M466 232 H524"/>
+  <text class="t-xs t-b mid tc-red" x="496" y="222">못 되돌림</text>
+  <rect class="ghost dash" x="532" y="208" width="76" height="48" rx="8"/>
+  <text class="mid tc-muted" x="570" y="237">?</text>
+  <text class="t-xs" x="628" y="228">비밀번호 저장,</text>
+  <text class="t-xs" x="628" y="248">파일 변조 확인</text>
+
+  <rect class="box warm" x="20" y="282" width="144" height="72" rx="12"/>
+  <text class="t-b" x="34" y="314">전자 서명</text>
+  <text class="t-xs" x="34" y="336">도장을 찍는다</text>
+  <rect class="box" x="188" y="294" width="76" height="48" rx="8"/>
+  <text class="mid" x="226" y="323">계약서</text>
+  <path class="ln warm" d="M270 318 H328" marker-end="url(#ah-warm)"/>
+  <text class="t-xs t-b mid tc-warm" x="300" y="308">개인키</text>
+  <rect class="box gray" x="336" y="294" width="124" height="48" rx="8"/>
+  <text class="t-mono mid" x="398" y="323">서명 Mk4v…</text>
+  <path class="ln purple" d="M466 318 H524" marker-end="url(#ah-purple)"/>
+  <text class="t-xs t-b mid tc-purple" x="496" y="308">공개키</text>
+  <rect class="box green" x="532" y="294" width="76" height="48" rx="8"/>
+  <text class="t-b mid tc-green" x="570" y="323">진짜다</text>
+  <text class="t-xs" x="628" y="314">누가 썼는지,</text>
+  <text class="t-xs" x="628" y="334">바뀌지 않았는지</text>
+</svg>

@@ -1,0 +1,1102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>21장 인프라와 클라우드 — 개발의 기초</title>
+<meta name="description" content="서버·컨테이너·확장">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch21" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html" aria-current="page"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">5부 내보내고 운영하기 › <b>21장 인프라와 클라우드</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-red">
+<div class="ch-kicker"><span class="ch-no">21장</span><span class="part">5부 · 내보내고 운영하기</span></div>
+<h1>인프라와 클라우드</h1>
+<p class="ch-sub">서버·컨테이너·확장</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 40분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch14.html">14장 네트워크</a><a class="chip" href="ch20.html">20장 빌드와 배포</a></div>
+</header><div class="lead">
+<p>AI 도구와 함께 사진 공유 앱 '찰칵'을 만들었습니다. 내 노트북에서는 잘 돌아갑니다. 그런데 노트북을 덮는 순간 앱도 멈춥니다. 친구들이 밤낮없이 쓰게 하려면 <strong>꺼지지 않는 컴퓨터</strong>가 어딘가에 있어야 합니다. 이 장에서는 그 컴퓨터를 빌리는 방법과 빌린 뒤에 챙길 것을 살펴봅니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>가상 머신, 컨테이너, 서버리스, 관리형 서비스의 차이를 "내가 어디까지 관리하는가"로 설명할 수 있습니다.</li>
+<li>컨테이너를 새로 만들면 파일이 사라지는 이유를 알고, 데이터를 어디에 둘지 정할 수 있습니다.</li>
+<li>서버를 늘려도 나아지지 않는 상황을 알아보고 원인을 짚을 수 있습니다.</li>
+<li>인프라를 바꾸기 전에 변경 계획(plan)에서 무엇을 읽어야 하는지 압니다.</li>
+</ul>
+</div>
+<section class="level2" id="rent">
+<h2><span class="sec-n">21.1</span>서버는 남의 컴퓨터, 클라우드는 그것을 빌리는 일<a aria-label="이 절의 링크" class="anchor" href="#rent">#</a></h2>
+<p><strong>서버</strong>는 특별한 기계가 아닙니다. <a href="ch01.html">1장</a>에서 본 것과 같은 CPU, 메모리, 저장장치를 가진 컴퓨터입니다. 다만 화면도 키보드도 없이 24시간 켜져서 요청을 기다립니다. 이런 컴퓨터를 수천 대씩 모아 둔 건물이 <strong>데이터센터</strong>(data center)입니다.</p>
+<figure class="photo"><img alt='데이터센터에 줄지어 선 서버 랙. 납작하게 층층이 꽂힌 칸 하나하나가 컴퓨터 한 대입니다. "클라우드에 올렸다"는 말은 이런 컴퓨터 어딘가에서 내 프로그램이 돈다는 뜻입니다.' loading="lazy" src="../assets/photo/server-racks.jpg"/><figcaption>데이터센터에 줄지어 선 서버 랙. 납작하게 층층이 꽂힌 칸 하나하나가 컴퓨터 한 대입니다. "클라우드에 올렸다"는 말은 이런 컴퓨터 어딘가에서 내 프로그램이 돈다는 뜻입니다.<span class="credit">사진: Victor Grigas · CC BY-SA 3.0 · <a href="https://commons.wikimedia.org/wiki/File:Wikimedia_Foundation_Servers-8055_35.jpg" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+<p>서버를 직접 사서 둘 수도 있습니다. 하지만 기계값, 전기, 냉방, 고장 수리를 모두 떠안아야 합니다. 주방을 차리려고 건물부터 짓는 셈입니다. <strong>클라우드</strong>(cloud)는 남이 지어 둔 건물에서 필요한 만큼만 자리를 빌리는 방식입니다. 몇 분 만에 빌리고, 쓴 만큼 내고, 필요 없으면 돌려줍니다.</p>
+<p>빌리는 방식은 크게 네 가지입니다.</p>
+<ul>
+<li><strong>가상 머신</strong>(VM, Virtual Machine)은 단독 주택을 통째로 빌리는 것입니다. 운영체제부터 내가 설치하고 고칩니다. 자유롭지만 손이 가장 많이 갑니다.</li>
+<li><strong>컨테이너</strong>(container)는 오피스텔의 한 호실입니다. 건물 설비는 관리실이 맡고 나는 내 방만 꾸밉니다.</li>
+<li><strong>서버리스</strong>(serverless)는 공유 오피스입니다. 코드만 맡겨 두면 요청이 올 때만 자리가 생기고, 쓴 시간만큼 냅니다.</li>
+<li><strong>관리형 서비스</strong>(managed service)는 일을 전문 업체에 통째로 맡기는 것입니다. 데이터베이스를 직접 설치하지 않고 "하나 주세요" 하고 받아 씁니다.</li>
+</ul>
+<figure class="fig" id="fig-rent-ladder"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 392" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>빌리는 방식이 가상 머신, 컨테이너, 서버리스, 관리형 서비스로 갈수록 내가 관리하는 층이 줄어든다</title>
+
+  <use href="#i-house" x="184" y="14" width="36" height="36" class="ic blue"/>
+  <text class="t-l mid" x="202" y="72">가상 머신</text>
+  <text class="t-s mid" x="202" y="92">단독 주택</text>
+
+  <use href="#i-building" x="339" y="14" width="36" height="36" class="ic blue"/>
+  <text class="t-l mid" x="357" y="72">컨테이너</text>
+  <text class="t-s mid" x="357" y="92">오피스텔 한 호실</text>
+
+  <use href="#i-table" x="494" y="14" width="36" height="36" class="ic blue"/>
+  <text class="t-l mid" x="512" y="72">서버리스</text>
+  <text class="t-s mid" x="512" y="92">공유 오피스</text>
+
+  <use href="#i-db" x="649" y="14" width="36" height="36" class="ic blue"/>
+  <text class="t-l mid" x="667" y="72">관리형 서비스</text>
+  <text class="t-s mid" x="667" y="92">전문 업체에 맡기기</text>
+
+  <text class="t-s end" x="118" y="134">데이터·설정</text>
+  <rect class="box blue" x="130" y="112" width="145" height="34" rx="8"/>
+  <rect class="box blue" x="285" y="112" width="145" height="34" rx="8"/>
+  <rect class="box blue" x="440" y="112" width="145" height="34" rx="8"/>
+  <rect class="box blue" x="595" y="112" width="145" height="34" rx="8"/>
+  <text class="t-s t-b tc-blue mid" x="202" y="134">내가 관리</text>
+  <text class="t-s t-b tc-blue mid" x="357" y="134">내가 관리</text>
+  <text class="t-s t-b tc-blue mid" x="512" y="134">내가 관리</text>
+  <text class="t-s t-b tc-blue mid" x="667" y="134">내가 관리</text>
+
+  <text class="t-s end" x="118" y="174">앱 코드</text>
+  <rect class="box blue" x="130" y="152" width="145" height="34" rx="8"/>
+  <rect class="box blue" x="285" y="152" width="145" height="34" rx="8"/>
+  <rect class="box blue" x="440" y="152" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="595" y="152" width="145" height="34" rx="8"/>
+  <text class="t-s t-b tc-blue mid" x="202" y="174">내가 관리</text>
+  <text class="t-s t-b tc-blue mid" x="357" y="174">내가 관리</text>
+  <text class="t-s t-b tc-blue mid" x="512" y="174">내가 관리</text>
+
+  <text class="t-s end" x="118" y="214">실행 환경</text>
+  <rect class="box blue" x="130" y="192" width="145" height="34" rx="8"/>
+  <rect class="box blue" x="285" y="192" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="440" y="192" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="595" y="192" width="145" height="34" rx="8"/>
+  <text class="t-s t-b tc-blue mid" x="202" y="214">내가 관리</text>
+  <text class="t-s t-b tc-blue mid" x="357" y="214">내가 관리</text>
+
+  <text class="t-s end" x="118" y="254">운영체제</text>
+  <rect class="box blue" x="130" y="232" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="285" y="232" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="440" y="232" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="595" y="232" width="145" height="34" rx="8"/>
+  <text class="t-s t-b tc-blue mid" x="202" y="254">내가 관리</text>
+
+  <text class="t-s end" x="118" y="294">서버 기계</text>
+  <rect class="box gray" x="130" y="272" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="285" y="272" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="440" y="272" width="145" height="34" rx="8"/>
+  <rect class="box gray" x="595" y="272" width="145" height="34" rx="8"/>
+
+  <path class="ln muted" d="M134 328 H732" marker-end="url(#ah-muted)"/>
+  <text class="t-s mid" x="435" y="350">오른쪽으로 갈수록 손이 덜 가고, 내 마음대로 바꿀 수 있는 것도 줄어든다</text>
+
+  <rect class="box blue" x="130" y="364" width="16" height="16" rx="4"/>
+  <text class="t-xs" x="153" y="377">내가 관리</text>
+  <rect class="box gray" x="230" y="364" width="16" height="16" rx="4"/>
+  <text class="t-xs" x="253" y="377">클라우드 업체가 관리</text>
+</svg></div><figcaption><b>그림 21-1</b>빌리는 네 가지 방식과 내가 돌볼 층. '실행 환경'은 파이썬 같은 런타임과 라이브러리를 말합니다.</figcaption></figure>
+<p>그림의 맨 윗줄을 보세요. 어떤 방식을 골라도 <strong>데이터와 설정은 내 몫</strong>입니다. 관리형 데이터베이스를 써도 어떤 데이터를 넣고 누구에게 권한을 줄지는 업체가 정해 주지 않습니다.</p>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · 작은 서비스에는 작은 구성</div>
+<p>처음에는 컨테이너 하나와 관리형 데이터베이스 하나로 충분한 경우가 많습니다. 나머지 도구는 문제가 실제로 생겼을 때 하나씩 더합니다.</p>
+</div>
+</section>
+<section class="level2" id="vm-container">
+<h2><span class="sec-n">21.2</span>가상 머신과 컨테이너: 집 한 채와 같은 건물의 방<a aria-label="이 절의 링크" class="anchor" href="#vm-container">#</a></h2>
+<p>데이터센터의 서버 한 대는 작은 앱 하나에 통째로 내주기에는 너무 큽니다. 그래서 한 대를 여럿이 나눠 씁니다. 나누는 방법이 두 가지입니다.</p>
+<p><strong>가상 머신</strong>은 소프트웨어로 만든 가짜 컴퓨터입니다. <strong>하이퍼바이저</strong>(hypervisor)라는 프로그램이 진짜 기계의 CPU와 메모리를 쪼개서, 가상 머신마다 "이것이 네 컴퓨터다" 하고 보여 줍니다. 사양표의 <code>vCPU 2개</code>는 이렇게 나눠 받은 가상의 코어가 둘이라는 뜻입니다. 가상 머신에는 운영체제를 저마다 따로 설치합니다. 한 땅에 단독 주택을 여러 채 지은 것과 같습니다. 집마다 보일러와 수도가 따로 있습니다.</p>
+<p><strong>컨테이너</strong>는 운영체제를 따로 두지 않습니다. 운영체제의 핵심인 커널(<a href="ch03.html">3장</a>)은 하나만 돌고, 그 위의 프로세스들을 칸막이로 나눕니다. 칸막이 안의 프로세스에게는 자기 파일, 자기 네트워크, 자기 프로세스 목록만 보입니다. 오피스텔의 방과 같습니다. 방은 벽으로 나뉘지만 보일러와 수도는 건물 것을 함께 씁니다.</p>
+<figure class="fig" id="fig-vm-vs-container"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>가상 머신은 저마다 운영체제를 통째로 갖고, 컨테이너는 운영체제 하나를 함께 쓴다</title>
+
+  <rect class="panel" x="20" y="20" width="350" height="300" rx="16"/>
+  <text class="t-l" x="36" y="48">가상 머신 2대</text>
+  <text class="t-s" x="36" y="68">단독 주택: 설비를 집마다 따로 둔다</text>
+
+  <rect class="box" x="36" y="84" width="150" height="130" rx="12"/>
+  <text class="t-xs" x="48" y="102">VM 1</text>
+  <rect class="box blue" x="46" y="110" width="130" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="111" y="129">앱 A</text>
+  <rect class="box green" x="46" y="143" width="130" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="111" y="162">라이브러리</text>
+  <rect class="box warm" x="46" y="176" width="130" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="111" y="195">운영체제</text>
+
+  <rect class="box" x="204" y="84" width="150" height="130" rx="12"/>
+  <text class="t-xs" x="216" y="102">VM 2</text>
+  <rect class="box blue" x="214" y="110" width="130" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="279" y="129">앱 B</text>
+  <rect class="box green" x="214" y="143" width="130" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="279" y="162">라이브러리</text>
+  <rect class="box warm" x="214" y="176" width="130" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="279" y="195">운영체제</text>
+
+  <rect class="box gray" x="36" y="222" width="318" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="195" y="241">하이퍼바이저: 기계를 쪼개 나눠 준다</text>
+  <rect class="box gray" x="36" y="256" width="318" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="195" y="275">물리 서버 한 대</text>
+  <text class="t-s" x="36" y="306">켜는 데 수십 초 이상 · 크기 수 GB</text>
+
+  <rect class="panel" x="390" y="20" width="350" height="300" rx="16"/>
+  <text class="t-l" x="406" y="48">컨테이너 3개</text>
+  <text class="t-s" x="406" y="68">한 건물의 방: 설비는 건물 것을 함께 쓴다</text>
+
+  <rect class="box" x="406" y="118" width="100" height="96" rx="12"/>
+  <text class="t-xs" x="416" y="136">컨테이너 1</text>
+  <rect class="box blue" x="414" y="143" width="84" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="456" y="162">앱 A</text>
+  <rect class="box green" x="414" y="176" width="84" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="456" y="195">라이브러리</text>
+
+  <rect class="box" x="515" y="118" width="100" height="96" rx="12"/>
+  <text class="t-xs" x="525" y="136">컨테이너 2</text>
+  <rect class="box blue" x="523" y="143" width="84" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="565" y="162">앱 B</text>
+  <rect class="box green" x="523" y="176" width="84" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="565" y="195">라이브러리</text>
+
+  <rect class="box" x="624" y="118" width="100" height="96" rx="12"/>
+  <text class="t-xs" x="634" y="136">컨테이너 3</text>
+  <rect class="box blue" x="632" y="143" width="84" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="674" y="162">앱 C</text>
+  <rect class="box green" x="632" y="176" width="84" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="674" y="195">라이브러리</text>
+
+  <rect class="box warm" x="406" y="222" width="318" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="565" y="241">운영체제 하나 (커널을 모두 함께 쓴다)</text>
+  <rect class="box gray" x="406" y="256" width="318" height="28" rx="6"/>
+  <text class="t-s t-ink mid" x="565" y="275">서버 한 대</text>
+  <text class="t-s" x="406" y="306">켜는 데 1초 안팎 · 크기 수십~수백 MB</text>
+</svg></div><figcaption><b>그림 21-2</b>가상 머신은 저마다 운영체제를 갖고, 컨테이너는 하나를 함께 씁니다.</figcaption></figure>
+<p>가상 머신을 켜는 것은 컴퓨터를 부팅하는 일이고, 컨테이너를 켜는 것은 프로그램 하나를 시작하는 일입니다. 대신 컨테이너끼리는 커널을 함께 쓰므로 가상 머신만큼 단단히 떨어져 있지는 않습니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>컨테이너는 작은 가상 머신이 아니라 <strong>칸막이를 친 프로세스</strong>입니다. 그래서 금방 켜지고 금방 사라집니다.</p>
+</div>
+<p>둘은 함께 쓰기도 합니다. 가상 머신을 빌려 그 안에 컨테이너를 여러 개 띄우는 식입니다.</p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>컨테이너의 칸막이는 리눅스 커널의 기능입니다. 맥이나 윈도우에서 도커(Docker)를 켜면 보이지 않는 곳에 작은 리눅스 가상 머신이 하나 뜨고, 컨테이너는 그 안에서 돕니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>칸막이의 정체: 네임스페이스와 cgroup</summary><div class="deep-body">
+<p><strong>네임스페이스</strong>(namespace)는 <strong>보이는 것</strong>을 나눕니다. 컨테이너 안에서 프로세스 목록을 보면 자기 것만 나오고 번호도 1번부터 시작합니다. <strong>cgroup</strong>(control group)은 <strong>쓸 수 있는 양</strong>을 나눕니다. "이 묶음은 CPU 0.5개, 메모리 1GB까지"처럼 정합니다.</p>
+<p>둘은 별개입니다. 양을 제한하지 않은 컨테이너는 서버의 메모리를 혼자 다 쓸 수도 있습니다.</p>
+</div></details>
+</section>
+<section class="level2" id="image">
+<h2><span class="sec-n">21.3</span>이미지: 살림을 통째로 싸 둔 규격 상자<a aria-label="이 절의 링크" class="anchor" href="#image">#</a></h2>
+<p>"내 컴퓨터에서는 되는데 서버에서는 안 돼요." 원인은 대개 환경 차이입니다. 파이썬 버전이 다르거나 라이브러리 하나가 빠져 있습니다(<a href="ch06.html">6장</a>). 화물 운송은 같은 고민을 상자 하나로 풀었습니다.</p>
+<figure class="photo"><img alt="항구에 쌓인 화물 컨테이너. 안에 든 것이 옷이든 냉장고든 겉은 같은 규격의 상자입니다. 그래서 어느 배, 어느 크레인으로도 똑같이 옮깁니다. 소프트웨어의 컨테이너는 이 생각을 빌려 온 이름입니다." loading="lazy" src="../assets/photo/shipping-containers.jpg"/><figcaption>항구에 쌓인 화물 컨테이너. 안에 든 것이 옷이든 냉장고든 겉은 같은 규격의 상자입니다. 그래서 어느 배, 어느 크레인으로도 똑같이 옮깁니다. 소프트웨어의 컨테이너는 이 생각을 빌려 온 이름입니다.<span class="credit">사진: AgainErick · CC BY-SA 4.0 · <a href="https://commons.wikimedia.org/wiki/File:Shipping_container_stacks_-_Port_of_Rotterdam_-_2017_-_1.jpg" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+<p><strong>이미지</strong>(image)는 프로그램과 그것이 돌아가는 데 필요한 런타임, 라이브러리, 설정을 하나로 싸 둔 규격 상자입니다. 이 상자를 풀어 실행한 것이 컨테이너입니다. 이삿짐 상자와, 그 짐을 풀어 차린 방의 관계입니다. 상자 하나로 똑같은 방을 몇 개든 차릴 수 있습니다.</p>
+<p>짐을 싸는 순서는 <code>Dockerfile</code>이라는 파일에 적습니다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb1-1"><span class="kw">FROM</span> python:3.12-slim</span>
+<span id="cb1-2"><span class="kw">COPY</span> requirements.txt .</span>
+<span id="cb1-3"><span class="kw">RUN</span> <span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span>
+<span id="cb1-4"><span class="kw">COPY</span> . .</span>
+<span id="cb1-5"><span class="kw">CMD</span> [<span class="st">"python"</span>, <span class="st">"app.py"</span>]</span></code></pre></div>
+<ul>
+<li><code>FROM</code>은 바탕을 고릅니다. 누군가 만들어 둔 "파이썬이 깔린 리눅스" 이미지에서 시작합니다.</li>
+<li><code>COPY requirements.txt .</code>은 라이브러리 목록 파일을 상자에 넣습니다.</li>
+<li><code>RUN pip install …</code>은 그 목록대로 라이브러리를 설치합니다.</li>
+<li><code>COPY . .</code>은 내 소스 코드를 전부 넣습니다.</li>
+<li><code>CMD</code>는 컨테이너가 켜질 때 실행할 명령을 적어 둡니다.</li>
+</ul>
+<section class="level3" id="레이어-한-줄이-한-층">
+<h3>레이어: 한 줄이 한 층</h3>
+<p>이미지는 한 덩어리가 아니라 <strong>레이어</strong>(layer)라는 층이 쌓인 것입니다. 파일을 바꾸는 줄마다 층이 하나 생깁니다. 다시 빌드할 때 바뀌지 않은 층은 그대로 재사용합니다.</p>
+<figure class="fig" id="fig-image-layers"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 366" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>Dockerfile의 줄마다 층이 하나씩 쌓이고, 소스만 고치면 마지막 층만 다시 만든다</title>
+
+  <text class="t-s t-b" x="20" y="34">Dockerfile (위에서부터 차례로)</text>
+  <text class="t-s t-b" x="396" y="34">만들어지는 층</text>
+  <text class="t-s t-b" x="586" y="34">app.py만 고치고 다시 빌드</text>
+
+  <rect class="box" x="20" y="48" width="340" height="40" rx="8"/>
+  <text class="t-mono" x="34" y="73">FROM python:3.12-slim</text>
+  <path class="ln muted" d="M366 68 H384" marker-end="url(#ah-muted)"/>
+  <rect class="box gray" x="396" y="48" width="170" height="40" rx="8"/>
+  <text class="mid" x="481" y="73">파이썬이 깔린 바탕</text>
+  <use href="#i-check" x="586" y="56" width="24" height="24" class="ic green"/>
+  <text class="t-b tc-green" x="618" y="73">그대로 재사용</text>
+
+  <rect class="box" x="20" y="98" width="340" height="40" rx="8"/>
+  <text class="t-mono" x="34" y="123">COPY requirements.txt .</text>
+  <path class="ln muted" d="M366 118 H384" marker-end="url(#ah-muted)"/>
+  <rect class="box green" x="396" y="98" width="170" height="40" rx="8"/>
+  <text class="mid" x="481" y="123">라이브러리 목록</text>
+  <use href="#i-check" x="586" y="106" width="24" height="24" class="ic green"/>
+  <text class="t-b tc-green" x="618" y="123">그대로 재사용</text>
+
+  <rect class="box" x="20" y="148" width="340" height="40" rx="8"/>
+  <text class="t-mono" x="34" y="173">RUN pip install -r requirements.txt</text>
+  <path class="ln muted" d="M366 168 H384" marker-end="url(#ah-muted)"/>
+  <rect class="box green" x="396" y="148" width="170" height="40" rx="8"/>
+  <text class="mid" x="481" y="173">설치된 라이브러리</text>
+  <use href="#i-check" x="586" y="156" width="24" height="24" class="ic green"/>
+  <text class="t-b tc-green" x="618" y="173">그대로 재사용</text>
+
+  <rect class="box" x="20" y="198" width="340" height="40" rx="8"/>
+  <text class="t-mono" x="34" y="223">COPY . .</text>
+  <path class="ln muted" d="M366 218 H384" marker-end="url(#ah-muted)"/>
+  <rect class="box blue" x="396" y="198" width="170" height="40" rx="8"/>
+  <text class="mid" x="481" y="223">내 소스 코드</text>
+  <use href="#i-refresh" x="586" y="206" width="24" height="24" class="ic warm"/>
+  <text class="t-b tc-warm" x="618" y="223">다시 만든다</text>
+
+  <rect class="box" x="20" y="248" width="340" height="40" rx="8"/>
+  <text class="t-mono" x="34" y="273">CMD ["python", "app.py"]</text>
+  <path class="ln muted" d="M366 268 H384" marker-end="url(#ah-muted)"/>
+  <rect class="ghost dash" x="396" y="248" width="170" height="40" rx="8"/>
+  <text class="t-s mid" x="481" y="273">층이 아니라 시작 명령</text>
+
+  <text class="t-s" x="20" y="322">앞쪽 층이 바뀌면 그 뒤의 층은 모두 다시 만듭니다.</text>
+  <text class="t-s" x="20" y="344">그래서 잘 안 바뀌는 것(라이브러리)을 앞에, 자주 바뀌는 것(내 코드)을 뒤에 둡니다.</text>
+</svg></div><figcaption><b>그림 21-3</b>소스 파일 하나만 고쳤다면 넷째 층만 다시 만듭니다. 오래 걸리는 라이브러리 설치는 건너뜁니다.</figcaption></figure>
+<p>그래서 줄의 순서가 중요합니다. <code>COPY . .</code>을 설치 명령보다 앞에 두면, 코드 한 글자만 고쳐도 라이브러리를 처음부터 다시 설치합니다. AI가 만들어 준 Dockerfile에서 먼저 볼 곳입니다.</p>
+<p>완성한 이미지는 <strong>레지스트리</strong>(registry)라는 이미지 창고에 올려 둡니다. 서버는 거기서 내려받아 실행합니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
+<p>한 번 쌓인 층은 지워지지 않습니다. 비밀번호가 든 파일을 넣었다가 다음 줄에서 지워도 앞 층에는 그대로 남습니다. 비밀값은 처음부터 이미지에 넣지 않습니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>태그와 다이제스트: 이름표와 지문</summary><div class="deep-body">
+<p><code>photo-api:1.4</code>에서 <code>1.4</code>가 <strong>태그</strong>(tag)입니다. 사람이 붙이는 이름표라서 다른 이미지로 옮겨 붙일 수 있습니다. 흔히 쓰는 <code>latest</code>는 어제와 오늘 다른 이미지를 가리킬 수 있습니다.</p>
+<p><strong>다이제스트</strong>(digest)는 이미지 내용으로 계산한 지문입니다. <code>sha256:9b2f…</code>처럼 생겼고, 내용이 조금이라도 다르면 값이 달라집니다. 시험한 이미지와 배포한 이미지가 같은지 확인하려면 다이제스트를 기록해 둡니다.</p>
+</div></details>
+<details class="deep"><summary><small>한 걸음 더</small>루트가 아닌 사용자로 실행하기</summary><div class="deep-body">
+<p>따로 정하지 않으면 컨테이너 안의 프로그램은 관리자(root)로 실행됩니다. 컨테이너는 커널을 함께 쓰므로, 프로그램이 공격당했을 때 관리자 권한이면 피해가 커집니다. Dockerfile에 <code>USER</code> 줄을 넣어 일반 사용자로 실행하게 합니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="disposable">
+<h2><span class="sec-n">21.4</span>컨테이너는 일회용: 데이터는 방 밖에<a aria-label="이 절의 링크" class="anchor" href="#disposable">#</a></h2>
+<p>찰칵은 올라온 사진을 컨테이너 안의 <code>/uploads</code> 폴더에 저장했습니다. 그런데 새 버전을 배포하자 사진이 전부 사라졌습니다.</p>
+<p>컨테이너는 고쳐 쓰지 않습니다. 새 버전을 낼 때는 기존 컨테이너를 <strong>지우고</strong> 새 이미지로 <strong>새로 만듭니다</strong>. 실행 중에 쓴 파일은 그 컨테이너만의 얇은 쓰기 층에 있다가 컨테이너와 함께 사라집니다.</p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>여기서 비유가 조금 어긋납니다. 오피스텔 방에는 몇 년씩 살지만 컨테이너는 하루에도 몇 번씩 새로 만듭니다. 손님이 바뀔 때마다 처음 상태로 되돌리는 호텔 객실에 더 가깝습니다.</p>
+</div>
+<figure class="fig" id="fig-ephemeral-data"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>컨테이너 안에 저장한 사진은 새 버전으로 바꿀 때 사라지고, 볼륨에 저장한 사진은 남는다</title>
+
+  <text class="t-s t-b mid" x="265" y="32">배포 전</text>
+  <text class="t-s t-b mid" x="595" y="32">배포 후</text>
+
+  <use href="#i-cross" x="20" y="56" width="28" height="28" class="ic red"/>
+  <text class="t-b" x="20" y="110">컨테이너 안에</text>
+  <text class="t-b" x="20" y="130">저장하면</text>
+
+  <rect class="box blue" x="160" y="48" width="210" height="112" rx="14"/>
+  <text class="t-b" x="176" y="72">컨테이너 v1</text>
+  <rect class="box" x="174" y="84" width="182" height="62" rx="8"/>
+  <text class="t-mono" x="186" y="106">/uploads</text>
+  <use href="#i-image" x="186" y="114" width="24" height="24" class="ic green"/>
+  <use href="#i-image" x="216" y="114" width="24" height="24" class="ic green"/>
+  <use href="#i-image" x="246" y="114" width="24" height="24" class="ic green"/>
+  <text class="t-s" x="282" y="132">사진 3장</text>
+
+  <path class="ln warm" d="M378 104 H482" marker-end="url(#ah-warm)"/>
+  <text class="t-xs mid" x="430" y="92">새 버전 배포</text>
+  <text class="t-xs mid" x="430" y="124">v1 삭제, v2 생성</text>
+
+  <rect class="box blue" x="490" y="48" width="210" height="112" rx="14"/>
+  <text class="t-b" x="506" y="72">컨테이너 v2</text>
+  <rect class="ghost dash" x="504" y="84" width="182" height="62" rx="8"/>
+  <text class="t-mono" x="516" y="106">/uploads</text>
+  <text class="t-s t-b tc-red" x="516" y="132">비어 있음</text>
+  <use href="#i-cross" x="708" y="90" width="28" height="28" class="ic red"/>
+
+  <path class="ln thin muted dash" d="M20 180 H740"/>
+
+  <use href="#i-check" x="20" y="204" width="28" height="28" class="ic green"/>
+  <text class="t-b" x="20" y="258">볼륨에</text>
+  <text class="t-b" x="20" y="278">저장하면</text>
+
+  <rect class="box blue" x="160" y="200" width="210" height="64" rx="14"/>
+  <text class="t-b" x="176" y="226">컨테이너 v1</text>
+  <text class="t-mono" x="176" y="248">/uploads</text>
+
+  <path class="ln warm" d="M378 232 H482" marker-end="url(#ah-warm)"/>
+  <text class="t-xs mid" x="430" y="220">새 버전 배포</text>
+
+  <rect class="box blue" x="490" y="200" width="210" height="64" rx="14"/>
+  <text class="t-b" x="506" y="226">컨테이너 v2</text>
+  <text class="t-mono" x="506" y="248">/uploads</text>
+  <use href="#i-check" x="708" y="218" width="28" height="28" class="ic green"/>
+
+  <path class="ln green" d="M300 268 V290" marker-end="url(#ah-green)"/>
+  <text class="t-xs" x="310" y="284">연결</text>
+  <path class="ln green" d="M560 268 V290" marker-end="url(#ah-green)"/>
+  <text class="t-xs" x="570" y="284">같은 볼륨에 연결</text>
+
+  <rect class="box green" x="250" y="296" width="360" height="56" rx="12"/>
+  <use href="#i-disk" x="262" y="308" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="304" y="320">볼륨</text>
+  <text class="t-s" x="304" y="340">컨테이너 밖의 저장 공간</text>
+  <use href="#i-image" x="466" y="312" width="24" height="24" class="ic green"/>
+  <use href="#i-image" x="496" y="312" width="24" height="24" class="ic green"/>
+  <use href="#i-image" x="526" y="312" width="24" height="24" class="ic green"/>
+  <text class="t-s t-b tc-green" x="560" y="330">3장</text>
+</svg></div><figcaption><b>그림 21-4</b>컨테이너 안에 둔 사진은 배포와 함께 사라지고, 밖의 볼륨에 둔 사진은 새 컨테이너에서도 그대로 보입니다.</figcaption></figure>
+<p>남아야 하는 것은 방 밖에 둡니다.</p>
+<ul>
+<li><strong>볼륨</strong>(volume)은 컨테이너 밖의 저장 공간을 컨테이너의 폴더에 연결한 것입니다. 컨테이너를 지워도 남습니다.</li>
+<li><strong>객체 저장소</strong>(object storage)는 파일을 이름표와 함께 맡기는 클라우드의 창고입니다. 서버 여러 대가 함께 쓸 수 있어서 업로드된 사진과 동영상을 두기에 알맞습니다.</li>
+<li>회원과 주문 같은 기록은 <strong>데이터베이스</strong>(<a href="ch17.html">17장</a>)에 둡니다.</li>
+</ul>
+<p>이렇게 자기 안에 아무것도 쌓아 두지 않는 서버를 <strong>상태 없는 서버</strong>(stateless)라고 합니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>컨테이너는 언제든 지우고 새로 만들 수 있어야 합니다. <strong>남아야 하는 것은 컨테이너 밖에</strong> 둡니다.</p>
+</div>
+<div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
+<p>도커가 설치되어 있다면 직접 확인해 보세요. <code>alpine</code>은 작은 리눅스 이미지입니다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><span class="ex">docker</span> run <span class="at">--name</span> memo alpine sh <span class="at">-c</span> <span class="st">"echo hi &gt; /note.txt"</span></span>
+<span id="cb2-2"><span class="ex">docker</span> rm memo</span>
+<span id="cb2-3"><span class="ex">docker</span> run <span class="at">--rm</span> alpine cat /note.txt</span></code></pre></div>
+<p>첫 줄은 컨테이너 안에 파일을 만들고, 둘째 줄은 그 컨테이너를 지웁니다. 셋째 줄에서 새 컨테이너를 만들어 찾아보면 <code>No such file</code>이 나옵니다.</p>
+</div>
+<section class="level3" id="방마다-정해진-전기-용량-자원-제한과-oom">
+<h3>방마다 정해진 전기 용량: 자원 제한과 OOM</h3>
+<p>방 하나가 전기를 다 끌어 쓰면 건물 전체가 정전됩니다. 그래서 컨테이너마다 CPU와 메모리의 <strong>제한</strong>(limit)을 겁니다. 한도를 넘었을 때 벌어지는 일은 둘이 다릅니다.</p>
+<ul>
+<li><strong>CPU</strong> 한도를 다 쓰면 커널이 프로세스를 잠깐씩 멈춰 세웁니다. 죽지는 않고 느려집니다.</li>
+<li><strong>메모리</strong> 한도를 넘으면 커널이 프로세스를 강제로 끝냅니다. 이것이 <strong>OOM</strong>(Out Of Memory, 메모리 부족) 종료입니다.</li>
+</ul>
+<figure class="fig" id="fig-oom-limit"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 326" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>메모리 제한이 1,000MB인 컨테이너에서 300MB짜리 작업 네 개를 동시에 하면 한도를 넘어 강제 종료된다</title>
+
+  <text class="t-h" x="20" y="34">메모리 제한 1,000MB인 컨테이너</text>
+  <text class="t-s" x="20" y="56">사진 한 장을 펼치는 데 300MB가 든다면</text>
+
+  <text class="t-s end" x="140" y="98">1장</text>
+  <rect class="solid green" x="150" y="80" width="120" height="26" rx="5"/>
+  <text class="t-mono t-on" x="160" y="98">300MB</text>
+  <text class="t-s t-b tc-green" x="650" y="98">정상</text>
+
+  <text class="t-s end" x="140" y="142">2장 동시에</text>
+  <rect class="solid green" x="150" y="124" width="240" height="26" rx="5"/>
+  <text class="t-mono t-on" x="160" y="142">600MB</text>
+  <text class="t-s t-b tc-green" x="650" y="142">정상</text>
+
+  <text class="t-s end" x="140" y="186">3장 동시에</text>
+  <rect class="solid green" x="150" y="168" width="360" height="26" rx="5"/>
+  <text class="t-mono t-on" x="160" y="186">900MB</text>
+  <text class="t-s t-b tc-green" x="650" y="186">정상</text>
+
+  <text class="t-s end" x="140" y="230">4장 동시에</text>
+  <rect class="solid green" x="150" y="212" width="400" height="26" rx="5"/>
+  <rect class="solid red" x="550" y="212" width="80" height="26" rx="5"/>
+  <text class="t-mono t-on" x="160" y="230">1,200MB</text>
+  <text class="t-mono t-on mid" x="590" y="230">+200</text>
+  <text class="t-s t-b tc-red" x="650" y="230">강제 종료</text>
+
+  <path class="ln red dash" d="M550 70 V250"/>
+  <text class="t-s t-b tc-red mid" x="550" y="62">제한 1,000MB</text>
+
+  <rect class="box" x="20" y="266" width="720" height="44" rx="10"/>
+  <use href="#i-terminal" x="32" y="275" width="26" height="26" class="ic gray"/>
+  <text class="t-s" x="68" y="293">종료된 뒤의 기록</text>
+  <text class="t-mono t-b" x="190" y="293">Exited (137)</text>
+  <text class="t-mono t-b tc-red" x="318" y="293">OOMKilled: true</text>
+  <text class="t-xs" x="470" y="293">메모리 초과로 운영체제가 끝냈다는 뜻</text>
+</svg></div><figcaption><b>그림 21-5</b>세 장까지는 버티다가 네 장을 동시에 펼치는 순간 한도를 넘어 종료됩니다. 평소에는 멀쩡하다가 요청이 몰릴 때만 죽는 이유입니다.</figcaption></figure>
+<p>OOM으로 죽는 프로그램은 오류 메시지를 남길 틈이 없습니다. 앱 로그는 깨끗한데 "가끔 그냥 꺼집니다". 이럴 때는 컨테이너의 종료 기록에서 <code>OOMKilled</code>나 종료 코드 <code>137</code>을 찾습니다. 원인을 찾았다면 제한을 올리기 전에 한꺼번에 처리하는 양부터 줄일 수 있는지 봅니다.</p>
+</section>
+</section>
+<section class="level2" id="network">
+<h2><span class="sec-n">21.5</span>클라우드 안의 길: 사설망과 문단속<a aria-label="이 절의 링크" class="anchor" href="#network">#</a></h2>
+<p><a href="ch14.html#front">14장</a>에서 방화벽과 로드 밸런서를 만났습니다. 클라우드에서는 이것들을 설정 몇 줄로 만들어 배치합니다.</p>
+<ul>
+<li><strong>사설망</strong>은 클라우드 안에 치는 나만의 울타리입니다. 보통 <strong>VPC</strong>(Virtual Private Cloud)라고 부릅니다. 안에서는 사설 IP로 서로 통합니다.</li>
+<li><strong>서브넷</strong>(subnet)은 울타리 안을 나눈 구역입니다. <strong>공개 서브넷</strong>은 인터넷에서 들어오는 길이 있는 1층 로비이고, <strong>비공개 서브넷</strong>은 그 길이 없는 안쪽 사무실입니다.</li>
+<li><strong>방화벽 규칙</strong>은 문마다 붙이는 출입 명단입니다. "누가, 몇 번 포트로" 들어올 수 있는지 적습니다.</li>
+</ul>
+<figure class="fig" id="fig-vpc-map"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 352" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>사설망 안에서 로드 밸런서만 바깥에 열려 있고, 앱 서버와 데이터베이스는 정해진 상대의 요청만 받는다</title>
+
+  <rect class="box purple" x="20" y="126" width="96" height="96" rx="14"/>
+  <use href="#i-globe" x="48" y="138" width="40" height="40" class="ic purple"/>
+  <text class="t-b mid" x="68" y="206">인터넷</text>
+
+  <rect class="panel" x="140" y="20" width="600" height="270" rx="16"/>
+  <text class="t-s t-b" x="156" y="44">사설망 (VPC)</text>
+  <text class="t-xs" x="248" y="44">안에서만 통하는 주소 10.0.x.x</text>
+
+  <rect class="panel warm" x="156" y="58" width="180" height="216" rx="12"/>
+  <text class="t-s t-b" x="170" y="82">공개 서브넷</text>
+  <text class="t-xs" x="170" y="100">바깥에서 들어올 수 있다</text>
+  <rect class="box" x="172" y="126" width="148" height="96" rx="12"/>
+  <use href="#i-scale" x="228" y="132" width="36" height="36" class="ic warm"/>
+  <text class="t-b mid" x="246" y="188">로드 밸런서</text>
+  <text class="t-mono mid" x="246" y="210">:443 ← 누구나</text>
+
+  <rect class="panel green" x="356" y="58" width="368" height="216" rx="12"/>
+  <text class="t-s t-b" x="370" y="82">비공개 서브넷</text>
+  <text class="t-xs" x="370" y="100">바깥에서 곧장 들어올 수 없다</text>
+
+  <rect class="box blue" x="372" y="116" width="180" height="60" rx="12"/>
+  <use href="#i-server" x="380" y="132" width="28" height="28" class="ic blue"/>
+  <text class="t-b" x="416" y="141">앱 서버 1</text>
+  <text class="t-mono" x="416" y="163">:8080 ← 밸런서만</text>
+
+  <rect class="box blue" x="372" y="196" width="180" height="60" rx="12"/>
+  <use href="#i-server" x="380" y="212" width="28" height="28" class="ic blue"/>
+  <text class="t-b" x="416" y="221">앱 서버 2</text>
+  <text class="t-mono" x="416" y="243">:8080 ← 밸런서만</text>
+
+  <rect class="box" x="600" y="128" width="116" height="116" rx="12"/>
+  <use href="#i-db" x="640" y="138" width="36" height="36" class="ic green"/>
+  <text class="t-b mid" x="658" y="198">데이터베이스</text>
+  <text class="t-mono mid" x="658" y="222">:5432 ← 앱만</text>
+
+  <path class="ln green" d="M120 174 H166" marker-end="url(#ah-green)"/>
+  <path class="ln blue" d="M324 162 L366 150" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M324 188 L366 220" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M556 152 L594 170" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M556 220 L594 202" marker-end="url(#ah-green)"/>
+
+  <path class="ln red dash" d="M68 228 V318 H658 V306"/>
+  <use href="#i-stop" x="644" y="276" width="28" height="28" class="ic red"/>
+  <text class="t-s t-b tc-red mid" x="363" y="340">인터넷에서 DB로 곧장 가는 길은 없다</text>
+</svg></div><figcaption><b>그림 21-6</b>찰칵의 배치도. <code>:8080 ← 밸런서만</code>은 "8080번 문을 로드 밸런서에게만 연다"는 뜻입니다. 바깥에 열린 문은 로드 밸런서의 443번 하나뿐입니다.</figcaption></figure>
+<p>문은 안쪽으로 갈수록 좁아집니다. 로드 밸런서는 누구에게나, 앱 서버는 로드 밸런서에게만, 데이터베이스는 앱 서버에게만 엽니다. 한 겹이 뚫려도 다음 문에서 다시 걸러집니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
+<p>접속이 안 될 때 "모든 주소(<code>0.0.0.0/0</code>)에서 모든 포트 허용"으로 바꾸면 당장은 됩니다. AI 도구도 이렇게 제안하곤 합니다. 하지만 데이터베이스 포트를 인터넷에 열면 누구나 그 문을 두드릴 수 있습니다. 필요한 상대와 포트만 엽니다.</p>
+</div>
+<section class="level3" id="리전과-가용-영역-건물을-어디에-둘까">
+<h3>리전과 가용 영역: 건물을 어디에 둘까</h3>
+<p><strong>리전</strong>(region)은 데이터센터가 모여 있는 지역입니다. 서울, 도쿄, 미국 동부처럼 고릅니다. 사용자와 가까운 곳을 고르고, 앱 서버와 데이터베이스는 같은 리전에 둡니다.</p>
+<p><strong>가용 영역</strong>(availability zone)은 한 리전 안에서 전기와 네트워크를 따로 쓰는 데이터센터 묶음입니다. 앱 서버 두 대를 서로 다른 가용 영역에 두면, 한쪽이 정전되어도 다른 한 대가 버팁니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>리전이 멀면 얼마나 느릴까</summary><div class="deep-body">
+<p><a href="ch14.html#speed">14장</a>에서 서울과 미국 서부 사이의 왕복이 약 100ms라고 계산했습니다. 앱 서버는 서울에, 데이터베이스는 미국에 있다고 합시다. 요청 하나를 처리하며 데이터베이스에 다섯 번 다녀오면 5 × 100 = 500ms가 길 위에서 사라집니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="orchestration">
+<h2><span class="sec-n">21.6</span>여러 대를 돌보기: 원하는 상태와 헬스 체크<a aria-label="이 절의 링크" class="anchor" href="#orchestration">#</a></h2>
+<p>컨테이너가 한두 개라면 직접 띄우고 살피면 됩니다. 서버 다섯 대에 컨테이너 서른 개라면 이야기가 다릅니다. 어느 서버에 자리가 남았는지, 죽은 것은 없는지 사람이 다 챙길 수 없습니다. 이 일을 맡는 프로그램이 <strong>오케스트레이터</strong>(orchestrator)입니다. 건물 관리인에 해당하고, 가장 널리 쓰이는 것이 <strong>쿠버네티스</strong>(Kubernetes)입니다.</p>
+<p>관리인에게는 명령을 내리지 않습니다. <strong>원하는 상태</strong>(desired state)를 적어 줍니다. "컨테이너를 하나 띄워라"가 아니라 "이 이미지의 컨테이너가 늘 3개 있어야 한다"입니다. 에어컨에 "24도"를 맞춰 두는 것과 같습니다. 관리인은 쉬지 않고 실제 개수를 세어 보고, 다르면 맞춥니다.</p>
+<figure class="fig" id="fig-desired-state"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>관리인은 원하는 개수 3과 실제 개수를 계속 비교하다가, 하나가 응답하지 않으면 버리고 새것을 띄운다</title>
+
+  <rect class="box yellow" x="20" y="50" width="204" height="146" rx="14"/>
+  <text class="t-l" x="36" y="78">원하는 상태</text>
+  <text class="t-mono" x="36" y="108">image: photo-api:1.4</text>
+  <text class="t-mono t-b" x="36" y="132">replicas: 3</text>
+  <text class="t-s" x="36" y="162">"이 이미지로 3개를</text>
+  <text class="t-s" x="36" y="180">늘 유지해 줘"</text>
+
+  <use href="#i-refresh" x="36" y="216" width="34" height="34" class="ic blue"/>
+  <text class="t-b" x="80" y="230">관리인</text>
+  <text class="t-s" x="80" y="250">실제와 계속 비교</text>
+
+  <text class="t-s t-b" x="250" y="32">실제 상태</text>
+  <text class="t-s t-b mid" x="686" y="32">실제 / 원함</text>
+
+  <text class="t-mono" x="250" y="83">10:00</text>
+  <rect class="box green" x="312" y="50" width="100" height="56" rx="10"/>
+  <text class="mid" x="362" y="83">A 정상</text>
+  <rect class="box green" x="424" y="50" width="100" height="56" rx="10"/>
+  <text class="mid" x="474" y="83">B 정상</text>
+  <rect class="box green" x="536" y="50" width="100" height="56" rx="10"/>
+  <text class="mid" x="586" y="83">C 정상</text>
+  <text class="t-l mid tc-green" x="686" y="76">3 / 3</text>
+  <text class="t-xs mid" x="686" y="96">그대로 둔다</text>
+
+  <path class="ln thin muted" d="M270 112 V132" marker-end="url(#ah-muted)"/>
+
+  <text class="t-mono" x="250" y="173">10:05</text>
+  <rect class="box green" x="312" y="140" width="100" height="56" rx="10"/>
+  <text class="mid" x="362" y="173">A 정상</text>
+  <rect class="box red" x="424" y="140" width="100" height="56" rx="10"/>
+  <text class="mid tc-red t-b" x="474" y="173">B 응답 없음</text>
+  <rect class="box green" x="536" y="140" width="100" height="56" rx="10"/>
+  <text class="mid" x="586" y="173">C 정상</text>
+  <text class="t-l mid tc-red" x="686" y="166">2 / 3</text>
+  <text class="t-xs mid" x="686" y="186">하나 모자람</text>
+
+  <path class="ln thin muted" d="M270 202 V222" marker-end="url(#ah-muted)"/>
+
+  <text class="t-mono" x="250" y="263">10:06</text>
+  <rect class="box green" x="312" y="230" width="100" height="56" rx="10"/>
+  <text class="mid" x="362" y="263">A 정상</text>
+  <rect class="box blue" x="424" y="230" width="100" height="56" rx="10"/>
+  <text class="mid tc-blue t-b" x="474" y="263">D 새로 시작</text>
+  <rect class="box green" x="536" y="230" width="100" height="56" rx="10"/>
+  <text class="mid" x="586" y="263">C 정상</text>
+  <text class="t-l mid tc-green" x="686" y="256">3 / 3</text>
+  <text class="t-xs mid" x="686" y="276">B를 버리고 D로</text>
+</svg></div><figcaption><b>그림 21-7</b>10시 5분에 B가 응답을 멈추자 실제가 2개로 줄었습니다. 관리인은 B를 고치지 않고 버린 뒤 새 컨테이너 D를 띄워 3개를 다시 채웁니다.</figcaption></figure>
+<p>관리인이 "응답 없음"을 알아채는 방법이 <strong>헬스 체크</strong>(health check)입니다. 몇 초마다 정해진 주소를 불러 보고, 연달아 실패하면 죽은 것으로 봅니다.</p>
+<pre class="text"><code>10:05:00  GET /healthz  →  200 OK
+10:05:10  GET /healthz  →  응답 없음
+10:05:20  GET /healthz  →  응답 없음
+10:05:30  GET /healthz  →  응답 없음   (3번 연속 실패 → 교체)</code></pre>
+<p>첫 줄에서는 앱이 <code>/healthz</code>라는 주소에 <code>200 OK</code>로 답했습니다. 그 뒤 10초마다 세 번을 물어도 답이 없자 관리인이 컨테이너를 교체합니다.</p>
+<p>자동 재시작은 편리하지만 <strong>증상을 가릴 뿐</strong> 원인을 고치지는 않습니다. 메모리가 조금씩 새서 여섯 시간마다 죽는 앱도 겉으로는 멀쩡해 보입니다. 재시작 횟수가 계속 늘고 있다면 원인을 찾아야 합니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>명령하지 않고 <strong>원하는 상태를 적어 두면</strong>, 관리인이 실제를 거기에 맞춥니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>롤링 업데이트와 준비 상태 검사</summary><div class="deep-body">
+<p><a href="ch20.html">20장</a>에서 배운 롤링 배포를 오케스트레이터가 대신 해 줍니다. 새 버전 컨테이너를 하나 띄우고, 준비되면 옛 버전 하나를 내리기를 되풀이합니다.</p>
+<p>이때 "준비됐다"를 확인하는 것이 <strong>준비 상태 검사</strong>(readiness check)입니다. 막 켜져서 데이터를 불러오는 중인 서버는 살아 있지만 아직 손님을 받을 수 없습니다. 이 검사에 실패한 컨테이너는 재시작하지 않고, 요청만 보내지 않습니다.</p>
+</div></details>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>쿠버네티스는 배우고 운영하는 품이 큽니다. 컨테이너 몇 개짜리 서비스라면, 이미지만 주면 실행과 재시작을 맡아 주는 관리형 컨테이너 서비스가 훨씬 가볍습니다.</p>
+</div>
+</section>
+<section class="level2" id="scaling">
+<h2><span class="sec-n">21.7</span>자동 확장과 서버리스: 늘리기 쉬운 서버, 어려운 서버<a aria-label="이 절의 링크" class="anchor" href="#scaling">#</a></h2>
+<p>찰칵이 방송에 소개되어 저녁 8시에 요청이 평소의 열 배로 뛰었습니다. 이럴 때 서버 대수를 알아서 늘리고 줄이는 기능이 <strong>자동 확장</strong>(autoscaling)입니다. 규칙은 이렇게 적습니다. "CPU 사용률이 70%를 넘으면 한 대 추가, 30% 아래면 한 대 제거. 최소 2대, 최대 10대." 최대 대수는 꼭 정합니다. 서버가 한도 없이 늘면 요금도 한도 없이 늡니다.</p>
+<p>편리하지만 한계가 셋 있습니다.</p>
+<ol type="1">
+<li><strong>시간이 걸립니다.</strong> 몰린 것을 알아채고 새 서버가 준비되기까지 짧게는 수십 초, 길게는 몇 분이 걸립니다. 그동안은 있던 서버가 버텨야 합니다.</li>
+<li><strong>상태 없는 서버여야 합니다.</strong> 아래 그림이 그 이유입니다.</li>
+<li><strong>뒤쪽은 함께 늘지 않습니다.</strong> 앱 서버가 열 대가 되어도 데이터베이스는 한 대입니다. 실전 사례에서 다룹니다.</li>
+</ol>
+<figure class="fig" id="fig-stateless-scale"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>로그인 기록을 서버 메모리에 두면 다른 서버는 모르고, 바깥 저장소에 두면 어느 서버로 가도 된다</title>
+
+  <rect class="panel" x="20" y="20" width="350" height="300" rx="16"/>
+  <text class="t-l" x="36" y="50">서버 메모리에 두면</text>
+  <rect class="box warm" x="125" y="66" width="140" height="36" rx="10"/>
+  <text class="t-b mid" x="195" y="89">로드 밸런서</text>
+
+  <path class="ln blue" d="M170 106 L120 144" marker-end="url(#ah-blue)"/>
+  <text class="t-xs mid" x="92" y="126">① 로그인</text>
+  <path class="ln blue" d="M220 106 L270 144" marker-end="url(#ah-blue)"/>
+  <text class="t-xs mid" x="302" y="126">② 내 사진 보기</text>
+
+  <rect class="box blue" x="36" y="150" width="152" height="96" rx="12"/>
+  <text class="t-b" x="48" y="174">서버 1</text>
+  <rect class="box green" x="48" y="184" width="128" height="26" rx="6"/>
+  <text class="t-s t-ink mid" x="112" y="202">민지: 로그인됨</text>
+  <text class="t-mono tc-green" x="48" y="234">200 OK</text>
+
+  <rect class="box blue" x="202" y="150" width="152" height="96" rx="12"/>
+  <text class="t-b" x="214" y="174">서버 2</text>
+  <rect class="ghost dash" x="214" y="184" width="128" height="26" rx="6"/>
+  <text class="t-s mid" x="278" y="202">기록 없음</text>
+  <text class="t-mono tc-red" x="214" y="234">401 누구세요?</text>
+
+  <text class="t-s" x="36" y="276">두 번째 요청이 서버 2로 가면</text>
+  <text class="t-s" x="36" y="296">로그인이 풀린 것처럼 보인다</text>
+
+  <rect class="panel" x="390" y="20" width="350" height="300" rx="16"/>
+  <text class="t-l" x="406" y="50">바깥 저장소에 두면</text>
+  <rect class="box warm" x="495" y="66" width="140" height="36" rx="10"/>
+  <text class="t-b mid" x="565" y="89">로드 밸런서</text>
+
+  <path class="ln blue" d="M540 106 L490 144" marker-end="url(#ah-blue)"/>
+  <text class="t-xs mid" x="462" y="126">① 로그인</text>
+  <path class="ln blue" d="M590 106 L640 144" marker-end="url(#ah-blue)"/>
+  <text class="t-xs mid" x="672" y="126">② 내 사진 보기</text>
+
+  <rect class="box blue" x="406" y="150" width="152" height="60" rx="12"/>
+  <text class="t-b" x="418" y="174">서버 1</text>
+  <text class="t-mono tc-green" x="418" y="198">200 OK</text>
+
+  <rect class="box blue" x="572" y="150" width="152" height="60" rx="12"/>
+  <text class="t-b" x="584" y="174">서버 2</text>
+  <text class="t-mono tc-green" x="584" y="198">200 OK</text>
+
+  <path class="ln green" d="M482 214 L516 244" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M648 214 L614 244" marker-end="url(#ah-green)"/>
+
+  <rect class="box green" x="466" y="250" width="198" height="54" rx="12"/>
+  <use href="#i-db" x="476" y="261" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="518" y="273">세션 저장소</text>
+  <text class="t-s" x="518" y="293">민지: 로그인됨</text>
+</svg></div><figcaption><b>그림 21-8</b>로그인 기록을 서버 1의 메모리에만 두면, 새로 생긴 서버 2는 민지가 누구인지 모릅니다. 기록을 모두가 보는 세션 저장소에 두면 어느 서버가 받아도 됩니다.</figcaption></figure>
+<p>로그인 기록, 업로드 파일, 진행 중인 작업처럼 <strong>다음 요청에서 다시 필요한 것</strong>은 서버 밖에 둡니다.</p>
+<section class="level3" id="서버리스-요청이-올-때만-생기는-자리">
+<h3>서버리스: 요청이 올 때만 생기는 자리</h3>
+<p><strong>서버리스</strong>는 자동 확장을 끝까지 밀고 간 방식입니다. 함수 하나를 올려 두면 요청이 없을 때는 0대이고, 요청이 오면 그때 실행 환경을 만들어 돌립니다. 서버가 없다는 뜻이 아니라 서버를 내가 챙기지 않는다는 뜻입니다.</p>
+<p>대가는 <strong>콜드 스타트</strong>(cold start)입니다. 한동안 쉬다가 받은 첫 요청은 실행 환경을 준비하는 시간만큼 늦어집니다. 평소 50ms에 끝나던 일이 첫 번째만 1초 가까이 걸리는 식입니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>잘 맞는 일</th>
+<th>잘 맞지 않는 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>미리보기 사진 만들기처럼 짧고 가끔 오는 작업</td>
+<td>게임 방처럼 연결을 오래 붙잡는 일</td>
+</tr>
+<tr>
+<td>한가할 때와 몰릴 때의 차이가 큰 서비스</td>
+<td>첫 응답부터 늘 빨라야 하는 일</td>
+</tr>
+</tbody>
+</table></div>
+<p>서버리스 함수는 실행 시간에 한도가 있고, 실행이 끝나면 메모리와 임시 파일이 사라집니다. 가장 철저한 상태 없는 서버입니다.</p>
+</section>
+</section>
+<section class="level2" id="iac">
+<h2><span class="sec-n">21.8</span>인프라를 코드로: 선언, 상태 파일, plan<a aria-label="이 절의 링크" class="anchor" href="#iac">#</a></h2>
+<p>서버와 방화벽 규칙은 클라우드의 웹 화면에서 클릭으로도 만들 수 있습니다. 문제는 석 달 뒤입니다. 누가 왜 이 포트를 열었는지 아무도 모릅니다. 똑같은 환경을 하나 더 만들 수도 없습니다.</p>
+<p><strong>IaC</strong>(Infrastructure as Code)는 서버, 네트워크, 권한을 파일에 적어 두고 도구가 그대로 만들게 하는 방식입니다. Terraform이 대표적인 도구입니다. 파일이므로 Git(<a href="ch07.html">7장</a>)에 넣어 이력을 남기고 리뷰할 수 있습니다.</p>
+<p>여기서도 명령이 아니라 원하는 상태를 적습니다. 이때 세 가지를 구분해야 합니다.</p>
+<ul>
+<li><strong>선언 파일</strong>은 내가 원하는 것입니다. "앱 서버 3대, 데이터베이스 1대."</li>
+<li><strong>실제 자원</strong>은 지금 클라우드에 있는 것입니다.</li>
+<li><strong>상태 파일</strong>(state)은 도구의 장부입니다. 선언의 "서버 첫 번째"가 실제의 <code>srv-a1</code>이라는 연결을 적어 둡니다.</li>
+</ul>
+<p><code>plan</code> 명령은 이 셋을 비교해서 무엇을 만들고 고치고 지울지 <strong>미리</strong> 보여 줍니다. 실제로 바꾸는 명령은 <code>apply</code>입니다.</p>
+<figure class="fig" id="fig-iac-plan"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 392" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>plan은 선언 파일, 상태 파일, 실제 자원을 비교해 무엇을 만들고 지울지 적용 전에 보여 준다</title>
+
+  <rect class="box blue" x="20" y="20" width="226" height="166" rx="14"/>
+  <text class="t-l" x="36" y="48">선언 파일</text>
+  <text class="t-s" x="36" y="68">내가 고친 것 (원하는 상태)</text>
+  <text class="t-mono tc-red" x="36" y="100">- 서버 = 2</text>
+  <text class="t-mono tc-green" x="36" y="122">+ 서버 = 3</text>
+  <text class="t-mono tc-red" x="36" y="150">- DB 암호화 = 끔</text>
+  <text class="t-mono tc-green" x="36" y="172">+ DB 암호화 = 켬</text>
+
+  <rect class="box" x="267" y="20" width="226" height="166" rx="14"/>
+  <text class="t-l" x="283" y="48">상태 파일</text>
+  <text class="t-s" x="283" y="68">도구의 장부 (이름과 실제 ID)</text>
+  <text class="t-mono" x="283" y="104">서버[0]</text>
+  <text class="t-mono" x="352" y="104">→ srv-a1</text>
+  <text class="t-mono" x="283" y="132">서버[1]</text>
+  <text class="t-mono" x="352" y="132">→ srv-b2</text>
+  <text class="t-mono" x="283" y="160">DB</text>
+  <text class="t-mono" x="352" y="160">→ db-9f</text>
+
+  <rect class="box green" x="514" y="20" width="226" height="166" rx="14"/>
+  <text class="t-l" x="530" y="48">실제 자원</text>
+  <text class="t-s" x="530" y="68">지금 클라우드에 있는 것</text>
+  <use href="#i-server" x="530" y="85" width="26" height="26" class="ic green"/>
+  <text class="t-mono" x="566" y="104">srv-a1</text>
+  <use href="#i-server" x="530" y="113" width="26" height="26" class="ic green"/>
+  <text class="t-mono" x="566" y="132">srv-b2</text>
+  <use href="#i-db" x="530" y="141" width="26" height="26" class="ic green"/>
+  <text class="t-mono" x="566" y="160">db-9f</text>
+
+  <path class="ln muted" d="M133 190 V206 H627 V190"/>
+  <path class="ln muted" d="M380 190 V228" marker-end="url(#ah-muted)"/>
+  <text class="t-s t-b" x="394" y="224">plan: 셋을 비교해 미리 보기</text>
+
+  <rect class="box" x="20" y="236" width="720" height="138" rx="14"/>
+  <text class="t-mono t-b tc-green" x="36" y="264">+ 서버[2]</text>
+  <text class="t-s" x="150" y="264">서버 한 대를 새로 만든다</text>
+  <text class="t-mono t-b tc-red" x="36" y="290">-/+ DB</text>
+  <text class="t-s t-b tc-red" x="150" y="290">DB를 지우고 새로 만든다. 안의 데이터는 따라오지 않는다</text>
+  <path class="ln thin muted" d="M36 304 H724"/>
+  <text class="t-mono t-b" x="36" y="328">Plan: 2 to add, 0 to change, 1 to destroy.</text>
+  <text class="t-xs" x="36" y="354">고친 곳은 두 군데뿐인데 하나는 DB 교체입니다. 적용(apply)하기 전에 반드시 읽습니다.</text>
+</svg></div><figcaption><b>그림 21-9</b>선언 파일에서 두 군데를 고친 뒤 plan을 실행한 결과입니다.</figcaption></figure>
+<p>그림에서 서버 수를 바꾼 것은 짐작한 대로 한 대 추가입니다. 그런데 데이터베이스 암호화는 만든 뒤에는 바꿀 수 없는 설정이었습니다. 도구는 고지식하게 "지우고 새로 만들기"를 계획합니다. 새로 만든 데이터베이스는 비어 있습니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>IaC에서 리뷰할 것은 고친 코드가 아니라 <strong>plan의 결과</strong>입니다. <code>destroy</code>가 한 건이라도 있으면 무엇이 지워지는지 확인하기 전에는 적용하지 않습니다.</p>
+</div>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
+<p>상태 파일에는 데이터베이스 비밀번호 같은 값이 그대로 적힐 수 있습니다. Git에 올리지 말고 접근을 제한한 원격 저장소에 둡니다. 두 사람이 동시에 적용하지 못하게 잠금 기능도 켭니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>구성 드리프트: 선언과 실제가 어긋날 때</summary><div class="deep-body">
+<p>장애가 나서 웹 화면에서 급히 메모리를 2GB에서 4GB로 올렸습니다. 선언 파일에는 여전히 2GB라고 적혀 있습니다. 이런 어긋남이 <strong>드리프트</strong>(drift)입니다.</p>
+<p>다음에 누군가 적용하면 도구는 선언대로 2GB로 되돌리고, 같은 장애가 다시 납니다. 손으로 급히 고쳤다면 선언 파일도 곧바로 고칩니다. plan에 내가 고치지 않은 변경이 보이면 드리프트를 의심합니다.</p>
+</div></details>
+</section>
+<section class="level2" id="ops">
+<h2><span class="sec-n">21.9</span>운영의 기본기: 신분증, 백업, 요금<a aria-label="이 절의 링크" class="anchor" href="#ops">#</a></h2>
+<section class="level3" id="프로그램에게도-신분증을">
+<h3>프로그램에게도 신분증을</h3>
+<p>찰칵의 앱 서버가 객체 저장소에 사진을 올리려면 그럴 자격이 있음을 증명해야 합니다. 가장 쉬운 길은 내 관리자 키를 앱에 넣는 것이고, 가장 위험한 길이기도 합니다. 새어 나가면 계정 전체가 넘어갑니다.</p>
+<p><strong>서비스 계정</strong>(service account)은 사람이 아니라 프로그램에게 발급하는 신분증입니다. <a href="ch19.html">19장</a>의 최소 권한 그대로, 찰칵의 서비스 계정에는 "사진 창고에 읽고 쓰기"만 허락합니다.</p>
+<p>데이터베이스 비밀번호 같은 <strong>비밀값</strong>은 코드에도 이미지에도 넣지 않습니다. 클라우드의 비밀 저장소에 두고, 컨테이너가 켜질 때 환경 변수(<a href="ch06.html">6장</a>)로 넣어 줍니다. 이것을 <strong>주입</strong>이라고 합니다. 코드에는 <code>DB_PASSWORD</code>라는 이름만 남습니다.</p>
+</section>
+<section class="level3" id="백업은-복구해-봐야-백업입니다">
+<h3>백업은 복구해 봐야 백업입니다</h3>
+<p>볼륨과 관리형 데이터베이스도 실수로 지운 것까지 되살려 주지는 않습니다. 원본을 실시간으로 따라 하는 <strong>복제본</strong>이 있어도 마찬가지입니다. 원본에서 지우면 복제본에서도 곧 지워집니다. 그래서 <strong>스냅샷</strong>(snapshot)을 찍어 둡니다. 디스크나 데이터베이스의 어느 시점을 통째로 남긴 사본입니다.</p>
+<figure class="fig" id="fig-backup-timeline"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 326" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>백업을 하루 한 번 하면 사고 때 11시간 20분치 기록을 잃고, 한 시간마다 하면 20분치만 잃는다</title>
+
+  <text class="t-b" x="20" y="36">하루 한 번 백업한 경우</text>
+  <path class="ln thin muted" d="M60 100 H724"/>
+  <rect class="solid red" x="80" y="91" width="567" height="18" rx="4"/>
+  <rect class="solid warm" x="647" y="91" width="33" height="18" rx="4"/>
+  <text class="t-s t-on t-b mid" x="364" y="105">잃는 기록 11시간 20분</text>
+  <circle class="f-green" cx="80" cy="100" r="8"/>
+  <text class="t-mono" x="58" y="74">03:00 백업</text>
+  <path class="ln red" d="M647 82 V118"/>
+  <text class="t-mono tc-red mid" x="647" y="74">14:20 사고</text>
+  <text class="t-s t-b tc-warm mid" x="663" y="138">15:00까지 40분 멈춤</text>
+
+  <path class="ln thin muted dash" d="M20 160 H740"/>
+
+  <text class="t-b" x="20" y="192">한 시간마다 백업한 경우</text>
+  <path class="ln thin muted" d="M60 250 H724"/>
+  <rect class="solid red" x="630" y="241" width="17" height="18" rx="4"/>
+  <rect class="solid warm" x="647" y="241" width="33" height="18" rx="4"/>
+  <circle class="f-green" cx="80" cy="250" r="6"/>
+  <circle class="f-green" cx="130" cy="250" r="6"/>
+  <circle class="f-green" cx="180" cy="250" r="6"/>
+  <circle class="f-green" cx="230" cy="250" r="6"/>
+  <circle class="f-green" cx="280" cy="250" r="6"/>
+  <circle class="f-green" cx="330" cy="250" r="6"/>
+  <circle class="f-green" cx="380" cy="250" r="6"/>
+  <circle class="f-green" cx="430" cy="250" r="6"/>
+  <circle class="f-green" cx="480" cy="250" r="6"/>
+  <circle class="f-green" cx="530" cy="250" r="6"/>
+  <circle class="f-green" cx="580" cy="250" r="6"/>
+  <circle class="f-green" cx="630" cy="250" r="6"/>
+  <text class="t-xs" x="72" y="278">03:00부터 매시 정각에 백업</text>
+  <path class="ln red" d="M647 232 V268"/>
+  <text class="t-s t-b tc-red end" x="638" y="224">잃는 기록 20분 (14:00 백업 이후)</text>
+  <text class="t-mono tc-red" x="656" y="224">14:20 사고</text>
+  <text class="t-s t-b tc-warm mid" x="663" y="290">15:00까지 40분 멈춤</text>
+
+  <text class="t-xs" x="20" y="314">백업 간격이 '얼마나 잃는가'를, 복구 연습이 '얼마나 오래 멈추는가'를 정합니다.</text>
+</svg></div><figcaption><b>그림 21-10</b>14시 20분에 누군가 테이블을 잘못 지웠습니다. 마지막 백업 이후의 기록(빨강)은 되찾을 수 없고, 복구가 끝날 때까지(주황) 서비스가 멈춥니다.</figcaption></figure>
+<p>백업은 원본과 다른 곳에 둡니다. 같은 계정, 같은 리전에 두면 사고 한 번에 함께 사라질 수 있습니다. 그리고 가끔은 빈 환경에 실제로 복구해 봅니다. 한 번도 복구해 보지 않은 백업은 있는지 없는지 모르는 백업입니다.</p>
+</section>
+<section class="level3" id="요금이-새는-곳">
+<h3>요금이 새는 곳</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>새는 곳</th>
+<th>왜 놓치나</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>켜 둔 채 잊은 서버</td>
+<td>쓰지 않아도 켜져 있으면 시간마다 요금이 붙습니다</td>
+</tr>
+<tr>
+<td>주인 없는 디스크와 스냅샷</td>
+<td>서버를 지워도 딸린 저장 공간은 남는 경우가 많습니다</td>
+</tr>
+<tr>
+<td>로그</td>
+<td>1KB짜리를 초당 1,000줄 남기면 하루 86.4GB입니다</td>
+</tr>
+<tr>
+<td>밖으로 나가는 데이터</td>
+<td>다른 리전이나 인터넷으로 내보내는 양에 요금이 붙습니다</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령</div>
+<p>계정을 만들면 <strong>예산 알림</strong>부터 겁니다. "이번 달 요금이 3만 원을 넘으면 메일로 알려 줘"라는 설정 하나가 청구서의 놀람을 막아 줍니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>가상 머신 / 컨테이너</td>
+<td>운영체제까지 갖춘 가짜 컴퓨터 / 커널을 함께 쓰는 칸막이 친 프로세스</td>
+</tr>
+<tr>
+<td>이미지 / 컨테이너</td>
+<td>싸 둔 상자(바뀌지 않음) / 상자를 풀어 실행한 것(일회용)</td>
+</tr>
+<tr>
+<td>재시작 / 새로 만들기</td>
+<td>같은 컨테이너를 껐다 켬, 안의 파일이 남음 / 지우고 새로 만듦, 안의 파일이 사라짐</td>
+</tr>
+<tr>
+<td>메모리 제한 / CPU 제한</td>
+<td>넘으면 강제 종료 / 넘으면 느려짐</td>
+</tr>
+<tr>
+<td>복제 / 백업</td>
+<td>지금 상태를 다른 곳에 똑같이 따라 함(실수도 따라 함) / 과거 시점으로 돌아갈 사본</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 서버를 2대에서 10대로 늘렸는데 오류가 더 늘었다</div>
+<p>찰칵에 사용자가 몰려 앱 서버를 2대에서 10대로 늘렸습니다. 그런데 "데이터베이스에 연결할 수 없습니다"라는 오류가 오히려 쏟아집니다.</p>
+<ol type="1">
+<li><strong>늘리기 전과 비교합니다.</strong> 앱 서버의 CPU는 한가합니다. 대신 데이터베이스의 연결 수가 한도에 딱 붙어 있습니다.</li>
+<li><strong>곱해 봅니다.</strong> 앱 서버는 한 대마다 데이터베이스 연결을 최대 80개까지 열어 둡니다. 2대일 때는 160개였지만 10대가 되자 10 × 80 = 800개입니다. 데이터베이스의 한도는 500개입니다.</li>
+<li><strong>맞춥니다.</strong> 서버당 최대 연결을 40개로 낮춥니다. 10 × 40 = 400개로 한도 안에 들어옵니다.</li>
+<li><strong>확인합니다.</strong> 같은 부하를 다시 걸어 연결 오류와 응답 시간을 전과 비교합니다.</li>
+</ol>
+<p>앱 서버는 늘릴 수 있어도 모두가 함께 쓰는 데이터베이스는 그대로입니다. 서버를 늘리기 전에 "이 서버들이 뒤에서 무엇을 나눠 쓰는가"를 먼저 묻습니다.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li><strong>클라우드</strong>는 남의 컴퓨터를 빌려 쓰는 일입니다. 가상 머신에서 관리형 서비스로 갈수록 내가 관리할 층이 줄어듭니다.</li>
+<li><strong>컨테이너</strong>는 커널을 함께 쓰는 칸막이 친 프로세스이고, <strong>이미지</strong>는 그 살림을 싸 둔 상자입니다.</li>
+<li>컨테이너는 일회용입니다. 파일과 로그인 기록은 <strong>컨테이너 밖</strong>에 둡니다.</li>
+<li>메모리 제한을 넘으면 로그도 없이 강제 종료됩니다. <code>OOMKilled</code>와 종료 코드 <code>137</code>이 그 흔적입니다.</li>
+<li>바깥에는 로드 밸런서만 열고, 앱 서버와 데이터베이스는 비공개 서브넷에 둡니다.</li>
+<li>오케스트레이터와 IaC에는 <strong>원하는 상태</strong>를 적습니다. 적용하기 전에 <code>plan</code>을 읽습니다.</li>
+<li>서버를 늘려도 뒤쪽의 데이터베이스는 그대로입니다. 백업은 복구해 봐야 백업입니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>컨테이너를 재시작했는데 업로드한 파일이 그대로 남아 있었습니다. 새 버전을 배포해도 남는다고 봐도 될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>안 됩니다. 재시작은 같은 컨테이너를 껐다 켜는 것이라 파일이 남습니다. 배포는 컨테이너를 지우고 새로 만드는 것이라 파일이 사라집니다. 파일을 볼륨이나 객체 저장소에 두고, 지웠다 만든 뒤에도 보이는지 시험합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>사진을 변환하는 컨테이너가 로그 한 줄 없이 가끔 꺼집니다. 종료 코드는 137입니다. CPU를 두 배로 늘리면 해결될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>해결되지 않습니다. 137과 로그 없는 종료는 메모리 제한을 넘어 강제 종료된 흔적입니다. CPU가 모자라면 느려질 뿐 죽지는 않습니다. 동시에 처리하는 사진 수를 줄이거나 메모리 제한을 올립니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>앱 서버를 1대에서 3대로 늘린 뒤 "로그인이 가끔 풀린다"는 신고가 들어옵니다. 무엇을 의심해야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>로그인 기록을 서버의 메모리에 두고 있을 가능성이 큽니다. 요청이 로그인한 서버가 아닌 다른 서버로 가면 그 서버는 기록을 모릅니다. 기록을 모든 서버가 함께 보는 저장소로 옮깁니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>IaC 파일에서 한 줄만 고쳤고 코드 리뷰도 통과했습니다. plan을 건너뛰고 바로 적용해도 될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>안 됩니다. 코드에서는 한 줄이어도 실제로는 자원을 지우고 새로 만드는 변경일 수 있습니다. plan에서 만들고 고치고 지우는 대상을 확인한 뒤 적용합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>데이터베이스에 원본을 실시간으로 따라 하는 복제본이 있습니다. 실수로 주문 테이블을 지웠다면 복제본에서 되살릴 수 있을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>대개 되살릴 수 없습니다. 복제본은 삭제도 곧바로 따라 합니다. 복제는 기계 고장에 대비하는 것이고, 실수에 대비하는 것은 과거 시점을 남겨 둔 백업입니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>AI 도구는 인프라를 물으면 크고 복잡한 구성을 내놓기 쉽습니다. <strong>규모와 운영 인원을 먼저 알려 주고, 바꾸기 전에 계획부터</strong> 보여 달라고 하세요.</p>
+<blockquote>
+<p>사진 공유 앱을 클라우드에 올릴 구성을 제안해 줘. 파이썬 API 하나, PostgreSQL, 업로드된 사진이 있어. 하루 사용자는 200명쯤이고 운영은 나 혼자 해. 가상 머신, 관리형 컨테이너, 서버리스 중 가장 작은 구성을 골라 이유를 설명해 줘. 컨테이너를 새로 만들어도 사진과 DB가 남는지, 비밀값을 어디에 두고 어떻게 넣는지, 한 달 요금을 어떤 가정으로 계산했는지 밝혀 줘. 인프라를 바꾸는 명령은 plan까지만 실행해서 결과를 보여 주고, apply는 내가 확인한 뒤에 해.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: 규모에 비해 과한 구성(쿠버네티스, 여러 리전)은 아닌가, 데이터가 컨테이너 밖에 있는가, <code>0.0.0.0/0</code>으로 열린 데이터베이스 포트가 없는가, 비밀값이 코드나 Dockerfile에 적혀 있지 않은가, plan에 <code>destroy</code>가 있는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>클라우드<small>cloud</small></dt>
+<dd>
+데이터센터의 컴퓨터를 필요한 만큼 빌려 쓰는 방식.
+</dd>
+<dt>가상 머신<small>VM, Virtual Machine</small></dt>
+<dd>
+소프트웨어로 만든 가짜 컴퓨터. 운영체제를 저마다 갖는다.
+</dd>
+<dt>컨테이너<small>container</small></dt>
+<dd>
+커널을 함께 쓰는 칸막이 친 프로세스. 이미지를 실행한 것.
+</dd>
+<dt>이미지<small>image</small></dt>
+<dd>
+프로그램과 실행에 필요한 것을 하나로 싸 둔 상자.
+</dd>
+<dt>볼륨<small>volume</small></dt>
+<dd>
+컨테이너를 지워도 남는, 컨테이너 밖의 저장 공간.
+</dd>
+<dt>상태 없는 서버<small>stateless</small></dt>
+<dd>
+다음 요청에 필요한 것을 자기 안에 쌓아 두지 않는 서버.
+</dd>
+<dt>OOM<small>Out Of Memory</small></dt>
+<dd>
+메모리 한도를 넘어 프로세스가 강제로 끝나는 일.
+</dd>
+<dt>사설망<small>VPC, Virtual Private Cloud</small></dt>
+<dd>
+클라우드 안에 만드는 나만의 네트워크 울타리.
+</dd>
+<dt>리전<small>region</small></dt>
+<dd>
+데이터센터가 모여 있는 지역. 그 안의 독립된 묶음이 가용 영역이다.
+</dd>
+<dt>오케스트레이터<small>orchestrator</small></dt>
+<dd>
+컨테이너를 배치하고 원하는 개수로 유지하는 관리 프로그램.
+</dd>
+<dt>헬스 체크<small>health check</small></dt>
+<dd>
+서버가 정상인지 주기적으로 물어보는 검사.
+</dd>
+<dt>자동 확장<small>autoscaling</small></dt>
+<dd>
+부하에 따라 서버 대수를 늘리고 줄이는 기능.
+</dd>
+<dt>콜드 스타트<small>cold start</small></dt>
+<dd>
+쉬던 서버리스 함수의 첫 요청이 준비 시간만큼 늦는 현상.
+</dd>
+<dt>IaC<small>Infrastructure as Code</small></dt>
+<dd>
+인프라의 원하는 상태를 파일에 적고 도구로 적용하는 방식.
+</dd>
+<dt>서비스 계정<small>service account</small></dt>
+<dd>
+사람이 아니라 프로그램에게 발급하는 신분증.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-container/" rel="noopener" target="_blank">Docker — What is a container?</a> — 컨테이너와 가상 머신의 차이를 그림으로 설명합니다.</li>
+<li><a href="https://docs.docker.com/get-started/docker-concepts/running-containers/persisting-container-data/" rel="noopener" target="_blank">Docker — Persisting container data</a> — 컨테이너를 지워도 볼륨의 데이터가 남는 것을 따라 해 봅니다.</li>
+<li><a href="https://learn.microsoft.com/ko-kr/azure/architecture/guide/technology-choices/compute-decision-tree" rel="noopener" target="_blank">Microsoft Learn — Azure 컴퓨팅 서비스 선택</a> — 가상 머신, 컨테이너, 서버리스 중 무엇을 고를지 한국어로 안내합니다.</li>
+<li><a href="https://developer.hashicorp.com/terraform/cli/commands/plan" rel="noopener" target="_blank">Terraform — plan</a> — plan이 무엇을 비교하고 결과를 어떻게 읽는지 설명합니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch20.html"><small>← 이전 · 20장</small><b>빌드와 배포</b></a><a class="next" href="ch22.html"><small>다음 · 22장 →</small><b>로그와 관측</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#rent">서버는 남의 컴퓨터, 클라우드는 그것을 빌리는 일</a><a href="#vm-container">가상 머신과 컨테이너: 집 한 채와 같은 건물의 방</a><a href="#image">이미지: 살림을 통째로 싸 둔 규격 상자</a><a href="#disposable">컨테이너는 일회용: 데이터는 방 밖에</a><a href="#network">클라우드 안의 길: 사설망과 문단속</a><a href="#orchestration">여러 대를 돌보기: 원하는 상태와 헬스 체크</a><a href="#scaling">자동 확장과 서버리스: 늘리기 쉬운 서버, 어려운 서버</a><a href="#iac">인프라를 코드로: 선언, 상태 파일, plan</a><a href="#ops">운영의 기본기: 신분증, 백업, 요금</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg">
+  <title>두 상자는 x 범위와 y 범위가 모두 겹칠 때만 충돌한다. 한 축이라도 떨어져 있으면 충돌이 아니다</title>
+  <defs>
+    <pattern id="ch24-aabb-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path class="ln thin muted" d="M30 0 H0 V30"/>
+    </pattern>
+  </defs>
+
+  <text class="t-b tc-red" x="20" y="32">x도 y도 겹친다 → 충돌</text>
+  <rect x="60" y="60" width="270" height="210" fill="url(#ch24-aabb-grid)"/>
+  <path class="ln" d="M60 54 V270 H338"/>
+  <text class="t-xs" x="342" y="274">x</text>
+  <text class="t-xs mid" x="60" y="48">y</text>
+  <rect class="box blue" x="120" y="150" width="90" height="90"/>
+  <rect class="box warm" x="180" y="90" width="120" height="90"/>
+  <rect class="solid red" x="180" y="150" width="30" height="30"/>
+  <text class="t-b tc-blue" x="128" y="200">A</text>
+  <text class="t-mono" x="128" y="218">x 2~5</text>
+  <text class="t-mono" x="128" y="234">y 1~4</text>
+  <text class="t-b tc-warm" x="222" y="112">B</text>
+  <text class="t-mono" x="222" y="130">x 4~8</text>
+  <text class="t-mono" x="222" y="146">y 3~6</text>
+  <path class="ln thick blue" d="M120 280 H210"/>
+  <path class="ln thick warm" d="M180 288 H300"/>
+  <path class="ln thick blue" d="M50 150 V240"/>
+  <path class="ln thick warm" d="M42 90 V180"/>
+  <text class="t-s" x="60" y="316">x: 2~5와 4~8 → 4~5에서 겹침</text>
+  <text class="t-s" x="60" y="336">y: 1~4와 3~6 → 3~4에서 겹침</text>
+
+  <text class="t-b tc-green" x="400" y="32">x가 떨어져 있다 → 충돌 아님</text>
+  <rect x="440" y="60" width="270" height="210" fill="url(#ch24-aabb-grid)"/>
+  <path class="ln" d="M440 54 V270 H718"/>
+  <text class="t-xs" x="722" y="274">x</text>
+  <text class="t-xs mid" x="440" y="48">y</text>
+  <rect class="box blue" x="500" y="150" width="90" height="90"/>
+  <rect class="box warm" x="620" y="120" width="90" height="90"/>
+  <text class="t-b tc-blue" x="508" y="200">A</text>
+  <text class="t-mono" x="508" y="218">x 2~5</text>
+  <text class="t-mono" x="508" y="234">y 1~4</text>
+  <text class="t-b tc-warm" x="628" y="142">C</text>
+  <text class="t-mono" x="628" y="160">x 6~9</text>
+  <text class="t-mono" x="628" y="176">y 2~5</text>
+  <path class="ln thick blue" d="M500 280 H590"/>
+  <path class="ln thick warm" d="M620 288 H710"/>
+  <path class="ln thick blue" d="M430 150 V240"/>
+  <path class="ln thick warm" d="M422 120 V210"/>
+  <text class="t-s" x="440" y="316">x: 2~5와 6~9 → 떨어져 있음</text>
+  <text class="t-s" x="440" y="336">y는 겹치지만 볼 필요도 없음</text>
+</svg>

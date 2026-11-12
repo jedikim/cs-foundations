@@ -1,0 +1,47 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 시험지 100문제에서 전체 점수는 82점에서 86점으로 올랐지만, 유형별로 나눠 보면 경계 문제는 12개에서 8개로 떨어졌다</title>
+
+  <text class="t-h" x="20" y="34">같은 시험지 100문제, 프롬프트를 바꾸기 전과 후</text>
+  <rect class="solid gray" x="590" y="22" width="14" height="14" rx="3"/>
+  <text class="t-s" x="610" y="34">이전</text>
+  <rect class="solid blue" x="652" y="22" width="14" height="14" rx="3"/>
+  <text class="t-s" x="672" y="34">새 버전</text>
+
+  <text class="t-b" x="20" y="75">전체 100문제</text>
+  <text class="t-xs end" x="190" y="75">이전</text>
+  <text class="t-xs end" x="190" y="99">새 버전</text>
+  <rect class="ghost" x="200" y="60" width="320" height="20" rx="4"/>
+  <rect class="ghost" x="200" y="84" width="320" height="20" rx="4"/>
+  <rect class="solid gray" x="200" y="60" width="262.400" height="20" rx="4"/>
+  <rect class="solid blue" x="200" y="84" width="275.200" height="20" rx="4"/>
+  <text class="t-mono" x="528" y="75">82 / 100</text>
+  <text class="t-mono" x="528" y="99">86 / 100</text>
+  <text class="t-b tc-green" x="620" y="87">4점 올랐다</text>
+
+  <text class="t-b" x="20" y="147">일반 80문제</text>
+  <text class="t-xs" x="20" y="170">자주 오는 질문</text>
+  <text class="t-xs end" x="190" y="147">이전</text>
+  <text class="t-xs end" x="190" y="171">새 버전</text>
+  <rect class="ghost" x="200" y="132" width="256" height="20" rx="4"/>
+  <rect class="ghost" x="200" y="156" width="256" height="20" rx="4"/>
+  <rect class="solid gray" x="200" y="132" width="224" height="20" rx="4"/>
+  <rect class="solid blue" x="200" y="156" width="249.600" height="20" rx="4"/>
+  <text class="t-mono" x="464" y="147">70 / 80</text>
+  <text class="t-mono" x="464" y="171">78 / 80</text>
+  <text class="t-b tc-green" x="620" y="159">8문제 더 맞힘</text>
+
+  <text class="t-b" x="20" y="219">경계 20문제</text>
+  <text class="t-xs" x="20" y="242">예외가 걸린 질문</text>
+  <text class="t-xs end" x="190" y="219">이전</text>
+  <text class="t-xs end" x="190" y="243">새 버전</text>
+  <rect class="ghost" x="200" y="204" width="64" height="20" rx="4"/>
+  <rect class="ghost" x="200" y="228" width="64" height="20" rx="4"/>
+  <rect class="solid gray" x="200" y="204" width="38.400" height="20" rx="4"/>
+  <rect class="solid red" x="200" y="228" width="25.600" height="20" rx="4"/>
+  <text class="t-mono" x="272" y="219">12 / 20 = 60%</text>
+  <text class="t-mono tc-red" x="272" y="243">8 / 20 = 40%</text>
+  <text class="t-b tc-red" x="620" y="231">4문제 더 틀림</text>
+
+  <rect class="box yellow" x="20" y="268" width="720" height="44" rx="12"/>
+  <text class="t-b mid" x="380" y="296">전체 점수만 봤다면 ‘좋아졌다’며 내보냈을 변경입니다</text>
+</svg>

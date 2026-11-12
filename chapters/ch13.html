@@ -1,0 +1,1125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>13장 숫자로 시스템 읽기 — 개발의 기초</title>
+<meta name="description" content="단위·평균·백분위·확률">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch13" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html" aria-current="page"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">4부 연결되는 시스템 › <b>13장 숫자로 시스템 읽기</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-purple">
+<div class="ch-kicker"><span class="ch-no">13장</span><span class="part">4부 · 연결되는 시스템</span></div>
+<h1>숫자로 시스템 읽기</h1>
+<p class="ch-sub">단위·평균·백분위·확률</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 30분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch09.html">9장 알고리즘과 비용</a></div>
+</header><div class="lead">
+<p>"평균 응답 시간 200ms, 성공률 99%, 정확도 99%." 보고서에 이런 숫자가 적혀 있으면 마음이 놓입니다. 그런데 바로 그 서비스에서 어떤 사용자는 4초를 기다리고, 주문 열 건 중 한 건은 실패하고, 탐지기는 위험한 요청을 하나도 잡지 못하고 있을 수 있습니다. 숫자가 거짓말을 한 것은 아닙니다. <strong>숫자에는 읽는 법이 따로 있을</strong> 뿐입니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>ms와 µs, Mb와 MB처럼 헷갈리는 단위를 하나로 맞춰 놓고 계산할 수 있습니다.</li>
+<li>"평균 200ms"라는 말을 들으면 중앙값과 p95·p99를 함께 물을 수 있습니다.</li>
+<li>"성공률 99%", "정확도 99%"가 무엇을 숨길 수 있는지 분모를 짚어 설명할 수 있습니다.</li>
+<li>측정 결과를 믿기 전에 표본 크기, 빠진 데이터, 함께 바뀐 조건을 확인할 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="units">
+<h2><span class="sec-n">13.1</span>숫자 옆의 글자부터 읽습니다: 단위<a aria-label="이 절의 링크" class="anchor" href="#units">#</a></h2>
+<p>편의점 점장에게 "계산이 3 걸려요"라고 보고하면 점장은 되묻습니다. 3초인가요, 3분인가요? 숫자는 <strong>단위</strong>가 붙어야 뜻이 생깁니다. 이 장에서는 시스템을 편의점에, 서버를 계산대에, 요청을 손님에 빗대어 숫자 읽는 법을 익힙니다.</p>
+<section class="level3" id="시간-천-배씩-짧아지는-네-계단">
+<h3>시간: 천 배씩 짧아지는 네 계단</h3>
+<p>컴퓨터는 사람이 느끼지 못할 만큼 짧은 시간을 다루므로 1초를 잘게 쪼갠 단위를 씁니다.</p>
+<figure class="fig" id="fig-unit-ladder"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 344" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>1초를 천 조각 내면 밀리초, 그 한 조각을 다시 천 조각 내면 마이크로초, 또 천 조각 내면 나노초다</title>
+  <text class="t-s t-b" x="20" y="30">단위</text>
+  <text class="t-s t-b" x="170" y="30">길이 — 윗줄의 한 조각을 1,000배 확대</text>
+  <text class="t-s t-b" x="545" y="30">이 단위로 재는 것</text>
+  <path class="ln thin muted" d="M20 42 H740"/>
+  <path class="s-warm" d="M170 96 H176 L520 132 H170 Z"/>
+  <path class="ln thin warm dash" d="M176 96 L520 132"/>
+  <text class="t-xs end tc-warm" x="520" y="113">×1,000</text>
+  <text class="t-b" x="20" y="74">초 (s)</text>
+  <text class="t-s" x="20" y="93">기준</text>
+  <rect class="box blue" x="170" y="56" width="350" height="40" rx="4"/>
+  <rect class="solid warm" x="170" y="56" width="6" height="40" rx="2"/>
+  <text class="t-b mid" x="345" y="82">1초</text>
+  <text class="t-s" x="545" y="74">큰 파일 내려받기</text>
+  <text class="t-s" x="545" y="92">빌드, 테스트 실행</text>
+  <path class="s-warm" d="M170 172 H176 L520 208 H170 Z"/>
+  <path class="ln thin warm dash" d="M176 172 L520 208"/>
+  <text class="t-xs end tc-warm" x="520" y="189">×1,000</text>
+  <text class="t-b" x="20" y="150">밀리초 (ms)</text>
+  <text class="t-s" x="20" y="169">1,000분의 1초</text>
+  <rect class="box blue" x="170" y="132" width="350" height="40" rx="4"/>
+  <rect class="solid warm" x="170" y="132" width="6" height="40" rx="2"/>
+  <text class="t-b mid" x="345" y="158">1ms</text>
+  <text class="t-s" x="545" y="150">웹 요청 한 번 수십~수백 ms</text>
+  <text class="t-s" x="545" y="168">60fps의 한 프레임 16.7ms</text>
+  <path class="s-warm" d="M170 248 H176 L520 284 H170 Z"/>
+  <path class="ln thin warm dash" d="M176 248 L520 284"/>
+  <text class="t-xs end tc-warm" x="520" y="265">×1,000</text>
+  <text class="t-b" x="20" y="226">마이크로초 (µs)</text>
+  <text class="t-s" x="20" y="245">100만분의 1초</text>
+  <rect class="box blue" x="170" y="208" width="350" height="40" rx="4"/>
+  <rect class="solid warm" x="170" y="208" width="6" height="40" rx="2"/>
+  <text class="t-b mid" x="345" y="234">1µs</text>
+  <text class="t-s" x="545" y="226">SSD에서 읽기 약 100µs</text>
+  <text class="t-s" x="545" y="244">(= 0.1ms)</text>
+  <text class="t-b" x="20" y="302">나노초 (ns)</text>
+  <text class="t-s" x="20" y="321">10억분의 1초</text>
+  <rect class="box blue" x="170" y="284" width="350" height="40" rx="4"/>
+  <text class="t-b mid" x="345" y="310">1ns</text>
+  <text class="t-s" x="545" y="302">메모리에서 읽기 약 100ns</text>
+  <text class="t-s" x="545" y="320">CPU 캐시에서 읽기 약 1ns</text>
+</svg></div><figcaption><b>그림 13-1</b>1초를 1,000조각 내면 밀리초, 그 한 조각을 다시 1,000조각 내면 마이크로초입니다. 한 계단 내려갈 때마다 1,000배 짧아집니다.</figcaption></figure>
+<p>단위 앞에 붙는 m(밀리), µ(마이크로), n(나노)을 <strong>접두사</strong>(prefix)라고 합니다. <code>0.2s</code>, <code>200ms</code>, <code>200000µs</code>는 모두 같은 시간입니다. 도구마다 쓰는 단위가 다르므로, 로그에 찍힌 "응답 시간 250"을 ms라고 넘겨짚으면 1,000배를 틀릴 수 있습니다.</p>
+</section>
+<section class="level3" id="크기와-속도-소문자-b와-대문자-b">
+<h3>크기와 속도: 소문자 b와 대문자 B</h3>
+<p><a href="ch02.html">2장</a>에서 1바이트는 8비트라고 배웠습니다. 단위에서 소문자 b는 비트, 대문자 B는 바이트입니다. 인터넷 요금제의 100Mbps는 "1초에 100메가<strong>비트</strong>"라는 뜻입니다. 파일 크기는 바이트로 적으니 8로 나눠야 합니다. 100 ÷ 8 = 12.5, 곧 1초에 12.5MB입니다. 500MB 파일은 500 ÷ 12.5 = 40초가 걸립니다. 5초가 아닙니다.</p>
+</section>
+<section class="level3" id="초당-몇-건-나눗셈으로-만든-단위">
+<h3>"초당 몇 건": 나눗셈으로 만든 단위</h3>
+<p>서버의 <strong>초당 요청 수</strong>(RPS, requests per second)나 게임의 <strong>fps</strong>(frames per second, 1초에 그리는 화면 장수)는 건수를 시간으로 나눈 단위입니다. 이런 단위는 뒤집으면 "한 건에 쓸 수 있는 시간"이 됩니다. 60fps라면 화면 한 장(프레임)에 1,000ms ÷ 60 ≈ 16.7ms입니다. 이동 계산 4ms, 그리기 준비 5ms, 파일 읽기 12ms를 차례로 하면 21ms입니다. 16.7ms를 넘겼으니 화면이 한 박자 끊깁니다.</p>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · 계산하기 전에 단위부터 통일</div>
+<p>더하거나 비교할 숫자는 먼저 같은 단위로 바꿔 적습니다. AI가 만든 코드에 <code>timeout = 30</code>이 있다면 30초인지 30ms인지 확인하세요. <code>timeout_ms</code>처럼 이름에 단위를 넣어 달라고 하면 이런 사고가 줄어듭니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="latency">
+<h2><span class="sec-n">13.2</span>한 명에 30초, 한 시간에 120명: 지연 시간과 처리량<a aria-label="이 절의 링크" class="anchor" href="#latency">#</a></h2>
+<p>계산대가 "빠르다"는 말에는 두 가지 뜻이 섞여 있습니다.</p>
+<ul>
+<li><strong>지연 시간</strong>(latency)은 <strong>한 건</strong>을 끝내는 데 걸리는 시간입니다. 손님 한 명을 계산하는 30초입니다. 서버에서는 요청 하나에 응답하기까지의 시간이고 주로 ms로 잽니다.</li>
+<li><strong>처리량</strong>(throughput)은 <strong>정해진 시간 동안</strong> 끝낸 건수입니다. 한 시간에 나간 손님 수입니다. 서버에서는 초당 요청 수입니다.</li>
+</ul>
+<p>계산대 하나가 30초에 한 명을 계산하면 한 시간(3,600초)에 3,600 ÷ 30 = 120명이 나갑니다. 계산대를 하나 더 열면 240명입니다. 처리량은 두 배가 됐지만 한 명을 계산하는 30초는 그대로입니다.</p>
+<figure class="fig" id="fig-counter-timeline"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 334" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>계산대를 둘로 늘리면 2분 동안 나가는 손님은 4명에서 8명으로 늘지만 한 명을 계산하는 30초는 그대로다</title>
+  <text class="t-l" x="20" y="62">계산대 1개</text>
+  <text class="t-s" x="20" y="84">2분 동안 4명</text>
+  <path class="ln thin muted" d="M200 36 H316 M200 31 V41 M316 31 V41"/>
+  <text class="t-xs mid" x="258" y="26">계산 30초</text>
+  <rect class="solid blue" x="200" y="48" width="116" height="40" rx="6"/>
+  <text class="t-on t-b mid" x="258" y="73">손님 1</text>
+  <rect class="solid blue" x="320" y="48" width="116" height="40" rx="6"/>
+  <text class="t-on t-b mid" x="378" y="73">손님 2</text>
+  <rect class="solid blue" x="440" y="48" width="116" height="40" rx="6"/>
+  <text class="t-on t-b mid" x="498" y="73">손님 3</text>
+  <rect class="solid warm" x="560" y="48" width="116" height="40" rx="6"/>
+  <text class="t-on t-b mid" x="618" y="73">손님 4</text>
+  <path class="ln warm dash" d="M200 106 H554"/>
+  <path class="ln thick warm" d="M562 106 H678"/>
+  <text class="t-s tc-warm" x="200" y="128">손님 4가 겪은 시간: 줄 서기 90초 + 계산 30초 = 120초</text>
+  <path class="ln thin muted" d="M20 146 H740"/>
+  <text class="t-l" x="20" y="190">계산대 2개</text>
+  <text class="t-s" x="20" y="212">2분 동안 8명</text>
+  <rect class="solid blue" x="200" y="162" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="258" y="184">손님 1</text>
+  <rect class="solid blue" x="200" y="200" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="258" y="222">손님 2</text>
+  <rect class="solid blue" x="320" y="162" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="378" y="184">손님 3</text>
+  <rect class="solid warm" x="320" y="200" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="378" y="222">손님 4</text>
+  <rect class="solid blue" x="440" y="162" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="498" y="184">손님 5</text>
+  <rect class="solid blue" x="440" y="200" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="498" y="222">손님 6</text>
+  <rect class="solid blue" x="560" y="162" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="618" y="184">손님 7</text>
+  <rect class="solid blue" x="560" y="200" width="116" height="34" rx="6"/>
+  <text class="t-on t-b mid" x="618" y="222">손님 8</text>
+  <path class="ln warm dash" d="M200 252 H314"/>
+  <path class="ln thick warm" d="M322 252 H438"/>
+  <text class="t-s tc-warm" x="200" y="274">손님 4가 겪은 시간: 줄 서기 30초 + 계산 30초 = 60초</text>
+  <path class="ln thin muted" d="M200 296 H680"/>
+  <path class="ln thin muted" d="M200 291 V301 M320 291 V301 M440 291 V301 M560 291 V301 M680 291 V301"/>
+  <text class="t-xs mid" x="200" y="320">0초</text>
+  <text class="t-xs mid" x="320" y="320">30초</text>
+  <text class="t-xs mid" x="440" y="320">1분</text>
+  <text class="t-xs mid" x="560" y="320">1분 30초</text>
+  <text class="t-xs mid" x="680" y="320">2분</text>
+</svg></div><figcaption><b>그림 13-2</b>손님 여덟 명이 한꺼번에 온 편의점. 계산대를 늘리면 같은 시간에 더 많은 손님이 나가고 줄 서는 시간도 줄지만, 계산 자체에 걸리는 30초는 줄지 않습니다.</figcaption></figure>
+<p>그림의 주황색 선을 보세요. 손님이 <strong>겪는</strong> 시간은 계산 시간이 아니라 <strong>줄 선 시간 + 계산 시간</strong>입니다. 사용자가 느끼는 응답 시간도 서버가 일한 시간에 <a href="ch11.html#queue">11장</a>의 큐에서 기다린 시간을 더한 값입니다.</p>
+<p>그래서 두 숫자는 따로 움직입니다. 손님이 한 시간에 150명씩 오는데 계산대 하나가 120명을 처리한다면, 처리량은 "시간당 120명"으로 최고 기록인데 줄은 한 시간에 30명씩 길어집니다. "처리량이 늘었는데 사용자는 더 느리다고 한다"는 보고가 모순이 아닌 이유입니다.</p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>계산대 직원은 한 번에 한 명만 상대하지만, 실제 서버는 여러 요청을 겹쳐서 처리하기도 합니다. 그래도 "한 건의 시간"과 "시간당 건수"가 다른 숫자라는 점은 같습니다.</p>
+</div>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>"빠르다"는 말을 들으면 되묻습니다. <strong>한 건이 빨리 끝난다는 뜻인가요, 같은 시간에 많이 끝낸다는 뜻인가요?</strong></p>
+</div>
+</section>
+<section class="level2" id="ratio">
+<h2><span class="sec-n">13.3</span>"몇 %"를 보면 분모부터 찾습니다<a aria-label="이 절의 링크" class="anchor" href="#ratio">#</a></h2>
+<p>"결제 실패율 5%." 무엇 중의 5%일까요? 편의점에 들어온 손님 중인지, 계산대까지 온 손님 중인지, 카드로 낸 손님 중인지에 따라 전혀 다른 이야기가 됩니다. 퍼센트는 나눗셈의 결과이고, 나눗셈에서 아래에 놓이는 "전체"가 <strong>분모</strong>입니다. 비율을 보면 <strong>분모가 무엇인지</strong>부터 확인합니다.</p>
+<section class="level3" id="비율끼리-평균-내지-않습니다">
+<h3>비율끼리 평균 내지 않습니다</h3>
+<p>1번 계산대는 손님 10명 중 9명이 결제에 성공했습니다(90%). 2번 계산대는 90명 중 45명이 성공했습니다(50%). 편의점 전체의 성공률은 두 비율의 가운데인 70%일까요?</p>
+<figure class="fig" id="fig-weighted-average"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>성공률 90%와 50%를 그냥 평균하면 70%지만 건수를 합쳐 다시 세면 54%다</title>
+  <text class="t-s t-b mid" x="49" y="44">1번</text>
+  <text class="t-xs mid" x="49" y="62">10명</text>
+  <text class="t-s t-b mid" x="169" y="44">2번 계산대</text>
+  <text class="t-xs mid" x="169" y="62">90명</text>
+  <rect class="solid green" x="40" y="74" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="76" y="74" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="97" y="74" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="118" y="74" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="139" y="74" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="160" y="74" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="181" y="74" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="202" y="74" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="223" y="74" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="244" y="74" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="40" y="95" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="76" y="95" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="97" y="95" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="118" y="95" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="139" y="95" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="160" y="95" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="181" y="95" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="202" y="95" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="223" y="95" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="244" y="95" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="40" y="116" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="76" y="116" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="97" y="116" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="118" y="116" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="139" y="116" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="160" y="116" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="181" y="116" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="202" y="116" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="223" y="116" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="244" y="116" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="40" y="137" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="76" y="137" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="97" y="137" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="118" y="137" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="139" y="137" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="160" y="137" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="181" y="137" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="202" y="137" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="223" y="137" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="244" y="137" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="40" y="158" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="76" y="158" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="97" y="158" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="118" y="158" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="139" y="158" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="160" y="158" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="181" y="158" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="202" y="158" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="223" y="158" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="244" y="158" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="40" y="179" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="76" y="179" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="97" y="179" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="118" y="179" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="139" y="179" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="160" y="179" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="181" y="179" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="202" y="179" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="223" y="179" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="244" y="179" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="40" y="200" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="76" y="200" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="97" y="200" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="118" y="200" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="139" y="200" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="160" y="200" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="181" y="200" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="202" y="200" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="223" y="200" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="244" y="200" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="40" y="221" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="76" y="221" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="97" y="221" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="118" y="221" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="139" y="221" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="160" y="221" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="181" y="221" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="202" y="221" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="223" y="221" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="244" y="221" width="18" height="18" rx="3"/>
+  <rect class="solid green" x="40" y="242" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="76" y="242" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="97" y="242" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="118" y="242" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="139" y="242" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="160" y="242" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="181" y="242" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="202" y="242" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="223" y="242" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="244" y="242" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="40" y="263" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="76" y="263" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="97" y="263" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="118" y="263" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="139" y="263" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="160" y="263" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="181" y="263" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="202" y="263" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="223" y="263" width="18" height="18" rx="3"/>
+  <rect class="box gray" x="244" y="263" width="18" height="18" rx="3"/>
+  <text class="t-mono mid" x="49" y="304">9/10</text>
+  <text class="t-mono mid" x="169" y="304">45/90</text>
+  <text class="t-s t-b mid" x="49" y="324">90%</text>
+  <text class="t-s t-b mid" x="169" y="324">50%</text>
+  <rect class="box red" x="320" y="40" width="420" height="104" rx="12"/>
+  <use href="#i-cross" x="336" y="72" width="38" height="38" class="ic red"/>
+  <text class="t-b" x="390" y="70">비율끼리 평균 내면</text>
+  <text class="t-mono" x="390" y="98">(90% + 50%) ÷ 2 = 70%</text>
+  <text class="t-s" x="390" y="124">손님 수가 9배 차이 나는 것을 잊은 계산</text>
+  <rect class="box green" x="320" y="164" width="420" height="104" rx="12"/>
+  <use href="#i-check" x="336" y="196" width="38" height="38" class="ic green"/>
+  <text class="t-b" x="390" y="194">건수를 합쳐 다시 세면</text>
+  <text class="t-mono" x="390" y="222">(9 + 45) ÷ (10 + 90) = 54%</text>
+  <text class="t-s" x="390" y="248">초록 칸을 직접 세면 100칸 중 54칸</text>
+  <rect class="solid green" x="320" y="296" width="14" height="14" rx="3"/>
+  <text class="t-s" x="342" y="308">결제 성공</text>
+  <rect class="box gray" x="430" y="296" width="14" height="14" rx="3"/>
+  <text class="t-s" x="452" y="308">결제 실패</text>
+</svg></div><figcaption><b>그림 13-3</b>칸 하나가 손님 한 명입니다. 비율을 합칠 때는 퍼센트끼리 평균 내지 않고, 성공 건수와 전체 건수를 각각 더해 다시 나눕니다.</figcaption></figure>
+<p>손님이 많은 쪽의 비율이 더 큰 몫을 차지해야 맞습니다. 이렇게 집단의 크기를 반영한 평균을 <strong>가중 평균</strong>(weighted average)이라고 합니다. 지역별 응답 시간, 모델별 정답률을 하나로 합칠 때마다 같은 함정이 나옵니다. 그럴 때는 "집단마다 몇 건인가요?"를 묻습니다.</p>
+</section>
+<section class="level3" id="퍼센트와-퍼센트포인트">
+<h3>퍼센트와 퍼센트포인트</h3>
+<p>성공률이 80%에서 84%로 올랐습니다. 84 − 80 = 4는 두 비율을 <strong>뺀 차이</strong>이고, 이것을 <strong>퍼센트포인트</strong>(%p)라고 부릅니다. 4 ÷ 80 = 0.05, 곧 5%는 <strong>원래 값에 견준 변화</strong>입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>변화</th>
+<th>뺀 차이</th>
+<th>원래 값에 견주면</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>성공률 80% → 84%</td>
+<td>4%p 올랐다</td>
+<td>5% 늘었다</td>
+</tr>
+<tr>
+<td>실패율 2% → 1%</td>
+<td>1%p 내렸다</td>
+<td>절반으로 줄었다</td>
+</tr>
+</tbody>
+</table></div>
+<details class="deep"><summary><small>한 걸음 더</small>조건이 여러 개일 때: 괄호 하나가 분모를 바꿉니다</summary><div class="deep-body">
+<p>"무엇 중에서"를 코드로 옮기면 조건식이 됩니다. AND(그리고)는 조건이 모두 참일 때, OR(또는)는 하나라도 참일 때 참입니다. 문제는 둘이 섞일 때입니다.</p>
+<p>"관리자 또는 소유자이면서 활성 계정"을 <code>관리자 or (소유자 and 활성)</code>으로 쓰면 정지된 관리자도 통과합니다. <code>(관리자 or 소유자) and 활성</code>으로 써야 정지된 계정이 모두 막힙니다. 괄호 위치에 따라 통과하는 사람들의 묶음, 곧 <strong>집합</strong>(set)이 달라집니다.</p>
+<p>"재고는 0보다 작아질 수 없다"처럼 어떤 순간에도 지켜져야 하는 규칙은 <strong>불변 조건</strong>(invariant)이라고 합니다. AI가 만든 조건식은 통과해야 할 입력과 막혀야 할 입력을 하나씩 넣어 확인합니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="percentile">
+<h2><span class="sec-n">13.4</span>평균이 숨기는 것: 중앙값과 백분위<a aria-label="이 절의 링크" class="anchor" href="#percentile">#</a></h2>
+<p>편의점 손님 100명 중 90명은 바코드만 찍고 나갑니다. 8명은 도시락을 데우고, 2명은 택배를 부칩니다. 서버로 옮기면 이렇습니다. 요청 100개 중 90개는 100ms, 8개는 300ms, 2개는 4,300ms(4.3초)가 걸렸습니다.</p>
+<p><strong>평균</strong>(mean)은 모두 더해 개수로 나눈 값입니다. (90 × 100 + 8 × 300 + 2 × 4,300) ÷ 100 = 20,000 ÷ 100 = 200ms입니다.</p>
+<p>"평균 200ms"는 그럴듯해 보입니다. 하지만 200ms가 걸린 요청은 하나도 없습니다. 값이 한쪽으로 길게 늘어진 데이터에서는 몇 개의 큰 값이 평균을 끌고 갑니다. 그래서 요청을 빠른 순으로 <strong>줄 세워</strong> 봅니다.</p>
+<figure class="fig" id="fig-mean-vs-percentile"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 284" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>요청 100개를 빠른 순으로 줄 세우면 평균 200ms는 90개보다 느리고 가장 느린 2개보다는 훨씬 빠른 어중간한 값이다</title>
+  <text class="t-h" x="30" y="32">빠른 순으로 줄 세운 요청 100개</text>
+  <rect class="solid green" x="30" y="50" width="14" height="14" rx="3"/>
+  <text class="t-s" x="52" y="62">90개 · 100ms</text>
+  <rect class="solid warm" x="170" y="50" width="14" height="14" rx="3"/>
+  <text class="t-s" x="192" y="62">8개 · 300ms</text>
+  <rect class="solid red" x="305" y="50" width="14" height="14" rx="3"/>
+  <text class="t-s" x="327" y="62">2개 · 4,300ms</text>
+  <rect class="solid green" x="30" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="37" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="44" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="51" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="58" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="65" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="72" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="79" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="86" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="93" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="100" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="107" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="114" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="121" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="128" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="135" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="142" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="149" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="156" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="163" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="170" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="177" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="184" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="191" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="198" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="205" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="212" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="219" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="226" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="233" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="240" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="247" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="254" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="261" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="268" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="275" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="282" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="289" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="296" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="303" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="310" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="317" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="324" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="331" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="338" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="345" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="352" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="359" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="366" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="373" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="380" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="387" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="394" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="401" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="408" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="415" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="422" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="429" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="436" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="443" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="450" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="457" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="464" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="471" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="478" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="485" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="492" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="499" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="506" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="513" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="520" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="527" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="534" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="541" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="548" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="555" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="562" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="569" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="576" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="583" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="590" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="597" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="604" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="611" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="618" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="625" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="632" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="639" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="646" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid green" x="653" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="660" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="667" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="674" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="681" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="688" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="695" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="702" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid warm" x="709" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid red" x="716" y="112" width="5" height="40" rx="1"/>
+  <rect class="solid red" x="723" y="112" width="5" height="40" rx="1"/>
+  <path class="ln thin blue dash" d="M659 94 V162"/>
+  <text class="t-b tc-blue mid" x="659" y="86">평균 200ms</text>
+  <path class="ln thin" d="M375.5 156 V182"/>
+  <text class="t-b mid" x="375.5" y="202">p50 = 100ms</text>
+  <text class="t-s mid" x="375.5" y="221">50번째 · 중앙값</text>
+  <path class="ln thin" d="M690.5 156 V180"/>
+  <text class="t-b end" x="702" y="200">p95 = 300ms</text>
+  <text class="t-s end" x="702" y="218">95번째</text>
+  <path class="ln thin red" d="M718.5 156 V232"/>
+  <text class="t-b tc-red end" x="740" y="252">p99 = 4,300ms</text>
+  <text class="t-s end" x="740" y="270">99번째</text>
+  <rect class="box blue" x="30" y="178" width="262" height="80" rx="12"/>
+  <text class="t-b tc-blue" x="46" y="204">평균 200ms의 정체</text>
+  <text class="t-s" x="46" y="226">요청 90개는 이보다 2배 빠르고</text>
+  <text class="t-s" x="46" y="244">2개는 20배 넘게 느리다</text>
+</svg></div><figcaption><b>그림 13-4</b>막대 하나가 요청 하나입니다. 평균은 줄의 90번째와 91번째 사이 어딘가에 놓입니다. 줄의 위치로 읽으면 대부분의 요청과 가장 느린 요청이 따로 보입니다.</figcaption></figure>
+<ul>
+<li><strong>중앙값</strong>(median)은 줄의 한가운데 값입니다. 여기서는 100ms입니다. "보통의 요청"을 대표합니다.</li>
+<li><strong>백분위</strong>(percentile)는 줄의 몇 % 지점인지로 값을 가리킵니다. <strong>p95</strong>는 100개 중 95번째 값으로, "요청의 95%는 이 시간 안에 끝났다"는 뜻입니다. <strong>p99</strong>는 99번째 값이고, 중앙값은 p50입니다.</li>
+</ul>
+<p>이 서비스는 p50 100ms, p95 300ms, p99 4,300ms입니다. 평균에 묻혀 있던 "100명 중 한두 명은 4초 넘게 기다린다"는 사실이 드러납니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>평균 하나로는 부족합니다. <strong>줄을 세워 가운데(p50)와 끝(p95, p99)을 함께 봅니다.</strong></p>
+</div>
+<p>느린 1%는 생각보다 많은 사람입니다. 하루 요청이 100만 건이면 1%는 1만 건입니다. 게다가 화면 하나를 그리는 데 요청이 수십 개 필요하므로, 그중 하나만 느린 1%에 걸려도 화면 전체가 느려집니다. 얼마나 자주 걸리는지는 뒤에서 계산합니다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><span class="im">import</span> statistics <span class="im">as</span> st</span>
+<span id="cb1-2">times <span class="op">=</span> [<span class="dv">100</span>] <span class="op">*</span> <span class="dv">90</span> <span class="op">+</span> [<span class="dv">300</span>] <span class="op">*</span> <span class="dv">8</span> <span class="op">+</span> [<span class="dv">4300</span>] <span class="op">*</span> <span class="dv">2</span></span>
+<span id="cb1-3"><span class="bu">print</span>(st.mean(times))       <span class="co"># 200</span></span>
+<span id="cb1-4"><span class="bu">print</span>(st.median(times))     <span class="co"># 100.0</span></span>
+<span id="cb1-5">cuts <span class="op">=</span> st.quantiles(times, n<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb1-6"><span class="bu">print</span>(cuts[<span class="dv">94</span>], cuts[<span class="dv">98</span>])   <span class="co"># 300.0 4300.0</span></span></code></pre></div>
+<p>2행은 응답 시간 100개를 만듭니다. 3~4행은 평균과 중앙값입니다. 5행의 <code>quantiles(times, n=100)</code>은 줄을 100등분하는 경계값 99개를 돌려줍니다. 0부터 세므로 <code>cuts[94]</code>가 p95, <code>cuts[98]</code>이 p99입니다.</p>
+<div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
+<p>위 코드에서 <code>4300</code>을 <code>43000</code>으로 바꿔 실행해 보세요. 평균은 974로 뛰지만 중앙값과 p95는 그대로입니다. 평균만 극단값에 끌려갑니다.</p>
+</div>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 빠진 요청은 없나요</div>
+<p>시간 제한에 걸려 끊긴 요청이나 실패한 요청을 빼고 계산하면 통계가 실제보다 좋아 보입니다. 가장 오래 기다린 손님만 조사에서 빠진 셈입니다. 백분위를 볼 때는 "전체 몇 건 중 몇 건으로 계산했는가"를 함께 봅니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>백분위를 다룰 때 조심할 두 가지</summary><div class="deep-body">
+<p><strong>백분위끼리 평균 내지 않습니다.</strong> 서버 두 대의 p99가 200ms와 1,000ms라고 전체 p99가 600ms인 것은 아닙니다. 두 서버의 요청을 한 줄로 다시 세워야 합니다. 앞 절의 가중 평균과 같은 이유입니다.</p>
+<p><strong>표본이 적으면 p99는 뜻이 없습니다.</strong> 요청이 20개뿐이면 99% 지점은 사실상 가장 느린 한 개이고, 그 한 개는 우연일 수 있습니다. 도구마다 계산 방식도 조금씩 달라 같은 데이터에서 값이 약간 다르게 나오기도 합니다.</p>
+</div></details>
+</section>
+<section class="level2" id="spread">
+<h2><span class="sec-n">13.5</span>얼마나 들쭉날쭉한가: 퍼짐과 표준편차<a aria-label="이 절의 링크" class="anchor" href="#spread">#</a></h2>
+<p>계산대 직원 두 명이 있습니다. 한 명은 늘 비슷한 속도로 계산합니다. 다른 한 명은 어떤 때는 번개 같고 어떤 때는 한참 걸립니다. 평균이 같아도 손님은 앞 직원의 줄에 섭니다. 얼마나 걸릴지 짐작할 수 있기 때문입니다.</p>
+<p>서버 A의 응답 시간을 세 번 쟀더니 9, 10, 11ms였습니다. 서버 B는 1, 10, 19ms였습니다. 둘 다 평균은 10ms입니다.</p>
+<figure class="fig" id="fig-spread"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 294" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>두 서버 모두 평균은 10ms지만 A는 값이 평균 가까이 모여 있고 B는 멀리 흩어져 있다</title>
+  <text class="t-b tc-blue mid" x="470" y="32">평균 10ms</text>
+  <path class="ln thin blue dash" d="M470 40 V120"/>
+  <path class="ln thin muted" d="M220 110 H720"/>
+  <path class="ln thin muted" d="M220 105 V115 M345 105 V115 M470 105 V115 M595 105 V115 M720 105 V115"/>
+  <text class="t-xs mid" x="220" y="136">0</text>
+  <text class="t-xs mid" x="345" y="136">5</text>
+  <text class="t-xs mid" x="470" y="136">10</text>
+  <text class="t-xs mid" x="595" y="136">15</text>
+  <text class="t-xs mid" x="720" y="136">20</text>
+  <circle class="f-green" cx="445" cy="110" r="8"/>
+  <text class="t-mono t-b mid" x="445" y="92">9</text>
+  <circle class="f-green" cx="470" cy="110" r="8"/>
+  <circle class="f-green" cx="495" cy="110" r="8"/>
+  <text class="t-mono t-b mid" x="495" y="92">11</text>
+  <text class="t-l" x="20" y="92">서버 A</text>
+  <text class="t-mono" x="20" y="114">9, 10, 11</text>
+  <text class="t-s t-b tc-green" x="20" y="136">표준편차 약 0.8ms</text>
+  <path class="ln thin blue dash" d="M470 160 V240"/>
+  <path class="ln thin muted" d="M220 230 H720"/>
+  <path class="ln thin muted" d="M220 225 V235 M345 225 V235 M470 225 V235 M595 225 V235 M720 225 V235"/>
+  <text class="t-xs mid" x="220" y="256">0</text>
+  <text class="t-xs mid" x="345" y="256">5</text>
+  <text class="t-xs mid" x="470" y="256">10</text>
+  <text class="t-xs mid" x="595" y="256">15</text>
+  <text class="t-xs mid" x="720" y="256">20</text>
+  <circle class="f-warm" cx="245" cy="230" r="8"/>
+  <text class="t-mono t-b mid" x="245" y="212">1</text>
+  <circle class="f-warm" cx="470" cy="230" r="8"/>
+  <circle class="f-warm" cx="695" cy="230" r="8"/>
+  <text class="t-mono t-b mid" x="695" y="212">19</text>
+  <text class="t-l" x="20" y="212">서버 B</text>
+  <text class="t-mono" x="20" y="234">1, 10, 19</text>
+  <text class="t-s t-b tc-warm" x="20" y="256">표준편차 약 7.3ms</text>
+  <text class="t-s tc-green" x="530" y="88">평균에서 1씩 떨어짐</text>
+  <path class="ln warm" d="M460 186 H257" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M480 186 H683" marker-end="url(#ah-warm)"/>
+  <text class="t-s tc-warm mid" x="357" y="177">9만큼 떨어짐</text>
+  <text class="t-s tc-warm mid" x="582" y="177">9만큼 떨어짐</text>
+  <text class="t-xs end" x="740" y="282">눈금 단위: ms</text>
+</svg></div><figcaption><b>그림 13-5</b>평균은 같아도 값이 평균에서 떨어진 거리가 다릅니다. 이 거리를 숫자 하나로 줄인 것이 표준편차입니다.</figcaption></figure>
+<p>값들이 평균에서 얼마나 떨어져 있는지를 나타내는 숫자가 <strong>표준편차</strong>(standard deviation)입니다. 서버 B로 계산해 보겠습니다.</p>
+<ol type="1">
+<li>각 값에서 평균을 뺍니다. −9, 0, +9입니다.</li>
+<li>부호를 없애려고 제곱합니다. 81, 0, 81입니다.</li>
+<li>평균을 냅니다. 162 ÷ 3 = 54입니다. 이 값을 <strong>분산</strong>(variance)이라고 합니다.</li>
+<li>제곱했던 것을 되돌리려고 제곱근을 구합니다. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mn>54</mn></msqrt><mo>≈</mo><mn>7.3</mn></mrow><annotation encoding="application/x-tex">\sqrt{54} \approx 7.3</annotation></semantics></math>ms입니다.</li>
+</ol>
+<p>같은 방법으로 서버 A는 약 0.8ms가 나옵니다. "B는 평균에서 보통 7ms쯤 벗어난다"고 읽으면 됩니다. 게임에서 프레임 시간의 평균이 같아도 표준편차가 크면 화면이 뚝뚝 끊겨 보입니다.</p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>표준편차는 값이 평균 양쪽에 고르게 퍼져 있을 때 잘 맞습니다. 응답 시간처럼 느린 쪽으로만 꼬리가 긴 데이터는 백분위가 더 정직하게 보여 줍니다. 평균, 표준편차, p95를 나란히 놓고 보세요.</p>
+</div>
+</section>
+<section class="level2" id="chain">
+<h2><span class="sec-n">13.6</span>99%를 열 번 거치면: 확률의 곱셈<a aria-label="이 절의 링크" class="anchor" href="#chain">#</a></h2>
+<p><strong>확률</strong>(probability)은 같은 조건에서 여러 번 했을 때 그 일이 일어나는 비율입니다. "결제 성공 확률 99%"는 100번 시도하면 99번쯤 성공한다는 뜻입니다. 0.99처럼 0과 1 사이의 수로도 씁니다.</p>
+<p>편의점에서 주문 하나가 끝나려면 바코드 인식, 가격 조회, 재고 차감, 카드 승인 같은 단계를 차례로 지나야 합니다. 열 단계가 있고 단계마다 99% 성공한다면, 주문 전체도 99% 성공할까요?</p>
+<p>한 단계의 결과가 다른 단계에 영향을 주지 않을 때 두 사건을 <strong>독립</strong>(independent)이라고 합니다. 독립인 사건이 <strong>모두</strong> 일어날 확률은 각 확률을 곱한 값입니다.</p>
+<figure class="fig" id="fig-chain-success"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 322" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>한 단계의 성공률이 99%라도 열 단계를 차례로 거치면 100건 중 약 90건만 끝까지 간다</title>
+  <text class="t-h" x="30" y="32">주문 100건이 10단계를 지나면 (단계마다 99% 통과)</text>
+  <rect class="solid green" x="30" y="80.0" width="42" height="170.0" rx="2"/>
+  <text class="t-mono mid" x="51" y="70">100</text>
+  <text class="t-xs mid" x="51" y="270">출발</text>
+  <rect class="solid green" x="88" y="81.7" width="42" height="168.3" rx="2"/>
+  <rect class="solid red" x="88" y="80" width="42" height="0.7" rx="1"/>
+  <text class="t-mono mid" x="109" y="70">99.0</text>
+  <text class="t-xs mid" x="109" y="270">1단계</text>
+  <rect class="solid green" x="146" y="83.4" width="42" height="166.6" rx="2"/>
+  <rect class="solid red" x="146" y="80" width="42" height="2.4" rx="1"/>
+  <text class="t-mono mid" x="167" y="70">98.0</text>
+  <text class="t-xs mid" x="167" y="270">2단계</text>
+  <rect class="solid green" x="204" y="85.0" width="42" height="165.0" rx="2"/>
+  <rect class="solid red" x="204" y="80" width="42" height="4.0" rx="1"/>
+  <text class="t-mono mid" x="225" y="70">97.0</text>
+  <text class="t-xs mid" x="225" y="270">3단계</text>
+  <rect class="solid green" x="262" y="86.7" width="42" height="163.3" rx="2"/>
+  <rect class="solid red" x="262" y="80" width="42" height="5.7" rx="1"/>
+  <text class="t-mono mid" x="283" y="70">96.1</text>
+  <text class="t-xs mid" x="283" y="270">4단계</text>
+  <rect class="solid green" x="320" y="88.3" width="42" height="161.7" rx="2"/>
+  <rect class="solid red" x="320" y="80" width="42" height="7.3" rx="1"/>
+  <text class="t-mono mid" x="341" y="70">95.1</text>
+  <text class="t-xs mid" x="341" y="270">5단계</text>
+  <rect class="solid green" x="378" y="89.9" width="42" height="160.1" rx="2"/>
+  <rect class="solid red" x="378" y="80" width="42" height="8.9" rx="1"/>
+  <text class="t-mono mid" x="399" y="70">94.1</text>
+  <text class="t-xs mid" x="399" y="270">6단계</text>
+  <rect class="solid green" x="436" y="91.5" width="42" height="158.5" rx="2"/>
+  <rect class="solid red" x="436" y="80" width="42" height="10.5" rx="1"/>
+  <text class="t-mono mid" x="457" y="70">93.2</text>
+  <text class="t-xs mid" x="457" y="270">7단계</text>
+  <rect class="solid green" x="494" y="93.1" width="42" height="156.9" rx="2"/>
+  <rect class="solid red" x="494" y="80" width="42" height="12.1" rx="1"/>
+  <text class="t-mono mid" x="515" y="70">92.3</text>
+  <text class="t-xs mid" x="515" y="270">8단계</text>
+  <rect class="solid green" x="552" y="94.7" width="42" height="155.3" rx="2"/>
+  <rect class="solid red" x="552" y="80" width="42" height="13.7" rx="1"/>
+  <text class="t-mono mid" x="573" y="70">91.4</text>
+  <text class="t-xs mid" x="573" y="270">9단계</text>
+  <rect class="solid green" x="610" y="96.3" width="42" height="153.7" rx="2"/>
+  <rect class="solid red" x="610" y="80" width="42" height="15.3" rx="1"/>
+  <text class="t-mono mid" x="631" y="70">90.4</text>
+  <text class="t-xs mid" x="631" y="270">10단계</text>
+  <path class="ln thin red" d="M656 88 H668"/>
+  <text class="t-s t-b tc-red" x="674" y="92">약 10건</text>
+  <text class="t-s tc-red" x="674" y="110">탈락</text>
+  <path class="ln thin green" d="M656 172 H668"/>
+  <text class="t-s t-b tc-green" x="674" y="176">약 90건</text>
+  <text class="t-s tc-green" x="674" y="194">도착</text>
+  <text class="t-mono" x="30" y="304">0.99 × 0.99 × … × 0.99 (10번 곱하기) ≈ 0.904</text>
+</svg></div><figcaption><b>그림 13-6</b>빨간 부분이 그 단계까지 떨어져 나간 주문입니다. 한 단계에서는 1건뿐이지만 열 단계가 쌓이면 약 10건이 됩니다.</figcaption></figure>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>0.99</mn><mn>10</mn></msup><mo>≈</mo><mn>0.904</mn></mrow><annotation encoding="application/x-tex">0.99^{10} \approx 0.904</annotation></semantics></math>, 곧 약 90%입니다. 단계마다 "99%면 충분하지"라고 넘긴 결과가 열 건 중 한 건의 실패입니다. 서비스 여러 개를 거치는 요청, AI를 여러 번 호출하는 작업이 모두 이 계산을 따릅니다.</p>
+<section class="level3" id="적어도-한-번은-1에서-뺍니다">
+<h3>"적어도 한 번"은 1에서 뺍니다</h3>
+<p>앞에서 미뤄 둔 계산입니다. 화면 하나가 요청 30개를 보내고, 요청 하나가 느린 1%에 들 확률은 1%입니다. 하나라도 걸릴 확률은 반대쪽부터 구합니다. 30개가 모두 무사할 확률은 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>0.99</mn><mn>30</mn></msup><mo>≈</mo><mn>0.74</mn></mrow><annotation encoding="application/x-tex">0.99^{30} \approx 0.74</annotation></semantics></math>입니다. 따라서 하나라도 걸릴 확률은 1 − 0.74 = 0.26입니다. 화면을 네 번 열면 한 번꼴로 느린 요청을 만납니다.</p>
+</section>
+<section class="level3" id="기댓값-오래-되풀이했을-때의-평균">
+<h3>기댓값: 오래 되풀이했을 때의 평균</h3>
+<p>성공 확률이 10%인 뽑기를 성공할 때까지 되풀이하면 평균 몇 번 뽑게 될까요? 1 ÷ 0.1 = 10번입니다. 이렇게 오래 되풀이했을 때의 평균을 <strong>기댓값</strong>(expected value)이라고 합니다. 90% 성공하는 카드 승인이라면 1 ÷ 0.9 ≈ 1.1번입니다.</p>
+<p>기댓값은 보장이 아닙니다. 뽑기를 10번 해서 모두 실패할 확률은 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>0.9</mn><mn>10</mn></msup><mo>≈</mo><mn>0.35</mn></mrow><annotation encoding="application/x-tex">0.9^{10} \approx 0.35</annotation></semantics></math>입니다. 세 명 중 한 명은 10번을 뽑고도 빈손입니다. 재시도를 넣을 때 평균 횟수와 따로 <strong>최대 횟수</strong>를 정해야 하는 이유입니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 곱셈은 독립일 때만 맞습니다</div>
+<p>실패 확률 10%인 요청을 세 번 시도하면 모두 실패할 확률은 0.1 × 0.1 × 0.1 = 0.001, 곧 0.1%로 보입니다. 하지만 카드사 전산이 멈춘 것이 원인이라면 세 번 다 실패합니다. 같은 원인을 함께 겪는 시도들은 독립이 아닙니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="conditional">
+<h2><span class="sec-n">13.7</span>"그중에서"를 놓치면: 조건부 확률과 정확도 99%<a aria-label="이 절의 링크" class="anchor" href="#conditional">#</a></h2>
+<figure class="comic"><img alt="전시관에 100명이 왔고 90명이 입장권 확인을 통과했습니다. 안내기를 받은 80%는 처음의 100명이 아니라 입장한 90명 중에서 센 비율이므로 72명입니다." loading="lazy" src="../assets/comic/comic-conditional.webp"/><figcaption>전시관에 100명이 왔고 90명이 입장권 확인을 통과했습니다. 안내기를 받은 80%는 처음의 100명이 아니라 입장한 90명 중에서 센 비율이므로 72명입니다.</figcaption></figure>
+<p>만화에서 두 번째 비율의 분모는 "전체"가 아니라 "첫 단계를 통과한 사람"입니다. 이렇게 <strong>어떤 조건을 만족한 집단 안에서</strong> 따진 확률을 <strong>조건부 확률</strong>(conditional probability)이라고 합니다.</p>
+<p>AI 기능도 같습니다. 문서 검색이 90% 성공하고, <strong>검색에 성공했을 때</strong> 답이 맞을 확률이 80%라면 둘 다 성공하는 비율은 0.9 × 0.8 = 72%입니다. "답변 정확도 80%"라는 숫자를 보면 어떤 조건에서 잰 것인지 묻습니다.</p>
+<section class="level3" id="정확도-99의-함정">
+<h3>정확도 99%의 함정</h3>
+<p>편의점 문에 도난 경보기를 답니다. 손님 1,000명 중 계산하지 않은 물건을 들고 나가는 사람은 10명입니다. 경보기가 고장 나 한 번도 울리지 않았다고 합시다. 정상 손님 990명은 "문제없음"으로 맞혔으니, 전체 중 맞힌 비율인 <strong>정확도</strong>(accuracy)는 99%입니다. 그런데 한 명도 잡지 못했습니다.</p>
+<p>찾으려는 대상이 드물면 정확도에 이렇게 속습니다. 대신 두 가지를 따로 봅니다. 이번에는 작동하는 경보기입니다. 문제 있는 10명 중 8명에게 울렸고, 정상 손님 990명 중 20명에게도 잘못 울렸습니다.</p>
+<figure class="fig" id="fig-confusion-grid"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 362" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>같은 8명을 두고 재현율은 문제 있는 10명을 분모로, 정밀도는 경보가 울린 28명을 분모로 센다</title>
+  <text class="t-b mid" x="250" y="50">경보가 울림</text>
+  <text class="t-b mid" x="400" y="50">울리지 않음</text>
+  <text class="t-b" x="20" y="108">문제 있는 손님</text>
+  <text class="t-s" x="20" y="130">실제로 10명</text>
+  <text class="t-b" x="20" y="202">문제 없는 손님</text>
+  <text class="t-s" x="20" y="224">실제로 990명</text>
+  <rect class="box green" x="180" y="70" width="140" height="84" rx="12"/>
+  <text class="t-h mid" x="250" y="110">8명</text>
+  <text class="t-s mid" x="250" y="133">제대로 잡음</text>
+  <rect class="box red" x="330" y="70" width="140" height="84" rx="12"/>
+  <text class="t-h mid" x="400" y="110">2명</text>
+  <text class="t-s mid" x="400" y="133">놓침</text>
+  <rect class="box warm" x="180" y="164" width="140" height="84" rx="12"/>
+  <text class="t-h mid" x="250" y="204">20명</text>
+  <text class="t-s mid" x="250" y="227">잘못 울림</text>
+  <rect class="box gray" x="330" y="164" width="140" height="84" rx="12"/>
+  <text class="t-h mid" x="400" y="204">970명</text>
+  <text class="t-s mid" x="400" y="227">조용히 통과</text>
+  <path class="ln blue" d="M476 76 H486 V148 H476 M486 112 H496"/>
+  <rect class="box blue" x="500" y="70" width="240" height="84" rx="12"/>
+  <text class="t-b tc-blue" x="516" y="98">재현율 = 8 ÷ 10 = 80%</text>
+  <text class="t-s" x="516" y="120">문제 있는 10명 중</text>
+  <text class="t-s" x="516" y="138">경보가 잡아낸 비율</text>
+  <path class="ln purple" d="M186 254 V264 H314 V254 M250 264 V274"/>
+  <rect class="box purple" x="180" y="278" width="290" height="66" rx="12"/>
+  <text class="t-b tc-purple" x="196" y="305">정밀도 = 8 ÷ 28 ≈ 29%</text>
+  <text class="t-s" x="196" y="328">울린 28명 중 진짜 문제였던 비율</text>
+  <rect class="box yellow" x="500" y="186" width="240" height="124" rx="12"/>
+  <text class="t-b" x="516" y="216">같은 8명, 다른 분모</text>
+  <text class="t-s" x="516" y="242">가로줄로 나누면 80%</text>
+  <text class="t-s" x="516" y="262">세로줄로 나누면 29%</text>
+  <text class="t-s" x="516" y="290">둘은 서로 다른 질문의 답</text>
+</svg></div><figcaption><b>그림 13-7</b>칸 네 개에 손님 1,000명이 모두 들어 있습니다. 가로줄을 분모로 삼으면 재현율, 세로줄을 분모로 삼으면 정밀도입니다.</figcaption></figure>
+<ul>
+<li><strong>재현율</strong>(recall)은 실제 문제 중에서 잡아낸 비율입니다. 8 ÷ 10 = 80%입니다.</li>
+<li><strong>정밀도</strong>(precision)는 울린 것 중에서 진짜 문제인 비율입니다. 8 ÷ 28 ≈ 29%입니다. 경보 열 번 중 일곱 번은 헛경보입니다.</li>
+</ul>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>같은 결과에서 비율이 다르게 나왔다면 계산이 틀린 것이 아니라 <strong>분모가 다른 것</strong>입니다.</p>
+</div>
+<p>잘못 울린 비율은 20 ÷ 990 ≈ 2%뿐인데 정밀도는 29%입니다. 정상 손님이 워낙 많아서 그 2%가 진짜 8명보다 많기 때문입니다. 스팸 필터, 이상 결제 탐지, AI 분류기가 모두 같은 표로 읽힙니다.</p>
+<p>경보기를 민감하게 맞추면 재현율은 오르고 헛경보도 늘어납니다. 모든 손님에게 울리면 재현율은 100%입니다. 그래서 <strong>놓치는 것과 헛경보 중 어느 쪽이 더 비싼지</strong>를 먼저 정하고 두 숫자를 함께 봅니다.</p>
+</section>
+</section>
+<section class="level2" id="sample">
+<h2><span class="sec-n">13.8</span>이 숫자를 믿어도 될까: 표본, 편향, 상관관계<a aria-label="이 절의 링크" class="anchor" href="#sample">#</a></h2>
+<p>계산이 맞아도, <strong>무엇을 얼마나 재서</strong> 나온 숫자인지에 따라 믿을 수 없는 경우가 있습니다.</p>
+<section class="level3" id="적게-재면-우연이-섞입니다">
+<h3>적게 재면 우연이 섞입니다</h3>
+<p>전체 중에서 실제로 관찰한 일부를 <strong>표본</strong>(sample)이라고 합니다. 멀쩡한 동전도 10번 던지면 앞면이 7번 이상 나오는 일이 여섯 번에 한 번꼴로 생깁니다. 동전이 이상한 것이 아니라 10번이 적은 것입니다.</p>
+<p>AI 모델 A가 20문제 중 19개, B가 18개를 맞혔습니다. "A가 5%p 높다"는 한 문제 차이입니다. 문제를 바꾸면 뒤집힐 수 있습니다. 차이가 작을수록 더 많이 재야 합니다.</p>
+</section>
+<section class="level3" id="치우쳐서-재면-많이-재도-틀립니다">
+<h3>치우쳐서 재면 많이 재도 틀립니다</h3>
+<p>만족도 조사를 계산을 마친 손님에게만 하면, 줄이 길어 그냥 나간 손님의 의견은 빠집니다. 아무리 많이 모아도 실제보다 좋게 나옵니다. 이렇게 표본이 한쪽으로 치우친 것을 <strong>편향</strong>(bias)이라고 합니다. 성공한 요청만 기록하기, 쉬운 질문만으로 AI 평가하기, 한 사람의 기록 1,000건으로 사용자 전체를 짐작하기가 모두 편향입니다.</p>
+</section>
+<section class="level3" id="함께-움직인다고-원인은-아닙니다">
+<h3>함께 움직인다고 원인은 아닙니다</h3>
+<p>새 코드를 서버에 올리는 일을 배포라고 합니다. 배포한 날 응답 시간이 300ms에서 180ms로 줄었습니다. 코드 덕분일까요?</p>
+<figure class="fig" id="fig-confounding"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>배포한 날 응답 시간이 줄었지만 같은 날 접속자도 절반으로 줄었다면 코드 덕분이라고 단정할 수 없다</title>
+  <path class="ln warm dash" d="M345 36 V268"/>
+  <text class="t-s t-b tc-warm mid" x="345" y="26">새 코드 배포</text>
+  <text class="t-b" x="20" y="84">응답 시간</text>
+  <text class="t-s" x="20" y="104">p95</text>
+  <path class="ln thin muted" d="M150 130 H540"/>
+  <path class="ln blue" d="M170 62.5 L240 60.2 L310 63.6 L380 89.5 L450 90.6 L520 88.4"/>
+  <circle class="f-blue" cx="170" cy="62.5" r="4.5"/>
+  <circle class="f-blue" cx="240" cy="60.2" r="4.5"/>
+  <circle class="f-blue" cx="310" cy="63.6" r="4.5"/>
+  <circle class="f-blue" cx="380" cy="89.5" r="4.5"/>
+  <circle class="f-blue" cx="450" cy="90.6" r="4.5"/>
+  <circle class="f-blue" cx="520" cy="88.4" r="4.5"/>
+  <text class="t-mono tc-blue mid" x="186" y="50">300ms</text>
+  <text class="t-mono tc-blue mid" x="506" y="78">180ms</text>
+  <text class="t-b" x="20" y="214">동시 접속자</text>
+  <path class="ln thin muted" d="M150 260 H540"/>
+  <path class="ln purple" d="M170 188.0 L240 186.2 L310 188.7 L380 224.0 L450 224.4 L520 223.3"/>
+  <circle class="f-purple" cx="170" cy="188.0" r="4.5"/>
+  <circle class="f-purple" cx="240" cy="186.2" r="4.5"/>
+  <circle class="f-purple" cx="310" cy="188.7" r="4.5"/>
+  <circle class="f-purple" cx="380" cy="224.0" r="4.5"/>
+  <circle class="f-purple" cx="450" cy="224.4" r="4.5"/>
+  <circle class="f-purple" cx="520" cy="223.3" r="4.5"/>
+  <text class="t-mono tc-purple mid" x="192" y="176">2,000명</text>
+  <text class="t-mono tc-purple mid" x="500" y="212">1,000명</text>
+  <text class="t-xs mid" x="170" y="284">월</text>
+  <text class="t-xs mid" x="240" y="284">화</text>
+  <text class="t-xs mid" x="310" y="284">수</text>
+  <text class="t-xs mid" x="380" y="284">목</text>
+  <text class="t-xs mid" x="450" y="284">금</text>
+  <text class="t-xs mid" x="520" y="284">토</text>
+  <rect class="box yellow" x="570" y="56" width="170" height="184" rx="12"/>
+  <text class="t-b mid" x="655" y="88">왜 빨라졌을까?</text>
+  <text class="t-s mid" x="655" y="118">새 코드 덕분?</text>
+  <text class="t-s mid" x="655" y="140">접속자가 줄어서?</text>
+  <path class="ln thin muted" d="M590 158 H720"/>
+  <text class="t-s t-b tc-warm mid" x="655" y="186">둘이 같은 날 바뀌어</text>
+  <text class="t-s t-b tc-warm mid" x="655" y="206">이 그래프만으로는</text>
+  <text class="t-s t-b tc-warm mid" x="655" y="226">가릴 수 없다</text>
+</svg></div><figcaption><b>그림 13-8</b>배포한 날 응답 시간이 줄었지만, 같은 날 접속자도 절반으로 줄었습니다. 손님이 줄어서 줄이 짧아진 것인지 계산대가 빨라진 것인지 이 그래프로는 알 수 없습니다.</figcaption></figure>
+<p>두 숫자가 함께 움직이는 것을 <strong>상관관계</strong>(correlation)라고 합니다. 하나가 다른 하나를 일으키는 <strong>인과관계</strong>(causation)와는 다릅니다. 원인을 가리려면 <strong>나머지 조건을 같게 두고 하나만 바꿔서</strong> 다시 잽니다. 같은 양의 요청을 보내면서 옛 코드와 새 코드를 비교하거나, 사용자를 무작위로 둘로 나눠 한쪽에만 새 코드를 적용합니다. 뒤의 방법을 A/B 테스트라고 합니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>입력이 조금 틀리면 답은 얼마나 틀릴까 (민감도)</summary><div class="deep-body">
+<p>측정값에는 늘 작은 오차가 있습니다. 어떤 계산은 이 오차를 그대로 두고, 어떤 계산은 크게 부풀립니다.</p>
+<p>1 ÷ x를 봅시다. x가 1에서 1.001로 바뀌면 답은 1에서 약 0.999로 바뀝니다. 거의 그대로입니다. 그런데 x가 0.001에서 0.002로 바뀌면 답은 1,000에서 500으로 바뀝니다. 입력은 똑같이 0.001 움직였는데 결과는 500이나 달라졌습니다. 0에 가까운 수로 나누는 계산은 이렇게 <strong>민감</strong>합니다.</p>
+<p>결과가 크게 흔들린다고 꼭 코드가 틀린 것은 아닙니다. 문제 자체가 민감한 것일 수 있습니다. 입력을 조금 더하고 빼서 결과가 얼마나 달라지는지 확인해 보면 구분할 수 있습니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="limits">
+<h2><span class="sec-n">13.9</span>아무리 늘려도 닿지 않는 선: 암달의 법칙과 로그<a aria-label="이 절의 링크" class="anchor" href="#limits">#</a></h2>
+<p>편의점에 물건이 들어오는 날입니다. 상자 나르기는 60분이 걸리고 여럿이 나눠 할 수 있습니다. 납품 서류 확인은 40분이 걸리고 점장 혼자만 할 수 있습니다. 직원이 한 명이면 100분입니다.</p>
+<figure class="fig" id="fig-amdahl"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 324" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>100분 가운데 한 사람만 할 수 있는 40분은 직원을 아무리 늘려도 그대로 남아 전체는 2.5배보다 빨라질 수 없다</title>
+  <rect class="solid warm" x="150" y="22" width="14" height="14" rx="3"/>
+  <text class="t-s" x="172" y="34">한 사람만 할 수 있는 일 — 서류 확인 40분</text>
+  <rect class="solid blue" x="456" y="22" width="14" height="14" rx="3"/>
+  <text class="t-s" x="478" y="34">나눌 수 있는 일 — 상자 나르기 60분</text>
+  <text class="t-b" x="20" y="85">직원 1명</text>
+  <rect class="solid warm" x="150" y="60" width="160" height="38" rx="5"/>
+  <text class="t-on t-b mid" x="230" y="85">40분</text>
+  <rect class="solid blue" x="312" y="60" width="238" height="38" rx="5"/>
+  <text class="t-on t-b mid" x="431.0" y="85">60분</text>
+  <text class="t-b" x="564" y="85">100분</text>
+  <text class="t-s" x="626" y="85">기준</text>
+  <text class="t-b" x="20" y="143">직원 2명</text>
+  <rect class="solid warm" x="150" y="118" width="160" height="38" rx="5"/>
+  <text class="t-on t-b mid" x="230" y="143">40분</text>
+  <rect class="solid blue" x="312" y="118" width="118" height="38" rx="5"/>
+  <text class="t-on t-b mid" x="371.0" y="143">30분</text>
+  <text class="t-b" x="444" y="143">70분</text>
+  <text class="t-s" x="506" y="143">1.43배 빠름</text>
+  <text class="t-b" x="20" y="201">직원 4명</text>
+  <rect class="solid warm" x="150" y="176" width="160" height="38" rx="5"/>
+  <text class="t-on t-b mid" x="230" y="201">40분</text>
+  <rect class="solid blue" x="312" y="176" width="58" height="38" rx="5"/>
+  <text class="t-on t-b mid" x="341.0" y="201">15분</text>
+  <text class="t-b" x="384" y="201">55분</text>
+  <text class="t-s" x="446" y="201">1.82배 빠름</text>
+  <text class="t-b" x="20" y="259">직원 100명</text>
+  <rect class="solid warm" x="150" y="234" width="160" height="38" rx="5"/>
+  <text class="t-on t-b mid" x="230" y="259">40분</text>
+  <rect class="solid blue" x="312" y="234" width="3" height="38" rx="1"/>
+  <text class="t-b" x="329" y="259">40.6분</text>
+  <text class="t-s" x="391" y="259">2.46배 빠름</text>
+  <path class="ln red dash" d="M311 50 V282"/>
+  <text class="t-s t-b tc-red" x="150" y="306">40분은 끝까지 남는다 → 한계는 100 ÷ 40 = 2.5배</text>
+</svg></div><figcaption><b>그림 13-9</b>직원을 늘리면 파란 부분만 줄어듭니다. 주황 부분 40분이 그대로 남으므로 전체는 2.5배보다 빨라질 수 없습니다.</figcaption></figure>
+<p>직원이 네 명이면 40 + 60 ÷ 4 = 55분입니다. 100 ÷ 55 ≈ 1.82배로, 네 배가 아닙니다. 백 명을 불러도 40.6분입니다. <strong>일부만 빨라지면 전체는 나머지에 묶입니다.</strong> 이것을 <strong>암달의 법칙</strong>(Amdahl's law)이라고 합니다.</p>
+<p>CPU 코어도 같습니다. 차례로만 할 수 있는 부분의 비율을 s, 코어 수를 n이라고 하면 이렇게 씁니다.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">빨라지는 배수</mtext><mo>=</mo><mfrac><mn>1</mn><mrow><mi>s</mi><mo>+</mo><mrow><mo form="prefix" stretchy="true">(</mo><mn>1</mn><mo>−</mo><mi>s</mi><mo form="postfix" stretchy="true">)</mo></mrow><mo>÷</mo><mi>n</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{빨라지는 배수} = \frac{1}{s + (1 - s) \div n}</annotation></semantics></math></p>
+<p>분모는 "나눌 수 없는 부분 s"에 "나눌 수 있는 부분 1 − s를 n으로 나눈 것"을 더한 값입니다. s = 0.4, n = 4를 넣으면 1 ÷ (0.4 + 0.15) ≈ 1.82입니다. 실제로는 일을 나누고 합치는 데도 시간이 들어 이보다 낮습니다. 그러니 코어나 서버를 늘리기 전에 <strong>그 부분이 전체 시간의 몇 %인지</strong>부터 잽니다. 전체의 10%인 부분을 100배 빠르게 만들어도 전체는 약 1.1배 빨라질 뿐입니다.</p>
+<section class="level3" id="두-배씩-커지는-수와-로그">
+<h3>두 배씩 커지는 수와 로그</h3>
+<p>두 배씩 늘어나는 수는 무섭게 커집니다. 2를 10번 곱하면 1,024, 20번 곱하면 약 100만입니다. 이것이 <strong>지수 증가</strong>입니다. <strong>로그</strong>(logarithm)는 이것을 거꾸로 묻습니다. "2를 몇 번 곱해야 100만이 될까?" 답은 약 20이고, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>log</mo><mn>2</mn></msub><mn>1000000</mn><mo>≈</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">\log_2 1000000 \approx 20</annotation></semantics></math>이라고 씁니다. 기록을 뜻하는 로그(log)와는 다른 말입니다. 정렬된 100만 건에서 절반씩 버리며 찾으면 20번이면 끝나는 이유이고, <a href="ch09.html">9장</a>의 비용 이야기와 이어집니다.</p>
+<p>로그는 그래프의 눈금에도 쓰입니다. 1ms부터 10초까지 만 배 차이 나는 값을 한 그래프에 그리면 작은 값은 보이지 않습니다.</p>
+<figure class="fig" id="fig-log-scale"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 298" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>보통 눈금에서는 작은 값들이 한쪽 끝에 뭉개지지만 로그 눈금에서는 열 배마다 한 칸씩 고르게 벌어진다</title>
+  <text class="t-b" x="60" y="30">보통 눈금</text>
+  <text class="t-s" x="140" y="30">한 칸마다 2,500씩 더한다</text>
+  <path class="ln thin muted" d="M60 100 H700"/>
+  <path class="ln thin muted" d="M60 95 V105 M220 95 V105 M380 95 V105 M540 95 V105 M700 95 V105"/>
+  <text class="t-xs mid" x="60" y="124">0</text>
+  <text class="t-xs mid" x="220" y="124">2,500</text>
+  <text class="t-xs mid" x="380" y="124">5,000</text>
+  <text class="t-xs mid" x="540" y="124">7,500</text>
+  <text class="t-xs mid" x="700" y="124">10,000</text>
+  <circle class="f-blue" cx="60.1" cy="100" r="6"/>
+  <circle class="f-blue" cx="60.6" cy="100" r="6"/>
+  <circle class="f-blue" cx="66.4" cy="100" r="6"/>
+  <circle class="f-blue" cx="124.0" cy="100" r="6"/>
+  <circle class="f-blue" cx="700.0" cy="100" r="6"/>
+  <path class="ln thin warm" d="M63 90 V68"/>
+  <text class="t-s t-b tc-warm" x="60" y="60">1, 10, 100이 한 점으로 뭉친다</text>
+  <text class="t-xs mid" x="124" y="84">1,000</text>
+  <text class="t-xs mid" x="700" y="84">10,000</text>
+  <text class="t-b" x="60" y="176">로그 눈금</text>
+  <text class="t-s" x="140" y="176">한 칸마다 10배씩 곱한다</text>
+  <path class="ln thin muted" d="M60 240 H700"/>
+  <circle class="f-green" cx="60" cy="240" r="6"/>
+  <text class="t-xs mid" x="60" y="264">1</text>
+  <path class="ln thin green" d="M70 228 Q140 196 210 228" marker-end="url(#ah-green)"/>
+  <text class="t-xs tc-green mid" x="140" y="204">×10</text>
+  <circle class="f-green" cx="220" cy="240" r="6"/>
+  <text class="t-xs mid" x="220" y="264">10</text>
+  <path class="ln thin green" d="M230 228 Q300 196 370 228" marker-end="url(#ah-green)"/>
+  <text class="t-xs tc-green mid" x="300" y="204">×10</text>
+  <circle class="f-green" cx="380" cy="240" r="6"/>
+  <text class="t-xs mid" x="380" y="264">100</text>
+  <path class="ln thin green" d="M390 228 Q460 196 530 228" marker-end="url(#ah-green)"/>
+  <text class="t-xs tc-green mid" x="460" y="204">×10</text>
+  <circle class="f-green" cx="540" cy="240" r="6"/>
+  <text class="t-xs mid" x="540" y="264">1,000</text>
+  <path class="ln thin green" d="M550 228 Q620 196 690 228" marker-end="url(#ah-green)"/>
+  <text class="t-xs tc-green mid" x="620" y="204">×10</text>
+  <circle class="f-green" cx="700" cy="240" r="6"/>
+  <text class="t-xs mid" x="700" y="264">10,000</text>
+  <text class="t-xs end" x="740" y="286">값의 단위: ms</text>
+</svg></div><figcaption><b>그림 13-10</b>같은 값 다섯 개를 두 가지 눈금에 놓았습니다. 로그 눈금에서 한 칸 올랐다면 "조금 늘었다"가 아니라 "열 배가 됐다"는 뜻입니다.</figcaption></figure>
+<p>눈금이 1, 10, 100, 1,000처럼 곱하기로 늘어나면 로그 눈금입니다. 그래프를 보면 선의 모양보다 <strong>축에 적힌 숫자</strong>를 먼저 읽습니다.</p>
+</section>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mb / MB</td>
+<td>메가비트 / 메가바이트. 8배 차이</td>
+</tr>
+<tr>
+<td>지연 시간 / 처리량</td>
+<td>한 건에 걸린 시간 / 정해진 시간에 끝낸 건수</td>
+</tr>
+<tr>
+<td>평균 / 중앙값</td>
+<td>모두 더해 나눈 값 / 줄 세웠을 때 한가운데 값</td>
+</tr>
+<tr>
+<td>퍼센트 / 퍼센트포인트</td>
+<td>원래 값에 견준 변화 / 두 비율을 뺀 차이</td>
+</tr>
+<tr>
+<td>정밀도 / 재현율</td>
+<td>울린 것 중 진짜의 비율 / 진짜 중 잡아낸 비율</td>
+</tr>
+<tr>
+<td>상관관계 / 인과관계</td>
+<td>함께 움직임 / 하나가 다른 하나를 일으킴</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 평균은 200ms인데 '가끔 멈춘다'는 신고가 이어진다</div>
+<p>쇼핑 앱의 장바구니 화면이 가끔 몇 초씩 멈춘다는 신고가 들어옵니다. 대시보드의 평균 응답 시간은 200ms로 멀쩡합니다.</p>
+<ol type="1">
+<li><strong>평균 대신 줄을 세웁니다.</strong> p50은 100ms, p95는 300ms인데 p99가 4,300ms입니다. 느린 요청이 평균에 묻혀 있었습니다.</li>
+<li><strong>빠진 요청을 찾습니다.</strong> 10초 시간 제한에 걸려 끊긴 요청은 통계에서 빠져 있었습니다. 넣고 다시 계산하니 p99는 더 나빠집니다.</li>
+<li><strong>화면 하나의 요청 수를 셉니다.</strong> 장바구니 화면은 요청 30개를 보냅니다. 하나라도 느린 1%에 걸릴 확률은 약 26%입니다. 네 번에 한 번이니 "가끔"이 아닙니다.</li>
+<li><strong>느린 요청의 공통점을 찾습니다.</strong> 느린 요청은 모두 담은 상품이 100개를 넘는 사용자의 것이었습니다.</li>
+<li><strong>같은 조건으로 다시 잽니다.</strong> 고친 뒤 같은 시간대, 비슷한 요청 수에서 p99를 비교합니다.</li>
+</ol>
+<p>평균은 "대부분 괜찮다"를 알려 줄 뿐입니다. 불만은 줄의 맨 끝에서 나옵니다.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li>숫자는 <strong>단위</strong>와 함께 읽습니다. ms와 µs는 1,000배, Mb와 MB는 8배 차이입니다.</li>
+<li><strong>지연 시간</strong>은 한 건에 걸린 시간, <strong>처리량</strong>은 정해진 시간에 끝낸 건수입니다. 따로 움직입니다.</li>
+<li>비율은 <strong>분모</strong>부터 확인합니다. 비율을 합칠 때는 건수를 더해 다시 나눕니다.</li>
+<li>평균은 느린 소수를 숨깁니다. <strong>p50, p95, p99</strong>로 줄의 가운데와 끝을 함께 봅니다.</li>
+<li>99%도 열 번 곱하면 90%입니다. 기댓값은 평균일 뿐 보장이 아닙니다.</li>
+<li>드문 것을 찾을 때는 정확도 대신 <strong>정밀도와 재현율</strong>을 봅니다.</li>
+<li>적은 표본, 치우친 표본, 함께 바뀐 조건을 의심합니다. 일부만 빨라지면 전체는 나머지에 묶입니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>100Mbps 인터넷으로 1,000MB짜리 게임 패치를 받습니다. "1초에 100이니까 10초면 되겠네"라는 계산은 어디가 틀렸을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>단위가 다릅니다. Mbps의 b는 비트이고 파일 크기의 B는 바이트입니다. 100 ÷ 8 = 12.5이므로 1초에 12.5MB를 받습니다. 1,000 ÷ 12.5 = 80초가 걸립니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>A 팀은 "우리 서버는 평균 150ms", B 팀은 "우리 서버는 p99가 400ms"라고 합니다. 어느 쪽이 더 빠른지 말할 수 있을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>말할 수 없습니다. 평균과 p99는 줄의 다른 지점을 가리키는 숫자입니다. A 팀의 p99가 3초일 수도 있습니다. 둘 다 p50과 p99를, 같은 기간과 비슷한 요청량에서 재서 비교해야 합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>AI 코딩 도구가 작업 하나를 끝내려면 명령을 다섯 번 실행해야 합니다. 한 번의 성공률이 95%이고 서로 독립이라면 작업 전체의 성공률은 약 얼마일까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>0.95를 다섯 번 곱하면 약 0.77입니다. 네 번에 한 번꼴로 어딘가에서 실패합니다. 단계가 많을수록 실패한 단계만 다시 하는 장치가 필요합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>스팸 필터를 바꿨더니 스팸 메일을 하나도 놓치지 않게 됐습니다. 그런데 사용자 불만은 오히려 늘었습니다. 어떤 숫자를 확인해야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>정밀도입니다. 놓치지 않는다는 것은 재현율이 100%라는 뜻일 뿐입니다. 필터를 민감하게 맞추면 정상 메일까지 스팸으로 보내는 헛경보가 늘어납니다. 스팸으로 분류된 메일 중 진짜 스팸의 비율을 세어 봅니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>이미지 100장을 처리하는 데 100초가 걸립니다. 그중 파일 목록을 읽고 결과를 한 파일로 합치는 20초는 나눌 수 없습니다. 코어를 8개 쓰면 몇 초가 될까요? 코어를 아무리 늘려도 넘을 수 없는 한계는 몇 배일까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>나눌 수 있는 80초가 80 ÷ 8 = 10초가 되어 전체는 20 + 10 = 30초, 약 3.3배입니다. 20초는 끝까지 남으므로 한계는 100 ÷ 20 = 5배입니다. 더 빨라지려면 코어가 아니라 그 20초를 줄여야 합니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>AI에게 로그나 측정 결과의 분석을 맡기면 평균 하나만 돌려주는 경우가 많습니다. 단위, 분모, 분포를 함께 달라고 요청하세요.</p>
+<blockquote>
+<p><code>latency.csv</code>에 요청별 응답 시간과 성공 여부가 있어. 먼저 시간 단위가 ms인지 초인지 확인해서 알려 줘. 그다음 전체 건수, 실패와 시간 초과 건수, 평균, p50, p95, p99, 최댓값을 표로 보여 줘. 실패한 요청을 빼지 말고 포함했는지 표시해 줘. 배포 전후를 비교할 때는 같은 요일, 같은 시간대의 요청 수가 비슷한 구간끼리만 비교하고, 100건이 안 되는 구간은 p99 대신 "표본 부족"이라고 적어 줘.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: 숫자마다 단위가 붙어 있는가, 비율마다 분모(몇 건 중 몇 건)가 적혀 있는가, 실패한 요청이 통계에 들어 있는가, 전후 비교에서 요청 수 같은 다른 조건이 함께 바뀌지 않았는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>지연 시간<small>latency</small></dt>
+<dd>
+한 건을 끝내는 데 걸리는 시간. 요청 하나가 응답을 받기까지의 시간.
+</dd>
+<dt>처리량<small>throughput</small></dt>
+<dd>
+정해진 시간 동안 끝낸 건수. 초당 요청 수가 대표적.
+</dd>
+<dt>가중 평균<small>weighted average</small></dt>
+<dd>
+집단의 크기를 반영한 평균. 건수가 많은 쪽이 더 큰 몫을 차지한다.
+</dd>
+<dt>퍼센트포인트<small>percentage point</small></dt>
+<dd>
+두 비율을 뺀 차이. 80%에서 84%가 되면 4%p 올랐다고 한다.
+</dd>
+<dt>중앙값<small>median</small></dt>
+<dd>
+값을 크기순으로 줄 세웠을 때 한가운데 값. p50과 같다.
+</dd>
+<dt>백분위<small>percentile</small></dt>
+<dd>
+줄 세운 값에서 몇 % 지점인지로 값을 가리키는 방법. p95는 95% 지점의 값.
+</dd>
+<dt>표준편차<small>standard deviation</small></dt>
+<dd>
+값들이 평균에서 보통 얼마나 떨어져 있는지를 나타내는 수. 분산의 제곱근.
+</dd>
+<dt>독립<small>independent</small></dt>
+<dd>
+한 사건의 결과가 다른 사건에 영향을 주지 않는 관계. 이때만 확률을 그냥 곱할 수 있다.
+</dd>
+<dt>기댓값<small>expected value</small></dt>
+<dd>
+같은 일을 오래 되풀이했을 때의 평균. 한 번의 결과를 보장하지 않는다.
+</dd>
+<dt>조건부 확률<small>conditional probability</small></dt>
+<dd>
+어떤 조건을 만족한 집단 안에서 따진 확률.
+</dd>
+<dt>정밀도<small>precision</small></dt>
+<dd>
+"문제"라고 판정한 것 중에서 진짜 문제인 비율.
+</dd>
+<dt>재현율<small>recall</small></dt>
+<dd>
+실제 문제 중에서 찾아낸 비율.
+</dd>
+<dt>표본<small>sample</small></dt>
+<dd>
+전체 중에서 실제로 관찰한 일부.
+</dd>
+<dt>편향<small>bias</small></dt>
+<dd>
+표본이나 측정이 한쪽으로 치우친 것. 많이 모아도 사라지지 않는다.
+</dd>
+<dt>상관관계<small>correlation</small></dt>
+<dd>
+두 값이 함께 움직이는 관계. 하나가 다른 하나의 원인이라는 뜻은 아니다.
+</dd>
+<dt>암달의 법칙<small>Amdahl's law</small></dt>
+<dd>
+일부만 빨라지면 전체의 속도 향상은 빨라지지 않은 나머지에 묶인다는 법칙.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/library/statistics.html" rel="noopener" target="_blank">Python — statistics 모듈</a> — 평균, 중앙값, 분산, 표준편차, 백분위(<code>quantiles</code>)를 구하는 함수와 각 값의 정의가 나옵니다.</li>
+<li><a href="https://developers.google.com/machine-learning/crash-course" rel="noopener" target="_blank">Google — Machine Learning Crash Course</a> — 분류 단원에서 정확도, 정밀도, 재현율을 예제와 함께 설명합니다.</li>
+<li><a href="https://docs.python.org/3/library/math.html" rel="noopener" target="_blank">Python — math 모듈</a> — <code>log2</code>, <code>sqrt</code>로 이 장의 계산을 직접 따라 해 볼 수 있습니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch12.html"><small>← 이전 · 12장</small><b>디버깅과 테스트</b></a><a class="next" href="ch14.html"><small>다음 · 14장 →</small><b>네트워크</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#units">숫자 옆의 글자부터 읽습니다: 단위</a><a href="#latency">한 명에 30초, 한 시간에 120명: 지연 시간과 처리량</a><a href="#ratio">&quot;몇 %&quot;를 보면 분모부터 찾습니다</a><a href="#percentile">평균이 숨기는 것: 중앙값과 백분위</a><a href="#spread">얼마나 들쭉날쭉한가: 퍼짐과 표준편차</a><a href="#chain">99%를 열 번 거치면: 확률의 곱셈</a><a href="#conditional">&quot;그중에서&quot;를 놓치면: 조건부 확률과 정확도 99%</a><a href="#sample">이 숫자를 믿어도 될까: 표본, 편향, 상관관계</a><a href="#limits">아무리 늘려도 닿지 않는 선: 암달의 법칙과 로그</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

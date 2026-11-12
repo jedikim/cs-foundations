@@ -1,0 +1,51 @@
+<svg viewBox="0 0 760 410" xmlns="http://www.w3.org/2000/svg">
+  <title>fetch는 원격 추적 브랜치 origin/main만 옮기고, pull은 내 브랜치 main과 파일까지 옮긴다</title>
+  <rect class="panel purple" x="20" y="16" width="720" height="92" rx="16"/>
+  <use href="#i-server" x="36" y="38" width="48" height="48" class="ic purple"/>
+  <text class="t-l" x="98" y="58">원격 저장소 (origin)</text>
+  <text class="t-s" x="98" y="80">동료가 방금 커밋 C를 올렸다</text>
+  <path class="ln" d="M456 62 L494 62"/>
+  <path class="ln" d="M526 62 L564 62"/>
+  <circle class="box green" cx="440" cy="62" r="16"/><text class="t-mono t-b mid" x="440" y="67">A</text>
+  <circle class="box green" cx="510" cy="62" r="16"/><text class="t-mono t-b mid" x="510" y="67">B</text>
+  <circle class="box purple" cx="580" cy="62" r="16"/><text class="t-mono t-b mid" x="580" y="67">C</text>
+  <rect class="box blue" x="614" y="50" width="56" height="24" rx="6"/><text class="t-mono t-b mid" x="642" y="67">main</text><path class="ln blue" d="M613 62 H600" marker-end="url(#ah-blue)"/>
+
+  <text class="t-s t-b" x="20" y="134">내 컴퓨터의 저장소</text>
+  <rect class="panel" x="20" y="146" width="226" height="248" rx="16"/>
+  <circle class="badge blue" cx="46" cy="174" r="12"/><text class="badge-t" x="46" y="178.5">1</text>
+  <text class="t-b" x="66" y="179">받기 전</text>
+  <path class="ln" d="M76 268 L104 268"/>
+  <path class="ln thin muted dash" d="M136 268 L164 268"/>
+  <circle class="ghost dash" cx="180" cy="268" r="16"/><text class="t-mono mid tc-muted" x="180" y="273">?</text>
+  <circle class="box green" cx="60" cy="268" r="16"/><text class="t-mono t-b mid" x="60" y="273">A</text>
+  <circle class="box green" cx="120" cy="268" r="16"/><text class="t-mono t-b mid" x="120" y="273">B</text>
+  <rect class="box blue" x="92" y="210" width="56" height="24" rx="6"/><text class="t-mono t-b mid" x="120" y="227">main</text><path class="ln blue" d="M120 235 V248" marker-end="url(#ah-blue)"/>
+  <rect class="box purple" x="66" y="302" width="108" height="24" rx="6"/><text class="t-mono t-b mid" x="120" y="319">origin/main</text><path class="ln purple" d="M120 301 V288" marker-end="url(#ah-purple)"/>
+  <text class="t-s mid" x="133" y="374">서버에 C가 생긴 줄 모른다</text>
+
+  <rect class="panel" x="267" y="146" width="226" height="248" rx="16"/>
+  <circle class="badge blue" cx="293" cy="174" r="12"/><text class="badge-t" x="293" y="178.5">2</text>
+  <text class="t-b" x="313" y="179">git fetch 후</text>
+  <path class="ln" d="M323 268 L351 268"/>
+  <path class="ln" d="M383 268 L411 268"/>
+  <circle class="box purple" cx="427" cy="268" r="16"/><text class="t-mono t-b mid" x="427" y="273">C</text>
+  <circle class="box green" cx="307" cy="268" r="16"/><text class="t-mono t-b mid" x="307" y="273">A</text>
+  <circle class="box green" cx="367" cy="268" r="16"/><text class="t-mono t-b mid" x="367" y="273">B</text>
+  <rect class="box blue" x="339" y="210" width="56" height="24" rx="6"/><text class="t-mono t-b mid" x="367" y="227">main</text><path class="ln blue" d="M367 235 V248" marker-end="url(#ah-blue)"/>
+  <rect class="box purple" x="373" y="302" width="108" height="24" rx="6"/><text class="t-mono t-b mid" x="427" y="319">origin/main</text><path class="ln purple" d="M427 301 V288" marker-end="url(#ah-purple)"/>
+  <text class="t-s mid" x="380" y="374">받아만 두었다 · 파일은 B 그대로</text>
+
+  <rect class="panel" x="514" y="146" width="226" height="248" rx="16"/>
+  <circle class="badge blue" cx="540" cy="174" r="12"/><text class="badge-t" x="540" y="178.5">3</text>
+  <text class="t-b" x="560" y="179">git pull 후</text>
+  <path class="ln" d="M570 268 L598 268"/>
+  <path class="ln" d="M630 268 L658 268"/>
+  <circle class="box purple" cx="674" cy="268" r="16"/><text class="t-mono t-b mid" x="674" y="273">C</text>
+  <circle class="box green" cx="554" cy="268" r="16"/><text class="t-mono t-b mid" x="554" y="273">A</text>
+  <circle class="box green" cx="614" cy="268" r="16"/><text class="t-mono t-b mid" x="614" y="273">B</text>
+  <rect class="box blue" x="646" y="210" width="56" height="24" rx="6"/><text class="t-mono t-b mid" x="674" y="227">main</text><path class="ln blue" d="M674 235 V248" marker-end="url(#ah-blue)"/>
+  <rect class="box purple" x="620" y="302" width="108" height="24" rx="6"/><text class="t-mono t-b mid" x="674" y="319">origin/main</text><path class="ln purple" d="M674 301 V288" marker-end="url(#ah-purple)"/>
+  <text class="t-s mid" x="627" y="374">main과 파일까지 C로 왔다</text>
+
+</svg>

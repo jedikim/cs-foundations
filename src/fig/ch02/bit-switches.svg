@@ -1,0 +1,81 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>스위치가 하나 늘 때마다 나타낼 수 있는 경우의 수가 두 배가 되고, 여덟 개면 256가지가 된다</title>
+  <text class="t-b" x="20" y="43">스위치 1개</text>
+  <rect class="box gray" x="150" y="30" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="158" y="63">0</text>
+  <rect class="solid yellow" x="178" y="30" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="186" y="63">1</text>
+  <text class="t-l end tc-blue" x="740" y="44">2가지</text>
+  <text class="t-b" x="20" y="105">스위치 2개</text>
+  <rect class="box gray" x="150" y="92" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="169" y="92" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="167.5" y="125">00</text>
+  <rect class="box gray" x="197" y="92" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="216" y="92" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="214.5" y="125">01</text>
+  <rect class="solid yellow" x="244" y="92" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="263" y="92" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="261.5" y="125">10</text>
+  <rect class="solid yellow" x="291" y="92" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="310" y="92" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="308.5" y="125">11</text>
+  <text class="t-l end tc-blue" x="740" y="106">4가지</text>
+  <text class="t-b" x="20" y="167">스위치 3개</text>
+  <rect class="box gray" x="150" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="169" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="188" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="177" y="187">000</text>
+  <rect class="box gray" x="216" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="235" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="254" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="243" y="187">001</text>
+  <rect class="box gray" x="282" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="301" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="320" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="309" y="187">010</text>
+  <rect class="box gray" x="348" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="367" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="386" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="375" y="187">011</text>
+  <rect class="solid yellow" x="414" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="433" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="452" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="441" y="187">100</text>
+  <rect class="solid yellow" x="480" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="499" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="518" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="507" y="187">101</text>
+  <rect class="solid yellow" x="546" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="565" y="154" width="16" height="16" rx="4"/>
+  <rect class="box gray" x="584" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="573" y="187">110</text>
+  <rect class="solid yellow" x="612" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="631" y="154" width="16" height="16" rx="4"/>
+  <rect class="solid yellow" x="650" y="154" width="16" height="16" rx="4"/>
+  <text class="t-mono mid" x="639" y="187">111</text>
+  <text class="t-l end tc-blue" x="740" y="168">8가지</text>
+  <text class="t-s end" x="740" y="78">× 2</text>
+  <text class="t-s end" x="740" y="140">× 2</text>
+  <rect class="panel yellow" x="20" y="212" width="720" height="74" rx="14"/>
+  <text class="t-b" x="36" y="244">스위치 8개</text>
+  <text class="t-s t-b" x="36" y="265">= 1바이트</text>
+  <rect class="box gray" x="150" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono mid tc-muted" x="167" y="254">0</text>
+  <rect class="solid yellow" x="190" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono t-b t-on mid" x="207" y="254">1</text>
+  <rect class="box gray" x="230" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono mid tc-muted" x="247" y="254">0</text>
+  <rect class="box gray" x="270" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono mid tc-muted" x="287" y="254">0</text>
+  <rect class="box gray" x="310" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono mid tc-muted" x="327" y="254">0</text>
+  <rect class="box gray" x="350" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono mid tc-muted" x="367" y="254">0</text>
+  <rect class="box gray" x="390" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono mid tc-muted" x="407" y="254">0</text>
+  <rect class="solid yellow" x="430" y="232" width="34" height="34" rx="7"/>
+  <text class="t-mono t-b t-on mid" x="447" y="254">1</text>
+  <text class="t-s" x="488" y="254">2를 여덟 번 곱한 수</text>
+  <text class="t-l end tc-blue" x="724" y="246">256가지</text>
+  <text class="t-s end" x="724" y="267">0부터 255까지</text>
+</svg>

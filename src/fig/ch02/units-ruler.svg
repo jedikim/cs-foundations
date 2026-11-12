@@ -1,0 +1,54 @@
+<svg viewBox="0 0 760 252" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 바이트 수라도 1000씩 묶어 세면 1000GB, 1024씩 묶어 세면 약 931GiB가 된다</title>
+  <text class="t-h" x="20" y="34">같은 1TB 디스크를 두 가지 자로 재면</text>
+  <text class="t-s t-b" x="60" y="68">1000씩 묶는 자 (GB)</text>
+  <text class="t-b end tc-blue" x="700" y="68">1000GB = 1TB</text>
+  <path class="ln thin blue" d="M60 100 V112"/>
+  <text class="t-xs mid" x="60" y="92">0</text>
+  <path class="ln thin blue" d="M124 100 V112"/>
+  <text class="t-xs mid" x="124" y="92">100</text>
+  <path class="ln thin blue" d="M188 100 V112"/>
+  <text class="t-xs mid" x="188" y="92">200</text>
+  <path class="ln thin blue" d="M252 100 V112"/>
+  <text class="t-xs mid" x="252" y="92">300</text>
+  <path class="ln thin blue" d="M316 100 V112"/>
+  <text class="t-xs mid" x="316" y="92">400</text>
+  <path class="ln thin blue" d="M380 100 V112"/>
+  <text class="t-xs mid" x="380" y="92">500</text>
+  <path class="ln thin blue" d="M444 100 V112"/>
+  <text class="t-xs mid" x="444" y="92">600</text>
+  <path class="ln thin blue" d="M508 100 V112"/>
+  <text class="t-xs mid" x="508" y="92">700</text>
+  <path class="ln thin blue" d="M572 100 V112"/>
+  <text class="t-xs mid" x="572" y="92">800</text>
+  <path class="ln thin blue" d="M636 100 V112"/>
+  <text class="t-xs mid" x="636" y="92">900</text>
+  <path class="ln thin blue" d="M700 100 V112"/>
+  <text class="t-xs mid" x="700" y="92">1000</text>
+  <rect class="solid warm" x="60" y="114" width="640" height="30" rx="5"/>
+  <text class="t-on t-b mid" x="380" y="134">디스크 = 1,000,000,000,000바이트</text>
+  <path class="ln thin warm" d="M60 146 V158"/>
+  <text class="t-xs mid" x="60" y="174">0</text>
+  <path class="ln thin warm" d="M128.7 146 V158"/>
+  <text class="t-xs mid" x="128.7" y="174">100</text>
+  <path class="ln thin warm" d="M197.4 146 V158"/>
+  <text class="t-xs mid" x="197.4" y="174">200</text>
+  <path class="ln thin warm" d="M266.2 146 V158"/>
+  <text class="t-xs mid" x="266.2" y="174">300</text>
+  <path class="ln thin warm" d="M334.9 146 V158"/>
+  <text class="t-xs mid" x="334.9" y="174">400</text>
+  <path class="ln thin warm" d="M403.6 146 V158"/>
+  <text class="t-xs mid" x="403.6" y="174">500</text>
+  <path class="ln thin warm" d="M472.3 146 V158"/>
+  <text class="t-xs mid" x="472.3" y="174">600</text>
+  <path class="ln thin warm" d="M541 146 V158"/>
+  <text class="t-xs mid" x="541" y="174">700</text>
+  <path class="ln thin warm" d="M609.8 146 V158"/>
+  <text class="t-xs mid" x="609.8" y="174">800</text>
+  <path class="ln thin warm" d="M678.5 146 V158"/>
+  <path class="ln warm" d="M700 146 V162"/>
+  <text class="t-s t-b mid tc-warm" x="704" y="178">931</text>
+  <text class="t-s t-b" x="60" y="204">1024씩 묶는 자 (GiB)</text>
+  <text class="t-b end tc-warm" x="700" y="204">약 931GiB</text>
+  <text class="t-xs" x="60" y="234">윈도우는 GiB로 잰 값에 ‘GB’라고 적습니다. 그래서 1TB 디스크가 931GB로 보입니다.</text>
+</svg>

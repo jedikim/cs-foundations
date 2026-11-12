@@ -1,0 +1,55 @@
+<svg viewBox="0 0 760 392" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 주문 흐름이 한 프로그램 안에서는 함수 호출과 한 번의 트랜잭션으로 끝나지만, 네 서비스로 나누면 호출마다 늦거나 끊기거나 답이 사라질 수 있다</title>
+
+  <rect class="panel" x="20" y="16" width="310" height="360" rx="16"/>
+  <text class="t-l" x="40" y="46">한 프로그램 (모놀리스)</text>
+  <text class="t-s" x="40" y="68">주문 한 건 = 함수 호출 3번</text>
+  <rect class="box blue" x="40" y="84" width="160" height="250" rx="14"/>
+  <rect class="box" x="60" y="96" width="120" height="34" rx="8"/>
+  <text class="t-b mid" x="120" y="118">주문</text>
+  <rect class="box" x="60" y="160" width="120" height="34" rx="8"/>
+  <text class="t-b mid" x="120" y="182">결제</text>
+  <rect class="box" x="60" y="224" width="120" height="34" rx="8"/>
+  <text class="t-b mid" x="120" y="246">재고</text>
+  <rect class="box" x="60" y="288" width="120" height="34" rx="8"/>
+  <text class="t-b mid" x="120" y="310">알림</text>
+  <path class="ln blue" d="M120 134 V152" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M120 198 V216" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M120 262 V280" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M204 209 H228" marker-end="url(#ah-green)"/>
+  <use href="#i-db" x="242" y="170" width="48" height="48" class="ic green"/>
+  <text class="t-b mid" x="266" y="240">DB 하나</text>
+  <text class="t-s mid" x="266" y="260">트랜잭션 하나</text>
+  <text class="t-s t-b tc-green" x="40" y="360">실패하면 통째로 되돌린다</text>
+
+  <rect class="panel" x="350" y="16" width="390" height="360" rx="16"/>
+  <text class="t-l" x="370" y="46">네 서비스 (마이크로서비스)</text>
+  <text class="t-s" x="370" y="68">주문 한 건 = 네트워크 호출 3번</text>
+  <rect class="box blue" x="370" y="96" width="160" height="34" rx="8"/>
+  <text class="t-b mid" x="450" y="118">주문 서비스</text>
+  <rect class="box blue" x="370" y="160" width="160" height="34" rx="8"/>
+  <text class="t-b mid" x="450" y="182">결제 서비스</text>
+  <rect class="box blue" x="370" y="224" width="160" height="34" rx="8"/>
+  <text class="t-b mid" x="450" y="246">재고 서비스</text>
+  <rect class="box blue" x="370" y="288" width="160" height="34" rx="8"/>
+  <text class="t-b mid" x="450" y="310">알림 서비스</text>
+  <path class="ln purple" d="M400 134 V152" marker-end="url(#ah-purple)"/>
+  <path class="ln purple" d="M400 198 V216" marker-end="url(#ah-purple)"/>
+  <path class="ln purple" d="M400 262 V280" marker-end="url(#ah-purple)"/>
+  <text class="t-xs t-b tc-purple" x="416" y="150">늦을 수 있다</text>
+  <text class="t-xs t-b tc-purple" x="416" y="214">끊길 수 있다</text>
+  <text class="t-xs t-b tc-purple" x="416" y="278">답이 사라질 수 있다</text>
+  <use href="#i-db" x="562" y="97" width="32" height="32" class="ic green"/>
+  <text class="t-s" x="604" y="118">주문 DB</text>
+  <use href="#i-db" x="562" y="161" width="32" height="32" class="ic green"/>
+  <text class="t-s" x="604" y="182">결제 DB</text>
+  <use href="#i-db" x="562" y="225" width="32" height="32" class="ic green"/>
+  <text class="t-s" x="604" y="246">재고 DB</text>
+  <use href="#i-mail" x="562" y="289" width="32" height="32" class="ic warm"/>
+  <text class="t-s" x="604" y="310">메일 발송</text>
+  <path class="ln thin muted" d="M534 113 H556"/>
+  <path class="ln thin muted" d="M534 177 H556"/>
+  <path class="ln thin muted" d="M534 241 H556"/>
+  <path class="ln thin muted" d="M534 305 H556"/>
+  <text class="t-s t-b tc-red" x="370" y="360">결제는 됐는데 재고만 실패할 수 있다</text>
+</svg>

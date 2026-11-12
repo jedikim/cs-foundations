@@ -1,0 +1,55 @@
+<svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg">
+  <title>내적은 화살표가 길수록 커지지만 코사인 유사도는 방향만 본다. 김치찌개와 육개장은 방향이 같아 1.0, 미역국은 53도 벌어져 0.6이다</title>
+
+  <path class="ln thin" d="M70 330 H402" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M70 330 V30" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M142 326 V334 M214 326 V334 M286 326 V334 M358 326 V334 M66 258 H74 M66 186 H74 M66 114 H74 M66 42 H74"/>
+  <text class="t-xs mid" x="142" y="352">2</text>
+  <text class="t-xs mid" x="214" y="352">4</text>
+  <text class="t-xs mid" x="286" y="352">6</text>
+  <text class="t-xs mid" x="358" y="352">8</text>
+  <text class="t-s end" x="404" y="370">짠맛</text>
+  <text class="t-xs end" x="58" y="262">2</text>
+  <text class="t-xs end" x="58" y="190">4</text>
+  <text class="t-xs end" x="58" y="118">6</text>
+  <text class="t-xs end" x="58" y="46">8</text>
+  <text class="t-s" x="84" y="34">매운맛</text>
+
+  <path class="ln thin muted dash" d="M178 186 V330 M178 186 H70"/>
+
+  <path class="ln warm" d="M70 330 L286 42" marker-end="url(#ah-warm)"/>
+  <path class="ln thick blue" d="M70 330 L178 186" marker-end="url(#ah-blue)"/>
+  <path class="ln thick green" d="M70 330 L250 330" marker-end="url(#ah-green)"/>
+  <path class="ln thin" d="M112 330 A42 42 0 0 0 95.2 296.4"/>
+  <text class="t-s t-b" x="118" y="312">53°</text>
+
+  <text class="t-b tc-warm" x="298" y="42">육개장 (6, 8)</text>
+  <text class="t-s" x="298" y="62">길이 10</text>
+  <text class="t-b tc-blue" x="194" y="190">김치찌개 (3, 4)</text>
+  <text class="t-s" x="194" y="210">길이 5</text>
+  <text class="t-b tc-green" x="262" y="298">미역국 (5, 0)</text>
+  <text class="t-s" x="262" y="316">길이 5</text>
+
+  <text class="t-s t-b" x="430" y="30">김치찌개 (3, 4)와 견주면</text>
+
+  <rect class="box blue" x="430" y="44" width="310" height="92" rx="12"/>
+  <text class="t-b tc-blue" x="446" y="68">김치찌개 자신</text>
+  <text class="t-s" x="446" y="94">내적</text>
+  <text class="t-mono" x="500" y="94">3×3 + 4×4 = 25</text>
+  <text class="t-s" x="446" y="118">코사인</text>
+  <text class="t-mono t-b" x="500" y="118">25 ÷ (5×5) = 1.0</text>
+
+  <rect class="box warm" x="430" y="148" width="310" height="92" rx="12"/>
+  <text class="t-b tc-warm" x="446" y="172">육개장</text>
+  <text class="t-s" x="446" y="198">내적</text>
+  <text class="t-mono" x="500" y="198">3×6 + 4×8 = 50</text>
+  <text class="t-s" x="446" y="222">코사인</text>
+  <text class="t-mono t-b" x="500" y="222">50 ÷ (5×10) = 1.0</text>
+
+  <rect class="box green" x="430" y="252" width="310" height="92" rx="12"/>
+  <text class="t-b tc-green" x="446" y="276">미역국</text>
+  <text class="t-s" x="446" y="302">내적</text>
+  <text class="t-mono" x="500" y="302">3×5 + 4×0 = 15</text>
+  <text class="t-s" x="446" y="326">코사인</text>
+  <text class="t-mono t-b" x="500" y="326">15 ÷ (5×5) = 0.6</text>
+</svg>

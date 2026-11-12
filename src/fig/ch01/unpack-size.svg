@@ -1,0 +1,24 @@
+<svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg">
+  <title>20MB짜리 사진 파일 한 장이 실행 중에는 수백 MB의 메모리를 쓴다</title>
+  <text class="t-h" x="20" y="34">사진 한 장이 차지하는 공간</text>
+
+  <text class="t-s end" x="250" y="77">디스크의 압축 파일</text>
+  <rect class="solid warm" x="264" y="60" width="20" height="26" rx="5"/>
+  <text class="t-mono" x="294" y="78">20MB</text>
+
+  <text class="t-s end" x="250" y="121">압축을 푼 픽셀 (RAM)</text>
+  <rect class="solid green" x="264" y="104" width="200" height="26" rx="5"/>
+  <text class="t-mono" x="474" y="122">200MB</text>
+
+  <text class="t-s end" x="250" y="165">편집용 복사본 (RAM)</text>
+  <rect class="solid green" x="264" y="148" width="200" height="26" rx="5"/>
+  <text class="t-mono" x="474" y="166">+200MB</text>
+
+  <text class="t-s end" x="250" y="209">화면에 그릴 텍스처 (VRAM)</text>
+  <rect class="solid purple" x="264" y="192" width="200" height="26" rx="5"/>
+  <text class="t-mono" x="474" y="210">+200MB</text>
+
+  <rect class="box yellow" x="560" y="100" width="180" height="84" rx="12"/>
+  <text class="t-s mid" x="650" y="130">파일은 20MB인데</text>
+  <text class="t-b mid" x="650" y="154">실행 중에는 약 600MB</text>
+</svg>

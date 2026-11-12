@@ -1,0 +1,1131 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>27장 LLM의 작동과 한계 — 개발의 기초</title>
+<meta name="description" content="토큰·컨텍스트·학습·추론">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch27" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html" aria-current="page"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">7부 AI › <b>27장 LLM의 작동과 한계</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-blue">
+<div class="ch-kicker"><span class="ch-no">27장</span><span class="part">7부 · AI</span></div>
+<h1>LLM의 작동과 한계</h1>
+<p class="ch-sub">토큰·컨텍스트·학습·추론</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 40분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch26.html">26장 AI 계산을 따라가는 수학</a></div>
+</header><div class="lead">
+<p>AI 채팅에 같은 질문을 두 번 했더니 답이 서로 다릅니다. 어제 알려 준 규칙은 오늘 까맣게 잊었고, 있지도 않은 함수를 아주 자신 있게 써 줍니다. 고장이 아닙니다. LLM이 <strong>다음에 올 말 조각을 하나씩 맞히는 기계</strong>라는 사실 하나만 알면 이 행동들이 모두 한 줄로 설명됩니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>LLM이 글을 만드는 과정을 "토큰 → 좌표 → 문맥 섞기 → 확률 → 뽑기"로 설명할 수 있습니다.</li>
+<li>같은 질문에 답이 달라지는 이유와, 대화가 길어지면 앞의 약속을 잊는 이유를 말할 수 있습니다.</li>
+<li>환각이 왜 생기는지 알고, 근거 자료와 검증으로 줄일 수 있습니다.</li>
+<li>토큰 수로 비용을 어림하고, 첫 토큰까지의 시간과 전체 시간을 나눠 읽을 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="predict">
+<h2><span class="sec-n">27.1</span>LLM은 세상의 글을 엄청나게 읽은 자동 완성입니다<a aria-label="이 절의 링크" class="anchor" href="#predict">#</a></h2>
+<p>휴대폰 키보드에 "오늘 날씨가"까지 치면 위쪽에 "좋다", "흐리다" 같은 다음 낱말이 뜹니다. <strong>LLM</strong>(대규모 언어 모델, Large Language Model)이 하는 일도 뼈대는 같습니다. 지금까지의 글을 보고 <strong>다음에 올 조각마다 확률을 매긴 뒤</strong>, 하나를 골라 뒤에 붙입니다. 이 조각을 <strong>토큰</strong>(token)이라고 부릅니다.</p>
+<figure class="fig" id="fig-autocomplete"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 282" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>LLM은 지금까지의 글 뒤에 올 조각마다 확률을 매기고, 그중 하나를 뽑아 뒤에 붙인다</title>
+
+  <circle class="badge purple" cx="32" cy="30" r="12"/><text class="badge-t" x="32" y="34.500">1</text>
+  <text class="t-s t-b" x="52" y="35">다음에 올 조각마다 확률을 매긴다</text>
+
+  <!-- 지금까지의 글 -->
+  <rect class="box" x="20" y="74" width="262" height="62" rx="12"/>
+  <rect class="box blue" x="32" y="86" width="60" height="38" rx="8"/>
+  <text class="mid" x="62" y="110">오늘</text>
+  <rect class="box blue" x="98" y="86" width="60" height="38" rx="8"/>
+  <text class="mid" x="128" y="110">날씨</text>
+  <rect class="box blue" x="164" y="86" width="40" height="38" rx="8"/>
+  <text class="mid" x="184" y="110">가</text>
+  <rect class="ghost dash" x="210" y="86" width="60" height="38" rx="8"/>
+  <text class="t-l mid tc-purple" x="240" y="111">?</text>
+  <text class="t-s mid" x="151" y="158">지금까지의 글</text>
+
+  <path class="ln purple" d="M288 105 H326" marker-end="url(#ah-purple)"/>
+
+  <rect class="box purple" x="334" y="62" width="120" height="86" rx="14"/>
+  <use href="#i-robot" x="374" y="70" width="40" height="40" class="ic purple"/>
+  <text class="t-l mid" x="394" y="134">LLM</text>
+
+  <path class="ln purple" d="M460 105 H498" marker-end="url(#ah-purple)"/>
+
+  <!-- 후보와 확률 -->
+  <text class="end" x="572" y="71">좋다</text>
+  <rect class="solid purple" x="582" y="56" width="100" height="20" rx="4"/>
+  <text class="t-mono" x="690" y="71">50%</text>
+
+  <text class="end" x="572" y="101">흐리다</text>
+  <rect class="solid gray" x="582" y="86" width="60" height="20" rx="4"/>
+  <text class="t-mono" x="650" y="101">30%</text>
+
+  <text class="end" x="572" y="131">춥다</text>
+  <rect class="solid gray" x="582" y="116" width="30" height="20" rx="4"/>
+  <text class="t-mono" x="620" y="131">15%</text>
+
+  <text class="end" x="572" y="161">수상하다</text>
+  <rect class="solid gray" x="582" y="146" width="10" height="20" rx="4"/>
+  <text class="t-mono" x="600" y="161">5%</text>
+
+  <text class="t-xs" x="512" y="188">실제 후보는 수만 개 — 네 개만 그렸습니다</text>
+
+  <!-- 뽑아 붙이기 -->
+  <circle class="badge purple" cx="32" cy="240" r="12"/><text class="badge-t" x="32" y="244.500">2</text>
+  <text class="t-s t-b" x="52" y="245">하나를 뽑아 뒤에 붙인다</text>
+
+  <rect class="box blue" x="232" y="221" width="60" height="38" rx="8"/>
+  <text class="mid" x="262" y="245">오늘</text>
+  <rect class="box blue" x="298" y="221" width="60" height="38" rx="8"/>
+  <text class="mid" x="328" y="245">날씨</text>
+  <rect class="box blue" x="364" y="221" width="40" height="38" rx="8"/>
+  <text class="mid" x="384" y="245">가</text>
+  <rect class="solid purple" x="410" y="221" width="60" height="38" rx="8"/>
+  <text class="mid t-on t-b" x="440" y="245">좋다</text>
+  <rect class="ghost dash" x="476" y="221" width="60" height="38" rx="8"/>
+  <text class="t-l mid tc-purple" x="506" y="246">?</text>
+  <text class="t-s" x="552" y="245">늘어난 글로 1번부터 다시</text>
+</svg></div><figcaption><b>그림 27-1</b>LLM이 하는 일의 전부입니다. 늘 1등 후보가 뽑히는 것은 아닌데, 그 이야기는 뒤에서 합니다.</figcaption></figure>
+<p>차이는 규모입니다. 휴대폰 자동 완성은 내가 쓴 문자 몇 달 치를 봤지만, LLM은 책과 웹 문서와 코드처럼 사람이 평생 읽어도 못 읽을 양의 글로 "다음 토큰 맞히기"를 연습했습니다. 다음 말을 잘 맞히려면 문법도, 상식도, 코드의 규칙도 어느 정도 몸에 배어야 합니다. 그래서 이어 쓰기만 하는데도 번역과 요약과 코딩이 됩니다. "자동 완성"은 글이 만들어지는 절차를 가리키는 말이지, 능력이 휴대폰 키보드 수준이라는 뜻이 아닙니다.</p>
+<p>이 장에서는 LLM을 <strong>이어 쓰기 달인</strong>이라고 부르겠습니다. 달인에게는 두 가지가 있습니다.</p>
+<ul>
+<li><strong>머릿속</strong>: 연습하면서 굳어진 감각입니다. 실제로는 수십억 개의 숫자이고, 이 숫자를 <strong>파라미터</strong>(parameter) 또는 가중치라고 합니다. <a href="ch26.html">26장</a>에서 본 가중합의 그 가중치입니다.</li>
+<li><strong>책상 위</strong>: 이번에 건네받은 글입니다. 달인은 책상 위에 놓인 것만 보고 이어 씁니다.</li>
+</ul>
+<p>굳어진 머릿속으로 답을 만들어 내는 일을 <strong>추론</strong>(inference)이라고 합니다. 우리가 AI에게 질문할 때마다 일어나는 일입니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 모델은 글을 쓸 뿐, 일을 하지는 않습니다</div>
+<p>모델 자체는 검색 엔진도, 데이터베이스도, 코드 실행기도 아닙니다. 최신 자료를 찾거나 파일을 고치는 일은 모델 <strong>주변의 프로그램</strong>이 도구를 연결해 줬을 때만 일어납니다(<a href="ch29.html">29장</a>). 그래서 AI가 "테스트를 모두 통과했습니다"라고 <strong>썼다는 것</strong>과 테스트가 <strong>실제로 돌았다는 것</strong>은 다른 사실입니다. 실행 기록을 확인하세요.</p>
+</div>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>LLM이 하는 계산은 하나뿐입니다. <strong>지금까지의 토큰을 보고 다음 토큰의 확률을 구하는 것.</strong> 이 장의 나머지는 모두 여기서 따라 나옵니다.</p>
+</div>
+</section>
+<section class="level2" id="token">
+<h2><span class="sec-n">27.2</span>토큰: 글자도 단어도 아닌 조각<a aria-label="이 절의 링크" class="anchor" href="#token">#</a></h2>
+<p>모델은 글을 글자 단위로도, 단어 단위로도 읽지 않습니다. 글자 단위는 너무 잘아서 문장이 한없이 길어집니다. 단어 단위는 세상의 모든 단어를 미리 알아 둘 수 없어서 새 말이 나오면 막힙니다. 그래서 그 중간인 <strong>조각</strong>으로 자릅니다.</p>
+<p>레고와 비슷합니다. 자주 쓰는 모양은 큰 블록 하나로 두고, 드문 모양은 작은 블록 여러 개로 조립합니다. 예를 들어 <code>unbelievable</code>은 <code>un</code>, <code>believ</code>, <code>able</code> 세 조각으로 나뉠 수 있습니다.</p>
+<p>글을 조각으로 자르고 조각마다 번호를 붙이는 프로그램이 <strong>토크나이저</strong>(tokenizer)입니다. 모델이 실제로 받는 것은 글이 아니라 이 <strong>번호의 줄</strong>입니다.</p>
+<figure class="fig" id="fig-tokenize"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 322" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>토크나이저는 글을 조각으로 자르고 조각마다 번호를 붙인다. 뜻이 같은 문장도 한국어가 영어보다 토큰이 더 많이 들 수 있다</title>
+
+  <text class="t-s t-b mid" x="110" y="32">원래 글</text>
+  <text class="t-s t-b mid" x="400" y="32">토큰으로 자른 모습</text>
+  <text class="t-s t-b mid" x="670" y="32">세어 보면</text>
+  <path class="ln thin muted" d="M20 44 H740"/>
+
+  <!-- 영어 -->
+  <rect class="box" x="20" y="66" width="180" height="48" rx="10"/>
+  <text class="t-mono mid" x="110" y="95">I ate an apple.</text>
+  <path class="ln muted" d="M206 90 H236" marker-end="url(#ah-muted)"/>
+
+  <rect class="box blue" x="246" y="71" width="36" height="38" rx="8"/>
+  <text class="t-mono mid" x="264" y="95">I</text>
+  <rect class="box blue" x="288" y="71" width="50" height="38" rx="8"/>
+  <text class="t-mono mid" x="313" y="95">ate</text>
+  <rect class="box blue" x="344" y="71" width="42" height="38" rx="8"/>
+  <text class="t-mono mid" x="365" y="95">an</text>
+  <rect class="box blue" x="392" y="71" width="66" height="38" rx="8"/>
+  <text class="t-mono mid" x="425" y="95">apple</text>
+  <rect class="box blue" x="464" y="71" width="32" height="38" rx="8"/>
+  <text class="t-mono mid" x="480" y="95">.</text>
+
+  <text class="t-mono mid tc-muted" x="264" y="132">40</text>
+  <text class="t-mono mid tc-muted" x="313" y="132">3214</text>
+  <text class="t-mono mid tc-muted" x="365" y="132">281</text>
+  <text class="t-mono mid tc-muted" x="425" y="132">9117</text>
+  <text class="t-mono mid tc-muted" x="480" y="132">13</text>
+  <text class="t-xs" x="508" y="132">← 번호(ID)</text>
+
+  <rect class="box yellow" x="610" y="62" width="120" height="56" rx="10"/>
+  <text class="t-s mid" x="670" y="84">글자 15개</text>
+  <text class="t-b mid" x="670" y="106">토큰 5개</text>
+
+  <!-- 한국어 -->
+  <rect class="box" x="20" y="176" width="180" height="48" rx="10"/>
+  <text class="mid" x="110" y="205">나는 사과를 먹었다.</text>
+  <path class="ln muted" d="M206 200 H236" marker-end="url(#ah-muted)"/>
+
+  <rect class="box warm" x="246" y="181" width="36" height="38" rx="8"/>
+  <text class="mid" x="264" y="205">나</text>
+  <rect class="box warm" x="288" y="181" width="36" height="38" rx="8"/>
+  <text class="mid" x="306" y="205">는</text>
+  <rect class="box warm" x="330" y="181" width="36" height="38" rx="8"/>
+  <text class="mid" x="348" y="205">사</text>
+  <rect class="box warm" x="372" y="181" width="36" height="38" rx="8"/>
+  <text class="mid" x="390" y="205">과</text>
+  <rect class="box warm" x="414" y="181" width="36" height="38" rx="8"/>
+  <text class="mid" x="432" y="205">를</text>
+  <rect class="box warm" x="456" y="181" width="36" height="38" rx="8"/>
+  <text class="mid" x="474" y="205">먹</text>
+  <rect class="box warm" x="498" y="181" width="50" height="38" rx="8"/>
+  <text class="mid" x="523" y="205">었다</text>
+  <rect class="box warm" x="554" y="181" width="32" height="38" rx="8"/>
+  <text class="mid" x="570" y="205">.</text>
+
+  <rect class="box yellow" x="610" y="172" width="120" height="56" rx="10"/>
+  <text class="t-s mid" x="670" y="194">글자 11개</text>
+  <text class="t-b mid tc-warm" x="670" y="216">토큰 8개</text>
+
+  <text class="t-b" x="20" y="272">뜻은 같고 글자는 더 적은데, 토큰은 더 많이 든다</text>
+  <text class="t-xs" x="20" y="298">설명을 위한 예시입니다. 실제로 어디서 잘리고 몇 번이 붙는지는 모델의 토크나이저마다 다릅니다.</text>
+</svg></div><figcaption><b>그림 27-2</b>글이 토큰이 되는 과정. 영어는 단어가 통째로 한 조각이 되는 일이 많지만, 한국어는 더 잘게 나뉘곤 합니다.</figcaption></figure>
+<p>세 가지를 기억해 두세요.</p>
+<ul>
+<li><strong>토큰 수는 글자 수가 아닙니다.</strong> 같은 내용이면 한국어가 영어보다 토큰을 더 쓰는 경우가 많습니다.</li>
+<li><strong>번호는 이름표일 뿐입니다.</strong> 9117번이 40번보다 중요하다는 뜻이 아닙니다.</li>
+<li><strong>토크나이저는 모델마다 다릅니다.</strong> 같은 문장도 모델에 따라 조각 수가 달라집니다.</li>
+</ul>
+<p>토큰이 중요한 까닭은 <strong>LLM의 계산서가 전부 토큰으로 적히기</strong> 때문입니다. 요금도, 한 번에 읽을 수 있는 양도, 속도도 토큰 단위로 셉니다.</p>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · 토큰 수는 어림하지 말고 세어 보세요</div>
+<p>API는 대개 응답과 함께 이번 요청이 쓴 입력·출력 토큰 수를 돌려줍니다. 내 서비스의 대표적인 문서, 코드, 한국어 입력을 실제로 보내 보고 그 숫자로 예산을 잡으세요.</p>
+</div>
+</section>
+<section class="level2" id="embedding">
+<h2><span class="sec-n">27.3</span>임베딩: 조각을 뜻의 지도 위에 놓기<a aria-label="이 절의 링크" class="anchor" href="#embedding">#</a></h2>
+<p>번호만으로는 뜻을 알 수 없습니다. 5121번이 "강아지"라고 해서 5122번이 비슷한 말이라는 보장은 전혀 없습니다. 그래서 모델은 맨 먼저 번호마다 <strong>좌표</strong>를 찾아 붙입니다. 토큰의 뜻을 담은 이 숫자 목록(벡터)을 <strong>임베딩</strong>(embedding)이라고 합니다.</p>
+<p>지도에서 서울과 수원은 가깝고 서울과 부산은 멉니다. 임베딩은 <strong>뜻의 지도</strong>입니다. "강아지"와 "고양이"는 가까이, "강아지"와 "결제"는 멀리 놓입니다.</p>
+<figure class="fig" id="fig-meaning-map"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>임베딩은 토큰 번호를 좌표로 바꾼다. 뜻이 비슷한 말은 지도에서 가까이 모인다</title>
+
+  <!-- 토큰 → 번호 → 좌표 -->
+  <text class="t-s t-b" x="20" y="36">토큰 하나가 좌표가 되기까지</text>
+
+  <rect class="box blue" x="65" y="54" width="120" height="42" rx="10"/>
+  <text class="t-l mid" x="125" y="81">강아지</text>
+  <path class="ln muted" d="M125 100 V122" marker-end="url(#ah-muted)"/>
+
+  <rect class="box" x="45" y="130" width="160" height="42" rx="10"/>
+  <text class="t-mono mid" x="125" y="156">번호 5121</text>
+  <path class="ln muted" d="M125 176 V198" marker-end="url(#ah-muted)"/>
+
+  <rect class="box green" x="20" y="206" width="210" height="46" rx="10"/>
+  <text class="t-mono mid" x="125" y="234">[0.82, 0.10, -0.31, …]</text>
+  <text class="t-s mid" x="125" y="276">뜻을 담은 좌표 (임베딩)</text>
+  <text class="t-xs mid" x="125" y="296">실제로는 숫자 수백~수천 개</text>
+
+  <!-- 지도 -->
+  <rect class="panel" x="260" y="20" width="480" height="300" rx="14"/>
+  <text class="t-s t-b" x="278" y="44">뜻의 지도</text>
+
+  <ellipse class="box green" cx="368" cy="118" rx="92" ry="58"/>
+  <text class="t-s t-b mid" x="408" y="82">동물</text>
+  <circle class="f-blue" cx="316" cy="96" r="6"/>
+  <text class="t-b" x="328" y="101">강아지</text>
+  <circle class="f-green" cx="368" cy="124" r="5"/>
+  <text x="379" y="129">고양이</text>
+  <circle class="f-green" cx="312" cy="146" r="5"/>
+  <text x="323" y="151">햄스터</text>
+
+  <ellipse class="box warm" cx="612" cy="118" rx="100" ry="58"/>
+  <text class="t-s t-b mid" x="650" y="82">음식</text>
+  <circle class="f-warm" cx="556" cy="100" r="5"/>
+  <text x="567" y="105">라면</text>
+  <circle class="f-warm" cx="622" cy="124" r="5"/>
+  <text x="633" y="129">떡볶이</text>
+  <circle class="f-warm" cx="560" cy="148" r="5"/>
+  <text x="571" y="153">김밥</text>
+
+  <ellipse class="box purple" cx="476" cy="244" rx="112" ry="48"/>
+  <text class="t-s t-b mid" x="520" y="216">쇼핑</text>
+  <circle class="f-purple" cx="412" cy="236" r="5"/>
+  <text x="423" y="241">환불</text>
+  <circle class="f-purple" cx="436" cy="264" r="5"/>
+  <text x="447" y="269">반품</text>
+  <circle class="f-purple" cx="524" cy="250" r="5"/>
+  <text x="535" y="255">결제</text>
+
+  <text class="t-s t-b mid" x="664" y="240">가까울수록</text>
+  <text class="t-s t-b mid" x="664" y="260">뜻이 비슷하다</text>
+  <text class="t-xs mid" x="476" y="310">‘환불’과 ‘반품’은 글자가 달라도 이웃</text>
+</svg></div><figcaption><b>그림 27-3</b>왼쪽은 토큰 하나가 좌표로 바뀌는 과정, 오른쪽은 그 좌표들을 펼쳐 본 지도입니다.</figcaption></figure>
+<p>이 지도는 누가 손으로 그린 것이 아닙니다. 학습하는 동안 비슷한 자리에 쓰이는 말이 비슷한 좌표를 갖도록 숫자가 조금씩 조정되면서 저절로 생깁니다. 두 좌표가 얼마나 가까운지는 26장에서 배운 코사인 유사도로 잽니다.</p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>실제 지도는 축이 두 개가 아니라 수백에서 수천 개입니다. 축마다 "크기"나 "귀여움" 같은 이름이 붙어 있지도 않습니다.</p>
+</div>
+<p>같은 방법을 토큰 하나가 아니라 <strong>문서 전체</strong>에 쓸 수도 있습니다. 문서를 통째로 좌표 하나로 바꿔 두면 질문과 <strong>뜻이 가까운 문서</strong>를 찾을 수 있습니다. "반품 기한"이라고 물어도 "환불 가능한 기간"이라고 적힌 문서가 걸립니다.</p>
+<figure class="comic"><img alt="사서가 '강아지 먹이'와 '반려견 사료' 문서를 같은 변환기에 넣어 숫자 띠로 바꿉니다. 지도에 놓으면 두 문서가 이웃이 되고, 질문(물음표 핀)과 가까운 문서가 후보로 뽑힙니다." loading="lazy" src="../assets/comic/comic-embedding.webp"/><figcaption>사서가 '강아지 먹이'와 '반려견 사료' 문서를 같은 변환기에 넣어 숫자 띠로 바꿉니다. 지도에 놓으면 두 문서가 이웃이 되고, 질문(물음표 핀)과 가까운 문서가 후보로 뽑힙니다.</figcaption></figure>
+<p>만화의 마지막 칸처럼, 가깝다는 것은 <strong>후보</strong>라는 뜻입니다. 뜻은 비슷해도 다른 제품의 규정일 수 있고, 제품 코드의 한 글자 차이는 놓치기도 합니다. 그래서 찾아낸 문서는 원문을 열어 확인합니다.</p>
+</section>
+<section class="level2" id="transformer">
+<h2><span class="sec-n">27.4</span>트랜스포머: 문맥을 섞고, 계산하고, 반복하기<a aria-label="이 절의 링크" class="anchor" href="#transformer">#</a></h2>
+<p>임베딩만으로는 부족합니다. "배"라는 토큰은 좌표가 하나뿐인데 뜻은 과일일 수도, 몸일 수도, 탈것일 수도 있습니다. 사람은 앞에 놓인 말을 보고 압니다. "항구에서 배"는 탈것이고 "과일 가게에서 배"는 과일입니다.</p>
+<p>모델도 똑같이 합니다. 토큰마다 <strong>앞의 토큰들을 둘러보고, 지금 필요한 정보를 비중을 달리해 섞어 옵니다.</strong> 이 연산이 <strong>어텐션</strong>(attention)입니다.</p>
+<figure class="fig" id="fig-attention-mix"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>같은 토큰 ‘배’도 앞에 놓인 말에 따라 어텐션이 섞어 오는 비중이 달라져, 탈것이 되기도 하고 과일이 되기도 한다</title>
+
+  <!-- 문맥 1: 항구에서 배 -->
+  <rect class="panel" x="20" y="20" width="720" height="150" rx="14"/>
+  <text class="t-s t-b" x="36" y="44">앞에 ‘항구에서’가 있을 때</text>
+
+  <rect class="box blue" x="36" y="56" width="76" height="34" rx="8"/>
+  <text class="mid" x="74" y="78">항구</text>
+  <rect class="box blue" x="124" y="56" width="76" height="34" rx="8"/>
+  <text class="mid" x="162" y="78">에서</text>
+  <rect class="box yellow" x="212" y="56" width="60" height="34" rx="8"/>
+  <text class="mid t-b" x="242" y="78">배</text>
+
+  <path class="ln thick blue" d="M74 94 L136 112" marker-end="url(#ah-blue)"/>
+  <path class="ln thin blue" d="M162 94 L257 113" marker-end="url(#ah-blue)"/>
+  <path class="ln muted" d="M242 94 L302 113" marker-end="url(#ah-muted)"/>
+
+  <rect class="solid blue" x="36" y="118" width="208" height="24" rx="4"/>
+  <text class="t-s t-on t-b mid" x="140" y="135">항구</text>
+  <rect class="solid blue" x="246" y="118" width="28" height="24" rx="4"/>
+  <rect class="box yellow" x="276" y="118" width="60" height="24" rx="4"/>
+  <text class="t-s mid" x="140" y="160">70%</text>
+  <text class="t-s mid" x="260" y="160">10%</text>
+  <text class="t-s mid" x="306" y="160">20%</text>
+
+  <path class="ln" d="M346 130 H410" marker-end="url(#ah)"/>
+  <text class="t-s" x="420" y="100">섞은 뒤 ‘배’가 가리키는 뜻</text>
+  <rect class="box gray" x="420" y="112" width="88" height="36" rx="8"/>
+  <text class="t-s mid" x="464" y="135">과일</text>
+  <rect class="box gray" x="518" y="112" width="88" height="36" rx="8"/>
+  <text class="t-s mid" x="562" y="135">몸</text>
+  <rect class="solid blue" x="616" y="112" width="88" height="36" rx="8"/>
+  <text class="mid t-on t-b" x="660" y="135">탈것</text>
+
+  <!-- 문맥 2: 과일 가게에서 배 -->
+  <rect class="panel" x="20" y="185" width="720" height="150" rx="14"/>
+  <text class="t-s t-b" x="36" y="209">앞에 ‘과일 가게에서’가 있을 때</text>
+
+  <rect class="box blue" x="36" y="221" width="62" height="34" rx="8"/>
+  <text class="mid" x="67" y="243">과일</text>
+  <rect class="box blue" x="106" y="221" width="62" height="34" rx="8"/>
+  <text class="mid" x="137" y="243">가게</text>
+  <rect class="box blue" x="176" y="221" width="62" height="34" rx="8"/>
+  <text class="mid" x="207" y="243">에서</text>
+  <rect class="box yellow" x="246" y="221" width="56" height="34" rx="8"/>
+  <text class="mid t-b" x="274" y="243">배</text>
+
+  <path class="ln thick blue" d="M67 259 L106 277" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M137 259 L218 278" marker-end="url(#ah-blue)"/>
+  <path class="ln thin blue" d="M207 259 L264 278" marker-end="url(#ah-blue)"/>
+  <path class="ln muted" d="M274 259 L303 278" marker-end="url(#ah-muted)"/>
+
+  <rect class="solid blue" x="36" y="283" width="148" height="24" rx="4"/>
+  <text class="t-s t-on t-b mid" x="110" y="300">과일</text>
+  <rect class="solid blue" x="186" y="283" width="73" height="24" rx="4"/>
+  <text class="t-s t-on t-b mid" x="222.500" y="300">가게</text>
+  <rect class="solid blue" x="261" y="283" width="13" height="24" rx="3"/>
+  <rect class="box yellow" x="276" y="283" width="60" height="24" rx="4"/>
+  <text class="t-s mid" x="110" y="325">50%</text>
+  <text class="t-s mid" x="222" y="325">25%</text>
+  <text class="t-s mid" x="267" y="325">5%</text>
+  <text class="t-s mid" x="306" y="325">20%</text>
+
+  <path class="ln" d="M346 295 H410" marker-end="url(#ah)"/>
+  <text class="t-s" x="420" y="265">섞은 뒤 ‘배’가 가리키는 뜻</text>
+  <rect class="solid blue" x="420" y="277" width="88" height="36" rx="8"/>
+  <text class="mid t-on t-b" x="464" y="300">과일</text>
+  <rect class="box gray" x="518" y="277" width="88" height="36" rx="8"/>
+  <text class="t-s mid" x="562" y="300">몸</text>
+  <rect class="box gray" x="616" y="277" width="88" height="36" rx="8"/>
+  <text class="t-s mid" x="660" y="300">탈것</text>
+
+  <text class="t-s" x="20" y="358">막대는 ‘배’가 각 토큰에서 정보를 섞어 오는 비중입니다. 노란 칸은 ‘배’ 자신의 몫.</text>
+</svg></div><figcaption><b>그림 27-4</b>어텐션이 하는 일. '배'의 출발 좌표는 두 경우 모두 같지만, 섞고 나면 서로 다른 뜻을 가리키는 좌표가 됩니다. 숫자는 설명을 위한 예입니다.</figcaption></figure>
+<p>비중은 어떻게 정할까요? 토큰은 "지금 이런 단서가 필요해"라는 질문표(Q)를 만들어, 다른 토큰들이 내건 이름표(K)와 견줍니다. 잘 맞을수록 그 토큰의 내용(V)을 많이 섞어 옵니다. 이 계산을 작은 표로 따라가 본 것이 26장입니다.</p>
+<figure class="comic"><img alt="어텐션의 네 단계를 도서관 장면으로 옮긴 만화입니다. 자료 하나만 고르는 것이 아니라 여럿을 비중대로 섞는다는 점을 눈여겨보세요." loading="lazy" src="../assets/comic/comic-attention.webp"/><figcaption>어텐션의 네 단계를 도서관 장면으로 옮긴 만화입니다. 자료 하나만 고르는 것이 아니라 여럿을 비중대로 섞는다는 점을 눈여겨보세요.</figcaption></figure>
+<p><strong>어텐션을 지나면 토큰의 좌표에 문맥이 배어듭니다.</strong> 섞은 다음에는 토큰마다 한 번 더 <strong>계산</strong>해서 섞인 정보를 소화합니다(26장의 뉴런 층). "섞기 → 계산하기" 한 묶음을 블록이라고 하고, 모델은 이 블록을 수십 번 <strong>반복</strong>합니다. 한 번 지날 때마다 더 넓은 문맥이 반영됩니다. 이런 구조를 <strong>트랜스포머</strong>(transformer)라고 하며, 오늘날의 LLM은 거의 모두 이 구조입니다.</p>
+<p>마지막 블록을 나온 맨 끝 토큰의 좌표로 모델은 자기가 아는 모든 토큰에 점수를 매깁니다. 이것이 첫 그림에서 본 다음 토큰의 확률표입니다.</p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>이름 때문에 사람의 주의력을 떠올리기 쉽지만, 어텐션의 실체는 비중을 매겨 더하는 계산입니다. 그림의 70%도 "답의 근거가 70% 항구"라는 뜻은 아닙니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>순서는 어떻게 알까 (위치 정보)</summary><div class="deep-body">
+<p>어텐션은 토큰들을 한꺼번에 둘러보기 때문에, 그대로 두면 "개가 사람을 물었다"와 "사람이 개를 물었다"를 구별하지 못합니다. 그래서 토큰마다 <strong>몇 번째 자리인지</strong>를 알려 주는 정보를 함께 넣습니다.</p>
+<p>또 글을 이어 쓰는 모델은 토큰이 <strong>자기보다 앞에 있는 토큰만</strong> 둘러보도록 가림막을 칩니다. 학습할 때 뒤에 올 정답을 미리 보면 맞히기 연습이 되지 않기 때문입니다.</p>
+</div></details>
+</section>
+<section class="level2" id="sampling">
+<h2><span class="sec-n">27.5</span>한 토큰씩 쓰기: 같은 질문에 답이 달라지는 이유<a aria-label="이 절의 링크" class="anchor" href="#sampling">#</a></h2>
+<p>확률표가 나오면 모델은 토큰을 <strong>하나만</strong> 고릅니다. 그 토큰을 글 뒤에 붙이고, 늘어난 글 전체로 같은 계산을 처음부터 다시 합니다.</p>
+<figure class="fig" id="fig-write-loop"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 296" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>LLM은 토큰 하나를 뽑아 뒤에 붙이고, 늘어난 글 전체를 다시 읽어 다음 토큰을 뽑는 일을 끝 토큰이 나올 때까지 되풀이한다</title>
+  <text class="t-h" x="20" y="34">한 번에 하나씩, 뽑을 때마다 전부 다시 읽는다</text>
+
+  <!-- 1 -->
+  <circle class="badge purple" cx="36" cy="78" r="12"/><text class="badge-t" x="36" y="82.500">1</text>
+  <rect class="box gray" x="60" y="59" width="104" height="38" rx="8"/>
+  <text class="mid" x="112" y="83">오늘 날씨가</text>
+  <rect class="solid purple" x="172" y="59" width="66" height="38" rx="8"/>
+  <text class="mid t-on t-b" x="205" y="83">좋아서</text>
+  <text class="t-s" x="430" y="83">‘좋아서’를 뽑아 뒤에 붙인다</text>
+  <path class="ln muted" d="M36 93 V109" marker-end="url(#ah-muted)"/>
+
+  <!-- 2 -->
+  <circle class="badge purple" cx="36" cy="128" r="12"/><text class="badge-t" x="36" y="132.500">2</text>
+  <rect class="box gray" x="60" y="109" width="154" height="38" rx="8"/>
+  <text class="mid" x="137" y="133">오늘 날씨가 좋아서</text>
+  <rect class="solid purple" x="222" y="109" width="66" height="38" rx="8"/>
+  <text class="mid t-on t-b" x="255" y="133">산책을</text>
+  <text class="t-s" x="430" y="133">늘어난 글을 다시 읽고 ‘산책을’</text>
+  <path class="ln muted" d="M36 143 V159" marker-end="url(#ah-muted)"/>
+
+  <!-- 3 -->
+  <circle class="badge purple" cx="36" cy="178" r="12"/><text class="badge-t" x="36" y="182.500">3</text>
+  <rect class="box gray" x="60" y="159" width="204" height="38" rx="8"/>
+  <text class="mid" x="162" y="183">오늘 날씨가 좋아서 산책을</text>
+  <rect class="solid purple" x="272" y="159" width="72" height="38" rx="8"/>
+  <text class="mid t-on t-b" x="308" y="183">나갔다.</text>
+  <text class="t-s" x="430" y="183">또 전부 읽고 ‘나갔다.’</text>
+  <path class="ln muted" d="M36 193 V209" marker-end="url(#ah-muted)"/>
+
+  <!-- 4 -->
+  <circle class="badge purple" cx="36" cy="228" r="12"/><text class="badge-t" x="36" y="232.500">4</text>
+  <rect class="box gray" x="60" y="209" width="262" height="38" rx="8"/>
+  <text class="mid" x="191" y="233">오늘 날씨가 좋아서 산책을 나갔다.</text>
+  <rect class="solid" x="330" y="209" width="52" height="38" rx="8"/>
+  <text class="mid t-on t-b" x="356" y="233">끝</text>
+  <text class="t-s" x="430" y="233">‘끝’ 토큰이 뽑히면 멈춘다</text>
+
+  <!-- 범례 -->
+  <rect class="box gray" x="60" y="264" width="22" height="16" rx="4"/>
+  <text class="t-xs" x="90" y="277">지금까지의 글 (모델이 매번 읽는 입력)</text>
+  <rect class="solid purple" x="330" y="264" width="22" height="16" rx="4"/>
+  <text class="t-xs" x="360" y="277">이번에 새로 뽑힌 토큰</text>
+</svg></div><figcaption><b>그림 27-5</b>긴 답도 이렇게 한 토큰씩 만들어집니다. 채팅 화면에서 글자가 주르륵 나오는 것은 연출이 아니라 실제로 만들어지는 순서입니다.</figcaption></figure>
+<p>답은 모델이 '끝'을 뜻하는 특별한 토큰을 뽑거나, 정해 둔 최대 길이에 닿으면 멈춥니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
+<p>최대 길이에 닿아 멈춘 답은 <strong>잘린 답</strong>입니다. 함수 중간에서 끊긴 코드를 완성본으로 저장하면 안 됩니다. API는 왜 멈췄는지(정상 종료인지 길이 제한인지)를 함께 알려 주므로 그 값을 확인하세요.</p>
+</div>
+<section class="level3" id="뽑기에는-제비뽑기가-들어갑니다">
+<h3>뽑기에는 제비뽑기가 들어갑니다</h3>
+<p>확률표에서 하나를 어떻게 고를까요? 늘 1등만 고르면 글이 단조로워지고 같은 말을 맴돌기 쉽습니다. 그래서 보통은 확률대로 <strong>제비를 뽑습니다.</strong> "좋다"가 50%면 열 번 가운데 다섯 번쯤은 "좋다"가, 나머지는 다른 말이 나옵니다. 이것을 <strong>샘플링</strong>(sampling)이라고 합니다.</p>
+<p>같은 질문에 답이 달라지는 이유가 이것입니다. 첫 토큰이 달라지면 그 뒤의 글이 전부 달라집니다.</p>
+<p>제비뽑기의 성격을 바꾸는 손잡이가 둘 있습니다.</p>
+<ul>
+<li><strong>온도</strong>(temperature): 확률표를 뾰족하게 또는 평평하게 만듭니다. 낮추면 1등에 확률이 몰려 답이 안정되고, 높이면 드문 후보도 자주 뽑혀 답이 다양해집니다.</li>
+<li><strong>top-p</strong>: 확률이 높은 순서로 더해 가다가 합이 p에 이르면 거기서 끊고, 남은 꼬리 후보를 버립니다. 온도 1의 확률표에 top-p 0.9를 쓰면 50 + 30 + 15 = 95%에서 끊겨 "수상하다"는 후보에서 빠집니다.</li>
+</ul>
+<figure class="fig" id="fig-temperature"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 292" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>온도가 낮으면 1등 후보에 확률이 몰리고, 온도가 높으면 드문 후보도 자주 뽑힌다</title>
+
+  <rect class="panel blue" x="110" y="20" width="200" height="228" rx="14"/>
+  <rect class="panel" x="325" y="20" width="200" height="228" rx="14"/>
+  <rect class="panel warm" x="540" y="20" width="200" height="228" rx="14"/>
+
+  <text class="t-l mid" x="210" y="50">온도 0.5</text>
+  <text class="t-s mid" x="210" y="72">1등에 몰린다</text>
+  <text class="t-l mid" x="425" y="50">온도 1</text>
+  <text class="t-s mid" x="425" y="72">계산한 그대로</text>
+  <text class="t-l mid" x="640" y="50">온도 2</text>
+  <text class="t-s mid" x="640" y="72">고르게 퍼진다</text>
+
+  <text class="end" x="96" y="113">좋다</text>
+  <text class="end" x="96" y="151">흐리다</text>
+  <text class="end" x="96" y="189">춥다</text>
+  <text class="end" x="96" y="227">수상하다</text>
+
+  <!-- 온도 0.5 -->
+  <rect class="solid blue" x="126" y="98" width="122" height="20" rx="4"/>
+  <text class="t-mono" x="256" y="113">68%</text>
+  <rect class="solid blue" x="126" y="136" width="45" height="20" rx="4"/>
+  <text class="t-mono" x="179" y="151">25%</text>
+  <rect class="solid blue" x="126" y="174" width="11" height="20" rx="3"/>
+  <text class="t-mono" x="145" y="189">6%</text>
+  <rect class="solid blue" x="126" y="212" width="2" height="20" rx="1"/>
+  <text class="t-mono" x="136" y="227">1%</text>
+
+  <!-- 온도 1 -->
+  <rect class="solid purple" x="341" y="98" width="90" height="20" rx="4"/>
+  <text class="t-mono" x="439" y="113">50%</text>
+  <rect class="solid purple" x="341" y="136" width="54" height="20" rx="4"/>
+  <text class="t-mono" x="403" y="151">30%</text>
+  <rect class="solid purple" x="341" y="174" width="27" height="20" rx="4"/>
+  <text class="t-mono" x="376" y="189">15%</text>
+  <rect class="solid purple" x="341" y="212" width="9" height="20" rx="3"/>
+  <text class="t-mono" x="358" y="227">5%</text>
+
+  <!-- 온도 2 -->
+  <rect class="solid warm" x="556" y="98" width="68" height="20" rx="4"/>
+  <text class="t-mono" x="632" y="113">38%</text>
+  <rect class="solid warm" x="556" y="136" width="52" height="20" rx="4"/>
+  <text class="t-mono" x="616" y="151">29%</text>
+  <rect class="solid warm" x="556" y="174" width="38" height="20" rx="4"/>
+  <text class="t-mono" x="602" y="189">21%</text>
+  <rect class="solid warm" x="556" y="212" width="22" height="20" rx="4"/>
+  <text class="t-mono" x="586" y="227">12%</text>
+
+  <text class="t-s" x="20" y="274">입력은 셋 다 ‘오늘 날씨가’로 같습니다. 달라진 것은 뽑기 설정뿐입니다.</text>
+</svg></div><figcaption><b>그림 27-6</b>같은 확률표에 온도만 바꾼 결과. 온도 2에서는 "오늘 날씨가 수상하다"가 여덟 번에 한 번꼴로 나옵니다.</figcaption></figure>
+<div class="callout myth"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-cross"></use></svg>흔한 오해 · 온도를 0으로 하면 틀린 답이 사라진다</div>
+<p>온도는 <strong>다양성</strong>의 손잡이지 <strong>정확성</strong>의 손잡이가 아닙니다. 모델이 틀린 답을 1등으로 꼽고 있다면, 온도를 낮출수록 그 틀린 답을 더 꾸준히 내놓습니다. 게다가 온도가 0이어도 서버 환경에 따라 결과가 조금씩 달라질 수 있습니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>로짓과 로그 확률</summary><div class="deep-body">
+<p>모델이 처음 내놓는 것은 확률이 아니라 후보별 <strong>점수</strong>입니다. 이 점수를 로짓(logit)이라고 하고, 26장의 소프트맥스를 거치면 합이 1인 확률이 됩니다. 온도는 소프트맥스에 넣기 전에 로짓을 나누는 값입니다.</p>
+<p>일부 API는 뽑힌 토큰의 확률에 로그를 씌운 <strong>로그 확률</strong>(logprob)을 돌려줍니다. 0에 가까울수록 모델이 망설임 없이 고른 토큰입니다. 다만 이 숫자는 "이 말이 이어질 가능성"이지 "이 말이 사실일 가능성"이 아닙니다.</p>
+</div></details>
+<div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
+<p>AI 채팅에서 새 대화를 세 번 열어 "고양이 이름을 하나만 지어 줘"라고 똑같이 물어보세요. "1 더하기 1은?"도 세 번 물어보세요. 어느 쪽 답이 더 흔들리나요? 확률표가 평평한 질문일수록 제비뽑기가 크게 드러납니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="context">
+<h2><span class="sec-n">27.6</span>컨텍스트 윈도: 달인의 책상 넓이<a aria-label="이 절의 링크" class="anchor" href="#context">#</a></h2>
+<p>달인은 책상 위에 놓인 글만 보고 이어 씁니다. 이번 요청에서 모델에게 건넨 글 전체를 <strong>컨텍스트</strong>(context)라고 하고, 한 번에 올려놓을 수 있는 최대 토큰 수를 <strong>컨텍스트 윈도</strong>(context window)라고 합니다. 책상의 넓이입니다. 모델이 쓰는 답도 같은 책상을 차지합니다.</p>
+<p>그런데 <strong>모델은 지난 대화를 기억하지 않습니다.</strong> 채팅 앱이 기억하는 것처럼 보이는 까닭은, 앱이 매번 <strong>지금까지의 대화 전체를 책상에 다시 올려 주기</strong> 때문입니다. 열 번째 질문을 보내면 모델은 앞의 아홉 번을 처음부터 다시 읽습니다.</p>
+<p>책상에는 이런 것들이 올라갑니다.</p>
+<ul>
+<li><strong>시스템 프롬프트</strong>(system prompt): 앱을 만든 사람이 맨 앞에 깔아 두는 지시문입니다. "너는 쇼핑몰 상담원이다. 존댓말을 써라" 같은 역할과 규칙을 적습니다.</li>
+<li>지금까지의 대화, 첨부한 파일, 검색해 온 자료</li>
+<li>이번 질문</li>
+</ul>
+<p>이렇게 모델에게 건네는 지시와 자료를 통틀어 <strong>프롬프트</strong>(prompt)라고 합니다.</p>
+<figure class="fig" id="fig-context-desk"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>컨텍스트 윈도에는 시스템 프롬프트, 대화, 자료, 답이 모두 들어가야 하고, 넘치면 오래된 대화부터 창 밖으로 밀려난다</title>
+
+  <!-- 대화 초반 -->
+  <text class="t-b" x="20" y="36">대화 초반</text>
+  <text class="t-s end" x="730" y="36">한 번에 볼 수 있는 창: 8,000토큰</text>
+
+  <rect class="box purple" x="210" y="50" width="65" height="44" rx="6"/>
+  <text class="t-mono mid" x="242.500" y="77">1,000</text>
+  <rect class="box blue" x="275" y="50" width="130" height="44" rx="6"/>
+  <text class="t-mono mid" x="340" y="77">2,000</text>
+  <rect class="box green" x="405" y="50" width="130" height="44" rx="6"/>
+  <text class="t-mono mid" x="470" y="77">2,000</text>
+  <rect class="box warm" x="535" y="50" width="65" height="44" rx="6"/>
+  <text class="t-mono mid" x="567.500" y="77">1,000</text>
+  <rect class="ghost dash" x="600" y="50" width="130" height="44" rx="6"/>
+  <text class="t-mono mid tc-muted" x="665" y="77">2,000</text>
+
+  <text class="t-s mid" x="242.500" y="114">시스템 프롬프트</text>
+  <text class="t-s mid" x="340" y="114">대화</text>
+  <text class="t-s mid" x="470" y="114">첨부 자료</text>
+  <text class="t-s mid" x="567.500" y="114">답변 자리</text>
+  <text class="t-s mid" x="665" y="114">빈 자리</text>
+
+  <!-- 대화가 길어진 뒤 -->
+  <text class="t-b" x="20" y="170">대화가 길어진 뒤</text>
+  <text class="t-s end" x="730" y="170">대화가 6,500으로 늘어 2,500이 넘친다</text>
+
+  <path class="ln red dash" d="M292 190 C 272 172, 172 172, 152 190" marker-end="url(#ah-red)"/>
+
+  <rect class="box red dash" x="20" y="196" width="176" height="44" rx="6"/>
+  <text class="t-mono mid tc-red" x="108" y="223">2,500</text>
+  <rect class="box purple" x="210" y="196" width="65" height="44" rx="6"/>
+  <text class="t-mono mid" x="242.500" y="223">1,000</text>
+  <rect class="box blue" x="275" y="196" width="260" height="44" rx="6"/>
+  <text class="t-mono mid" x="405" y="223">4,000</text>
+  <rect class="box green" x="535" y="196" width="130" height="44" rx="6"/>
+  <text class="t-mono mid" x="600" y="223">2,000</text>
+  <rect class="box warm" x="665" y="196" width="65" height="44" rx="6"/>
+  <text class="t-mono mid" x="697.500" y="223">1,000</text>
+
+  <text class="t-s mid tc-red" x="108" y="260">밀려난 초반 대화</text>
+  <text class="t-s mid" x="242.500" y="260">시스템 프롬프트</text>
+  <text class="t-s mid" x="405" y="260">최근 대화</text>
+  <text class="t-s mid" x="600" y="260">첨부 자료</text>
+  <text class="t-s mid" x="697.500" y="260">답변 자리</text>
+  <text class="t-xs mid tc-red" x="108" y="282">‘결제 기능은 빼 주세요’</text>
+
+  <text class="t-s" x="20" y="312">창 밖으로 나간 말은 모델이 다시 볼 수 없습니다.</text>
+</svg></div><figcaption><b>그림 27-7</b>대화가 길어져 창이 넘치면 앱은 오래된 부분부터 빼거나 줄입니다. 숫자는 설명을 위한 작은 예입니다.</figcaption></figure>
+<p>책상이 넘치는 순간 초반에 정한 약속이 사라집니다. 긴 개발 대화 끝에 AI가 빼기로 했던 기능을 다시 만들어 놓는 일이 이렇게 생깁니다.</p>
+<p>AI 코딩 도구도 마찬가지입니다. 도구는 내 프로젝트 전체를 아는 것이 아니라 <strong>이번에 책상에 올라간 파일만</strong> 압니다.</p>
+<section class="level3" id="책상에-잘-올려-주는-법">
+<h3>책상에 잘 올려 주는 법</h3>
+<ul>
+<li><strong>중요한 약속은 파일에 적어 둡니다.</strong> 요구사항과 현재 상태를 문서로 두고, 새 대화의 첫머리에 다시 건넵니다.</li>
+<li><strong>필요한 것만 올립니다.</strong> 책상이 넓어도 다 꼼꼼히 읽지는 못합니다. 자료가 길수록 가운데쯤 묻힌 내용을 놓치기 쉽습니다.</li>
+<li><strong>예시를 보여 줍니다.</strong> 원하는 입력과 출력을 두세 쌍 적어 주면 달인은 그 패턴을 이어 씁니다.</li>
+</ul>
+<pre class="text"><code>리뷰: 배송이 빨라서 좋았어요 → 긍정
+리뷰: 포장이 다 찢어져 왔네요 → 부정
+리뷰: 생각보다 색이 예뻐요 →</code></pre>
+<p>첫 두 줄은 예시이고, 셋째 줄은 화살표 뒤를 비워 두었습니다. 달인은 앞의 두 줄에서 패턴을 읽고 "긍정"을 이어 씁니다. 분류하는 법을 설명하지 않았는데도 됩니다. 자동 완성에게는 예시가 가장 잘 통하는 설명입니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>책상이 넘칠 때: 컨텍스트 압축</summary><div class="deep-body">
+<p>오래된 대화를 통째로 버리는 대신 <strong>짧은 요약으로 바꿔 끼우는</strong> 방법이 있습니다. 자리는 아끼지만 요약은 세부를 잃습니다. "함수 이름은 반드시 소문자와 밑줄로"처럼 한 줄짜리 제약이 가장 먼저 빠집니다.</p>
+<p>긴 작업 중에 AI가 갑자기 예전 약속을 어기면 "요약되면서 빠졌나?"를 먼저 의심하고, 그 약속을 다시 적어 주세요.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="training">
+<h2><span class="sec-n">27.7</span>학습과 지식 컷오프: 달인은 언제 무엇을 배웠나<a aria-label="이 절의 링크" class="anchor" href="#training">#</a></h2>
+<p>달인의 머릿속은 세 단계를 거쳐 만들어집니다.</p>
+<figure class="fig" id="fig-learn-timeline"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 318" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>모델은 세 단계의 학습으로 만들어지고, 지식은 학습 자료가 끝난 날짜(컷오프)에서 멈추며, 쓰는 동안에는 파라미터가 바뀌지 않는다</title>
+
+  <text class="t-s t-b" x="20" y="32">학습하는 동안 — 머릿속(파라미터)이 바뀐다</text>
+  <text class="t-s t-b" x="575" y="32">쓰는 동안 — 그대로</text>
+
+  <rect class="box blue" x="20" y="46" width="165" height="104" rx="12"/>
+  <circle class="badge blue" cx="42" cy="70" r="12"/><text class="badge-t" x="42" y="74.500">1</text>
+  <text class="t-l" x="62" y="76">사전 학습</text>
+  <text class="t-s" x="34" y="108">엄청난 양의 글로</text>
+  <text class="t-s" x="34" y="128">다음 토큰 맞히기</text>
+
+  <rect class="box blue" x="205" y="46" width="165" height="104" rx="12"/>
+  <circle class="badge blue" cx="227" cy="70" r="12"/><text class="badge-t" x="227" y="74.500">2</text>
+  <text class="t-l" x="247" y="76">미세 조정</text>
+  <text class="t-s" x="219" y="108">질문과 좋은 답 예시로</text>
+  <text class="t-s" x="219" y="128">지시 따르는 법 익히기</text>
+
+  <rect class="box blue" x="390" y="46" width="165" height="104" rx="12"/>
+  <circle class="badge blue" cx="412" cy="70" r="12"/><text class="badge-t" x="412" y="74.500">3</text>
+  <text class="t-l" x="432" y="76">사람 피드백</text>
+  <text class="t-s" x="404" y="108">사람이 답을 평가해</text>
+  <text class="t-s" x="404" y="128">더 나은 쪽으로 다듬기</text>
+
+  <rect class="box green" x="575" y="46" width="165" height="104" rx="12"/>
+  <circle class="badge green" cx="597" cy="70" r="12"/><text class="badge-t" x="597" y="74.500">4</text>
+  <text class="t-l" x="617" y="76">추론</text>
+  <text class="t-s" x="589" y="108">굳은 머릿속으로</text>
+  <text class="t-s" x="589" y="128">책상 위 글을 이어 쓰기</text>
+
+  <path class="ln blue" d="M188 98 H199" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M373 98 H384" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M558 98 H569" marker-end="url(#ah-green)"/>
+
+  <!-- 달력 -->
+  <text class="t-s t-b" x="20" y="194">달력 위에 놓으면</text>
+  <rect class="box green" x="40" y="208" width="210" height="30" rx="6"/>
+  <text class="t-s mid" x="145" y="228">학습 자료에 담긴 세상</text>
+  <rect class="box red" x="250" y="208" width="440" height="30" rx="6"/>
+  <text class="t-s mid" x="470" y="228">모델이 모르는 일들 — 새 버전, 새 소식</text>
+
+  <path class="ln" d="M40 256 H716" marker-end="url(#ah)"/>
+  <path class="ln" d="M250 250 V262"/>
+  <path class="ln" d="M470 250 V262"/>
+  <path class="ln" d="M690 250 V262"/>
+  <text class="t-b mid tc-red" x="250" y="284">지식 컷오프</text>
+  <text class="t-xs mid" x="250" y="304">학습 자료가 끝난 날</text>
+  <text class="t-s mid" x="470" y="284">모델 출시</text>
+  <text class="t-s mid" x="690" y="284">오늘</text>
+</svg></div><figcaption><b>그림 27-8</b>위는 모델이 만들어지는 순서, 아래는 그것을 달력에 놓은 모습입니다. 컷오프와 오늘 사이에 생긴 일은 모델의 머릿속에 없습니다.</figcaption></figure>
+<ol type="1">
+<li><strong>사전 학습</strong>(pretraining). 엄청난 양의 글에서 다음 토큰을 가리고 맞히게 합니다. 틀린 만큼 파라미터를 조금씩 고칩니다(26장의 경사 하강). 언어와 세상 지식의 대부분이 여기서 생깁니다.</li>
+<li><strong>미세 조정</strong>(fine-tuning). 이어 쓰기만 잘하던 모델에게 "질문과 좋은 답" 예시를 보여 줘서 지시를 따르고 대화하는 법을 익히게 합니다.</li>
+<li><strong>사람 피드백.</strong> 사람이 여러 답 가운데 더 나은 것을 고르고, 모델을 그쪽으로 다듬습니다. 말투나 거절해야 할 요청을 가리는 법이 여기서 잡힙니다.</li>
+</ol>
+<p>학습 자료는 어느 날짜에서 끝납니다. 이 날짜가 <strong>지식 컷오프</strong>(knowledge cutoff)입니다. 달인은 그 뒤에 나온 라이브러리 버전도, 어제의 뉴스도 모릅니다. 그리고 우리가 모델을 쓰는 동안에는 머릿속이 바뀌지 않습니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>모델이 아는 것은 두 곳에만 있습니다. <strong>학습 때 굳은 머릿속(파라미터)</strong>과 <strong>이번 요청의 책상 위(컨텍스트)</strong>입니다. 대화에 문서를 붙이는 것은 책상에 올리는 일이지 머릿속을 바꾸는 일이 아닙니다.</p>
+</div>
+<p>그래서 모델에게 무언가를 알려 주는 방법도 이 두 곳으로 나뉩니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr>
+<th>방법</th>
+<th>바뀌는 곳</th>
+<th>알맞은 경우</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>프롬프트와 예시</td>
+<td>책상 위</td>
+<td>형식, 말투, 요구사항을 분명히 할 때</td>
+</tr>
+<tr>
+<td>자료를 찾아 넣기</td>
+<td>책상 위</td>
+<td>최신 정보, 사내 문서, 자주 바뀌는 데이터</td>
+</tr>
+<tr>
+<td>미세 조정</td>
+<td>머릿속</td>
+<td>같은 종류의 일을 늘 같은 방식으로 시킬 때</td>
+</tr>
+</tbody>
+</table></div>
+<p>대부분의 문제는 위의 두 줄로 풀립니다. 미세 조정은 예시 자료와 평가 방법이 충분히 갖춰졌을 때 꺼내는 카드입니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>큰 모델로 작은 모델 가르치기 (증류)</summary><div class="deep-body">
+<p>큰 모델(교사)이 낸 답을 정답지 삼아 작은 모델(학생)을 학습시키는 방법을 <strong>증류</strong>(distillation)라고 합니다. 파일 압축이 아니라 새로운 학습이며, 특정한 일만 잘하는 싸고 빠른 모델을 만들 때 씁니다. 교사의 실수도 그대로 물려받으므로, 학생은 실제 사례로 따로 평가합니다.</p>
+</div></details>
+</section>
+<section class="level2" id="hallucination">
+<h2><span class="sec-n">27.8</span>환각: 그럴듯하게 틀리는 이유와 줄이는 법<a aria-label="이 절의 링크" class="anchor" href="#hallucination">#</a></h2>
+<p>달인에게 "우리 가게 환불 기간이 며칠이야?"라고 물어봅시다. 달인은 우리 가게를 모릅니다. 하지만 달인이 하는 일은 "아는지 확인하기"가 아니라 "그럴듯하게 이어 쓰기"입니다. 세상의 수많은 환불 안내문을 떠올려 "보통 14일 이내입니다"라고 매끄럽게 씁니다. 이렇게 사실이 아닌 내용을 그럴듯하게 만들어 내는 현상을 <strong>환각</strong>(hallucination)이라고 합니다.</p>
+<p>환각은 가끔 생기는 고장이 아니라 <strong>구조에서 나오는 성질</strong>입니다. 맞는 답과 틀린 답이 똑같은 방식으로, 곧 다음 토큰 뽑기로 만들어집니다. 그 과정 어디에도 사실과 대조하는 단계가 없습니다. 코딩에서는 존재하지 않는 함수, 다른 버전의 사용법, 컷오프 뒤에 바뀐 API로 나타납니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p><strong>유창함은 정확함의 증거가 아닙니다.</strong> 자신 있는 말투도, 그럴듯한 출처 표기도 같은 자동 완성이 만든 것입니다.</p>
+</div>
+<p>줄이는 방법은 세 가지입니다.</p>
+<section class="level3" id="근거-자료를-책상에-올려-주기">
+<h3>근거 자료를 책상에 올려 주기</h3>
+<p>가장 효과가 큰 방법은 시험을 오픈북으로 바꾸는 것입니다. 질문과 관련된 문서를 먼저 <strong>찾아서</strong>(앞에서 본 임베딩 검색), 질문과 함께 컨텍스트에 넣어 줍니다. 이 방식을 <strong>RAG</strong>(검색 증강 생성, Retrieval-Augmented Generation)라고 합니다.</p>
+<figure class="fig" id="fig-open-book"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>자료 없이 물으면 그럴듯한 답을 지어내지만, 관련 문서를 찾아 컨텍스트에 함께 넣어 주면 그 문서를 근거로 답한다</title>
+
+  <!-- 왼쪽: 자료 없이 -->
+  <rect class="panel" x="20" y="20" width="350" height="310" rx="14"/>
+  <text class="t-l" x="36" y="50">자료 없이 묻기</text>
+
+  <rect class="ghost dash" x="32" y="64" width="326" height="112" rx="10"/>
+  <text class="t-xs end" x="348" y="98">컨텍스트</text>
+  <rect class="box blue" x="44" y="74" width="230" height="38" rx="8"/>
+  <text x="56" y="98">우리 가게 환불 기간은?</text>
+  <rect class="ghost dash" x="44" y="122" width="302" height="44" rx="8"/>
+  <text class="t-s mid" x="195" y="149">넣어 준 자료 없음</text>
+
+  <path class="ln purple" d="M195 180 V196" marker-end="url(#ah-purple)"/>
+  <rect class="box purple" x="135" y="202" width="120" height="36" rx="10"/>
+  <use href="#i-robot" x="152" y="208" width="24" height="24" class="ic purple"/>
+  <text class="t-b" x="184" y="225">LLM</text>
+  <path class="ln purple" d="M195 242 V256" marker-end="url(#ah-purple)"/>
+
+  <rect class="box red" x="44" y="262" width="302" height="38" rx="8"/>
+  <text class="mid t-b" x="195" y="286">“보통 14일 이내입니다.”</text>
+  <text class="t-s mid tc-red" x="195" y="320">그럴듯하지만 지어낸 답</text>
+
+  <!-- 오른쪽: 자료와 함께 -->
+  <rect class="panel" x="390" y="20" width="350" height="310" rx="14"/>
+  <text class="t-l" x="406" y="50">자료를 찾아 함께 주기 (RAG)</text>
+
+  <rect class="ghost dash" x="402" y="64" width="326" height="112" rx="10"/>
+  <text class="t-xs end" x="718" y="98">컨텍스트</text>
+  <rect class="box blue" x="414" y="74" width="230" height="38" rx="8"/>
+  <text x="426" y="98">우리 가게 환불 기간은?</text>
+  <rect class="box green" x="414" y="122" width="302" height="44" rx="8"/>
+  <use href="#i-file" x="422" y="130" width="28" height="28" class="ic green"/>
+  <text class="t-xs" x="458" y="140">검색으로 찾은 문서</text>
+  <text x="458" y="159">환불 규정 2조: 구매 후 7일 이내</text>
+
+  <path class="ln purple" d="M565 180 V196" marker-end="url(#ah-purple)"/>
+  <rect class="box purple" x="505" y="202" width="120" height="36" rx="10"/>
+  <use href="#i-robot" x="522" y="208" width="24" height="24" class="ic purple"/>
+  <text class="t-b" x="554" y="225">LLM</text>
+  <path class="ln purple" d="M565 242 V256" marker-end="url(#ah-purple)"/>
+
+  <rect class="box green" x="414" y="262" width="302" height="38" rx="8"/>
+  <text class="mid t-b" x="565" y="286">“7일 이내입니다. (환불 규정 2조)”</text>
+  <text class="t-s mid tc-green" x="565" y="320">문서와 대조해 확인할 수 있는 답</text>
+</svg></div><figcaption><b>그림 27-9</b>같은 모델, 같은 질문입니다. 달라진 것은 책상 위에 근거 문서가 있느냐뿐입니다.</figcaption></figure>
+<p>RAG도 만능은 아닙니다. 엉뚱한 문서를 찾아오면 엉뚱한 근거로 답하고, 맞는 문서를 줘도 잘못 읽을 수 있습니다. 그래서 찾는 단계와 답하는 단계를 따로 확인합니다. 만드는 방법은 <a href="ch29.html">29장</a>에서 다룹니다.</p>
+</section>
+<section class="level3" id="풀이를-먼저-쓰게-하기">
+<h3>풀이를 먼저 쓰게 하기</h3>
+<p>모델은 자기가 방금 쓴 토큰도 다시 읽습니다. 그러니 답부터 내놓게 하는 것보다 <strong>풀이 과정을 먼저 쓰게</strong> 하면, 그 풀이가 책상에 놓여 뒤의 답을 받쳐 줍니다. 이것을 기본 동작으로 넣은 모델이 <strong>추론 모델</strong>(reasoning model)입니다. 답하기 전에 긴 '생각' 토큰을 먼저 만들고 그것을 바탕으로 답합니다. 여러 단계를 거치는 문제에 강하지만, 생각 토큰만큼 시간과 비용이 더 듭니다.</p>
+</section>
+<section class="level3" id="모델-밖에서-검증하기">
+<h3>모델 밖에서 검증하기</h3>
+<p>함수가 실제로 있는지는 공식 문서와 설치된 버전으로 확인합니다. 코드가 맞는지는 실행과 테스트로 확인합니다(<a href="ch12.html">12장</a>). 출처 링크가 달려 있으면 열어서 정말 그 내용인지 봅니다. "모르면 모른다고 답해"라는 지시도 도움이 되지만 검증을 대신하지는 못합니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>그림과 소리도 읽는 모델 (멀티모달)</summary><div class="deep-body">
+<p>글뿐 아니라 이미지나 음성도 받는 모델을 <strong>멀티모달</strong>(multimodal) 모델이라고 합니다. 이미지를 작은 격자 조각으로 잘라 조각마다 좌표로 바꾼 뒤, 글의 토큰과 같은 줄에 세워 처리합니다.</p>
+<p>그래서 글과 같은 한계가 있습니다. 스캔한 표에서 8을 3으로 잘못 읽고도 태연하게 이어 쓰고, 그러면 뒤의 계산이 아무리 정확해도 답은 틀립니다. 이미지에서 뽑은 숫자는 원본과 대조하세요.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="cost">
+<h2><span class="sec-n">27.9</span>비용·속도·메모리 읽기와 모델 고르기<a aria-label="이 절의 링크" class="anchor" href="#cost">#</a></h2>
+<section class="level3" id="비용-토큰-수-단가">
+<h3>비용: 토큰 수 × 단가</h3>
+<p>API 요금은 <strong>입력 토큰</strong>과 <strong>출력 토큰</strong>에 따로 단가가 붙습니다. 출력은 하나씩 차례로 만들어야 해서 대개 더 비쌉니다. 가상의 단가로 계산해 봅시다. 입력은 100만 토큰에 1,000원(토큰 하나에 0.001원), 출력은 100만 토큰에 5,000원(0.005원)입니다. 요청 하나가 입력 4,000토큰, 출력 500토큰이라면 이렇습니다.</p>
+<ul>
+<li>입력: 4,000 × 0.001원 = 4원</li>
+<li>출력: 500 × 0.005원 = 2.5원</li>
+<li>합계: 6.5원. 하루에 1만 번이면 65,000원</li>
+</ul>
+<p>대화가 길어질수록 매번 대화 전체를 다시 보내므로 입력 토큰이 눈덩이처럼 불어납니다. 추론 모델의 생각 토큰도 보통 출력 요금으로 계산됩니다.</p>
+</section>
+<section class="level3" id="속도-첫-토큰까지-그리고-끝까지">
+<h3>속도: 첫 토큰까지, 그리고 끝까지</h3>
+<figure class="fig" id="fig-request-timeline"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 266" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>요청 하나에 걸리는 시간은 첫 토큰까지의 기다림과 토큰이 하나씩 나오는 시간으로 나뉘고, 대부분은 출력 길이가 정한다</title>
+  <text class="t-h" x="20" y="34">요청 하나를 시간 위에 펼치면</text>
+
+  <text class="t-s" x="60" y="62">입력 4,000토큰 읽기</text>
+  <text class="t-s end" x="718" y="62">출력 500토큰 — 1초에 50개씩</text>
+
+  <rect class="box blue" x="60" y="72" width="58" height="40" rx="6"/>
+  <text class="t-mono mid" x="89" y="97">4,000</text>
+  <rect class="box purple" x="122" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="150" y="97">50</text>
+  <rect class="box purple" x="182" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="210" y="97">50</text>
+  <rect class="box purple" x="242" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="270" y="97">50</text>
+  <rect class="box purple" x="302" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="330" y="97">50</text>
+  <rect class="box purple" x="362" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="390" y="97">50</text>
+  <rect class="box purple" x="422" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="450" y="97">50</text>
+  <rect class="box purple" x="482" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="510" y="97">50</text>
+  <rect class="box purple" x="542" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="570" y="97">50</text>
+  <rect class="box purple" x="602" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="630" y="97">50</text>
+  <rect class="box purple" x="662" y="72" width="56" height="40" rx="6"/>
+  <text class="t-mono mid" x="690" y="97">50</text>
+
+  <path class="ln warm dash" d="M120 68 V128"/>
+
+  <path class="ln thin" d="M60 134 H724"/>
+  <path class="ln thin" d="M60 129 V139 M120 129 V139 M180 129 V139 M240 129 V139 M300 129 V139 M360 129 V139 M420 129 V139 M480 129 V139 M540 129 V139 M600 129 V139 M660 129 V139 M720 129 V139"/>
+  <text class="t-xs mid" x="60" y="156">0</text>
+  <text class="t-xs mid" x="120" y="156">1초</text>
+  <text class="t-xs mid" x="420" y="156">6초</text>
+  <text class="t-xs mid" x="720" y="156">11초</text>
+
+  <path class="ln warm" d="M120 178 V166" marker-end="url(#ah-warm)"/>
+  <rect class="box warm" x="60" y="182" width="300" height="66" rx="12"/>
+  <text class="t-b" x="76" y="209">첫 토큰까지 1초</text>
+  <text class="t-s" x="76" y="231">화면에 첫 글자가 뜨는 시간 (TTFT)</text>
+
+  <path class="ln purple" d="M700 178 V166" marker-end="url(#ah-purple)"/>
+  <rect class="box purple" x="400" y="182" width="320" height="66" rx="12"/>
+  <text class="t-b" x="416" y="209">끝까지 11초</text>
+  <text class="t-s" x="416" y="231">출력이 길수록 늘어난다 (500 ÷ 50 = 10초)</text>
+</svg></div><figcaption><b>그림 27-10</b>위에서 계산한 요청을 시간으로 본 모습입니다. 입력은 한꺼번에 읽지만 출력은 하나씩 나오므로, 전체 시간은 대부분 출력 길이가 정합니다.</figcaption></figure>
+<ul>
+<li><strong>첫 토큰까지의 시간</strong>(TTFT, Time To First Token): 요청을 보내고 첫 글자가 뜰 때까지입니다. 입력이 길거나 서버가 붐비면 늘어납니다.</li>
+<li><strong>초당 토큰 수</strong>: 그 뒤로 답이 흘러나오는 속도입니다.</li>
+</ul>
+<p>답이 느리면 출력 길이부터 줄여 보세요. "세 줄로 답해 줘"가 가장 값싼 최적화입니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>글자가 주르륵 나오게 하기 (스트리밍)</summary><div class="deep-body">
+<p>토큰이 만들어지는 대로 바로바로 보내 주는 방식을 <strong>스트리밍</strong>(streaming)이라고 합니다. 전체 시간은 그대로지만 사용자가 느끼는 기다림은 첫 토큰까지로 줄어듭니다.</p>
+<p>다만 중간까지 받은 글은 확정된 결과가 아닙니다. 정상 종료를 확인한 뒤에 저장하거나 실행하세요.</p>
+</div></details>
+</section>
+<section class="level3" id="메모리-모델을-직접-돌린다면">
+<h3>메모리: 모델을 직접 돌린다면</h3>
+<p>모델을 내 컴퓨터에서 돌리려면 파라미터 전체가 GPU의 조리대인 VRAM에 올라가야 합니다. 파라미터가 80억 개이고 하나에 2바이트를 쓰면 약 16GB입니다. 숫자 하나를 4비트(0.5바이트)로 줄여 적으면 약 4GB가 됩니다. 이렇게 숫자의 정밀도를 낮춰 크기를 줄이는 것을 <strong>양자화</strong>(quantization)라고 합니다. 촘촘한 자로 잰 값을 성긴 눈금에 맞춰 적는 셈이라 품질이 조금 떨어질 수 있습니다.</p>
+<p>가중치가 올라갔다고 끝이 아닙니다. 요청을 처리하는 동안 쓰는 작업 공간이 따로 필요하고, 이 공간은 글이 길수록, 동시에 받는 요청이 많을수록 커집니다. 가중치 8GB짜리 모델이 짧은 요청 하나에는 11GB를 쓰다가 긴 요청 여러 개에서는 16GB를 넘기는 식입니다. <a href="ch01.html">1장</a>에서 본 대로 파일 크기와 실행 중 메모리는 다른 숫자입니다.</p>
+<p>모델을 돌리는 서버는 세 가지 요령을 씁니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr>
+<th>요령</th>
+<th>하는 일</th>
+<th>대가</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KV 캐시</td>
+<td>토큰마다 전부 다시 계산하지 않도록 앞 토큰의 계산 결과(어텐션의 K와 V)를 저장</td>
+<td>위에서 말한 작업 공간을 차지함</td>
+</tr>
+<tr>
+<td>배치</td>
+<td>여러 사람의 요청을 묶어 한꺼번에 계산</td>
+<td>전체 처리량은 늘지만 한 사람의 대기는 길어질 수 있음</td>
+</tr>
+<tr>
+<td>프롬프트 캐싱</td>
+<td>여러 요청에서 똑같이 반복되는 앞부분의 계산을 재사용</td>
+<td>앞부분이 조금이라도 바뀌면 재사용하지 못함</td>
+</tr>
+</tbody>
+</table></div>
+<p>프롬프트 캐싱의 덕을 보려면 <strong>바뀌지 않는 긴 지시문과 자료를 앞에, 매번 바뀌는 질문을 뒤에</strong> 두세요.</p>
+</section>
+<section class="level3" id="모델-고르기-내-작업으로-직접-재-보기">
+<h3>모델 고르기: 내 작업으로 직접 재 보기</h3>
+<p>공개 순위표는 남의 시험지로 매긴 점수입니다. 내 서비스의 실제 입력을 20~30개 고르고 성공 기준을 먼저 정한 다음, 후보 모델에 똑같이 넣어 품질, 속도, 비용을 표로 만드세요. 간단한 분류는 작은 모델로 충분할 때가 많습니다. 모델이나 프롬프트를 바꿀 때마다 같은 표를 다시 채웁니다.</p>
+</section>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>학습 / 추론(inference)</td>
+<td>파라미터를 고치는 일 / 굳은 파라미터로 답을 만드는 일</td>
+</tr>
+<tr>
+<td>추론(inference) / 추론 모델(reasoning)</td>
+<td>모델을 돌려 답을 만드는 일 / 답하기 전에 생각 토큰을 먼저 쓰는 모델. 우리말 낱말만 같음</td>
+</tr>
+<tr>
+<td>글자 수 / 토큰 수</td>
+<td>사람이 세는 단위 / 모델과 요금표가 세는 단위</td>
+</tr>
+<tr>
+<td>토큰의 확률 / 사실일 확률</td>
+<td>그 말이 이어질 가능성 / 그 말이 맞을 가능성</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 문서를 올렸는데 새 대화에서는 모른다</div>
+<p>사내 규정 문서를 AI 채팅에 올리고 질문해서 정확한 답을 받았습니다. 다음 날 새 대화에서 같은 질문을 했더니 엉뚱한 일반론이 돌아왔습니다.</p>
+<ol type="1">
+<li><strong>문서가 어디에 들어갔는지 구분합니다.</strong> 문서는 어제 대화의 책상 위(컨텍스트)에만 올라갔습니다. 머릿속(파라미터)은 바뀌지 않았습니다.</li>
+<li><strong>새 대화의 책상을 확인합니다.</strong> 규정이 올라와 있지 않습니다. 달인은 일반 지식으로 그럴듯하게 이어 썼습니다. 환각입니다.</li>
+<li><strong>매번 올려 줄 길을 만듭니다.</strong> 규정을 검색 저장소에 넣어 두고, 질문마다 관련 조항을 찾아 컨텍스트에 붙이는 RAG를 둡니다.</li>
+<li><strong>찾는 단계를 따로 확인합니다.</strong> 필요한 조항이 실제로 검색됐는지, 최신 버전인지, 그 사용자가 볼 권한이 있는 문서인지 봅니다.</li>
+</ol>
+<p>대화에 넣기, 저장해 두기, 검색해서 넣기, 학습시키기는 모두 다른 일입니다.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li>LLM은 <strong>지금까지의 토큰을 보고 다음 토큰의 확률을 구해 하나를 뽑아 붙이는 일</strong>을 되풀이하는 자동 완성입니다.</li>
+<li>글은 <strong>토큰</strong>으로 잘리고, 토큰은 뜻의 좌표인 <strong>임베딩</strong>이 되고, <strong>어텐션</strong>이 문맥을 섞습니다. 트랜스포머는 이 "섞기 → 계산"을 수십 번 반복합니다.</li>
+<li>뽑기에는 제비뽑기가 들어가서 같은 질문에도 답이 달라집니다. <strong>온도</strong>와 top-p는 다양성을 조절할 뿐 정확성을 올려 주지 않습니다.</li>
+<li>모델이 아는 것은 <strong>머릿속(파라미터, 컷오프에서 멈춤)</strong>과 <strong>책상 위(컨텍스트, 이번 요청에만)</strong> 두 곳뿐입니다.</li>
+<li><strong>환각</strong>은 구조에서 나옵니다. 근거 자료를 주고, 풀이를 먼저 쓰게 하고, 모델 밖에서 검증해 줄입니다.</li>
+<li>비용은 토큰 수 × 단가이고, 전체 시간은 출력 길이가 정합니다. 모델은 <strong>내 작업의 실제 입력</strong>으로 재서 고릅니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>같은 질문을 두 번 보냈는데 답의 문장이 서로 다릅니다. 모델이 고장 난 걸까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>아닙니다. 모델은 확률표에서 제비를 뽑아 토큰을 고릅니다(샘플링). 첫 토큰이 다르게 뽑히면 그 뒤가 전부 달라집니다. 답이 흔들리면 안 되는 기능이라면 온도를 낮춥니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>AI 코딩 도구와 두 시간째 작업 중입니다. 처음에 "결제 기능은 건드리지 마"라고 했는데, 방금 AI가 결제 코드를 고쳤습니다. 가장 먼저 의심할 것은 무엇일까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>그 지시가 컨텍스트에서 빠졌을 가능성입니다. 대화가 길어져 창이 넘치면 오래된 부분이 잘리거나 요약되면서 초반의 약속이 사라집니다. 중요한 제약은 파일에 적어 두고 다시 건네 주세요.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>"온도를 0으로 했으니 이제 답을 믿어도 된다"는 말은 왜 틀렸을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>온도는 다양성을 줄일 뿐입니다. 모델이 틀린 토큰을 1등으로 꼽고 있으면 온도 0에서는 그 틀린 답이 매번 나옵니다. 정확성은 근거 자료를 주고 모델 밖에서 검증해야 올라갑니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>AI가 "수정을 마쳤고 테스트도 모두 통과했습니다"라고 답했습니다. 그런데 도구를 실행한 기록이 없습니다. 완료로 처리해도 될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>안 됩니다. 그 문장은 모델이 이어 쓴 글일 뿐입니다. 파일이 실제로 바뀌었는지, 테스트가 실제로 실행되어 성공으로 끝났는지를 기록으로 확인해야 합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>챗봇의 첫 글자는 1초 만에 뜨는데 답이 끝나기까지 30초가 걸립니다. 입력을 줄여야 할까요, 출력을 줄여야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>출력입니다. 첫 토큰이 1초 만에 나왔으니 입력을 읽는 데는 문제가 없습니다. 나머지 29초는 토큰을 하나씩 만드는 시간이므로, 답을 짧게 하거나 초당 토큰 수가 더 높은 모델을 써야 줄어듭니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>모델을 고르거나 바꿀 때는 "어느 모델이 제일 좋아?"라고 묻지 말고, <strong>내 작업으로 재는 실험</strong>을 짜 달라고 하세요.</p>
+<blockquote>
+<p>우리 서비스의 실제 요청 30개(<code>samples/</code> 폴더)로 모델 후보 세 개를 비교하는 스크립트를 만들어 줘. 요청 유형마다 성공 기준을 먼저 표로 적어서 나에게 확인받고, 그다음 같은 입력을 모든 후보에 보내서 성공 여부, 첫 토큰까지의 시간, 전체 시간, 입력·출력 토큰 수를 기록해 줘. 응답이 길이 제한으로 잘렸는지도 표시해 줘.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: 성공 기준이 실행 전에 고정됐는가, 토큰 수가 어림이 아니라 API가 돌려준 값인가, 같은 입력을 여러 번 돌려 흔들림까지 봤는가, 잘린 응답을 성공으로 세지 않았는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>LLM<small>Large Language Model</small></dt>
+<dd>
+대규모 언어 모델. 엄청난 양의 글로 다음 토큰 맞히기를 학습한 모델.
+</dd>
+<dt>토큰<small>token</small></dt>
+<dd>
+모델이 글을 읽고 쓰는 단위인 조각. 요금과 길이 제한도 토큰으로 센다.
+</dd>
+<dt>파라미터<small>parameter</small></dt>
+<dd>
+학습하면서 조정된 모델 안의 숫자들. 가중치라고도 한다.
+</dd>
+<dt>추론<small>inference</small></dt>
+<dd>
+학습이 끝난 모델로 답을 만들어 내는 일. 파라미터는 바뀌지 않는다.
+</dd>
+<dt>임베딩<small>embedding</small></dt>
+<dd>
+토큰이나 문서의 뜻을 담은 숫자 목록(벡터). 뜻이 비슷하면 가깝다.
+</dd>
+<dt>어텐션<small>attention</small></dt>
+<dd>
+토큰이 다른 토큰들의 정보를 비중을 달리해 섞어 오는 연산.
+</dd>
+<dt>트랜스포머<small>transformer</small></dt>
+<dd>
+어텐션으로 섞고 계산하는 블록을 여러 층 쌓은 신경망 구조.
+</dd>
+<dt>온도<small>temperature</small></dt>
+<dd>
+확률표를 뾰족하게 또는 평평하게 만드는 설정. 낮으면 안정적이고 높으면 다양하다.
+</dd>
+<dt>컨텍스트 윈도<small>context window</small></dt>
+<dd>
+모델이 한 번에 볼 수 있는 최대 토큰 수. 입력과 출력이 함께 차지한다.
+</dd>
+<dt>시스템 프롬프트<small>system prompt</small></dt>
+<dd>
+앱을 만든 사람이 대화 맨 앞에 넣어 두는 역할과 규칙.
+</dd>
+<dt>미세 조정<small>fine-tuning</small></dt>
+<dd>
+이미 학습된 모델을 추가 자료로 더 학습시켜 파라미터를 바꾸는 일.
+</dd>
+<dt>지식 컷오프<small>knowledge cutoff</small></dt>
+<dd>
+학습 자료가 끝나는 날짜. 그 뒤의 일은 모델의 파라미터에 없다.
+</dd>
+<dt>환각<small>hallucination</small></dt>
+<dd>
+사실이 아닌 내용을 그럴듯하게 만들어 내는 현상.
+</dd>
+<dt>RAG<small>Retrieval-Augmented Generation</small></dt>
+<dd>
+검색 증강 생성. 관련 문서를 찾아 컨텍스트에 넣어 주고 그것을 근거로 답하게 하는 방식.
+</dd>
+<dt>TTFT<small>Time To First Token</small></dt>
+<dd>
+요청을 보내고 첫 토큰이 나올 때까지의 시간.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://developers.google.com/machine-learning/crash-course/llm/transformers" rel="noopener" target="_blank">Google — LLMs: What is a large language model?</a> — 토큰, 트랜스포머, 어텐션을 그림과 함께 설명하는 온라인 강의입니다.</li>
+<li><a href="https://huggingface.co/learn/llm-course/en/chapter2/4" rel="noopener" target="_blank">Hugging Face — Tokenizers</a> — 글자, 단어, 조각 단위 분할을 비교하고 토큰이 번호로 바뀌는 과정을 보여 줍니다.</li>
+<li><a href="https://developers.google.com/machine-learning/crash-course/llm/tuning?hl=ko" rel="noopener" target="_blank">Google — 미세 조정·증류·프롬프트</a> — 파라미터를 바꾸는 방법과 입력을 바꾸는 방법의 차이를 한국어로 설명합니다.</li>
+<li><a href="https://huggingface.co/docs/transformers/main/en/kv_cache" rel="noopener" target="_blank">Hugging Face — KV cache</a> — 캐시가 줄여 주는 계산과 그 대가로 늘어나는 메모리를 설명합니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch26.html"><small>← 이전 · 26장</small><b>AI 계산을 따라가는 수학</b></a><a class="next" href="ch28.html"><small>다음 · 28장 →</small><b>핵심 AI 논문 15편</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#predict">LLM은 세상의 글을 엄청나게 읽은 자동 완성입니다</a><a href="#token">토큰: 글자도 단어도 아닌 조각</a><a href="#embedding">임베딩: 조각을 뜻의 지도 위에 놓기</a><a href="#transformer">트랜스포머: 문맥을 섞고, 계산하고, 반복하기</a><a href="#sampling">한 토큰씩 쓰기: 같은 질문에 답이 달라지는 이유</a><a href="#context">컨텍스트 윈도: 달인의 책상 넓이</a><a href="#training">학습과 지식 컷오프: 달인은 언제 무엇을 배웠나</a><a href="#hallucination">환각: 그럴듯하게 틀리는 이유와 줄이는 법</a><a href="#cost">비용·속도·메모리 읽기와 모델 고르기</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

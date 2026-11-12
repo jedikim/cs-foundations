@@ -1,0 +1,38 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>앱은 저장장치를 직접 건드리지 못하고, 시스템 호출로 커널에 부탁한다</title>
+  <text class="t-b" x="22" y="72">사용자 모드</text>
+  <text class="t-xs" x="22" y="92">앱이 실행되는 곳</text>
+  <text class="t-xs" x="22" y="108">권한이 제한됨</text>
+  <text class="t-b" x="22" y="248">커널 모드</text>
+  <text class="t-xs" x="22" y="268">운영체제의 핵심만</text>
+  <text class="t-xs" x="22" y="284">모든 장치를 다룸</text>
+
+  <rect class="panel" x="140" y="20" width="600" height="116" rx="16"/>
+  <rect class="panel yellow" x="140" y="196" width="600" height="116" rx="16"/>
+
+  <rect class="box blue" x="170" y="42" width="260" height="72" rx="12"/>
+  <use href="#i-code" x="184" y="60" width="36" height="36" class="ic blue"/>
+  <text class="t-l" x="232" y="72">내 프로그램</text>
+  <text class="t-mono" x="232" y="96">open("memo.txt")</text>
+
+  <rect class="box yellow" x="170" y="218" width="260" height="72" rx="12"/>
+  <use href="#i-shield" x="184" y="236" width="36" height="36" class="ic yellow"/>
+  <text class="t-l" x="232" y="248">커널</text>
+  <text class="t-s" x="232" y="272">② 파일과 권한을 확인</text>
+
+  <rect class="box warm" x="540" y="218" width="170" height="72" rx="12"/>
+  <use href="#i-disk" x="552" y="236" width="36" height="36" class="ic warm"/>
+  <text class="t-l" x="598" y="248">저장장치</text>
+  <text class="t-mono" x="598" y="272">memo.txt</text>
+
+  <path class="ln blue" d="M250 120 V210" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b tc-blue end" x="240" y="171">① 시스템 호출</text>
+  <path class="ln green" d="M350 212 V122" marker-end="url(#ah-green)"/>
+  <text class="t-s t-b tc-green" x="360" y="171">④ 내용 또는 오류</text>
+  <path class="ln warm" d="M438 254 H532" marker-start="url(#ah-warm)" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b tc-warm mid" x="485" y="243">③ 읽기</text>
+
+  <path class="ln red dash" d="M438 78 H625 V146"/>
+  <use href="#i-cross" x="609" y="150" width="32" height="32" class="ic red"/>
+  <text class="t-s t-b tc-red mid" x="532" y="66">직접 접근은 막힘</text>
+</svg>

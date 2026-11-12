@@ -1,0 +1,43 @@
+<svg viewBox="0 0 760 344" xmlns="http://www.w3.org/2000/svg">
+  <title>1초를 천 조각 내면 밀리초, 그 한 조각을 다시 천 조각 내면 마이크로초, 또 천 조각 내면 나노초다</title>
+  <text class="t-s t-b" x="20" y="30">단위</text>
+  <text class="t-s t-b" x="170" y="30">길이 — 윗줄의 한 조각을 1,000배 확대</text>
+  <text class="t-s t-b" x="545" y="30">이 단위로 재는 것</text>
+  <path class="ln thin muted" d="M20 42 H740"/>
+  <path class="s-warm" d="M170 96 H176 L520 132 H170 Z"/>
+  <path class="ln thin warm dash" d="M176 96 L520 132"/>
+  <text class="t-xs end tc-warm" x="520" y="113">×1,000</text>
+  <text class="t-b" x="20" y="74">초 (s)</text>
+  <text class="t-s" x="20" y="93">기준</text>
+  <rect class="box blue" x="170" y="56" width="350" height="40" rx="4"/>
+  <rect class="solid warm" x="170" y="56" width="6" height="40" rx="2"/>
+  <text class="t-b mid" x="345" y="82">1초</text>
+  <text class="t-s" x="545" y="74">큰 파일 내려받기</text>
+  <text class="t-s" x="545" y="92">빌드, 테스트 실행</text>
+  <path class="s-warm" d="M170 172 H176 L520 208 H170 Z"/>
+  <path class="ln thin warm dash" d="M176 172 L520 208"/>
+  <text class="t-xs end tc-warm" x="520" y="189">×1,000</text>
+  <text class="t-b" x="20" y="150">밀리초 (ms)</text>
+  <text class="t-s" x="20" y="169">1,000분의 1초</text>
+  <rect class="box blue" x="170" y="132" width="350" height="40" rx="4"/>
+  <rect class="solid warm" x="170" y="132" width="6" height="40" rx="2"/>
+  <text class="t-b mid" x="345" y="158">1ms</text>
+  <text class="t-s" x="545" y="150">웹 요청 한 번 수십~수백 ms</text>
+  <text class="t-s" x="545" y="168">60fps의 한 프레임 16.7ms</text>
+  <path class="s-warm" d="M170 248 H176 L520 284 H170 Z"/>
+  <path class="ln thin warm dash" d="M176 248 L520 284"/>
+  <text class="t-xs end tc-warm" x="520" y="265">×1,000</text>
+  <text class="t-b" x="20" y="226">마이크로초 (µs)</text>
+  <text class="t-s" x="20" y="245">100만분의 1초</text>
+  <rect class="box blue" x="170" y="208" width="350" height="40" rx="4"/>
+  <rect class="solid warm" x="170" y="208" width="6" height="40" rx="2"/>
+  <text class="t-b mid" x="345" y="234">1µs</text>
+  <text class="t-s" x="545" y="226">SSD에서 읽기 약 100µs</text>
+  <text class="t-s" x="545" y="244">(= 0.1ms)</text>
+  <text class="t-b" x="20" y="302">나노초 (ns)</text>
+  <text class="t-s" x="20" y="321">10억분의 1초</text>
+  <rect class="box blue" x="170" y="284" width="350" height="40" rx="4"/>
+  <text class="t-b mid" x="345" y="310">1ns</text>
+  <text class="t-s" x="545" y="302">메모리에서 읽기 약 100ns</text>
+  <text class="t-s" x="545" y="320">CPU 캐시에서 읽기 약 1ns</text>
+</svg>

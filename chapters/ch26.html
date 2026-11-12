@@ -1,0 +1,1064 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>26장 AI 계산을 따라가는 수학 — 개발의 기초</title>
+<meta name="description" content="벡터·확률·기울기를 작은 숫자로">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch26" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html" aria-current="page"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">7부 AI › <b>26장 AI 계산을 따라가는 수학</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-blue">
+<div class="ch-kicker"><span class="ch-no">26장</span><span class="part">7부 · AI</span></div>
+<h1>AI 계산을 따라가는 수학</h1>
+<p class="ch-sub">벡터·확률·기울기를 작은 숫자로</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 45분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch13.html">13장 숫자로 시스템 읽기</a></div>
+</header><div class="lead">
+<p>"AI가 학습한다"는 말은 신비롭게 들리지만, 속에서 벌어지는 일은 곱하고, 더하고, 틀린 만큼 숫자를 조금 고치는 것이 전부입니다. 국의 간을 맞추는 요리사와 같습니다. 한 숟갈 맛보고, 짜면 덜 넣고 싱거우면 더 넣기를 되풀이합니다. 이 장에서는 그 과정을 숫자 두세 개로 끝까지 따라가 봅니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>데이터가 벡터와 행렬이 되는 모습을 그리고, 텐서의 '모양'을 읽을 수 있습니다.</li>
+<li>내적, 코사인 유사도, 소프트맥스, 손실을 작은 숫자로 직접 계산할 수 있습니다.</li>
+<li>기울기와 학습률이 가중치를 어떻게 고치는지, 보폭이 크면 왜 손실이 커지는지 설명할 수 있습니다.</li>
+<li>어텐션과 LoRA의 계산을 내적, 소프트맥스, 행렬 곱으로 풀어 읽을 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="vector">
+<h2><span class="sec-n">26.1</span>무엇이든 숫자 목록으로: 벡터와 모양<a aria-label="이 절의 링크" class="anchor" href="#vector">#</a></h2>
+<p>컴퓨터는 "얼큰하다"는 말을 그대로 계산하지 못합니다. 먼저 숫자로 바꿔야 합니다. 김치찌개의 맛을 <strong>짠맛 3, 매운맛 4</strong>라고 적어 봅시다. 이렇게 대상을 나타내는 숫자 하나하나를 <strong>특징</strong>(feature)이라 하고, 특징을 정해진 순서로 늘어놓은 목록 (3, 4)를 <strong>벡터</strong>(vector)라고 합니다.</p>
+<p>순서가 곧 뜻입니다. (3, 4)와 (4, 3)은 다른 국입니다. "첫 칸은 짠맛"이라는 약속이나 단위가 어긋나면 계산은 오류 없이 조용히 틀립니다.</p>
+<p>숫자가 아닌 것은 어떻게 할까요? 국의 종류를 김치찌개 1, 육개장 2, 미역국 3이라고 번호로 적으면, 계산은 미역국을 "김치찌개의 3배"로 읽어 버립니다. 그래서 종류마다 칸을 하나씩 만들고 해당하는 칸만 1로 둡니다. 미역국은 (0, 0, 1)입니다. 이런 표현을 <strong>원-핫</strong>(one-hot)이라고 합니다.</p>
+<figure class="fig" id="fig-shapes"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>숫자 하나는 스칼라, 한 줄은 벡터, 표 한 장은 행렬, 표를 여러 장 쌓으면 텐서이며, 모양은 축마다 칸이 몇 개인지 적은 것이다</title>
+
+  <path class="ln thin muted" d="M140 24 V284 M312 24 V284 M532 24 V284"/>
+
+  <text class="t-l mid" x="75" y="36">스칼라</text>
+  <text class="t-s mid" x="75" y="58">숫자 하나</text>
+  <rect class="box blue" x="53" y="142" width="44" height="36" rx="6"/>
+  <text class="t-mono t-b mid" x="75" y="165">3</text>
+  <text class="t-b mid" x="75" y="256">축 없음</text>
+  <text class="t-xs mid" x="75" y="278">짠맛</text>
+
+  <text class="t-l mid" x="225" y="36">벡터</text>
+  <text class="t-s mid" x="225" y="58">숫자 한 줄</text>
+  <text class="t-xs mid" x="203" y="134">짠맛</text>
+  <text class="t-xs mid" x="247" y="134">매운맛</text>
+  <rect class="box blue" x="181" y="142" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="225" y="142" width="44" height="36" rx="6"/>
+  <text class="t-mono t-b mid" x="203" y="165">3</text>
+  <text class="t-mono t-b mid" x="247" y="165">4</text>
+  <text class="t-mono t-b mid" x="225" y="256">모양 [2]</text>
+  <text class="t-xs mid" x="225" y="278">김치찌개의 맛 2가지</text>
+
+  <text class="t-l mid" x="424" y="36">행렬</text>
+  <text class="t-s mid" x="424" y="58">벡터를 쌓은 표 한 장</text>
+  <text class="t-xs mid" x="426" y="98">짠맛</text>
+  <text class="t-xs mid" x="470" y="98">매운맛</text>
+  <text class="t-xs end" x="396" y="129">김치찌개</text>
+  <text class="t-xs end" x="396" y="165">육개장</text>
+  <text class="t-xs end" x="396" y="201">미역국</text>
+  <rect class="box blue" x="404" y="106" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="448" y="106" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="404" y="142" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="448" y="142" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="404" y="178" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="448" y="178" width="44" height="36" rx="6"/>
+  <text class="t-mono t-b mid" x="426" y="129">3</text>
+  <text class="t-mono t-b mid" x="470" y="129">4</text>
+  <text class="t-mono t-b mid" x="426" y="165">6</text>
+  <text class="t-mono t-b mid" x="470" y="165">8</text>
+  <text class="t-mono t-b mid" x="426" y="201">5</text>
+  <text class="t-mono t-b mid" x="470" y="201">0</text>
+  <text class="t-mono t-b mid" x="424" y="256">모양 [3, 2]</text>
+  <text class="t-xs mid" x="424" y="278">국 3종 × 맛 2가지</text>
+
+  <text class="t-l mid" x="640" y="36">텐서</text>
+  <text class="t-s mid" x="640" y="58">표를 여러 장 쌓은 묶음</text>
+  <rect class="box gray" x="610" y="99" width="88" height="108" rx="6"/>
+  <text class="t-xs" x="704" y="114">어제</text>
+  <text class="t-xs end" x="588" y="136">오늘</text>
+  <rect class="box blue" x="596" y="113" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="640" y="113" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="596" y="149" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="640" y="149" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="596" y="185" width="44" height="36" rx="6"/>
+  <rect class="box blue" x="640" y="185" width="44" height="36" rx="6"/>
+  <text class="t-mono t-b mid" x="618" y="136">3</text>
+  <text class="t-mono t-b mid" x="662" y="136">4</text>
+  <text class="t-mono t-b mid" x="618" y="172">6</text>
+  <text class="t-mono t-b mid" x="662" y="172">8</text>
+  <text class="t-mono t-b mid" x="618" y="208">5</text>
+  <text class="t-mono t-b mid" x="662" y="208">0</text>
+  <text class="t-mono t-b mid" x="640" y="256">모양 [2, 3, 2]</text>
+  <text class="t-xs mid" x="640" y="278">2일 × 국 3종 × 맛 2가지 = 12개</text>
+</svg></div><figcaption><b>그림 26-1</b>숫자 하나에서 숫자 묶음까지. 모양은 축마다 칸이 몇 개인지 적은 것입니다.</figcaption></figure>
+<p>숫자 하나는 <strong>스칼라</strong>(scalar), 벡터를 쌓은 표는 <strong>행렬</strong>(matrix), 표를 다시 쌓은 묶음은 <strong>텐서</strong>(tensor)입니다. AI 코드에서는 이 넷을 통틀어 텐서라고도 부릅니다.</p>
+<p>[2, 3, 2]처럼 축마다 칸 수를 적은 것이 <strong>모양</strong>(shape)입니다. 숫자는 2 × 3 × 2 = 12개입니다. 글을 다루는 AI의 데이터도 같은 꼴입니다. 문장 2개, 문장마다 토큰(글 조각) 3개, 토큰마다 숫자 2개라면 모양은 [2, 3, 2]입니다. AI 코드에서 자주 만나는 오류가 "모양이 맞지 않는다"입니다. 텐서를 보면 <strong>각 축이 무엇을 뜻하는지</strong>부터 읽으세요.</p>
+<details class="deep"><summary><small>한 걸음 더</small>모양이 달라도 더해지는 이유: 브로드캐스팅</summary><div class="deep-body">
+<p>모양 [3, 2]인 국 표에 벡터 (1, 0)을 더하면 오류가 날 것 같지만, 대부분의 라이브러리는 벡터를 세 행에 똑같이 복사해 더합니다. 세 국의 짠맛이 모두 1씩 오릅니다. 이 자동 늘리기가 <strong>브로드캐스팅</strong>(broadcasting)입니다.</p>
+<p>규칙은 "뒤쪽 축부터 견주어 칸 수가 같거나 한쪽이 1이면 된다"입니다. [3, 2]와 [2]는 맨 뒤가 2로 같아서 됩니다. [3, 2]와 [3]은 2와 3이 달라 안 됩니다. 뜻하지 않은 축으로 늘어나도 오류가 나지 않으니 결과의 모양을 꼭 확인하세요.</p>
+</div></details>
+<details class="deep"><summary><small>한 걸음 더</small>크기가 제각각인 특징 맞추기: 표준화</summary><div class="deep-body">
+<p>나트륨은 900mg, 맵기는 2단계처럼 특징마다 숫자 크기가 크게 다르면, 큰 숫자가 계산을 혼자 좌우합니다. 그래서 특징마다 <strong>평균을 빼고 표준편차로 나누어</strong> "평소보다 얼마나 벗어났나"로 바꿉니다. 이것이 <strong>표준화</strong>(standardization)입니다. 평균이 (10, 100), 표준편차가 (2, 20)이면 (12, 120)은 ((12 − 10) ÷ 2, (120 − 100) ÷ 20) = (1, 1)이 됩니다. 평균과 표준편차(<a href="ch13.html">13장</a>)는 훈련에 쓴 데이터에서 한 번 구해 두고 새 입력에도 그대로 씁니다.</p>
+</div></details>
+</section>
+<section class="level2" id="similarity">
+<h2><span class="sec-n">26.2</span>두 벡터는 얼마나 닮았나: 내적과 코사인 유사도<a aria-label="이 절의 링크" class="anchor" href="#similarity">#</a></h2>
+<p>김치찌개를 좋아하는 손님에게 닮은 국을 추천하려 합니다. 닮은 정도를 어떻게 숫자로 만들까요?</p>
+<p>기본은 <strong>내적</strong>(dot product)입니다. <strong>같은 자리끼리 곱해서 모두 더합니다.</strong> 김치찌개 (3, 4)와 육개장 (6, 8)의 내적은 3×6 + 4×8 = 50입니다.</p>
+<p>그런데 함정이 있습니다. 김치찌개와 자기 자신의 내적은 3×3 + 4×4 = 25입니다. 육개장(50)이 자기 자신(25)보다 더 닮았다는 이상한 결과입니다. 육개장은 맛의 비율이 같고 두 배로 진할 뿐인데, 내적은 <strong>진하기까지 점수에 넣기</strong> 때문입니다.</p>
+<p>벡터를 화살표로 그리면 정리됩니다. <strong>방향</strong>은 맛의 비율, <strong>길이</strong>는 진하기입니다.</p>
+<figure class="fig" id="fig-cosine"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>내적은 화살표가 길수록 커지지만 코사인 유사도는 방향만 본다. 김치찌개와 육개장은 방향이 같아 1.0, 미역국은 53도 벌어져 0.6이다</title>
+
+  <path class="ln thin" d="M70 330 H402" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M70 330 V30" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M142 326 V334 M214 326 V334 M286 326 V334 M358 326 V334 M66 258 H74 M66 186 H74 M66 114 H74 M66 42 H74"/>
+  <text class="t-xs mid" x="142" y="352">2</text>
+  <text class="t-xs mid" x="214" y="352">4</text>
+  <text class="t-xs mid" x="286" y="352">6</text>
+  <text class="t-xs mid" x="358" y="352">8</text>
+  <text class="t-s end" x="404" y="370">짠맛</text>
+  <text class="t-xs end" x="58" y="262">2</text>
+  <text class="t-xs end" x="58" y="190">4</text>
+  <text class="t-xs end" x="58" y="118">6</text>
+  <text class="t-xs end" x="58" y="46">8</text>
+  <text class="t-s" x="84" y="34">매운맛</text>
+
+  <path class="ln thin muted dash" d="M178 186 V330 M178 186 H70"/>
+
+  <path class="ln warm" d="M70 330 L286 42" marker-end="url(#ah-warm)"/>
+  <path class="ln thick blue" d="M70 330 L178 186" marker-end="url(#ah-blue)"/>
+  <path class="ln thick green" d="M70 330 L250 330" marker-end="url(#ah-green)"/>
+  <path class="ln thin" d="M112 330 A42 42 0 0 0 95.2 296.4"/>
+  <text class="t-s t-b" x="118" y="312">53°</text>
+
+  <text class="t-b tc-warm" x="298" y="42">육개장 (6, 8)</text>
+  <text class="t-s" x="298" y="62">길이 10</text>
+  <text class="t-b tc-blue" x="194" y="190">김치찌개 (3, 4)</text>
+  <text class="t-s" x="194" y="210">길이 5</text>
+  <text class="t-b tc-green" x="262" y="298">미역국 (5, 0)</text>
+  <text class="t-s" x="262" y="316">길이 5</text>
+
+  <text class="t-s t-b" x="430" y="30">김치찌개 (3, 4)와 견주면</text>
+
+  <rect class="box blue" x="430" y="44" width="310" height="92" rx="12"/>
+  <text class="t-b tc-blue" x="446" y="68">김치찌개 자신</text>
+  <text class="t-s" x="446" y="94">내적</text>
+  <text class="t-mono" x="500" y="94">3×3 + 4×4 = 25</text>
+  <text class="t-s" x="446" y="118">코사인</text>
+  <text class="t-mono t-b" x="500" y="118">25 ÷ (5×5) = 1.0</text>
+
+  <rect class="box warm" x="430" y="148" width="310" height="92" rx="12"/>
+  <text class="t-b tc-warm" x="446" y="172">육개장</text>
+  <text class="t-s" x="446" y="198">내적</text>
+  <text class="t-mono" x="500" y="198">3×6 + 4×8 = 50</text>
+  <text class="t-s" x="446" y="222">코사인</text>
+  <text class="t-mono t-b" x="500" y="222">50 ÷ (5×10) = 1.0</text>
+
+  <rect class="box green" x="430" y="252" width="310" height="92" rx="12"/>
+  <text class="t-b tc-green" x="446" y="276">미역국</text>
+  <text class="t-s" x="446" y="302">내적</text>
+  <text class="t-mono" x="500" y="302">3×5 + 4×0 = 15</text>
+  <text class="t-s" x="446" y="326">코사인</text>
+  <text class="t-mono t-b" x="500" y="326">15 ÷ (5×5) = 0.6</text>
+</svg></div><figcaption><b>그림 26-2</b>세 국을 화살표로 그렸습니다. 내적은 화살표가 길면 커지지만, 코사인 유사도는 방향만 봅니다.</figcaption></figure>
+<p>길이는 칸마다 제곱해 더한 뒤 제곱근을 씌워 구합니다. 김치찌개는 √(3² + 4²) = 5입니다. 내적을 두 길이로 나누어 진하기를 지운 값이 <strong>코사인 유사도</strong>(cosine similarity)입니다.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>cos</mo><mrow><mo form="prefix" stretchy="true">(</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo form="postfix" stretchy="true">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>a</mi><mo>⋅</mo><mi>b</mi></mrow><mrow><mrow><mo form="prefix" stretchy="true">|</mo><mi>a</mi><mo form="postfix" stretchy="true">|</mo></mrow><mspace width="0.167em"></mspace><mrow><mo form="prefix" stretchy="true">|</mo><mi>b</mi><mo form="postfix" stretchy="true">|</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">\cos(a, b) = \frac{a \cdot b}{|a|\,|b|}</annotation></semantics></math></p>
+<p>"a와 b의 내적을 두 벡터의 길이를 곱한 값으로 나눈다"고 읽습니다. 방향이 같으면 1, 직각이면 0, 정반대면 −1입니다. 육개장은 50 ÷ (5 × 10) = 1.0, 미역국은 15 ÷ (5 × 5) = 0.6입니다.</p>
+<p>AI는 낱말이나 문서의 뜻을 수백에서 수천 칸짜리 벡터로 바꿔 놓고 이 계산을 합니다. 이 벡터가 <strong>임베딩</strong>(embedding)입니다. 뜻이 비슷한 글은 방향이 비슷해지도록 학습되어 있어서, "질문과 닮은 문서 찾기"가 곧 코사인 유사도 계산입니다.</p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>코사인 0.6은 "60% 같다"는 뜻이 아닙니다. 같은 AI가 만든 벡터끼리 순위를 매기는 값입니다. 임베딩의 칸에는 '짠맛' 같은 이름표도 없습니다.</p>
+</div>
+</section>
+<section class="level2" id="neuron">
+<h2><span class="sec-n">26.3</span>레시피 한 줄의 계산: 가중합, 편향, 행렬 곱<a aria-label="이 절의 링크" class="anchor" href="#neuron">#</a></h2>
+<p>식당의 레시피 카드에 이렇게 적혀 있습니다. "소금은 어른 1명당 3꼬집, 아이 1명당 1꼬집, 인원과 상관없이 기본 1꼬집." 어른 2명과 아이 1명이 주문하면 소금은 3 × 2 + 1 × 1 + 1 = <strong>8꼬집</strong>입니다. <strong>신경망</strong>(neural network)의 가장 작은 부품인 <strong>뉴런</strong>(neuron)이 하는 계산이 바로 이것입니다. 신경망은 이런 뉴런을 수없이 이어 붙인 계산식입니다.</p>
+<ul>
+<li>주문 (2, 1)은 <strong>입력</strong>입니다. 손님이 정합니다.</li>
+<li>1명당 꼬집 수 (3, 1)은 <strong>가중치</strong>(weight)입니다. 입력을 얼마나 크게 반영할지 정합니다.</li>
+<li>기본 1꼬집은 <strong>편향</strong>(bias)입니다. 입력이 0이어도 더해지는 출발점입니다.</li>
+</ul>
+<p>입력과 가중치의 내적을 <strong>가중합</strong>이라고 합니다. 뉴런은 가중합에 편향을 더한 것입니다. 가중치와 편향을 합쳐 <strong>파라미터</strong>(parameter)라 하고, 계산식과 파라미터를 묶어 <strong>모델</strong>(model)이라고 부릅니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>"파라미터 70억 개짜리 모델"은 레시피 카드에 숫자가 70억 개 적혀 있다는 말입니다. <strong>학습은 이 숫자들을 고치는 일</strong>입니다.</p>
+</div>
+<p>실제로는 양념도 여러 가지, 주문도 여러 건입니다. 주문과 가중치를 각각 표로 만들면 모든 가중합을 한꺼번에 적을 수 있습니다. 이것이 <strong>행렬 곱</strong>입니다.</p>
+<figure class="fig" id="fig-matmul"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>행렬 곱의 한 칸은 왼쪽 표의 행 하나와 오른쪽 표의 열 하나를 같은 자리끼리 곱해 더한 가중합이다</title>
+
+  <text class="t-b" x="96" y="34">주문표 X</text>
+  <text class="t-xs" x="96" y="54">[주문 2, 사람 2]</text>
+  <text class="t-xs mid" x="124" y="88">어른</text>
+  <text class="t-xs mid" x="180" y="88">아이</text>
+  <text class="t-s end" x="88" y="121">주문 A</text>
+  <text class="t-s end" x="88" y="161">주문 B</text>
+  <rect class="box warm" x="96" y="96" width="56" height="40" rx="6"/>
+  <rect class="box warm" x="152" y="96" width="56" height="40" rx="6"/>
+  <rect class="box" x="96" y="136" width="56" height="40" rx="6"/>
+  <rect class="box" x="152" y="136" width="56" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="124" y="121">2</text>
+  <text class="t-mono t-b mid" x="180" y="121">1</text>
+  <text class="t-mono mid" x="124" y="161">1</text>
+  <text class="t-mono mid" x="180" y="161">3</text>
+
+  <text class="t-h mid" x="240" y="142">×</text>
+
+  <text class="t-b" x="350" y="34">레시피표 W</text>
+  <text class="t-xs" x="350" y="54">[사람 2, 양념 2]</text>
+  <text class="t-xs mid" x="378" y="88">소금</text>
+  <text class="t-xs mid" x="434" y="88">고춧가루</text>
+  <text class="t-s end" x="342" y="121">어른 1명당</text>
+  <text class="t-s end" x="342" y="161">아이 1명당</text>
+  <rect class="box warm" x="350" y="96" width="56" height="40" rx="6"/>
+  <rect class="box" x="406" y="96" width="56" height="40" rx="6"/>
+  <rect class="box warm" x="350" y="136" width="56" height="40" rx="6"/>
+  <rect class="box" x="406" y="136" width="56" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="378" y="121">3</text>
+  <text class="t-mono mid" x="434" y="121">2</text>
+  <text class="t-mono t-b mid" x="378" y="161">1</text>
+  <text class="t-mono mid" x="434" y="161">0</text>
+
+  <text class="t-h mid" x="496" y="142">=</text>
+
+  <text class="t-b" x="584" y="34">넣을 양념 XW</text>
+  <text class="t-xs" x="584" y="54">[주문 2, 양념 2]</text>
+  <text class="t-xs mid" x="612" y="88">소금</text>
+  <text class="t-xs mid" x="668" y="88">고춧가루</text>
+  <text class="t-s end" x="576" y="121">주문 A</text>
+  <text class="t-s end" x="576" y="161">주문 B</text>
+  <rect class="solid warm" x="584" y="96" width="56" height="40" rx="6"/>
+  <rect class="box" x="640" y="96" width="56" height="40" rx="6"/>
+  <rect class="box" x="584" y="136" width="56" height="40" rx="6"/>
+  <rect class="box" x="640" y="136" width="56" height="40" rx="6"/>
+  <text class="t-mono t-b t-on mid" x="612" y="121">7</text>
+  <text class="t-mono mid" x="668" y="121">4</text>
+  <text class="t-mono mid" x="612" y="161">6</text>
+  <text class="t-mono mid" x="668" y="161">2</text>
+
+  <rect class="box warm" x="20" y="202" width="720" height="46" rx="10"/>
+  <text class="t-b" x="38" y="231">주문 A의 소금 = 어른 2 × 3 + 아이 1 × 1 = 7</text>
+  <text class="t-s end" x="722" y="230">행 하나 × 열 하나 = 가중합 한 번</text>
+
+  <rect class="box gray" x="20" y="258" width="720" height="40" rx="10"/>
+  <text class="t-s" x="38" y="283">나머지 세 칸</text>
+  <text class="t-mono" x="150" y="283">2×2 + 1×0 = 4</text>
+  <text class="t-mono" x="340" y="283">1×3 + 3×1 = 6</text>
+  <text class="t-mono" x="530" y="283">1×2 + 3×0 = 2</text>
+</svg></div><figcaption><b>그림 26-3</b>행렬 곱의 한 칸은 가중합 한 번입니다. 왼쪽 표의 행 하나와 오른쪽 표의 열 하나를 같은 자리끼리 곱해 더합니다.</figcaption></figure>
+<p>모양으로 보면 [주문 2, 사람 2] × [사람 2, 양념 2] → [주문 2, 양념 2]입니다. <strong>맞닿은 안쪽 축의 칸 수가 같아야</strong> 곱할 수 있고, 바깥쪽 두 축이 결과의 모양이 됩니다. 여기에 편향을 더하면 신경망의 <strong>층</strong>(layer) 하나가 끝납니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
+<p>행렬 곱은 같은 자리 숫자끼리 곱하는 것이 아닙니다. 위 두 표를 자리별로 곱하면 [[6, 2], [1, 0]]이라는 전혀 다른 값이 나옵니다. Python의 계산 도구인 NumPy와 PyTorch에서 <code>*</code>는 자리별 곱, <code>@</code>가 행렬 곱입니다.</p>
+</div>
+<p>이 단순한 곱셈과 덧셈이 수억 번 반복됩니다. <a href="ch01.html">1장</a>의 GPU가 AI에 꼭 필요한 까닭입니다.</p>
+</section>
+<section class="level2" id="relu">
+<h2><span class="sec-n">26.4</span>직선만 쌓으면 직선: ReLU가 필요한 이유<a aria-label="이 절의 링크" class="anchor" href="#relu">#</a></h2>
+<p>층을 여러 개 쌓으면 더 똑똑해질 것 같습니다. 그런데 곱하고 더하기만 하는 층은 아무리 쌓아도 소용이 없습니다. 첫 층이 h = 2x + 1, 둘째 층이 y = 3h + 4라면, 합쳐서 y = 3(2x + 1) + 4 = 6x + 7입니다. 두 층이 <strong>한 층짜리 직선</strong>과 똑같아졌습니다. 백 층을 쌓아도 마찬가지입니다.</p>
+<p>그래서 층 사이에 선을 꺾는 함수를 끼웁니다. 이를 <strong>활성화 함수</strong>(activation function)라 하고, 가장 흔한 것이 <strong>ReLU</strong>(렐루)입니다. 규칙은 한 줄입니다. <strong>음수면 0, 양수면 그대로.</strong> 주방으로 치면 계산 결과가 "고춧가루 −1꼬집"일 때 0꼬집을 넣는 것입니다. 덜어낼 수는 없으니까요.</p>
+<figure class="fig" id="fig-relu"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>ReLU는 음수를 0으로 꺾어 직선을 꺾인 선으로 바꾸고, 꺾인 선 두 개를 더하면 직선으로는 만들 수 없는 산 모양이 나온다</title>
+
+  <text class="t-b" x="20" y="30">ReLU 하나: 음수는 0으로 꺾는다</text>
+  <path class="ln thin" d="M70 250 H318" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M70 322 V52" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M66 310 H74 M66 190 H74 M66 70 H74 M125 246 V254 M180 246 V254 M290 246 V254"/>
+  <text class="t-xs end" x="58" y="74">9</text>
+  <text class="t-xs end" x="58" y="194">3</text>
+  <text class="t-xs end" x="58" y="254">0</text>
+  <text class="t-xs end" x="58" y="314">−3</text>
+  <text class="t-xs mid" x="180" y="272">1</text>
+  <text class="t-xs mid" x="290" y="272">2</text>
+  <text class="t-s" x="326" y="255">x</text>
+
+  <path class="ln muted dash" d="M70 310 L125 250"/>
+  <path class="ln thick blue" d="M70 250 L125 250 L290 70"/>
+  <circle class="f-gray" cx="70" cy="310" r="4.500"/>
+  <circle class="f-blue" cx="70" cy="250" r="4.500"/>
+  <circle class="f-warm" cx="125" cy="250" r="5"/>
+  <circle class="f-blue" cx="180" cy="190" r="4.500"/>
+  <circle class="f-blue" cx="290" cy="70" r="4.500"/>
+  <text class="t-mono" x="192" y="198">(1, 3)</text>
+  <text class="t-mono" x="302" y="76">(2, 9)</text>
+  <text class="t-s tc-warm" x="112" y="298">x = 0.5에서 꺾인다</text>
+  <path class="ln thin warm" d="M140 284 L128 258"/>
+
+  <path class="ln thick blue" d="M84 84 H108"/>
+  <text class="t-s" x="116" y="88">3 × ReLU(2x − 1)</text>
+  <path class="ln muted dash" d="M84 108 H108"/>
+  <text class="t-s" x="116" y="112">ReLU 없이: 6x − 3</text>
+
+  <path class="ln thin muted" d="M385 20 V322"/>
+
+  <text class="t-b" x="410" y="30">ReLU 둘을 더하면: 산 모양</text>
+  <text class="t-mono" x="410" y="54">ReLU(x) − 2 × ReLU(x − 1)</text>
+  <path class="ln thin" d="M450 250 H708" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M450 250 V84" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M446 120 H454 M560 246 V254 M670 246 V254"/>
+  <text class="t-xs end" x="438" y="124">1</text>
+  <text class="t-xs end" x="438" y="254">0</text>
+  <text class="t-xs mid" x="560" y="270">1</text>
+  <text class="t-xs mid" x="670" y="270">2</text>
+  <text class="t-s" x="716" y="255">x</text>
+
+  <path class="ln thin muted dash" d="M560 120 L592 82"/>
+  <text class="t-xs" x="600" y="90">첫째만 있었다면</text>
+  <path class="ln thick purple" d="M450 250 L560 120 L670 250"/>
+  <circle class="f-purple" cx="450" cy="250" r="4.500"/>
+  <circle class="f-purple" cx="560" cy="120" r="4.500"/>
+  <circle class="f-purple" cx="670" cy="250" r="4.500"/>
+  <text class="t-mono end" x="546" y="116">(1, 1)</text>
+  <text class="t-s" x="450" y="296">x가 1보다 작을 때: 첫째만 켜져 올라간다</text>
+  <text class="t-s" x="450" y="316">x가 1을 넘으면: 둘째도 켜져 내려간다</text>
+</svg></div><figcaption><b>그림 26-4</b>왼쪽: ReLU를 끼우면 선이 꺾입니다. 오른쪽: 꺾인 선 둘을 더하면 직선으로는 못 만드는 산 모양이 나옵니다.</figcaption></figure>
+<p>왼쪽 식 3 × ReLU(2x − 1)에 x = 0을 넣으면 2×0 − 1 = −1이 0으로 바뀌어 결과는 0입니다. x = 1이면 3 × 1 = 3, x = 2면 3 × 3 = 9입니다. ReLU가 없었다면 x = 0에서 −3이 나왔을 것입니다.</p>
+<p>꺾인 선 하나는 "여기서부터 켜지는 스위치"입니다. 오른쪽처럼 스위치 두 개만 더해도 올라갔다 내려오는 모양이 생깁니다. 스위치가 수천 개면 구불구불한 관계도 얼마든지 흉내 낼 수 있습니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>신경망은 <strong>(행렬 곱 + 편향) → 꺾기</strong>를 여러 번 되풀이한 것입니다. 꺾기가 빠지면 전체가 직선 하나로 줄어듭니다.</p>
+</div>
+</section>
+<section class="level2" id="softmax">
+<h2><span class="sec-n">26.5</span>점수를 확률로, 확률을 벌점으로: 소프트맥스와 손실<a aria-label="이 절의 링크" class="anchor" href="#softmax">#</a></h2>
+<p>다음에 올 낱말을 맞히는 모델을 <strong>언어 모델</strong>이라고 합니다. 언어 모델은 "오늘 점심은" 뒤에 올 낱말을 고를 때 후보마다 점수를 냅니다. 김치찌개 2점, 된장국 1점, 미역국 0점이라고 합시다. <strong>로짓</strong>(logit)이라 부르는 이 점수는 음수도 되고 합도 제멋대로입니다. 이것을 "모두 0 이상이고 합이 1"인 확률로 바꾸는 함수가 <strong>소프트맥스</strong>(softmax)입니다.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>i</mi></msub><mo>=</mo><mfrac><msup><mi>e</mi><msub><mi>z</mi><mi>i</mi></msub></msup><mrow><msup><mi>e</mi><msub><mi>z</mi><mn>1</mn></msub></msup><mo>+</mo><msup><mi>e</mi><msub><mi>z</mi><mn>2</mn></msub></msup><mo>+</mo><msup><mi>e</mi><msub><mi>z</mi><mn>3</mn></msub></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">p_i = \frac{e^{z_i}}{e^{z_1} + e^{z_2} + e^{z_3}}</annotation></semantics></math></p>
+<p>z는 점수, p는 확률입니다. "i번째 후보의 확률은, e를 그 후보의 점수만큼 거듭제곱한 값을 모든 후보의 그런 값의 합으로 나눈 것"이라고 읽습니다. e는 약 2.718인 수입니다. e² ≈ 7.39, e¹ ≈ 2.72, e⁰ = 1이고 합은 11.11입니다.</p>
+<figure class="fig" id="fig-softmax"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 276" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>소프트맥스는 점수 2, 1, 0을 e의 거듭제곱으로 바꾼 뒤 합으로 나누어 확률 0.665, 0.245, 0.090으로 만들고, 정답에 준 확률이 낮을수록 손실이 커진다</title>
+
+  <text class="t-s t-b" x="20" y="32">다음 낱말 후보</text>
+  <text class="t-s t-b mid" x="190" y="32">점수</text>
+  <text class="t-s t-b mid" x="306" y="32">e의 점수 제곱</text>
+  <text class="t-s t-b" x="400" y="32">합 11.11로 나눈 확률</text>
+  <text class="t-s t-b mid" x="686" y="32">정답일 때 손실</text>
+  <path class="ln thin muted" d="M20 46 H740"/>
+
+  <text class="t-b" x="20" y="87">김치찌개</text>
+  <rect class="box blue" x="166" y="64" width="48" height="36" rx="8"/>
+  <text class="t-mono t-b mid" x="190" y="87">2</text>
+  <path class="ln thin muted" d="M224 82 H256" marker-end="url(#ah-muted)"/>
+  <text class="t-mono mid" x="306" y="87">7.39</text>
+  <path class="ln thin muted" d="M348 82 H388" marker-end="url(#ah-muted)"/>
+  <rect class="solid purple" x="400" y="69" width="133" height="26" rx="5"/>
+  <text class="t-mono t-b" x="543" y="87">0.665</text>
+  <text class="t-mono mid tc-warm" x="686" y="87">0.41</text>
+
+  <text class="t-b" x="20" y="141">된장국</text>
+  <rect class="box blue" x="166" y="118" width="48" height="36" rx="8"/>
+  <text class="t-mono t-b mid" x="190" y="141">1</text>
+  <path class="ln thin muted" d="M224 136 H256" marker-end="url(#ah-muted)"/>
+  <text class="t-mono mid" x="306" y="141">2.72</text>
+  <path class="ln thin muted" d="M348 136 H388" marker-end="url(#ah-muted)"/>
+  <rect class="solid purple" x="400" y="123" width="49" height="26" rx="5"/>
+  <text class="t-mono t-b" x="459" y="141">0.245</text>
+  <text class="t-mono mid tc-warm" x="686" y="141">1.41</text>
+
+  <text class="t-b" x="20" y="195">미역국</text>
+  <rect class="box blue" x="166" y="172" width="48" height="36" rx="8"/>
+  <text class="t-mono t-b mid" x="190" y="195">0</text>
+  <path class="ln thin muted" d="M224 190 H256" marker-end="url(#ah-muted)"/>
+  <text class="t-mono mid" x="306" y="195">1.00</text>
+  <path class="ln thin muted" d="M348 190 H388" marker-end="url(#ah-muted)"/>
+  <rect class="solid purple" x="400" y="177" width="18" height="26" rx="5"/>
+  <text class="t-mono t-b" x="428" y="195">0.090</text>
+  <text class="t-mono mid tc-warm" x="686" y="195">2.41</text>
+
+  <path class="ln thin muted" d="M20 222 H740"/>
+  <text class="t-s mid" x="306" y="248">합 11.11</text>
+  <text class="t-s" x="400" y="248">합 1 (100%)</text>
+  <text class="t-s mid tc-warm" x="686" y="248">−ln(확률)</text>
+</svg></div><figcaption><b>그림 26-5</b>점수 (2, 1, 0)이 확률 (0.665, 0.245, 0.090)이 되는 과정. 오른쪽 끝은 그 후보가 정답이었을 때의 손실입니다.</figcaption></figure>
+<p>거듭제곱을 거치면 음수 점수도 양수가 되고, 점수 차이가 클수록 확률 격차가 크게 벌어집니다.</p>
+<section class="level3" id="틀린-정도를-숫자-하나로">
+<h3>틀린 정도를 숫자 하나로</h3>
+<p>모델을 고치려면 "얼마나 틀렸는지"를 숫자 하나로 알려 줘야 합니다. 이 숫자가 <strong>손실</strong>(loss)입니다. 국으로 치면 원하는 맛에서 벗어난 정도입니다.</p>
+<p>고르기 문제에서는 <strong>정답에 준 확률</strong>만 봅니다.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mi>−</mi><mo>ln</mo><msub><mi>p</mi><mtext mathvariant="normal">정답</mtext></msub></mrow><annotation encoding="application/x-tex">L = -\ln p_{\text{정답}}</annotation></semantics></math></p>
+<p>"손실은 정답에 준 확률의 자연로그에 마이너스를 붙인 값"이라고 읽습니다. ln(자연로그)은 e의 거듭제곱을 거꾸로 돌리는 계산입니다. ln 7.39 ≈ 2입니다. 이 손실을 <strong>교차 엔트로피</strong>(cross-entropy)라고 합니다.</p>
+<p>정답에 준 확률이 1이면 손실은 0입니다. 0.5면 0.69, 0.1이면 2.30, 0.01이면 4.61입니다. <strong>자신 있게 틀릴수록 벌점이 가파르게 커집니다.</strong> 위 그림에서 정답이 된장국이었다면 손실은 −ln 0.245 ≈ 1.41입니다.</p>
+<p>숫자를 맞히는 문제에서는 더 단순하게 (예측 − 정답)²을 손실로 씁니다. 다음 절에서 이것을 씁니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>문장의 확률: 조건부 확률과 로그</summary><div class="deep-body">
+<p>언어 모델은 낱말을 하나씩 이어 붙입니다. "비가" 다음에 "온다"가 올 확률처럼 <strong>앞에 온 것을 조건으로 한 확률</strong>을 조건부 확률이라 하고 P(온다 | 비가)라고 씁니다. 세로줄은 "~가 주어졌을 때"로 읽습니다.</p>
+<p>첫 낱말이 "비가"일 확률이 0.4, 그 뒤에 "온다"가 올 확률이 0.75라면 "비가 온다"의 확률은 0.4 × 0.75 = 0.3입니다. 문장이 길면 1보다 작은 수를 수백 번 곱해 값이 0에 붙어 버립니다. 그래서 곱셈을 덧셈으로 바꿔 주는 로그를 씁니다. ln 0.4 + ln 0.75 = −0.916 − 0.288 = −1.204 = ln 0.3. 토큰마다 구한 −ln p의 평균이 언어 모델의 학습 손실입니다. 확률의 기초는 <a href="ch13.html">13장</a>에 있습니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="gradient">
+<h2><span class="sec-n">26.6</span>맛보고 조금 고치기: 기울기와 경사 하강<a aria-label="이 절의 링크" class="anchor" href="#gradient">#</a></h2>
+<div class="callout analogy"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bulb"></use></svg>비유로 이해하기 · 국 간 맞추기</div>
+<p>요리사는 레시피대로 끓이고(예측), 맛을 보고(손실), 짠지 싱거운지 가늠해(기울기), 레시피의 숫자를 조금 고칩니다(갱신). 한 번에 왕창 고치지 않고 <strong>조금씩 여러 번</strong> 합니다. 신경망의 학습도 이 네 박자의 반복입니다.</p>
+</div>
+<p>레시피를 "어른 1명당 w꼬집, 기본 1꼬집"으로 줄이겠습니다. 어른 2명이 주문했고 지금 w = 3이니 소금은 3 × 2 + 1 = 7꼬집이 들어갑니다. 맛을 보니 딱 좋은 양은 5꼬집이었습니다. 손실은 (7 − 5)² = 4입니다.</p>
+<p>w를 어느 쪽으로 얼마나 고쳐야 할까요? 가장 솔직한 방법은 <strong>조금 바꿔 보는 것</strong>입니다. w를 3.01로 올리면 예측은 7.02, 손실은 2.02² = 4.0804입니다. w를 0.01 올렸더니 손실이 0.0804 올랐으니 비율은 약 8입니다. 이 "w를 조금 올릴 때 손실이 변하는 비율"이 <strong>기울기</strong>(gradient)입니다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><span class="kw">def</span> loss(w):</span>
+<span id="cb1-2">    <span class="cf">return</span> (w <span class="op">*</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span> <span class="op">-</span> <span class="dv">5</span>) <span class="op">**</span> <span class="dv">2</span>   <span class="co"># 예측 = w×2 + 1, 정답 = 5</span></span>
+<span id="cb1-3"></span>
+<span id="cb1-4">eps <span class="op">=</span> <span class="fl">0.0001</span></span>
+<span id="cb1-5">g <span class="op">=</span> (loss(<span class="dv">3</span> <span class="op">+</span> eps) <span class="op">-</span> loss(<span class="dv">3</span> <span class="op">-</span> eps)) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> eps)</span>
+<span id="cb1-6"><span class="bu">print</span>(<span class="bu">round</span>(g, <span class="dv">4</span>))                <span class="co"># 8.0</span></span></code></pre></div>
+<ul>
+<li>1~2행: w를 받아 손실을 돌려줍니다.</li>
+<li>4~5행: w를 아주 조금 올린 손실과 내린 손실의 차이를, 움직인 폭으로 나눕니다.</li>
+</ul>
+<p>기울기의 <strong>부호</strong>가 방향을 알려 줍니다. +8은 "w를 올리면 손실이 커진다"는 뜻이니 w를 <strong>내려야</strong> 합니다. 이렇게 기울기의 반대쪽으로 조금 움직이는 방법이 <strong>경사 하강법</strong>(gradient descent)입니다.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>←</mo><mi>w</mi><mo>−</mo><mi>η</mi><mo>×</mo><mi>g</mi></mrow><annotation encoding="application/x-tex">w \leftarrow w - \eta \times g</annotation></semantics></math></p>
+<p>"새 w는 지금 w에서 학습률 η(에타)와 기울기 g의 곱을 뺀 값"이라고 읽습니다. <strong>학습률</strong>(learning rate)은 한 번에 얼마나 고칠지 정하는 보폭입니다. 간을 맞출 때 한 꼬집씩 넣느냐 한 국자씩 넣느냐에 해당합니다.</p>
+<figure class="comic"><img alt="안개 낀 산에서는 골짜기가 보이지 않습니다. 발밑 기울기로 낮아지는 쪽을 알아내 한 걸음 내딛고, 새 자리에서 다시 기울기를 봅니다. 3번 칸의 점선처럼 걸음이 너무 크면 골짜기를 넘어가 버립니다." loading="lazy" src="../assets/comic/comic-gradient.webp"/><figcaption>안개 낀 산에서는 골짜기가 보이지 않습니다. 발밑 기울기로 낮아지는 쪽을 알아내 한 걸음 내딛고, 새 자리에서 다시 기울기를 봅니다. 3번 칸의 점선처럼 걸음이 너무 크면 골짜기를 넘어가 버립니다.</figcaption></figure>
+<p>산의 높이가 손실, 서 있는 위치가 w입니다. 우리 예로 직접 걸어 봅시다.</p>
+<figure class="fig" id="fig-descent"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>손실 곡선 위 w=3에서 기울기는 +8이다. 보폭 0.1이면 w=2.2로 내려가 손실이 0.16이 되지만, 보폭 0.3이면 골짜기를 건너뛰어 w=0.6에서 손실이 7.84로 커진다</title>
+
+  <path class="ln thin" d="M80 310 H502" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M80 310 V34" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M180 306 V314 M280 306 V314 M380 306 V314 M480 306 V314 M76 246 H84 M76 182 H84 M76 54 H84"/>
+  <text class="t-xs mid" x="80" y="330">0</text>
+  <text class="t-xs mid" x="180" y="330">1</text>
+  <text class="t-xs mid" x="280" y="330">2</text>
+  <text class="t-xs mid" x="380" y="330">3</text>
+  <text class="t-xs mid" x="480" y="330">4</text>
+  <text class="t-s mid" x="280" y="352">레시피 숫자 w (가장 낮은 곳은 w = 2)</text>
+  <text class="t-xs end" x="68" y="250">4</text>
+  <text class="t-xs end" x="68" y="186">8</text>
+  <text class="t-xs end" x="68" y="58">16</text>
+  <text class="t-s" x="94" y="40">손실</text>
+
+  <path class="ln thick" d="M80 54 Q280 566 480 54"/>
+
+  <path class="ln blue dash" d="M338 299.8 L426 187.1"/>
+  <path class="ln red dash" d="M376 238 Q260 100 147 177" marker-end="url(#ah-red)"/>
+  <path class="ln green" d="M374 246 Q336 268 307 297" marker-end="url(#ah-green)"/>
+  <circle class="f-red" cx="140" cy="184.6" r="6"/>
+  <circle class="f-green" cx="300" cy="307.4" r="6"/>
+  <circle class="f-blue" cx="380" cy="246" r="6"/>
+
+  <text class="t-b tc-blue" x="428" y="250">시작 w = 3</text>
+  <text class="t-s" x="428" y="270">기울기 +8</text>
+  <text class="t-s t-b tc-red mid" x="260" y="138">보폭 0.3</text>
+  <text class="t-s t-b tc-green end" x="326" y="262">보폭 0.1</text>
+
+  <rect class="box blue" x="530" y="36" width="210" height="80" rx="12"/>
+  <text class="t-b tc-blue" x="546" y="60">시작</text>
+  <text class="t-mono" x="546" y="82">w = 3, 손실 4</text>
+  <text class="t-mono" x="546" y="102">기울기 +8</text>
+
+  <rect class="box green" x="530" y="128" width="210" height="100" rx="12"/>
+  <text class="t-b tc-green" x="546" y="152">보폭 0.1</text>
+  <text class="t-mono" x="546" y="174">3 − 0.1×8 = 2.2</text>
+  <text class="t-mono" x="546" y="194">손실 4 → 0.16</text>
+  <text class="t-s" x="546" y="214">골짜기 쪽으로 내려갔다</text>
+
+  <rect class="box red" x="530" y="240" width="210" height="100" rx="12"/>
+  <text class="t-b tc-red" x="546" y="264">보폭 0.3</text>
+  <text class="t-mono" x="546" y="286">3 − 0.3×8 = 0.6</text>
+  <text class="t-mono" x="546" y="306">손실 4 → 7.84</text>
+  <text class="t-s" x="546" y="326">골짜기를 건너뛰었다</text>
+</svg></div><figcaption><b>그림 26-6</b>같은 기울기 +8에서 출발해도 보폭에 따라 결과가 갈립니다.</figcaption></figure>
+<ul>
+<li>보폭 0.1: w = 3 − 0.1 × 8 = 2.2. 예측 5.4, 손실 0.16으로 줄었습니다.</li>
+<li>보폭 0.3: w = 3 − 0.3 × 8 = 0.6. 예측 2.2, 손실 7.84. 싱거운 쪽으로 넘어가 오히려 커졌습니다.</li>
+</ul>
+<p>한 걸음 뒤에는 <strong>새 자리에서 기울기를 다시 구합니다.</strong> w = 2.2에서의 기울기는 8이 아니라 1.6입니다. 같은 보폭으로 한 번 더 가면 w = 2.04, 손실은 0.0064입니다. 골짜기에 가까울수록 기울기가 작아져 걸음도 저절로 줄어듭니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>기울기는 <strong>방향</strong>을, 학습률은 <strong>보폭</strong>을 정합니다. 그리고 한 걸음 뗄 때마다 기울기를 새로 구합니다.</p>
+</div>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>실제 손실 지형은 w가 수십억 개인 울퉁불퉁한 산입니다. 경사 하강은 근처의 낮은 곳으로 갈 뿐, 가장 낮은 곳에 닿는다고 보장하지 않습니다.</p>
+</div>
+<div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
+<p>위 코드를 Python에서 실행해 8.0이 나오는지 확인하세요. 그다음 <code>3</code>을 <code>2</code>로 바꿔 보세요. 골짜기 바닥인 w = 2에서는 기울기가 0이 나옵니다.</p>
+</div>
+</section>
+<section class="level2" id="backprop">
+<h2><span class="sec-n">26.7</span>어느 숫자 탓인가: 연쇄 법칙과 역전파<a aria-label="이 절의 링크" class="anchor" href="#backprop">#</a></h2>
+<p>방금은 w를 직접 흔들어 기울기를 구했습니다. 파라미터가 70억 개면 70억 번 흔들어야 합니다. 더 빠른 길이 있습니다.</p>
+<p>계산을 작은 단계로 쪼갭니다. w에 2를 곱하고, 1을 더하고, 5를 빼고, 제곱합니다. 값은 3 → 6 → 7 → 2 → 4로 흘러갑니다. 단계마다 "입력이 1 변하면 출력이 몇 변하는가"라는 <strong>배율</strong>이 있습니다. 2를 곱하는 단계는 2, 더하기와 빼기는 1입니다. 제곱 단계의 배율은 들어온 값의 2배인데, 들어온 값이 2이므로 4입니다.</p>
+<p>여러 단계를 거친 영향은 <strong>배율을 모두 곱한 것</strong>입니다. 이것이 <strong>연쇄 법칙</strong>(chain rule)입니다. 2 × 1 × 1 × 4 = 8로, 흔들어 구한 기울기와 같습니다.</p>
+<figure class="comic"><img alt="맞물린 계기 x → u → y. 앞의 손잡이를 조금 돌리면 단계마다 정해진 배율로 다음 바늘이 움직입니다. 4번 칸처럼 끝에서부터 배율을 곱해 오면 맨 앞 손잡이의 영향을 알 수 있습니다." loading="lazy" src="../assets/comic/comic-chain-rule.webp"/><figcaption>맞물린 계기 x → u → y. 앞의 손잡이를 조금 돌리면 단계마다 정해진 배율로 다음 바늘이 움직입니다. 4번 칸처럼 끝에서부터 배율을 곱해 오면 맨 앞 손잡이의 영향을 알 수 있습니다.</figcaption></figure>
+<figure class="fig" id="fig-backprop"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>앞으로 가며 3, 6, 7, 2, 4로 값을 계산하고, 거꾸로 돌아오며 각 단계의 배율을 곱해 1, 4, 4, 4, 8로 기울기를 구한다</title>
+
+  <circle class="badge blue" cx="32" cy="30" r="12"/><text class="badge-t" x="32" y="34.500">1</text>
+  <text class="t-b" x="52" y="35">앞으로: 값을 계산한다</text>
+
+  <rect class="box blue" x="20" y="54" width="92" height="64" rx="10"/>
+  <text class="t-s mid" x="66" y="76">레시피 w</text>
+  <text class="t-l mid" x="66" y="103">3</text>
+  <rect class="box blue" x="177" y="54" width="92" height="64" rx="10"/>
+  <text class="t-s mid" x="223" y="76">어른 2명분</text>
+  <text class="t-l mid" x="223" y="103">6</text>
+  <rect class="box blue" x="334" y="54" width="92" height="64" rx="10"/>
+  <text class="t-s mid" x="380" y="76">예측</text>
+  <text class="t-l mid" x="380" y="103">7</text>
+  <rect class="box blue" x="491" y="54" width="92" height="64" rx="10"/>
+  <text class="t-s mid" x="537" y="76">오차</text>
+  <text class="t-l mid" x="537" y="103">2</text>
+  <rect class="box blue" x="648" y="54" width="92" height="64" rx="10"/>
+  <text class="t-s mid" x="694" y="76">손실</text>
+  <text class="t-l mid" x="694" y="103">4</text>
+
+  <path class="ln blue" d="M118 90 H170" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M275 90 H327" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M432 90 H484" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M589 90 H641" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b mid" x="144" y="80">× 2</text>
+  <text class="t-s t-b mid" x="301" y="80">+ 1</text>
+  <text class="t-s t-b mid" x="458" y="80">− 5</text>
+  <text class="t-s t-b mid" x="615" y="80">제곱</text>
+  <text class="t-xs mid" x="301" y="110">기본 간</text>
+  <text class="t-xs mid" x="458" y="110">정답</text>
+
+  <path class="ln thin muted dash" d="M66 124 V166 M223 124 V166 M380 124 V166 M537 124 V166 M694 124 V166"/>
+
+  <rect class="box warm" x="20" y="172" width="92" height="52" rx="10"/>
+  <text class="t-l mid tc-warm" x="66" y="204">8</text>
+  <rect class="box warm" x="177" y="172" width="92" height="52" rx="10"/>
+  <text class="t-l mid tc-warm" x="223" y="204">4</text>
+  <rect class="box warm" x="334" y="172" width="92" height="52" rx="10"/>
+  <text class="t-l mid tc-warm" x="380" y="204">4</text>
+  <rect class="box warm" x="491" y="172" width="92" height="52" rx="10"/>
+  <text class="t-l mid tc-warm" x="537" y="204">4</text>
+  <rect class="box warm" x="648" y="172" width="92" height="52" rx="10"/>
+  <text class="t-l mid tc-warm" x="694" y="204">1</text>
+
+  <path class="ln warm" d="M642 198 H590" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M485 198 H433" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M328 198 H276" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M171 198 H119" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b mid tc-warm" x="615" y="188">× 4</text>
+  <text class="t-s t-b mid tc-warm" x="458" y="188">× 1</text>
+  <text class="t-s t-b mid tc-warm" x="301" y="188">× 1</text>
+  <text class="t-s t-b mid tc-warm" x="144" y="188">× 2</text>
+  <text class="t-xs mid" x="615" y="218">2×오차</text>
+
+  <circle class="badge warm" cx="32" cy="262" r="12"/><text class="badge-t" x="32" y="266.500">2</text>
+  <text class="t-b" x="52" y="267">거꾸로: 손실에서 출발해 배율을 곱하며 돌아온다</text>
+  <text class="t-s" x="52" y="292">아래 줄의 숫자 = 그 값을 1 올리면 손실이 오르는 양. 맨 왼쪽 8이 w의 기울기</text>
+</svg></div><figcaption><b>그림 26-7</b>위 줄은 앞으로 가며 구한 값, 아래 줄은 손실에서 거꾸로 돌아오며 구한 기울기입니다.</figcaption></figure>
+<p>아래 줄처럼 <strong>손실에서 출발해 배율을 곱하며 거꾸로 돌아오는 방법</strong>이 <strong>역전파</strong>(backpropagation)입니다. 돌아오는 길에 들른 모든 값의 기울기가 한꺼번에 나옵니다. '예측' 아래의 4는 편향의 기울기이기도 합니다. 편향을 1 올리면 예측도 1 오르기 때문입니다. 파라미터가 몇 개든 앞으로 한 번, 거꾸로 한 번이면 전부의 기울기를 얻습니다.</p>
+<p>국이 짤 때 마지막에 넣은 것부터 거슬러 올라가며 "무엇 탓인가"를 따지는 것과 같습니다. PyTorch에서는 <code>loss.backward()</code> 한 줄이 이 일을 합니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
+<p>역전파는 기울기를 <strong>구하는</strong> 데까지입니다. 가중치를 <strong>고치는</strong> 일은 그다음의 경사 하강이 합니다.</p>
+</div>
+</section>
+<section class="level2" id="generalize">
+<h2><span class="sec-n">26.8</span>여러 손님, 처음 온 손님: 미니배치와 과적합<a aria-label="이 절의 링크" class="anchor" href="#generalize">#</a></h2>
+<p>손님 한 명의 평만 듣고 레시피를 고치면 그 사람 입맛에 휘둘립니다. 그래서 주문 몇 건을 묶어 기울기를 <strong>평균</strong> 낸 뒤 한 번 고칩니다. 이 묶음이 <strong>미니배치</strong>(mini-batch)입니다. w = 3에서 두 건을 봅시다.</p>
+<ul>
+<li>손님 A: 어른 2명, 정답 5꼬집. 예측 7, 오차 +2, 기울기 +8. "줄여라"</li>
+<li>손님 B: 어른 1명, 정답 6꼬집. 예측 4, 오차 −2, 기울기 1 × 1 × 1 × (−4) = −4. "늘려라"</li>
+</ul>
+<p>평균은 (8 − 4) ÷ 2 = +2이고, 보폭 0.1이면 w = 3 − 0.2 = 2.8입니다. 전체 데이터를 다 보고 고치면 너무 느리고, 한 건씩 보고 고치면 너무 출렁입니다. 미니배치는 그 중간입니다.</p>
+<section class="level3" id="외우기와-이해하기">
+<h3>외우기와 이해하기</h3>
+<p>손실이 줄어든다고 안심할 수는 없습니다. 단골 열 명의 평에 레시피를 끝없이 맞추면 그 열 명의 버릇까지 외워 버려, 처음 온 손님에게는 오히려 맛없는 국이 됩니다. 이것이 <strong>과적합</strong>(overfitting)입니다. 반대로 처음 보는 데이터에도 잘 맞는 성질을 <strong>일반화</strong>(generalization)라고 합니다.</p>
+<p>그래서 데이터를 나눕니다. 학습에 쓰는 <strong>훈련 데이터</strong>와, 학습에는 쓰지 않고 채점만 하는 <strong>검증 데이터</strong>입니다.</p>
+<figure class="fig" id="fig-overfit"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>훈련 손실은 0.8, 0.4, 0.2, 0.1로 계속 줄지만 검증 손실은 0.9, 0.5, 0.45로 줄다가 4단계에서 0.6으로 다시 오른다. 3단계에서 멈추는 것이 낫다</title>
+
+  <rect class="s-green" x="342" y="46" width="56" height="224" rx="8"/>
+  <text class="t-s t-b tc-green mid" x="370" y="36">여기서 멈춘다</text>
+
+  <path class="ln thin" d="M80 270 H548" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M80 270 V30" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M76 160 H84 M76 50 H84"/>
+  <text class="t-xs end" x="68" y="274">0</text>
+  <text class="t-xs end" x="68" y="164">0.5</text>
+  <text class="t-xs end" x="68" y="54">1.0</text>
+  <text class="t-s" x="92" y="34">손실</text>
+  <text class="t-xs mid" x="110" y="290">1단계</text>
+  <text class="t-xs mid" x="240" y="290">2단계</text>
+  <text class="t-xs mid" x="370" y="290">3단계</text>
+  <text class="t-xs mid" x="500" y="290">4단계</text>
+  <text class="t-s mid" x="305" y="312">학습을 반복한 횟수</text>
+
+  <path class="ln thick blue" d="M110 94 L240 182 L370 226 L500 248"/>
+  <path class="ln thick warm" d="M110 72 L240 160 L370 171 L500 138"/>
+  <circle class="f-blue" cx="110" cy="94" r="5"/>
+  <circle class="f-blue" cx="240" cy="182" r="5"/>
+  <circle class="f-blue" cx="370" cy="226" r="5"/>
+  <circle class="f-blue" cx="500" cy="248" r="5"/>
+  <circle class="f-warm" cx="110" cy="72" r="5"/>
+  <circle class="f-warm" cx="240" cy="160" r="5"/>
+  <circle class="f-warm" cx="370" cy="171" r="5"/>
+  <circle class="f-warm" cx="500" cy="138" r="5"/>
+
+  <text class="t-mono mid tc-warm" x="110" y="60">0.9</text>
+  <text class="t-mono tc-warm" x="254" y="152">0.5</text>
+  <text class="t-mono mid tc-warm" x="370" y="158">0.45</text>
+  <text class="t-mono mid tc-warm" x="500" y="126">0.6</text>
+  <text class="t-mono mid tc-blue" x="110" y="120">0.8</text>
+  <text class="t-mono mid tc-blue" x="240" y="204">0.4</text>
+  <text class="t-mono mid tc-blue" x="370" y="248">0.2</text>
+  <text class="t-mono tc-blue" x="512" y="253">0.1</text>
+
+  <path class="ln thick warm" d="M574 62 H604"/>
+  <text class="t-b" x="614" y="66">검증 손실</text>
+  <text class="t-xs" x="614" y="84">처음 온 손님의 평가</text>
+  <path class="ln thick blue" d="M574 114 H604"/>
+  <text class="t-b" x="614" y="118">훈련 손실</text>
+  <text class="t-xs" x="614" y="136">단골 손님의 평가</text>
+
+  <rect class="box red" x="570" y="160" width="172" height="92" rx="12"/>
+  <text class="t-b tc-red" x="586" y="186">4단계: 과적합</text>
+  <text class="t-s" x="586" y="210">단골 평가는 더 좋아졌지만</text>
+  <text class="t-s" x="586" y="230">새 손님 평가는 나빠졌다</text>
+</svg></div><figcaption><b>그림 26-8</b>훈련 손실은 계속 줄지만 검증 손실은 3단계 뒤에 다시 오릅니다. 골라야 할 모델은 3단계의 것입니다.</figcaption></figure>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령</div>
+<p>"손실이 0.01까지 내려갔습니다"라는 보고를 받으면 <strong>어느 데이터의 손실인지</strong> 물으세요. 훈련 손실만 낮은 모델은 시험지를 외운 학생입니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="attention">
+<h2><span class="sec-n">26.9</span>같은 재료로 만든 두 가지: 어텐션과 LoRA<a aria-label="이 절의 링크" class="anchor" href="#attention">#</a></h2>
+<p>내적, 소프트맥스, 행렬 곱만 알면 요즘 AI의 핵심 부품 두 가지를 읽을 수 있습니다.</p>
+<section class="level3" id="어텐션-누구를-얼마나-참고할까">
+<h3>어텐션: 누구를 얼마나 참고할까</h3>
+<p>"찌개가 식어서 그것을 데웠다"에서 '그것'의 뜻을 알려면 '찌개'를 봐야 합니다. 이렇게 <strong>다른 낱말을 얼마나 참고할지 정해 섞는 계산</strong>이 <strong>어텐션</strong>(attention)입니다. 낱말마다 벡터 세 개를 씁니다.</p>
+<ul>
+<li><strong>쿼리</strong>(Query, Q): "나는 이런 것을 찾는다"는 질문</li>
+<li><strong>키</strong>(Key, K): "나는 이런 낱말이다"라는 이름표</li>
+<li><strong>값</strong>(Value, V): 참고될 때 건네줄 내용</li>
+</ul>
+<figure class="fig" id="fig-attention"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>어텐션은 질문과 키의 내적으로 점수를 내고, 소프트맥스로 비중을 만든 뒤, 그 비중대로 값을 섞는다. 점수가 가장 높은 찌개의 값이 가장 많이 섞인다</title>
+
+  <rect class="box yellow" x="20" y="16" width="720" height="40" rx="10"/>
+  <text class="t-b" x="36" y="41">지금 낱말 '그것'이 던지는 질문 q = (1, 1)</text>
+  <text class="t-s end" x="724" y="41">누구를 얼마나 참고할까?</text>
+
+  <text class="t-s t-b" x="20" y="86">참고할 낱말</text>
+  <text class="t-s t-b mid" x="150" y="86">키 k</text>
+  <circle class="badge blue" cx="222" cy="81" r="10"/><text class="badge-t" x="222" y="85.500">1</text>
+  <text class="t-s t-b" x="238" y="86">점수 q·k</text>
+  <circle class="badge purple" cx="356" cy="81" r="10"/><text class="badge-t" x="356" y="85.500">2</text>
+  <text class="t-s t-b" x="372" y="86">비중</text>
+  <text class="t-s t-b mid" x="560" y="86">값 v</text>
+  <circle class="badge green" cx="636" cy="81" r="10"/><text class="badge-t" x="636" y="85.500">3</text>
+  <text class="t-s t-b" x="652" y="86">비중 × 값</text>
+  <path class="ln thin muted" d="M20 98 H740"/>
+
+  <text class="t-b" x="20" y="129">찌개</text>
+  <text class="t-mono mid" x="150" y="129">(2, 0)</text>
+  <text class="t-mono mid" x="270" y="129">2 + 0 = 2</text>
+  <rect class="solid purple" x="346" y="111" width="100" height="26" rx="5"/>
+  <text class="t-mono t-b" x="454" y="129">0.665</text>
+  <text class="t-mono mid" x="560" y="129">(4, 0)</text>
+  <text class="t-mono mid" x="686" y="129">(2.66, 0)</text>
+
+  <text class="t-b" x="20" y="177">식어서</text>
+  <text class="t-mono mid" x="150" y="177">(0, 1)</text>
+  <text class="t-mono mid" x="270" y="177">0 + 1 = 1</text>
+  <rect class="solid purple" x="346" y="159" width="37" height="26" rx="5"/>
+  <text class="t-mono t-b" x="391" y="177">0.245</text>
+  <text class="t-mono mid" x="560" y="177">(0, 4)</text>
+  <text class="t-mono mid" x="686" y="177">(0, 0.98)</text>
+
+  <text class="t-b" x="20" y="225">그것</text>
+  <text class="t-mono mid" x="150" y="225">(1, −1)</text>
+  <text class="t-mono mid" x="270" y="225">1 − 1 = 0</text>
+  <rect class="solid purple" x="346" y="207" width="14" height="26" rx="5"/>
+  <text class="t-mono t-b" x="368" y="225">0.090</text>
+  <text class="t-mono mid" x="560" y="225">(2, 2)</text>
+  <text class="t-mono mid" x="686" y="225">(0.18, 0.18)</text>
+
+  <path class="ln thin muted" d="M20 248 H740"/>
+  <text class="t-s" x="20" y="284">점수가 가장 높은 '찌개'의 값이 가장 많이 섞인다</text>
+  <rect class="box green" x="440" y="260" width="300" height="42" rx="10"/>
+  <text class="t-b" x="456" y="286">모두 더한 새 '그것' = (2.84, 1.16)</text>
+</svg></div><figcaption><b>그림 26-9</b>'그것'의 어텐션. ① 질문과 키의 내적으로 점수를 내고 ② 소프트맥스로 비중을 만든 뒤 ③ 그 비중대로 값을 섞습니다.</figcaption></figure>
+<p>점수가 앞 절과 같은 (2, 1, 0)이므로 비중도 (0.665, 0.245, 0.090)입니다. 값을 이 비중으로 섞으면 0.665 × (4, 0) + 0.245 × (0, 4) + 0.090 × (2, 2) = (2.84, 1.16)입니다. '그것'의 새 벡터에 '찌개'의 내용이 가장 많이 담겼습니다. 키는 점수를 내는 데만, 값은 섞는 데만 쓰입니다. 세 벡터는 낱말의 임베딩에 학습된 행렬을 곱해 만듭니다.</p>
+<p>모든 낱말이 모든 낱말에게 이 계산을 하므로 낱말이 3개면 점수는 3 × 3 = 9칸, 6개면 36칸입니다. 글이 2배 길어지면 계산은 4배가 됩니다. 이 부품으로 대규모 언어 모델(LLM)을 짓는 이야기는 <a href="ch27.html">27장</a>에서 이어집니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>점수를 √d로 나누는 이유</summary><div class="deep-body">
+<p>더 읽을거리에 있는 논문의 어텐션 식은 softmax(QKᵀ ÷ √d) × V입니다. ᵀ는 표의 행과 열을 맞바꾼다는 표시이고, d는 키 벡터의 칸 수입니다. 내적은 칸마다의 곱을 더한 것이라 칸이 많을수록 값이 커지기 쉽습니다. 점수가 10배인 (20, 10, 0)이 되면 소프트맥스 결과는 (0.99995, 0.00005, 0)으로 한 낱말만 보게 되고, 기울기도 거의 0이 되어 학습이 더뎌집니다. 그래서 칸 수의 제곱근으로 나누어 점수 크기를 되돌립니다. 칸이 100개면 10으로 나눕니다.</p>
+</div></details>
+</section>
+<section class="level3" id="lora-큰-표를-작은-두-표로">
+<h3>LoRA: 큰 표를 작은 두 표로</h3>
+<p>이미 학습된 큰 모델을 내 용도에 맞게 조금 더 학습시키는 일을 <strong>파인튜닝</strong>(fine-tuning)이라고 합니다. 가중치 표 하나가 1000 × 1000이면 고칠 숫자가 100만 개입니다.</p>
+<p>그런데 "고칠 양"을 담은 표는 단순해도 충분한 경우가 많습니다. 아래 그림의 왼쪽 표는 16칸이지만 모든 행이 (2, 0, 1, 1)의 몇 배일 뿐입니다. 표 안에 들어 있는 <strong>서로 다른 방향의 수</strong>를 <strong>랭크</strong>(rank)라고 합니다. 랭크가 1이면 세로 한 줄과 가로 한 줄의 곱으로 표 전체를 만들 수 있습니다.</p>
+<figure class="fig" id="fig-lora"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>4×4 변화량 표 16칸은 세로 4칸짜리 U와 가로 4칸짜리 V의 곱으로 만들 수 있어 8칸만 학습하면 된다. 1000×1000 표라면 100만 칸 대신 1만 6천 칸이다</title>
+
+  <text class="t-b" x="40" y="36">통째로 배우면</text>
+  <text class="t-s" x="40" y="58">변화량 표 4 × 4 = 16칸</text>
+  <rect class="box" x="40" y="88" width="40" height="34" rx="5"/>
+  <rect class="box" x="80" y="88" width="40" height="34" rx="5"/>
+  <rect class="box" x="120" y="88" width="40" height="34" rx="5"/>
+  <rect class="box" x="160" y="88" width="40" height="34" rx="5"/>
+  <rect class="box" x="40" y="122" width="40" height="34" rx="5"/>
+  <rect class="box" x="80" y="122" width="40" height="34" rx="5"/>
+  <rect class="box" x="120" y="122" width="40" height="34" rx="5"/>
+  <rect class="box" x="160" y="122" width="40" height="34" rx="5"/>
+  <rect class="box" x="40" y="156" width="40" height="34" rx="5"/>
+  <rect class="box" x="80" y="156" width="40" height="34" rx="5"/>
+  <rect class="box" x="120" y="156" width="40" height="34" rx="5"/>
+  <rect class="box" x="160" y="156" width="40" height="34" rx="5"/>
+  <rect class="box" x="40" y="190" width="40" height="34" rx="5"/>
+  <rect class="box" x="80" y="190" width="40" height="34" rx="5"/>
+  <rect class="box" x="120" y="190" width="40" height="34" rx="5"/>
+  <rect class="box" x="160" y="190" width="40" height="34" rx="5"/>
+  <text class="t-mono mid" x="60" y="110">2</text>
+  <text class="t-mono mid" x="100" y="110">0</text>
+  <text class="t-mono mid" x="140" y="110">1</text>
+  <text class="t-mono mid" x="180" y="110">1</text>
+  <text class="t-mono mid" x="60" y="144">4</text>
+  <text class="t-mono mid" x="100" y="144">0</text>
+  <text class="t-mono mid" x="140" y="144">2</text>
+  <text class="t-mono mid" x="180" y="144">2</text>
+  <text class="t-mono mid" x="60" y="178">0</text>
+  <text class="t-mono mid" x="100" y="178">0</text>
+  <text class="t-mono mid" x="140" y="178">0</text>
+  <text class="t-mono mid" x="180" y="178">0</text>
+  <text class="t-mono mid" x="60" y="212">6</text>
+  <text class="t-mono mid" x="100" y="212">0</text>
+  <text class="t-mono mid" x="140" y="212">3</text>
+  <text class="t-mono mid" x="180" y="212">3</text>
+
+  <text class="t-h mid" x="232" y="162">=</text>
+
+  <text class="t-b" x="264" y="36">둘로 쪼개 배우면</text>
+  <text class="t-s" x="264" y="58">세로 4칸 + 가로 4칸 = 8칸</text>
+  <text class="t-s t-b mid tc-warm" x="284" y="80">U</text>
+  <rect class="box warm" x="264" y="88" width="40" height="34" rx="5"/>
+  <rect class="box warm" x="264" y="122" width="40" height="34" rx="5"/>
+  <rect class="box warm" x="264" y="156" width="40" height="34" rx="5"/>
+  <rect class="box warm" x="264" y="190" width="40" height="34" rx="5"/>
+  <text class="t-mono t-b mid" x="284" y="110">1</text>
+  <text class="t-mono t-b mid" x="284" y="144">2</text>
+  <text class="t-mono t-b mid" x="284" y="178">0</text>
+  <text class="t-mono t-b mid" x="284" y="212">3</text>
+
+  <text class="t-h mid" x="330" y="162">×</text>
+
+  <text class="t-s t-b mid tc-green" x="436" y="131">V</text>
+  <rect class="box green" x="356" y="139" width="40" height="34" rx="5"/>
+  <rect class="box green" x="396" y="139" width="40" height="34" rx="5"/>
+  <rect class="box green" x="436" y="139" width="40" height="34" rx="5"/>
+  <rect class="box green" x="476" y="139" width="40" height="34" rx="5"/>
+  <text class="t-mono t-b mid" x="376" y="161">2</text>
+  <text class="t-mono t-b mid" x="416" y="161">0</text>
+  <text class="t-mono t-b mid" x="456" y="161">1</text>
+  <text class="t-mono t-b mid" x="496" y="161">1</text>
+
+  <text class="t-s" x="40" y="256">왼쪽 표의 각 행은 V의 1배, 2배, 0배, 3배 — 서로 다른 방향은 하나뿐(랭크 1)</text>
+
+  <rect class="box purple" x="546" y="88" width="194" height="136" rx="12"/>
+  <text class="t-b" x="562" y="114">실제 크기에서는</text>
+  <text class="t-s" x="562" y="138">1000 × 1000 표 통째로</text>
+  <text class="t-mono t-b" x="562" y="158">1,000,000칸</text>
+  <text class="t-s" x="562" y="184">랭크 8로 쪼개면</text>
+  <text class="t-mono t-b tc-purple" x="562" y="204">16,000칸 (1.6%)</text>
+</svg></div><figcaption><b>그림 26-10</b>16칸짜리 표가 4칸 + 4칸으로 줄었습니다. 표가 클수록 절약도 커집니다.</figcaption></figure>
+<p><strong>LoRA</strong>(로라, Low-Rank Adaptation)는 이 점을 이용합니다. 원래 가중치 W는 그대로 두고, 작은 두 표 U와 V만 학습해 W + U × V를 씁니다. 본점의 레시피 책은 건드리지 않고 지점용 보정 메모 한 장만 덧붙이는 셈입니다. 랭크 8이면 100만 개 대신 8 × (1000 + 1000) = 16,000개만 학습합니다. 원래 W도 메모리에 올려야 하므로, 줄어드는 것은 <strong>학습할 숫자</strong>이지 모델 크기가 아닙니다.</p>
+</section>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>입력 / 가중치</td>
+<td>손님이 정하는 주문 / 학습이 고치는 레시피 숫자</td>
+</tr>
+<tr>
+<td>내적 / 코사인 유사도</td>
+<td>길이까지 반영 / 길이를 지우고 방향만 비교</td>
+</tr>
+<tr>
+<td>점수(로짓) / 확률</td>
+<td>어떤 수든 가능 / 0 이상이고 합이 1</td>
+</tr>
+<tr>
+<td>손실 / 기울기</td>
+<td>얼마나 틀렸나 / 어느 쪽으로 고치면 줄어드나</td>
+</tr>
+<tr>
+<td>역전파 / 경사 하강</td>
+<td>기울기를 구한다 / 그 기울기로 고친다</td>
+</tr>
+<tr>
+<td>훈련 손실 / 검증 손실</td>
+<td>풀어 본 문제의 점수 / 처음 보는 문제의 점수</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 검색 기준을 바꿨더니 엉뚱한 문서가 1등이 됐다</div>
+<p>문서 검색 코드의 "코사인 유사도가 큰 순"을 "거리가 가까운 순"으로 바꾸자 순위가 뒤집혔습니다. 질문 q = (1, 0), 문서 A = (10, 0), 문서 B = (0.8, 0.6)으로 줄여서 따라가 봅니다.</p>
+<ol type="1">
+<li><strong>코사인을 계산합니다.</strong> A는 10 ÷ (1 × 10) = 1.0, B는 0.8 ÷ (1 × 1) = 0.8. 방향이 같은 A가 1등입니다.</li>
+<li><strong>거리를 계산합니다.</strong> 거리는 칸마다 차이를 제곱해 더한 뒤 제곱근을 씌운 값입니다. A는 9, B는 √(0.2² + 0.6²) ≈ 0.63. 이번에는 B가 1등입니다.</li>
+<li><strong>원인을 찾습니다.</strong> A는 방향은 같지만 길이가 10이라 멀리 있습니다. 거리는 길이의 영향을 받습니다.</li>
+<li><strong>길이를 1로 맞춥니다.</strong> A를 자기 길이로 나누면 (1, 0)이 되어 거리 0으로 다시 1등입니다.</li>
+<li><strong>확인합니다.</strong> 정답을 아는 질문 몇 개로 바꾸기 전후의 순위를 비교합니다.</li>
+</ol>
+<p>계산이 틀린 것이 아니라 "닮음"의 정의가 바뀐 것입니다. 모든 벡터의 길이를 1로 맞추면 두 기준의 순위는 같아집니다.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li>데이터는 <strong>벡터</strong>가 되고, 쌓이면 행렬과 텐서가 됩니다. <strong>모양</strong>의 각 축이 무엇인지부터 읽습니다.</li>
+<li><strong>내적</strong>은 같은 자리끼리 곱해 더한 값, <strong>코사인 유사도</strong>는 거기서 길이를 지운 값입니다.</li>
+<li>뉴런은 <strong>가중합 + 편향</strong>, 층은 <strong>행렬 곱</strong>입니다. 사이를 <strong>ReLU</strong>로 꺾지 않으면 여러 층이 한 층과 같아집니다.</li>
+<li><strong>소프트맥스</strong>는 점수를 확률로, <strong>손실</strong>은 틀린 정도를 숫자 하나로 바꿉니다.</li>
+<li>학습은 맛보고 조금 고치기입니다. <strong>기울기</strong>의 반대쪽으로 <strong>학습률</strong>만큼 움직이고, 기울기는 <strong>역전파</strong>로 한꺼번에 구합니다.</li>
+<li>모델은 훈련 손실이 아니라 <strong>검증 손실</strong>로 고릅니다.</li>
+<li><strong>어텐션</strong>은 내적 → 소프트맥스 → 가중합이고, <strong>LoRA</strong>는 큰 표의 변화량을 작은 두 표의 곱으로 배웁니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>모양 [5, 3]인 X와 [3, 2]인 W를 행렬 곱하면 결과의 모양은 무엇일까요? W의 모양이 [2, 3]이었다면 어떻게 될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>[5, 2]입니다. 맞닿은 안쪽 축이 3으로 같고, 바깥쪽 5와 2가 결과의 모양이 됩니다. W가 [2, 3]이면 안쪽이 3과 2로 달라 곱할 수 없고 오류가 납니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>임베딩 검색에서 질문과 상관없이 늘 같은 문서 몇 개가 상위에 오릅니다. 그 문서들의 벡터는 유난히 길이가 큽니다. 무엇을 의심해야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>순위를 내적으로 매기고 있을 가능성이 큽니다. 내적은 방향이 조금만 맞아도 길이가 크면 값이 커집니다. 벡터 길이를 1로 맞추거나 코사인 유사도로 바꾸고, 정답을 아는 질문으로 순위를 다시 확인합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>두 모델이 모두 정답을 1등으로 골랐습니다. 정답에 준 확률은 각각 0.6과 0.9입니다. 두 모델의 손실은 같을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>다릅니다. −ln 0.6 ≈ 0.51, −ln 0.9 ≈ 0.11입니다. 맞혔는지만 세는 정확도는 같지만, 손실은 얼마나 확신했는지까지 반영합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>학습을 시작하자 손실이 4 → 7.84 → 15.4로 걸음마다 커집니다. 기울기 계산은 검증을 마쳤습니다. 가장 먼저 무엇을 바꿔 볼까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>학습률을 줄입니다. 방향은 맞는데 보폭이 커서 골짜기를 번번이 건너뛰는 모습입니다. 본문의 예에서 보폭 0.3이 바로 이렇게 움직이고, 0.1로 줄이면 4 → 0.16 → 0.0064로 내려갑니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>훈련 손실은 0.02까지 내려갔는데 검증 손실은 며칠째 오르고 있습니다. 동료가 "훈련 손실이 아직 줄고 있으니 더 돌리자"고 합니다. 어떻게 답할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>더 돌려도 좋아지지 않습니다. 훈련 데이터를 외우는 과적합 구간입니다. 검증 손실이 가장 낮았던 시점의 모델을 고르고, 더 나아지려면 데이터를 늘리거나 모델을 단순하게 해야 합니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>AI 코딩 도구에게 학습 코드를 맡길 때는 "돌아간다"가 아니라 <strong>작은 숫자에서 손계산과 맞는다</strong>를 완료 기준으로 삼으세요.</p>
+<blockquote>
+<p>PyTorch로 후보 3개 중 하나를 고르는 작은 분류 모델의 학습 코드를 작성해 줘. (1) 텐서가 만들어지는 줄마다 모양과 각 축의 뜻을 주석으로 적어 줘. (2) 손실 함수가 로짓을 받는지 확률을 받는지 밝히고, 소프트맥스를 두 번 적용하지 않았는지 확인해 줘. (3) 로짓이 (2, 1, 0)이고 정답이 둘째 후보일 때 손실이 약 1.41인지 검사하는 테스트를 넣어 줘. (4) 데이터를 한 바퀴 돌 때마다 훈련 손실과 검증 손실을 나란히 출력해 줘.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: 훈련 데이터와 검증 데이터가 섞이지 않았는가, 테스트의 기대값이 내가 손으로 계산한 값과 같은가, 학습률을 바꿨을 때 손실이 어떻게 달라지는지 보여 주는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>벡터<small>vector</small></dt>
+<dd>
+정해진 순서로 늘어놓은 숫자 목록. 대상 하나를 나타낸다.
+</dd>
+<dt>모양<small>shape</small></dt>
+<dd>
+텐서의 축마다 칸이 몇 개인지 적은 것. 예: [2, 3, 2].
+</dd>
+<dt>내적<small>dot product</small></dt>
+<dd>
+두 벡터를 같은 자리끼리 곱해 모두 더한 값.
+</dd>
+<dt>코사인 유사도<small>cosine similarity</small></dt>
+<dd>
+내적을 두 벡터의 길이로 나눈 값. 방향이 같으면 1.
+</dd>
+<dt>임베딩<small>embedding</small></dt>
+<dd>
+글이나 그림의 뜻을 담도록 학습된 벡터.
+</dd>
+<dt>가중치<small>weight</small></dt>
+<dd>
+입력을 얼마나 크게 반영할지 정하는 숫자. 학습으로 고친다.
+</dd>
+<dt>편향<small>bias</small></dt>
+<dd>
+입력과 상관없이 더해지는 숫자.
+</dd>
+<dt>파라미터<small>parameter</small></dt>
+<dd>
+가중치와 편향처럼 학습이 고치는 숫자 전체.
+</dd>
+<dt>ReLU<small>Rectified Linear Unit</small></dt>
+<dd>
+음수는 0으로, 양수는 그대로 내보내는 활성화 함수.
+</dd>
+<dt>소프트맥스<small>softmax</small></dt>
+<dd>
+점수 여러 개를 합이 1인 확률로 바꾸는 함수.
+</dd>
+<dt>손실<small>loss</small></dt>
+<dd>
+예측이 정답에서 벗어난 정도를 나타내는 숫자 하나.
+</dd>
+<dt>교차 엔트로피<small>cross-entropy</small></dt>
+<dd>
+정답에 준 확률에 −ln을 씌운 손실.
+</dd>
+<dt>기울기<small>gradient</small></dt>
+<dd>
+파라미터를 조금 올릴 때 손실이 변하는 비율.
+</dd>
+<dt>학습률<small>learning rate</small></dt>
+<dd>
+한 번에 파라미터를 얼마나 고칠지 정하는 보폭.
+</dd>
+<dt>역전파<small>backpropagation</small></dt>
+<dd>
+손실에서 거꾸로 돌아오며 모든 파라미터의 기울기를 구하는 방법.
+</dd>
+<dt>과적합<small>overfitting</small></dt>
+<dd>
+훈련 데이터는 잘 맞히지만 처음 보는 데이터는 못 맞히는 상태.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://d2l.ai/chapter_preliminaries/linear-algebra.html" rel="noopener" target="_blank">Dive into Deep Learning — Linear Algebra</a> — 벡터, 행렬, 내적, 행렬 곱을 코드와 함께 다시 확인할 수 있는 온라인 교재입니다.</li>
+<li><a href="https://developers.google.com/machine-learning/crash-course/neural-networks/activation-functions?hl=ko" rel="noopener" target="_blank">Google — 신경망의 활성화 함수</a> — ReLU가 직선을 어떻게 꺾는지 한국어로 설명합니다.</li>
+<li><a href="https://d2l.ai/chapter_linear-classification/softmax-regression.html" rel="noopener" target="_blank">Dive into Deep Learning — Softmax Regression</a> — 로짓에서 확률, 교차 엔트로피로 이어지는 흐름을 다룹니다.</li>
+<li><a href="https://d2l.ai/chapter_multilayer-perceptrons/backprop.html" rel="noopener" target="_blank">Dive into Deep Learning — Forward and Backward Propagation</a> — 계산 그래프를 앞으로, 거꾸로 따라가는 역전파 설명입니다.</li>
+<li><a href="https://arxiv.org/abs/1706.03762" rel="noopener" target="_blank">Vaswani 외 — Attention Is All You Need</a> — 이 장의 어텐션 식이 나오는 논문입니다. 3.2절의 식을 이 장의 표와 견주어 보세요.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch25.html"><small>← 이전 · 25장</small><b>온라인 게임</b></a><a class="next" href="ch27.html"><small>다음 · 27장 →</small><b>LLM의 작동과 한계</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#vector">무엇이든 숫자 목록으로: 벡터와 모양</a><a href="#similarity">두 벡터는 얼마나 닮았나: 내적과 코사인 유사도</a><a href="#neuron">레시피 한 줄의 계산: 가중합, 편향, 행렬 곱</a><a href="#relu">직선만 쌓으면 직선: ReLU가 필요한 이유</a><a href="#softmax">점수를 확률로, 확률을 벌점으로: 소프트맥스와 손실</a><a href="#gradient">맛보고 조금 고치기: 기울기와 경사 하강</a><a href="#backprop">어느 숫자 탓인가: 연쇄 법칙과 역전파</a><a href="#generalize">여러 손님, 처음 온 손님: 미니배치와 과적합</a><a href="#attention">같은 재료로 만든 두 가지: 어텐션과 LoRA</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

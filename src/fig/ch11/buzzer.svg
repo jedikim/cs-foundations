@@ -1,0 +1,37 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>조리 시간은 똑같이 3분이지만, 앞에서 기다리면 손님이 묶이고 진동벨을 받으면 그동안 다른 일을 할 수 있다</title>
+
+  <rect class="panel" x="20" y="16" width="720" height="160" rx="16"/>
+  <text class="t-l" x="40" y="46">카운터 앞에서 기다리기</text>
+  <text class="t-s" x="226" y="46">동기 · 블로킹</text>
+  <text class="t-b" x="40" y="88">손님</text>
+  <text class="t-xs" x="40" y="106">호출한 쪽</text>
+  <rect class="solid blue" x="160" y="64" width="80" height="44" rx="6"/>
+  <text class="t-on t-b mid" x="200" y="91">주문</text>
+  <rect class="ghost dash" x="244" y="64" width="390" height="44" rx="6"/>
+  <text class="mid tc-muted" x="439" y="91">서서 기다림 — 다른 일을 못 한다</text>
+  <rect class="solid blue" x="638" y="64" width="82" height="44" rx="6"/>
+  <text class="t-on t-b mid" x="679" y="91">받기</text>
+  <text class="t-b" x="40" y="140">주방</text>
+  <text class="t-xs" x="40" y="158">맡은 쪽</text>
+  <rect class="box warm" x="244" y="118" width="390" height="40" rx="6"/>
+  <text class="mid" x="439" y="143">조리 3분</text>
+
+  <rect class="panel" x="20" y="196" width="720" height="160" rx="16"/>
+  <text class="t-l" x="40" y="226">진동벨 받고 자리로</text>
+  <text class="t-s" x="196" y="226">비동기 · 논블로킹</text>
+  <use href="#i-bell" x="602" y="206" width="30" height="30" class="ic warm"/>
+  <text class="t-s t-b tc-warm" x="638" y="226">벨이 울림</text>
+  <text class="t-b" x="40" y="268">손님</text>
+  <text class="t-xs" x="40" y="286">호출한 쪽</text>
+  <rect class="solid blue" x="160" y="244" width="80" height="44" rx="6"/>
+  <text class="t-on t-b mid" x="200" y="271">주문</text>
+  <rect class="box green" x="244" y="244" width="390" height="44" rx="6"/>
+  <text class="mid" x="439" y="271">자리에서 다른 일을 한다</text>
+  <rect class="solid blue" x="638" y="244" width="82" height="44" rx="6"/>
+  <text class="t-on t-b mid" x="679" y="271">받기</text>
+  <text class="t-b" x="40" y="320">주방</text>
+  <text class="t-xs" x="40" y="338">맡은 쪽</text>
+  <rect class="box warm" x="244" y="298" width="390" height="40" rx="6"/>
+  <text class="mid" x="439" y="323">조리 3분</text>
+</svg>

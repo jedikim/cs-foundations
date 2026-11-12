@@ -1,0 +1,43 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>왕복 100ms짜리 요청 10개를 하나씩 차례로 보내면 1초, 한꺼번에 보내면 약 0.1초가 걸린다</title>
+  <text class="t-h" x="20" y="34">왕복 100ms짜리 요청 10개</text>
+
+  <text class="t-b" x="20" y="88">하나씩 차례로</text>
+  <text class="t-s" x="20" y="108">답을 받고 다음 요청</text>
+  <rect class="solid blue" x="170" y="70" width="53" height="44" rx="6"/><text class="t-on t-b mid" x="196.500" y="97">1</text>
+  <rect class="solid blue" x="225" y="70" width="53" height="44" rx="6"/><text class="t-on t-b mid" x="251.500" y="97">2</text>
+  <rect class="solid blue" x="280" y="70" width="53" height="44" rx="6"/><text class="t-on t-b mid" x="306.500" y="97">3</text>
+  <rect class="solid blue" x="335" y="70" width="53" height="44" rx="6"/><text class="t-on t-b mid" x="361.500" y="97">4</text>
+  <rect class="solid blue" x="390" y="70" width="53" height="44" rx="6"/><text class="t-on t-b mid" x="416.500" y="97">5</text>
+  <rect class="solid blue" x="445" y="70" width="53" height="44" rx="6"/><text class="t-on t-b mid" x="471.500" y="97">6</text>
+  <rect class="solid blue" x="500" y="70" width="53" height="44" rx="6"/><text class="t-on t-b mid" x="526.500" y="97">7</text>
+  <rect class="solid blue" x="555" y="70" width="53" height="44" rx="6"/><text class="t-on t-b mid" x="581.500" y="97">8</text>
+  <rect class="solid blue" x="610" y="70" width="53" height="44" rx="6"/><text class="t-on t-b mid" x="636.500" y="97">9</text>
+  <rect class="solid blue" x="665" y="70" width="53" height="44" rx="6"/><text class="t-on t-b mid" x="691.500" y="97">10</text>
+  <text class="t-mono t-b end tc-blue" x="718" y="58">합계 1,000ms</text>
+
+  <text class="t-b" x="20" y="176">한꺼번에</text>
+  <text class="t-s" x="20" y="196">10개가 동시에 출발</text>
+  <rect class="solid green" x="170" y="146" width="53" height="5" rx="2"/>
+  <rect class="solid green" x="170" y="153" width="53" height="5" rx="2"/>
+  <rect class="solid green" x="170" y="160" width="53" height="5" rx="2"/>
+  <rect class="solid green" x="170" y="167" width="53" height="5" rx="2"/>
+  <rect class="solid green" x="170" y="174" width="53" height="5" rx="2"/>
+  <rect class="solid green" x="170" y="181" width="53" height="5" rx="2"/>
+  <rect class="solid green" x="170" y="188" width="53" height="5" rx="2"/>
+  <rect class="solid green" x="170" y="195" width="53" height="5" rx="2"/>
+  <rect class="solid green" x="170" y="202" width="53" height="5" rx="2"/>
+  <rect class="solid green" x="170" y="209" width="53" height="5" rx="2"/>
+  <text class="t-mono t-b tc-green" x="236" y="185">합계 약 100ms</text>
+
+  <path class="ln thin muted" d="M170 234 H720"/>
+  <path class="ln thin muted" d="M170 230 V238 M280 230 V238 M390 230 V238 M500 230 V238 M610 230 V238 M720 230 V238"/>
+  <text class="t-xs mid" x="170" y="254">0</text>
+  <text class="t-xs mid" x="280" y="254">200</text>
+  <text class="t-xs mid" x="390" y="254">400</text>
+  <text class="t-xs mid" x="500" y="254">600</text>
+  <text class="t-xs mid" x="610" y="254">800</text>
+  <text class="t-xs mid" x="720" y="254">1,000ms</text>
+
+  <text class="t-s" x="20" y="284">회선을 더 굵은 것으로 바꿔도 왕복 한 번에 걸리는 100ms는 줄지 않는다</text>
+</svg>

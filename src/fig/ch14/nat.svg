@@ -1,0 +1,53 @@
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
+  <title>공유기는 집 안의 사설 주소를 바깥의 공인 주소 하나로 바꿔 내보내고, 답장은 장부를 보고 돌려준다</title>
+
+  <rect class="panel" x="20" y="20" width="200" height="195" rx="14"/>
+  <text class="t-s t-b" x="34" y="45">집 안 (사설 주소)</text>
+  <rect class="box blue" x="34" y="58" width="172" height="64" rx="10"/>
+  <use href="#i-laptop" x="42" y="74" width="32" height="32" class="ic blue"/>
+  <text class="t-b" x="84" y="84">노트북</text>
+  <text class="t-mono" x="84" y="106">192.168.0.5</text>
+  <rect class="box blue" x="34" y="136" width="172" height="64" rx="10"/>
+  <use href="#i-phone" x="42" y="152" width="32" height="32" class="ic blue"/>
+  <text class="t-b" x="84" y="162">휴대전화</text>
+  <text class="t-mono" x="84" y="184">192.168.0.7</text>
+
+  <rect class="box warm" x="300" y="50" width="170" height="150" rx="14"/>
+  <use href="#i-router" x="365" y="58" width="40" height="40" class="ic warm"/>
+  <text class="t-l mid" x="385" y="122">공유기</text>
+  <text class="t-xs mid" x="385" y="146">안쪽 192.168.0.1</text>
+  <text class="t-xs mid" x="385" y="165">바깥 203.0.113.9</text>
+  <text class="t-xs mid tc-warm" x="385" y="186">바꾼 내용을 장부에 기록</text>
+
+  <rect class="box green" x="570" y="50" width="170" height="150" rx="14"/>
+  <use href="#i-server" x="635" y="58" width="40" height="40" class="ic green"/>
+  <text class="t-l mid" x="655" y="122">서버</text>
+  <text class="t-mono mid" x="655" y="148">198.51.100.7</text>
+  <text class="t-xs mid" x="655" y="172">공유기 주소만 보인다</text>
+
+  <path class="ln blue" d="M212 82 H292" marker-end="url(#ah-blue)"/>
+  <path class="ln green dash" d="M292 104 H214" marker-end="url(#ah-green)"/>
+  <path class="ln blue" d="M212 168 H292" marker-end="url(#ah-blue)"/>
+
+  <text class="t-s t-b mid tc-purple" x="520" y="42">인터넷</text>
+  <path class="ln blue" d="M476 100 H562" marker-end="url(#ah-blue)"/>
+  <text class="t-xs mid" x="519" y="90">요청</text>
+  <path class="ln green dash" d="M562 150 H478" marker-end="url(#ah-green)"/>
+  <text class="t-xs mid" x="519" y="170">답장</text>
+
+  <text class="t-s t-b" x="20" y="250">노트북이 보낸 패킷의 주소 딱지</text>
+  <rect class="box" x="20" y="262" width="300" height="64" rx="10"/>
+  <text class="t-s" x="36" y="288">보낸 곳</text>
+  <text class="t-mono t-b tc-blue" x="100" y="288">192.168.0.5:51000</text>
+  <text class="t-s" x="36" y="312">받는 곳</text>
+  <text class="t-mono" x="100" y="312">198.51.100.7:443</text>
+
+  <path class="ln warm thick" d="M330 294 H428" marker-end="url(#ah-warm)"/>
+  <text class="t-xs mid tc-warm" x="380" y="282">공유기 통과</text>
+
+  <rect class="box warm" x="440" y="262" width="300" height="64" rx="10"/>
+  <text class="t-s" x="456" y="288">보낸 곳</text>
+  <text class="t-mono t-b tc-warm" x="520" y="288">203.0.113.9:62001</text>
+  <text class="t-s" x="456" y="312">받는 곳</text>
+  <text class="t-mono" x="520" y="312">198.51.100.7:443</text>
+</svg>

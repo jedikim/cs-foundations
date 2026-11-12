@@ -1,0 +1,58 @@
+<svg viewBox="0 0 760 336" xmlns="http://www.w3.org/2000/svg">
+  <title>칼의 로컬 좌표 (2, 0)은 그대로인데, 부모인 기사가 움직이면 칼의 월드 좌표는 (12, 5)에서 (16, 5)로 바뀐다</title>
+
+  <rect class="panel" x="20" y="20" width="262" height="296" rx="14"/>
+  <text class="t-h" x="38" y="52">씬 트리</text>
+  <use href="#i-folder" x="38" y="68" width="30" height="30" class="ic gray"/>
+  <text class="t-b" x="76" y="89">숲 스테이지</text>
+  <path class="ln thin muted" d="M52 102 V270 M52 126 H68 M52 170 H68 M52 270 H68 M84 190 V214 H100"/>
+  <use href="#i-eye" x="72" y="111" width="30" height="30" class="ic gray"/>
+  <text x="110" y="132">카메라</text>
+  <use href="#i-user" x="72" y="155" width="30" height="30" class="ic blue"/>
+  <text class="t-b" x="110" y="176">기사</text>
+  <text class="t-mono tc-blue" x="150" y="176">(10, 5)</text>
+  <g class="ic warm" transform="translate(119 214) rotate(35)">
+    <path class="i-s" d="M0 -14 V6 M-6 6 H6 M0 6 V13"/>
+  </g>
+  <text class="t-b" x="140" y="220">칼</text>
+  <text class="t-mono tc-warm" x="164" y="220">(2, 0)</text>
+  <text class="t-xs" x="140" y="240">기사 기준 = 로컬 좌표</text>
+  <use href="#i-layers" x="72" y="255" width="30" height="30" class="ic gray"/>
+  <text x="110" y="276">바닥</text>
+
+  <text class="t-s t-b" x="312" y="44">기사가 (10, 5)에 있을 때</text>
+  <use href="#i-user" x="404" y="66" width="38" height="38" class="ic blue"/>
+  <g class="ic warm" transform="translate(496 88) rotate(35)">
+    <path class="i-s" d="M0 -16 V7 M-7 7 H7 M0 7 V15"/>
+  </g>
+  <path class="ln warm" d="M446 88 H476" marker-end="url(#ah-warm)"/>
+  <text class="t-mono tc-warm mid" x="461" y="70">(2, 0)</text>
+  <path class="ln thin" d="M332 114 H730"/>
+  <path class="ln thin" d="M351 110 V118 M423 110 V118 M495 110 V118 M567 110 V118 M639 110 V118 M711 110 V118"/>
+  <text class="t-xs mid" x="351" y="134">8</text>
+  <text class="t-xs mid" x="423" y="134">10</text>
+  <text class="t-xs mid" x="495" y="134">12</text>
+  <text class="t-xs mid" x="567" y="134">14</text>
+  <text class="t-xs mid" x="639" y="134">16</text>
+  <text class="t-xs mid" x="711" y="134">18</text>
+  <text class="t-s tc-blue end" x="448" y="158">기사 (10, 5)</text>
+  <text class="t-s t-b tc-warm" x="472" y="158">칼의 월드 좌표 (12, 5)</text>
+
+  <text class="t-s t-b" x="312" y="208">기사가 (14, 5)로 걸어간 뒤</text>
+  <use href="#i-user" x="548" y="230" width="38" height="38" class="ic blue"/>
+  <g class="ic warm" transform="translate(640 252) rotate(35)">
+    <path class="i-s" d="M0 -16 V7 M-7 7 H7 M0 7 V15"/>
+  </g>
+  <path class="ln warm" d="M590 252 H620" marker-end="url(#ah-warm)"/>
+  <text class="t-mono tc-warm mid" x="605" y="234">(2, 0)</text>
+  <path class="ln thin" d="M332 278 H730"/>
+  <path class="ln thin" d="M351 274 V282 M423 274 V282 M495 274 V282 M567 274 V282 M639 274 V282 M711 274 V282"/>
+  <text class="t-xs mid" x="351" y="298">8</text>
+  <text class="t-xs mid" x="423" y="298">10</text>
+  <text class="t-xs mid" x="495" y="298">12</text>
+  <text class="t-xs mid" x="567" y="298">14</text>
+  <text class="t-xs mid" x="639" y="298">16</text>
+  <text class="t-xs mid" x="711" y="298">18</text>
+  <text class="t-s tc-blue end" x="578" y="322">기사 (14, 5)</text>
+  <text class="t-s t-b tc-warm" x="600" y="322">칼의 월드 좌표 (16, 5)</text>
+</svg>

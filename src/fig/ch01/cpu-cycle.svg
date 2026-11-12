@@ -1,0 +1,30 @@
+<svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg">
+  <title>CPU는 가져오기, 해석하기, 실행하기, 기록하기를 끝없이 반복한다</title>
+  <text class="t-h" x="20" y="34">CPU 코어 하나가 하는 일</text>
+
+  <rect class="box blue" x="20" y="58" width="160" height="92" rx="12"/>
+  <circle class="badge blue" cx="44" cy="82" r="12"/><text class="badge-t" x="44" y="86.500">1</text>
+  <text class="t-l mid" x="100" y="110">가져오기</text>
+  <text class="t-s mid" x="100" y="132">메모리에서 다음 명령을</text>
+
+  <rect class="box blue" x="205" y="58" width="160" height="92" rx="12"/>
+  <circle class="badge blue" cx="229" cy="82" r="12"/><text class="badge-t" x="229" y="86.500">2</text>
+  <text class="t-l mid" x="285" y="110">해석하기</text>
+  <text class="t-s mid" x="285" y="132">무슨 일인지 알아낸다</text>
+
+  <rect class="box blue" x="390" y="58" width="160" height="92" rx="12"/>
+  <circle class="badge blue" cx="414" cy="82" r="12"/><text class="badge-t" x="414" y="86.500">3</text>
+  <text class="t-l mid" x="470" y="110">실행하기</text>
+  <text class="t-s mid" x="470" y="132">더하고, 비교하고, 옮긴다</text>
+
+  <rect class="box blue" x="575" y="58" width="160" height="92" rx="12"/>
+  <circle class="badge blue" cx="599" cy="82" r="12"/><text class="badge-t" x="599" y="86.500">4</text>
+  <text class="t-l mid" x="655" y="110">기록하기</text>
+  <text class="t-s mid" x="655" y="132">결과를 제자리에 둔다</text>
+
+  <path class="ln blue" d="M183 104 H199" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M368 104 H384" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M553 104 H569" marker-end="url(#ah-blue)"/>
+  <path class="ln blue dash" d="M655 154 V196 H100 V158" marker-end="url(#ah-blue)"/>
+  <text class="t-s mid" x="378" y="222">다음 명령으로 돌아가 반복 — 3GHz CPU라면 1초에 약 30억 박자</text>
+</svg>

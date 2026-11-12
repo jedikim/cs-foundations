@@ -1,0 +1,38 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>한 프로세스의 스레드들은 메모리와 파일을 함께 쓰고, 스택과 실행 위치만 따로 가진다</title>
+  <rect class="panel" x="20" y="16" width="720" height="288" rx="18"/>
+  <text class="t-s t-b" x="42" y="44">프로세스 하나 (사진 편집 앱)</text>
+
+  <rect class="box green" x="50" y="58" width="660" height="84" rx="12"/>
+  <text class="t-l" x="70" y="96">함께 쓰는 것</text>
+  <text class="t-s" x="70" y="118">스레드 사이에 칸막이 없음</text>
+  <rect class="box" x="262" y="76" width="96" height="48" rx="8"/>
+  <text class="t-b mid" x="310" y="105">코드</text>
+  <rect class="box" x="370" y="76" width="170" height="48" rx="8"/>
+  <text class="t-b mid" x="455" y="105">편집 중인 사진</text>
+  <rect class="box" x="552" y="76" width="142" height="48" rx="8"/>
+  <text class="t-b mid" x="623" y="105">열어 둔 파일</text>
+
+  <path class="ln green" d="M150 180 V150" marker-start="url(#ah-green)" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M380 180 V150" marker-start="url(#ah-green)" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M610 180 V150" marker-start="url(#ah-green)" marker-end="url(#ah-green)"/>
+  <text class="t-xs" x="162" y="169">읽고 쓴다</text>
+
+  <rect class="box blue" x="50" y="186" width="200" height="100" rx="12"/>
+  <text class="t-l" x="66" y="214">스레드 1</text>
+  <text class="t-s" x="142" y="214">화면 그리기</text>
+  <rect class="box" x="62" y="230" width="176" height="42" rx="8"/>
+  <text class="t-xs mid" x="150" y="256">자기 스택 · 자기 실행 위치</text>
+
+  <rect class="box blue" x="280" y="186" width="200" height="100" rx="12"/>
+  <text class="t-l" x="296" y="214">스레드 2</text>
+  <text class="t-s" x="372" y="214">파일 저장</text>
+  <rect class="box" x="292" y="230" width="176" height="42" rx="8"/>
+  <text class="t-xs mid" x="380" y="256">자기 스택 · 자기 실행 위치</text>
+
+  <rect class="box blue" x="510" y="186" width="200" height="100" rx="12"/>
+  <text class="t-l" x="526" y="214">스레드 3</text>
+  <text class="t-s" x="602" y="214">필터 계산</text>
+  <rect class="box" x="522" y="230" width="176" height="42" rx="8"/>
+  <text class="t-xs mid" x="610" y="256">자기 스택 · 자기 실행 위치</text>
+</svg>

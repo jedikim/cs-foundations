@@ -1,0 +1,43 @@
+<svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg">
+  <title>브랜치를 올리고 풀 리퀘스트로 리뷰를 받은 뒤 main에 병합하고 태그를 붙인다</title>
+  <path class="ln" d="M76 56 L624 56"/>
+  <path class="ln" d="M75.4 60.4 L234.6 105.6"/>
+  <path class="ln" d="M266 110 L454 110"/>
+  <path class="ln" d="M485.2 105.2 L624.8 60.8"/>
+  <circle class="box green" cx="60" cy="56" r="16"/><text class="t-mono t-b mid" x="60" y="61">B</text>
+  <circle class="box warm" cx="250" cy="110" r="16"/><text class="t-mono t-b mid" x="250" y="115">C</text>
+  <circle class="box warm" cx="470" cy="110" r="16"/><text class="t-mono t-b mid" x="470" y="115">D</text>
+  <circle class="box green" cx="640" cy="56" r="16"/><text class="t-mono t-b mid" x="640" y="61">M</text>
+  <rect class="box blue" x="674" y="44" width="56" height="24" rx="6"/><text class="t-mono t-b mid" x="702" y="61">main</text><path class="ln blue" d="M673 56 H660" marker-end="url(#ah-blue)"/>
+  <rect class="box warm" x="428.5" y="142" width="83" height="24" rx="6"/><text class="t-mono t-b mid" x="470" y="159">fix-jump</text><path class="ln warm" d="M470 141 V130" marker-end="url(#ah-warm)"/>
+  <rect class="box yellow" x="607" y="88" width="66" height="24" rx="6"/><text class="t-mono t-b mid" x="640" y="105">v1.0.0</text><path class="ln" d="M640 87 V76" marker-end="url(#ah)"/>
+  <circle class="badge blue" cx="250" cy="76" r="12"/><text class="badge-t" x="250" y="80.5">1</text>
+  <text class="t-s" x="268" y="81">커밋하고 push</text>
+  <circle class="badge blue" cx="470" cy="76" r="12"/><text class="badge-t" x="470" y="80.5">4</text>
+  <text class="t-s end" x="452" y="81">고쳐서 다시 push</text>
+  <circle class="badge blue" cx="596" cy="26" r="12"/><text class="badge-t" x="596" y="30.5">5</text>
+  <text class="t-s end" x="578" y="31">main에 병합, 태그</text>
+
+  <rect class="box" x="20" y="184" width="440" height="176" rx="14"/>
+  <circle class="badge blue" cx="46" cy="212" r="12"/><text class="badge-t" x="46" y="216.5">2</text>
+  <text class="t-b" x="68" y="217">풀 리퀘스트를 연다</text>
+  <text class="t-mono t-b" x="318" y="217">fix-jump → main</text>
+  <path class="ln thin muted" d="M36 234 H444"/>
+  <text class="t-l" x="40" y="264">착지 직후 점프가 안 되는 문제 수정</text>
+  <text class="t-s" x="40" y="292">문제: 착지한 순간에 누른 점프가 무시된다</text>
+  <text class="t-s" x="40" y="314">변경: 착지 판정을 입력 처리보다 먼저 한다</text>
+  <text class="t-s" x="40" y="336">확인: 테스트 12개 통과, 직접 플레이해 봄</text>
+  <path class="ln thin muted dash" d="M250 130 V180"/>
+
+  <rect class="box purple" x="490" y="184" width="250" height="176" rx="14"/>
+  <circle class="badge purple" cx="516" cy="212" r="12"/><text class="badge-t" x="516" y="216.5">3</text>
+  <text class="t-b" x="538" y="217">동료가 리뷰한다</text>
+  <path class="ln thin muted" d="M506 234 H724"/>
+  <use href="#i-chat" x="506" y="246" width="30" height="30" class="ic purple"/>
+  <text class="t-s" x="544" y="260">공중에서도 점프가</text>
+  <text class="t-s" x="544" y="280">되지는 않나요?</text>
+  <use href="#i-check" x="506" y="304" width="30" height="30" class="ic green"/>
+  <text class="t-s" x="544" y="318">D를 확인한 뒤</text>
+  <text class="t-s t-b tc-green" x="544" y="338">승인</text>
+  <path class="ln" d="M464 272 H484" marker-end="url(#ah)"/>
+</svg>

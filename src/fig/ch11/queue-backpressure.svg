@@ -1,0 +1,48 @@
+<svg viewBox="0 0 760 318" xmlns="http://www.w3.org/2000/svg">
+  <title>초당 100건이 들어오고 80건만 처리되면 꽂이에는 초당 20건씩 쌓이므로, 가득 찼을 때의 규칙을 정해야 한다</title>
+
+  <rect class="box blue" x="20" y="30" width="170" height="130" rx="14"/>
+  <use href="#i-users" x="81" y="42" width="48" height="48" class="ic blue"/>
+  <text class="t-l mid" x="105" y="116">홀 직원</text>
+  <text class="t-s mid" x="105" y="140">생산자 · 초당 100건</text>
+
+  <text class="t-b mid" x="385" y="50">주문서 꽂이 (큐)</text>
+  <rect class="solid warm" x="250" y="66" width="24" height="58" rx="4"/>
+  <rect class="solid warm" x="277" y="66" width="24" height="58" rx="4"/>
+  <rect class="solid warm" x="304" y="66" width="24" height="58" rx="4"/>
+  <rect class="solid warm" x="331" y="66" width="24" height="58" rx="4"/>
+  <rect class="solid warm" x="358" y="66" width="24" height="58" rx="4"/>
+  <rect class="solid warm" x="385" y="66" width="24" height="58" rx="4"/>
+  <rect class="solid warm" x="412" y="66" width="24" height="58" rx="4"/>
+  <rect class="solid warm" x="439" y="66" width="24" height="58" rx="4"/>
+  <rect class="ghost dash" x="466" y="66" width="24" height="58" rx="4"/>
+  <rect class="ghost dash" x="493" y="66" width="24" height="58" rx="4"/>
+  <text class="t-s t-b mid tc-warm" x="385" y="146">1초마다 20건씩 쌓인다</text>
+  <text class="t-xs mid" x="385" y="165">200칸짜리도 10초면 가득</text>
+
+  <rect class="box green" x="580" y="30" width="160" height="130" rx="14"/>
+  <use href="#i-chef" x="592" y="42" width="30" height="30" class="ic green"/>
+  <use href="#i-chef" x="628" y="42" width="30" height="30" class="ic green"/>
+  <use href="#i-chef" x="664" y="42" width="30" height="30" class="ic green"/>
+  <use href="#i-chef" x="700" y="42" width="30" height="30" class="ic green"/>
+  <text class="t-l mid" x="660" y="104">요리사 4명</text>
+  <text class="t-s mid" x="660" y="126">스레드 풀 · 소비자</text>
+  <text class="t-s mid" x="660" y="146">초당 80건</text>
+
+  <path class="ln blue" d="M196 95 H240" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M524 95 H572" marker-end="url(#ah-green)"/>
+
+  <text class="t-b" x="20" y="212">꽂이가 가득 차면?</text>
+  <rect class="box blue" x="20" y="226" width="226" height="72" rx="12"/>
+  <circle class="badge blue" cx="44" cy="250" r="12"/><text class="badge-t" x="44" y="254.500">1</text>
+  <text class="t-b" x="64" y="255">기다리게 한다</text>
+  <text class="t-s" x="36" y="280">넣는 쪽을 늦춘다 (역압력)</text>
+  <rect class="box red" x="267" y="226" width="226" height="72" rx="12"/>
+  <circle class="badge red" cx="291" cy="250" r="12"/><text class="badge-t" x="291" y="254.500">2</text>
+  <text class="t-b" x="311" y="255">거절한다</text>
+  <text class="t-s" x="283" y="280">"지금은 밀렸습니다" 응답</text>
+  <rect class="box gray" x="514" y="226" width="226" height="72" rx="12"/>
+  <circle class="badge" cx="538" cy="250" r="12"/><text class="badge-t" x="538" y="254.500">3</text>
+  <text class="t-b" x="558" y="255">오래된 것을 버린다</text>
+  <text class="t-s" x="530" y="280">최신 값만 중요할 때</text>
+</svg>

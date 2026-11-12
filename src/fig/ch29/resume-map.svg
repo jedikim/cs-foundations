@@ -1,0 +1,59 @@
+<svg viewBox="0 0 760 364" xmlns="http://www.w3.org/2000/svg">
+  <title>작업을 단계로 나누고 단계가 끝날 때마다 일지에 적어 두면, 중간에 실패해도 끝난 단계는 건너뛰고 실패한 곳부터 다시 할 수 있다</title>
+
+  <text class="t-s t-b" x="20" y="34">나눠 둔 작업</text>
+  <text class="t-s" x="104" y="34">요약 셋은 동시에, 비교표는 셋이 끝난 뒤</text>
+
+  <rect class="box green" x="20" y="50" width="160" height="52" rx="10"/>
+  <use href="#i-check" x="30" y="62" width="28" height="28" class="ic green"/>
+  <text class="t-b" x="66" y="73">문서 A 요약</text>
+  <text class="t-xs tc-green" x="66" y="92">완료</text>
+
+  <rect class="box green" x="20" y="122" width="160" height="52" rx="10"/>
+  <use href="#i-check" x="30" y="134" width="28" height="28" class="ic green"/>
+  <text class="t-b" x="66" y="145">문서 B 요약</text>
+  <text class="t-xs tc-green" x="66" y="164">완료</text>
+
+  <rect class="box red" x="20" y="194" width="160" height="52" rx="10"/>
+  <use href="#i-cross" x="30" y="206" width="28" height="28" class="ic red"/>
+  <text class="t-b" x="66" y="217">문서 C 요약</text>
+  <text class="t-xs tc-red" x="66" y="236">실패: 시간 초과</text>
+
+  <path class="ln green" d="M184 76 H208 V134 H229" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M184 148 H229" marker-end="url(#ah-green)"/>
+  <path class="ln red dash" d="M184 220 H208 V162 H229" marker-end="url(#ah-red)"/>
+
+  <rect class="box gray" x="235" y="112" width="160" height="72" rx="10"/>
+  <text class="t-b mid" x="315" y="143">비교표 만들기</text>
+  <text class="t-xs mid" x="315" y="165">셋이 다 있어야 시작</text>
+
+  <path class="ln muted dash" d="M315 188 V216" marker-end="url(#ah-muted)"/>
+  <rect class="box gray" x="235" y="222" width="160" height="48" rx="10"/>
+  <text class="t-b mid" x="315" y="251">결과 저장</text>
+
+  <rect class="panel" x="440" y="20" width="300" height="262" rx="14"/>
+  <use href="#i-list" x="454" y="32" width="28" height="28" class="ic warm"/>
+  <text class="t-b" x="490" y="52">업무 일지 · 작업 88번</text>
+
+  <text x="456" y="90">문서 A 요약</text>
+  <text class="t-b tc-green" x="584" y="90">완료</text>
+  <text class="t-xs" x="640" y="89">결과: a.md</text>
+  <path class="ln thin muted" d="M456 102 H724"/>
+  <text x="456" y="122">문서 B 요약</text>
+  <text class="t-b tc-green" x="584" y="122">완료</text>
+  <text class="t-xs" x="640" y="121">결과: b.md</text>
+  <path class="ln thin muted" d="M456 134 H724"/>
+  <text x="456" y="154">문서 C 요약</text>
+  <text class="t-b tc-red" x="584" y="154">실패</text>
+  <text class="t-xs" x="640" y="153">시간 초과</text>
+  <path class="ln thin muted" d="M456 166 H724"/>
+  <text x="456" y="186">비교표</text>
+  <text class="t-b tc-muted" x="584" y="186">대기</text>
+  <path class="ln thin muted" d="M456 198 H724"/>
+  <text x="456" y="218">결과 저장</text>
+  <text class="t-b tc-muted" x="584" y="218">대기</text>
+  <text class="t-xs" x="456" y="262">단계가 끝날 때마다 한 줄씩 적습니다</text>
+
+  <rect class="box yellow" x="20" y="300" width="720" height="46" rx="12"/>
+  <text class="t-b mid" x="380" y="329">다시 시작하면 일지를 읽고, 끝난 A와 B는 건너뛰고 C부터 합니다</text>
+</svg>

@@ -1,0 +1,58 @@
+<svg viewBox="0 0 760 342" xmlns="http://www.w3.org/2000/svg">
+  <title>도시락 공장의 레시피 수정, 생산, 출고 검사, 진열이 개발의 커밋, 빌드, 테스트, 배포에 대응한다</title>
+  <text class="t-s t-b" x="20" y="104">공장</text>
+  <text class="t-s t-b" x="20" y="268">개발</text>
+
+  <rect class="box yellow" x="64" y="40" width="150" height="118" rx="14"/>
+  <use href="#i-pencil" x="117" y="50" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="139" y="120">레시피 수정</text>
+  <text class="t-s mid" x="139" y="142">간장 10g → 8g</text>
+
+  <rect class="box yellow" x="239" y="40" width="150" height="118" rx="14"/>
+  <use href="#i-gear" x="292" y="50" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="314" y="120">생산 라인</text>
+  <text class="t-s mid" x="314" y="142">재료를 받아 상자로</text>
+
+  <rect class="box yellow" x="414" y="40" width="150" height="118" rx="14"/>
+  <use href="#i-search" x="467" y="50" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="489" y="120">출고 검사</text>
+  <text class="t-s mid" x="489" y="142">무게, 맛, 포장 확인</text>
+
+  <rect class="box yellow" x="589" y="40" width="150" height="118" rx="14"/>
+  <use href="#i-truck" x="642" y="50" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="664" y="120">매장 진열</text>
+  <text class="t-s mid" x="664" y="142">손님이 집어 간다</text>
+
+  <path class="ln" d="M218 99 H233" marker-end="url(#ah)"/>
+  <path class="ln" d="M393 99 H408" marker-end="url(#ah)"/>
+  <path class="ln" d="M568 99 H583" marker-end="url(#ah)"/>
+
+  <path class="ln muted" d="M139 162 V196" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M314 162 V196" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M489 162 V196" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M664 162 V196" marker-end="url(#ah-muted)"/>
+
+  <rect class="box blue" x="64" y="204" width="150" height="118" rx="14"/>
+  <use href="#i-branch" x="117" y="214" width="44" height="44" class="ic blue"/>
+  <text class="t-l mid" x="139" y="284">커밋</text>
+  <text class="t-mono mid" x="139" y="306">a1b2c3d</text>
+
+  <rect class="box warm" x="239" y="204" width="150" height="118" rx="14"/>
+  <use href="#i-box" x="292" y="214" width="44" height="44" class="ic warm"/>
+  <text class="t-l mid" x="314" y="284">빌드</text>
+  <text class="t-mono mid" x="314" y="306">app-57.zip</text>
+
+  <rect class="box green" x="414" y="204" width="150" height="118" rx="14"/>
+  <use href="#i-check" x="467" y="214" width="44" height="44" class="ic green"/>
+  <text class="t-l mid" x="489" y="284">테스트</text>
+  <text class="t-s mid" x="489" y="306">212개 통과</text>
+
+  <rect class="box purple" x="589" y="204" width="150" height="118" rx="14"/>
+  <use href="#i-server" x="642" y="214" width="44" height="44" class="ic purple"/>
+  <text class="t-l mid" x="664" y="284">배포</text>
+  <text class="t-s mid" x="664" y="306">운영 서버에서 실행</text>
+
+  <path class="ln" d="M218 263 H233" marker-end="url(#ah)"/>
+  <path class="ln" d="M393 263 H408" marker-end="url(#ah)"/>
+  <path class="ln" d="M568 263 H583" marker-end="url(#ah)"/>
+</svg>

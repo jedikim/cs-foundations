@@ -1,0 +1,35 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>결과가 나오기까지 흐른 5초 가운데 CPU가 계산한 시간은 0.2초뿐이고 나머지 4.8초는 디스크와 서버를 기다린 시간이다</title>
+  <text class="t-h" x="20" y="34">버튼을 누르고 결과가 나오기까지 5초</text>
+
+  <text class="t-b" x="20" y="96">흐른 시간</text>
+  <text class="t-xs mid tc-blue" x="136" y="64">계산 0.1초</text>
+  <text class="t-xs mid tc-blue" x="364" y="64">계산 0.1초</text>
+  <rect class="solid blue" x="130" y="72" width="12" height="38" rx="3"/>
+  <rect class="solid warm" x="143" y="72" width="214" height="38" rx="3"/>
+  <text class="t-s t-b t-on mid" x="250" y="96">디스크 읽기 대기 1.8초</text>
+  <rect class="solid blue" x="358" y="72" width="12" height="38" rx="3"/>
+  <rect class="solid purple" x="371" y="72" width="359" height="38" rx="3"/>
+  <text class="t-s t-b t-on mid" x="550" y="96">서버 응답 대기 3.0초</text>
+
+  <path class="ln thin muted" d="M130 120 H730"/>
+  <path class="ln thin muted" d="M130 116 V124 M250 116 V124 M370 116 V124 M490 116 V124 M610 116 V124 M730 116 V124"/>
+  <text class="t-xs mid" x="130" y="140">0</text>
+  <text class="t-xs mid" x="250" y="140">1초</text>
+  <text class="t-xs mid" x="370" y="140">2초</text>
+  <text class="t-xs mid" x="490" y="140">3초</text>
+  <text class="t-xs mid" x="610" y="140">4초</text>
+  <text class="t-xs mid" x="730" y="140">5초</text>
+
+  <text class="t-s end" x="250" y="187">계산한 시간 (CPU 시간)</text>
+  <rect class="solid blue" x="264" y="170" width="16" height="26" rx="4"/>
+  <text class="t-mono t-b tc-blue" x="290" y="188">0.2초</text>
+
+  <text class="t-s end" x="250" y="227">기다린 시간</text>
+  <rect class="solid warm" x="264" y="210" width="144" height="26" rx="4"/>
+  <rect class="solid purple" x="409" y="210" width="239" height="26" rx="4"/>
+  <text class="t-mono t-b" x="658" y="228">4.8초</text>
+
+  <rect class="box yellow" x="130" y="254" width="600" height="34" rx="10"/>
+  <text class="t-s mid" x="430" y="276">계산 코드를 2배 빠르게 고쳐도 <tspan class="t-b tc-warm">5.0초 → 4.9초</tspan></text>
+</svg>

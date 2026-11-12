@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 412" xmlns="http://www.w3.org/2000/svg">
+  <title>예측이 없으면 키를 누르고 100ms 뒤에야 캐릭터가 움직이고, 예측을 쓰면 누르는 순간 움직인 뒤 서버 답으로 확인만 한다</title>
+
+  <text class="t-l" x="20" y="34">예측 없이</text>
+  <text class="t-s" x="110" y="34">서버의 답이 와야 움직인다</text>
+
+  <text class="t-s t-b" x="20" y="92">지우의 화면</text>
+  <text class="t-s t-b" x="20" y="162">서버</text>
+  <path class="ln thin muted" d="M150 88 H740"/>
+  <path class="ln thin muted" d="M150 158 H740"/>
+  <path class="ln thick red dash" d="M212 88 H628"/>
+  <circle class="f-blue" cx="200" cy="88" r="6"/>
+  <text class="t-s mid" x="200" y="70">오른쪽 키 누름</text>
+  <text class="t-s t-b tc-red mid" x="420" y="70">100ms 동안 화면은 그대로</text>
+  <circle class="f-green" cx="640" cy="88" r="6"/>
+  <text class="t-s mid" x="640" y="70">이제야 움직임</text>
+  <path class="ln blue" d="M205 94 L413 153" marker-end="url(#ah-blue)"/>
+  <text class="t-mono" x="246" y="130">입력 #41</text>
+  <circle class="f-green" cx="420" cy="158" r="6"/>
+  <text class="t-mono mid" x="420" y="182">x: 20 → 21</text>
+  <path class="ln green" d="M427 153 L633 94" marker-end="url(#ah-green)"/>
+  <text class="t-mono" x="548" y="138">결과 x=21</text>
+
+  <path class="ln thin muted" d="M200 208 H640"/>
+  <path class="ln thin muted" d="M200 203 V213 M420 203 V213 M640 203 V213"/>
+  <text class="t-xs mid" x="200" y="230">0ms</text>
+  <text class="t-xs mid" x="420" y="230">50ms</text>
+  <text class="t-xs mid" x="640" y="230">100ms</text>
+
+  <text class="t-l" x="20" y="262">예측을 쓰면</text>
+  <text class="t-s" x="126" y="262">누르는 순간 내 화면에서 먼저 움직인다</text>
+
+  <text class="t-s t-b" x="20" y="320">지우의 화면</text>
+  <text class="t-s t-b" x="20" y="390">서버</text>
+  <path class="ln thin muted" d="M150 316 H740"/>
+  <path class="ln thin muted" d="M150 386 H740"/>
+  <path class="ln thick green" d="M212 316 H628"/>
+  <circle class="f-blue" cx="200" cy="316" r="6"/>
+  <text class="t-s t-b tc-green" x="154" y="298">누르자마자 x=21</text>
+  <text class="t-s mid" x="420" y="298">이미 움직이는 중</text>
+  <circle class="f-green" cx="640" cy="316" r="6"/>
+  <text class="t-s mid" x="640" y="298">답도 x=21: 그대로 진행</text>
+  <path class="ln blue" d="M205 322 L413 381" marker-end="url(#ah-blue)"/>
+  <text class="t-mono" x="246" y="358">입력 #41</text>
+  <circle class="f-green" cx="420" cy="386" r="6"/>
+  <text class="t-mono mid" x="420" y="406">x: 20 → 21</text>
+  <path class="ln green" d="M427 381 L633 322" marker-end="url(#ah-green)"/>
+  <text class="t-mono" x="548" y="366">결과 x=21</text>
+</svg>

@@ -1,0 +1,43 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>보낼 내용은 계층을 내려가며 겉포장이 하나씩 더해진다: 편지, 봉투, 택배 상자, 배달 차</title>
+
+  <circle class="badge green" cx="32" cy="47" r="12"/><text class="badge-t" x="32" y="51.500">1</text>
+  <text class="t-b" x="54" y="43">편지</text>
+  <text class="t-s" x="54" y="62">앱이 보낼 내용</text>
+  <rect class="box green" x="601" y="24" width="138" height="46" rx="8"/>
+  <text class="t-mono mid" x="670" y="52">GET /cart</text>
+
+  <circle class="badge blue" cx="32" cy="115" r="12"/><text class="badge-t" x="32" y="119.500">2</text>
+  <text class="t-b" x="54" y="111">봉투에 넣기</text>
+  <text class="t-s" x="54" y="130">TCP: 포트와 순서 번호</text>
+  <rect class="box blue" x="471" y="92" width="128" height="46" rx="8"/>
+  <text class="t-xs mid" x="535" y="119">포트 443 · 순서 1</text>
+  <rect class="box green" x="601" y="92" width="138" height="46" rx="8"/>
+  <text class="t-s mid" x="670" y="120">편지</text>
+
+  <circle class="badge warm" cx="32" cy="183" r="12"/><text class="badge-t" x="32" y="187.500">3</text>
+  <text class="t-b" x="54" y="179">택배 상자에 넣기</text>
+  <text class="t-s" x="54" y="198">IP: 받는 컴퓨터의 주소</text>
+  <rect class="box warm" x="311" y="160" width="158" height="46" rx="8"/>
+  <text class="t-xs mid" x="390" y="187">받는 곳 203.0.113.9</text>
+  <rect class="box blue" x="471" y="160" width="128" height="46" rx="8"/>
+  <text class="t-s mid" x="535" y="188">봉투</text>
+  <rect class="box green" x="601" y="160" width="138" height="46" rx="8"/>
+  <text class="t-s mid" x="670" y="188">편지</text>
+
+  <circle class="badge" cx="32" cy="251" r="12"/><text class="badge-t" x="32" y="255.500">4</text>
+  <text class="t-b" x="54" y="247">배달 차에 싣기</text>
+  <text class="t-s" x="54" y="266">랜선·와이파이 구간</text>
+  <rect class="box gray" x="221" y="228" width="88" height="46" rx="8"/>
+  <text class="t-xs mid" x="265" y="255">다음 장치</text>
+  <rect class="box warm" x="311" y="228" width="158" height="46" rx="8"/>
+  <text class="t-s mid" x="390" y="256">택배 상자</text>
+  <rect class="box blue" x="471" y="228" width="128" height="46" rx="8"/>
+  <text class="t-s mid" x="535" y="256">봉투</text>
+  <rect class="box green" x="601" y="228" width="138" height="46" rx="8"/>
+  <text class="t-s mid" x="670" y="256">편지</text>
+
+  <path class="ln thin muted dash" d="M600 16 V284"/>
+  <path class="ln thin muted dash" d="M470 84 V284"/>
+  <path class="ln thin muted dash" d="M310 152 V284"/>
+</svg>

@@ -1,0 +1,52 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg">
+  <title>소스 코드는 컴파일, 링크, 로딩을 거쳐 실행된다. 앞의 둘은 만들 때, 뒤의 둘은 실행할 때 일어난다</title>
+
+  <text class="t-s t-b tc-blue" x="20" y="30">만들 때 (빌드) — 개발자의 컴퓨터</text>
+  <rect class="f-blue" x="20" y="40" width="412" height="5" rx="2.500"/>
+  <text class="t-s t-b tc-green" x="442" y="30">실행할 때 — 사용자의 컴퓨터</text>
+  <rect class="f-green" x="442" y="40" width="298" height="5" rx="2.500"/>
+
+  <rect class="box blue" x="20" y="70" width="104" height="70" rx="12"/>
+  <text class="t-b mid" x="72" y="101">소스 코드</text>
+  <text class="t-xs mid" x="72" y="122">사람이 쓴 글</text>
+
+  <rect class="box" x="174" y="70" width="104" height="70" rx="12"/>
+  <text class="t-b mid" x="226" y="101">번역된 조각</text>
+  <text class="t-xs mid" x="226" y="122">빈칸이 있다</text>
+
+  <rect class="box green" x="328" y="70" width="104" height="70" rx="12"/>
+  <text class="t-b mid" x="380" y="101">실행 파일</text>
+  <text class="t-xs mid" x="380" y="122">기계어 묶음</text>
+
+  <rect class="box green" x="482" y="70" width="104" height="70" rx="12"/>
+  <text class="t-b mid" x="534" y="101">프로세스</text>
+  <text class="t-xs mid" x="534" y="122">메모리에 올라옴</text>
+
+  <rect class="box blue" x="636" y="70" width="104" height="70" rx="12"/>
+  <text class="t-b mid" x="688" y="101">CPU</text>
+  <text class="t-xs mid" x="688" y="122">명령을 실행</text>
+
+  <path class="ln" d="M129 105 H166" marker-end="url(#ah)"/>
+  <path class="ln" d="M283 105 H320" marker-end="url(#ah)"/>
+  <path class="ln" d="M437 105 H474" marker-end="url(#ah)"/>
+  <path class="ln" d="M591 105 H628" marker-end="url(#ah)"/>
+
+  <circle class="badge warm" cx="127" cy="166" r="11"/><text class="badge-t" x="127" y="170.500">1</text>
+  <text class="t-s t-b" x="143" y="171">컴파일</text>
+  <circle class="badge warm" cx="287" cy="166" r="11"/><text class="badge-t" x="287" y="170.500">2</text>
+  <text class="t-s t-b" x="303" y="171">링크</text>
+  <circle class="badge warm" cx="441" cy="166" r="11"/><text class="badge-t" x="441" y="170.500">3</text>
+  <text class="t-s t-b" x="457" y="171">로딩</text>
+  <circle class="badge warm" cx="595" cy="166" r="11"/><text class="badge-t" x="595" y="170.500">4</text>
+  <text class="t-s t-b" x="611" y="171">실행</text>
+
+  <rect class="box purple" x="243" y="210" width="120" height="64" rx="12"/>
+  <text class="t-b mid" x="303" y="238">라이브러리</text>
+  <text class="t-xs mid" x="303" y="258">남이 만든 코드</text>
+  <path class="ln purple" d="M303 205 V186" marker-end="url(#ah-purple)"/>
+
+  <rect class="box warm" x="536" y="210" width="150" height="64" rx="12"/>
+  <text class="t-b mid" x="611" y="238">런타임</text>
+  <text class="t-xs mid" x="611" y="258">곁에서 실행을 돕는다</text>
+  <path class="ln warm" d="M611 205 V186" marker-end="url(#ah-warm)"/>
+</svg>

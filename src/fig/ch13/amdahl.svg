@@ -1,0 +1,36 @@
+<svg viewBox="0 0 760 324" xmlns="http://www.w3.org/2000/svg">
+  <title>100분 가운데 한 사람만 할 수 있는 40분은 직원을 아무리 늘려도 그대로 남아 전체는 2.5배보다 빨라질 수 없다</title>
+  <rect class="solid warm" x="150" y="22" width="14" height="14" rx="3"/>
+  <text class="t-s" x="172" y="34">한 사람만 할 수 있는 일 — 서류 확인 40분</text>
+  <rect class="solid blue" x="456" y="22" width="14" height="14" rx="3"/>
+  <text class="t-s" x="478" y="34">나눌 수 있는 일 — 상자 나르기 60분</text>
+  <text class="t-b" x="20" y="85">직원 1명</text>
+  <rect class="solid warm" x="150" y="60" width="160" height="38" rx="5"/>
+  <text class="t-on t-b mid" x="230" y="85">40분</text>
+  <rect class="solid blue" x="312" y="60" width="238" height="38" rx="5"/>
+  <text class="t-on t-b mid" x="431.0" y="85">60분</text>
+  <text class="t-b" x="564" y="85">100분</text>
+  <text class="t-s" x="626" y="85">기준</text>
+  <text class="t-b" x="20" y="143">직원 2명</text>
+  <rect class="solid warm" x="150" y="118" width="160" height="38" rx="5"/>
+  <text class="t-on t-b mid" x="230" y="143">40분</text>
+  <rect class="solid blue" x="312" y="118" width="118" height="38" rx="5"/>
+  <text class="t-on t-b mid" x="371.0" y="143">30분</text>
+  <text class="t-b" x="444" y="143">70분</text>
+  <text class="t-s" x="506" y="143">1.43배 빠름</text>
+  <text class="t-b" x="20" y="201">직원 4명</text>
+  <rect class="solid warm" x="150" y="176" width="160" height="38" rx="5"/>
+  <text class="t-on t-b mid" x="230" y="201">40분</text>
+  <rect class="solid blue" x="312" y="176" width="58" height="38" rx="5"/>
+  <text class="t-on t-b mid" x="341.0" y="201">15분</text>
+  <text class="t-b" x="384" y="201">55분</text>
+  <text class="t-s" x="446" y="201">1.82배 빠름</text>
+  <text class="t-b" x="20" y="259">직원 100명</text>
+  <rect class="solid warm" x="150" y="234" width="160" height="38" rx="5"/>
+  <text class="t-on t-b mid" x="230" y="259">40분</text>
+  <rect class="solid blue" x="312" y="234" width="3" height="38" rx="1"/>
+  <text class="t-b" x="329" y="259">40.6분</text>
+  <text class="t-s" x="391" y="259">2.46배 빠름</text>
+  <path class="ln red dash" d="M311 50 V282"/>
+  <text class="t-s t-b tc-red" x="150" y="306">40분은 끝까지 남는다 → 한계는 100 ÷ 40 = 2.5배</text>
+</svg>

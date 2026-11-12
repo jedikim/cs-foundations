@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>레시피를 요리사의 말로 옮기듯, 소스 코드는 번역을 거쳐 CPU가 아는 기계어가 된다</title>
+  <text class="t-s t-b" x="22" y="96">주방에서는</text>
+  <text class="t-s t-b" x="22" y="262">컴퓨터에서는</text>
+
+  <rect class="box yellow" x="112" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-book" x="183" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="207" y="114">레시피</text>
+  <text class="t-s mid" x="207" y="135">사람이 읽고 쓰는 글</text>
+
+  <rect class="box yellow" x="332" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-pencil" x="403" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="427" y="114">번역하는 사람</text>
+  <text class="t-s mid" x="427" y="135">요리사의 말로 옮긴다</text>
+
+  <rect class="box yellow" x="552" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-chef" x="623" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="647" y="114">요리사용 지시문</text>
+  <text class="t-s mid" x="647" y="135">요리사가 바로 따라 한다</text>
+
+  <path class="ln" d="M306 89 H324" marker-end="url(#ah)"/>
+  <path class="ln" d="M526 89 H544" marker-end="url(#ah)"/>
+
+  <path class="ln muted" d="M207 154 V190" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M427 154 V190" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M647 154 V190" marker-end="url(#ah-muted)"/>
+
+  <rect class="box blue" x="112" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-code" x="183" y="206" width="48" height="48" class="ic blue"/>
+  <text class="t-l mid" x="207" y="280">소스 코드</text>
+  <text class="t-mono mid" x="207" y="301">price * 2 + 1</text>
+
+  <rect class="box warm" x="332" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-gear" x="403" y="206" width="48" height="48" class="ic warm"/>
+  <text class="t-l mid" x="427" y="280">번역 프로그램</text>
+  <text class="t-s mid" x="427" y="301">기계어로 옮긴다</text>
+
+  <rect class="box green" x="552" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-chip" x="623" y="206" width="48" height="48" class="ic green"/>
+  <text class="t-l mid" x="647" y="280">기계어</text>
+  <text class="t-mono mid" x="647" y="301">10001101 01000100</text>
+
+  <path class="ln" d="M306 255 H324" marker-end="url(#ah)"/>
+  <path class="ln" d="M526 255 H544" marker-end="url(#ah)"/>
+</svg>

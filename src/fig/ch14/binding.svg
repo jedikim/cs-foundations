@@ -1,0 +1,50 @@
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
+  <title>127.0.0.1에 묶은 서버는 같은 컴퓨터에서만, 0.0.0.0에 묶은 서버는 다른 기기에서도 접속된다</title>
+
+  <text class="t-s" x="20" y="62">서버가 받는 주소</text>
+  <text class="t-mono t-b" x="20" y="88">127.0.0.1:3000</text>
+  <text class="t-s tc-red" x="20" y="114">이 컴퓨터 안에서만</text>
+
+  <rect class="panel blue" x="190" y="20" width="380" height="140" rx="14"/>
+  <text class="t-s t-b" x="206" y="46">내 노트북</text>
+  <text class="t-mono" x="270" y="46">192.168.0.5</text>
+  <rect class="box" x="206" y="62" width="130" height="80" rx="10"/>
+  <use href="#i-browser" x="216" y="86" width="32" height="32" class="ic blue"/>
+  <text class="t-b" x="258" y="108">브라우저</text>
+  <path class="ln green" d="M342 102 H416" marker-end="url(#ah-green)"/>
+  <text class="t-xs mid tc-green" x="379" y="92">localhost</text>
+  <text class="t-xs mid tc-green" x="379" y="122">접속됨</text>
+  <rect class="box green" x="424" y="62" width="130" height="80" rx="10"/>
+  <use href="#i-server" x="434" y="86" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="474" y="108">개발 서버</text>
+
+  <use href="#i-phone" x="668" y="60" width="48" height="48" class="ic gray"/>
+  <text class="t-s mid" x="692" y="126">휴대전화</text>
+  <text class="t-xs mid" x="692" y="144">같은 와이파이</text>
+  <path class="ln red dash" d="M660 90 H610"/>
+  <use href="#i-cross" x="578" y="76" width="28" height="28" class="ic red"/>
+  <text class="t-xs mid tc-red" x="630" y="116">닿지 않음</text>
+
+  <text class="t-s" x="20" y="222">서버가 받는 주소</text>
+  <text class="t-mono t-b" x="20" y="248">0.0.0.0:3000</text>
+  <text class="t-s tc-green" x="20" y="274">다른 기기에서도</text>
+
+  <rect class="panel blue" x="190" y="180" width="380" height="140" rx="14"/>
+  <text class="t-s t-b" x="206" y="206">내 노트북</text>
+  <text class="t-mono" x="270" y="206">192.168.0.5</text>
+  <rect class="box" x="206" y="222" width="130" height="80" rx="10"/>
+  <use href="#i-browser" x="216" y="246" width="32" height="32" class="ic blue"/>
+  <text class="t-b" x="258" y="268">브라우저</text>
+  <path class="ln green" d="M342 262 H416" marker-end="url(#ah-green)"/>
+  <text class="t-xs mid tc-green" x="379" y="252">localhost</text>
+  <text class="t-xs mid tc-green" x="379" y="282">접속됨</text>
+  <rect class="box green" x="424" y="222" width="130" height="80" rx="10"/>
+  <use href="#i-server" x="434" y="246" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="474" y="268">개발 서버</text>
+
+  <use href="#i-phone" x="668" y="220" width="48" height="48" class="ic blue"/>
+  <text class="t-s mid" x="692" y="286">휴대전화</text>
+  <text class="t-xs mid" x="692" y="304">같은 와이파이</text>
+  <path class="ln green" d="M660 250 H562" marker-end="url(#ah-green)"/>
+  <text class="t-xs mid tc-green" x="616" y="240">접속됨</text>
+</svg>

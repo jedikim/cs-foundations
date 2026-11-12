@@ -1,0 +1,1125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>24장 게임이 움직이고 그려지는 원리 — 개발의 기초</title>
+<meta name="description" content="게임 루프·물리·렌더링">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch24" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html" aria-current="page"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">6부 게임 › <b>24장 게임이 움직이고 그려지는 원리</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-green">
+<div class="ch-kicker"><span class="ch-no">24장</span><span class="part">6부 · 게임</span></div>
+<h1>게임이 움직이고 그려지는 원리</h1>
+<p class="ch-sub">게임 루프·물리·렌더링</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 40분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch23.html">23장 공간과 움직임의 수학</a><a class="chip" href="ch11.html">11장 동시성과 비동기</a></div>
+</header><div class="lead">
+<p>내 컴퓨터에서는 멀쩡하던 캐릭터가 친구의 빠른 컴퓨터에서는 네 배로 빨리 달립니다. 총알이 가끔 벽을 뚫고, 전투가 한창일 때 화면이 뚝 끊깁니다. 서로 상관없어 보이는 이 버그들은 한 가지 사실에서 나옵니다. <strong>게임은 아주 빨리 넘기는 그림책</strong>이라는 사실입니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>게임 루프의 세 단계와, 한 프레임에 주어진 시간(약 16.7ms)을 설명할 수 있습니다.</li>
+<li>이동에 Δt를 곱하는 이유와 물리를 고정 간격으로 계산하는 이유를 말할 수 있습니다.</li>
+<li>빠른 총알이 벽을 뚫는 이유를 설명하고 해결책을 고를 수 있습니다.</li>
+<li>화면이 느릴 때 CPU와 GPU 중 어느 쪽이 막혔는지 가려낼 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="flipbook">
+<h2><span class="sec-n">24.1</span>게임은 아주 빨리 넘기는 그림책입니다<a aria-label="이 절의 링크" class="anchor" href="#flipbook">#</a></h2>
+<p>공책 귀퉁이에 조금씩 다른 그림을 그려 놓고 빠르게 넘기면 그림이 움직여 보입니다. 게임 화면도 똑같습니다. 조금씩 다른 정지 그림을 1초에 수십 장씩 넘겨 보여 줄 뿐입니다.</p>
+<p>이 그림 한 장을 <strong>프레임</strong>(frame)이라 하고, 1초에 넘기는 장수를 <strong>FPS</strong>(Frames Per Second)라고 합니다.</p>
+<p>그림책과 다른 점이 하나 있습니다. 게임은 플레이어가 다음 순간 무엇을 누를지 모릅니다. 그래서 그림을 미리 그려 두지 못하고 <strong>장을 넘길 때마다 그 자리에서 새로 그립니다.</strong> 순서는 언제나 같습니다.</p>
+<ol type="1">
+<li><strong>입력</strong>: 플레이어가 무엇을 눌렀는지 읽습니다.</li>
+<li><strong>갱신</strong>(update): 캐릭터를 옮기고, 부딪혔는지 확인하고, 점수를 고칩니다.</li>
+<li><strong>그리기</strong>(렌더링, rendering): 바뀐 상태대로 화면 한 장을 그립니다.</li>
+</ol>
+<p>이 세 단계를 게임이 끝날 때까지 되풀이하는 것이 <strong>게임 루프</strong>(game loop)입니다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><span class="cf">while</span> running:</span>
+<span id="cb1-2">    dt <span class="op">=</span> time_since_last_frame()  <span class="co"># 지난 장부터 흐른 시간(초)</span></span>
+<span id="cb1-3">    read_input()                  <span class="co"># ① 입력</span></span>
+<span id="cb1-4">    update(dt)                    <span class="co"># ② 갱신</span></span>
+<span id="cb1-5">    draw()                        <span class="co"># ③ 그리기</span></span></code></pre></div>
+<p>게임에 공통으로 필요한 기능을 모아 둔 도구인 <strong>게임 엔진</strong>(Unity, Godot, Unreal 등)을 쓰면 이 루프는 엔진이 돌립니다. Unity의 <code>Update()</code>, Godot의 <code>_process(delta)</code>는 루프가 장마다 한 번씩 불러 주는 함수입니다.</p>
+<figure class="fig" id="fig-game-loop"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 384" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>게임은 1초에 60장을 넘기는 그림책이고, 한 장마다 입력·갱신·그리기를 약 16.7ms 안에 끝내야 한다</title>
+  <text class="t-h" x="20" y="34">그림책 세 장 — 공이 조금씩 오른쪽으로</text>
+
+  <rect class="box yellow" x="40" y="52" width="180" height="104" rx="10"/>
+  <path class="ln thin muted" d="M54 134 H206"/>
+  <rect class="solid gray" x="184" y="96" width="8" height="38" rx="2"/>
+  <circle class="f-blue" cx="80" cy="122" r="12"/>
+  <text class="t-s t-b mid" x="130" y="178">1번째 장</text>
+  <text class="t-mono mid" x="130" y="198">x = 3.00</text>
+
+  <rect class="box yellow" x="290" y="52" width="180" height="104" rx="10"/>
+  <path class="ln thin muted" d="M304 134 H456"/>
+  <rect class="solid gray" x="434" y="96" width="8" height="38" rx="2"/>
+  <circle class="ghost dash" cx="330" cy="122" r="12"/>
+  <circle class="f-blue" cx="362" cy="122" r="12"/>
+  <text class="t-s t-b mid" x="380" y="178">2번째 장</text>
+  <text class="t-mono mid" x="380" y="198">x = 3.05</text>
+
+  <rect class="box yellow" x="540" y="52" width="180" height="104" rx="10"/>
+  <path class="ln thin muted" d="M554 134 H706"/>
+  <rect class="solid gray" x="684" y="96" width="8" height="38" rx="2"/>
+  <circle class="ghost dash" cx="612" cy="122" r="12"/>
+  <circle class="f-blue" cx="644" cy="122" r="12"/>
+  <text class="t-s t-b mid" x="630" y="178">3번째 장</text>
+  <text class="t-mono mid" x="630" y="198">x = 3.10</text>
+
+  <path class="ln muted" d="M228 104 H280" marker-end="url(#ah-muted)"/>
+  <text class="t-xs mid" x="255" y="94">16.7ms 뒤</text>
+  <path class="ln muted" d="M478 104 H530" marker-end="url(#ah-muted)"/>
+  <text class="t-xs mid" x="505" y="94">16.7ms 뒤</text>
+
+  <text class="t-h" x="20" y="244">한 장에 쓸 수 있는 시간: 1000ms ÷ 60장 ≈ 16.7ms</text>
+
+  <rect class="box warm" x="40" y="260" width="41" height="46" rx="6"/>
+  <circle class="badge warm" cx="60.5" cy="283" r="11"/><text class="badge-t" x="60.5" y="287.5">1</text>
+
+  <rect class="box blue" x="81" y="260" width="244" height="46" rx="6"/>
+  <circle class="badge blue" cx="103" cy="283" r="11"/><text class="badge-t" x="103" y="287.5">2</text>
+  <text class="t-b" x="122" y="288">갱신</text>
+  <text class="t-mono end" x="314" y="288">6ms</text>
+
+  <rect class="box purple" x="325" y="260" width="285" height="46" rx="6"/>
+  <circle class="badge purple" cx="347" cy="283" r="11"/><text class="badge-t" x="347" y="287.5">3</text>
+  <text class="t-b" x="366" y="288">그리기</text>
+  <text class="t-mono end" x="599" y="288">7ms</text>
+
+  <rect class="ghost dash" x="610" y="260" width="110" height="46" rx="6"/>
+  <text class="t-s mid" x="665" y="288">여유 2.7ms</text>
+
+  <text class="t-s t-b" x="40" y="330">입력 1ms</text>
+  <text class="t-xs" x="40" y="348">키·터치를 읽는다</text>
+  <text class="t-xs" x="160" y="330">위치를 옮기고, 충돌을</text>
+  <text class="t-xs" x="160" y="348">확인하고, 점수를 고친다</text>
+  <text class="t-xs" x="366" y="330">바뀐 위치대로</text>
+  <text class="t-xs" x="366" y="348">화면 한 장을 그린다</text>
+  <text class="t-xs tc-red" x="560" y="330">세 일의 합이 16.7ms를</text>
+  <text class="t-xs tc-red" x="560" y="348">넘으면 장이 늦게 넘어간다</text>
+</svg></div><figcaption><b>그림 24-1</b>위는 이어지는 프레임 세 장, 아래는 한 장에 주어진 16.7ms를 세 단계가 나눠 쓰는 예입니다.</figcaption></figure>
+<p>60FPS를 지키려면 한 장에 쓸 수 있는 시간은 1000ms ÷ 60 ≈ 16.7ms입니다. 이 한도를 <strong>프레임 예산</strong>이라고 부릅니다. 주방으로 치면 갱신은 요리사(CPU)가, 그리기는 주로 일꾼 수천 명(GPU)이 맡습니다. 어느 한쪽이라도 예산을 넘기면 그 장이 늦게 넘어가 화면이 끊겨 보입니다.</p>
+<section class="level3" id="입력-누른-순간과-누르고-있는-동안">
+<h3>입력: 누른 순간과 누르고 있는 동안</h3>
+<p>루프의 첫 단계부터 함정이 있습니다. 점프 버튼을 0.05초 동안 눌렀다고 합시다. 60FPS에서는 그 사이에 프레임이 3장 지나갑니다. 게임은 장마다 "지금 버튼이 눌려 있나?"를 묻기 때문에 "예"를 세 번 듣습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>프레임</th>
+<th>실제 버튼</th>
+<th>누르고 있나?</th>
+<th>방금 눌렀나?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>떼어 있음</td>
+<td>아니요</td>
+<td>아니요</td>
+</tr>
+<tr>
+<td>2</td>
+<td>눌림</td>
+<td>예</td>
+<td><strong>예</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>눌림</td>
+<td>예</td>
+<td>아니요</td>
+</tr>
+<tr>
+<td>4</td>
+<td>눌림</td>
+<td>예</td>
+<td>아니요</td>
+</tr>
+<tr>
+<td>5</td>
+<td>떼어 있음</td>
+<td>아니요</td>
+<td>아니요</td>
+</tr>
+</tbody>
+</table></div>
+<p>걷기처럼 <strong>누르는 동안 계속되는</strong> 동작은 "누르고 있나?"로 읽습니다. 점프나 발사처럼 <strong>한 번만 일어나야 하는</strong> 동작은 "방금 눌렀나?"로 읽습니다. 둘을 바꿔 쓰면 한 번 눌렀는데 세 번 점프합니다. 엔진은 두 질문에 서로 다른 함수를 줍니다. Unity는 <code>GetKey</code>와 <code>GetKeyDown</code>, Godot은 <code>is_action_pressed</code>와 <code>is_action_just_pressed</code>입니다.</p>
+</section>
+</section>
+<section class="level2" id="delta">
+<h2><span class="sec-n">24.2</span>Δt: 빠른 컴퓨터에서도 같은 속도로<a aria-label="이 절의 링크" class="anchor" href="#delta">#</a></h2>
+<p>캐릭터를 오른쪽으로 옮기려고 갱신 단계에 이렇게 썼다고 합시다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1">x <span class="op">+=</span> <span class="fl">0.1</span>             <span class="co"># 프레임마다 0.1m씩</span></span></code></pre></div>
+<p>30FPS인 컴퓨터에서는 1초에 30번 더해 3m를, 120FPS인 컴퓨터에서는 120번 더해 12m를 갑니다. 컴퓨터가 좋을수록 캐릭터가 빨라집니다.</p>
+<p>0.1은 "한 장에 움직이는 거리"인데, 우리가 원한 것은 "1초에 움직이는 거리"였습니다. 그러니 <strong>속도</strong>(1초에 3m)를 정해 두고, 지난 장부터 <strong>실제로 흐른 시간</strong>을 곱해야 합니다. 이 시간을 <strong>델타 타임</strong>(delta time)이라 하고 Δt 또는 <code>dt</code>로 씁니다.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1">speed <span class="op">=</span> <span class="fl">3.0</span>          <span class="co"># 1초에 3m</span></span>
+<span id="cb3-2">x <span class="op">+=</span> speed <span class="op">*</span> dt      <span class="co"># 이번 장에 움직일 거리</span></span></code></pre></div>
+<p>30FPS에서는 <code>dt</code>가 1/30초라 한 장에 0.1m를 가고, 120FPS에서는 1/120초라 0.025m를 갑니다. 걸음 크기는 달라도 1초 뒤에는 둘 다 3m입니다.</p>
+<figure class="fig" id="fig-delta-time"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 344" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>프레임마다 같은 거리를 더하면 빠른 컴퓨터에서 4배 멀리 가지만, 속도에 지난 시간을 곱해 더하면 어디서나 3m를 간다</title>
+  <text class="t-h" x="20" y="34">똑같이 1초가 지났을 때 캐릭터가 간 거리</text>
+
+  <rect class="panel red" x="20" y="50" width="720" height="112" rx="12"/>
+  <text class="t-mono t-b" x="36" y="76">x += 0.1</text>
+  <text class="t-s" x="124" y="76">프레임마다 같은 거리를 더하면</text>
+  <text class="t-s end" x="160" y="109">느린 PC · 30FPS</text>
+  <rect class="solid red" x="172" y="92" width="120" height="24" rx="5"/>
+  <text class="t-mono" x="302" y="109">0.1 × 30장 = 3m</text>
+  <text class="t-s end" x="160" y="143">빠른 PC · 120FPS</text>
+  <rect class="solid red" x="172" y="126" width="480" height="24" rx="5"/>
+  <text class="t-mono t-on" x="184" y="143">0.1 × 120장 = 12m</text>
+  <text class="t-b tc-red" x="662" y="109">4배 차이</text>
+
+  <rect class="panel green" x="20" y="176" width="720" height="112" rx="12"/>
+  <text class="t-mono t-b" x="36" y="202">x += 3 * dt</text>
+  <text class="t-s" x="150" y="202">속도(초당 3m) × 지난 시간을 더하면</text>
+  <text class="t-s end" x="160" y="235">느린 PC · 30FPS</text>
+  <rect class="solid green" x="172" y="218" width="120" height="24" rx="5"/>
+  <text class="t-mono" x="302" y="235">0.1 × 30장 = 3m</text>
+  <text class="t-s end" x="160" y="269">빠른 PC · 120FPS</text>
+  <rect class="solid green" x="172" y="252" width="120" height="24" rx="5"/>
+  <text class="t-mono" x="302" y="269">0.025 × 120장 = 3m</text>
+  <text class="t-b tc-green" x="560" y="252">어디서나 3m</text>
+
+  <path class="ln thin" d="M172 304 H652"/>
+  <path class="ln thin" d="M172 300 V308 M292 300 V308 M412 300 V308 M532 300 V308 M652 300 V308"/>
+  <text class="t-xs mid" x="172" y="326">0m</text>
+  <text class="t-xs mid" x="292" y="326">3m</text>
+  <text class="t-xs mid" x="412" y="326">6m</text>
+  <text class="t-xs mid" x="532" y="326">9m</text>
+  <text class="t-xs mid" x="652" y="326">12m</text>
+</svg></div><figcaption><b>그림 24-2</b>같은 1초 동안 간 거리. 위는 프레임 수에 따라 4배 차이가 나고, 아래는 어느 컴퓨터에서나 3m입니다.</figcaption></figure>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · Δt를 두 번 곱하지 마세요</div>
+<p>Godot의 <code>move_and_slide</code>처럼 속도만 정해 주면 Δt를 알아서 곱해 주는 이동 함수가 있습니다. 여기에 <code>speed * dt</code>를 넘기면 캐릭터가 거의 움직이지 않습니다. 함수가 받는 값이 <strong>속도</strong>인지 <strong>이동 거리</strong>인지 먼저 확인하세요.</p>
+</div>
+<section class="level3" id="물리는-고정-간격으로">
+<h3>물리는 고정 간격으로</h3>
+<p>Δt를 곱하면 일정한 속도의 이동은 해결됩니다. 하지만 중력, 점프, 충돌처럼 <strong>계산이 쌓이는</strong> 물리는 다릅니다. 큰 걸음으로 계산한 결과와 작은 걸음으로 계산한 결과가 조금씩 달라서, 컴퓨터마다 점프 높이가 달라지고 화면이 버벅인 사이에 캐릭터가 바닥을 뚫기도 합니다.</p>
+<p>그래서 엔진은 물리만큼은 <strong>고정 시간 간격</strong>(fixed timestep)으로 계산합니다. 예를 들어 "물리는 언제나 20ms씩"으로 정해 둡니다. 화면 프레임이 끝날 때마다 지난 시간을 저금통에 넣고, 20ms가 모일 때마다 물리를 한 번 계산합니다. 이 한 번을 <strong>틱</strong>(tick)이라고 합니다.</p>
+<figure class="fig" id="fig-fixed-step"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 312" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>화면 프레임의 길이가 들쭉날쭉해도, 물리는 지난 시간을 모아 두었다가 20ms가 찰 때마다 한 번씩 계산한다</title>
+  <text class="t-h" x="20" y="34">물리는 20ms가 모일 때마다 한 번</text>
+
+  <text class="t-s t-b" x="20" y="84">화면 프레임</text>
+  <rect class="box blue" x="111" y="58" width="88" height="42" rx="8"/>
+  <text class="t-mono mid" x="155" y="84">16.7ms</text>
+  <rect class="box blue" x="201" y="58" width="88" height="42" rx="8"/>
+  <text class="t-mono mid" x="245" y="84">16.7ms</text>
+  <rect class="box blue" x="291" y="58" width="88" height="42" rx="8"/>
+  <text class="t-mono mid" x="335" y="84">16.7ms</text>
+  <rect class="box warm" x="381" y="58" width="268" height="42" rx="8"/>
+  <text class="t-b mid" x="515" y="84">50ms — 버벅인 프레임</text>
+  <rect class="box blue" x="651" y="58" width="88" height="42" rx="8"/>
+  <text class="t-mono mid" x="695" y="84">16.7ms</text>
+
+  <path class="ln thin muted dash" d="M200 106 V226 M290 106 V226 M380 106 V226 M650 106 V226"/>
+
+  <text class="t-s t-b" x="20" y="134">모인 시간</text>
+  <text class="t-mono mid" x="155" y="134">16.7</text>
+  <text class="t-mono mid" x="245" y="134">33.4</text>
+  <text class="t-mono mid" x="335" y="134">30.1</text>
+  <text class="t-mono mid" x="515" y="134">60.1</text>
+  <text class="t-mono mid" x="695" y="134">16.8</text>
+
+  <text class="t-s t-b" x="20" y="176">물리 계산</text>
+  <text class="t-s tc-muted mid" x="155" y="176">아직 없음</text>
+  <rect class="solid green" x="225" y="156" width="40" height="28" rx="5"/>
+  <text class="t-xs t-on mid" x="245" y="175">20</text>
+  <rect class="solid green" x="315" y="156" width="40" height="28" rx="5"/>
+  <text class="t-xs t-on mid" x="335" y="175">20</text>
+  <rect class="solid green" x="447" y="156" width="40" height="28" rx="5"/>
+  <text class="t-xs t-on mid" x="467" y="175">20</text>
+  <rect class="solid green" x="495" y="156" width="40" height="28" rx="5"/>
+  <text class="t-xs t-on mid" x="515" y="175">20</text>
+  <rect class="solid green" x="543" y="156" width="40" height="28" rx="5"/>
+  <text class="t-xs t-on mid" x="563" y="175">20</text>
+  <text class="t-s tc-muted mid" x="695" y="176">아직 없음</text>
+
+  <text class="t-s t-b" x="20" y="218">남은 시간</text>
+  <text class="t-mono mid" x="155" y="218">16.7</text>
+  <text class="t-mono mid" x="245" y="218">13.4</text>
+  <text class="t-mono mid" x="335" y="218">10.1</text>
+  <text class="t-mono mid" x="515" y="218">0.1</text>
+  <text class="t-mono mid" x="695" y="218">16.8</text>
+
+  <text class="t-s t-b tc-warm mid" x="515" y="254">밀린 만큼 3번을 몰아서 계산</text>
+  <text class="t-s" x="20" y="290">초록 칸 하나 = 게임 속 시간 20ms 전진 · 단위는 모두 ms</text>
+</svg></div><figcaption><b>그림 24-3</b>화면 프레임의 길이는 들쭉날쭉합니다. 물리는 모인 시간에서 20ms씩 꺼내 쓰고, 버벅인 프레임 뒤에는 밀린 세 번을 몰아서 계산합니다.</figcaption></figure>
+<p>그래서 엔진에는 갱신 함수가 두 종류 있습니다. Unity의 <code>Update</code>와 <code>FixedUpdate</code>, Godot의 <code>_process</code>와 <code>_physics_process</code>입니다. 힘을 주거나 물리로 움직이는 코드는 <strong>고정 간격 쪽</strong>에 씁니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>"한 장에 얼마"가 아니라 <strong>"1초에 얼마"</strong>로 생각하고 Δt를 곱합니다. 물리는 고정 간격 함수에서 다룹니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>물리 20ms와 화면 16.7ms가 어긋날 때: 보간된 렌더링</summary><div class="deep-body">
+<p>물리는 20ms마다, 화면은 16.7ms마다 바뀌면 박자가 맞지 않아 물체가 미세하게 떨려 보입니다. 엔진은 직전 물리 위치와 최신 물리 위치 사이를 <a href="ch23.html">23장</a>의 보간으로 섞어 그려서 이를 가립니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="object">
+<h2><span class="sec-n">24.3</span>게임 오브젝트: 부품을 끼워 만드는 조립식<a aria-label="이 절의 링크" class="anchor" href="#object">#</a></h2>
+<p>그림책 한 장 안에는 기사, 칼, 나무, 카메라 같은 것들이 들어 있습니다. 이런 대상 하나하나를 <strong>게임 오브젝트</strong>(game object)라고 합니다. 오브젝트는 그 자체로는 빈 상자이고, 여기에 <strong>컴포넌트</strong>(component)라는 부품을 끼워 능력을 줍니다.</p>
+<ul>
+<li>위치, 회전, 크기 부품(트랜스폼): 어디에 있는가</li>
+<li>겉모습 부품(스프라이트, 3D 모델): 어떻게 보이는가</li>
+<li>충돌 모양 부품(콜라이더): 어디까지가 몸인가</li>
+<li>스크립트 부품(내가 쓴 코드): 어떻게 행동하는가</li>
+</ul>
+<p>조립식이라서 "보이지만 부딪히지 않는 유령"은 충돌 부품만 빼면 되고, "보이지 않는 벽"은 겉모습 부품만 빼면 됩니다. Unity는 게임 오브젝트에, Unreal은 액터에 컴포넌트를 붙이고, Godot은 작은 노드를 엮어 같은 일을 합니다.</p>
+<section class="level3" id="부모와-자식-따라-움직이는-좌표">
+<h3>부모와 자식: 따라 움직이는 좌표</h3>
+<p>오브젝트들은 나무(트리) 모양으로 정리됩니다. 한 스테이지를 이루는 이 나무를 <strong>씬</strong>(scene)이라고 합니다. 기사가 칼을 들고 있다면 칼을 기사의 <strong>자식</strong>으로 둡니다. 그러면 칼의 위치는 "세계의 어디"가 아니라 "기사에게서 얼마나 떨어졌나"로 적힙니다.</p>
+<div class="callout analogy"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bulb"></use></svg>비유로 이해하기 · 기차 좌석</div>
+<p>"3호차 12번 좌석"은 기차가 어디를 달리든 변하지 않습니다. 하지만 지도 위에서 그 좌석의 위치는 계속 바뀝니다. 좌석 번호처럼 부모를 기준으로 한 위치가 <strong>로컬 좌표</strong>(local), 지도 위 위치처럼 씬 전체를 기준으로 한 위치가 <strong>월드 좌표</strong>(world)입니다.</p>
+</div>
+<figure class="fig" id="fig-scene-tree"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 336" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>칼의 로컬 좌표 (2, 0)은 그대로인데, 부모인 기사가 움직이면 칼의 월드 좌표는 (12, 5)에서 (16, 5)로 바뀐다</title>
+
+  <rect class="panel" x="20" y="20" width="262" height="296" rx="14"/>
+  <text class="t-h" x="38" y="52">씬 트리</text>
+  <use href="#i-folder" x="38" y="68" width="30" height="30" class="ic gray"/>
+  <text class="t-b" x="76" y="89">숲 스테이지</text>
+  <path class="ln thin muted" d="M52 102 V270 M52 126 H68 M52 170 H68 M52 270 H68 M84 190 V214 H100"/>
+  <use href="#i-eye" x="72" y="111" width="30" height="30" class="ic gray"/>
+  <text x="110" y="132">카메라</text>
+  <use href="#i-user" x="72" y="155" width="30" height="30" class="ic blue"/>
+  <text class="t-b" x="110" y="176">기사</text>
+  <text class="t-mono tc-blue" x="150" y="176">(10, 5)</text>
+  <g class="ic warm" transform="translate(119 214) rotate(35)">
+    <path class="i-s" d="M0 -14 V6 M-6 6 H6 M0 6 V13"/>
+  </g>
+  <text class="t-b" x="140" y="220">칼</text>
+  <text class="t-mono tc-warm" x="164" y="220">(2, 0)</text>
+  <text class="t-xs" x="140" y="240">기사 기준 = 로컬 좌표</text>
+  <use href="#i-layers" x="72" y="255" width="30" height="30" class="ic gray"/>
+  <text x="110" y="276">바닥</text>
+
+  <text class="t-s t-b" x="312" y="44">기사가 (10, 5)에 있을 때</text>
+  <use href="#i-user" x="404" y="66" width="38" height="38" class="ic blue"/>
+  <g class="ic warm" transform="translate(496 88) rotate(35)">
+    <path class="i-s" d="M0 -16 V7 M-7 7 H7 M0 7 V15"/>
+  </g>
+  <path class="ln warm" d="M446 88 H476" marker-end="url(#ah-warm)"/>
+  <text class="t-mono tc-warm mid" x="461" y="70">(2, 0)</text>
+  <path class="ln thin" d="M332 114 H730"/>
+  <path class="ln thin" d="M351 110 V118 M423 110 V118 M495 110 V118 M567 110 V118 M639 110 V118 M711 110 V118"/>
+  <text class="t-xs mid" x="351" y="134">8</text>
+  <text class="t-xs mid" x="423" y="134">10</text>
+  <text class="t-xs mid" x="495" y="134">12</text>
+  <text class="t-xs mid" x="567" y="134">14</text>
+  <text class="t-xs mid" x="639" y="134">16</text>
+  <text class="t-xs mid" x="711" y="134">18</text>
+  <text class="t-s tc-blue end" x="448" y="158">기사 (10, 5)</text>
+  <text class="t-s t-b tc-warm" x="472" y="158">칼의 월드 좌표 (12, 5)</text>
+
+  <text class="t-s t-b" x="312" y="208">기사가 (14, 5)로 걸어간 뒤</text>
+  <use href="#i-user" x="548" y="230" width="38" height="38" class="ic blue"/>
+  <g class="ic warm" transform="translate(640 252) rotate(35)">
+    <path class="i-s" d="M0 -16 V7 M-7 7 H7 M0 7 V15"/>
+  </g>
+  <path class="ln warm" d="M590 252 H620" marker-end="url(#ah-warm)"/>
+  <text class="t-mono tc-warm mid" x="605" y="234">(2, 0)</text>
+  <path class="ln thin" d="M332 278 H730"/>
+  <path class="ln thin" d="M351 274 V282 M423 274 V282 M495 274 V282 M567 274 V282 M639 274 V282 M711 274 V282"/>
+  <text class="t-xs mid" x="351" y="298">8</text>
+  <text class="t-xs mid" x="423" y="298">10</text>
+  <text class="t-xs mid" x="495" y="298">12</text>
+  <text class="t-xs mid" x="567" y="298">14</text>
+  <text class="t-xs mid" x="639" y="298">16</text>
+  <text class="t-xs mid" x="711" y="298">18</text>
+  <text class="t-s tc-blue end" x="578" y="322">기사 (14, 5)</text>
+  <text class="t-s t-b tc-warm" x="600" y="322">칼의 월드 좌표 (16, 5)</text>
+</svg></div><figcaption><b>그림 24-4</b>칼의 로컬 좌표는 계속 (2, 0)입니다. 기사가 (10, 5)에서 (14, 5)로 걸어가면 칼의 월드 좌표만 (12, 5)에서 (16, 5)로 바뀝니다.</figcaption></figure>
+<p>회전이 없다면 월드 좌표는 부모의 월드 좌표에 로컬 좌표를 더한 값, 곧 (14, 5) + (2, 0) = (16, 5)입니다. 부모가 돌거나 커지면 자식도 함께 돌고 커지는데, 이 계산이 <a href="ch23.html">23장</a>의 변환입니다. 좌표를 다룰 때는 <strong>로컬인지 월드인지</strong> 먼저 확인합니다.</p>
+<p><strong>카메라</strong>도 씬 안의 오브젝트입니다. 카메라는 자기가 바라보는 범위의 월드 좌표를 화면의 픽셀 위치로 바꿔 줍니다. 그래서 마우스로 누른 화면 좌표 (400, 300)을 그대로 월드 좌표로 쓰면 엉뚱한 곳을 가리킵니다. 엔진의 변환 함수를 거쳐야 합니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>애니메이션과 소리는 어디에 끼어들까</summary><div class="deep-body">
+<p>애니메이션도 부품입니다. '걷기'와 '달리기'를 속도에 따라 7:3, 3:7로 섞어 자연스럽게 잇는 것을 <strong>애니메이션 블렌딩</strong>이라고 합니다. 다만 애니메이션은 "보이는 모습"일 뿐이어서, 피해 같은 판정은 게임 규칙이 정한 순간에 한 번만 따로 합니다.</p>
+<p>소리는 1초에 수만 개의 값을 끊김 없이 스피커로 보내야 해서, 엔진이 조금씩 미리 만들어 쌓아 두었다가(버퍼) 내보냅니다. 화면 한 장이 늦는 것보다 소리가 한 번 끊기는 쪽이 훨씬 거슬립니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="collision">
+<h2><span class="sec-n">24.4</span>충돌 감지: 부딪혔는지 어떻게 알까<a aria-label="이 절의 링크" class="anchor" href="#collision">#</a></h2>
+<p>그림책 속 그림들은 서로 겹쳐질 뿐 부딪히지 않습니다. "부딪혔다"는 것은 게임이 장마다 <strong>계산해서 알아내야</strong> 하는 사실입니다.</p>
+<p>가장 쉬운 방법은 물체를 반듯한 상자로 감싸고 <strong>상자끼리 겹쳤는지</strong> 보는 것입니다. 이 상자를 <strong>AABB</strong>(Axis-Aligned Bounding Box, 축에 나란한 경계 상자)라고 합니다. 기울지 않은 상자라서 계산이 쉽습니다. 두 상자는 <strong>x 범위도 겹치고 y 범위도 겹칠 때만</strong> 충돌입니다.</p>
+<figure class="fig" id="fig-aabb"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>두 상자는 x 범위와 y 범위가 모두 겹칠 때만 충돌한다. 한 축이라도 떨어져 있으면 충돌이 아니다</title>
+  <defs>
+    <pattern id="ch24-aabb-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path class="ln thin muted" d="M30 0 H0 V30"/>
+    </pattern>
+  </defs>
+
+  <text class="t-b tc-red" x="20" y="32">x도 y도 겹친다 → 충돌</text>
+  <rect x="60" y="60" width="270" height="210" fill="url(#ch24-aabb-grid)"/>
+  <path class="ln" d="M60 54 V270 H338"/>
+  <text class="t-xs" x="342" y="274">x</text>
+  <text class="t-xs mid" x="60" y="48">y</text>
+  <rect class="box blue" x="120" y="150" width="90" height="90"/>
+  <rect class="box warm" x="180" y="90" width="120" height="90"/>
+  <rect class="solid red" x="180" y="150" width="30" height="30"/>
+  <text class="t-b tc-blue" x="128" y="200">A</text>
+  <text class="t-mono" x="128" y="218">x 2~5</text>
+  <text class="t-mono" x="128" y="234">y 1~4</text>
+  <text class="t-b tc-warm" x="222" y="112">B</text>
+  <text class="t-mono" x="222" y="130">x 4~8</text>
+  <text class="t-mono" x="222" y="146">y 3~6</text>
+  <path class="ln thick blue" d="M120 280 H210"/>
+  <path class="ln thick warm" d="M180 288 H300"/>
+  <path class="ln thick blue" d="M50 150 V240"/>
+  <path class="ln thick warm" d="M42 90 V180"/>
+  <text class="t-s" x="60" y="316">x: 2~5와 4~8 → 4~5에서 겹침</text>
+  <text class="t-s" x="60" y="336">y: 1~4와 3~6 → 3~4에서 겹침</text>
+
+  <text class="t-b tc-green" x="400" y="32">x가 떨어져 있다 → 충돌 아님</text>
+  <rect x="440" y="60" width="270" height="210" fill="url(#ch24-aabb-grid)"/>
+  <path class="ln" d="M440 54 V270 H718"/>
+  <text class="t-xs" x="722" y="274">x</text>
+  <text class="t-xs mid" x="440" y="48">y</text>
+  <rect class="box blue" x="500" y="150" width="90" height="90"/>
+  <rect class="box warm" x="620" y="120" width="90" height="90"/>
+  <text class="t-b tc-blue" x="508" y="200">A</text>
+  <text class="t-mono" x="508" y="218">x 2~5</text>
+  <text class="t-mono" x="508" y="234">y 1~4</text>
+  <text class="t-b tc-warm" x="628" y="142">C</text>
+  <text class="t-mono" x="628" y="160">x 6~9</text>
+  <text class="t-mono" x="628" y="176">y 2~5</text>
+  <path class="ln thick blue" d="M500 280 H590"/>
+  <path class="ln thick warm" d="M620 288 H710"/>
+  <path class="ln thick blue" d="M430 150 V240"/>
+  <path class="ln thick warm" d="M422 120 V210"/>
+  <text class="t-s" x="440" y="316">x: 2~5와 6~9 → 떨어져 있음</text>
+  <text class="t-s" x="440" y="336">y는 겹치지만 볼 필요도 없음</text>
+</svg></div><figcaption><b>그림 24-5</b>왼쪽의 A와 B는 x 범위도, y 범위도 겹치므로 충돌입니다. 오른쪽의 A와 C는 x 범위가 떨어져 있어서 y가 겹쳐도 충돌이 아닙니다.</figcaption></figure>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><span class="kw">def</span> overlap(a, b):</span>
+<span id="cb4-2">    <span class="cf">return</span> (a.left <span class="op">&lt;</span> b.right <span class="kw">and</span> b.left <span class="op">&lt;</span> a.right <span class="kw">and</span></span>
+<span id="cb4-3">            a.bottom <span class="op">&lt;</span> b.top <span class="kw">and</span> b.bottom <span class="op">&lt;</span> a.top)</span></code></pre></div>
+<p>둘째 줄은 x 범위가 겹치는지, 셋째 줄은 y 범위가 겹치는지 봅니다. 비교 네 번이면 끝납니다. 3D라면 z 범위를 보는 비교 두 번이 더 붙습니다.</p>
+<p>화면에 보이는 그림과 <strong>충돌 모양은 별개</strong>입니다. 그림이 복잡해도 충돌 모양은 상자나 원 하나로 단순하게 둡니다. "안 맞았는데 맞았다"는 불만은 대개 둘이 어긋나서 생기고, 엔진의 충돌 모양 표시 옵션을 켜면 바로 보입니다.</p>
+<section class="level3" id="먼저-대충-걸러-내기">
+<h3>먼저 대충 걸러 내기</h3>
+<p>물체가 1,000개라면 가능한 짝은 1000 × 999 ÷ 2 = 499,500쌍입니다. 틱마다 이걸 다 검사할 수는 없어서 두 단계로 나눕니다.</p>
+<ol type="1">
+<li><strong>넓은 단계</strong>(broad phase): 맵을 격자로 나누고, 같은 칸이나 이웃 칸에 있는 것끼리만 후보로 남깁니다.</li>
+<li><strong>좁은 단계</strong>(narrow phase): 남은 후보만 실제 충돌 모양으로 정밀하게 검사합니다.</li>
+</ol>
+</section>
+</section>
+<section class="level2" id="physics">
+<h2><span class="sec-n">24.5</span>물리 엔진: 떨어지고 튕기는 계산을 맡는 조수<a aria-label="이 절의 링크" class="anchor" href="#physics">#</a></h2>
+<p>충돌을 알아냈다면 다음은 멈출지, 미끄러질지, 튕길지 <strong>어떻게 반응할지</strong>입니다. 이런 계산을 통째로 맡아 주는 것이 <strong>물리 엔진</strong>입니다. 물리 엔진은 틱마다 대략 네 가지를 합니다.</p>
+<ol type="1">
+<li>힘(중력, 밀기)으로 <strong>속도</strong>를 바꿉니다.</li>
+<li>속도 × 시간만큼 <strong>위치</strong>를 옮깁니다.</li>
+<li>겹친 것을 찾습니다(충돌 감지).</li>
+<li>겹친 것을 밀어내고 튕깁니다(충돌 반응).</li>
+</ol>
+<p>중력이 속도를 1초에 10m/s씩 늘린다면, 20ms 틱마다 속도가 0.2m/s씩 늘고 물체는 그 속도만큼 내려갑니다. 이 작은 걸음이 쌓여 떨어지는 움직임이 됩니다.</p>
+<section class="level3" id="총알이-벽을-뚫는-이유-터널링">
+<h3>총알이 벽을 뚫는 이유: 터널링</h3>
+<p>여기서 그림책의 약점이 드러납니다. 물리 엔진은 <strong>틱과 틱 사이를 보지 않습니다.</strong> 틱마다 찍힌 정지 화면에서 겹쳤는지만 봅니다.</p>
+<figure class="fig" id="fig-tunneling"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 404" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>한 틱에 2m를 가는 총알은 두께 0.2m인 벽의 앞과 뒤에서만 검사되어 벽을 통과한다. 지나온 길 전체를 검사하면 잡을 수 있다</title>
+  <text class="t-s t-b mid" x="350" y="28">벽 (두께 0.2m)</text>
+  <rect class="solid gray" x="326" y="38" width="48" height="320" rx="3"/>
+
+  <text class="t-b" x="20" y="64">느린 공 — 한 틱에 0.5m</text>
+  <path class="ln thin muted" d="M110 118 H326 M374 118 H720"/>
+  <circle class="ghost dash" cx="110" cy="104" r="13"/>
+  <circle class="ghost dash" cx="230" cy="104" r="13"/>
+  <path class="ln blue" d="M128 104 H208" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M248 104 H306" marker-end="url(#ah-blue)"/>
+  <circle class="f-blue" cx="350" cy="104" r="13"/>
+  <text class="t-xs mid" x="110" y="138">틱 0</text>
+  <text class="t-xs mid" x="230" y="138">틱 1</text>
+  <use href="#i-check" x="392" y="80" width="30" height="30" class="ic green"/>
+  <text class="t-s t-b tc-green" x="428" y="92">틱 2: 벽과 겹침 → 발견</text>
+  <text class="t-s" x="428" y="110">벽 앞으로 밀어내 멈춘다</text>
+
+  <text class="t-b" x="20" y="172">빠른 총알 — 한 틱에 2m</text>
+  <path class="ln thin muted" d="M110 226 H326 M374 226 H720"/>
+  <circle class="f-red" cx="110" cy="212" r="13"/>
+  <path class="ln red dash" d="M128 212 H568" marker-end="url(#ah-red)"/>
+  <circle class="f-red" cx="590" cy="212" r="13"/>
+  <text class="t-xs mid" x="110" y="246">틱 0: 벽 앞</text>
+  <text class="t-xs mid" x="590" y="246">틱 1: 벽 뒤</text>
+  <text class="t-s t-b tc-red" x="400" y="190">두 순간 모두 벽 밖 → 통과</text>
+
+  <text class="t-b" x="20" y="280">해결 — 지나온 길을 검사</text>
+  <path class="ln thin muted" d="M110 334 H326 M374 334 H720"/>
+  <rect class="ghost dash" x="97" y="307" width="506" height="26" rx="13"/>
+  <circle class="f-green" cx="313" cy="320" r="13"/>
+  <text class="t-s t-b tc-green" x="400" y="298">길이 벽과 만나는 곳에서 멈춤</text>
+  <text class="t-xs" x="400" y="352">연속 충돌 감지(CCD)</text>
+
+  <path class="ln thin" d="M110 372 H600"/>
+  <path class="ln thin" d="M110 368 V376 M230 368 V376 M350 368 V376 M470 368 V376 M590 368 V376"/>
+  <text class="t-xs mid" x="110" y="394">0m</text>
+  <text class="t-xs mid" x="230" y="394">0.5m</text>
+  <text class="t-xs mid" x="350" y="394">1m</text>
+  <text class="t-xs mid" x="470" y="394">1.5m</text>
+  <text class="t-xs mid" x="590" y="394">2m</text>
+</svg></div><figcaption><b>그림 24-6</b>느린 공은 벽과 겹친 순간이 틱에 잡힙니다. 빠른 총알은 벽 앞과 벽 뒤에서만 검사되어 그대로 통과합니다.</figcaption></figure>
+<p>초속 100m인 총알은 20ms 틱 한 번에 2m를 갑니다. 벽 두께가 0.2m라면 총알은 한 틱에는 벽 앞에, 다음 틱에는 벽 뒤에 있습니다. 두 정지 화면 어디에도 겹친 순간이 없으니 충돌은 없던 일이 됩니다. 이 현상을 <strong>터널링</strong>(tunneling)이라고 합니다. 해결책은 크게 두 가지입니다.</p>
+<ul>
+<li><strong>지나온 길을 검사합니다.</strong> 엔진의 <strong>연속 충돌 감지</strong>(CCD, Continuous Collision Detection) 옵션을 켜면 틱 사이의 경로까지 확인합니다. 계산이 더 드니 빠른 물체에만 켭니다.</li>
+<li><strong>광선을 쏩니다.</strong> 총알을 물체로 날리는 대신 총구에서 직선을 그어 처음 닿는 것을 찾습니다. 이것이 <strong>레이캐스트</strong>(raycast)입니다.</li>
+</ul>
+</section>
+<section class="level3" id="물리가-움직이는-물체-코드가-움직이는-캐릭터">
+<h3>물리가 움직이는 물체, 코드가 움직이는 캐릭터</h3>
+<p>움직이는 물체는 두 부류로 나뉩니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>물리가 움직이는 물체</th>
+<th>코드가 움직이는 캐릭터</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>예</td>
+<td>상자, 공, 무너지는 벽돌</td>
+<td>플레이어, 적</td>
+</tr>
+<tr>
+<td>움직이는 법</td>
+<td>힘이나 충격을 준다</td>
+<td>속도를 직접 정한다</td>
+</tr>
+<tr>
+<td>얻는 것</td>
+<td>자연스러운 구르기와 튕김</td>
+<td>정확한 조작감</td>
+</tr>
+</tbody>
+</table></div>
+<p>앞쪽을 <strong>강체</strong>(rigid body)라고 합니다. Unity의 Rigidbody, Godot의 RigidBody가 여기에 해당합니다. 플레이어까지 강체로 만들면 언덕에서 미끄러지고 벽에 튕겨서 조작하기 어렵습니다. 그래서 캐릭터는 보통 코드가 속도를 정하고, 엔진은 벽에 막히는 처리만 돕습니다(Unity의 CharacterController, Godot의 CharacterBody).</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 위치를 쓰는 주인은 하나만</div>
+<p>강체의 위치를 코드에서 <code>position = ...</code>으로 직접 덮어쓰면 물리 엔진의 계산과 싸우게 됩니다. 물체가 덜덜 떨리거나 벽 안으로 파고듭니다. 강체는 힘과 속도로만 움직입니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="render">
+<h2><span class="sec-n">24.6</span>화면 그리기: 점에서 삼각형으로, 삼각형에서 픽셀로<a aria-label="이 절의 링크" class="anchor" href="#render">#</a></h2>
+<p>이제 루프의 마지막 단계인 그리기입니다. 3D 게임의 물체는 아무리 매끈해 보여도 <strong>삼각형</strong>으로 이루어져 있습니다. 삼각형의 꼭짓점을 <strong>정점</strong>(vertex), 삼각형을 이어 붙인 그물을 <strong>메시</strong>(mesh)라고 합니다.</p>
+<figure class="photo half"><img alt="3D 그래픽에서 오랫동안 시험용으로 쓰여 온 '유타 주전자'. 매끈해 보이지만, 화면에 그릴 때는 작은 삼각형 그물로 바꿔서 그립니다." loading="lazy" src="../assets/photo/utah-teapot.jpg"/><figcaption>3D 그래픽에서 오랫동안 시험용으로 쓰여 온 '유타 주전자'. 매끈해 보이지만, 화면에 그릴 때는 작은 삼각형 그물로 바꿔서 그립니다.<span class="credit">사진: Dhatfield · CC BY-SA 3.0 · <a href="https://commons.wikimedia.org/wiki/File:Utah_teapot_simple_2.png" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+<p>삼각형을 화면의 픽셀로 바꾸는 일은 GPU가 맡고, 세 단계로 진행됩니다.</p>
+<figure class="fig" id="fig-pipeline"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 296" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>삼각형 하나는 점 3개를 화면 위치로 옮기고, 덮는 픽셀 46개를 찾고, 그 픽셀마다 색을 계산하는 순서로 그려진다</title>
+  <defs>
+    <pattern id="ch24-px-grid" width="14" height="14" patternUnits="userSpaceOnUse">
+      <path class="ln thin muted" d="M14 0 H0 V14"/>
+    </pattern>
+  </defs>
+  <text class="t-h" x="20" y="34">삼각형 하나가 화면에 그려지는 세 단계</text>
+  <rect class="s-surface" x="25" y="56" width="210" height="140"/>
+  <rect x="25" y="56" width="210" height="140" fill="url(#ch24-px-grid)"/>
+  <rect class="ghost" x="25" y="56" width="210" height="140"/>
+  <path class="ln thin blue dash" d="M45 181 L220 148 L120 67 Z"/>
+  <circle class="f-blue" cx="45" cy="181" r="6"/>
+  <circle class="f-blue" cx="220" cy="148" r="6"/>
+  <circle class="f-blue" cx="120" cy="67" r="6"/>
+  <rect class="s-surface" x="275" y="56" width="210" height="140"/>
+  <rect class="s-blue" x="359" y="70" width="14" height="14"/>
+  <rect class="s-blue" x="373" y="70" width="14" height="14"/>
+  <rect class="s-blue" x="359" y="84" width="14" height="14"/>
+  <rect class="s-blue" x="373" y="84" width="14" height="14"/>
+  <rect class="s-blue" x="387" y="84" width="14" height="14"/>
+  <rect class="s-blue" x="345" y="98" width="14" height="14"/>
+  <rect class="s-blue" x="359" y="98" width="14" height="14"/>
+  <rect class="s-blue" x="373" y="98" width="14" height="14"/>
+  <rect class="s-blue" x="387" y="98" width="14" height="14"/>
+  <rect class="s-blue" x="401" y="98" width="14" height="14"/>
+  <rect class="s-blue" x="331" y="112" width="14" height="14"/>
+  <rect class="s-blue" x="345" y="112" width="14" height="14"/>
+  <rect class="s-blue" x="359" y="112" width="14" height="14"/>
+  <rect class="s-blue" x="373" y="112" width="14" height="14"/>
+  <rect class="s-blue" x="387" y="112" width="14" height="14"/>
+  <rect class="s-blue" x="401" y="112" width="14" height="14"/>
+  <rect class="s-blue" x="415" y="112" width="14" height="14"/>
+  <rect class="s-blue" x="331" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="345" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="359" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="373" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="387" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="401" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="415" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="429" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="443" y="126" width="14" height="14"/>
+  <rect class="s-blue" x="317" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="331" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="345" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="359" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="373" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="387" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="401" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="415" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="429" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="443" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="457" y="140" width="14" height="14"/>
+  <rect class="s-blue" x="303" y="154" width="14" height="14"/>
+  <rect class="s-blue" x="317" y="154" width="14" height="14"/>
+  <rect class="s-blue" x="331" y="154" width="14" height="14"/>
+  <rect class="s-blue" x="345" y="154" width="14" height="14"/>
+  <rect class="s-blue" x="359" y="154" width="14" height="14"/>
+  <rect class="s-blue" x="373" y="154" width="14" height="14"/>
+  <rect class="s-blue" x="387" y="154" width="14" height="14"/>
+  <rect class="s-blue" x="303" y="168" width="14" height="14"/>
+  <rect class="s-blue" x="317" y="168" width="14" height="14"/>
+  <rect x="275" y="56" width="210" height="140" fill="url(#ch24-px-grid)"/>
+  <rect class="ghost" x="275" y="56" width="210" height="140"/>
+  <path class="ln blue" d="M295 181 L470 148 L370 67 Z"/>
+  <rect class="s-surface" x="525" y="56" width="210" height="140"/>
+  <rect class="f-warm" opacity="0.36" x="609" y="70" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.41" x="623" y="70" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.41" x="609" y="84" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.46" x="623" y="84" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.51" x="637" y="84" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.41" x="595" y="98" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.46" x="609" y="98" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.51" x="623" y="98" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.56" x="637" y="98" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.61" x="651" y="98" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.42" x="581" y="112" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.47" x="595" y="112" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.52" x="609" y="112" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.57" x="623" y="112" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.62" x="637" y="112" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.67" x="651" y="112" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.72" x="665" y="112" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.47" x="581" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.52" x="595" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.57" x="609" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.62" x="623" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.67" x="637" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.72" x="651" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.77" x="665" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.82" x="679" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.87" x="693" y="126" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.47" x="567" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.52" x="581" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.57" x="595" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.62" x="609" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.67" x="623" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.72" x="637" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.77" x="651" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.82" x="665" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.87" x="679" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.92" x="693" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.97" x="707" y="140" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.47" x="553" y="154" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.52" x="567" y="154" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.57" x="581" y="154" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.62" x="595" y="154" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.67" x="609" y="154" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.72" x="623" y="154" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.77" x="637" y="154" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.52" x="553" y="168" width="14" height="14"/>
+  <rect class="f-warm" opacity="0.57" x="567" y="168" width="14" height="14"/>
+  <rect x="525" y="56" width="210" height="140" fill="url(#ch24-px-grid)"/>
+  <rect class="ghost" x="525" y="56" width="210" height="140"/>
+  <circle class="badge blue" cx="37" cy="222" r="12"/><text class="badge-t" x="37" y="226.5">1</text>
+  <text class="t-l" x="57" y="228">정점 셰이더</text>
+  <text class="t-s" x="25" y="254">점 3개를 화면 위 자리로</text>
+  <text class="t-mono t-b" x="25" y="278">3번 실행</text>
+  <circle class="badge blue" cx="287" cy="222" r="12"/><text class="badge-t" x="287" y="226.5">2</text>
+  <text class="t-l" x="307" y="228">래스터화</text>
+  <text class="t-s" x="275" y="254">삼각형이 덮는 픽셀 찾기</text>
+  <text class="t-mono t-b" x="275" y="278">픽셀 46개</text>
+  <circle class="badge warm" cx="537" cy="222" r="12"/><text class="badge-t" x="537" y="226.5">3</text>
+  <text class="t-l" x="557" y="228">픽셀 셰이더</text>
+  <text class="t-s" x="525" y="254">픽셀마다 색을 계산</text>
+  <text class="t-mono t-b" x="525" y="278">46번 실행</text>
+  <path class="ln" d="M238 126 H260" marker-end="url(#ah)"/>
+  <path class="ln" d="M488 126 H510" marker-end="url(#ah)"/>
+</svg></div><figcaption><b>그림 24-7</b>점 3개가 자리를 잡고, 삼각형이 덮는 픽셀 46개가 골라지고, 픽셀마다 색이 계산됩니다.</figcaption></figure>
+<ol type="1">
+<li><strong>정점 셰이더</strong>(vertex shader)가 정점마다 한 번 실행됩니다. 3D 공간의 점이 카메라로 봤을 때 화면 어디에 찍히는지 계산합니다.</li>
+<li><strong>래스터화</strong>(rasterization)가 삼각형이 덮는 픽셀을 찾아냅니다.</li>
+<li><strong>픽셀 셰이더</strong>(pixel shader)가 그 픽셀마다 한 번 실행되어 색을 정합니다. 프래그먼트 셰이더라고도 부릅니다.</li>
+</ol>
+<p><strong>셰이더</strong>(shader)는 GPU에서 실행되는 작은 프로그램입니다. <a href="ch01.html">1장</a>에서 만난 "한 가지 동작만 하는 일꾼 수천 명"에게 나눠 주는 작업 지시서입니다. 풀HD 화면에는 픽셀이 약 207만 개 있으니, <strong>화면을 넓게 덮는 것일수록 픽셀 셰이더가 바빠집니다.</strong></p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>2D 게임도 같은 길을 지납니다. 캐릭터 그림(스프라이트)은 삼각형 두 개를 붙인 사각형에 그림을 입힌 것입니다.</p>
+</div>
+<section class="level3" id="표면-입히기-텍스처-머티리얼-노멀-맵">
+<h3>표면 입히기: 텍스처, 머티리얼, 노멀 맵</h3>
+<p>픽셀 셰이더는 색을 대부분 <strong>텍스처</strong>(texture), 곧 표면에 입히는 그림에서 읽어 옵니다. 그리고 "어떤 셰이더로, 어떤 텍스처를, 얼마나 반짝이게" 같은 설정을 한데 묶은 것이 <strong>머티리얼</strong>(material)입니다. 같은 메시라도 머티리얼을 바꾸면 나무 상자가 쇠 상자가 됩니다.</p>
+<p>텍스처에 색만 담는 것은 아닙니다. <strong>노멀 맵</strong>(normal map)은 표면의 각 지점이 어느 쪽을 향하는지를 색으로 적어 둔 텍스처입니다. 빛 계산이 이 방향을 믿기 때문에 평평한 면에도 그럴듯한 음영이 생깁니다.</p>
+<figure class="photo"><img alt="왼쪽은 실제 입체 도형들, 가운데는 그 표면의 방향을 색으로 기록한 노멀 맵, 오른쪽은 평평한 판에 노멀 맵만 입힌 결과입니다. 삼각형을 늘리지 않았는데도 굴곡이 있어 보입니다." loading="lazy" src="../assets/photo/normal-map.jpg"/><figcaption>왼쪽은 실제 입체 도형들, 가운데는 그 표면의 방향을 색으로 기록한 노멀 맵, 오른쪽은 평평한 판에 노멀 맵만 입힌 결과입니다. 삼각형을 늘리지 않았는데도 굴곡이 있어 보입니다.<span class="credit">사진: Julian Herzog · CC BY 4.0 · <a href="https://commons.wikimedia.org/wiki/File:Normal_map_example_with_scene_and_result.png" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+<p>다만 실제 모양은 평평한 그대로여서 윤곽과 충돌 모양은 바뀌지 않습니다.</p>
+</section>
+</section>
+<section class="level2" id="cost">
+<h2><span class="sec-n">24.7</span>그리는 비용: 주문서, 가려진 것, 투명한 것<a aria-label="이 절의 링크" class="anchor" href="#cost">#</a></h2>
+<section class="level3" id="드로-콜-요리사가-건네는-주문서">
+<h3>드로 콜: 요리사가 건네는 주문서</h3>
+<p>GPU는 스스로 그리지 않습니다. CPU가 "이 메시를, 이 머티리얼로, 여기에 그려라" 하고 시켜야 합니다. 이 명령 한 번을 <strong>드로 콜</strong>(draw call)이라고 합니다. 요리사가 일꾼들에게 건네는 주문서 한 장입니다.</p>
+<p>주문서는 쓰는 데 시간이 듭니다. 나무 1,000그루를 한 그루씩 주문하면 요리사는 주문서 1,000장을 쓰느라 프레임 예산을 다 써 버립니다. 그래서 엔진은 <strong>같은 머티리얼을 쓰는 것끼리 한 장으로 묶습니다.</strong> 이를 <strong>배칭</strong>(batching)이라고 합니다. 나무마다 머티리얼을 따로 만들면 묶이지 않습니다.</p>
+</section>
+<section class="level3" id="깊이-버퍼-가려진-것은-칠하지-않기">
+<h3>깊이 버퍼: 가려진 것은 칠하지 않기</h3>
+<p>나무 뒤의 바위는 보이지 않아야 합니다. GPU는 이를 위해 픽셀마다 "지금까지 이 칸에 그린 것 중 가장 가까운 것의 거리"를 적어 둡니다. 이 메모장이 <strong>깊이 버퍼</strong>(depth buffer)입니다. 새로 칠하려는 것이 적힌 거리보다 가까우면 덮어쓰고, 멀면 버립니다.</p>
+<figure class="fig" id="fig-depth-buffer"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 332" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>깊이 버퍼는 픽셀마다 가장 가까운 거리를 기억해, 나중에 그린 바위라도 나무보다 멀면 그 칸에는 그리지 않는다</title>
+  <text class="t-h" x="20" y="34">화면 픽셀 다섯 칸을 차례로 덮어 보기</text>
+  <text class="t-xs end" x="726" y="34">칸 안 = 보이는 물체와 깊이 버퍼의 거리</text>
+
+  <circle class="badge" cx="34" cy="79" r="12"/><text class="badge-t" x="34" y="83.5">1</text>
+  <text class="t-b" x="56" y="75">벽을 그린다</text>
+  <text class="t-s" x="56" y="95">거리 9 · 다섯 칸 모두 덮음</text>
+  <rect class="box gray" x="330" y="56" width="76" height="46" rx="6"/><text class="t-b mid" x="368" y="84">벽 9</text>
+  <rect class="box gray" x="410" y="56" width="76" height="46" rx="6"/><text class="t-b mid" x="448" y="84">벽 9</text>
+  <rect class="box gray" x="490" y="56" width="76" height="46" rx="6"/><text class="t-b mid" x="528" y="84">벽 9</text>
+  <rect class="box gray" x="570" y="56" width="76" height="46" rx="6"/><text class="t-b mid" x="608" y="84">벽 9</text>
+  <rect class="box gray" x="650" y="56" width="76" height="46" rx="6"/><text class="t-b mid" x="688" y="84">벽 9</text>
+
+  <circle class="badge green" cx="34" cy="163" r="12"/><text class="badge-t" x="34" y="167.5">2</text>
+  <text class="t-b" x="56" y="159">나무를 그린다</text>
+  <text class="t-s" x="56" y="179">거리 3 · 둘째, 셋째 칸을 덮으려 함</text>
+  <rect class="box gray" x="330" y="140" width="76" height="46" rx="6"/><text class="t-b mid" x="368" y="168">벽 9</text>
+  <rect class="box green" x="410" y="140" width="76" height="46" rx="6"/><text class="t-b mid" x="448" y="168">나무 3</text>
+  <rect class="box green" x="490" y="140" width="76" height="46" rx="6"/><text class="t-b mid" x="528" y="168">나무 3</text>
+  <rect class="box gray" x="570" y="140" width="76" height="46" rx="6"/><text class="t-b mid" x="608" y="168">벽 9</text>
+  <rect class="box gray" x="650" y="140" width="76" height="46" rx="6"/><text class="t-b mid" x="688" y="168">벽 9</text>
+  <text class="t-xs tc-green mid" x="488" y="204">3 &lt; 9 → 더 가까우니 덮어씀</text>
+
+  <circle class="badge warm" cx="34" cy="247" r="12"/><text class="badge-t" x="34" y="251.5">3</text>
+  <text class="t-b" x="56" y="243">바위를 그린다</text>
+  <text class="t-s" x="56" y="263">거리 6 · 셋째~다섯째 칸을 덮으려 함</text>
+  <rect class="box gray" x="330" y="224" width="76" height="46" rx="6"/><text class="t-b mid" x="368" y="252">벽 9</text>
+  <rect class="box green" x="410" y="224" width="76" height="46" rx="6"/><text class="t-b mid" x="448" y="252">나무 3</text>
+  <rect class="box green" x="490" y="224" width="76" height="46" rx="6"/><text class="t-b mid" x="528" y="252">나무 3</text>
+  <rect class="box warm" x="570" y="224" width="76" height="46" rx="6"/><text class="t-b mid" x="608" y="252">바위 6</text>
+  <rect class="box warm" x="650" y="224" width="76" height="46" rx="6"/><text class="t-b mid" x="688" y="252">바위 6</text>
+  <text class="t-xs t-b tc-red mid" x="528" y="288">6 &gt; 3 → 버림</text>
+  <text class="t-xs tc-warm mid" x="648" y="288">6 &lt; 9 → 덮어씀</text>
+
+  <text class="t-s t-b" x="20" y="318">그린 순서와 상관없이, 칸마다 가장 가까운 것이 남는다</text>
+</svg></div><figcaption><b>그림 24-8</b>픽셀 다섯 칸에 벽, 나무, 바위를 차례로 그립니다. 바위는 나무보다 나중에 그렸지만, 셋째 칸에서는 나무(거리 3)보다 멀어서(거리 6) 버려집니다.</figcaption></figure>
+</section>
+<section class="level3" id="투명한-것은-비쌉니다">
+<h3>투명한 것은 비쌉니다</h3>
+<p>유리, 연기, 불꽃 같은 반투명 물체는 뒤의 것을 가려 주지 못합니다. 뒤의 색이 비쳐야 하니 "앞에 뭔가 있으니 버림"을 쓸 수 없고, 뒤에서 앞으로 차례로 겹쳐 칠해야 합니다. 화면을 가득 덮는 연기가 8겹이면 픽셀마다 색을 8번 계산합니다. 같은 픽셀을 거듭 칠하는 이 낭비를 <strong>오버드로</strong>(overdraw)라고 합니다. 삼각형이 몇 개 없는 연기 효과가 게임을 느리게 만드는 이유입니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>안 보이는 것은 아예 보내지 않기: 컬링과 LOD</summary><div class="deep-body">
+<p><strong>컬링</strong>(culling)은 카메라 시야 밖에 있거나 완전히 가려진 물체를 GPU에 보내지도 않는 것입니다. 그리지 않는다고 그 물체의 물리나 AI까지 멈추는 것은 아닙니다.</p>
+<p><strong>LOD</strong>(Level of Detail)는 멀리 있는 물체를 삼각형이 적은 단순한 모델로 바꿔 그리는 기법입니다. 화면에서 픽셀 몇 개만 차지하는 먼 바위에 삼각형 만 개를 쓸 이유가 없습니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="hitch">
+<h2><span class="sec-n">24.8</span>로딩과 끊김: 왜 가끔 멈칫할까<a aria-label="이 절의 링크" class="anchor" href="#hitch">#</a></h2>
+<section class="level3" id="로딩-화면의-정체">
+<h3>로딩 화면의 정체</h3>
+<p>게임에 쓰이는 그림, 모델, 소리 파일을 <strong>에셋</strong>(asset)이라고 합니다. 에셋은 창고(저장장치)에 압축된 채로 있다가, 쓰이기 전에 조리대(RAM)와 GPU의 조리대(VRAM)로 올라와야 합니다. 로딩 화면은 이 이사를 기다리는 시간입니다.</p>
+<p><a href="ch01.html">1장</a>에서 본 대로 파일 크기와 메모리 사용량은 다릅니다. 가로세로 2048픽셀인 텍스처는 픽셀마다 4바이트를 쓰므로 압축하지 않으면 2048 × 2048 × 4 ≈ 16MB이고, 한 변을 두 배로 늘리면 네 배인 64MB입니다. 그래서 큰 게임은 플레이어 근처 구역만 올리고 떠난 구역은 내립니다.</p>
+</section>
+<section class="level3" id="가비지-컬렉션-스파이크와-오브젝트-풀">
+<h3>가비지 컬렉션 스파이크와 오브젝트 풀</h3>
+<div class="callout myth"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-cross"></use></svg>흔한 오해 · 평균 FPS가 높으면 부드럽다</div>
+<p>평균이 70FPS여도 60ms짜리 프레임이 가끔 끼면 "끊긴다"고 느낍니다. 사람이 느끼는 것은 평균이 아니라 <strong>가장 길었던 한 장</strong>입니다.</p>
+</div>
+<figure class="fig" id="fig-frame-spike"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>프레임 대부분이 10ms 안팎이라 평균은 넉넉해 보여도, 가비지 컬렉션이 돈 한 프레임이 60ms가 되면 화면이 뚝 끊긴다</title>
+  <text class="t-h" x="20" y="34">프레임 12장이 각각 걸린 시간</text>
+  <path class="ln thin" d="M96 276 H716"/>
+  <text class="t-xs end" x="88" y="280">0</text>
+  <path class="ln thin red dash" d="M96 226 H716"/>
+  <text class="t-xs tc-red end" x="88" y="230">16.7ms</text>
+  <text class="t-xs end" x="88" y="106">60ms</text>
+  <rect class="solid blue" x="110" y="246" width="34" height="30" rx="4"/>
+  <text class="t-xs mid" x="127" y="294">1</text>
+  <rect class="solid blue" x="160" y="249" width="34" height="27" rx="4"/>
+  <text class="t-xs mid" x="177" y="294">2</text>
+  <rect class="solid blue" x="210" y="243" width="34" height="33" rx="4"/>
+  <text class="t-xs mid" x="227" y="294">3</text>
+  <rect class="solid blue" x="260" y="246" width="34" height="30" rx="4"/>
+  <text class="t-xs mid" x="277" y="294">4</text>
+  <rect class="solid blue" x="310" y="246" width="34" height="30" rx="4"/>
+  <text class="t-xs mid" x="327" y="294">5</text>
+  <rect class="solid blue" x="360" y="249" width="34" height="27" rx="4"/>
+  <text class="t-xs mid" x="377" y="294">6</text>
+  <rect class="solid blue" x="410" y="243" width="34" height="33" rx="4"/>
+  <text class="t-xs mid" x="427" y="294">7</text>
+  <rect class="solid red" x="460" y="96" width="34" height="180" rx="4"/>
+  <text class="t-xs mid" x="477" y="294">8</text>
+  <text class="t-mono t-b tc-red mid" x="477" y="88">60ms</text>
+  <rect class="solid blue" x="510" y="246" width="34" height="30" rx="4"/>
+  <text class="t-xs mid" x="527" y="294">9</text>
+  <rect class="solid blue" x="560" y="246" width="34" height="30" rx="4"/>
+  <text class="t-xs mid" x="577" y="294">10</text>
+  <rect class="solid blue" x="610" y="249" width="34" height="27" rx="4"/>
+  <text class="t-xs mid" x="627" y="294">11</text>
+  <rect class="solid blue" x="660" y="243" width="34" height="33" rx="4"/>
+  <text class="t-xs mid" x="677" y="294">12</text>
+  <text class="t-b" x="110" y="84">평균 14ms, 약 70FPS</text>
+  <text class="t-s" x="110" y="106">숫자만 보면 예산 안쪽</text>
+  <text class="t-b tc-red" x="516" y="110">가비지 컬렉션이</text>
+  <text class="t-b tc-red" x="516" y="132">한꺼번에 청소한 장</text>
+  <text class="t-s" x="516" y="156">화면이 서너 장 동안 멈춘다</text>
+  <text class="t-xs" x="96" y="314">프레임 번호 →</text>
+</svg></div><figcaption><b>그림 24-9</b>열두 장 가운데 여덟째 장 하나만 60ms가 걸렸습니다. 평균은 예산 안인데도 화면은 눈에 띄게 멈춥니다.</figcaption></figure>
+<p>흔한 범인은 <a href="ch03.html">3장</a>에서 만난 <strong>가비지 컬렉션</strong>(GC)입니다. 총알을 쏠 때마다 새로 만들고 맞으면 없애는 코드는 쉬지 않고 쓰레기를 만듭니다. 쓰레기가 쌓이면 청소부가 한꺼번에 치우는데, 그동안 게임이 멈춥니다. C#을 쓰는 Unity에서 특히 자주 봅니다.</p>
+<p>해결책은 <strong>오브젝트 풀</strong>(object pool)입니다. 총알 50개를 미리 만들어 두고, 쏠 때 꺼내 쓰고, 맞으면 없애는 대신 숨겨서 반납합니다. 새로 만들지 않으니 쓰레기도 없습니다. 대신 꺼낼 때마다 위치, 속도, 남은 수명을 <strong>반드시 초기화</strong>해야 합니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>처음 한 번만 끊긴다면: 셰이더 컴파일</summary><div class="deep-body">
+<p>폭발 효과가 처음 터질 때만 멈칫하고 두 번째부터 부드럽다면 셰이더를 의심합니다. 셰이더는 그 기기의 GPU가 알아듣는 형태로 한 번 번역되어야 하는데(<a href="ch04.html">4장</a>의 컴파일), 이 번역이 처음 쓰이는 순간에 몰리면 그 프레임이 길어집니다. 그래서 로딩 화면에서 미리 번역해 둡니다.</p>
+</div></details>
+</section>
+<section class="level3" id="세이브-무엇을-적어-둘까">
+<h3>세이브: 무엇을 적어 둘까</h3>
+<p>세이브는 조리대 위의 게임 상태를 창고의 파일로 옮기는 일입니다. 요령은 <strong>오브젝트를 통째로 적지 않는 것</strong>입니다. 메모리 주소나 엔진 내부 값은 다음 실행 때 아무 의미가 없습니다. 다시 차리는 데 필요한 <strong>ID와 값만</strong> 적습니다.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb5-1"><span class="fu">{</span></span>
+<span id="cb5-2">  <span class="dt">"version"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb5-3">  <span class="dt">"player"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"x"</span><span class="fu">:</span> <span class="fl">12.5</span><span class="fu">,</span> <span class="dt">"y"</span><span class="fu">:</span> <span class="fl">3.0</span><span class="fu">,</span> <span class="dt">"hp"</span><span class="fu">:</span> <span class="dv">80</span> <span class="fu">},</span></span>
+<span id="cb5-4">  <span class="dt">"items"</span><span class="fu">:</span> <span class="ot">[</span> <span class="fu">{</span> <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"potion_small"</span><span class="fu">,</span> <span class="dt">"count"</span><span class="fu">:</span> <span class="dv">3</span> <span class="fu">}</span> <span class="ot">]</span></span>
+<span id="cb5-5"><span class="fu">}</span></span></code></pre></div>
+<p><code>version</code>은 꼭 넣습니다. 저장 형식이 바뀌어도 옛 세이브를 알아보고 변환할 수 있습니다. 저장할 때는 임시 파일에 다 쓴 뒤 이름을 바꿉니다. 쓰는 도중에 전원이 꺼져도 예전 세이브가 남습니다.</p>
+</section>
+</section>
+<section class="level2" id="profile">
+<h2><span class="sec-n">24.9</span>느릴 때: CPU가 바쁜가, GPU가 바쁜가<a aria-label="이 절의 링크" class="anchor" href="#profile">#</a></h2>
+<p>게임이 느릴 때는 FPS보다 <strong>프레임 시간</strong>(ms)으로 보는 편이 좋습니다. "55FPS"보다 "18.2ms라서 예산을 1.5ms 넘겼다"가 얼마를 줄여야 하는지 알려 줍니다.</p>
+<p>다음으로 누가 예산을 넘겼는지 가립니다. CPU(요리사)와 GPU(일꾼들)는 나란히 일하고, 둘 다 끝나야 한 장이 완성됩니다. 그래서 프레임 시간은 대체로 <strong>더 오래 걸리는 쪽</strong>이 정합니다.</p>
+<figure class="fig" id="fig-cpu-gpu"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 344" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>한 프레임의 시간은 CPU와 GPU 중 더 오래 걸리는 쪽이 정하고, 해상도를 낮춰 보면 어느 쪽이 병목인지 가려낼 수 있다</title>
+  <text class="t-h" x="20" y="34">한 프레임 동안 누가 더 오래 일했나</text>
+  <text class="t-xs tc-red mid" x="317" y="56">예산 16.7ms</text>
+
+  <rect class="panel" x="20" y="66" width="720" height="118" rx="12"/>
+  <use href="#i-chip" x="34" y="80" width="30" height="30" class="ic blue"/>
+  <text class="t-b" x="72" y="101">CPU</text>
+  <rect class="solid blue" x="150" y="83" width="240" height="24" rx="5"/>
+  <text class="t-mono" x="398" y="100">24ms</text>
+  <use href="#i-gpu" x="34" y="132" width="30" height="30" class="ic purple"/>
+  <text class="t-b" x="72" y="153">GPU</text>
+  <rect class="solid purple" x="150" y="135" width="70" height="24" rx="5"/>
+  <text class="t-mono" x="228" y="152">7ms</text>
+  <text class="t-l tc-blue" x="500" y="94">CPU 병목</text>
+  <text class="t-s" x="500" y="116">한 장에 24ms → 약 42FPS</text>
+  <text class="t-s" x="500" y="136">해상도를 낮춰도 그대로</text>
+  <text class="t-s" x="500" y="166">볼 곳: 스크립트, 물리, 드로 콜</text>
+
+  <rect class="panel" x="20" y="204" width="720" height="118" rx="12"/>
+  <use href="#i-chip" x="34" y="218" width="30" height="30" class="ic blue"/>
+  <text class="t-b" x="72" y="239">CPU</text>
+  <rect class="solid blue" x="150" y="221" width="60" height="24" rx="5"/>
+  <text class="t-mono" x="218" y="238">6ms</text>
+  <use href="#i-gpu" x="34" y="270" width="30" height="30" class="ic purple"/>
+  <text class="t-b" x="72" y="291">GPU</text>
+  <rect class="solid purple" x="150" y="273" width="280" height="24" rx="5"/>
+  <text class="t-mono" x="438" y="290">28ms</text>
+  <text class="t-l tc-purple" x="500" y="232">GPU 병목</text>
+  <text class="t-s" x="500" y="254">한 장에 28ms → 약 36FPS</text>
+  <text class="t-s" x="500" y="274">해상도를 낮추면 빨라짐</text>
+  <text class="t-s" x="500" y="304">볼 곳: 해상도, 투명 겹침, 셰이더</text>
+
+  <path class="ln thin red dash" d="M317 62 V330"/>
+</svg></div><figcaption><b>그림 24-10</b>위는 CPU가 24ms를 써서, 아래는 GPU가 28ms를 써서 프레임이 늦는 경우입니다. 빨간 점선은 60FPS의 예산입니다.</figcaption></figure>
+<p><strong>해상도를 가로세로 절반으로 낮춰 보면</strong> 가려낼 수 있습니다. 픽셀 수가 4분의 1로 줄어 GPU의 일이 크게 줄어듭니다. 그래서 빨라지면 GPU 병목(오버드로, 무거운 셰이더, 높은 해상도)이고, 그대로면 CPU 병목(스크립트, 물리, 드로 콜 수)입니다. 병목이 아닌 쪽은 아무리 줄여도 소용없습니다.</p>
+<p>더 자세한 내역은 엔진의 <strong>프로파일러</strong>(profiler)가 단계별 시간으로 보여 줍니다. 잴 때는 에디터 안이 아니라 <strong>실제 빌드를 목표 기기에서</strong> 잽니다.</p>
+<div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
+<p>가지고 있는 게임에서 FPS 표시를 켜고 해상도를 한 단계씩 낮춰 보세요. FPS가 눈에 띄게 오르면 그 장면의 병목은 GPU입니다.</p>
+</div>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>프레임 / 틱</td>
+<td>화면 한 장(간격이 들쭉날쭉) / 물리 계산 한 번(간격 고정)</td>
+</tr>
+<tr>
+<td>누르고 있나 / 방금 눌렀나</td>
+<td>걷기처럼 이어지는 동작 / 점프처럼 한 번뿐인 동작</td>
+</tr>
+<tr>
+<td>로컬 좌표 / 월드 좌표</td>
+<td>부모 기준의 위치 / 씬 전체 기준의 위치</td>
+</tr>
+<tr>
+<td>정점 셰이더 / 픽셀 셰이더</td>
+<td>점마다 한 번, 위치 계산 / 픽셀마다 한 번, 색 계산</td>
+</tr>
+<tr>
+<td>드로 콜 / 오버드로</td>
+<td>주문서 수(CPU 부담) / 같은 픽셀을 거듭 칠하기(GPU 부담)</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 친구 컴퓨터에서는 네 배 빠르고, 내 컴퓨터에서는 가끔 바닥을 뚫는다</div>
+<p>AI 도구로 만든 플랫폼 게임입니다. 친구의 게이밍 PC(120FPS)에서는 캐릭터가 지나치게 빠르고, 내 노트북(30FPS)에서는 가끔 캐릭터가 바닥 아래로 떨어집니다.</p>
+<ol type="1">
+<li><strong>이동 코드를 찾습니다.</strong> 프레임마다 불리는 함수에 <code>x += 0.1</code>이 있습니다. "한 장에 0.1"이라서 120FPS에서는 4배 빠릅니다.</li>
+<li><strong>속도 × Δt로 바꿉니다.</strong> <code>x += 3.0 * dt</code>로 고치고 두 컴퓨터에서 1초 동안 간 거리를 재니 둘 다 3m입니다.</li>
+<li><strong>바닥을 뚫는 순간을 기록합니다.</strong> 프레임 시간을 로그로 남기니 떨어지기 직전 프레임이 120ms였습니다. 중력 계산이 프레임 함수에 있어서, 긴 프레임 한 번에 캐릭터가 얇은 바닥을 건너뛴 것입니다.</li>
+<li><strong>물리를 고정 간격 함수로 옮깁니다.</strong> 이제 버벅여도 20ms 걸음으로 나눠 계산합니다.</li>
+<li><strong>확인합니다.</strong> FPS 제한을 30, 60, 120으로 바꿔 가며 이동 거리와 점프 높이를 비교합니다.</li>
+</ol>
+<p>두 증상 모두 "한 장"과 "1초"를 혼동한 데서 나왔습니다. 그림책이 넘어가는 속도와 게임 속 시간은 따로 흐릅니다.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li>게임은 <strong>입력 → 갱신 → 그리기</strong>를 되풀이하는 그림책입니다. 60FPS라면 한 장에 약 16.7ms를 씁니다.</li>
+<li>움직임은 <strong>속도 × Δt</strong>로 계산하고, 물리는 엔진이 <strong>고정 간격</strong>으로 돌립니다.</li>
+<li>자식 오브젝트는 부모 기준의 <strong>로컬 좌표</strong>로 따라 움직입니다.</li>
+<li>충돌은 정지 화면에서 겹침을 보는 일이라, 빠른 물체는 벽을 건너뜁니다(<strong>터널링</strong>).</li>
+<li>화면은 <strong>정점 → 삼각형 → 픽셀</strong> 순서로 그려집니다. 넓게 덮고 겹칠수록 GPU가 바빠집니다.</li>
+<li>드로 콜이 많으면 CPU가, 오버드로가 많으면 GPU가 막힙니다. <strong>해상도를 낮춰 보면</strong> 어느 쪽인지 압니다.</li>
+<li>끊김은 평균이 아니라 <strong>가장 긴 프레임</strong>에서 찾습니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>점프 버튼을 한 번 눌렀는데 캐릭터가 가끔 2단, 3단으로 뛰어오릅니다. 코드의 어디를 의심해야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>점프를 "누르고 있나?"로 읽고 있을 가능성이 큽니다. 버튼을 누른 짧은 순간에도 프레임이 여러 장 지나가 "예"가 여러 번 나옵니다. 한 번뿐인 동작은 "방금 눌렀나?"로 읽어야 합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p><code>x += speed * dt</code>로 고쳤습니다. 이제 어떤 FPS에서도 점프 높이와 충돌 결과까지 똑같을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>아닙니다. 일정한 속도의 이동은 같아지지만, 중력처럼 계산이 쌓이는 것은 걸음 크기(Δt)에 따라 결과가 조금씩 달라집니다. 그래서 물리는 고정 간격으로 계산합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>초속 60m로 나는 화살이 두께 0.5m인 벽을 가끔 통과합니다. 물리 틱은 20ms입니다. 왜 그럴 수 있고, 무엇을 해 볼 수 있을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>화살은 한 틱에 60 × 0.02 = 1.2m를 갑니다. 벽 두께 0.5m보다 길어서, 벽 앞과 벽 뒤에서만 검사되면 겹친 순간이 없습니다. 연속 충돌 감지를 켜거나, 이번 틱에 지나갈 구간을 레이캐스트로 검사합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>폭발 연기가 화면을 덮을 때만 느려집니다. 연기의 삼각형 수를 절반으로 줄였는데도 그대로입니다. 왜일까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>문제는 삼각형 수가 아니라 칠하는 픽셀 수입니다. 반투명한 연기는 겹겹이 칠해야 해서 같은 픽셀의 색을 여러 번 계산합니다(오버드로). 해상도를 낮췄을 때 빨라지는지 확인하고, 겹치는 장수와 덮는 넓이를 줄입니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>총알에 오브젝트 풀을 넣었더니 끊김은 사라졌는데, 가끔 총알이 쏘자마자 사라지거나 엉뚱한 방향으로 날아갑니다. 무엇을 빠뜨렸을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>꺼낼 때의 초기화입니다. 재사용하는 총알에는 지난번의 속도와 남은 수명이 그대로 남아 있습니다. 풀에서 꺼낼 때 위치, 속도, 수명을 모두 새로 설정해야 합니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>AI가 만든 게임 코드는 내 컴퓨터에서 한 번 돌려 보면 멀쩡해 보입니다. 프레임 속도가 바뀔 때 드러나는 문제를 일부러 확인하게 하세요.</p>
+<blockquote>
+<p>Godot 4로 만든 2D 플랫폼 게임이야. 플레이어 이동과 점프 코드를 검토해 줘. ① 이동량이 프레임 수가 아니라 시간 기준인지, Δt를 두 번 곱한 곳은 없는지 ② 점프 입력을 "방금 눌렀나"로 읽는지 ③ 물리 관련 코드가 <code>_physics_process</code>에 있는지 확인하고, 고친 줄마다 이유를 설명해 줘. 완료 조건은 FPS 제한을 30, 60, 120으로 바꿔 1초 이동 거리와 점프 최고 높이를 표로 비교했을 때 차이가 5% 이내인 것.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: 내가 쓰는 엔진과 버전에 맞는 함수인가, 강체의 위치를 직접 덮어쓰지 않는가, 프레임마다 새 오브젝트를 만드는 코드는 없는가, 세 가지 FPS에서 실제로 잰 숫자를 보여 주는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>프레임<small>frame</small></dt>
+<dd>
+화면에 보여 주는 정지 그림 한 장. 1초에 보여 주는 장수가 FPS.
+</dd>
+<dt>게임 루프<small>game loop</small></dt>
+<dd>
+입력, 갱신, 그리기를 프레임마다 되풀이하는 게임의 뼈대.
+</dd>
+<dt>델타 타임<small>delta time</small></dt>
+<dd>
+지난 프레임부터 흐른 실제 시간. Δt로 쓰고, 속도에 곱해 이동 거리를 구한다.
+</dd>
+<dt>고정 시간 간격<small>fixed timestep</small></dt>
+<dd>
+물리를 항상 같은 크기의 시간 걸음으로 계산하는 방식. 그 한 걸음이 틱.
+</dd>
+<dt>컴포넌트<small>component</small></dt>
+<dd>
+게임 오브젝트에 끼워 능력을 주는 부품. 위치, 겉모습, 충돌 모양 등.
+</dd>
+<dt>로컬 좌표<small>local coordinates</small></dt>
+<dd>
+부모 오브젝트를 기준으로 한 위치. 씬 전체를 기준으로 한 위치는 월드 좌표.
+</dd>
+<dt>AABB<small>Axis-Aligned Bounding Box</small></dt>
+<dd>
+축에 나란한 경계 상자. 범위 비교만으로 겹침을 빠르게 검사한다.
+</dd>
+<dt>강체<small>rigid body</small></dt>
+<dd>
+물리 엔진이 힘과 충돌에 따라 움직여 주는 물체.
+</dd>
+<dt>터널링<small>tunneling</small></dt>
+<dd>
+빠른 물체가 틱 사이에 얇은 벽을 건너뛰어 충돌이 누락되는 현상.
+</dd>
+<dt>셰이더<small>shader</small></dt>
+<dd>
+GPU에서 실행되는 작은 프로그램. 정점의 위치나 픽셀의 색을 계산한다.
+</dd>
+<dt>머티리얼<small>material</small></dt>
+<dd>
+셰이더, 텍스처, 설정값을 묶어 표면이 어떻게 보일지 정한 것.
+</dd>
+<dt>드로 콜<small>draw call</small></dt>
+<dd>
+CPU가 GPU에게 보내는 그리기 명령 한 번.
+</dd>
+<dt>깊이 버퍼<small>depth buffer</small></dt>
+<dd>
+픽셀마다 가장 가까운 물체까지의 거리를 적어 둔 메모장.
+</dd>
+<dt>오브젝트 풀<small>object pool</small></dt>
+<dd>
+자주 쓰는 오브젝트를 미리 만들어 두고 꺼내 쓰고 반납하는 방식.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://docs.godotengine.org/en/stable/tutorials/scripting/idle_and_physics_processing.html" rel="noopener" target="_blank">Godot — Idle and Physics Processing</a> — 프레임마다 불리는 함수와 고정 간격으로 불리는 함수의 차이를 설명합니다.</li>
+<li><a href="https://docs.godotengine.org/en/stable/tutorials/physics/physics_introduction.html" rel="noopener" target="_blank">Godot — Physics introduction</a> — 충돌 모양과 물체 종류(강체, 캐릭터)를 정리합니다.</li>
+<li><a href="https://docs.godotengine.org/en/stable/tutorials/performance/gpu_optimization.html" rel="noopener" target="_blank">Godot — GPU optimization</a> — 드로 콜, 픽셀 비용, 오버드로를 구분해 줄이는 방법을 다룹니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch23.html"><small>← 이전 · 23장</small><b>공간과 움직임의 수학</b></a><a class="next" href="ch25.html"><small>다음 · 25장 →</small><b>온라인 게임</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#flipbook">게임은 아주 빨리 넘기는 그림책입니다</a><a href="#delta">Δt: 빠른 컴퓨터에서도 같은 속도로</a><a href="#object">게임 오브젝트: 부품을 끼워 만드는 조립식</a><a href="#collision">충돌 감지: 부딪혔는지 어떻게 알까</a><a href="#physics">물리 엔진: 떨어지고 튕기는 계산을 맡는 조수</a><a href="#render">화면 그리기: 점에서 삼각형으로, 삼각형에서 픽셀로</a><a href="#cost">그리는 비용: 주문서, 가려진 것, 투명한 것</a><a href="#hitch">로딩과 끊김: 왜 가끔 멈칫할까</a><a href="#profile">느릴 때: CPU가 바쁜가, GPU가 바쁜가</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 270" xmlns="http://www.w3.org/2000/svg">
+  <title>디버그 빌드는 소스 줄마다 명령을 그대로 만들고, 릴리스 빌드는 미리 계산하고 지워서 명령을 줄인다</title>
+
+  <rect class="panel" x="20" y="16" width="215" height="238" rx="16"/>
+  <text class="t-h mid" x="127" y="46">디버그 빌드</text>
+  <rect class="box green" x="30" y="64" width="195" height="36" rx="8"/>
+  <text class="mid" x="127" y="87">2 × 3 계산</text>
+  <rect class="box green" x="30" y="112" width="195" height="36" rx="8"/>
+  <text class="mid" x="127" y="135">price × 100 계산</text>
+  <rect class="box green" x="30" y="160" width="195" height="36" rx="8"/>
+  <text class="mid" x="127" y="183">price × r + 1 계산</text>
+  <text class="t-s mid" x="127" y="222">줄마다 명령이 그대로</text>
+  <text class="t-s mid" x="127" y="241">느리지만 따라가기 쉽다</text>
+
+  <text class="t-s t-b mid" x="380" y="46">소스 코드</text>
+  <rect class="box blue" x="275" y="64" width="210" height="36" rx="8"/>
+  <text class="t-mono mid" x="380" y="87">r = 2 * 3</text>
+  <rect class="box blue" x="275" y="112" width="210" height="36" rx="8"/>
+  <text class="t-mono mid" x="380" y="135">tmp = price * 100</text>
+  <rect class="box blue" x="275" y="160" width="210" height="36" rx="8"/>
+  <text class="t-mono mid" x="380" y="183">total = price * r + 1</text>
+
+  <path class="ln thin" d="M270 82 H233" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M270 130 H233" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M270 178 H233" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M490 82 H527" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M490 130 H527" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M490 178 H527" marker-end="url(#ah)"/>
+
+  <rect class="panel" x="525" y="16" width="215" height="238" rx="16"/>
+  <text class="t-h mid" x="632" y="46">릴리스 빌드</text>
+  <rect class="ghost dash" x="535" y="64" width="195" height="36" rx="8"/>
+  <text class="t-s mid" x="632" y="87">미리 계산해 둠: r = 6</text>
+  <rect class="ghost dash" x="535" y="112" width="195" height="36" rx="8"/>
+  <text class="t-s mid" x="632" y="135">쓰이지 않아 삭제</text>
+  <rect class="box green" x="535" y="160" width="195" height="36" rx="8"/>
+  <text class="mid" x="632" y="183">price × 6 + 1 계산</text>
+  <text class="t-s mid" x="632" y="222">명령이 줄어 빠르다</text>
+  <text class="t-s mid" x="632" y="241">줄과 일대일이 아니다</text>
+</svg>

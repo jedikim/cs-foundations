@@ -1,0 +1,42 @@
+<svg viewBox="0 0 760 404" xmlns="http://www.w3.org/2000/svg">
+  <title>한 틱에 2m를 가는 총알은 두께 0.2m인 벽의 앞과 뒤에서만 검사되어 벽을 통과한다. 지나온 길 전체를 검사하면 잡을 수 있다</title>
+  <text class="t-s t-b mid" x="350" y="28">벽 (두께 0.2m)</text>
+  <rect class="solid gray" x="326" y="38" width="48" height="320" rx="3"/>
+
+  <text class="t-b" x="20" y="64">느린 공 — 한 틱에 0.5m</text>
+  <path class="ln thin muted" d="M110 118 H326 M374 118 H720"/>
+  <circle class="ghost dash" cx="110" cy="104" r="13"/>
+  <circle class="ghost dash" cx="230" cy="104" r="13"/>
+  <path class="ln blue" d="M128 104 H208" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M248 104 H306" marker-end="url(#ah-blue)"/>
+  <circle class="f-blue" cx="350" cy="104" r="13"/>
+  <text class="t-xs mid" x="110" y="138">틱 0</text>
+  <text class="t-xs mid" x="230" y="138">틱 1</text>
+  <use href="#i-check" x="392" y="80" width="30" height="30" class="ic green"/>
+  <text class="t-s t-b tc-green" x="428" y="92">틱 2: 벽과 겹침 → 발견</text>
+  <text class="t-s" x="428" y="110">벽 앞으로 밀어내 멈춘다</text>
+
+  <text class="t-b" x="20" y="172">빠른 총알 — 한 틱에 2m</text>
+  <path class="ln thin muted" d="M110 226 H326 M374 226 H720"/>
+  <circle class="f-red" cx="110" cy="212" r="13"/>
+  <path class="ln red dash" d="M128 212 H568" marker-end="url(#ah-red)"/>
+  <circle class="f-red" cx="590" cy="212" r="13"/>
+  <text class="t-xs mid" x="110" y="246">틱 0: 벽 앞</text>
+  <text class="t-xs mid" x="590" y="246">틱 1: 벽 뒤</text>
+  <text class="t-s t-b tc-red" x="400" y="190">두 순간 모두 벽 밖 → 통과</text>
+
+  <text class="t-b" x="20" y="280">해결 — 지나온 길을 검사</text>
+  <path class="ln thin muted" d="M110 334 H326 M374 334 H720"/>
+  <rect class="ghost dash" x="97" y="307" width="506" height="26" rx="13"/>
+  <circle class="f-green" cx="313" cy="320" r="13"/>
+  <text class="t-s t-b tc-green" x="400" y="298">길이 벽과 만나는 곳에서 멈춤</text>
+  <text class="t-xs" x="400" y="352">연속 충돌 감지(CCD)</text>
+
+  <path class="ln thin" d="M110 372 H600"/>
+  <path class="ln thin" d="M110 368 V376 M230 368 V376 M350 368 V376 M470 368 V376 M590 368 V376"/>
+  <text class="t-xs mid" x="110" y="394">0m</text>
+  <text class="t-xs mid" x="230" y="394">0.5m</text>
+  <text class="t-xs mid" x="350" y="394">1m</text>
+  <text class="t-xs mid" x="470" y="394">1.5m</text>
+  <text class="t-xs mid" x="590" y="394">2m</text>
+</svg>

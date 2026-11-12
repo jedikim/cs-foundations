@@ -1,0 +1,60 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>폴링은 브라우저가 계속 물어보고, SSE는 한 번 물은 뒤 서버가 계속 내려보내며, WebSocket은 연결을 열어 두고 양쪽이 아무 때나 보낸다</title>
+
+  <text class="t-l" x="20" y="68">폴링</text>
+  <text class="t-s" x="20" y="90">5초마다 물어본다</text>
+  <text class="t-xs end" x="228" y="56">브라우저</text>
+  <text class="t-xs end" x="228" y="104">서버</text>
+  <path class="ln thin muted" d="M236 52 H730 M236 100 H730"/>
+  <path class="ln blue" d="M260 56 L274 92" marker-end="url(#ah-blue)"/>
+  <path class="ln muted" d="M290 96 L304 60" marker-end="url(#ah-muted)"/>
+  <path class="ln blue" d="M380 56 L394 92" marker-end="url(#ah-blue)"/>
+  <path class="ln muted" d="M410 96 L424 60" marker-end="url(#ah-muted)"/>
+  <path class="ln blue" d="M500 56 L514 92" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M530 96 L544 60" marker-end="url(#ah-green)"/>
+  <path class="ln blue" d="M620 56 L634 92" marker-end="url(#ah-blue)"/>
+  <path class="ln muted" d="M650 96 L664 60" marker-end="url(#ah-muted)"/>
+  <text class="t-xs mid" x="304" y="42">없음</text>
+  <text class="t-xs mid" x="424" y="42">없음</text>
+  <text class="t-xs t-b mid tc-green" x="544" y="42">새 글</text>
+  <text class="t-xs mid" x="664" y="42">없음</text>
+
+  <text class="t-l" x="20" y="176">SSE</text>
+  <text class="t-s" x="20" y="198">한 번 묻고, 서버가</text>
+  <text class="t-s" x="20" y="216">계속 내려보낸다</text>
+  <text class="t-xs end" x="228" y="168">브라우저</text>
+  <text class="t-xs end" x="228" y="216">서버</text>
+  <rect class="s-green" x="260" y="164" width="470" height="48"/>
+  <path class="ln thin muted" d="M236 164 H730 M236 212 H730"/>
+  <path class="ln blue" d="M260 168 L274 204" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M340 208 L354 172" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M440 208 L454 172" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M530 208 L544 172" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M650 208 L664 172" marker-end="url(#ah-green)"/>
+  <text class="t-xs mid" x="354" y="154">20%</text>
+  <text class="t-xs mid" x="454" y="154">50%</text>
+  <text class="t-xs mid" x="544" y="154">80%</text>
+  <text class="t-xs t-b mid tc-green" x="664" y="154">완료</text>
+
+  <text class="t-l" x="20" y="288">WebSocket</text>
+  <text class="t-s" x="20" y="310">연결을 열어 두고</text>
+  <text class="t-s" x="20" y="328">양쪽이 아무 때나</text>
+  <text class="t-xs end" x="228" y="280">브라우저</text>
+  <text class="t-xs end" x="228" y="328">서버</text>
+  <rect class="s-purple" x="260" y="276" width="470" height="48"/>
+  <path class="ln thin muted" d="M236 276 H730 M236 324 H730"/>
+  <path class="ln blue" d="M260 280 L274 316" marker-end="url(#ah-blue)"/>
+  <path class="ln purple" d="M330 320 L344 284" marker-end="url(#ah-purple)"/>
+  <path class="ln blue" d="M410 280 L424 316" marker-end="url(#ah-blue)"/>
+  <path class="ln purple" d="M510 320 L524 284" marker-end="url(#ah-purple)"/>
+  <path class="ln purple" d="M580 320 L594 284" marker-end="url(#ah-purple)"/>
+  <path class="ln blue" d="M660 280 L674 316" marker-end="url(#ah-blue)"/>
+  <text class="t-xs mid" x="344" y="266">받음</text>
+  <text class="t-xs mid" x="410" y="266">보냄</text>
+  <text class="t-xs mid" x="524" y="266">받음</text>
+  <text class="t-xs mid" x="594" y="266">받음</text>
+  <text class="t-xs mid" x="660" y="266">보냄</text>
+
+  <path class="ln thin muted" d="M236 350 H726" marker-end="url(#ah-muted)"/>
+  <text class="t-xs end" x="228" y="354">시간</text>
+</svg>

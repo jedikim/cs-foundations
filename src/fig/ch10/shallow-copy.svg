@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>얕은 복사를 하면 원본과 초안이 같은 tags 배열을 함께 쓰고, 안쪽 배열까지 복사해야 서로 떨어진다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="288" rx="16"/>
+  <text class="t-mono t-b" x="40" y="46">draft = { ...original }</text>
+  <text class="t-s" x="246" y="46">얕은 복사</text>
+  <rect class="box" x="40" y="70" width="150" height="88" rx="10"/>
+  <text class="t-mono t-b" x="54" y="94">original</text>
+  <text class="t-mono" x="54" y="120">name: "하늘"</text>
+  <text class="t-mono" x="54" y="144">tags:</text>
+  <circle class="f-blue" cx="108" cy="139" r="5"/>
+  <rect class="box blue" x="40" y="196" width="150" height="88" rx="10"/>
+  <text class="t-mono t-b" x="54" y="220">draft</text>
+  <text class="t-mono" x="54" y="246">name: "바다"</text>
+  <text class="t-mono" x="54" y="270">tags:</text>
+  <circle class="f-blue" cx="108" cy="265" r="5"/>
+  <rect class="box green" x="256" y="156" width="50" height="40" rx="6"/>
+  <text class="t-s mid" x="281" y="181">업무</text>
+  <rect class="box warm" x="306" y="156" width="50" height="40" rx="6"/>
+  <text class="t-s t-b mid" x="331" y="181">긴급</text>
+  <path class="ln blue" d="M114 139 H198 C226 139 220 168 248 168" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M114 265 H198 C230 265 216 184 248 184" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b tc-red mid" x="306" y="222">배열은 하나뿐</text>
+  <text class="t-xs mid" x="306" y="242">초안에 넣은 긴급이</text>
+  <text class="t-xs mid" x="306" y="260">원본에도 보인다</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="288" rx="16"/>
+  <text class="t-mono t-b" x="410" y="46">tags: [...original.tags]</text>
+  <text class="t-s" x="624" y="46">안쪽도 복사</text>
+  <rect class="box" x="410" y="70" width="150" height="88" rx="10"/>
+  <text class="t-mono t-b" x="424" y="94">original</text>
+  <text class="t-mono" x="424" y="120">name: "하늘"</text>
+  <text class="t-mono" x="424" y="144">tags:</text>
+  <circle class="f-blue" cx="478" cy="139" r="5"/>
+  <rect class="box blue" x="410" y="196" width="150" height="88" rx="10"/>
+  <text class="t-mono t-b" x="424" y="220">draft</text>
+  <text class="t-mono" x="424" y="246">name: "바다"</text>
+  <text class="t-mono" x="424" y="270">tags:</text>
+  <circle class="f-blue" cx="478" cy="265" r="5"/>
+  <rect class="box green" x="620" y="119" width="50" height="40" rx="6"/>
+  <text class="t-s mid" x="645" y="144">업무</text>
+  <path class="ln blue" d="M484 139 H612" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b tc-green" x="620" y="182">원본은 그대로</text>
+  <rect class="box green" x="620" y="245" width="50" height="40" rx="6"/>
+  <text class="t-s mid" x="645" y="270">업무</text>
+  <rect class="box warm" x="670" y="245" width="50" height="40" rx="6"/>
+  <text class="t-s t-b mid" x="695" y="270">긴급</text>
+  <path class="ln blue" d="M484 265 H612" marker-end="url(#ah-blue)"/>
+</svg>

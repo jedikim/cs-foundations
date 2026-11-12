@@ -1,0 +1,60 @@
+<svg viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg">
+  <title>운영체제는 앱과 하드웨어 사이에서 시간, 공간, 출입을 관리하는 지배인이다</title>
+  <text class="t-s t-b" x="22" y="58">앱</text>
+  <text class="t-s t-b" x="22" y="188">운영체제</text>
+  <text class="t-xs" x="22" y="207">= 주방 지배인</text>
+  <text class="t-s t-b" x="22" y="342">하드웨어</text>
+
+  <rect class="box" x="122" y="22" width="170" height="64" rx="12"/>
+  <use href="#i-browser" x="136" y="36" width="36" height="36" class="ic"/>
+  <text class="t-l" x="184" y="60">브라우저</text>
+  <rect class="box" x="342" y="22" width="170" height="64" rx="12"/>
+  <use href="#i-gamepad" x="356" y="36" width="36" height="36" class="ic"/>
+  <text class="t-l" x="404" y="60">게임</text>
+  <rect class="box" x="562" y="22" width="170" height="64" rx="12"/>
+  <use href="#i-chat" x="576" y="36" width="36" height="36" class="ic"/>
+  <text class="t-l" x="624" y="60">메신저</text>
+
+  <path class="ln muted" d="M207 92 V120" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M427 92 V120" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M647 92 V120" marker-end="url(#ah-muted)"/>
+  <text class="t-xs" x="218" y="111">요청</text>
+
+  <rect class="box yellow" x="112" y="128" width="630" height="126" rx="14"/>
+  <rect class="box" x="122" y="146" width="170" height="90" rx="10"/>
+  <circle class="badge warm" cx="146" cy="170" r="12"/><text class="badge-t" x="146" y="174.500">1</text>
+  <text class="t-b" x="166" y="175">시간 나누기</text>
+  <text class="t-s" x="136" y="204">누가 지금 요리사를</text>
+  <text class="t-s" x="136" y="222">쓸지 정한다</text>
+
+  <rect class="box" x="342" y="146" width="170" height="90" rx="10"/>
+  <circle class="badge warm" cx="366" cy="170" r="12"/><text class="badge-t" x="366" y="174.500">2</text>
+  <text class="t-b" x="386" y="175">공간 나누기</text>
+  <text class="t-s" x="356" y="204">조리대를 구역으로</text>
+  <text class="t-s" x="356" y="222">나눠 준다</text>
+
+  <rect class="box" x="562" y="146" width="170" height="90" rx="10"/>
+  <circle class="badge warm" cx="586" cy="170" r="12"/><text class="badge-t" x="586" y="174.500">3</text>
+  <text class="t-b" x="606" y="175">출입 관리</text>
+  <text class="t-s" x="576" y="204">창고와 장비는</text>
+  <text class="t-s" x="576" y="222">대신 다뤄 준다</text>
+
+  <path class="ln muted" d="M207 260 V288" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M427 260 V288" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M647 260 V288" marker-end="url(#ah-muted)"/>
+
+  <rect class="box blue" x="122" y="296" width="170" height="84" rx="12"/>
+  <use href="#i-chip" x="134" y="318" width="40" height="40" class="ic blue"/>
+  <text class="t-l" x="186" y="334">CPU</text>
+  <text class="t-s" x="186" y="356">요리사</text>
+
+  <rect class="box green" x="342" y="296" width="170" height="84" rx="12"/>
+  <use href="#i-ram" x="354" y="318" width="40" height="40" class="ic green"/>
+  <text class="t-l" x="406" y="334">메모리</text>
+  <text class="t-s" x="406" y="356">조리대</text>
+
+  <rect class="box warm" x="562" y="296" width="170" height="84" rx="12"/>
+  <use href="#i-disk" x="574" y="318" width="40" height="40" class="ic warm"/>
+  <text class="t-l" x="626" y="334">저장장치</text>
+  <text class="t-s" x="626" y="356">창고와 장비</text>
+</svg>

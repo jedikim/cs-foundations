@@ -1,0 +1,48 @@
+<svg viewBox="0 0 760 370" xmlns="http://www.w3.org/2000/svg">
+  <title>빨간 밑줄은 언어 서버가 보낸 진단이며, 언어 서버가 실행에 쓰는 것과 다른 파이썬을 보고 있으면 실제 실행 결과와 어긋난다</title>
+
+  <rect class="box" x="20" y="20" width="300" height="210" rx="12"/>
+  <path class="ln thin muted" d="M20 52 H320"/>
+  <circle class="f-gray" cx="38" cy="36" r="4"/>
+  <circle class="f-gray" cx="52" cy="36" r="4"/>
+  <circle class="f-gray" cx="66" cy="36" r="4"/>
+  <text class="t-xs" x="84" y="40">main.py</text>
+  <text class="t-s t-b end" x="306" y="41">편집기</text>
+
+  <text class="t-xs" x="36" y="84">1</text>
+  <text class="t-mono" x="58" y="84">import requests</text>
+  <path class="ln thin red" d="M117 91 q4 -5 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0"/>
+  <rect class="box red" x="58" y="100" width="246" height="50" rx="8"/>
+  <text class="t-s tc-red" x="70" y="121">requests를 찾을 수 없습니다</text>
+  <text class="t-xs" x="70" y="139">언어 서버가 보내 준 진단</text>
+  <text class="t-xs" x="36" y="178">2</text>
+  <text class="t-mono" x="58" y="178">r = requests.get(url)</text>
+  <text class="t-xs" x="36" y="206">3</text>
+  <text class="t-mono" x="58" y="206">print(r.status_code)</text>
+
+  <path class="ln blue" d="M326 84 H492" marker-end="url(#ah-blue)"/>
+  <text class="t-xs mid tc-blue" x="409" y="74">1행이 바뀜</text>
+  <text class="t-b mid" x="409" y="124">LSP</text>
+  <text class="t-xs mid" x="409" y="142">둘이 주고받는 말의 규칙</text>
+  <path class="ln purple" d="M494 186 H328" marker-end="url(#ah-purple)"/>
+  <text class="t-xs mid tc-purple" x="409" y="176">진단: 1행에 문제</text>
+
+  <rect class="box purple" x="500" y="20" width="240" height="210" rx="12"/>
+  <use href="#i-search" x="514" y="32" width="34" height="34" class="ic purple"/>
+  <text class="t-l" x="556" y="56">언어 서버</text>
+  <text class="t-xs" x="516" y="86">코드를 읽고 분석하는 별도 프로그램</text>
+  <path class="ln thin muted" d="M516 100 H724"/>
+  <text class="t-xs" x="516" y="124">지금 들여다보는 Python</text>
+  <rect class="box" x="516" y="134" width="208" height="36" rx="8"/>
+  <text class="t-mono" x="528" y="157">/usr/bin/python3</text>
+  <text class="t-xs tc-red" x="516" y="194">여기에는 requests가 없다</text>
+
+  <rect class="box green" x="20" y="254" width="720" height="96" rx="12"/>
+  <use href="#i-terminal" x="34" y="268" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="78" y="283">터미널에서 실제로 실행하면</text>
+  <text class="t-mono" x="78" y="310">$ .venv/bin/python main.py</text>
+  <text class="t-mono t-b" x="78" y="332">200</text>
+  <use href="#i-check" x="444" y="282" width="26" height="26" class="ic green"/>
+  <text class="t-b tc-green" x="478" y="300">실행은 성공</text>
+  <text class="t-xs" x="478" y="320">.venv의 Python에는 requests가 있다</text>
+</svg>

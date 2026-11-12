@@ -1,0 +1,43 @@
+<svg viewBox="0 0 760 298" xmlns="http://www.w3.org/2000/svg">
+  <title>보통 눈금에서는 작은 값들이 한쪽 끝에 뭉개지지만 로그 눈금에서는 열 배마다 한 칸씩 고르게 벌어진다</title>
+  <text class="t-b" x="60" y="30">보통 눈금</text>
+  <text class="t-s" x="140" y="30">한 칸마다 2,500씩 더한다</text>
+  <path class="ln thin muted" d="M60 100 H700"/>
+  <path class="ln thin muted" d="M60 95 V105 M220 95 V105 M380 95 V105 M540 95 V105 M700 95 V105"/>
+  <text class="t-xs mid" x="60" y="124">0</text>
+  <text class="t-xs mid" x="220" y="124">2,500</text>
+  <text class="t-xs mid" x="380" y="124">5,000</text>
+  <text class="t-xs mid" x="540" y="124">7,500</text>
+  <text class="t-xs mid" x="700" y="124">10,000</text>
+  <circle class="f-blue" cx="60.1" cy="100" r="6"/>
+  <circle class="f-blue" cx="60.6" cy="100" r="6"/>
+  <circle class="f-blue" cx="66.4" cy="100" r="6"/>
+  <circle class="f-blue" cx="124.0" cy="100" r="6"/>
+  <circle class="f-blue" cx="700.0" cy="100" r="6"/>
+  <path class="ln thin warm" d="M63 90 V68"/>
+  <text class="t-s t-b tc-warm" x="60" y="60">1, 10, 100이 한 점으로 뭉친다</text>
+  <text class="t-xs mid" x="124" y="84">1,000</text>
+  <text class="t-xs mid" x="700" y="84">10,000</text>
+  <text class="t-b" x="60" y="176">로그 눈금</text>
+  <text class="t-s" x="140" y="176">한 칸마다 10배씩 곱한다</text>
+  <path class="ln thin muted" d="M60 240 H700"/>
+  <circle class="f-green" cx="60" cy="240" r="6"/>
+  <text class="t-xs mid" x="60" y="264">1</text>
+  <path class="ln thin green" d="M70 228 Q140 196 210 228" marker-end="url(#ah-green)"/>
+  <text class="t-xs tc-green mid" x="140" y="204">×10</text>
+  <circle class="f-green" cx="220" cy="240" r="6"/>
+  <text class="t-xs mid" x="220" y="264">10</text>
+  <path class="ln thin green" d="M230 228 Q300 196 370 228" marker-end="url(#ah-green)"/>
+  <text class="t-xs tc-green mid" x="300" y="204">×10</text>
+  <circle class="f-green" cx="380" cy="240" r="6"/>
+  <text class="t-xs mid" x="380" y="264">100</text>
+  <path class="ln thin green" d="M390 228 Q460 196 530 228" marker-end="url(#ah-green)"/>
+  <text class="t-xs tc-green mid" x="460" y="204">×10</text>
+  <circle class="f-green" cx="540" cy="240" r="6"/>
+  <text class="t-xs mid" x="540" y="264">1,000</text>
+  <path class="ln thin green" d="M550 228 Q620 196 690 228" marker-end="url(#ah-green)"/>
+  <text class="t-xs tc-green mid" x="620" y="204">×10</text>
+  <circle class="f-green" cx="700" cy="240" r="6"/>
+  <text class="t-xs mid" x="700" y="264">10,000</text>
+  <text class="t-xs end" x="740" y="286">값의 단위: ms</text>
+</svg>

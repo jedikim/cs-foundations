@@ -1,0 +1,38 @@
+<svg viewBox="0 0 760 326" xmlns="http://www.w3.org/2000/svg">
+  <title>분필을 쥔 사람만 칠판을 고치게 하면 B는 A가 끝날 때까지 기다렸다가 고쳐진 값을 읽으므로 결과가 맞는다</title>
+
+  <text class="t-b" x="20" y="62">직원 A</text>
+  <text class="t-s" x="20" y="82">5,000원 입금</text>
+  <rect class="box blue" x="132" y="34" width="298" height="60" rx="10"/>
+  <use href="#i-pencil" x="142" y="48" width="32" height="32" class="ic blue"/>
+  <text class="t-b" x="184" y="58">분필을 쥐고 고친다</text>
+  <text class="t-s" x="184" y="80">10,000을 보고 → 15,000으로</text>
+  <text class="t-s" x="452" y="69">분필을 제자리에 두고 다음 일로</text>
+
+  <text class="t-b" x="20" y="150">칠판의 잔액</text>
+  <text class="t-s" x="20" y="170">함께 쓰는 값</text>
+  <path class="ln thin muted" d="M226 154 H392 M490 154 H646"/>
+  <rect class="box green" x="132" y="128" width="90" height="52" rx="10"/>
+  <text class="t-mono t-b mid" x="177" y="159">10,000</text>
+  <rect class="box green" x="396" y="128" width="90" height="52" rx="10"/>
+  <text class="t-mono t-b mid" x="441" y="159">15,000</text>
+  <rect class="box green" x="650" y="128" width="90" height="52" rx="10"/>
+  <text class="t-mono t-b mid" x="695" y="159">18,000</text>
+
+  <text class="t-b" x="20" y="242">직원 B</text>
+  <text class="t-s" x="20" y="262">3,000원 입금</text>
+  <rect class="ghost dash" x="132" y="214" width="298" height="60" rx="10"/>
+  <use href="#i-hourglass" x="142" y="228" width="32" height="32" class="ic gray"/>
+  <text class="tc-muted" x="184" y="249">분필이 돌아오길 기다린다</text>
+  <rect class="box warm" x="442" y="214" width="298" height="60" rx="10"/>
+  <use href="#i-pencil" x="452" y="228" width="32" height="32" class="ic warm"/>
+  <text class="t-b" x="494" y="238">분필을 쥐고 고친다</text>
+  <text class="t-s" x="494" y="260">15,000을 보고 → 18,000으로</text>
+
+  <path class="ln blue" d="M177 124 V102" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M418 98 V120" marker-end="url(#ah-blue)"/>
+  <path class="ln warm" d="M464 184 V206" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M695 210 V188" marker-end="url(#ah-warm)"/>
+
+  <text class="t-b tc-green" x="132" y="308">결과: 18,000 — 두 입금이 모두 반영됐다</text>
+</svg>

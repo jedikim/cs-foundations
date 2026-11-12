@@ -1,0 +1,53 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>코어 하나가 세 프로그램을 10밀리초씩 번갈아 실행한다</title>
+  <text class="t-h" x="20" y="34">코어 1개로 프로그램 3개 돌리기</text>
+  <use href="#i-bell" x="486" y="16" width="24" height="24" class="ic warm"/>
+  <text class="t-s" x="516" y="34">= 타이머 인터럽트 (교대 신호)</text>
+
+  <text class="t-b" x="20" y="91">음악 앱</text>
+  <rect class="s-gray" x="130" y="70" width="600" height="32" rx="6"/>
+  <rect class="solid blue" x="130" y="70" width="100" height="32" rx="6"/>
+  <text class="t-s t-b t-on mid" x="180" y="91">실행</text>
+  <rect class="solid blue" x="430" y="70" width="100" height="32" rx="6"/>
+  <text class="t-s t-b t-on mid" x="480" y="91">실행</text>
+  <text class="t-xs mid" x="280" y="90">차례 대기</text>
+  <text class="t-xs mid" x="380" y="90">차례 대기</text>
+
+  <text class="t-b" x="20" y="135">브라우저</text>
+  <rect class="s-gray" x="130" y="114" width="600" height="32" rx="6"/>
+  <rect class="solid blue" x="230" y="114" width="100" height="32" rx="6"/>
+  <text class="t-xs mid" x="180" y="134">차례 대기</text>
+  <text class="t-s t-b t-on mid" x="280" y="135">실행</text>
+  <rect class="solid blue" x="530" y="114" width="100" height="32" rx="6"/>
+  <text class="t-s t-b t-on mid" x="580" y="135">실행</text>
+
+  <text class="t-b" x="20" y="179">메신저</text>
+  <rect class="s-gray" x="130" y="158" width="600" height="32" rx="6"/>
+  <rect class="solid blue" x="330" y="158" width="100" height="32" rx="6"/>
+  <text class="t-xs mid" x="180" y="178">차례 대기</text>
+  <text class="t-xs mid" x="280" y="178">차례 대기</text>
+  <text class="t-s t-b t-on mid" x="380" y="179">실행</text>
+  <rect class="solid blue" x="630" y="158" width="100" height="32" rx="6"/>
+  <text class="t-s t-b t-on mid" x="680" y="179">실행</text>
+
+  <g class="ic warm">
+    <use href="#i-bell" x="219" y="44" width="22" height="22"/>
+    <use href="#i-bell" x="319" y="44" width="22" height="22"/>
+    <use href="#i-bell" x="419" y="44" width="22" height="22"/>
+    <use href="#i-bell" x="519" y="44" width="22" height="22"/>
+    <use href="#i-bell" x="619" y="44" width="22" height="22"/>
+  </g>
+  <path class="ln thin dash warm" d="M230 68 V198 M330 68 V198 M430 68 V198 M530 68 V198 M630 68 V198"/>
+
+  <path class="ln thin muted" d="M130 200 H730"/>
+  <text class="t-xs mid" x="130" y="218">0</text>
+  <text class="t-xs mid" x="230" y="218">10ms</text>
+  <text class="t-xs mid" x="330" y="218">20ms</text>
+  <text class="t-xs mid" x="430" y="218">30ms</text>
+  <text class="t-xs mid" x="530" y="218">40ms</text>
+  <text class="t-xs mid" x="630" y="218">50ms</text>
+  <text class="t-xs mid" x="730" y="218">60ms</text>
+
+  <rect class="box yellow" x="130" y="238" width="600" height="44" rx="10"/>
+  <text class="t-s mid" x="430" y="265"><tspan class="t-b tc-warm">문맥 교환</tspan> — 교대할 때마다 하던 자리를 적어 두고, 다음 차례의 메모를 펼친다</text>
+</svg>

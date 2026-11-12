@@ -1,0 +1,42 @@
+<svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg">
+  <title>대입은 같은 리스트를 가리키는 쪽지를 하나 더 만들고, 복사는 리스트를 새로 만든다</title>
+  <rect class="panel" x="20" y="16" width="350" height="228" rx="16"/>
+  <text class="t-mono t-b" x="40" y="46">b = a</text>
+  <text class="t-s" x="96" y="46">쪽지만 한 장 더</text>
+
+  <rect class="box blue" x="50" y="78" width="64" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="82" y="103">a</text>
+  <rect class="box blue" x="50" y="150" width="64" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="82" y="175">b</text>
+  <rect class="box green" x="210" y="114" width="44" height="40" rx="6"/>
+  <text class="t-mono mid" x="232" y="139">1</text>
+  <rect class="box green" x="258" y="114" width="44" height="40" rx="6"/>
+  <text class="t-mono mid" x="280" y="139">2</text>
+  <rect class="box warm" x="306" y="114" width="44" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="328" y="139">3</text>
+  <path class="ln blue" d="M120 100 L202 126" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M120 168 L202 142" marker-end="url(#ah-blue)"/>
+  <text class="t-s mid" x="195" y="224">b에 3을 넣으면 a에서도 보인다</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="228" rx="16"/>
+  <text class="t-mono t-b" x="410" y="46">b = a.copy()</text>
+  <text class="t-s" x="526" y="46">리스트를 새로 하나</text>
+
+  <rect class="box blue" x="420" y="78" width="64" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="452" y="103">a</text>
+  <rect class="box blue" x="420" y="150" width="64" height="40" rx="8"/>
+  <text class="t-mono t-b mid" x="452" y="175">b</text>
+  <rect class="box green" x="580" y="78" width="44" height="40" rx="6"/>
+  <text class="t-mono mid" x="602" y="103">1</text>
+  <rect class="box green" x="628" y="78" width="44" height="40" rx="6"/>
+  <text class="t-mono mid" x="650" y="103">2</text>
+  <rect class="box green" x="580" y="150" width="44" height="40" rx="6"/>
+  <text class="t-mono mid" x="602" y="175">1</text>
+  <rect class="box green" x="628" y="150" width="44" height="40" rx="6"/>
+  <text class="t-mono mid" x="650" y="175">2</text>
+  <rect class="box warm" x="676" y="150" width="44" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="698" y="175">3</text>
+  <path class="ln blue" d="M490 98 H572" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M490 170 H572" marker-end="url(#ah-blue)"/>
+  <text class="t-s mid" x="565" y="224">b만 바뀌고 a는 그대로</text>
+</svg>

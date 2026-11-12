@@ -1,0 +1,48 @@
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
+  <title>첫 번째 실행은 디스크에서 읽어 2초가 걸리지만, 운영체제가 RAM에 사본을 남겨 두어 두 번째 실행은 0.2초 만에 끝난다</title>
+  <text class="t-h" x="20" y="34">같은 1GB 파일을 두 번 읽으면</text>
+  <text class="t-xs mid" x="220" y="60">창고</text>
+  <text class="t-xs mid" x="440" y="60">조리대의 남는 자리 (RAM)</text>
+  <text class="t-xs mid" x="660" y="60">요리사 쪽</text>
+
+  <text class="t-b" x="20" y="109">첫 번째 실행</text>
+  <rect class="box warm" x="140" y="70" width="160" height="68" rx="12"/>
+  <use href="#i-disk" x="152" y="88" width="32" height="32" class="ic warm"/>
+  <text class="t-b" x="194" y="99">디스크</text>
+  <text class="t-xs" x="194" y="120">data.bin 1GB</text>
+  <path class="ln warm" d="M306 104 H342" marker-end="url(#ah-warm)"/>
+  <rect class="box green" x="350" y="70" width="180" height="68" rx="12"/>
+  <use href="#i-ram" x="362" y="88" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="404" y="99">페이지 캐시</text>
+  <text class="t-xs" x="404" y="120">사본을 남겨 둠</text>
+  <path class="ln green" d="M536 104 H572" marker-end="url(#ah-green)"/>
+  <rect class="box blue" x="580" y="70" width="160" height="68" rx="12"/>
+  <use href="#i-code" x="592" y="88" width="32" height="32" class="ic blue"/>
+  <text class="t-b" x="634" y="99">프로그램</text>
+  <text class="t-xs" x="634" y="120">받는 데 2.0초</text>
+
+  <text class="t-b" x="20" y="197">두 번째 실행</text>
+  <rect class="box gray" x="140" y="158" width="160" height="68" rx="12"/>
+  <use href="#i-disk" x="152" y="176" width="32" height="32" class="ic gray"/>
+  <text class="t-b tc-muted" x="194" y="187">디스크</text>
+  <text class="t-xs" x="194" y="208">다녀오지 않음</text>
+  <rect class="box green" x="350" y="158" width="180" height="68" rx="12"/>
+  <use href="#i-ram" x="362" y="176" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="404" y="187">페이지 캐시</text>
+  <text class="t-xs" x="404" y="208">사본이 그대로 있음</text>
+  <path class="ln thick green" d="M536 192 H570" marker-end="url(#ah-green)"/>
+  <rect class="box blue" x="580" y="158" width="160" height="68" rx="12"/>
+  <use href="#i-code" x="592" y="176" width="32" height="32" class="ic blue"/>
+  <text class="t-b" x="634" y="187">프로그램</text>
+  <text class="t-xs" x="634" y="208">받는 데 0.2초</text>
+
+  <path class="ln thin muted" d="M20 248 H740"/>
+  <text class="t-s end" x="128" y="282">첫 번째</text>
+  <rect class="solid warm" x="140" y="266" width="400" height="22" rx="4"/>
+  <text class="t-mono t-b" x="550" y="282">2.0초</text>
+  <text class="t-xs" x="600" y="282">디스크에서</text>
+  <text class="t-s end" x="128" y="314">두 번째</text>
+  <rect class="solid green" x="140" y="298" width="40" height="22" rx="4"/>
+  <text class="t-mono t-b" x="190" y="314">0.2초</text>
+  <text class="t-xs" x="240" y="314">RAM에서</text>
+</svg>

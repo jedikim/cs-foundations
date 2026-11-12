@@ -1,0 +1,51 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>RAG는 질문과 관련된 문서를 먼저 찾아 질문과 함께 모델에 넣어 주고, 모델은 그 자료를 보고 답한다</title>
+
+  <rect class="box blue" x="20" y="24" width="230" height="66" rx="14"/>
+  <use href="#i-user" x="30" y="37" width="40" height="40" class="ic blue"/>
+  <text class="t-b" x="80" y="52">반품 접수 마감이</text>
+  <text class="t-b" x="80" y="74">몇 시예요?</text>
+
+  <path class="ln green" d="M90 96 V140" marker-end="url(#ah-green)"/>
+  <circle class="badge green" cx="90" cy="118" r="12"/><text class="badge-t" x="90" y="122.500">1</text>
+  <text class="t-s" x="110" y="123">관련 문서 찾기</text>
+
+  <rect class="panel green" x="20" y="150" width="230" height="202" rx="14"/>
+  <text class="t-s t-b" x="36" y="176">회사 문서 보관함</text>
+  <rect class="box yellow" x="36" y="188" width="198" height="44" rx="9"/>
+  <text class="t-s t-b t-ink" x="48" y="215">반품 규정: 마감 17시</text>
+  <rect class="box gray" x="36" y="240" width="198" height="44" rx="9"/>
+  <text class="t-s" x="48" y="267">환불 규정: 3일 안에 처리</text>
+  <rect class="box gray" x="36" y="292" width="198" height="44" rx="9"/>
+  <text class="t-s" x="48" y="319">채용 안내: 상시 모집</text>
+
+  <rect class="box" x="310" y="96" width="220" height="150" rx="14"/>
+  <text class="t-s t-b" x="326" y="122">모델이 받는 입력</text>
+  <rect class="box yellow" x="326" y="134" width="188" height="46" rx="9"/>
+  <text class="t-xs" x="338" y="152">찾아 온 자료</text>
+  <text class="t-s t-b t-ink" x="338" y="170">반품 규정: 마감 17시</text>
+  <rect class="box blue" x="326" y="188" width="188" height="46" rx="9"/>
+  <text class="t-xs" x="338" y="206">질문</text>
+  <text class="t-s t-b t-ink" x="338" y="224">반품 접수 마감이 몇 시예요?</text>
+
+  <path class="ln blue" d="M256 57 H420 V88" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M240 210 H278 V157 H318" marker-end="url(#ah-green)"/>
+  <circle class="badge green" cx="278" cy="184" r="12"/><text class="badge-t" x="278" y="188.500">2</text>
+
+  <path class="ln purple" d="M536 171 H582" marker-end="url(#ah-purple)"/>
+  <circle class="badge purple" cx="556" cy="171" r="12"/><text class="badge-t" x="556" y="175.500">3</text>
+
+  <rect class="box purple" x="590" y="126" width="150" height="90" rx="14"/>
+  <use href="#i-robot" x="600" y="149" width="44" height="44" class="ic purple"/>
+  <text class="t-l" x="654" y="167">모델</text>
+  <text class="t-s" x="654" y="188">자료를 읽고</text>
+
+  <path class="ln green" d="M665 222 V258" marker-end="url(#ah-green)"/>
+  <rect class="box green" x="590" y="266" width="150" height="70" rx="14"/>
+  <text class="t-l mid" x="665" y="296">17시입니다</text>
+  <text class="t-xs mid" x="665" y="318">근거: 반품 규정</text>
+
+  <rect class="box red" x="310" y="276" width="220" height="60" rx="12"/>
+  <text class="t-xs" x="326" y="298">자료 없이 기억만으로 답하면</text>
+  <text class="t-s t-b tc-red" x="326" y="320">"16시입니다" (옛 규정)</text>
+</svg>

@@ -1,0 +1,41 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>실행 취소는 버전을 과거, 현재, 미래 세 칸에 나눠 담고 현재를 앞뒤로 옮기는 일이다</title>
+
+  <rect class="panel blue" x="445" y="14" width="120" height="270" rx="14"/>
+  <text class="t-s t-b mid" x="320" y="38">과거</text>
+  <text class="t-s t-b mid tc-blue" x="505" y="38">현재</text>
+  <text class="t-s t-b mid" x="662" y="38">미래</text>
+  <path class="ln thin muted" d="M20 126 H740"/>
+  <path class="ln thin muted" d="M20 204 H740"/>
+
+  <text class="t-b" x="20" y="82">이름을 두 번 고침</text>
+  <text class="t-s" x="20" y="102">하늘 → 바다 → 구름</text>
+  <rect class="box" x="234" y="64" width="76" height="40" rx="8"/>
+  <text class="mid" x="272" y="89">하늘</text>
+  <rect class="box" x="330" y="64" width="76" height="40" rx="8"/>
+  <text class="mid" x="368" y="89">바다</text>
+  <rect class="solid blue" x="467" y="64" width="76" height="40" rx="8"/>
+  <text class="t-on t-b mid" x="505" y="89">구름</text>
+  <text class="t-s mid" x="662" y="89">비어 있음</text>
+
+  <text class="t-b" x="20" y="160">실행 취소</text>
+  <text class="t-s" x="20" y="180">현재가 한 칸 뒤로</text>
+  <rect class="box" x="234" y="142" width="76" height="40" rx="8"/>
+  <text class="mid" x="272" y="167">하늘</text>
+  <rect class="solid blue" x="467" y="142" width="76" height="40" rx="8"/>
+  <text class="t-on t-b mid" x="505" y="167">바다</text>
+  <rect class="box" x="624" y="142" width="76" height="40" rx="8"/>
+  <text class="mid" x="662" y="167">구름</text>
+
+  <text class="t-b" x="20" y="238">취소 뒤 새로 고침</text>
+  <text class="t-s" x="20" y="258">이름을 노을로</text>
+  <rect class="box" x="234" y="220" width="76" height="40" rx="8"/>
+  <text class="mid" x="272" y="245">하늘</text>
+  <rect class="box" x="330" y="220" width="76" height="40" rx="8"/>
+  <text class="mid" x="368" y="245">바다</text>
+  <rect class="solid blue" x="467" y="220" width="76" height="40" rx="8"/>
+  <text class="t-on t-b mid" x="505" y="245">노을</text>
+  <rect class="ghost dash" x="594" y="220" width="76" height="40" rx="8"/>
+  <text class="mid tc-muted" x="632" y="245">구름</text>
+  <text class="t-xs t-b tc-red" x="680" y="245">버려짐</text>
+</svg>

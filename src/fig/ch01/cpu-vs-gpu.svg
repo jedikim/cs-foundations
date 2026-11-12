@@ -1,0 +1,22 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg">
+  <title>CPU는 강한 코어 몇 개, GPU는 단순한 코어 수천 개</title>
+  <defs>
+    <pattern id="ch01-gpu-cells" x="416" y="96" width="13" height="13" patternUnits="userSpaceOnUse"><rect class="f-purple" width="10" height="10" rx="2"/></pattern>
+  </defs>
+  <rect class="panel" x="20" y="16" width="340" height="258" rx="16"/>
+  <text class="t-h mid" x="190" y="50">CPU</text>
+  <text class="t-s mid" x="190" y="72">복잡한 일을 차례로, 판단도 잘한다</text>
+  <g>
+    <rect class="box blue" x="64" y="96" width="54" height="54" rx="9"/><rect class="box blue" x="130" y="96" width="54" height="54" rx="9"/>
+    <rect class="box blue" x="196" y="96" width="54" height="54" rx="9"/><rect class="box blue" x="262" y="96" width="54" height="54" rx="9"/>
+    <rect class="box blue" x="64" y="162" width="54" height="54" rx="9"/><rect class="box blue" x="130" y="162" width="54" height="54" rx="9"/>
+    <rect class="box blue" x="196" y="162" width="54" height="54" rx="9"/><rect class="box blue" x="262" y="162" width="54" height="54" rx="9"/>
+  </g>
+  <text class="t-b mid tc-blue" x="190" y="252">강한 코어 8개</text>
+
+  <rect class="panel" x="400" y="16" width="340" height="258" rx="16"/>
+  <text class="t-h mid" x="570" y="50">GPU</text>
+  <text class="t-s mid" x="570" y="72">단순한 같은 계산을 한꺼번에</text>
+  <rect x="416" y="96" width="309" height="127" fill="url(#ch01-gpu-cells)"/>
+  <text class="t-b mid tc-purple" x="570" y="252">단순한 코어 수천 개</text>
+</svg>

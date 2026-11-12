@@ -1,0 +1,46 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>find는 파일의 이름을 보고, grep은 파일 안의 글자를 본다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="268" rx="16"/>
+  <text class="t-h" x="40" y="48">find</text>
+  <text class="t-s" x="88" y="48">파일의 이름표를 본다</text>
+  <rect class="box gray" x="36" y="62" width="318" height="34" rx="8"/>
+  <text class="t-mono" x="48" y="84">find . -name "*.png"</text>
+
+  <rect class="box green" x="36" y="114" width="150" height="44" rx="10"/>
+  <use href="#i-file" x="46" y="124" width="24" height="24" class="ic green"/>
+  <text class="t-mono t-b" x="78" y="141">logo.png</text>
+  <rect class="box" x="204" y="114" width="150" height="44" rx="10"/>
+  <use href="#i-file" x="214" y="124" width="24" height="24" class="ic gray"/>
+  <text class="t-mono tc-muted" x="246" y="141">main.py</text>
+  <rect class="box green" x="36" y="170" width="150" height="44" rx="10"/>
+  <use href="#i-file" x="46" y="180" width="24" height="24" class="ic green"/>
+  <text class="t-mono t-b" x="78" y="197">hero.png</text>
+  <rect class="box" x="204" y="170" width="150" height="44" rx="10"/>
+  <use href="#i-file" x="214" y="180" width="24" height="24" class="ic gray"/>
+  <text class="t-mono tc-muted" x="246" y="197">notes.txt</text>
+
+  <text class="t-s" x="40" y="246">결과: 조건에 맞는 파일의 경로</text>
+  <text class="t-mono tc-green" x="40" y="270">./logo.png  ./hero.png</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="268" rx="16"/>
+  <text class="t-h" x="410" y="48">grep</text>
+  <text class="t-s" x="462" y="48">파일 안의 글자를 본다</text>
+  <rect class="box gray" x="406" y="62" width="318" height="34" rx="8"/>
+  <text class="t-mono" x="418" y="84">grep -rn "timeout" src</text>
+
+  <rect class="box" x="406" y="110" width="318" height="112" rx="10"/>
+  <text class="t-xs" x="420" y="128">src/config.py</text>
+  <rect class="s-green" x="412" y="155" width="306" height="21"/>
+  <text class="t-mono tc-muted" x="422" y="150">1</text>
+  <text class="t-mono tc-muted" x="446" y="150">host = "localhost"</text>
+  <text class="t-mono t-b tc-green" x="422" y="170">2</text>
+  <text class="t-mono t-b" x="446" y="170">timeout = 30</text>
+  <text class="t-mono tc-muted" x="422" y="190">3</text>
+  <text class="t-mono tc-muted" x="446" y="190">retry = 3</text>
+  <text class="t-mono tc-muted" x="422" y="210">4</text>
+  <text class="t-mono tc-muted" x="446" y="210">debug = False</text>
+
+  <text class="t-s" x="410" y="246">결과: 글자가 든 줄과 줄 번호</text>
+  <text class="t-mono tc-green" x="410" y="270">src/config.py:2:timeout = 30</text>
+</svg>

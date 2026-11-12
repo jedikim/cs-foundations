@@ -1,0 +1,57 @@
+<svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg">
+  <title>민지가 준호에게 30,000원을 보내는 도중 서버가 꺼지면, 트랜잭션이 없을 때는 돈이 사라지고 트랜잭션으로 묶었을 때는 처음 상태로 돌아간다</title>
+
+  <text class="t-l" x="20" y="28">트랜잭션 없이 따로따로 고치면</text>
+  <rect class="box green" x="20" y="44" width="140" height="64" rx="10"/>
+  <text x="36" y="71">민지</text>
+  <text class="t-mono t-b end" x="144" y="71">50,000</text>
+  <text x="36" y="95">준호</text>
+  <text class="t-mono t-b end" x="144" y="95">20,000</text>
+  <rect class="box warm" x="310" y="44" width="140" height="64" rx="10"/>
+  <text x="326" y="71">민지</text>
+  <text class="t-mono t-b end" x="434" y="71">20,000</text>
+  <text x="326" y="95">준호</text>
+  <text class="t-mono t-b end" x="434" y="95">20,000</text>
+  <rect class="box red" x="600" y="44" width="140" height="64" rx="10"/>
+  <text x="616" y="71">민지</text>
+  <text class="t-mono t-b end tc-red" x="724" y="71">20,000</text>
+  <text x="616" y="95">준호</text>
+  <text class="t-mono t-b end tc-red" x="724" y="95">20,000</text>
+  <path class="ln" d="M166 76 H302" marker-end="url(#ah)"/>
+  <circle class="badge blue" cx="190" cy="58" r="10"/><text class="badge-t" x="190" y="62">1</text>
+  <text class="t-s" x="206" y="62">민지 −30,000</text>
+  <path class="ln red dash" d="M456 76 H592" marker-end="url(#ah-red)"/>
+  <circle class="badge red" cx="480" cy="58" r="10"/><text class="badge-t" x="480" y="62">2</text>
+  <text class="t-s" x="496" y="62">준호 +30,000</text>
+  <text class="t-s t-b mid tc-red" x="525" y="98">실행 전에 서버 꺼짐</text>
+  <text class="t-s" x="20" y="128">합계 70,000</text>
+  <text class="t-s t-b end tc-red" x="740" y="128">합계 40,000 · 30,000원이 사라짐</text>
+
+  <text class="t-l" x="20" y="170">트랜잭션으로 묶으면</text>
+  <rect class="panel blue" x="172" y="182" width="416" height="104" rx="12"/>
+  <text class="t-s t-b mid tc-blue" x="380" y="201">BEGIN부터 COMMIT까지가 한 묶음</text>
+  <rect class="box green" x="20" y="210" width="140" height="64" rx="10"/>
+  <text x="36" y="237">민지</text>
+  <text class="t-mono t-b end" x="144" y="237">50,000</text>
+  <text x="36" y="261">준호</text>
+  <text class="t-mono t-b end" x="144" y="261">20,000</text>
+  <rect class="box warm dash" x="310" y="210" width="140" height="64" rx="10"/>
+  <text x="326" y="237">민지</text>
+  <text class="t-mono t-b end" x="434" y="237">20,000</text>
+  <text x="326" y="261">준호</text>
+  <text class="t-mono t-b end" x="434" y="261">20,000</text>
+  <rect class="box green" x="600" y="210" width="140" height="64" rx="10"/>
+  <text x="616" y="237">민지</text>
+  <text class="t-mono t-b end tc-green" x="724" y="237">50,000</text>
+  <text x="616" y="261">준호</text>
+  <text class="t-mono t-b end tc-green" x="724" y="261">20,000</text>
+  <path class="ln" d="M166 242 H302" marker-end="url(#ah)"/>
+  <circle class="badge blue" cx="190" cy="226" r="10"/><text class="badge-t" x="190" y="230">1</text>
+  <text class="t-s" x="206" y="230">민지 −30,000</text>
+  <path class="ln red dash" d="M456 242 H592" marker-end="url(#ah-red)"/>
+  <circle class="badge red" cx="480" cy="226" r="10"/><text class="badge-t" x="480" y="230">2</text>
+  <text class="t-s" x="496" y="230">서버 꺼짐</text>
+  <text class="t-mono t-b mid tc-green" x="525" y="264">ROLLBACK</text>
+  <text class="t-s" x="20" y="296">합계 70,000</text>
+  <text class="t-s t-b end tc-green" x="740" y="296">합계 70,000 · 없던 일로 돌아감</text>
+</svg>

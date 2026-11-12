@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 398" xmlns="http://www.w3.org/2000/svg">
+  <title>소셜 로그인에서 비밀번호는 구글에만 입력하고, 내 서비스는 일회용 코드를 구글에 내고 확인서를 받아 자기 세션을 발급한다</title>
+
+  <rect class="box blue" x="30" y="20" width="180" height="56" rx="12"/>
+  <use href="#i-browser" x="42" y="32" width="32" height="32" class="ic blue"/>
+  <text class="t-l" x="84" y="54">내 브라우저</text>
+
+  <rect class="box green" x="290" y="20" width="180" height="56" rx="12"/>
+  <use href="#i-server" x="302" y="32" width="32" height="32" class="ic green"/>
+  <text class="t-l" x="344" y="54">내 서비스</text>
+
+  <rect class="box purple" x="550" y="20" width="180" height="56" rx="12"/>
+  <use href="#i-idcard" x="562" y="32" width="32" height="32" class="ic purple"/>
+  <text class="t-l" x="604" y="54">구글</text>
+
+  <path class="ln thin muted dash" d="M120 80 V352"/>
+  <path class="ln thin muted dash" d="M380 80 V352"/>
+  <path class="ln thin muted dash" d="M640 80 V352"/>
+
+  <circle class="badge blue" cx="120" cy="118" r="12"/><text class="badge-t" x="120" y="122.500">1</text>
+  <path class="ln blue" d="M136 118 H370" marker-end="url(#ah-blue)"/>
+  <text class="t-s mid" x="252" y="108">“구글로 로그인”을 누른다</text>
+
+  <circle class="badge blue" cx="120" cy="168" r="12"/><text class="badge-t" x="120" y="172.500">2</text>
+  <path class="ln blue" d="M136 168 H630" marker-end="url(#ah-blue)"/>
+  <text class="t-s mid" x="252" y="158">구글 화면으로 이동</text>
+  <text class="t-s t-b mid tc-purple" x="512" y="158">비밀번호는 여기에만 입력</text>
+
+  <circle class="badge purple" cx="640" cy="218" r="12"/><text class="badge-t" x="640" y="222.500">3</text>
+  <path class="ln purple" d="M624 218 H390" marker-end="url(#ah-purple)"/>
+  <text class="t-s mid" x="512" y="208">일회용 코드를 들려 돌려보낸다</text>
+  <text class="t-mono mid" x="512" y="238">code=K7x2…</text>
+
+  <circle class="badge green" cx="380" cy="278" r="12"/><text class="badge-t" x="380" y="282.500">4</text>
+  <path class="ln green" d="M396 278 H630" marker-end="url(#ah-green)" marker-start="url(#ah-green)"/>
+  <text class="t-s mid" x="512" y="268">코드를 내고 확인서를 받는다</text>
+  <text class="t-mono mid" x="512" y="298">email: minji@…</text>
+
+  <circle class="badge green" cx="380" cy="328" r="12"/><text class="badge-t" x="380" y="332.500">5</text>
+  <path class="ln green" d="M364 328 H130" marker-end="url(#ah-green)"/>
+  <text class="t-s mid" x="252" y="318">내 서비스의 출입증을 준다</text>
+  <text class="t-mono mid" x="252" y="348">sid=8f3a2c</text>
+
+  <text class="t-b mid" x="380" y="382">내 서비스는 구글 비밀번호를 한 번도 보지 못한다</text>
+</svg>

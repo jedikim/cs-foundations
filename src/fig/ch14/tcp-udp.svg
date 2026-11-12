@@ -1,0 +1,52 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>조각 B를 잃어버렸을 때 TCP는 다시 받아 순서대로 넘기고, UDP는 도착한 것만 그대로 넘긴다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="288" rx="16"/>
+  <text class="t-h" x="40" y="48">TCP</text>
+  <text class="t-s" x="40" y="70">등기 우편: 확인하고, 다시 보내고, 순서를 맞춘다</text>
+
+  <text class="t-s" x="40" y="111">보낸 것</text>
+  <rect class="solid blue" x="150" y="88" width="44" height="36" rx="7"/><text class="t-on t-b mid" x="172" y="111">A</text>
+  <rect class="solid blue" x="206" y="88" width="44" height="36" rx="7"/><text class="t-on t-b mid" x="228" y="111">B</text>
+  <rect class="solid blue" x="262" y="88" width="44" height="36" rx="7"/><text class="t-on t-b mid" x="284" y="111">C</text>
+
+  <text class="t-s" x="40" y="163">도착한 것</text>
+  <rect class="box blue" x="150" y="140" width="44" height="36" rx="7"/><text class="t-b mid" x="172" y="163">A</text>
+  <rect class="ghost dash" x="206" y="140" width="44" height="36" rx="7"/>
+  <use href="#i-cross" x="216" y="146" width="24" height="24" class="ic red"/>
+  <rect class="box blue" x="262" y="140" width="44" height="36" rx="7"/><text class="t-b mid" x="284" y="163">C</text>
+  <text class="t-xs tc-red" x="318" y="163">B 분실</text>
+
+  <text class="t-s" x="40" y="215">다시 받은 것</text>
+  <rect class="solid warm" x="206" y="192" width="44" height="36" rx="7"/><text class="t-on t-b mid" x="228" y="215">B</text>
+  <text class="t-xs tc-warm" x="262" y="215">재전송</text>
+
+  <text class="t-s t-b" x="40" y="267">앱이 받는 것</text>
+  <rect class="solid green" x="150" y="244" width="44" height="36" rx="7"/><text class="t-on t-b mid" x="172" y="267">A</text>
+  <rect class="solid green" x="206" y="244" width="44" height="36" rx="7"/><text class="t-on t-b mid" x="228" y="267">B</text>
+  <rect class="solid green" x="262" y="244" width="44" height="36" rx="7"/><text class="t-on t-b mid" x="284" y="267">C</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="288" rx="16"/>
+  <text class="t-h" x="410" y="48">UDP</text>
+  <text class="t-s" x="410" y="70">엽서: 보내면 끝. 확인도 재전송도 없다</text>
+
+  <text class="t-s" x="410" y="111">보낸 것</text>
+  <rect class="solid blue" x="520" y="88" width="44" height="36" rx="7"/><text class="t-on t-b mid" x="542" y="111">A</text>
+  <rect class="solid blue" x="576" y="88" width="44" height="36" rx="7"/><text class="t-on t-b mid" x="598" y="111">B</text>
+  <rect class="solid blue" x="632" y="88" width="44" height="36" rx="7"/><text class="t-on t-b mid" x="654" y="111">C</text>
+
+  <text class="t-s" x="410" y="163">도착한 것</text>
+  <rect class="box blue" x="520" y="140" width="44" height="36" rx="7"/><text class="t-b mid" x="542" y="163">A</text>
+  <rect class="ghost dash" x="576" y="140" width="44" height="36" rx="7"/>
+  <use href="#i-cross" x="586" y="146" width="24" height="24" class="ic red"/>
+  <rect class="box blue" x="632" y="140" width="44" height="36" rx="7"/><text class="t-b mid" x="654" y="163">C</text>
+  <text class="t-xs tc-red" x="688" y="163">B 분실</text>
+
+  <text class="t-s" x="410" y="215">다시 받은 것</text>
+  <text class="t-s tc-muted" x="520" y="215">없음 (다시 보내지 않음)</text>
+
+  <text class="t-s t-b" x="410" y="267">앱이 받는 것</text>
+  <rect class="solid green" x="520" y="244" width="44" height="36" rx="7"/><text class="t-on t-b mid" x="542" y="267">A</text>
+  <rect class="ghost dash" x="576" y="244" width="44" height="36" rx="7"/>
+  <rect class="solid green" x="632" y="244" width="44" height="36" rx="7"/><text class="t-on t-b mid" x="654" y="267">C</text>
+</svg>

@@ -1,0 +1,53 @@
+<svg viewBox="0 0 760 310" xmlns="http://www.w3.org/2000/svg">
+  <title>서버가 보낸 HTML 글자를 브라우저가 DOM이라는 나무로 만들고, 스크립트가 그 나무를 바꾸면 화면은 원본 HTML과 달라진다</title>
+
+  <rect class="panel" x="20" y="20" width="220" height="270" rx="14"/>
+  <circle class="badge" cx="44" cy="46" r="12"/><text class="badge-t" x="44" y="50.500">1</text>
+  <text class="t-b" x="64" y="51">서버가 보낸 HTML</text>
+  <text class="t-s" x="34" y="78">글자로 된 문서</text>
+  <rect class="box" x="30" y="92" width="200" height="112" rx="8"/>
+  <text class="t-mono" x="40" y="117">&lt;ul id="menu"&gt;</text>
+  <text class="t-mono" x="52" y="140">&lt;li&gt;불러오는 중&lt;/li&gt;</text>
+  <text class="t-mono" x="40" y="163">&lt;/ul&gt;</text>
+  <text class="t-mono" x="40" y="186">&lt;script src="app.js"&gt;</text>
+  <text class="t-xs" x="34" y="240">보는 법</text>
+  <text class="t-s t-b" x="34" y="262">페이지 소스 보기</text>
+
+  <path class="ln" d="M245 148 H264" marker-end="url(#ah)"/>
+  <text class="t-xs mid" x="255" y="134">해석</text>
+
+  <rect class="panel blue" x="270" y="20" width="220" height="270" rx="14"/>
+  <circle class="badge blue" cx="294" cy="46" r="12"/><text class="badge-t" x="294" y="50.500">2</text>
+  <text class="t-b" x="314" y="51">브라우저가 만든 DOM</text>
+  <text class="t-s" x="284" y="78">메모리 속의 나무</text>
+  <rect class="box blue" x="325" y="96" width="110" height="34" rx="8"/>
+  <text class="t-mono mid" x="380" y="118">ul#menu</text>
+  <path class="ln thin blue" d="M380 130 V150"/>
+  <rect class="box" x="345" y="150" width="70" height="34" rx="8"/>
+  <text class="t-mono mid" x="380" y="172">li</text>
+  <text class="t-xs mid" x="380" y="204">불러오는 중</text>
+  <text class="t-xs" x="284" y="240">만드는 법</text>
+  <text class="t-s t-b" x="284" y="262">태그 하나가 마디 하나</text>
+
+  <path class="ln" d="M495 148 H514" marker-end="url(#ah)"/>
+  <text class="t-xs mid" x="505" y="134">실행</text>
+
+  <rect class="panel green" x="520" y="20" width="220" height="270" rx="14"/>
+  <circle class="badge green" cx="544" cy="46" r="12"/><text class="badge-t" x="544" y="50.500">3</text>
+  <text class="t-b" x="564" y="51">스크립트가 바꾼 DOM</text>
+  <text class="t-s" x="534" y="78">지금 화면에 보이는 것</text>
+  <rect class="box blue" x="575" y="96" width="110" height="34" rx="8"/>
+  <text class="t-mono mid" x="630" y="118">ul#menu</text>
+  <path class="ln thin green" d="M630 130 V150 M562 150 V140 H698 V150"/>
+  <rect class="box green" x="532" y="150" width="60" height="34" rx="8"/>
+  <text class="t-mono mid" x="562" y="172">li</text>
+  <rect class="box green" x="600" y="150" width="60" height="34" rx="8"/>
+  <text class="t-mono mid" x="630" y="172">li</text>
+  <rect class="box green" x="668" y="150" width="60" height="34" rx="8"/>
+  <text class="t-mono mid" x="698" y="172">li</text>
+  <text class="t-xs mid" x="562" y="204">마르게리타</text>
+  <text class="t-xs mid" x="630" y="204">페퍼로니</text>
+  <text class="t-xs mid" x="698" y="204">고르곤졸라</text>
+  <text class="t-xs" x="534" y="240">보는 법</text>
+  <text class="t-s t-b" x="534" y="262">개발자 도구 Elements 탭</text>
+</svg>

@@ -1,0 +1,36 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>책 100만 권을 절반씩 줄이면 20번 만에 한 권이 남는다</title>
+  <text class="t-s t-b mid" x="75" y="30">반으로 줄인 횟수</text>
+  <text class="t-s t-b" x="150" y="30">남은 책</text>
+  <path class="ln thin muted" d="M20 40 H740"/>
+  <text class="t-mono mid" x="75" y="67">0</text>
+  <rect class="solid blue" x="150" y="52" width="480" height="20" rx="4"/>
+  <text class="t-mono" x="640" y="67">1,000,000권</text>
+  <text class="t-mono mid" x="75" y="97">1</text>
+  <rect class="solid blue" x="150" y="82" width="240" height="20" rx="4"/>
+  <text class="t-mono" x="400" y="97">500,000권</text>
+  <text class="t-mono mid" x="75" y="127">2</text>
+  <rect class="solid blue" x="150" y="112" width="120" height="20" rx="4"/>
+  <text class="t-mono" x="280" y="127">250,000권</text>
+  <text class="t-mono mid" x="75" y="157">3</text>
+  <rect class="solid blue" x="150" y="142" width="60" height="20" rx="4"/>
+  <text class="t-mono" x="220" y="157">125,000권</text>
+  <text class="t-mono mid" x="75" y="187">4</text>
+  <rect class="solid blue" x="150" y="172" width="30" height="20" rx="4"/>
+  <text class="t-mono" x="190" y="187">62,500권</text>
+  <text class="t-mono mid" x="75" y="217">5</text>
+  <rect class="solid blue" x="150" y="202" width="15" height="20" rx="4"/>
+  <text class="t-mono" x="175" y="217">31,250권</text>
+  <text class="mid tc-muted" x="75" y="246">⋮</text>
+  <text class="tc-muted" x="153" y="246">⋮</text>
+  <text class="t-mono mid" x="75" y="277">10</text>
+  <rect class="solid blue" x="150" y="262" width="3" height="20"/>
+  <text class="t-mono" x="163" y="277">약 1,000권</text>
+  <text class="t-mono mid t-b" x="75" y="307">20</text>
+  <circle class="f-green" cx="152" cy="302" r="4"/>
+  <text class="t-mono t-b tc-green" x="163" y="307">1권</text>
+  <rect class="box yellow" x="440" y="150" width="300" height="104" rx="12"/>
+  <text class="t-b mid" x="590" y="182">100만 권도 20번이면 1권</text>
+  <text class="t-s mid" x="590" y="208">거꾸로 2를 20번 곱하면 1,048,576</text>
+  <text class="t-s mid" x="590" y="232">이 횟수가 로그(log)입니다</text>
+</svg>

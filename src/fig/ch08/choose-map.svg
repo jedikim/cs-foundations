@@ -1,0 +1,96 @@
+<svg viewBox="0 0 760 430" xmlns="http://www.w3.org/2000/svg">
+  <title>가장 자주 하는 일이 무엇인지에 따라 어울리는 자료구조가 정해진다</title>
+  <text class="t-s t-b" x="22" y="34">가장 자주 하는 일</text>
+  <text class="t-s t-b" x="502" y="34">어울리는 그릇</text>
+  <rect class="box" x="20" y="48" width="420" height="38" rx="10"/>
+  <text x="38" y="72">몇 번째 것을 바로 꺼내고, 순서대로 훑는다</text>
+  <path class="ln thin" d="M446 67 H490" marker-end="url(#ah)"/>
+  <rect class="box green" x="500" y="48" width="240" height="38" rx="10"/>
+  <g class="ic green">
+    <rect class="i-f" x="514" y="62" width="9" height="10"/>
+    <rect class="i-f" x="523" y="62" width="9" height="10"/>
+    <rect class="i-f" x="532" y="62" width="9" height="10"/>
+    <rect class="i-f" x="541" y="62" width="9" height="10"/>
+  </g>
+  <text class="t-b" x="568" y="72">배열</text>
+  <rect class="box" x="20" y="95" width="420" height="38" rx="10"/>
+  <text x="38" y="119">방금 넣은 것부터 되돌린다</text>
+  <path class="ln thin" d="M446 114 H490" marker-end="url(#ah)"/>
+  <rect class="box green" x="500" y="95" width="240" height="38" rx="10"/>
+  <g class="ic green">
+    <rect class="i-f" x="518" y="103" width="28" height="6" rx="2"/>
+    <rect class="i-f" x="518" y="111" width="28" height="6" rx="2"/>
+    <rect class="i-f" x="518" y="119" width="28" height="6" rx="2"/>
+  </g>
+  <text class="t-b" x="568" y="119">스택</text>
+  <rect class="box" x="20" y="142" width="420" height="38" rx="10"/>
+  <text x="38" y="166">온 순서대로 하나씩 처리한다</text>
+  <path class="ln thin" d="M446 161 H490" marker-end="url(#ah)"/>
+  <rect class="box green" x="500" y="142" width="240" height="38" rx="10"/>
+  <g class="ic green">
+    <rect class="i-f" x="522" y="156" width="8" height="10" rx="1.5"/>
+    <rect class="i-f" x="534" y="156" width="8" height="10" rx="1.5"/>
+    <rect class="i-f" x="546" y="156" width="8" height="10" rx="1.5"/>
+    <path class="i-s" d="M517 157 L512 161 L517 165"/>
+  </g>
+  <text class="t-b" x="568" y="166">큐</text>
+  <rect class="box" x="20" y="189" width="420" height="38" rx="10"/>
+  <text x="38" y="213">이름표(키)로 값을 바로 찾는다</text>
+  <path class="ln thin" d="M446 208 H490" marker-end="url(#ah)"/>
+  <rect class="box yellow" x="500" y="189" width="240" height="38" rx="10"/>
+  <g class="ic yellow">
+    <rect class="i-f" x="513" y="202" width="12" height="12" rx="2"/>
+    <path class="i-s" d="M525 208 H535"/>
+    <rect class="i-f" x="535" y="202" width="17" height="12" rx="2"/>
+  </g>
+  <text class="t-b" x="568" y="213">해시 맵</text>
+  <rect class="box" x="20" y="236" width="420" height="38" rx="10"/>
+  <text x="38" y="260">있는지 없는지만 빨리 확인한다</text>
+  <path class="ln thin" d="M446 255 H490" marker-end="url(#ah)"/>
+  <rect class="box yellow" x="500" y="236" width="240" height="38" rx="10"/>
+  <g class="ic yellow">
+    <ellipse class="i-f" cx="532" cy="255" rx="19" ry="12"/>
+    <circle class="i-d" cx="523" cy="257" r="2.4"/>
+    <circle class="i-d" cx="532" cy="251" r="2.4"/>
+    <circle class="i-d" cx="541" cy="258" r="2.4"/>
+  </g>
+  <text class="t-b" x="568" y="260">집합</text>
+  <rect class="box" x="20" y="283" width="420" height="38" rx="10"/>
+  <text x="38" y="307">가장 급한 것부터 꺼낸다</text>
+  <path class="ln thin" d="M446 302 H490" marker-end="url(#ah)"/>
+  <rect class="box blue" x="500" y="283" width="240" height="38" rx="10"/>
+  <g class="ic blue">
+    <path class="i-s" d="M532 294 L521 310 M532 294 L543 310"/>
+    <circle class="i-d" cx="532" cy="294" r="5"/>
+    <circle class="i-f" cx="521" cy="310" r="4"/>
+    <circle class="i-f" cx="543" cy="310" r="4"/>
+  </g>
+  <text class="t-b" x="568" y="307">힙 (우선순위 큐)</text>
+  <rect class="box" x="20" y="330" width="420" height="38" rx="10"/>
+  <text x="38" y="354">정렬된 순서로 범위를 찾는다</text>
+  <path class="ln thin" d="M446 349 H490" marker-end="url(#ah)"/>
+  <rect class="box blue" x="500" y="330" width="240" height="38" rx="10"/>
+  <g class="ic blue">
+    <path class="i-s" d="M532 339 L522 349 M532 339 L542 349 M522 349 L516 359 M522 349 L528 359 M542 349 L536 359 M542 349 L548 359"/>
+    <circle class="i-f" cx="532" cy="339" r="3"/>
+    <circle class="i-f" cx="522" cy="349" r="3"/>
+    <circle class="i-f" cx="542" cy="349" r="3"/>
+    <circle class="i-f" cx="516" cy="359" r="3"/>
+    <circle class="i-f" cx="528" cy="359" r="3"/>
+    <circle class="i-f" cx="536" cy="359" r="3"/>
+    <circle class="i-f" cx="548" cy="359" r="3"/>
+  </g>
+  <text class="t-b" x="568" y="354">탐색 트리</text>
+  <rect class="box" x="20" y="377" width="420" height="38" rx="10"/>
+  <text x="38" y="401">누가 누구와 이어졌는지 따라간다</text>
+  <path class="ln thin" d="M446 396 H490" marker-end="url(#ah)"/>
+  <rect class="box blue" x="500" y="377" width="240" height="38" rx="10"/>
+  <g class="ic blue">
+    <path class="i-s" d="M517 389 L547 387 M517 389 L521 405 M547 387 L545 404 M521 405 L545 404 M517 389 L545 404"/>
+    <circle class="i-f" cx="517" cy="389" r="3.5"/>
+    <circle class="i-f" cx="547" cy="387" r="3.5"/>
+    <circle class="i-f" cx="521" cy="405" r="3.5"/>
+    <circle class="i-f" cx="545" cy="404" r="3.5"/>
+  </g>
+  <text class="t-b" x="568" y="401">그래프</text>
+</svg>

@@ -1,0 +1,35 @@
+<svg viewBox="0 0 760 270" xmlns="http://www.w3.org/2000/svg">
+  <title>주소는 사물함 번호, 값은 사물함 속 내용물, 포인터는 번호를 적어 둔 쪽지다</title>
+  <text class="t-s t-b end" x="138" y="52">포인터 p</text>
+  <text class="t-xs end" x="138" y="70">주소를 적은 쪽지</text>
+  <rect class="box blue" x="150" y="28" width="150" height="56" rx="10"/>
+  <text class="t-mono t-b mid" x="225" y="61">1004</text>
+  <path class="ln blue" d="M306 56 H431 V122" marker-end="url(#ah-blue)"/>
+  <text class="t-s mid tc-blue" x="368" y="46">가리킨다</text>
+  <text class="t-s" x="470" y="50">p에 적힌 것: <tspan class="t-mono t-b t-ink">1004</tspan> (주소)</text>
+  <text class="t-s" x="470" y="74">p가 가리키는 것: <tspan class="t-mono t-b t-ink">20</tspan> (값)</text>
+  <text class="t-s t-b end" x="138" y="145">주소 (번호)</text>
+  <text class="t-s t-b end" x="138" y="190">값 (내용물)</text>
+  <text class="t-mono mid" x="181" y="145">1000</text>
+  <text class="t-mono mid" x="243" y="145">1001</text>
+  <text class="t-mono mid" x="305" y="145">1002</text>
+  <text class="t-mono mid" x="367" y="145">1003</text>
+  <text class="t-mono mid t-b tc-blue" x="429" y="145">1004</text>
+  <text class="t-mono mid" x="491" y="145">1005</text>
+  <text class="t-mono mid" x="553" y="145">1006</text>
+  <text class="t-mono mid" x="615" y="145">1007</text>
+  <rect class="box green" x="150" y="156" width="246" height="56" rx="10"/>
+  <path class="ln thin muted dash" d="M211 160 V208"/>
+  <path class="ln thin muted dash" d="M273 160 V208"/>
+  <path class="ln thin muted dash" d="M335 160 V208"/>
+  <text class="t-l mid" x="273" y="190">10</text>
+  <path class="ln thin" d="M152 220 v8 H394 v-8"/>
+  <text class="t-s mid" x="273" y="250">정수 a — 사물함 4칸(4바이트)</text>
+  <rect class="box green" x="400" y="156" width="246" height="56" rx="10"/>
+  <path class="ln thin muted dash" d="M459 160 V208"/>
+  <path class="ln thin muted dash" d="M521 160 V208"/>
+  <path class="ln thin muted dash" d="M583 160 V208"/>
+  <text class="t-l mid" x="523" y="190">20</text>
+  <path class="ln thin" d="M402 220 v8 H644 v-8"/>
+  <text class="t-s mid" x="523" y="250">정수 b — 사물함 4칸(4바이트)</text>
+</svg>

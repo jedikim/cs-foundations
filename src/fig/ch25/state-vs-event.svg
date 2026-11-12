@@ -1,0 +1,39 @@
+<svg viewBox="0 0 760 344" xmlns="http://www.w3.org/2000/svg">
+  <title>문을 여는 사건을 한 번만 알리면 늦게 들어온 서연은 닫힌 문을 보고, 문의 상태를 보내면 서연도 열린 문을 본다</title>
+
+  <text class="t-s t-b mid" x="300" y="34">10초: 지우가 문을 연다</text>
+  <text class="t-s t-b mid" x="580" y="34">30초: 서연이 늦게 들어온다</text>
+
+  <rect class="panel" x="20" y="48" width="720" height="134" rx="16"/>
+  <text class="t-b" x="36" y="106">사건으로만 알리면</text>
+  <text class="t-s" x="36" y="128">한 번 알리고 끝</text>
+  <rect class="box blue" x="220" y="60" width="160" height="34" rx="17"/>
+  <text class="t-mono t-b mid" x="300" y="82">"문 열어!"</text>
+  <path class="ln blue" d="M300 98 V112" marker-end="url(#ah-blue)"/>
+  <rect class="box green" x="230" y="118" width="140" height="52" rx="10"/>
+  <use href="#i-door" x="240" y="128" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="280" y="150">하준: 열림</text>
+  <rect class="ghost dash" x="500" y="60" width="160" height="34" rx="17"/>
+  <text class="t-xs mid" x="580" y="82">다시 알려 주지 않는다</text>
+  <rect class="box red" x="510" y="118" width="140" height="52" rx="10"/>
+  <use href="#i-door" x="520" y="128" width="32" height="32" class="ic red"/>
+  <text class="t-b tc-red" x="560" y="150">서연: 닫힘</text>
+  <use href="#i-cross" x="680" y="128" width="32" height="32" class="ic red"/>
+
+  <rect class="panel" x="20" y="196" width="720" height="134" rx="16"/>
+  <text class="t-b" x="36" y="254">상태로 알리면</text>
+  <text class="t-s" x="36" y="276">지금 값을 계속 보냄</text>
+  <rect class="box warm" x="220" y="208" width="160" height="34" rx="17"/>
+  <text class="t-mono t-b mid" x="300" y="230">문 = 열림</text>
+  <path class="ln warm" d="M300 246 V260" marker-end="url(#ah-warm)"/>
+  <rect class="box green" x="230" y="266" width="140" height="52" rx="10"/>
+  <use href="#i-door" x="240" y="276" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="280" y="298">하준: 열림</text>
+  <rect class="box warm" x="500" y="208" width="160" height="34" rx="17"/>
+  <text class="t-mono t-b mid" x="580" y="230">문 = 열림</text>
+  <path class="ln warm" d="M580 246 V260" marker-end="url(#ah-warm)"/>
+  <rect class="box green" x="510" y="266" width="140" height="52" rx="10"/>
+  <use href="#i-door" x="520" y="276" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="560" y="298">서연: 열림</text>
+  <use href="#i-check" x="680" y="276" width="32" height="32" class="ic green"/>
+</svg>

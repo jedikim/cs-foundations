@@ -1,0 +1,55 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>패키지 하나를 적어 설치하면 그 패키지가 필요로 하는 패키지 네 개가 함께 설치된다</title>
+
+  <text class="t-s t-b" x="20" y="42">내가 적은 것: 1줄</text>
+  <rect class="box blue" x="20" y="54" width="200" height="106" rx="12"/>
+  <use href="#i-file" x="30" y="64" width="30" height="30" class="ic blue"/>
+  <text class="t-mono t-b" x="66" y="85">requirements.txt</text>
+  <path class="ln thin muted" d="M34 102 H206"/>
+  <text class="t-mono" x="34" y="126">requests&gt;=2.31</text>
+  <text class="t-xs" x="34" y="146">2.31 이상이면 된다는 범위</text>
+
+  <path class="ln" d="M226 107 H342" marker-end="url(#ah)"/>
+  <text class="t-mono mid" x="284" y="96">pip install</text>
+
+  <rect class="box yellow" x="20" y="196" width="200" height="96" rx="12"/>
+  <use href="#i-lock" x="30" y="204" width="28" height="28" class="ic yellow"/>
+  <text class="t-b" x="66" y="224">잠금 파일</text>
+  <text class="t-xs" x="34" y="252">오른쪽 5개의 정확한 버전을</text>
+  <text class="t-xs" x="34" y="270">그대로 적어 둔 목록</text>
+  <path class="ln thin muted dash" d="M344 244 H228" marker-end="url(#ah-muted)"/>
+
+  <rect class="panel green" x="350" y="20" width="390" height="280" rx="14"/>
+  <text class="t-s t-b" x="366" y="44">실제로 설치된 것: 5개</text>
+
+  <path class="ln thin muted" d="M382 98 V265"/>
+  <path class="ln thin muted" d="M382 133 H402"/>
+  <path class="ln thin muted" d="M382 177 H402"/>
+  <path class="ln thin muted" d="M382 221 H402"/>
+  <path class="ln thin muted" d="M382 265 H402"/>
+
+  <rect class="box blue" x="366" y="56" width="230" height="40" rx="8"/>
+  <text class="t-mono t-b" x="380" y="81">requests</text>
+  <text class="t-mono end" x="586" y="81">2.32.4</text>
+  <text class="t-s tc-blue" x="608" y="81">내가 적은 것</text>
+
+  <rect class="box" x="406" y="116" width="230" height="34" rx="8"/>
+  <text class="t-mono" x="420" y="138">urllib3</text>
+  <text class="t-mono end" x="626" y="138">2.5.0</text>
+
+  <rect class="box" x="406" y="160" width="230" height="34" rx="8"/>
+  <text class="t-mono" x="420" y="182">certifi</text>
+  <text class="t-mono end" x="626" y="182">2025.6.15</text>
+
+  <rect class="box" x="406" y="204" width="230" height="34" rx="8"/>
+  <text class="t-mono" x="420" y="226">idna</text>
+  <text class="t-mono end" x="626" y="226">3.10</text>
+
+  <rect class="box" x="406" y="248" width="230" height="34" rx="8"/>
+  <text class="t-mono" x="420" y="270">charset-normalizer</text>
+  <text class="t-mono end" x="626" y="270">3.4.2</text>
+
+  <path class="ln thin warm" d="M644 118 H652 V280 H644"/>
+  <text class="t-s t-b tc-warm" x="662" y="196">딸려 온 것</text>
+  <text class="t-xs" x="662" y="214">간접 의존성</text>
+</svg>

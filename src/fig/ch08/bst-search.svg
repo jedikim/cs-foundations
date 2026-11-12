@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>이진 탐색 트리에서 10을 찾을 때 갈림길마다 한쪽만 따라가므로 일곱 개 중 세 개만 확인한다</title>
+
+  <rect class="ghost dash" x="50" y="118" width="220" height="160" rx="14"/>
+  <text class="t-s mid" x="160" y="300">8보다 작은 쪽: 열어 보지 않음</text>
+
+  <path class="ln muted" d="M300 60 L160 150"/>
+  <path class="ln muted" d="M160 150 L90 240"/>
+  <path class="ln muted" d="M160 150 L230 240"/>
+  <path class="ln muted" d="M440 150 L510 240"/>
+  <path class="ln blue thick" d="M300 60 L440 150"/>
+  <path class="ln blue thick" d="M440 150 L370 240"/>
+
+  <circle class="box blue" cx="300" cy="60" r="24"/>
+  <text class="t-l mid" x="300" y="66">8</text>
+  <circle class="box gray" cx="160" cy="150" r="24"/>
+  <text class="t-l mid tc-muted" x="160" y="156">3</text>
+  <circle class="box blue" cx="440" cy="150" r="24"/>
+  <text class="t-l mid" x="440" y="156">12</text>
+  <circle class="box gray" cx="90" cy="240" r="24"/>
+  <text class="t-l mid tc-muted" x="90" y="246">1</text>
+  <circle class="box gray" cx="230" cy="240" r="24"/>
+  <text class="t-l mid tc-muted" x="230" y="246">5</text>
+  <circle class="solid blue" cx="370" cy="240" r="24"/>
+  <text class="t-l mid t-on" x="370" y="246">10</text>
+  <circle class="box" cx="510" cy="240" r="24"/>
+  <text class="t-l mid" x="510" y="246">14</text>
+
+  <text class="t-s end" x="218" y="96">더 작은 값</text>
+  <text class="t-s" x="384" y="96">더 큰 값</text>
+
+  <circle class="badge blue" cx="340" cy="38" r="11"/><text class="badge-t" x="340" y="42.500">1</text>
+  <circle class="badge blue" cx="480" cy="128" r="11"/><text class="badge-t" x="480" y="132.500">2</text>
+  <circle class="badge blue" cx="410" cy="218" r="11"/><text class="badge-t" x="410" y="222.500">3</text>
+
+  <rect class="box yellow" x="560" y="40" width="180" height="200" rx="14"/>
+  <text class="t-l mid" x="650" y="72">10을 찾아라</text>
+  <circle class="badge blue" cx="584" cy="104" r="11"/><text class="badge-t" x="584" y="108.500">1</text>
+  <text class="t-s" x="602" y="109">8보다 크다: 오른쪽</text>
+  <circle class="badge blue" cx="584" cy="138" r="11"/><text class="badge-t" x="584" y="142.500">2</text>
+  <text class="t-s" x="602" y="143">12보다 작다: 왼쪽</text>
+  <circle class="badge blue" cx="584" cy="172" r="11"/><text class="badge-t" x="584" y="176.500">3</text>
+  <text class="t-s" x="602" y="177">10이다: 찾았다</text>
+  <text class="t-s t-b mid tc-blue" x="650" y="216">7개 중 3개만 확인</text>
+</svg>

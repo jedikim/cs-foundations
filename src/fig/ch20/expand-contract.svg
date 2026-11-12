@@ -1,0 +1,66 @@
+<svg viewBox="0 0 760 318" xmlns="http://www.w3.org/2000/svg">
+  <title>열 이름을 name에서 nickname으로 바꿀 때 확장, 이전, 축소의 세 단계를 거치면 구버전과 신버전이 함께 돌 수 있는 구간이 생긴다</title>
+  <rect class="panel green" x="432" y="176" width="154" height="96" rx="12"/>
+  <text class="t-s t-b" x="20" y="124">users 표</text>
+  <text class="t-s t-b" x="20" y="206">구버전 코드</text>
+  <text class="t-xs" x="20" y="223">name을 읽는다</text>
+  <text class="t-s t-b" x="20" y="250">신버전 코드</text>
+  <text class="t-xs" x="20" y="267">nickname을 읽는다</text>
+  <text class="t-b mid" x="189" y="36">처음</text>
+  <text class="t-s mid" x="189" y="58">열은 name 하나</text>
+  <circle class="badge" cx="325" cy="31" r="12"/><text class="badge-t" x="325" y="35.500">1</text>
+  <text class="t-b" x="343" y="36">확장</text>
+  <text class="t-s mid" x="349" y="58">새 열을 더한다</text>
+  <circle class="badge" cx="485" cy="31" r="12"/><text class="badge-t" x="485" y="35.500">2</text>
+  <text class="t-b" x="503" y="36">이전</text>
+  <text class="t-s mid" x="509" y="58">값을 옮겨 채운다</text>
+  <circle class="badge" cx="645" cy="31" r="12"/><text class="badge-t" x="645" y="35.500">3</text>
+  <text class="t-b" x="663" y="36">축소</text>
+  <text class="t-s mid" x="669" y="58">옛 열을 지운다</text>
+  <rect class="box gray" x="121" y="74" width="56" height="30"/>
+  <text class="t-mono t-b mid" x="149" y="94">name</text>
+  <rect class="box" x="121" y="104" width="56" height="30"/>
+  <text class="mid" x="149" y="125">민지</text>
+  <rect class="box" x="121" y="134" width="56" height="30"/>
+  <text class="mid" x="149" y="155">준호</text>
+  <rect class="box gray" x="281" y="74" width="56" height="30"/>
+  <text class="t-mono t-b mid" x="309" y="94">name</text>
+  <rect class="box" x="281" y="104" width="56" height="30"/>
+  <text class="mid" x="309" y="125">민지</text>
+  <rect class="box" x="281" y="134" width="56" height="30"/>
+  <text class="mid" x="309" y="155">준호</text>
+  <rect class="box green" x="337" y="74" width="80" height="30"/>
+  <text class="t-mono t-b mid" x="377" y="94">nickname</text>
+  <rect class="box" x="337" y="104" width="80" height="30"/>
+  <rect class="box" x="337" y="134" width="80" height="30"/>
+  <rect class="box gray" x="441" y="74" width="56" height="30"/>
+  <text class="t-mono t-b mid" x="469" y="94">name</text>
+  <rect class="box" x="441" y="104" width="56" height="30"/>
+  <text class="mid" x="469" y="125">민지</text>
+  <rect class="box" x="441" y="134" width="56" height="30"/>
+  <text class="mid" x="469" y="155">준호</text>
+  <rect class="box green" x="497" y="74" width="80" height="30"/>
+  <text class="t-mono t-b mid" x="537" y="94">nickname</text>
+  <rect class="box" x="497" y="104" width="80" height="30"/>
+  <text class="mid" x="537" y="125">민지</text>
+  <rect class="box" x="497" y="134" width="80" height="30"/>
+  <text class="mid" x="537" y="155">준호</text>
+  <rect class="ghost dash" x="601" y="74" width="56" height="90"/>
+  <path class="ln thin red" d="M617 107 L641 131 M641 107 L617 131"/>
+  <rect class="box green" x="657" y="74" width="80" height="30"/>
+  <text class="t-mono t-b mid" x="697" y="94">nickname</text>
+  <rect class="box" x="657" y="104" width="80" height="30"/>
+  <text class="mid" x="697" y="125">민지</text>
+  <rect class="box" x="657" y="134" width="80" height="30"/>
+  <text class="mid" x="697" y="155">준호</text>
+  <use href="#i-check" x="174" y="186" width="30" height="30" class="ic green"/>
+  <use href="#i-cross" x="174" y="230" width="30" height="30" class="ic red"/>
+  <use href="#i-check" x="334" y="186" width="30" height="30" class="ic green"/>
+  <use href="#i-cross" x="334" y="230" width="30" height="30" class="ic red"/>
+  <use href="#i-check" x="494" y="186" width="30" height="30" class="ic green"/>
+  <use href="#i-check" x="494" y="230" width="30" height="30" class="ic green"/>
+  <use href="#i-cross" x="654" y="186" width="30" height="30" class="ic red"/>
+  <use href="#i-check" x="654" y="230" width="30" height="30" class="ic green"/>
+  <text class="t-s t-b mid tc-green" x="509" y="296">함께 돌 수 있는 구간</text>
+  <text class="t-s t-b mid tc-red" x="669" y="296">옛 코드로 못 돌아간다</text>
+</svg>

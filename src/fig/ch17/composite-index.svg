@@ -1,0 +1,65 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>회원 번호 다음 날짜 순으로 정렬한 복합 인덱스에서 회원 7의 11월은 한 구간이지만 모든 회원의 11월은 여러 구간으로 흩어진다</title>
+  <text class="t-l" x="38" y="30">(member_id, ordered_at) 인덱스가 정렬된 모습</text>
+  <text class="t-s" x="38" y="52">먼저 회원 번호순, 같은 회원 안에서는 날짜순</text>
+
+  <circle class="badge green" cx="50" cy="86" r="11"/><text class="badge-t" x="50" y="90.5">1</text>
+  <text class="t-b" x="70" y="91">회원 7의 11월 주문</text>
+  <rect class="box gray" x="38" y="102" width="380" height="24"/>
+  <text class="t-s t-b mid" x="228" y="119">회원 7</text>
+  <rect class="box gray" x="418" y="102" width="152" height="24"/>
+  <text class="t-s t-b mid" x="494" y="119">회원 8</text>
+  <rect class="box gray" x="570" y="102" width="152" height="24"/>
+  <text class="t-s t-b mid" x="646" y="119">회원 9</text>
+  <rect class="box" x="38" y="126" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="76" y="151">10/31</text>
+  <rect class="box green" x="114" y="126" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="152" y="151">11/01</text>
+  <rect class="box green" x="190" y="126" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="228" y="151">11/15</text>
+  <rect class="box green" x="266" y="126" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="304" y="151">11/30</text>
+  <rect class="box" x="342" y="126" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="380" y="151">12/01</text>
+  <rect class="box" x="418" y="126" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="456" y="151">11/01</text>
+  <rect class="box" x="494" y="126" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="532" y="151">11/20</text>
+  <rect class="box" x="570" y="126" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="608" y="151">10/05</text>
+  <rect class="box" x="646" y="126" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="684" y="151">11/03</text>
+  <path class="ln green" d="M118 172 V179 H338 V172"/>
+  <text class="t-s t-b mid tc-green" x="228" y="198">이어진 한 구간만 읽는다</text>
+
+  <circle class="badge warm" cx="50" cy="236" r="11"/><text class="badge-t" x="50" y="240.5">2</text>
+  <text class="t-b" x="70" y="241">모든 회원의 11월 주문</text>
+  <rect class="box gray" x="38" y="252" width="380" height="24"/>
+  <text class="t-s t-b mid" x="228" y="269">회원 7</text>
+  <rect class="box gray" x="418" y="252" width="152" height="24"/>
+  <text class="t-s t-b mid" x="494" y="269">회원 8</text>
+  <rect class="box gray" x="570" y="252" width="152" height="24"/>
+  <text class="t-s t-b mid" x="646" y="269">회원 9</text>
+  <rect class="box" x="38" y="276" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="76" y="301">10/31</text>
+  <rect class="box warm" x="114" y="276" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="152" y="301">11/01</text>
+  <rect class="box warm" x="190" y="276" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="228" y="301">11/15</text>
+  <rect class="box warm" x="266" y="276" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="304" y="301">11/30</text>
+  <rect class="box" x="342" y="276" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="380" y="301">12/01</text>
+  <rect class="box warm" x="418" y="276" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="456" y="301">11/01</text>
+  <rect class="box warm" x="494" y="276" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="532" y="301">11/20</text>
+  <rect class="box" x="570" y="276" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="608" y="301">10/05</text>
+  <rect class="box warm" x="646" y="276" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="684" y="301">11/03</text>
+  <path class="ln warm" d="M118 322 V329 H338 V322"/>
+  <path class="ln warm" d="M422 322 V329 H566 V322"/>
+  <path class="ln warm" d="M650 322 V329 H718 V322"/>
+  <text class="t-s t-b mid tc-warm" x="380" y="350">회원마다 구간이 따로 있어 여러 곳을 뒤진다</text>
+</svg>

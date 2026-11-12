@@ -1,0 +1,39 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>주방의 요리사·조리대·창고가 컴퓨터의 CPU·메모리·저장장치에 대응한다</title>
+  <text class="t-s t-b" x="22" y="96">주방에서는</text>
+  <text class="t-s t-b" x="22" y="262">컴퓨터에서는</text>
+
+  <rect class="box yellow" x="112" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-chef" x="183" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="207" y="114">요리사</text>
+  <text class="t-s mid" x="207" y="135">레시피대로 손을 움직인다</text>
+
+  <rect class="box yellow" x="332" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-table" x="403" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="427" y="114">조리대</text>
+  <text class="t-s mid" x="427" y="135">지금 쓰는 재료를 펼친다</text>
+
+  <rect class="box yellow" x="552" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-shelf" x="623" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="647" y="114">창고</text>
+  <text class="t-s mid" x="647" y="135">재료를 오래 보관한다</text>
+
+  <path class="ln muted" d="M207 154 V190" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M427 154 V190" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M647 154 V190" marker-end="url(#ah-muted)"/>
+
+  <rect class="box blue" x="112" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-chip" x="183" y="206" width="48" height="48" class="ic blue"/>
+  <text class="t-l mid" x="207" y="280">CPU</text>
+  <text class="t-s mid" x="207" y="301">명령을 읽고 계산한다</text>
+
+  <rect class="box green" x="332" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-ram" x="403" y="206" width="48" height="48" class="ic green"/>
+  <text class="t-l mid" x="427" y="280">메모리 (RAM)</text>
+  <text class="t-s mid" x="427" y="301">실행 중인 것을 올려 둔다</text>
+
+  <rect class="box warm" x="552" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-disk" x="623" y="206" width="48" height="48" class="ic warm"/>
+  <text class="t-l mid" x="647" y="280">저장장치 (SSD)</text>
+  <text class="t-s mid" x="647" y="301">전원을 꺼도 파일이 남는다</text>
+</svg>

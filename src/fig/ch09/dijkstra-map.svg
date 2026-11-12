@@ -1,0 +1,57 @@
+<svg viewBox="0 0 760 386" xmlns="http://www.w3.org/2000/svg">
+  <title>집에서 도서관까지: 가장 가까운 곳부터 확정하며 기록을 고쳐 나가면 6분짜리 길을 찾는다</title>
+  <text class="t-h" x="20" y="32">집에서 도서관까지 가장 빠른 길</text>
+  <path class="ln thick green" d="M108.3 181.1 L201.7 118.9"/>
+  <text class="t-b mid tc-green" x="145" y="136">1분</text>
+  <path class="ln muted" d="M108.3 218.9 L201.7 281.1"/>
+  <text class="t-b mid tc-muted" x="145" y="272">4분</text>
+  <path class="ln thick green" d="M230.0 134.0 L230.0 266.0"/>
+  <text class="t-b mid tc-green" x="252" y="205">2분</text>
+  <path class="ln thick green" d="M258.8 282.0 L361.2 218.0"/>
+  <text class="t-b mid tc-green" x="322" y="272">3분</text>
+  <path class="ln muted" d="M258.8 118.0 L361.2 182.0"/>
+  <text class="t-b mid tc-muted" x="322" y="136">7분</text>
+  <circle class="box blue" cx="80" cy="200" r="30"/>
+  <text class="t-l mid" x="80" y="206">집</text>
+  <circle class="box" cx="230" cy="100" r="30"/>
+  <text class="t-l mid" x="230" y="106">공원</text>
+  <circle class="box" cx="230" cy="300" r="30"/>
+  <text class="t-l mid" x="230" y="306">시장</text>
+  <circle class="box green" cx="390" cy="200" r="30"/>
+  <text class="t-l mid" x="390" y="206">도서관</text>
+  <text class="t-b tc-green mid" x="235" y="368">집 → 공원 → 시장 → 도서관: 1 + 2 + 3 = 6분</text>
+  <text class="t-s t-b" x="452" y="70">확정한 곳</text>
+  <text class="t-s t-b mid" x="596" y="70">공원</text>
+  <text class="t-s t-b mid" x="656" y="70">시장</text>
+  <text class="t-s t-b mid" x="716" y="70">도서관</text>
+  <path class="ln thin muted" d="M452 80 H742"/>
+  <circle class="badge blue" cx="464" cy="107" r="11"/><text class="badge-t" x="464" y="111.5">1</text>
+  <text x="484" y="112">집 (0분)</text>
+  <text class="t-mono mid" x="596" y="112">1</text>
+  <text class="t-mono mid" x="656" y="112">4</text>
+  <text class="t-mono mid tc-muted" x="716" y="112">?</text>
+  <circle class="badge blue" cx="464" cy="153" r="11"/><text class="badge-t" x="464" y="157.5">2</text>
+  <text x="484" y="158">공원 (1분)</text>
+  <rect class="box green" x="572" y="139" width="48" height="28" rx="7"/>
+  <text class="t-mono mid t-b" x="596" y="158">1</text>
+  <rect class="box warm" x="632" y="139" width="48" height="28" rx="7"/>
+  <text class="t-mono mid t-b" x="656" y="158">4→3</text>
+  <text class="t-mono mid" x="716" y="158">8</text>
+  <circle class="badge blue" cx="464" cy="199" r="11"/><text class="badge-t" x="464" y="203.5">3</text>
+  <text x="484" y="204">시장 (3분)</text>
+  <text class="t-mono mid tc-muted" x="596" y="204">·</text>
+  <rect class="box green" x="632" y="185" width="48" height="28" rx="7"/>
+  <text class="t-mono mid t-b" x="656" y="204">3</text>
+  <rect class="box warm" x="692" y="185" width="48" height="28" rx="7"/>
+  <text class="t-mono mid t-b" x="716" y="204">8→6</text>
+  <circle class="badge blue" cx="464" cy="245" r="11"/><text class="badge-t" x="464" y="249.5">4</text>
+  <text x="484" y="250">도서관 (6분)</text>
+  <text class="t-mono mid tc-muted" x="596" y="250">·</text>
+  <text class="t-mono mid tc-muted" x="656" y="250">·</text>
+  <rect class="box green" x="692" y="231" width="48" height="28" rx="7"/>
+  <text class="t-mono mid t-b" x="716" y="250">6</text>
+  <rect class="box warm" x="452" y="290" width="18" height="18" rx="5"/>
+  <text class="t-s" x="478" y="304">더 빠른 길을 찾아 고친 기록</text>
+  <rect class="box green" x="452" y="318" width="18" height="18" rx="5"/>
+  <text class="t-s" x="478" y="332">확정한 기록</text>
+</svg>

@@ -1,0 +1,31 @@
+<svg viewBox="0 0 760 282" xmlns="http://www.w3.org/2000/svg">
+  <title>diff는 사라진 줄을 빼기 표시로, 새로 생긴 줄을 더하기 표시로 보여 준다</title>
+  <rect class="box" x="20" y="16" width="380" height="250" rx="12"/>
+  <text class="t-mono tc-muted" x="44" y="49">--- a/config.py</text>
+  <text class="t-mono tc-muted" x="44" y="81">+++ b/config.py</text>
+  <text class="t-mono tc-purple" x="44" y="113">@@ -1,3 +1,3 @@</text>
+  <text class="t-mono" x="52.4" y="145">SPEED = 10</text>
+  <rect class="s-red" x="30" y="158" width="360" height="28" rx="5"/>
+  <text class="t-mono t-b tc-red" x="44" y="177">-JUMP = 2</text>
+  <rect class="s-green" x="30" y="190" width="360" height="28" rx="5"/>
+  <text class="t-mono t-b tc-green" x="44" y="209">+JUMP = 3</text>
+  <text class="t-mono" x="52.4" y="241">GRAVITY = 9.8</text>
+
+  <path class="ln thin muted" d="M408 36 H416 V84 H408 M416 60 H434"/>
+  <path class="ln thin muted" d="M408 108 H434"/>
+  <path class="ln thin muted" d="M408 140 H434"/>
+  <path class="ln thin muted" d="M408 172 H434"/>
+  <path class="ln thin muted" d="M408 204 H434"/>
+  <text class="t-b" x="444" y="65">어느 파일</text>
+  <text class="t-s" x="548" y="65">a는 바뀌기 전, b는 바뀐 뒤</text>
+  <text class="t-b" x="444" y="113">어디쯤</text>
+  <text class="t-s" x="548" y="113">1번째 줄부터 3줄</text>
+  <text class="t-b" x="444" y="145">그대로인 줄</text>
+  <text class="t-s" x="548" y="145">앞에 표시가 없다</text>
+  <text class="t-b tc-red" x="444" y="177">사라진 줄</text>
+  <text class="t-s" x="548" y="177">앞에 - 가 붙는다</text>
+  <text class="t-b tc-green" x="444" y="209">새로 생긴 줄</text>
+  <text class="t-s" x="548" y="209">앞에 + 가 붙는다</text>
+  <rect class="box yellow" x="444" y="228" width="296" height="38" rx="10"/>
+  <text class="t-s mid" x="592" y="252">한 줄 수정 = 사라진 줄 하나 + 생긴 줄 하나</text>
+</svg>

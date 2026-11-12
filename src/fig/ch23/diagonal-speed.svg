@@ -1,0 +1,34 @@
+<svg viewBox="0 0 760 352" xmlns="http://www.w3.org/2000/svg">
+  <title>오른쪽과 위 입력을 그대로 더한 (1, 1)은 길이가 1.41이라 대각선 이동이 빨라지고, 길이로 나누어 정규화하면 길이 1인 원 위로 돌아온다</title>
+  <text class="t-b mid" x="190" y="34">입력을 그대로 더하면</text>
+  <text class="t-b mid" x="570" y="34">길이를 1로 맞추면 (정규화)</text>
+  <path class="ln thin muted" d="M70 185 H310"/>
+  <path class="ln thin muted" d="M190 290 V70"/>
+  <circle class="ghost dash" cx="190" cy="185" r="90"/>
+  <path class="ln green" d="M190 185 H278" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M190 185 V97" marker-end="url(#ah-green)"/>
+  <text class="t-s mid tc-green" x="238" y="205">오른쪽 (1, 0)</text>
+  <text class="t-s end tc-green" x="180" y="125">위 (0, 1)</text>
+  <text class="t-xs mid" x="190" y="307">점선: 길이가 1인 원</text>
+  <path class="ln thick red" d="M190 185 L278 97" marker-end="url(#ah-red)"/>
+  <circle class="f-red" cx="280" cy="95" r="4"/>
+  <text class="t-mono t-b tc-red" x="290" y="93">(1, 1)</text>
+  <text class="t-s tc-red" x="290" y="112">길이 1.41</text>
+  <path class="ln thin muted" d="M450 185 H690"/>
+  <path class="ln thin muted" d="M570 290 V70"/>
+  <circle class="ghost dash" cx="570" cy="185" r="90"/>
+  <path class="ln green" d="M570 185 H658" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M570 185 V97" marker-end="url(#ah-green)"/>
+  <text class="t-s mid tc-green" x="618" y="205">오른쪽 (1, 0)</text>
+  <text class="t-s end tc-green" x="560" y="125">위 (0, 1)</text>
+  <text class="t-xs mid" x="570" y="307">점선: 길이가 1인 원</text>
+  <path class="ln thick blue" d="M570 185 L632.1 122.9" marker-end="url(#ah-blue)"/>
+  <circle class="f-blue" cx="633.6" cy="121.4" r="4"/>
+  <text class="t-mono t-b tc-blue" x="645.6" y="115.4">(0.71, 0.71)</text>
+  <text class="t-s tc-blue" x="645.6" y="134.4">길이 1</text>
+  <path class="ln warm" d="M340 185 H420" marker-end="url(#ah-warm)"/>
+  <text class="t-mono t-b mid tc-warm" x="380" y="172">÷ 1.41</text>
+  <text class="t-s mid" x="380" y="207">길이로 나눈다</text>
+  <text class="t-s mid tc-red" x="190" y="336">속력 5를 곱하면 1초에 7.07칸</text>
+  <text class="t-s mid tc-blue" x="570" y="336">속력 5를 곱하면 1초에 딱 5칸</text>
+</svg>

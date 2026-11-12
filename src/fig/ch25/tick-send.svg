@@ -1,0 +1,76 @@
+<svg viewBox="0 0 760 310" xmlns="http://www.w3.org/2000/svg">
+  <title>서버는 50ms마다 세계를 계산하고 100ms마다 스냅샷을 보내며, 화면은 그 사이에도 여러 번 그려진다</title>
+
+  <text class="t-b" x="20" y="64">서버 틱</text>
+  <text class="t-s" x="20" y="84">50ms마다 계산</text>
+  <rect class="solid green" x="159" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="180" y="66">100</text>
+  <rect class="solid green" x="224" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="245" y="66">101</text>
+  <rect class="solid green" x="289" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="310" y="66">102</text>
+  <rect class="solid green" x="354" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="375" y="66">103</text>
+  <rect class="solid green" x="419" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="440" y="66">104</text>
+  <rect class="solid green" x="484" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="505" y="66">105</text>
+  <rect class="solid green" x="549" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="570" y="66">106</text>
+  <rect class="solid green" x="614" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="635" y="66">107</text>
+  <rect class="solid green" x="679" y="46" width="42" height="30" rx="7"/><text class="t-mono t-on mid" x="700" y="66">108</text>
+
+  <text class="t-b" x="20" y="136">스냅샷 전송</text>
+  <text class="t-s" x="20" y="156">2틱마다 한 번</text>
+  <path class="ln thin green" d="M180 80 V106" marker-end="url(#ah-green)"/>
+  <rect class="box warm" x="148" y="112" width="64" height="44" rx="8"/>
+  <text class="t-xs mid" x="180" y="129">하준</text>
+  <text class="t-mono t-b mid" x="180" y="148">x=6</text>
+  <path class="ln thin green" d="M310 80 V106" marker-end="url(#ah-green)"/>
+  <rect class="box warm" x="278" y="112" width="64" height="44" rx="8"/>
+  <text class="t-xs mid" x="310" y="129">하준</text>
+  <text class="t-mono t-b mid" x="310" y="148">x=8</text>
+  <path class="ln thin green" d="M440 80 V106" marker-end="url(#ah-green)"/>
+  <rect class="box warm" x="408" y="112" width="64" height="44" rx="8"/>
+  <text class="t-xs mid" x="440" y="129">하준</text>
+  <text class="t-mono t-b mid" x="440" y="148">x=10</text>
+  <path class="ln thin green" d="M570 80 V106" marker-end="url(#ah-green)"/>
+  <rect class="box warm" x="538" y="112" width="64" height="44" rx="8"/>
+  <text class="t-xs mid" x="570" y="129">하준</text>
+  <text class="t-mono t-b mid" x="570" y="148">x=12</text>
+  <path class="ln thin green" d="M700 80 V106" marker-end="url(#ah-green)"/>
+  <rect class="box warm" x="668" y="112" width="64" height="44" rx="8"/>
+  <text class="t-xs mid" x="700" y="129">하준</text>
+  <text class="t-mono t-b mid" x="700" y="148">x=14</text>
+
+  <text class="t-b" x="20" y="216">화면 프레임</text>
+  <text class="t-s" x="20" y="236">1초에 60장</text>
+  <rect class="f-blue" x="178.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="199.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="221.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="243.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="264.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="286.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="308.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="329.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="351.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="373.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="394.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="416.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="438.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="459.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="481.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="503.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="524.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="546.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="568.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="589.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="611.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="633.0" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="654.7" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="676.3" y="204" width="4" height="24" rx="2"/>
+  <rect class="f-blue" x="698.0" y="204" width="4" height="24" rx="2"/>
+  <path class="ln thin warm" d="M180 190 V196 H310 V190"/>
+  <text class="t-s tc-warm" x="322" y="194">스냅샷 한 장과 다음 장 사이에 화면은 6번 그려진다</text>
+
+  <path class="ln thin muted" d="M180 254 H700"/>
+  <path class="ln thin muted" d="M180 249 V259 M310 249 V259 M440 249 V259 M570 249 V259 M700 249 V259"/>
+  <text class="t-xs mid" x="180" y="278">0ms</text>
+  <text class="t-xs mid" x="310" y="278">100ms</text>
+  <text class="t-xs mid" x="440" y="278">200ms</text>
+  <text class="t-xs mid" x="570" y="278">300ms</text>
+  <text class="t-xs mid" x="700" y="278">400ms</text>
+</svg>

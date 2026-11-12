@@ -1,0 +1,47 @@
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
+  <title>터미널은 글자를 주고받는 창이고, 셸은 그 글을 해석해 프로그램을 실행시킨다</title>
+
+  <rect class="box yellow" x="20" y="20" width="270" height="62" rx="12"/>
+  <text class="t-b mid" x="155" y="46">주문 창구</text>
+  <text class="t-s mid" x="155" y="68">주문서를 내고 음식을 받는 곳</text>
+
+  <rect class="box yellow" x="345" y="20" width="170" height="62" rx="12"/>
+  <text class="t-b mid" x="430" y="46">창구 직원</text>
+  <text class="t-s mid" x="430" y="68">주문서를 읽고 전달한다</text>
+
+  <rect class="box yellow" x="570" y="20" width="170" height="62" rx="12"/>
+  <text class="t-b mid" x="655" y="46">주방</text>
+  <text class="t-s mid" x="655" y="68">실제로 요리한다</text>
+
+  <path class="ln muted" d="M155 88 V110" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M430 88 V130" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M655 88 V130" marker-end="url(#ah-muted)"/>
+
+  <rect class="box" x="20" y="118" width="270" height="150" rx="12"/>
+  <path class="ln thin muted" d="M20 148 H290"/>
+  <circle class="f-gray" cx="40" cy="133" r="5"/>
+  <circle class="f-gray" cx="56" cy="133" r="5"/>
+  <circle class="f-gray" cx="72" cy="133" r="5"/>
+  <text class="t-s t-b mid" x="180" y="138">터미널 — 글자를 주고받는 창</text>
+  <text class="t-mono" x="38" y="180"><tspan class="tc-muted">$ </tspan><tspan class="t-b tc-blue">ls src</tspan></text>
+  <text class="t-mono" x="38" y="208">main.py  utils.py</text>
+  <text class="t-mono tc-muted" x="38" y="236">$</text>
+  <rect class="f-ink" x="54" y="223" width="8" height="16"/>
+
+  <rect class="box blue" x="345" y="138" width="170" height="110" rx="14"/>
+  <use href="#i-terminal" x="410" y="148" width="40" height="40" class="ic blue"/>
+  <text class="t-l mid" x="430" y="212">셸</text>
+  <text class="t-s mid" x="430" y="234">글을 해석해 실행시킨다</text>
+
+  <rect class="box green" x="570" y="138" width="170" height="110" rx="14"/>
+  <use href="#i-gear" x="635" y="148" width="40" height="40" class="ic green"/>
+  <text class="t-l mid" x="655" y="212">ls 프로그램</text>
+  <text class="t-s mid" x="655" y="234">폴더 내용을 알아낸다</text>
+
+  <path class="ln blue" d="M296 193 H337" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b mid tc-blue" x="317" y="180">① 입력</text>
+  <path class="ln blue" d="M521 193 H562" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b mid tc-blue" x="542" y="180">② 실행</text>
+  <path class="ln green dash" d="M655 254 V298 H155 V276" marker-end="url(#ah-green)"/>
+  <text class="t-s mid" x="405" y="322"><tspan class="t-b tc-green">③ 결과</tspan> 글자가 터미널 화면에 찍힌다</text>
+</svg>

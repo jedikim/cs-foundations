@@ -1,0 +1,149 @@
+{
+ "pc-inside.jpg": {
+  "title": "데스크톱 본체 내부",
+  "author": "Bretwa",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:ATX_computer_case_-_left_-_2018-05-18.jpg",
+  "original": "File:ATX computer case - left - 2018-05-18.jpg"
+ },
+ "cpu-chip.jpg": {
+  "title": "CPU 칩 (Intel Core i7-6700K)",
+  "author": "Eric Gaba",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Intel_CPU_Core_i7_6700K_Skylake_perspective.jpg",
+  "original": "File:Intel CPU Core i7 6700K Skylake perspective.jpg"
+ },
+ "ram-module.jpg": {
+  "title": "DDR4 RAM 모듈",
+  "author": "ElooKoN",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:RAM_Module_(SDRAM-DDR4).jpg",
+  "original": "File:RAM Module (SDRAM-DDR4).jpg"
+ },
+ "ssd-nvme.jpg": {
+  "title": "M.2 NVMe SSD",
+  "author": "D-Kuru",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Samsung_980_PRO_PCIe_4.0_NVMe_SSD_1TB-top_PNr%C2%B00915.jpg",
+  "original": "File:Samsung 980 PRO PCIe 4.0 NVMe SSD 1TB-top PNr°0915.jpg"
+ },
+ "hdd-open.jpg": {
+  "title": "덮개를 연 하드디스크",
+  "author": "Evan-Amos",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Laptop-hard-drive-exposed.jpg",
+  "original": "File:Laptop-hard-drive-exposed.jpg"
+ },
+ "gpu-card.jpg": {
+  "title": "그래픽카드",
+  "author": "TheStriker",
+  "license": "CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:MSI_GeForce_RTX_3070_VENTUS_3X_OC.jpg",
+  "original": "File:MSI GeForce RTX 3070 VENTUS 3X OC.jpg"
+ },
+ "raspberry-pi.jpg": {
+  "title": "라즈베리 파이 4",
+  "author": "Laserlicht",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Raspberry_Pi_4_Model_B_-_Side.jpg",
+  "original": "File:Raspberry Pi 4 Model B - Side.jpg"
+ },
+ "eniac.jpg": {
+  "title": "ENIAC을 조작하는 모습",
+  "author": "U.S. Army (작자 미상)",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Glen_Beck_and_Betty_Snyder_program_the_ENIAC_in_building_328_at_the_Ballistic_Research_Laboratory.jpg",
+  "original": "File:Eniac.jpg"
+ },
+ "punch-card.jpg": {
+  "title": "IBM식 천공 카드",
+  "author": "Gwern, agr",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Blue-punch-card-front-horiz.png",
+  "original": "File:Blue-punch-card-front-horiz.png"
+ },
+ "pixels-closeup.jpg": {
+  "title": "화면 픽셀 확대",
+  "author": "Pengo",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Pixel_geometry_01_Pengo.jpg",
+  "original": "File:Pixel geometry 01 Pengo.jpg"
+ },
+ "first-bug.jpg": {
+  "title": "1947년 기록에 붙은 최초의 컴퓨터 버그(나방)",
+  "author": "U.S. Naval Historical Center",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:First_Computer_Bug,_1947.jpg",
+  "original": "File:First Computer Bug, 1945.jpg"
+ },
+ "server-racks.jpg": {
+  "title": "데이터센터의 서버 랙",
+  "author": "Victor Grigas",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Wikimedia_Foundation_Servers-8055_35.jpg",
+  "original": "File:Wikimedia Foundation Servers-8055 35.jpg"
+ },
+ "submarine-cable-map.jpg": {
+  "title": "세계 해저 통신 케이블 지도",
+  "author": "Greg Mahlknecht(케이블 자료), OpenStreetMap 기여자(지도)",
+  "license": "CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Submarine_cable_map_umap.png",
+  "original": "File:Submarine cable map umap.png"
+ },
+ "fiber-optic.jpg": {
+  "title": "광섬유 케이블 단면",
+  "author": "Asurnipal",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Optical_fiber_cable-06ASD.jpg",
+  "original": "File:Optical fiber cable-06ASD.jpg"
+ },
+ "ethernet-cable.jpg": {
+  "title": "이더넷(랜) 케이블",
+  "author": "David Monniaux",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Ethernet_RJ45_connector_p1160054.jpg",
+  "original": "File:Ethernet RJ45 connector p1160054.jpg"
+ },
+ "normal-map.jpg": {
+  "title": "노멀 맵 적용 예",
+  "author": "Julian Herzog",
+  "license": "CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Normal_map_example_with_scene_and_result.png",
+  "original": "File:Normal map example with scene and result.png"
+ },
+ "utah-teapot.jpg": {
+  "title": "유타 주전자 3D 모델",
+  "author": "Dhatfield",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Utah_teapot_simple_2.png",
+  "original": "File:Utah teapot simple 2.png"
+ },
+ "hamilton-apollo-code.jpg": {
+  "title": "아폴로 유도 컴퓨터 소스 코드 출력물과 마거릿 해밀턴",
+  "author": "Draper Laboratory, 복원 Adam Cuerden",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Margaret_Hamilton_-_restoration.jpg",
+  "original": "File:Margaret Hamilton - restoration.jpg"
+ },
+ "teletype.jpg": {
+  "title": "텔레타이프(Model 33)와 알테어 8800 컴퓨터",
+  "author": "Tim Colegrove",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Altair_8800_and_Model_33_ASR_Teletype.jpg",
+  "original": "File:Altair 8800 and Model 33 ASR Teletype.jpg"
+ },
+ "card-catalog.jpg": {
+  "title": "도서관 카드 목록 서랍",
+  "author": "Marcus Gossler",
+  "license": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Schlagwortkatalog.jpg",
+  "original": "File:Schlagwortkatalog.jpg"
+ },
+ "shipping-containers.jpg": {
+  "title": "항구에 쌓인 화물 컨테이너",
+  "author": "AgainErick",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Shipping_container_stacks_-_Port_of_Rotterdam_-_2017_-_1.jpg",
+  "original": "File:Shipping container stacks - Port of Rotterdam - 2017 - 1.jpg"
+ }
+}

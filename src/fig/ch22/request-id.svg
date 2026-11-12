@@ -1,0 +1,36 @@
+<svg viewBox="0 0 760 302" xmlns="http://www.w3.org/2000/svg">
+  <title>세 요청의 로그가 뒤섞인 파일에서 요청 ID r7로 걸러 내면 그 요청의 네 줄만 순서대로 남는다</title>
+
+  <text class="t-b" x="20" y="34">app.log</text>
+  <text class="t-s" x="84" y="34">세 요청의 기록이 섞여 있다</text>
+  <rect class="box" x="20" y="48" width="330" height="208" rx="12"/>
+  <rect class="s-yellow" x="30" y="83" width="310" height="22" rx="5"/>
+  <rect class="s-yellow" x="30" y="131" width="310" height="22" rx="5"/>
+  <rect class="s-yellow" x="30" y="179" width="310" height="22" rx="5"/>
+  <rect class="s-yellow" x="30" y="227" width="310" height="22" rx="5"/>
+  <text class="t-mono tc-muted" x="42" y="76">10:03:09 r6 order_received</text>
+  <text class="t-mono t-b" x="42" y="100">10:03:09 r7 order_received</text>
+  <text class="t-mono tc-muted" x="42" y="124">10:03:09 r6 stock_checked</text>
+  <text class="t-mono t-b" x="42" y="148">10:03:10 r7 stock_checked</text>
+  <text class="t-mono tc-muted" x="42" y="172">10:03:10 r8 order_received</text>
+  <text class="t-mono t-b" x="42" y="196">10:03:10 r7 pay_requested</text>
+  <text class="t-mono tc-muted" x="42" y="220">10:03:10 r6 order_saved</text>
+  <text class="t-mono t-b" x="42" y="244">10:03:13 r7 pay_failed</text>
+
+  <text class="t-mono t-b mid" x="395" y="128">grep r7</text>
+  <path class="ln warm" d="M360 140 H428" marker-end="url(#ah-warm)"/>
+
+  <text class="t-b" x="440" y="34">요청 r7의 기록만</text>
+  <rect class="box yellow" x="440" y="48" width="300" height="118" rx="12"/>
+  <text class="t-mono" x="456" y="76">10:03:09 r7 order_received</text>
+  <text class="t-mono" x="456" y="100">10:03:10 r7 stock_checked</text>
+  <text class="t-mono" x="456" y="124">10:03:10 r7 pay_requested</text>
+  <text class="t-mono t-b tc-red" x="456" y="148">10:03:13 r7 pay_failed</text>
+  <path class="ln thin red" d="M682 120 H692 V144 H682"/>
+  <text class="t-b tc-red" x="700" y="137">3초</text>
+
+  <text class="t-b tc-red" x="440" y="200">결제를 요청하고 3초 뒤에 실패</text>
+  <text class="t-s" x="440" y="222">뒤섞인 여덟 줄에서는 보이지 않던 흐름</text>
+
+  <text class="t-s" x="20" y="286">요청이 들어올 때 번호표(요청 ID)를 붙이고, 그 요청이 남기는 모든 로그에 같은 번호를 적는다</text>
+</svg>

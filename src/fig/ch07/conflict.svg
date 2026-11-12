@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 324" xmlns="http://www.w3.org/2000/svg">
+  <title>두 브랜치가 같은 줄을 서로 다르게 고치면 Git은 충돌 표시를 남기고 사람이 최종 내용을 정한다</title>
+  <circle class="badge blue" cx="34" cy="34" r="12"/><text class="badge-t" x="34" y="38.5">1</text>
+  <text class="t-b" x="54" y="39">같은 줄을 다르게 고쳤다</text>
+  <rect class="box gray" x="70" y="62" width="120" height="58" rx="8"/>
+  <text class="t-xs mid" x="130" y="82">공통 조상</text>
+  <text class="t-mono mid" x="130" y="105">JUMP = 2</text>
+  <path class="ln blue" d="M108 124 L82 158" marker-end="url(#ah-blue)"/>
+  <path class="ln warm" d="M152 124 L178 158" marker-end="url(#ah-warm)"/>
+  <rect class="box blue" x="20" y="164" width="105" height="58" rx="8"/>
+  <text class="t-xs mid" x="72.5" y="184">main에서는</text>
+  <text class="t-mono t-b mid" x="72.5" y="207">JUMP = 4</text>
+  <rect class="box warm" x="135" y="164" width="105" height="58" rx="8"/>
+  <text class="t-xs mid" x="187.5" y="184">jump에서는</text>
+  <text class="t-mono t-b mid" x="187.5" y="207">JUMP = 3</text>
+
+  <circle class="badge blue" cx="294" cy="34" r="12"/><text class="badge-t" x="294" y="38.5">2</text>
+  <text class="t-b" x="314" y="39">Git이 멈추고 표시를 남긴다</text>
+  <rect class="box" x="280" y="62" width="250" height="186" rx="10"/>
+  <text class="t-xs" x="296" y="82">config.py</text>
+  <text class="t-mono tc-muted" x="298" y="111">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</text>
+  <rect class="s-blue" x="288" y="122" width="234" height="28" rx="5"/>
+  <text class="t-mono t-b" x="298" y="141">JUMP = 4</text>
+  <text class="t-xs end" x="512" y="141">main 쪽</text>
+  <text class="t-mono tc-muted" x="298" y="171">=======</text>
+  <rect class="s-warm" x="288" y="182" width="234" height="28" rx="5"/>
+  <text class="t-mono t-b" x="298" y="201">JUMP = 3</text>
+  <text class="t-xs end" x="512" y="201">jump 쪽</text>
+  <text class="t-mono tc-muted" x="298" y="231">&gt;&gt;&gt;&gt;&gt;&gt;&gt; jump</text>
+
+  <circle class="badge blue" cx="584" cy="34" r="12"/><text class="badge-t" x="584" y="38.5">3</text>
+  <text class="t-b" x="604" y="39">사람이 정한다</text>
+  <rect class="box green" x="570" y="62" width="170" height="70" rx="10"/>
+  <text class="t-xs" x="586" y="82">config.py</text>
+  <text class="t-mono t-b" x="586" y="110">JUMP = 3</text>
+  <text class="t-s" x="572" y="160">표시 줄을 지우고 저장한 뒤</text>
+  <rect class="box" x="570" y="174" width="170" height="74" rx="10"/>
+  <text class="t-mono" x="584" y="204">git add config.py</text>
+  <text class="t-mono" x="584" y="230">git commit</text>
+
+  <path class="ln" d="M246 155 H272" marker-end="url(#ah)"/>
+  <path class="ln" d="M536 97 H562" marker-end="url(#ah)"/>
+  <rect class="box yellow" x="20" y="268" width="720" height="40" rx="10"/>
+  <text class="t-s mid" x="380" y="293">4와 3 중 어느 쪽이 맞는지 Git은 알 수 없다</text>
+</svg>

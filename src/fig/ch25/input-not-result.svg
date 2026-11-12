@@ -1,0 +1,46 @@
+<svg viewBox="0 0 760 364" xmlns="http://www.w3.org/2000/svg">
+  <title>클라이언트가 결과를 보내면 조작한 값이 그대로 통하고, 입력만 보내면 서버가 규칙대로 계산한다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="332" rx="16"/>
+  <use href="#i-cross" x="36" y="28" width="28" height="28" class="ic red"/>
+  <text class="t-h" x="72" y="48">결과를 받아 적는 서버</text>
+
+  <rect class="box blue" x="40" y="68" width="310" height="56" rx="12"/>
+  <use href="#i-gamepad" x="50" y="80" width="32" height="32" class="ic blue"/>
+  <text class="t-b" x="94" y="92">지우의 게임 프로그램</text>
+  <text class="t-s" x="94" y="112">고쳐 쓸 수 있는 내 컴퓨터 위에 있다</text>
+
+  <path class="ln blue" d="M100 128 V184" marker-end="url(#ah-blue)"/>
+  <text class="t-mono t-b" x="118" y="162">"하준 체력 = 0"</text>
+
+  <rect class="box green" x="40" y="190" width="310" height="110" rx="12"/>
+  <use href="#i-server" x="50" y="200" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="94" y="214">서버</text>
+  <text class="t-s" x="94" y="238">확인하지 않고 그대로 적는다</text>
+  <text class="t-mono t-b tc-red" x="94" y="278">하준 체력 100 → 0</text>
+
+  <text class="t-b tc-red" x="40" y="330">조작한 값이 그대로 통한다</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="332" rx="16"/>
+  <use href="#i-check" x="406" y="28" width="28" height="28" class="ic green"/>
+  <text class="t-h" x="442" y="48">입력만 받고 직접 계산하는 서버</text>
+
+  <rect class="box blue" x="410" y="68" width="310" height="56" rx="12"/>
+  <use href="#i-gamepad" x="420" y="80" width="32" height="32" class="ic blue"/>
+  <text class="t-b" x="464" y="92">지우의 게임 프로그램</text>
+  <text class="t-s" x="464" y="112">누른 버튼만 알려 준다</text>
+
+  <path class="ln blue" d="M470 128 V184" marker-end="url(#ah-blue)"/>
+  <text class="t-mono t-b" x="488" y="162">"공격, 대상 = 하준"</text>
+
+  <rect class="box green" x="410" y="190" width="310" height="110" rx="12"/>
+  <use href="#i-server" x="420" y="200" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="464" y="214">서버</text>
+  <use href="#i-check" x="462" y="224" width="18" height="18" class="ic green"/>
+  <text class="t-s" x="486" y="238">거리 3칸: 사거리 5칸 안</text>
+  <use href="#i-check" x="462" y="244" width="18" height="18" class="ic green"/>
+  <text class="t-s" x="486" y="258">지난 공격 뒤 0.5초 지남</text>
+  <text class="t-mono t-b tc-green" x="464" y="286">하준 체력 100 → 70</text>
+
+  <text class="t-b tc-green" x="410" y="330">규칙이 허락한 만큼만 깎인다</text>
+</svg>

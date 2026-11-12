@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg">
+  <title>CPU에 가까울수록 빠르고 작으며, 멀수록 느리고 크다</title>
+  <text class="t-s t-b mid" x="170" y="30">데이터가 있는 곳</text>
+  <text class="t-s t-b mid" x="400" y="30">한 번 꺼내는 시간</text>
+  <text class="t-s t-b mid" x="545" y="30">1ns를 1초로 치면</text>
+  <text class="t-s t-b mid" x="685" y="30">보통 용량</text>
+  <path class="ln thin muted" d="M20 42 H740"/>
+
+  <rect class="box blue" x="20" y="54" width="300" height="46" rx="10"/>
+  <use href="#i-chip" x="30" y="61" width="32" height="32" class="ic blue"/>
+  <text class="t-b" x="74" y="82">CPU 안의 캐시</text>
+  <text class="t-mono mid" x="400" y="82">약 1ns</text>
+  <text class="t-l mid tc-blue" x="545" y="83">1초</text>
+  <text class="t-s mid" x="685" y="82">수십 MB</text>
+
+  <rect class="box green" x="20" y="112" width="300" height="46" rx="10"/>
+  <use href="#i-ram" x="30" y="119" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="74" y="140">메모리 (RAM)</text>
+  <text class="t-mono mid" x="400" y="140">약 100ns</text>
+  <text class="t-l mid tc-green" x="545" y="141">약 2분</text>
+  <text class="t-s mid" x="685" y="140">8~64GB</text>
+
+  <rect class="box warm" x="20" y="170" width="300" height="46" rx="10"/>
+  <use href="#i-disk" x="30" y="177" width="32" height="32" class="ic warm"/>
+  <text class="t-b" x="74" y="198">SSD</text>
+  <text class="t-mono mid" x="400" y="198">약 0.1ms</text>
+  <text class="t-l mid tc-warm" x="545" y="199">약 하루</text>
+  <text class="t-s mid" x="685" y="198">256GB~수 TB</text>
+
+  <rect class="box gray" x="20" y="228" width="300" height="46" rx="10"/>
+  <use href="#i-disk" x="30" y="235" width="32" height="32" class="ic gray"/>
+  <text class="t-b" x="74" y="256">하드디스크 (HDD)</text>
+  <text class="t-mono mid" x="400" y="256">약 10ms</text>
+  <text class="t-l mid" x="545" y="257">약 4개월</text>
+  <text class="t-s mid" x="685" y="256">수 TB</text>
+
+  <rect class="box purple" x="20" y="286" width="300" height="46" rx="10"/>
+  <use href="#i-globe" x="30" y="293" width="32" height="32" class="ic purple"/>
+  <text class="t-b" x="74" y="314">바다 건너 서버</text>
+  <text class="t-mono mid" x="400" y="314">약 150ms</text>
+  <text class="t-l mid tc-purple" x="545" y="315">약 5년</text>
+  <text class="t-s mid" x="685" y="314">사실상 무한</text>
+
+  <text class="t-xs" x="20" y="362">ns = 10억분의 1초 · ms = 1000분의 1초. 제품마다 다르며, 크기의 감을 잡기 위한 대략적인 값입니다.</text>
+</svg>

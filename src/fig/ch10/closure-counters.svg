@@ -1,0 +1,32 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg">
+  <title>makeCounter를 부를 때마다 n이 따로 생기고, 만들어진 함수가 자기 n을 붙잡고 있다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="218" rx="16"/>
+  <text class="t-mono t-b" x="40" y="48">a = makeCounter()</text>
+  <rect class="box blue" x="40" y="66" width="140" height="84" rx="12"/>
+  <text class="t-l mid" x="110" y="100">함수 a</text>
+  <text class="t-mono mid" x="110" y="128">() =&gt; ++n</text>
+  <path class="ln blue" d="M184 108 H212" marker-end="url(#ah-blue)"/>
+  <rect class="box green" x="220" y="66" width="130" height="84" rx="12"/>
+  <text class="t-s mid" x="285" y="94">a만 아는 변수</text>
+  <text class="t-mono t-b mid" x="285" y="128">n = 2</text>
+  <text class="t-s" x="40" y="184">부른 기록</text>
+  <text class="t-mono" x="112" y="184">a() → 1</text>
+  <text class="t-mono" x="200" y="184">a() → 2</text>
+  <text class="t-xs" x="40" y="212">함수가 붙잡고 있어서 n이 사라지지 않는다</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="218" rx="16"/>
+  <text class="t-mono t-b" x="410" y="48">b = makeCounter()</text>
+  <rect class="box blue" x="410" y="66" width="140" height="84" rx="12"/>
+  <text class="t-l mid" x="480" y="100">함수 b</text>
+  <text class="t-mono mid" x="480" y="128">() =&gt; ++n</text>
+  <path class="ln blue" d="M554 108 H582" marker-end="url(#ah-blue)"/>
+  <rect class="box green" x="590" y="66" width="130" height="84" rx="12"/>
+  <text class="t-s mid" x="655" y="94">b만 아는 변수</text>
+  <text class="t-mono t-b mid" x="655" y="128">n = 1</text>
+  <text class="t-s" x="410" y="184">부른 기록</text>
+  <text class="t-mono" x="482" y="184">b() → 1</text>
+  <text class="t-xs" x="410" y="212">a를 두 번 불러도 b의 n은 그대로다</text>
+
+  <text class="t-s mid" x="380" y="266">makeCounter()를 부를 때마다 n이 새로 하나씩 생긴다</text>
+</svg>

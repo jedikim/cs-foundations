@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 318" xmlns="http://www.w3.org/2000/svg">
+  <title>롤백하면 실행 코드와 설정, 기능 플래그는 되돌아오지만 지운 데이터와 보낸 메일, 빠져나간 결제는 그대로 남는다</title>
+  <rect class="panel green" x="20" y="20" width="345" height="278" rx="14"/>
+  <use href="#i-refresh" x="36" y="34" width="30" height="30" class="ic green"/>
+  <text class="t-l" x="76" y="56">되돌리면 돌아오는 것</text>
+
+  <rect class="box" x="36" y="78" width="313" height="60" rx="10"/>
+  <use href="#i-box" x="48" y="92" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="94" y="104">실행하는 상자</text>
+  <text class="t-mono" x="94" y="125">app-57 → app-56</text>
+
+  <rect class="box" x="36" y="150" width="313" height="60" rx="10"/>
+  <use href="#i-gear" x="48" y="164" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="94" y="176">설정값</text>
+  <text class="t-mono" x="94" y="197">TIMEOUT=3 → 5</text>
+
+  <rect class="box" x="36" y="222" width="313" height="60" rx="10"/>
+  <use href="#i-plug" x="48" y="236" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="94" y="248">기능 플래그</text>
+  <text class="t-mono" x="94" y="269">new_search: on → off</text>
+
+  <rect class="panel red" x="395" y="20" width="345" height="278" rx="14"/>
+  <use href="#i-stop" x="411" y="34" width="30" height="30" class="ic red"/>
+  <text class="t-l" x="451" y="56">되돌려도 남는 것</text>
+
+  <rect class="box" x="411" y="78" width="313" height="60" rx="10"/>
+  <use href="#i-db" x="423" y="92" width="32" height="32" class="ic red"/>
+  <text class="t-b" x="469" y="104">DB에서 지운 열</text>
+  <text class="t-s" x="469" y="125">옛 코드가 읽을 값이 없다</text>
+
+  <rect class="box" x="411" y="150" width="313" height="60" rx="10"/>
+  <use href="#i-mail" x="423" y="164" width="32" height="32" class="ic red"/>
+  <text class="t-b" x="469" y="176">이미 보낸 메일 3,000통</text>
+  <text class="t-s" x="469" y="197">정정 메일을 따로 보내야 한다</text>
+
+  <rect class="box" x="411" y="222" width="313" height="60" rx="10"/>
+  <use href="#i-coin" x="423" y="236" width="32" height="32" class="ic red"/>
+  <text class="t-b" x="469" y="248">두 번 빠져나간 결제</text>
+  <text class="t-s" x="469" y="269">건마다 확인해 환불한다</text>
+</svg>

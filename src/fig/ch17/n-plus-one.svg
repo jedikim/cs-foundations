@@ -1,0 +1,126 @@
+<svg viewBox="0 0 760 312" xmlns="http://www.w3.org/2000/svg">
+  <title>주문 100건의 회원 이름을 하나씩 물으면 DB를 101번 왕복하고, 회원 번호를 모아 한꺼번에 물으면 2번이면 된다</title>
+  <text class="t-s t-b" x="20" y="24">주문 100건과 주문한 회원의 이름을 한 화면에 보여 줄 때</text>
+
+  <rect class="panel" x="20" y="36" width="350" height="260" rx="14"/>
+  <text class="t-l tc-red" x="36" y="64">하나씩 묻기 (N+1)</text>
+  <rect class="f-blue" x="36" y="80" width="10" height="10" rx="2"/>
+  <text class="t-mono" x="54" y="90">SELECT … FROM orders LIMIT 100</text>
+  <rect class="f-red" x="36" y="104" width="10" height="10" rx="2"/>
+  <text class="t-mono" x="54" y="114">SELECT … FROM members WHERE id = 1</text>
+  <rect class="f-red" x="36" y="128" width="10" height="10" rx="2"/>
+  <text class="t-mono" x="54" y="138">SELECT … FROM members WHERE id = 2</text>
+  <text class="t-s" x="36" y="164">같은 모양의 질문이 98번 더 이어진다</text>
+  <rect class="f-red" x="36" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="48" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="60" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="72" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="84" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="96" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="108" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="120" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="132" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="144" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="156" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="168" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="180" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="192" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="204" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="216" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="228" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="240" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="252" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="264" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="276" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="288" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="300" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="312" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="324" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="36" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="48" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="60" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="72" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="84" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="96" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="108" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="120" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="132" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="144" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="156" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="168" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="180" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="192" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="204" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="216" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="228" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="240" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="252" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="264" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="276" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="288" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="300" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="312" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="324" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="36" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="48" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="60" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="72" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="84" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="96" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="108" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="120" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="132" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="144" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="156" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="168" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="180" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="192" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="204" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="216" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="228" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="240" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="252" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="264" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="276" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="288" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="300" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="312" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="324" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="36" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="48" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="60" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="72" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="84" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="96" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="108" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="120" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="132" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="144" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="156" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="168" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="180" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="192" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="204" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="216" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="228" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="240" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="252" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="264" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="276" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="288" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="300" y="212" width="9" height="9" rx="2"/>
+  <text class="t-l" x="36" y="256">DB 왕복 101번</text>
+  <text class="t-s" x="36" y="279">왕복 한 번에 2ms라면 약 202ms</text>
+
+  <rect class="panel" x="390" y="36" width="350" height="260" rx="14"/>
+  <text class="t-l tc-green" x="406" y="64">한꺼번에 묻기</text>
+  <rect class="f-blue" x="406" y="80" width="10" height="10" rx="2"/>
+  <text class="t-mono" x="424" y="90">SELECT … FROM orders LIMIT 100</text>
+  <rect class="f-green" x="406" y="104" width="10" height="10" rx="2"/>
+  <text class="t-mono" x="424" y="114">SELECT … FROM members</text>
+  <text class="t-mono" x="424" y="136">WHERE id IN (1, 2, 3, …)</text>
+  <text class="t-s" x="424" y="164">주문 100건에 나온 회원 번호를 모아</text>
+  <text class="t-s" x="424" y="183">한 번에 묻는다</text>
+  <text class="t-l" x="406" y="256">DB 왕복 2번</text>
+  <text class="t-s" x="406" y="279">같은 조건에서 약 4ms</text>
+</svg>

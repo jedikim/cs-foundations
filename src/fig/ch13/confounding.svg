@@ -1,0 +1,42 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>배포한 날 응답 시간이 줄었지만 같은 날 접속자도 절반으로 줄었다면 코드 덕분이라고 단정할 수 없다</title>
+  <path class="ln warm dash" d="M345 36 V268"/>
+  <text class="t-s t-b tc-warm mid" x="345" y="26">새 코드 배포</text>
+  <text class="t-b" x="20" y="84">응답 시간</text>
+  <text class="t-s" x="20" y="104">p95</text>
+  <path class="ln thin muted" d="M150 130 H540"/>
+  <path class="ln blue" d="M170 62.5 L240 60.2 L310 63.6 L380 89.5 L450 90.6 L520 88.4"/>
+  <circle class="f-blue" cx="170" cy="62.5" r="4.5"/>
+  <circle class="f-blue" cx="240" cy="60.2" r="4.5"/>
+  <circle class="f-blue" cx="310" cy="63.6" r="4.5"/>
+  <circle class="f-blue" cx="380" cy="89.5" r="4.5"/>
+  <circle class="f-blue" cx="450" cy="90.6" r="4.5"/>
+  <circle class="f-blue" cx="520" cy="88.4" r="4.5"/>
+  <text class="t-mono tc-blue mid" x="186" y="50">300ms</text>
+  <text class="t-mono tc-blue mid" x="506" y="78">180ms</text>
+  <text class="t-b" x="20" y="214">동시 접속자</text>
+  <path class="ln thin muted" d="M150 260 H540"/>
+  <path class="ln purple" d="M170 188.0 L240 186.2 L310 188.7 L380 224.0 L450 224.4 L520 223.3"/>
+  <circle class="f-purple" cx="170" cy="188.0" r="4.5"/>
+  <circle class="f-purple" cx="240" cy="186.2" r="4.5"/>
+  <circle class="f-purple" cx="310" cy="188.7" r="4.5"/>
+  <circle class="f-purple" cx="380" cy="224.0" r="4.5"/>
+  <circle class="f-purple" cx="450" cy="224.4" r="4.5"/>
+  <circle class="f-purple" cx="520" cy="223.3" r="4.5"/>
+  <text class="t-mono tc-purple mid" x="192" y="176">2,000명</text>
+  <text class="t-mono tc-purple mid" x="500" y="212">1,000명</text>
+  <text class="t-xs mid" x="170" y="284">월</text>
+  <text class="t-xs mid" x="240" y="284">화</text>
+  <text class="t-xs mid" x="310" y="284">수</text>
+  <text class="t-xs mid" x="380" y="284">목</text>
+  <text class="t-xs mid" x="450" y="284">금</text>
+  <text class="t-xs mid" x="520" y="284">토</text>
+  <rect class="box yellow" x="570" y="56" width="170" height="184" rx="12"/>
+  <text class="t-b mid" x="655" y="88">왜 빨라졌을까?</text>
+  <text class="t-s mid" x="655" y="118">새 코드 덕분?</text>
+  <text class="t-s mid" x="655" y="140">접속자가 줄어서?</text>
+  <path class="ln thin muted" d="M590 158 H720"/>
+  <text class="t-s t-b tc-warm mid" x="655" y="186">둘이 같은 날 바뀌어</text>
+  <text class="t-s t-b tc-warm mid" x="655" y="206">이 그래프만으로는</text>
+  <text class="t-s t-b tc-warm mid" x="655" y="226">가릴 수 없다</text>
+</svg>

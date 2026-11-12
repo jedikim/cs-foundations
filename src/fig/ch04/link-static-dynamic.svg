@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 310" xmlns="http://www.w3.org/2000/svg">
+  <title>정적 링크는 라이브러리를 실행 파일에 넣고, 동적 링크는 실행할 때 찾아서 잇는다</title>
+
+  <rect class="panel" x="20" y="16" width="330" height="278" rx="16"/>
+  <text class="t-h" x="40" y="50">정적 링크</text>
+  <text class="t-s" x="40" y="72">필요한 코드를 실행 파일에 넣는다</text>
+  <rect class="box green" x="40" y="88" width="290" height="132" rx="12"/>
+  <text class="t-s t-b" x="56" y="111">실행 파일</text>
+  <rect class="box blue" x="56" y="122" width="258" height="36" rx="8"/>
+  <text class="t-b mid" x="185" y="145">내 코드</text>
+  <rect class="box purple" x="56" y="168" width="258" height="36" rx="8"/>
+  <text class="t-b mid" x="185" y="191">라이브러리 코드 (복사본)</text>
+  <use href="#i-check" x="40" y="234" width="20" height="20" class="ic green"/>
+  <text class="t-s" x="66" y="249">어디서나 혼자 실행된다</text>
+  <use href="#i-warn" x="40" y="258" width="20" height="20" class="ic warm"/>
+  <text class="t-s" x="66" y="273">대신 파일이 커진다</text>
+
+  <rect class="panel" x="370" y="16" width="370" height="278" rx="16"/>
+  <text class="t-h" x="390" y="50">동적 링크</text>
+  <text class="t-s" x="390" y="72">실행할 때 찾아서 잇는다</text>
+  <rect class="box green" x="390" y="88" width="160" height="132" rx="12"/>
+  <text class="t-s t-b" x="404" y="111">실행 파일</text>
+  <rect class="box blue" x="402" y="122" width="136" height="36" rx="8"/>
+  <text class="t-b mid" x="470" y="145">내 코드</text>
+  <rect class="ghost dash" x="402" y="168" width="136" height="36" rx="8"/>
+  <text class="t-s mid" x="470" y="191">메모: libpng 필요</text>
+
+  <rect class="box purple" x="620" y="112" width="104" height="92" rx="10"/>
+  <use href="#i-file" x="656" y="120" width="32" height="32" class="ic purple"/>
+  <text class="t-b mid" x="672" y="174">libpng</text>
+  <text class="t-xs mid" x="672" y="192">라이브러리 파일</text>
+  <path class="ln purple dash" d="M544 186 H612" marker-end="url(#ah-purple)"/>
+  <text class="t-xs mid" x="585" y="160">실행할 때</text>
+  <text class="t-xs mid" x="585" y="176">찾는다</text>
+
+  <use href="#i-check" x="390" y="234" width="20" height="20" class="ic green"/>
+  <text class="t-s" x="416" y="249">파일이 작고, 여럿이 함께 쓴다</text>
+  <use href="#i-cross" x="390" y="258" width="20" height="20" class="ic red"/>
+  <text class="t-s t-b tc-red" x="416" y="273">그 컴퓨터에 없으면 시작도 못 한다</text>
+</svg>

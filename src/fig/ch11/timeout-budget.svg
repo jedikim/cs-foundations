@@ -1,0 +1,33 @@
+<svg viewBox="0 0 760 296" xmlns="http://www.w3.org/2000/svg">
+  <title>단계마다 3초씩 따로 기다리면 전체가 5.5초까지 늘어나지만, 남은 시간을 넘겨주면 전체 마감 3초를 지킨다</title>
+
+  <path class="ln red dash" d="M450 40 V254"/>
+  <text class="t-s t-b mid tc-red" x="450" y="30">전체 마감 3초</text>
+
+  <text class="t-b" x="20" y="82">단계마다 3초</text>
+  <text class="t-s" x="20" y="102">각자 따로 기다림</text>
+  <rect class="solid blue" x="150" y="60" width="248" height="44" rx="6"/>
+  <text class="t-on t-b mid" x="274" y="87">1단계 2.5초</text>
+  <rect class="solid warm" x="402" y="60" width="298" height="44" rx="6"/>
+  <text class="t-on t-b mid" x="551" y="87">2단계: 3초를 새로 기다림</text>
+  <text class="t-s end tc-warm" x="700" y="124">최악 5.5초 — 손님은 이미 떠났다</text>
+
+  <text class="t-b" x="20" y="182">남은 시간 전달</text>
+  <text class="t-s" x="20" y="202">예산 3초를 나눠 씀</text>
+  <rect class="solid blue" x="150" y="160" width="248" height="44" rx="6"/>
+  <text class="t-on t-b mid" x="274" y="187">1단계 2.5초</text>
+  <rect class="solid green" x="402" y="160" width="44" height="44" rx="6"/>
+  <text class="t-on t-b mid" x="424" y="187">0.5</text>
+  <use href="#i-stop" x="460" y="165" width="34" height="34" class="ic red"/>
+  <text class="t-s" x="502" y="187">시간 초과 → 취소하고 정리</text>
+  <text class="t-s tc-green" x="150" y="224">2단계에는 남은 0.5초만 준다</text>
+
+  <path class="ln thin muted" d="M150 254 H710"/>
+  <path class="ln thin muted" d="M150 249 V259 M250 249 V259 M350 249 V259 M550 249 V259 M650 249 V259"/>
+  <text class="t-xs mid" x="150" y="278">0</text>
+  <text class="t-xs mid" x="250" y="278">1초</text>
+  <text class="t-xs mid" x="350" y="278">2초</text>
+  <text class="t-xs mid tc-red" x="450" y="278">3초</text>
+  <text class="t-xs mid" x="550" y="278">4초</text>
+  <text class="t-xs mid" x="650" y="278">5초</text>
+</svg>

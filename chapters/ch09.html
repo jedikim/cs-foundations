@@ -1,0 +1,1234 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>9장 알고리즘과 비용 — 개발의 기초</title>
+<meta name="description" content="빠르다·느리다를 말하는 법">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch09" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html" aria-current="page"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">3부 프로그램을 짓는 재료 › <b>9장 알고리즘과 비용</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-warm">
+<div class="ch-kicker"><span class="ch-no">9장</span><span class="part">3부 · 프로그램을 짓는 재료</span></div>
+<h1>알고리즘과 비용</h1>
+<p class="ch-sub">빠르다·느리다를 말하는 법</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 35분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch08.html">8장 자료구조</a></div>
+</header><div class="lead">
+<p>회원 100명으로 시험할 때는 눈 깜짝할 사이에 끝나던 기능이, 회원이 10만 명이 되자 몇 분씩 걸립니다. 컴퓨터도 코드도 그대로입니다. 달라진 것은 데이터의 양뿐입니다. 이 장에서는 <strong>데이터가 늘어날 때 일이 얼마나 늘어나는지</strong>를 미리 내다보는 법을 배웁니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>빅오 표기를 보고 데이터가 열 배 늘면 일이 몇 배 느는지 말할 수 있습니다.</li>
+<li>코드에서 이중 반복문과 '숨은 반복문'을 찾아 집합이나 해시 맵으로 고칠 수 있습니다.</li>
+<li>너비 우선, 깊이 우선, 다익스트라 가운데 문제에 맞는 길 찾기 방법을 고를 수 있습니다.</li>
+<li>"전부 다 해 보기"와 "전부 메모리에 올리기"가 통하지 않는 크기를 계산으로 알아챌 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="algorithm">
+<h2><span class="sec-n">9.1</span>알고리즘: 같은 문제를 푸는 서로 다른 길<a aria-label="이 절의 링크" class="anchor" href="#algorithm">#</a></h2>
+<p>도서관 서가 한 줄에 책 15권이 번호순으로 꽂혀 있습니다. 여기서 63번 책을 찾아봅시다.</p>
+<p>첫째 방법은 왼쪽 끝에서부터 한 권씩 번호를 확인하는 것입니다. 둘째 방법은 한가운데 책부터 보는 것입니다. 가운데 책이 35번이면 63번은 그 오른쪽에 있을 수밖에 없습니다. 왼쪽 절반은 열어 보지도 않고 버립니다. 남은 절반에서 다시 가운데를 봅니다.</p>
+<figure class="fig" id="fig-search-two-ways"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>번호순으로 꽂힌 책 15권에서 63번을 찾을 때 앞에서부터 보면 13권, 가운데부터 절반씩 버리면 4권만 확인한다</title>
+  <text class="t-h" x="20" y="32">번호순으로 꽂힌 책 15권에서 63번 찾기</text>
+  <text class="t-s t-b" x="20" y="68">방법 1 · 앞에서부터 한 권씩</text>
+  <text class="t-b tc-warm end" x="740" y="68">13권 확인</text>
+  <rect class="box warm" x="20" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="44" y="107">3</text>
+  <rect class="box warm" x="68" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="92" y="107">8</text>
+  <rect class="box warm" x="116" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="140" y="107">12</text>
+  <rect class="box warm" x="164" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="188" y="107">17</text>
+  <rect class="box warm" x="212" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="236" y="107">21</text>
+  <rect class="box warm" x="260" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="284" y="107">26</text>
+  <rect class="box warm" x="308" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="332" y="107">30</text>
+  <rect class="box warm" x="356" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="380" y="107">35</text>
+  <rect class="box warm" x="404" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="428" y="107">41</text>
+  <rect class="box warm" x="452" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="476" y="107">47</text>
+  <rect class="box warm" x="500" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="524" y="107">52</text>
+  <rect class="box warm" x="548" y="80" width="48" height="44"/>
+  <text class="t-mono mid" x="572" y="107">58</text>
+  <rect class="solid green" x="596" y="80" width="48" height="44"/>
+  <text class="t-mono mid t-on t-b" x="620" y="107">63</text>
+  <rect class="box" x="644" y="80" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="668" y="107">69</text>
+  <rect class="box" x="692" y="80" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="716" y="107">74</text>
+  <path class="ln warm" d="M30 138 H614" marker-end="url(#ah-warm)"/>
+  <text class="t-s" x="20" y="162">1번째, 2번째, … 13번째에서 발견</text>
+  <text class="t-s t-b" x="20" y="204">방법 2 · 가운데를 보고 절반씩 버리기</text>
+  <text class="t-b tc-green end" x="740" y="204">4권 확인</text>
+  <rect class="box gray" x="20" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="44" y="269">3</text>
+  <rect class="box gray" x="68" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="92" y="269">8</text>
+  <rect class="box gray" x="116" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="140" y="269">12</text>
+  <rect class="box gray" x="164" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="188" y="269">17</text>
+  <rect class="box gray" x="212" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="236" y="269">21</text>
+  <rect class="box gray" x="260" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="284" y="269">26</text>
+  <rect class="box gray" x="308" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="332" y="269">30</text>
+  <rect class="box blue" x="356" y="242" width="48" height="44"/>
+  <text class="t-mono mid t-b" x="380" y="269">35</text>
+  <rect class="box gray" x="404" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="428" y="269">41</text>
+  <rect class="box gray" x="452" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="476" y="269">47</text>
+  <rect class="box gray" x="500" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="524" y="269">52</text>
+  <rect class="box blue" x="548" y="242" width="48" height="44"/>
+  <text class="t-mono mid t-b" x="572" y="269">58</text>
+  <rect class="solid green" x="596" y="242" width="48" height="44"/>
+  <text class="t-mono mid t-on t-b" x="620" y="269">63</text>
+  <rect class="box blue" x="644" y="242" width="48" height="44"/>
+  <text class="t-mono mid t-b" x="668" y="269">69</text>
+  <rect class="box gray" x="692" y="242" width="48" height="44"/>
+  <text class="t-mono mid tc-muted" x="716" y="269">74</text>
+  <circle class="badge blue" cx="380" cy="226" r="11"/><text class="badge-t" x="380" y="230.5">1</text>
+  <circle class="badge blue" cx="572" cy="226" r="11"/><text class="badge-t" x="572" y="230.5">2</text>
+  <circle class="badge blue" cx="668" cy="226" r="11"/><text class="badge-t" x="668" y="230.5">3</text>
+  <circle class="badge green" cx="620" cy="226" r="11"/><text class="badge-t" x="620" y="230.5">4</text>
+  <path class="ln thin" d="M24 292 V298 H400 V292"/>
+  <path class="ln thin" d="M408 292 V298 H592 V292"/>
+  <path class="ln thin" d="M648 292 V298 H736 V292"/>
+  <text class="t-s mid" x="212" y="318">63은 35보다 크다</text>
+  <text class="t-s t-b mid" x="212" y="336">왼쪽 8권 제외</text>
+  <text class="t-s mid" x="500" y="318">58보다도 크다</text>
+  <text class="t-s t-b mid" x="500" y="336">4권 더 제외</text>
+  <text class="t-s mid" x="692" y="318">69보다 작다</text>
+  <text class="t-s t-b mid" x="692" y="336">2권 제외</text>
+</svg></div><figcaption><b>그림 9-1</b>같은 책을 찾는 두 가지 방법. 한 권씩 보면 13권을 확인하지만, 가운데를 보고 절반씩 버리면 4권만 확인합니다.</figcaption></figure>
+<p>이렇게 <strong>문제를 푸는 절차</strong>, 곧 무엇을 어떤 순서로 할지 정해 둔 방법을 <strong>알고리즘</strong>(algorithm)이라고 합니다. <a href="ch08.html">8장</a>의 자료구조가 데이터를 담는 그릇이라면, 알고리즘은 그 그릇을 가지고 <strong>일하는 순서</strong>입니다. 두 방법에는 이름이 있습니다.</p>
+<ul>
+<li><strong>선형 탐색</strong>(linear search)은 처음부터 하나씩 확인합니다. 준비가 필요 없지만 운이 나쁘면 끝까지 다 봅니다.</li>
+<li><strong>이진 탐색</strong>(binary search)은 가운데를 보고 절반을 버리는 일을 되풀이합니다. 빠르지만 <strong>데이터가 정렬되어 있어야만</strong> 쓸 수 있습니다.</li>
+</ul>
+<figure class="comic"><img alt="도서관 카드 목록으로 본 두 방법. ①은 정리되지 않은 카드를 한 장씩 넘기는 선형 탐색, ②~④는 이름순으로 정리한 카드에서 가운데와 비교해 절반씩 제외하는 이진 탐색입니다." loading="lazy" src="../assets/comic/comic-complexity.webp"/><figcaption>도서관 카드 목록으로 본 두 방법. ①은 정리되지 않은 카드를 한 장씩 넘기는 선형 탐색, ②~④는 이름순으로 정리한 카드에서 가운데와 비교해 절반씩 제외하는 이진 탐색입니다.</figcaption></figure>
+<p>두 방법 모두 정답을 찾습니다. 차이는 <strong>거기까지 드는 일의 양</strong>이고, 책이 늘어날수록 이 차이는 크게 벌어집니다.</p>
+</section>
+<section class="level2" id="steps">
+<h2><span class="sec-n">9.2</span>초가 아니라 걸음 수로 잽니다<a aria-label="이 절의 링크" class="anchor" href="#steps">#</a></h2>
+<p>"이 코드는 0.2초 걸려요"라는 말은 생각보다 쓸모가 없습니다. 내 노트북에서 0.2초인 코드가 낡은 휴대폰에서는 2초일 수 있습니다. 더 큰 문제는 데이터입니다. 책 15권으로 잰 시간은 책 100만 권일 때의 시간을 알려 주지 않습니다.</p>
+<p>그래서 시간 대신 <strong>걸음 수</strong>를 셉니다. 책 한 권의 번호를 확인하는 일을 한 걸음으로 치고, 데이터의 개수는 n이라고 부릅니다. 그리고 이렇게 묻습니다. <strong>n이 커지면 걸음 수는 어떻게 늘어나는가?</strong> 가장 운이 나쁠 때를 기준으로 세어 봅시다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>책의 수 n</th>
+<th>선형 탐색</th>
+<th>이진 탐색</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15</td>
+<td>15걸음</td>
+<td>4걸음</td>
+</tr>
+<tr>
+<td>1,000</td>
+<td>1,000걸음</td>
+<td>10걸음</td>
+</tr>
+<tr>
+<td>1,000,000</td>
+<td>1,000,000걸음</td>
+<td>20걸음</td>
+</tr>
+</tbody>
+</table></div>
+<p>선형 탐색은 책이 천 배가 되면 걸음도 천 배가 됩니다. 이진 탐색은 책이 천 배가 되어도 겨우 열 걸음이 늘 뿐입니다. 한 걸음마다 남은 책이 절반으로 줄기 때문입니다.</p>
+<figure class="fig" id="fig-halving"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>책 100만 권을 절반씩 줄이면 20번 만에 한 권이 남는다</title>
+  <text class="t-s t-b mid" x="75" y="30">반으로 줄인 횟수</text>
+  <text class="t-s t-b" x="150" y="30">남은 책</text>
+  <path class="ln thin muted" d="M20 40 H740"/>
+  <text class="t-mono mid" x="75" y="67">0</text>
+  <rect class="solid blue" x="150" y="52" width="480" height="20" rx="4"/>
+  <text class="t-mono" x="640" y="67">1,000,000권</text>
+  <text class="t-mono mid" x="75" y="97">1</text>
+  <rect class="solid blue" x="150" y="82" width="240" height="20" rx="4"/>
+  <text class="t-mono" x="400" y="97">500,000권</text>
+  <text class="t-mono mid" x="75" y="127">2</text>
+  <rect class="solid blue" x="150" y="112" width="120" height="20" rx="4"/>
+  <text class="t-mono" x="280" y="127">250,000권</text>
+  <text class="t-mono mid" x="75" y="157">3</text>
+  <rect class="solid blue" x="150" y="142" width="60" height="20" rx="4"/>
+  <text class="t-mono" x="220" y="157">125,000권</text>
+  <text class="t-mono mid" x="75" y="187">4</text>
+  <rect class="solid blue" x="150" y="172" width="30" height="20" rx="4"/>
+  <text class="t-mono" x="190" y="187">62,500권</text>
+  <text class="t-mono mid" x="75" y="217">5</text>
+  <rect class="solid blue" x="150" y="202" width="15" height="20" rx="4"/>
+  <text class="t-mono" x="175" y="217">31,250권</text>
+  <text class="mid tc-muted" x="75" y="246">⋮</text>
+  <text class="tc-muted" x="153" y="246">⋮</text>
+  <text class="t-mono mid" x="75" y="277">10</text>
+  <rect class="solid blue" x="150" y="262" width="3" height="20"/>
+  <text class="t-mono" x="163" y="277">약 1,000권</text>
+  <text class="t-mono mid t-b" x="75" y="307">20</text>
+  <circle class="f-green" cx="152" cy="302" r="4"/>
+  <text class="t-mono t-b tc-green" x="163" y="307">1권</text>
+  <rect class="box yellow" x="440" y="150" width="300" height="104" rx="12"/>
+  <text class="t-b mid" x="590" y="182">100만 권도 20번이면 1권</text>
+  <text class="t-s mid" x="590" y="208">거꾸로 2를 20번 곱하면 1,048,576</text>
+  <text class="t-s mid" x="590" y="232">이 횟수가 로그(log)입니다</text>
+</svg></div><figcaption><b>그림 9-2</b>절반씩 줄이는 힘. 100만 권으로 시작해도 스무 번이면 한 권이 남습니다.</figcaption></figure>
+<p>"n을 몇 번 반으로 줄이면 1이 되는가"라는 횟수가 <strong>로그</strong>(logarithm)입니다. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>log</mo><mn>2</mn></msub><mi>n</mi></mrow><annotation encoding="application/x-tex">\log_2 n</annotation></semantics></math>이라 쓰고 "로그 2의 n"이라고 읽습니다. 뒤집어 말하면 2를 몇 번 곱해야 n이 되는지입니다. 2를 10번 곱하면 1,024이므로 1,024의 로그는 10이고, 100만의 로그는 약 20입니다. <strong>로그는 n이 엄청나게 커져도 아주 조금만 커집니다.</strong></p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>알고리즘의 빠르기는 '몇 초'가 아니라 <strong>데이터가 늘 때 걸음 수가 늘어나는 모양</strong>으로 말합니다.</p>
+</div>
+</section>
+<section class="level2" id="bigo">
+<h2><span class="sec-n">9.3</span>빅오: 늘어나는 모양에 붙인 이름표<a aria-label="이 절의 링크" class="anchor" href="#bigo">#</a></h2>
+<p>걸음 수가 늘어나는 모양을 짧게 적는 약속이 <strong>빅오 표기</strong>(Big-O notation)입니다. 대문자 O 뒤의 괄호 안에, 걸음 수가 n의 무엇에 비례해 늘어나는지 적습니다. 선형 탐색은 O(n), 이진 탐색은 O(log n)입니다. "오 엔", "오 로그 엔"이라고 읽습니다.</p>
+<p>자주 만나는 모양은 다섯 가지입니다. 앞의 셋은 8장에서 "한 번에 찾는다", "절반씩 줄인다", "하나씩 다 본다"라고 불렀던 것입니다.</p>
+<ul>
+<li><strong>O(1)</strong>: 데이터가 늘어도 그대로입니다. 배열에서 번호로 꺼내기, 해시 맵에서 키로 찾기.</li>
+<li><strong>O(log n)</strong>: 절반씩 줄입니다. 이진 탐색.</li>
+<li><strong>O(n)</strong>: 하나씩 다 봅니다. 선형 탐색, 합계 구하기.</li>
+<li><strong>O(n log n)</strong>: 잘 만든 정렬.</li>
+<li><strong>O(n²)</strong>: 모든 것을 모든 것과 짝짓습니다. 반복문 안의 반복문.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>빅오</th>
+<th>n = 10</th>
+<th>n = 1,000</th>
+<th>n = 100만</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O(1)</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>O(log n)</td>
+<td>약 3</td>
+<td>약 10</td>
+<td>약 20</td>
+</tr>
+<tr>
+<td>O(n)</td>
+<td>10</td>
+<td>1,000</td>
+<td>100만</td>
+</tr>
+<tr>
+<td>O(n log n)</td>
+<td>약 33</td>
+<td>약 1만</td>
+<td>약 2,000만</td>
+</tr>
+<tr>
+<td>O(n²)</td>
+<td>100</td>
+<td>100만</td>
+<td>1조</td>
+</tr>
+</tbody>
+</table></div>
+<p>n이 10일 때는 무엇을 쓰든 금방 끝납니다. 차이는 n이 커질 때 드러납니다. 1초에 1억 걸음을 걷는 컴퓨터라면 n이 100만일 때 O(n)은 0.01초, O(n log n)은 0.2초에 끝납니다. O(n²)은 1조 걸음이라 세 시간 가까이 걸립니다.</p>
+<figure class="fig" id="fig-growth-curves"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 366" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>데이터 개수 n이 커질 때 걸음 수가 늘어나는 다섯 가지 모양: n의 제곱은 치솟고 로그는 거의 눕는다</title>
+  <text class="t-s t-b" x="20" y="34">걸음 수</text>
+  <path class="ln thin muted" d="M70 310 H520"/>
+  <text class="t-xs end" x="60" y="314">0</text>
+  <path class="ln thin muted" d="M70 245 H520"/>
+  <text class="t-xs end" x="60" y="249">25</text>
+  <path class="ln thin muted" d="M70 180 H520"/>
+  <text class="t-xs end" x="60" y="184">50</text>
+  <path class="ln thin muted" d="M70 115 H520"/>
+  <text class="t-xs end" x="60" y="119">75</text>
+  <path class="ln thin muted" d="M70 50 H520"/>
+  <text class="t-xs end" x="60" y="54">100</text>
+  <text class="t-xs mid" x="70" y="330">0</text>
+  <text class="t-xs mid" x="182.5" y="330">5</text>
+  <text class="t-xs mid" x="295" y="330">10</text>
+  <text class="t-xs mid" x="407.5" y="330">15</text>
+  <text class="t-xs mid" x="520" y="330">20</text>
+  <text class="t-s mid" x="295" y="352">n (데이터 개수)</text>
+  <path class="ln thick" d="M70.0 307.4 L520.0 307.4"/>
+  <path class="ln thick green" d="M92.5 310.0 L103.8 308.5 L115.0 307.4 L126.2 306.6 L137.5 305.9 L148.8 305.3 L160.0 304.8 L171.2 304.4 L182.5 304.0 L193.8 303.6 L205.0 303.3 L216.2 303.0 L227.5 302.7 L238.8 302.4 L250.0 302.2 L261.2 302.0 L272.5 301.8 L283.8 301.6 L295.0 301.4 L306.2 301.2 L317.5 301.0 L328.8 300.8 L340.0 300.7 L351.2 300.5 L362.5 300.4 L373.8 300.2 L385.0 300.1 L396.2 300.0 L407.5 299.8 L418.8 299.7 L430.0 299.6 L441.2 299.5 L452.5 299.4 L463.8 299.3 L475.0 299.2 L486.2 299.1 L497.5 299.0 L508.8 298.9 L520.0 298.8"/>
+  <path class="ln thick blue" d="M70.0 310.0 L520.0 258.0"/>
+  <path class="ln thick warm" d="M92.5 310.0 L103.8 307.7 L115.0 304.8 L126.2 301.4 L137.5 297.6 L148.8 293.6 L160.0 289.2 L171.2 284.6 L182.5 279.8 L193.8 274.8 L205.0 269.7 L216.2 264.4 L227.5 258.9 L238.8 253.3 L250.0 247.6 L261.2 241.8 L272.5 235.8 L283.8 229.8 L295.0 223.6 L306.2 217.4 L317.5 211.1 L328.8 204.6 L340.0 198.1 L351.2 191.6 L362.5 184.9 L373.8 178.2 L385.0 171.4 L396.2 164.6 L407.5 157.6 L418.8 150.6 L430.0 143.6 L441.2 136.5 L452.5 129.3 L463.8 122.1 L475.0 114.8 L486.2 107.5 L497.5 100.2 L508.8 92.7 L520.0 85.3"/>
+  <path class="ln thick red" d="M70.0 310.0 L75.6 309.8 L81.2 309.4 L86.9 308.5 L92.5 307.4 L98.1 305.9 L103.8 304.1 L109.4 302.0 L115.0 299.6 L120.6 296.8 L126.2 293.8 L131.9 290.3 L137.5 286.6 L143.1 282.5 L148.8 278.1 L154.4 273.4 L160.0 268.4 L165.6 263.0 L171.2 257.4 L176.9 251.3 L182.5 245.0 L188.1 238.3 L193.8 231.3 L199.4 224.0 L205.0 216.4 L210.6 208.4 L216.2 200.1 L221.9 191.5 L227.5 182.6 L233.1 173.3 L238.8 163.8 L244.4 153.8 L250.0 143.6 L255.6 133.0 L261.2 122.2 L266.9 110.9 L272.5 99.4 L278.1 87.5 L283.8 75.3 L289.4 62.8 L295.0 50.0"/>
+  <text class="t-b tc-red" x="310" y="62">O(n²)</text>
+  <text class="t-s" x="310" y="82">n = 10에서 이미 100걸음</text>
+  <text class="t-s" x="310" y="100">n = 20이면 400걸음 (그림 밖)</text>
+  <text class="t-s t-b" x="536" y="34">n = 20일 때</text>
+  <text class="t-b tc-warm" x="536" y="90">O(n log n)</text>
+  <text class="t-s" x="632" y="90">약 86걸음</text>
+  <text class="t-b tc-blue" x="536" y="262">O(n)</text>
+  <text class="t-s" x="632" y="262">20걸음</text>
+  <text class="t-b tc-green" x="536" y="292">O(log n)</text>
+  <text class="t-s" x="632" y="292">약 4걸음</text>
+  <text class="t-b" x="536" y="314">O(1)</text>
+  <text class="t-s" x="632" y="314">1걸음</text>
+</svg></div><figcaption><b>그림 9-3</b>n이 0에서 20까지 커질 때의 걸음 수. O(n²)은 n이 10일 때 벌써 그림 꼭대기를 뚫고 나가고, O(log n)과 O(1)은 바닥에 붙어 있습니다.</figcaption></figure>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>빅오는 <strong>모양</strong>만 남기고 자잘한 것은 버립니다. 걸음 수가 3n + 5든 n ÷ 2든 모두 O(n)입니다. 그래서 빅오는 실제 시간이 아닙니다. 데이터가 수십 개뿐이면 O(n²)인 단순한 코드가 더 빠를 수도 있습니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>가장 좋을 때, 평균, 가장 나쁠 때</summary><div class="deep-body">
+<p>선형 탐색에서 찾는 책이 맨 앞에 있으면 한 걸음에 끝납니다. 맨 끝에 있거나 아예 없으면 n걸음입니다. 고르게 섞여 있다면 평균은 n의 절반쯤입니다.</p>
+<p>빅오는 보통 <strong>가장 나쁠 때</strong>를 말합니다. 약속에 늦지 않으려면 길이 가장 막힐 때를 기준으로 집을 나서는 것과 같습니다. 다만 해시 맵의 O(1)은 <strong>평균</strong>입니다. 키가 한 서랍에 몰리면 O(n)까지 느려질 수 있습니다.</p>
+</div></details>
+</section>
+<section class="level2" id="nested">
+<h2><span class="sec-n">9.4</span>이중 반복문: 걸음이 곱해지는 순간<a aria-label="이 절의 링크" class="anchor" href="#nested">#</a></h2>
+<p>O(n²)은 어디서 생길까요? 가장 흔한 곳은 <strong>반복문 안의 반복문</strong>입니다. 도서관에서 오늘 방문한 사람 가운데 연체자가 있는지 확인해 봅시다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1">late <span class="op">=</span> [<span class="dv">23</span>, <span class="dv">5</span>, <span class="dv">61</span>, <span class="dv">8</span>, <span class="dv">90</span>, <span class="dv">77</span>]        <span class="co"># 연체 회원 번호</span></span>
+<span id="cb1-2">visitors <span class="op">=</span> [<span class="dv">17</span>, <span class="dv">42</span>, <span class="dv">8</span>, <span class="dv">23</span>, <span class="dv">35</span>, <span class="dv">4</span>]    <span class="co"># 오늘 방문자</span></span>
+<span id="cb1-3"><span class="cf">for</span> v <span class="kw">in</span> visitors:</span>
+<span id="cb1-4">    <span class="cf">if</span> v <span class="kw">in</span> late:                    <span class="co"># 명단을 처음부터 훑는다</span></span>
+<span id="cb1-5">        <span class="bu">print</span>(v, <span class="st">"번 회원은 연체 중"</span>)</span></code></pre></div>
+<ul>
+<li>3행: 방문자를 한 명씩 꺼냅니다. 반복문은 이것 하나뿐인 것처럼 보입니다.</li>
+<li>4행: <code>late</code>는 리스트입니다. 리스트에 <code>in</code>을 쓰면 처음부터 하나씩 다 봅니다. 눈에 보이지 않는 <strong>숨은 반복문</strong>입니다.</li>
+</ul>
+<p>방문자 한 명마다 명단 전체를 훑으니 걸음 수는 방문자 수 × 명단 길이입니다. 100명씩이면 1만 걸음, 1만 명씩이면 1억 걸음입니다. 사람은 100배 늘었는데 일은 1만 배 늘었습니다.</p>
+<p>고치는 방법은 8장에서 배웠습니다. 명단을 <strong>집합</strong>에 담으면 "이 번호가 있나?"에 한 번에 답합니다. 첫 줄 하나만 바꾸면 됩니다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1">late <span class="op">=</span> {<span class="dv">23</span>, <span class="dv">5</span>, <span class="dv">61</span>, <span class="dv">8</span>, <span class="dv">90</span>, <span class="dv">77</span>}        <span class="co"># 리스트 대신 집합</span></span></code></pre></div>
+<figure class="fig" id="fig-pairs-grid"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 346" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>방문자마다 연체 명단 전체를 훑으면 비교 횟수가 곱해지고, 명단을 집합에 담아 두면 더해진다</title>
+  <text class="t-s t-b" x="20" y="32">방법 1 · 방문자마다 명단을 처음부터 훑기</text>
+  <text class="t-s mid" x="200" y="60">연체 명단 6명</text>
+  <text class="t-s" x="20" y="182">방문자</text>
+  <text class="t-s" x="20" y="200">6명</text>
+  <text class="t-mono mid" x="125" y="86">23</text>
+  <text class="t-mono mid" x="155" y="86">5</text>
+  <text class="t-mono mid" x="185" y="86">61</text>
+  <text class="t-mono mid" x="215" y="86">8</text>
+  <text class="t-mono mid" x="245" y="86">90</text>
+  <text class="t-mono mid" x="275" y="86">77</text>
+  <text class="t-mono end" x="98" y="116">17</text>
+  <rect class="box warm" x="110" y="96" width="30" height="30"/>
+  <rect class="box warm" x="140" y="96" width="30" height="30"/>
+  <rect class="box warm" x="170" y="96" width="30" height="30"/>
+  <rect class="box warm" x="200" y="96" width="30" height="30"/>
+  <rect class="box warm" x="230" y="96" width="30" height="30"/>
+  <rect class="box warm" x="260" y="96" width="30" height="30"/>
+  <text class="t-mono end" x="98" y="146">42</text>
+  <rect class="box warm" x="110" y="126" width="30" height="30"/>
+  <rect class="box warm" x="140" y="126" width="30" height="30"/>
+  <rect class="box warm" x="170" y="126" width="30" height="30"/>
+  <rect class="box warm" x="200" y="126" width="30" height="30"/>
+  <rect class="box warm" x="230" y="126" width="30" height="30"/>
+  <rect class="box warm" x="260" y="126" width="30" height="30"/>
+  <text class="t-mono end" x="98" y="176">8</text>
+  <rect class="box warm" x="110" y="156" width="30" height="30"/>
+  <rect class="box warm" x="140" y="156" width="30" height="30"/>
+  <rect class="box warm" x="170" y="156" width="30" height="30"/>
+  <rect class="solid green" x="200" y="156" width="30" height="30"/>
+  <rect class="box warm" x="230" y="156" width="30" height="30"/>
+  <rect class="box warm" x="260" y="156" width="30" height="30"/>
+  <text class="t-mono end" x="98" y="206">23</text>
+  <rect class="solid green" x="110" y="186" width="30" height="30"/>
+  <rect class="box warm" x="140" y="186" width="30" height="30"/>
+  <rect class="box warm" x="170" y="186" width="30" height="30"/>
+  <rect class="box warm" x="200" y="186" width="30" height="30"/>
+  <rect class="box warm" x="230" y="186" width="30" height="30"/>
+  <rect class="box warm" x="260" y="186" width="30" height="30"/>
+  <text class="t-mono end" x="98" y="236">35</text>
+  <rect class="box warm" x="110" y="216" width="30" height="30"/>
+  <rect class="box warm" x="140" y="216" width="30" height="30"/>
+  <rect class="box warm" x="170" y="216" width="30" height="30"/>
+  <rect class="box warm" x="200" y="216" width="30" height="30"/>
+  <rect class="box warm" x="230" y="216" width="30" height="30"/>
+  <rect class="box warm" x="260" y="216" width="30" height="30"/>
+  <text class="t-mono end" x="98" y="266">4</text>
+  <rect class="box warm" x="110" y="246" width="30" height="30"/>
+  <rect class="box warm" x="140" y="246" width="30" height="30"/>
+  <rect class="box warm" x="170" y="246" width="30" height="30"/>
+  <rect class="box warm" x="200" y="246" width="30" height="30"/>
+  <rect class="box warm" x="230" y="246" width="30" height="30"/>
+  <rect class="box warm" x="260" y="246" width="30" height="30"/>
+  <text class="t-b tc-warm mid" x="200" y="304">6 × 6 = 36번 비교</text>
+  <text class="t-s mid" x="200" y="326">1만 명씩이면 1억 번</text>
+  <path class="ln thin muted dash" d="M356 20 V330"/>
+  <text class="t-s t-b" x="390" y="32">방법 2 · 명단을 집합에 담아 두고 묻기</text>
+  <circle class="badge green" cx="402" cy="78" r="11"/><text class="badge-t" x="402" y="82.5">1</text>
+  <text class="t-s" x="420" y="83">명단을 집합에 넣기</text>
+  <rect class="box green" x="420" y="96" width="36" height="34"/>
+  <text class="t-mono mid" x="438" y="118">23</text>
+  <rect class="box green" x="456" y="96" width="36" height="34"/>
+  <text class="t-mono mid" x="474" y="118">5</text>
+  <rect class="box green" x="492" y="96" width="36" height="34"/>
+  <text class="t-mono mid" x="510" y="118">61</text>
+  <rect class="box green" x="528" y="96" width="36" height="34"/>
+  <text class="t-mono mid" x="546" y="118">8</text>
+  <rect class="box green" x="564" y="96" width="36" height="34"/>
+  <text class="t-mono mid" x="582" y="118">90</text>
+  <rect class="box green" x="600" y="96" width="36" height="34"/>
+  <text class="t-mono mid" x="618" y="118">77</text>
+  <text class="t-b tc-green" x="652" y="118">6번</text>
+  <circle class="badge blue" cx="402" cy="172" r="11"/><text class="badge-t" x="402" y="176.5">2</text>
+  <text class="t-s" x="420" y="177">방문자마다 집합에 한 번 묻기</text>
+  <rect class="box blue" x="420" y="190" width="36" height="34"/>
+  <text class="t-mono mid" x="438" y="212">17</text>
+  <rect class="box blue" x="456" y="190" width="36" height="34"/>
+  <text class="t-mono mid" x="474" y="212">42</text>
+  <rect class="solid green" x="492" y="190" width="36" height="34"/>
+  <text class="t-mono mid t-on t-b" x="510" y="212">8</text>
+  <rect class="solid green" x="528" y="190" width="36" height="34"/>
+  <text class="t-mono mid t-on t-b" x="546" y="212">23</text>
+  <rect class="box blue" x="564" y="190" width="36" height="34"/>
+  <text class="t-mono mid" x="582" y="212">35</text>
+  <rect class="box blue" x="600" y="190" width="36" height="34"/>
+  <text class="t-mono mid" x="618" y="212">4</text>
+  <text class="t-b tc-blue" x="652" y="212">6번</text>
+  <text class="t-s" x="420" y="248">초록 칸: 명단에 있는 번호 (8, 23)</text>
+  <text class="t-b tc-green mid" x="528" y="304">6 + 6 = 12번</text>
+  <text class="t-s mid" x="528" y="326">1만 명씩이면 2만 번</text>
+</svg></div><figcaption><b>그림 9-4</b>왼쪽은 칸 하나가 비교 한 번입니다. 방문자마다 명단을 다 훑으면 걸음이 곱해지고, 명단을 집합에 담아 두면 더해집니다.</figcaption></figure>
+<p>집합을 만드는 데 1만 걸음, 방문자를 확인하는 데 1만 걸음, 합쳐서 2만 걸음입니다. 1억이 2만으로 줄었습니다. O(n²)이 O(n)이 된 것입니다.</p>
+<p>공짜는 아닙니다. 집합은 리스트보다 메모리를 더 씁니다. 도서관이 책과 따로 <strong>찾아보기 카드함</strong>을 두는 것과 같습니다. 놓을 자리와 만드는 수고가 들지만, 한 번 만들어 두면 찾을 때마다 덕을 봅니다. 이렇게 메모리를 더 써서 시간을 아끼거나 그 반대로 하는 맞바꿈을 <strong>시간과 공간의 교환</strong>(time-space tradeoff)이라고 합니다.</p>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · 숨은 반복문을 찾는 눈</div>
+<p>반복문 안에 <code>x in 리스트</code>, <code>리스트.index(x)</code>, <code>리스트.count(x)</code>, 정렬이 들어 있으면 의심하세요. AI가 만든 코드에도 자주 나오는데, 데이터가 적을 때는 티가 나지 않습니다.</p>
+</div>
+</section>
+<section class="level2" id="sort">
+<h2><span class="sec-n">9.5</span>정렬: 줄을 세워 두면 생기는 힘<a aria-label="이 절의 링크" class="anchor" href="#sort">#</a></h2>
+<p>이진 탐색은 책이 번호순으로 꽂혀 있었기에 가능했습니다. 이렇게 <strong>정해 둔 기준에 따라 차례로 늘어놓는 일</strong>이 <strong>정렬</strong>(sorting)입니다. 정렬해 두면 빨리 찾을 수 있고, 순위표나 최신순 목록을 보여 줄 수 있고, 같은 것끼리 이웃해서 중복도 쉽게 눈에 띕니다.</p>
+<p>정렬 자체에는 일이 얼마나 들까요? 가장 작은 카드를 찾아 맨 앞에 놓고, 남은 카드에서 또 가장 작은 것을 찾는 방법이 먼저 떠오릅니다. 찾을 때마다 남은 카드를 다 봐야 하니 O(n²)입니다. 더 나은 방법인 <strong>병합 정렬</strong>(merge sort)은 이렇게 합니다.</p>
+<ol type="1">
+<li>카드를 낱장이 될 때까지 반으로 나눕니다.</li>
+<li>이웃한 두 묶음을 하나로 합칩니다. 두 묶음은 이미 정렬되어 있으므로 <strong>맨 앞 카드끼리만 비교</strong>해 작은 쪽부터 내려놓으면 됩니다.</li>
+<li>한 묶음이 될 때까지 2를 되풀이합니다.</li>
+</ol>
+<figure class="fig" id="fig-merge-sort"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 352" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>카드 8장을 병합 정렬하면 세 층에 걸쳐 층마다 8장을 한 번씩 옮긴다</title>
+  <text class="t-b" x="20" y="52">처음</text>
+  <text class="t-s" x="20" y="71">낱장 8개</text>
+  <rect class="box" x="150" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="172" y="60">5</text>
+  <rect class="box" x="210" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="232" y="60">2</text>
+  <rect class="box" x="270" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="292" y="60">8</text>
+  <rect class="box" x="330" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="352" y="60">1</text>
+  <rect class="box" x="390" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="412" y="60">7</text>
+  <rect class="box" x="450" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="472" y="60">3</text>
+  <rect class="box" x="510" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="532" y="60">6</text>
+  <rect class="box" x="570" y="34" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="592" y="60">4</text>
+  <path class="ln" d="M202 85 V105" marker-end="url(#ah)"/>
+  <path class="ln" d="M322 85 V105" marker-end="url(#ah)"/>
+  <path class="ln" d="M442 85 V105" marker-end="url(#ah)"/>
+  <path class="ln" d="M562 85 V105" marker-end="url(#ah)"/>
+  <text class="t-s" x="640" y="101">8장을 옮김</text>
+  <text class="t-b" x="20" y="136">1층</text>
+  <text class="t-s" x="20" y="155">2장씩 정렬</text>
+  <rect class="panel green" x="145" y="112" width="114" height="52" rx="10"/>
+  <rect class="panel green" x="265" y="112" width="114" height="52" rx="10"/>
+  <rect class="panel green" x="385" y="112" width="114" height="52" rx="10"/>
+  <rect class="panel green" x="505" y="112" width="114" height="52" rx="10"/>
+  <rect class="box green" x="150" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="172" y="144">2</text>
+  <rect class="box green" x="210" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="232" y="144">5</text>
+  <rect class="box green" x="270" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="292" y="144">1</text>
+  <rect class="box green" x="330" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="352" y="144">8</text>
+  <rect class="box green" x="390" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="412" y="144">3</text>
+  <rect class="box green" x="450" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="472" y="144">7</text>
+  <rect class="box green" x="510" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="532" y="144">4</text>
+  <rect class="box green" x="570" y="118" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="592" y="144">6</text>
+  <path class="ln" d="M262 169 V189" marker-end="url(#ah)"/>
+  <path class="ln" d="M502 169 V189" marker-end="url(#ah)"/>
+  <text class="t-s" x="640" y="185">8장을 옮김</text>
+  <text class="t-b" x="20" y="220">2층</text>
+  <text class="t-s" x="20" y="239">4장씩 정렬</text>
+  <rect class="panel green" x="145" y="196" width="234" height="52" rx="10"/>
+  <rect class="panel green" x="385" y="196" width="234" height="52" rx="10"/>
+  <rect class="box green" x="150" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="172" y="228">1</text>
+  <rect class="box green" x="210" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="232" y="228">2</text>
+  <rect class="box green" x="270" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="292" y="228">5</text>
+  <rect class="box green" x="330" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="352" y="228">8</text>
+  <rect class="box green" x="390" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="412" y="228">3</text>
+  <rect class="box green" x="450" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="472" y="228">4</text>
+  <rect class="box green" x="510" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="532" y="228">6</text>
+  <rect class="box green" x="570" y="202" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="592" y="228">7</text>
+  <path class="ln" d="M382 253 V273" marker-end="url(#ah)"/>
+  <text class="t-s" x="640" y="269">8장을 옮김</text>
+  <text class="t-b" x="20" y="304">3층</text>
+  <text class="t-s" x="20" y="323">8장 모두 정렬</text>
+  <rect class="panel green" x="145" y="280" width="474" height="52" rx="10"/>
+  <rect class="box green" x="150" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="172" y="312">1</text>
+  <rect class="box green" x="210" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="232" y="312">2</text>
+  <rect class="box green" x="270" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="292" y="312">3</text>
+  <rect class="box green" x="330" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="352" y="312">4</text>
+  <rect class="box green" x="390" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="412" y="312">5</text>
+  <rect class="box green" x="450" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="472" y="312">6</text>
+  <rect class="box green" x="510" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="532" y="312">7</text>
+  <rect class="box green" x="570" y="286" width="44" height="40" rx="6"/>
+  <text class="t-l mid" x="592" y="312">8</text>
+  <text class="t-b" x="640" y="304">3층 × 8장</text>
+  <text class="t-b tc-green" x="640" y="324">= 24걸음</text>
+</svg></div><figcaption><b>그림 9-5</b>카드 8장의 병합 정렬. 묶음이 2장, 4장, 8장으로 커지는 세 층 동안 층마다 8장을 한 번씩 옮깁니다.</figcaption></figure>
+<p>걸음 수를 세어 봅시다. 한 층에서 카드 n장을 한 번씩 옮깁니다. 층의 수는 묶음이 두 배씩 커져 n에 닿는 횟수이니 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>log</mo><mn>2</mn></msub><mi>n</mi></mrow><annotation encoding="application/x-tex">\log_2 n</annotation></semantics></math>입니다. 곱하면 n × log n, 그래서 O(n log n)입니다. 카드 100만 장이면 100만 × 20 = 2,000만 걸음입니다. O(n²)의 1조 걸음보다 5만 배 적습니다.</p>
+<section class="level3" id="직접-짜지-말고-기준을-정확히-알려-주기">
+<h3>직접 짜지 말고, 기준을 정확히 알려 주기</h3>
+<p>정렬을 직접 만들 일은 거의 없습니다. 언어마다 잘 만든 정렬 함수가 있습니다. 우리 몫은 <strong>무엇을 기준으로 줄 세울지</strong> 알려 주는 것이고, 버그는 대부분 여기서 생깁니다.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1">players <span class="op">=</span> [(<span class="st">"민지"</span>, <span class="dv">90</span>), (<span class="st">"준호"</span>, <span class="dv">85</span>), (<span class="st">"서연"</span>, <span class="dv">90</span>)]</span>
+<span id="cb3-2"></span>
+<span id="cb3-3"><span class="kw">def</span> score(p):</span>
+<span id="cb3-4">    <span class="cf">return</span> p[<span class="dv">1</span>]          <span class="co"># 항목에서 점수만 꺼낸다</span></span>
+<span id="cb3-5"></span>
+<span id="cb3-6"><span class="bu">sorted</span>(players, key<span class="op">=</span>score, reverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-7"><span class="co"># [('민지', 90), ('서연', 90), ('준호', 85)]</span></span></code></pre></div>
+<ul>
+<li>6행: <code>key</code>가 줄 세우는 기준이고, <code>reverse=True</code>는 큰 것부터 놓으라는 뜻입니다.</li>
+<li>7행: 민지와 서연은 둘 다 90점입니다. 결과에서도 원래 순서대로 민지가 앞입니다.</li>
+</ul>
+<p>기준이 같은 것끼리 <strong>원래 순서를 지켜 주는 정렬</strong>을 <strong>안정 정렬</strong>(stable sort)이라고 합니다. Python의 정렬이 그렇습니다. 그래도 동점일 때의 순서가 중요하다면 "점수가 같으면 회원 번호순"처럼 <strong>둘째 기준까지</strong> 적어 두세요. 목록을 여러 쪽으로 나눠 보여 줄 때 동점자의 순서가 흔들리면 같은 사람이 두 번 나오거나 빠집니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 글자로 줄 세우면 10이 2보다 앞에 옵니다</div>
+<p>글자는 앞 글자부터 비교합니다. 그래서 문자열 "10"은 "2"보다 앞에 옵니다. JavaScript의 <code>[10, 9, 1].sort()</code>는 숫자도 글자로 바꿔 비교해서 결과가 <code>[1, 10, 9]</code>입니다. 숫자는 숫자로 비교하도록 기준을 꼭 알려 주세요.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="amortized">
+<h2><span class="sec-n">9.6</span>가끔만 비싼 일: 상각 비용<a aria-label="이 절의 링크" class="anchor" href="#amortized">#</a></h2>
+<p>8장에서 동적 배열은 칸이 다 차면 더 넓은 자리로 통째로 이사한다고 했습니다. 이사는 있던 값을 전부 옮기는 O(n)짜리 일입니다. 그런데도 "끝에 붙이기는 빠르다"고 말해도 될까요?</p>
+<p>책장으로 세어 봅시다. 한 칸짜리 책장에서 시작해, 꽉 찰 때마다 <strong>두 배 큰 책장</strong>으로 책을 모두 옮깁니다.</p>
+<figure class="fig" id="fig-amortized"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 336" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>책장이 찰 때마다 두 배 큰 책장으로 옮기면 아홉 권을 꽂는 동안 이사는 네 번뿐이다</title>
+  <rect class="solid green" x="70" y="18" width="14" height="14" rx="3"/>
+  <text class="t-s" x="92" y="30">꽂기 1걸음</text>
+  <rect class="solid warm" x="190" y="18" width="14" height="14" rx="3"/>
+  <text class="t-s" x="212" y="30">이사: 있던 책을 새 책장으로 옮기기</text>
+  <rect class="solid green" x="70" y="254" width="38" height="18" rx="3"/>
+  <text class="t-mono mid" x="89" y="294">1</text>
+  <text class="t-mono mid tc-muted" x="89" y="318">1</text>
+  <rect class="solid green" x="128" y="254" width="38" height="18" rx="3"/>
+  <rect class="solid warm" x="128" y="234" width="38" height="18" rx="3"/>
+  <text class="t-s t-b tc-warm mid" x="147" y="226">이사 1권</text>
+  <text class="t-mono mid" x="147" y="294">2</text>
+  <text class="t-mono mid t-b tc-warm" x="147" y="318">2</text>
+  <rect class="solid green" x="186" y="254" width="38" height="18" rx="3"/>
+  <rect class="solid warm" x="186" y="234" width="38" height="18" rx="3"/>
+  <rect class="solid warm" x="186" y="214" width="38" height="18" rx="3"/>
+  <text class="t-s t-b tc-warm mid" x="205" y="206">이사 2권</text>
+  <text class="t-mono mid" x="205" y="294">3</text>
+  <text class="t-mono mid t-b tc-warm" x="205" y="318">4</text>
+  <rect class="solid green" x="244" y="254" width="38" height="18" rx="3"/>
+  <text class="t-mono mid" x="263" y="294">4</text>
+  <text class="t-mono mid tc-muted" x="263" y="318">4</text>
+  <rect class="solid green" x="302" y="254" width="38" height="18" rx="3"/>
+  <rect class="solid warm" x="302" y="234" width="38" height="18" rx="3"/>
+  <rect class="solid warm" x="302" y="214" width="38" height="18" rx="3"/>
+  <rect class="solid warm" x="302" y="194" width="38" height="18" rx="3"/>
+  <rect class="solid warm" x="302" y="174" width="38" height="18" rx="3"/>
+  <text class="t-s t-b tc-warm mid" x="321" y="166">이사 4권</text>
+  <text class="t-mono mid" x="321" y="294">5</text>
+  <text class="t-mono mid t-b tc-warm" x="321" y="318">8</text>
+  <rect class="solid green" x="360" y="254" width="38" height="18" rx="3"/>
+  <text class="t-mono mid" x="379" y="294">6</text>
+  <text class="t-mono mid tc-muted" x="379" y="318">8</text>
+  <rect class="solid green" x="418" y="254" width="38" height="18" rx="3"/>
+  <text class="t-mono mid" x="437" y="294">7</text>
+  <text class="t-mono mid tc-muted" x="437" y="318">8</text>
+  <rect class="solid green" x="476" y="254" width="38" height="18" rx="3"/>
+  <text class="t-mono mid" x="495" y="294">8</text>
+  <text class="t-mono mid tc-muted" x="495" y="318">8</text>
+  <rect class="solid green" x="534" y="254" width="38" height="18" rx="3"/>
+  <rect class="solid warm" x="534" y="234" width="38" height="18" rx="3"/>
+  <rect class="solid warm" x="534" y="214" width="38" height="18" rx="3"/>
+  <rect class="solid warm" x="534" y="194" width="38" height="18" rx="3"/>
+  <rect class="solid warm" x="534" y="174" width="38" height="18" rx="3"/>
+  <rect class="solid warm" x="534" y="154" width="38" height="18" rx="3"/>
+  <rect class="solid warm" x="534" y="134" width="38" height="18" rx="3"/>
+  <rect class="solid warm" x="534" y="114" width="38" height="18" rx="3"/>
+  <rect class="solid warm" x="534" y="94" width="38" height="18" rx="3"/>
+  <text class="t-s t-b tc-warm mid" x="553" y="86">이사 8권</text>
+  <text class="t-mono mid" x="553" y="294">9</text>
+  <text class="t-mono mid t-b tc-warm" x="553" y="318">16</text>
+  <path class="ln thin" d="M60 273 H584"/>
+  <text class="t-s" x="20" y="294">순서</text>
+  <text class="t-s" x="20" y="318">칸 수</text>
+  <rect class="box yellow" x="604" y="120" width="136" height="138" rx="12"/>
+  <text class="t-s mid" x="672" y="146">9권을 꽂는 동안</text>
+  <text class="t-s mid" x="672" y="174">두 배씩 늘리면</text>
+  <text class="t-b tc-green mid" x="672" y="195">이사 15권</text>
+  <text class="t-s mid" x="672" y="223">한 칸씩 늘리면</text>
+  <text class="t-b tc-red mid" x="672" y="244">이사 36권</text>
+</svg></div><figcaption><b>그림 9-6</b>책 9권을 차례로 꽂을 때 드는 일. 이사는 2, 3, 5, 9번째에만 일어나고 나머지는 꽂기만 합니다.</figcaption></figure>
+<p>9권을 꽂는 동안 이사한 책은 1 + 2 + 4 + 8 = 15권입니다. 꽂기 9걸음과 합치면 24걸음이니 한 권에 평균 3걸음이 안 됩니다. 책이 1,000권으로 늘어도 이 평균은 그대로입니다. 책장이 커질수록 이사는 비싸지지만 그만큼 드물어지기 때문입니다.</p>
+<p>반대로 책장을 <strong>한 칸씩만</strong> 늘리면 꽂을 때마다 이사합니다. 9권에 36권, 1,000권이면 약 50만 권을 옮겨야 합니다. O(n²)입니다.</p>
+<p>가끔 드는 큰 비용을 여러 번에 고르게 나눠 본 값을 <strong>상각 비용</strong>(amortized cost)이라고 합니다. 동적 배열의 끝에 붙이기는 "상각 O(1)"입니다. 실제로 몇 배씩 늘리는지는 언어마다 다르지만, 일정한 비율로 늘리는 한 결론은 같습니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 평균이 빠르다고 매번 빠른 것은 아닙니다</div>
+<p>상각 O(1)은 "합쳐 보면 싸다"는 뜻입니다. 이사가 일어나는 그 한 번은 여전히 O(n)이어서, 1초에 60번 화면을 그리는 게임에서는 화면이 뚝 끊길 수 있습니다. 필요한 크기를 미리 안다면 처음부터 넉넉히 잡아 둡니다.</p>
+</div>
+</section>
+<section class="level2" id="paths">
+<h2><span class="sec-n">9.7</span>길 찾기: 물결처럼, 한 길로, 가장 싼 길로<a aria-label="이 절의 링크" class="anchor" href="#paths">#</a></h2>
+<p>8장의 그래프는 "누가 누구와 이어져 있나"를 담는 그릇이었습니다. 이제 그 위를 걸어 봅시다. 칸으로 나뉜 지도에서 집에서 도서관까지 가는 길을 찾습니다. 한 번에 위아래나 좌우의 이웃 칸으로 한 걸음 갈 수 있습니다.</p>
+<ul>
+<li><strong>너비 우선 탐색</strong>(BFS, Breadth-First Search)은 연못에 돌을 던졌을 때의 물결처럼 퍼집니다. 출발점에서 한 걸음 거리의 칸을 모두 보고, 그다음 두 걸음 거리의 칸을 모두 봅니다.</li>
+<li><strong>깊이 우선 탐색</strong>(DFS, Depth-First Search)은 미로에서 한쪽 벽을 짚고 걷는 것과 같습니다. 한 길로 갈 수 있는 데까지 가고, 막히면 마지막 갈림길로 돌아와 다른 길로 갑니다.</li>
+</ul>
+<figure class="fig" id="fig-bfs-dfs"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>같은 지도에서 너비 우선 탐색은 가까운 칸부터 퍼져 4걸음 길을 찾고 깊이 우선 탐색은 한 길로 끝까지 가서 10걸음 길을 찾는다</title>
+  <text class="t-s t-b" x="40" y="30">너비 우선(BFS): 가까운 칸부터 물결처럼</text>
+  <text class="t-s" x="40" y="50">숫자 = 출발점에서 몇 걸음 떨어졌나</text>
+  <text class="t-s t-b" x="500" y="30">깊이 우선(DFS): 한 길로 끝까지</text>
+  <text class="t-s" x="500" y="50">숫자 = 들른 순서</text>
+  <rect class="solid blue" x="40" y="70" width="44" height="44"/>
+  <text class="t-l mid t-on" x="62" y="98">0</text>
+  <rect class="box blue" x="84" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="106" y="98">1</text>
+  <rect class="box blue" x="128" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="150" y="98">2</text>
+  <rect class="box blue" x="172" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="194" y="98">3</text>
+  <rect class="box blue" x="216" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="238" y="98">4</text>
+  <rect class="box blue" x="40" y="114" width="44" height="44"/>
+  <text class="t-l mid" x="62" y="142">1</text>
+  <rect class="solid gray" x="84" y="114" width="44" height="44"/>
+  <rect class="solid gray" x="128" y="114" width="44" height="44"/>
+  <rect class="box blue" x="172" y="114" width="44" height="44"/>
+  <text class="t-l mid" x="194" y="142">4</text>
+  <rect class="box" x="216" y="114" width="44" height="44"/>
+  <rect class="box blue" x="40" y="158" width="44" height="44"/>
+  <text class="t-l mid" x="62" y="186">2</text>
+  <rect class="box blue" x="84" y="158" width="44" height="44"/>
+  <text class="t-l mid" x="106" y="186">3</text>
+  <rect class="solid gray" x="128" y="158" width="44" height="44"/>
+  <rect class="box" x="172" y="158" width="44" height="44"/>
+  <rect class="box" x="216" y="158" width="44" height="44"/>
+  <rect class="box blue" x="40" y="202" width="44" height="44"/>
+  <text class="t-l mid" x="62" y="230">3</text>
+  <rect class="solid green" x="84" y="202" width="44" height="44"/>
+  <text class="t-l mid t-on" x="106" y="230">4</text>
+  <rect class="box" x="128" y="202" width="44" height="44"/>
+  <rect class="box" x="172" y="202" width="44" height="44"/>
+  <rect class="box" x="216" y="202" width="44" height="44"/>
+  <rect class="solid blue" x="500" y="70" width="44" height="44"/>
+  <text class="t-l mid t-on" x="522" y="98">0</text>
+  <rect class="box warm" x="544" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="566" y="98">1</text>
+  <rect class="box warm" x="588" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="610" y="98">2</text>
+  <rect class="box warm" x="632" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="654" y="98">3</text>
+  <rect class="box warm" x="676" y="70" width="44" height="44"/>
+  <text class="t-l mid" x="698" y="98">4</text>
+  <rect class="box" x="500" y="114" width="44" height="44"/>
+  <rect class="solid gray" x="544" y="114" width="44" height="44"/>
+  <rect class="solid gray" x="588" y="114" width="44" height="44"/>
+  <rect class="box" x="632" y="114" width="44" height="44"/>
+  <rect class="box warm" x="676" y="114" width="44" height="44"/>
+  <text class="t-l mid" x="698" y="142">5</text>
+  <rect class="box" x="500" y="158" width="44" height="44"/>
+  <rect class="box" x="544" y="158" width="44" height="44"/>
+  <rect class="solid gray" x="588" y="158" width="44" height="44"/>
+  <rect class="box" x="632" y="158" width="44" height="44"/>
+  <rect class="box warm" x="676" y="158" width="44" height="44"/>
+  <text class="t-l mid" x="698" y="186">6</text>
+  <rect class="box" x="500" y="202" width="44" height="44"/>
+  <rect class="solid green" x="544" y="202" width="44" height="44"/>
+  <text class="t-l mid t-on" x="566" y="230">10</text>
+  <rect class="box warm" x="588" y="202" width="44" height="44"/>
+  <text class="t-l mid" x="610" y="230">9</text>
+  <rect class="box warm" x="632" y="202" width="44" height="44"/>
+  <text class="t-l mid" x="654" y="230">8</text>
+  <rect class="box warm" x="676" y="202" width="44" height="44"/>
+  <text class="t-l mid" x="698" y="230">7</text>
+  <text class="t-b tc-green mid" x="150" y="276">4걸음짜리 길 = 가장 짧은 길</text>
+  <text class="t-s mid" x="150" y="298">큐에 넣어, 먼저 발견한 칸부터 간다</text>
+  <text class="t-b tc-warm mid" x="610" y="276">10걸음짜리 길</text>
+  <text class="t-s mid" x="610" y="298">스택에 넣어, 방금 발견한 칸부터 간다</text>
+  <rect class="solid blue" x="312" y="92" width="20" height="20"/>
+  <text class="t-s" x="342" y="107">출발 (집)</text>
+  <rect class="solid green" x="312" y="124" width="20" height="20"/>
+  <text class="t-s" x="342" y="139">도착 (도서관)</text>
+  <rect class="solid gray" x="312" y="156" width="20" height="20"/>
+  <text class="t-s" x="342" y="171">벽</text>
+  <rect class="box" x="312" y="188" width="20" height="20"/>
+  <text class="t-s" x="342" y="203">가 보지 않은 칸</text>
+</svg></div><figcaption><b>그림 9-7</b>같은 지도, 다른 순서. BFS는 가까운 칸부터 퍼져 4걸음짜리 길을 찾았습니다. DFS는 오른쪽, 아래, 왼쪽, 위 순서로 갈 수 있는 데까지 가서 10걸음짜리 길을 찾았습니다.</figcaption></figure>
+<p>BFS는 가까운 곳부터 차례로 보기 때문에, 도착점에 처음 닿은 길이 곧 <strong>걸음 수가 가장 적은 길</strong>입니다. DFS가 찾은 길에는 그런 보장이 없습니다. 대신 DFS는 "이 폴더 아래의 파일을 모두 찾기"처럼 끝까지 따라가 봐야 하는 일에 잘 맞습니다.</p>
+<p>두 방법의 차이는 <strong>다음에 갈 칸을 어디서 꺼내느냐</strong>뿐입니다. 새로 발견한 칸을 큐에 넣고 먼저 넣은 것부터 꺼내면 BFS, 스택에 넣고 방금 넣은 것부터 꺼내면 DFS입니다. 어느 쪽이든 들른 칸을 집합에 적어 두어야 같은 곳을 맴돌지 않습니다. 그러면 칸마다 한 번씩만 들르므로 걸음 수는 지도 크기에 비례합니다.</p>
+<section class="level3" id="길마다-걸리는-시간이-다르다면-다익스트라">
+<h3>길마다 걸리는 시간이 다르다면: 다익스트라</h3>
+<p>BFS는 모든 걸음의 값이 같다고 봅니다. 하지만 실제 길은 구간마다 걸리는 시간이 다릅니다. 두 구간짜리 큰길보다 세 구간짜리 지름길이 빠를 수 있습니다. 이럴 때 쓰는 방법이 <strong>다익스트라 알고리즘</strong>(Dijkstra's algorithm)입니다.</p>
+<p>곳마다 "지금까지 알아낸 가장 빠른 시간"을 적어 두고, 다음 두 가지를 되풀이합니다.</p>
+<ol type="1">
+<li>아직 확정하지 않은 곳 가운데 <strong>기록이 가장 작은 곳</strong>을 골라 확정합니다.</li>
+<li>그곳을 거쳐 이웃으로 가는 시간이 이웃의 기록보다 짧으면 <strong>기록을 고칩니다.</strong></li>
+</ol>
+<figure class="fig" id="fig-dijkstra-map"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 386" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>집에서 도서관까지: 가장 가까운 곳부터 확정하며 기록을 고쳐 나가면 6분짜리 길을 찾는다</title>
+  <text class="t-h" x="20" y="32">집에서 도서관까지 가장 빠른 길</text>
+  <path class="ln thick green" d="M108.3 181.1 L201.7 118.9"/>
+  <text class="t-b mid tc-green" x="145" y="136">1분</text>
+  <path class="ln muted" d="M108.3 218.9 L201.7 281.1"/>
+  <text class="t-b mid tc-muted" x="145" y="272">4분</text>
+  <path class="ln thick green" d="M230.0 134.0 L230.0 266.0"/>
+  <text class="t-b mid tc-green" x="252" y="205">2분</text>
+  <path class="ln thick green" d="M258.8 282.0 L361.2 218.0"/>
+  <text class="t-b mid tc-green" x="322" y="272">3분</text>
+  <path class="ln muted" d="M258.8 118.0 L361.2 182.0"/>
+  <text class="t-b mid tc-muted" x="322" y="136">7분</text>
+  <circle class="box blue" cx="80" cy="200" r="30"/>
+  <text class="t-l mid" x="80" y="206">집</text>
+  <circle class="box" cx="230" cy="100" r="30"/>
+  <text class="t-l mid" x="230" y="106">공원</text>
+  <circle class="box" cx="230" cy="300" r="30"/>
+  <text class="t-l mid" x="230" y="306">시장</text>
+  <circle class="box green" cx="390" cy="200" r="30"/>
+  <text class="t-l mid" x="390" y="206">도서관</text>
+  <text class="t-b tc-green mid" x="235" y="368">집 → 공원 → 시장 → 도서관: 1 + 2 + 3 = 6분</text>
+  <text class="t-s t-b" x="452" y="70">확정한 곳</text>
+  <text class="t-s t-b mid" x="596" y="70">공원</text>
+  <text class="t-s t-b mid" x="656" y="70">시장</text>
+  <text class="t-s t-b mid" x="716" y="70">도서관</text>
+  <path class="ln thin muted" d="M452 80 H742"/>
+  <circle class="badge blue" cx="464" cy="107" r="11"/><text class="badge-t" x="464" y="111.5">1</text>
+  <text x="484" y="112">집 (0분)</text>
+  <text class="t-mono mid" x="596" y="112">1</text>
+  <text class="t-mono mid" x="656" y="112">4</text>
+  <text class="t-mono mid tc-muted" x="716" y="112">?</text>
+  <circle class="badge blue" cx="464" cy="153" r="11"/><text class="badge-t" x="464" y="157.5">2</text>
+  <text x="484" y="158">공원 (1분)</text>
+  <rect class="box green" x="572" y="139" width="48" height="28" rx="7"/>
+  <text class="t-mono mid t-b" x="596" y="158">1</text>
+  <rect class="box warm" x="632" y="139" width="48" height="28" rx="7"/>
+  <text class="t-mono mid t-b" x="656" y="158">4→3</text>
+  <text class="t-mono mid" x="716" y="158">8</text>
+  <circle class="badge blue" cx="464" cy="199" r="11"/><text class="badge-t" x="464" y="203.5">3</text>
+  <text x="484" y="204">시장 (3분)</text>
+  <text class="t-mono mid tc-muted" x="596" y="204">·</text>
+  <rect class="box green" x="632" y="185" width="48" height="28" rx="7"/>
+  <text class="t-mono mid t-b" x="656" y="204">3</text>
+  <rect class="box warm" x="692" y="185" width="48" height="28" rx="7"/>
+  <text class="t-mono mid t-b" x="716" y="204">8→6</text>
+  <circle class="badge blue" cx="464" cy="245" r="11"/><text class="badge-t" x="464" y="249.5">4</text>
+  <text x="484" y="250">도서관 (6분)</text>
+  <text class="t-mono mid tc-muted" x="596" y="250">·</text>
+  <text class="t-mono mid tc-muted" x="656" y="250">·</text>
+  <rect class="box green" x="692" y="231" width="48" height="28" rx="7"/>
+  <text class="t-mono mid t-b" x="716" y="250">6</text>
+  <rect class="box warm" x="452" y="290" width="18" height="18" rx="5"/>
+  <text class="t-s" x="478" y="304">더 빠른 길을 찾아 고친 기록</text>
+  <rect class="box green" x="452" y="318" width="18" height="18" rx="5"/>
+  <text class="t-s" x="478" y="332">확정한 기록</text>
+</svg></div><figcaption><b>그림 9-8</b>다익스트라가 기록을 고쳐 가는 과정. 시장은 처음에 4분으로 적혔다가, 공원을 거치는 3분짜리 길이 발견되어 고쳐졌습니다.</figcaption></figure>
+<p>시장까지 4분이라는 첫 기록을 그대로 믿었다면 틀렸을 것입니다. 처음 발견한 길이 가장 빠른 길은 아닙니다. 반대로 1번에서 고른 곳은 믿어도 됩니다. 남은 곳은 모두 그보다 멀어서, 그쪽으로 돌아오는 길이 더 빠를 수 없기 때문입니다. 이 논리는 <strong>걸리는 시간이 음수인 길이 없을 때만</strong> 성립합니다. 기록이 가장 작은 곳을 꺼내는 일에는 8장의 힙이 제격입니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>걸음 수가 가장 적은 길은 <strong>BFS</strong>, 걸리는 시간의 합이 가장 작은 길은 <strong>다익스트라</strong>입니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>목적지 쪽부터 보기: A*와 휴리스틱</summary><div class="deep-body">
+<p>다익스트라는 목적지가 어느 쪽인지 모른 채 사방으로 퍼집니다. 게임 캐릭터의 길 찾기처럼 목적지가 정해져 있다면 <strong>A* 탐색</strong>(에이 스타)이 더 적게 둘러봅니다.</p>
+<p>A*는 "여기까지 온 시간"에 <strong>"여기서 목적지까지 남은 시간의 어림값"</strong>을 더해, 그 합이 작은 곳부터 봅니다. 이 어림값을 <strong>휴리스틱</strong>(heuristic)이라고 합니다. 칸으로 된 지도에서는 벽을 무시하고 "가로로 남은 칸 수 + 세로로 남은 칸 수"를 흔히 씁니다.</p>
+<p>조건이 하나 있습니다. 어림값이 <strong>실제 남은 시간보다 크면 안 됩니다.</strong> 실제보다 멀다고 짐작한 길은 뒤로 밀려서, 가장 빠른 길을 놓칠 수 있습니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="explosion">
+<h2><span class="sec-n">9.8</span>경우의 수 폭발: 다 해 볼 수 없는 문제<a aria-label="이 절의 링크" class="anchor" href="#explosion">#</a></h2>
+<p>다익스트라는 모든 길을 다 걸어 보지 않고도 답을 찾았습니다. 만약 "가능한 경우를 전부 해 보자"고 마음먹으면 어떻게 될까요?</p>
+<p>앱에 켜고 끄는 설정 스위치가 있습니다. 스위치가 1개면 경우는 2가지입니다. 하나를 더하면 앞의 경우마다 새 스위치를 끈 것과 켠 것으로 갈라지므로 4가지가 됩니다.</p>
+<figure class="fig" id="fig-switch-tree"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>켜고 끄는 스위치가 하나 늘 때마다 경우의 수가 두 배가 되어 스무 개면 백만 가지를 넘는다</title>
+  <rect class="solid blue" x="20" y="18" width="14" height="14" rx="3"/>
+  <text class="t-s" x="42" y="30">켬</text>
+  <rect class="ghost" x="74" y="18" width="14" height="14" rx="3"/>
+  <text class="t-s" x="96" y="30">끔</text>
+  <path class="ln muted" d="M251 69 L135 111"/>
+  <path class="ln blue" d="M251 69 L367 111"/>
+  <path class="ln muted" d="M135 137 L77 179"/>
+  <path class="ln blue" d="M135 137 L193 179"/>
+  <path class="ln muted" d="M367 137 L309 179"/>
+  <path class="ln blue" d="M367 137 L425 179"/>
+  <path class="ln muted" d="M77 205 L48 247"/>
+  <path class="ln blue" d="M77 205 L106 247"/>
+  <path class="ln muted" d="M193 205 L164 247"/>
+  <path class="ln blue" d="M193 205 L222 247"/>
+  <path class="ln muted" d="M309 205 L280 247"/>
+  <path class="ln blue" d="M309 205 L338 247"/>
+  <path class="ln muted" d="M425 205 L396 247"/>
+  <path class="ln blue" d="M425 205 L454 247"/>
+  <circle class="box" cx="251" cy="56" r="9"/>
+  <text class="t-s" x="269" y="61">스위치 없음: 1가지</text>
+  <rect class="box" x="128" y="117" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="360" y="117" width="14" height="14" rx="3"/>
+  <text class="t-s" x="500" y="129">스위치 1개</text>
+  <text class="t-b end" x="740" y="129">2가지</text>
+  <rect class="box" x="62" y="185" width="14" height="14" rx="3"/>
+  <rect class="box" x="78" y="185" width="14" height="14" rx="3"/>
+  <rect class="box" x="178" y="185" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="194" y="185" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="294" y="185" width="14" height="14" rx="3"/>
+  <rect class="box" x="310" y="185" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="410" y="185" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="426" y="185" width="14" height="14" rx="3"/>
+  <text class="t-s" x="500" y="197">스위치 2개</text>
+  <text class="t-b end" x="740" y="197">4가지</text>
+  <rect class="box" x="25" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="41" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="57" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="83" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="99" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="115" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="141" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="157" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="173" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="199" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="215" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="231" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="257" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="273" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="289" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="315" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="331" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="347" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="373" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="389" y="253" width="14" height="14" rx="3"/>
+  <rect class="box" x="405" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="431" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="447" y="253" width="14" height="14" rx="3"/>
+  <rect class="solid blue" x="463" y="253" width="14" height="14" rx="3"/>
+  <text class="t-s" x="500" y="265">스위치 3개</text>
+  <text class="t-b end" x="740" y="265">8가지</text>
+  <text class="t-b tc-warm end" x="740" y="61">하나 늘 때마다 두 배</text>
+  <rect class="box yellow" x="20" y="300" width="226" height="62" rx="12"/>
+  <text class="t-s mid" x="133" y="325">스위치 10개</text>
+  <text class="t-l mid" x="133" y="349">1,024가지</text>
+  <rect class="box warm" x="267" y="300" width="226" height="62" rx="12"/>
+  <text class="t-s mid" x="380" y="325">스위치 20개</text>
+  <text class="t-l mid" x="380" y="349">1,048,576가지</text>
+  <rect class="box red" x="514" y="300" width="226" height="62" rx="12"/>
+  <text class="t-s mid" x="627" y="325">스위치 30개</text>
+  <text class="t-l mid" x="627" y="349">약 10억 가지</text>
+</svg></div><figcaption><b>그림 9-9</b>스위치가 하나 늘 때마다 갈래가 두 배로 늘어납니다. 3개면 8가지, 20개면 100만 가지가 넘습니다.</figcaption></figure>
+<p>스위치 n개의 경우는 2를 n번 곱한 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>n</mi></msup><annotation encoding="application/x-tex">2^n</annotation></semantics></math>가지입니다. 로그의 정반대입니다. 로그는 n이 100만이 되어도 20이었는데, 이쪽은 n이 20만 되어도 100만입니다. 조합 하나를 1초에 시험한다면 스위치 20개에 약 12일, 30개에 약 34년이 걸립니다.</p>
+<p>순서를 정하는 문제는 더 가파릅니다. 택배 기사가 10곳을 도는 순서는 10 × 9 × 8 × … × 1 = 3,628,800가지이고, 15곳이면 약 1조 3천억 가지입니다. 이렇게 <strong>순서까지 따지는 경우의 수</strong>를 순열, 로또처럼 <strong>순서 없이 고르기만 하는 경우의 수</strong>를 조합이라고 합니다. 번호 45개에서 6개를 고르는 조합만 해도 814만 가지가 넘습니다.</p>
+<p>선택지가 곱해져서 경우의 수가 감당 못 하게 불어나는 현상을 <strong>조합 폭발</strong>(combinatorial explosion)이라고 합니다. 더 빠른 컴퓨터로는 풀리지 않습니다. 컴퓨터가 두 배 빨라져 봐야 스위치 하나를 더 감당할 뿐입니다.</p>
+<p>그래서 이런 문제에서는 <strong>다 해 보지 않는 방법</strong>을 찾습니다. 안 될 것이 분명한 갈래는 일찍 버리고, 전체 대신 대표적인 경우만 고르고, 완벽한 답 대신 충분히 좋은 답에서 멈춥니다. AI에게 "모든 조합을 테스트해 줘"라고 하기 전에, 그 모든 조합이 몇 개인지부터 곱해 보세요.</p>
+</section>
+<section class="level2" id="streaming">
+<h2><span class="sec-n">9.9</span>조금씩 처리하기: 메모리도 비용입니다<a aria-label="이 절의 링크" class="anchor" href="#streaming">#</a></h2>
+<p>지금까지는 걸음 수, 곧 시간만 셌습니다. 알고리즘의 비용에는 하나가 더 있습니다. <strong>일하는 동안 조리대(메모리)를 얼마나 차지하느냐</strong>입니다. 이것도 빅오로 말합니다. 데이터 n개를 전부 메모리에 올리면 O(n), 데이터가 아무리 많아도 값 몇 개만 들고 있으면 O(1)입니다.</p>
+<p>서버 로그 파일에서 "ERROR"가 들어간 줄을 세어 봅시다. 파일은 1,000만 줄이고 한 줄이 1KB쯤이라 전체가 약 10GB입니다. <code>f.readlines()</code>로 모든 줄을 한꺼번에 읽으면 10GB가 통째로 조리대에 올라옵니다. 메모리가 8GB인 노트북은 버티지 못합니다.</p>
+<figure class="fig" id="fig-stream-vs-load"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 352" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>10GB 로그를 통째로 읽으면 8GB 메모리가 넘치지만 한 줄씩 읽으면 한 줄만큼만 쓴다</title>
+  <rect class="panel" x="20" y="16" width="720" height="150" rx="14"/>
+  <text class="t-l" x="40" y="46">통째로 읽기</text>
+  <text class="t-mono" x="140" y="46">lines = f.readlines()</text>
+  <use href="#i-disk" x="52" y="62" width="44" height="44" class="ic warm"/>
+  <text class="t-mono mid" x="74" y="126">server.log</text>
+  <text class="t-s mid" x="74" y="146">디스크에 10GB</text>
+  <path class="ln thick red" d="M132 96 H252" marker-end="url(#ah-red)"/>
+  <text class="t-s mid" x="192" y="86">10GB 전부</text>
+  <text class="t-s" x="270" y="68">메모리(조리대) 8GB</text>
+  <rect class="ghost" x="270" y="78" width="320" height="38" rx="6"/>
+  <rect class="solid red" x="270" y="78" width="400" height="38" rx="6"/>
+  <text class="t-on t-b mid" x="430" y="102">로그 10GB</text>
+  <path class="ln thin dash" d="M590 70 V126"/>
+  <text class="t-xs end" x="584" y="68">여기까지 8GB</text>
+  <text class="t-b tc-red mid" x="630" y="138">2GB 넘침</text>
+  <text class="t-s" x="270" y="146">파일이 커지면 메모리도 그만큼 필요</text>
+  <rect class="panel" x="20" y="186" width="720" height="150" rx="14"/>
+  <text class="t-l" x="40" y="216">한 줄씩 읽기</text>
+  <text class="t-mono" x="148" y="216">for line in f:</text>
+  <use href="#i-disk" x="52" y="232" width="44" height="44" class="ic warm"/>
+  <text class="t-mono mid" x="74" y="296">server.log</text>
+  <text class="t-s mid" x="74" y="316">디스크에 10GB</text>
+  <path class="ln thick green" d="M132 266 H252" marker-end="url(#ah-green)"/>
+  <rect class="box green" x="140" y="244" width="26" height="12" rx="3"/>
+  <rect class="box green" x="174" y="244" width="26" height="12" rx="3"/>
+  <rect class="box green" x="208" y="244" width="26" height="12" rx="3"/>
+  <text class="t-s mid" x="192" y="290">한 번에 한 줄</text>
+  <text class="t-s" x="270" y="238">메모리(조리대) 8GB</text>
+  <rect class="ghost" x="270" y="248" width="320" height="38" rx="6"/>
+  <rect class="solid green" x="270" y="248" width="6" height="38" rx="2"/>
+  <text class="t-s" x="288" y="272">지금 읽는 한 줄 (약 1KB)</text>
+  <rect class="box green" x="612" y="248" width="110" height="38" rx="8"/>
+  <text class="t-mono mid" x="667" y="272">count = 3</text>
+  <text class="t-s mid" x="667" y="238">세는 값 하나</text>
+  <text class="t-s" x="270" y="316">파일이 100GB가 되어도 메모리는 그대로</text>
+</svg></div><figcaption><b>그림 9-10</b>같은 파일을 읽는 두 가지 방법. 통째로 올리면 파일 크기 이상의 메모리가 필요하고, 한 줄씩 읽으면 한 줄만큼만 필요합니다.</figcaption></figure>
+<p>한 줄씩 읽는 코드는 이렇습니다.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1">count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb4-2"><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"server.log"</span>) <span class="im">as</span> f:</span>
+<span id="cb4-3">    <span class="cf">for</span> line <span class="kw">in</span> f:              <span class="co"># 한 번에 한 줄만 메모리에</span></span>
+<span id="cb4-4">        <span class="cf">if</span> <span class="st">"ERROR"</span> <span class="kw">in</span> line:</span>
+<span id="cb4-5">            count <span class="op">+=</span> <span class="dv">1</span></span></code></pre></div>
+<ul>
+<li>3행: 파일 <code>f</code>를 <code>for</code>에 넣으면 전체를 읽어 두지 않고, 달라고 할 때마다 다음 한 줄을 내줍니다.</li>
+<li>5행: 기억하는 것은 숫자 <code>count</code> 하나뿐입니다. 지나간 줄은 버립니다.</li>
+</ul>
+<p>이렇게 <strong>"다음 것 주세요" 할 때마다 하나씩 내주는 것</strong>을 <strong>반복자</strong>(iterator)라고 합니다. 도서관 창구에서 책을 한 권씩 건네받는 것과 같습니다. 책이 몇 권 남았든 내 손에는 한 권뿐입니다. 데이터를 이처럼 조금씩 받아 조금씩 처리하는 방식이 <strong>스트리밍</strong>(streaming)입니다.</p>
+<p>반복자를 손쉽게 만드는 도구가 <strong>제너레이터</strong>(generator)입니다. 함수 안에서 <code>return</code> 대신 <code>yield</code>를 쓰면, 값을 하나 내주고 그 자리에서 멈췄다가 다음 요청 때 이어서 실행합니다.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><span class="kw">def</span> error_lines(path):</span>
+<span id="cb5-2">    <span class="cf">with</span> <span class="bu">open</span>(path) <span class="im">as</span> f:</span>
+<span id="cb5-3">        <span class="cf">for</span> line <span class="kw">in</span> f:</span>
+<span id="cb5-4">            <span class="cf">if</span> <span class="st">"ERROR"</span> <span class="kw">in</span> line:</span>
+<span id="cb5-5">                <span class="cf">yield</span> line      <span class="co"># 하나 내주고 여기서 멈춤</span></span></code></pre></div>
+<p>조심할 점이 두 가지 있습니다.</p>
+<ul>
+<li><strong>한 번 지나가면 끝입니다.</strong> 같은 제너레이터를 두 번 돌리면 두 번째에는 아무것도 나오지 않습니다.</li>
+<li><strong><code>list()</code>로 감싸면 도로 전부 올립니다.</strong> 결과를 몽땅 메모리에 모으므로 아낀 보람이 사라집니다.</li>
+</ul>
+<p>스트리밍으로 못 하는 일도 있습니다. 개수, 합계, 최댓값은 지나가면서 구할 수 있지만, 전체를 정렬하거나 중복을 없애려면 지나간 것을 기억해야 합니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>돌면서 고치면 생기는 일</summary><div class="deep-body">
+<p>리스트를 도는 도중에 그 리스트에서 항목을 지우면 엉뚱한 결과가 나옵니다.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1">nums <span class="op">=</span> [<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>]</span>
+<span id="cb6-2"><span class="cf">for</span> x <span class="kw">in</span> nums:</span>
+<span id="cb6-3">    <span class="cf">if</span> x <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb6-4">        nums.remove(x)</span>
+<span id="cb6-5"><span class="bu">print</span>(nums)    <span class="co"># [4] — 짝수를 다 지우려 했는데 4가 남음</span></span></code></pre></div>
+<p>반복자는 "지금 몇 번째 칸까지 봤다"만 기억합니다. 0번 칸의 2를 지우면 4가 0번 칸으로 당겨지는데, 반복자는 다음 차례인 1번 칸으로 넘어가 6을 봅니다. 4는 건너뛰었습니다.</p>
+<p>해결책은 <strong>도는 일과 고치는 일을 떼어 놓는 것</strong>입니다. <code>nums = [x for x in nums if x % 2 != 0]</code>처럼 남길 것만 모아 새 리스트를 만듭니다.</p>
+</div></details>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>자료구조 / 알고리즘</td>
+<td>데이터를 담는 그릇 / 그 그릇으로 일하는 순서</td>
+</tr>
+<tr>
+<td>걸린 시간(초) / 빅오</td>
+<td>이 컴퓨터, 이 데이터에서 잰 값 / 데이터가 늘 때 일이 늘어나는 모양</td>
+</tr>
+<tr>
+<td>상각 비용 / 가장 나쁜 한 번</td>
+<td>여러 번을 합쳐 고르게 나눈 값 / 이사가 일어나는 그 한 번의 값</td>
+</tr>
+<tr>
+<td>BFS / 다익스트라</td>
+<td>걸음 수가 가장 적은 길 / 걸리는 시간의 합이 가장 작은 길</td>
+</tr>
+<tr>
+<td>리스트 / 제너레이터</td>
+<td>전부 만들어 메모리에 올려 둠 / 달라고 할 때 하나씩 만들어 줌</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 적이 1,000마리가 되자 게임이 뚝뚝 끊긴다</div>
+<p>적이 100마리일 때는 부드럽던 게임입니다. 적끼리 부딪쳤는지 검사하는 코드가 의심스럽습니다.</p>
+<ol type="1">
+<li><strong>걸음 수를 셉니다.</strong> 코드는 모든 적을 다른 모든 적과 짝지어 거리를 재고 있었습니다. 100마리면 4,950쌍, 1,000마리면 499,500쌍입니다. 적은 10배인데 일은 약 100배입니다.</li>
+<li><strong>모양을 확인합니다.</strong> 적을 500, 1,000, 2,000마리로 바꿔 가며 화면 한 장을 계산하는 시간을 잽니다. 적이 두 배가 될 때마다 시간이 네 배가 되면 O(n²)입니다.</li>
+<li><strong>후보를 줄입니다.</strong> 멀리 떨어진 적끼리는 부딪칠 수 없습니다. 지도를 바둑판처럼 칸으로 나누고 "칸 → 그 칸에 있는 적들" 해시 맵을 만든 뒤, 같은 칸과 이웃 칸의 적끼리만 검사합니다.</li>
+<li><strong>결과가 같은지 봅니다.</strong> 고치기 전과 후에 찾아낸 충돌이 똑같은지 비교하고, 2번의 측정을 다시 합니다.</li>
+<li><strong>가장 나쁜 경우를 떠올립니다.</strong> 적이 모두 한 칸에 몰리면 다시 모든 쌍을 검사합니다. 그런 장면이 실제로 나오는지 확인합니다.</li>
+</ol>
+<p>계산 한 번을 조금 빠르게 다듬는 것보다 <strong>계산할 후보의 수를 줄이는 쪽</strong>이 훨씬 큰 차이를 만듭니다.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li><strong>알고리즘</strong>은 문제를 푸는 절차입니다. 빠르기는 초가 아니라, 데이터 n이 늘 때 걸음 수가 늘어나는 모양인 <strong>빅오</strong>로 말합니다.</li>
+<li><strong>로그</strong>는 절반씩 줄일 수 있는 횟수입니다. 정렬된 데이터라면 <strong>이진 탐색</strong>으로 100만 개에서도 20걸음에 찾습니다.</li>
+<li>데이터 100만 개에서 O(n)은 100만 걸음, O(n log n)은 2,000만 걸음, O(n²)은 1조 걸음입니다.</li>
+<li>반복문 안의 숨은 반복문이 O(n²)을 만듭니다. 집합이나 해시 맵을 미리 만들어 <strong>메모리로 시간을 삽니다.</strong></li>
+<li>정렬은 O(n log n)입니다. 직접 짜지 말고 <strong>기준과 동점일 때의 순서</strong>를 정확히 알려 줍니다.</li>
+<li>걸음 수가 가장 적은 길은 <strong>BFS</strong>, 시간이 가장 짧은 길은 <strong>다익스트라</strong>, 끝까지 훑는 일은 <strong>DFS</strong>입니다.</li>
+<li>경우의 수는 곱해져서 폭발합니다. 큰 데이터는 <strong>한 번에 조금씩</strong> 처리해 메모리를 아낍니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>회원 100명으로 시험할 때 0.1초 걸리던 기능이 회원 1만 명에서는 1,000초가 걸렸습니다. 데이터는 100배인데 시간은 1만 배입니다. 무엇을 의심해야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>O(n²)입니다. 100 × 100 = 1만 배이기 때문입니다. 반복문 안에 또 다른 반복문이나 <code>x in 리스트</code> 같은 숨은 반복문이 있는지 찾습니다. 안쪽에서 뒤지는 리스트를 집합이나 해시 맵으로 바꾸면 O(n)으로 줄어듭니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>가입순으로 쌓인 회원 목록에서 이메일 하나를 딱 한 번 찾아야 합니다. AI가 "정렬한 뒤 이진 탐색을 쓰면 O(log n)이라 빠릅니다"라고 제안했습니다. 받아들여도 될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>이 경우에는 손해입니다. 이진 탐색을 하려면 먼저 O(n log n)짜리 정렬을 해야 합니다. 한 번만 찾을 거라면 O(n)인 선형 탐색이 더 쌉니다. 같은 목록에서 여러 번 찾을 때에야 정렬이나 해시 맵 같은 준비가 본전을 뽑습니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>"리스트 끝에 붙이기는 상각 O(1)"이라고 배웠는데, 게임에서 총알을 리스트에 추가할 때 가끔 화면이 멈칫합니다. 배운 것과 어긋날까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>어긋나지 않습니다. 상각 O(1)은 여러 번을 합쳐 나누면 싸다는 뜻입니다. 칸이 다 차서 이사하는 그 한 번은 값을 전부 옮기므로 O(n)입니다. 필요한 크기를 미리 잡아 두면 피할 수 있습니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>지하철 앱에 "정거장 수가 가장 적은 길"과 "가장 빨리 도착하는 길" 두 가지 검색을 넣으려 합니다. 각각 어떤 알고리즘이 맞을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>정거장 수가 가장 적은 길은 BFS입니다. 가까운 역부터 물결처럼 퍼지므로 처음 닿은 길이 가장 짧습니다. 가장 빨리 도착하는 길은 역 사이에 걸리는 시간이 제각각이므로 다익스트라를 씁니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>설정 스위치가 30개인 앱에서 AI에게 "모든 설정 조합을 자동으로 테스트해 줘"라고 시키려 합니다. 먼저 무엇을 계산해 봐야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>조합의 수입니다. 2를 30번 곱하면 약 10억이고, 하나를 1초에 시험해도 34년쯤 걸립니다. 모든 조합 대신 스위치를 하나씩만 바꾼 경우와 서로 영향을 줄 만한 스위치 쌍처럼, 대표적인 경우를 골라 달라고 해야 합니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>AI 코딩 도구에게 느린 코드를 맡길 때는 "빠르게 해 줘"보다 <strong>걸음 수가 어떻게 늘어나는지부터 설명하게</strong> 하세요.</p>
+<blockquote>
+<p>이 함수가 주문 10만 건에서 너무 느려. 고치기 전에 먼저, 입력 크기 n이 무엇이고 지금 코드가 빅오로 얼마인지를 원인이 되는 줄과 함께 설명해 줘. 그다음 더 나은 방법을 제안하고, 그 방법이 메모리를 얼마나 더 쓰는지도 알려 줘. 완료 기준: 작은 입력에서 고치기 전과 후의 결과가 같다는 테스트, 그리고 n이 1천, 1만, 10만일 때의 실행 시간과 최대 메모리를 잰 표.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: 반복문 안에 숨은 반복문(<code>in 리스트</code>, <code>.index()</code>, 정렬)이 남아 있지 않은가, n을 10배 늘렸을 때 시간이 몇 배가 되는지 실제로 쟀는가, 메모리는 얼마나 늘었는가, 정렬을 썼다면 기준과 동점일 때의 순서가 적혀 있는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>알고리즘<small>algorithm</small></dt>
+<dd>
+문제를 푸는 절차. 무엇을 어떤 순서로 할지 정해 둔 방법.
+</dd>
+<dt>빅오 표기<small>Big-O notation</small></dt>
+<dd>
+데이터 개수 n이 커질 때 걸음 수나 메모리가 늘어나는 모양을 O(n)처럼 적는 약속.
+</dd>
+<dt>로그<small>logarithm</small></dt>
+<dd>
+n을 몇 번 반으로 줄이면 1이 되는지를 나타내는 수. 100만의 로그는 약 20.
+</dd>
+<dt>선형 탐색<small>linear search</small></dt>
+<dd>
+처음부터 하나씩 확인하며 찾는 방법. O(n).
+</dd>
+<dt>이진 탐색<small>binary search</small></dt>
+<dd>
+정렬된 데이터에서 가운데를 보고 절반씩 버리며 찾는 방법. O(log n).
+</dd>
+<dt>시간과 공간의 교환<small>time-space tradeoff</small></dt>
+<dd>
+메모리를 더 써서 시간을 아끼거나 그 반대로 하는 맞바꿈.
+</dd>
+<dt>병합 정렬<small>merge sort</small></dt>
+<dd>
+반으로 나눈 뒤 정렬된 묶음끼리 합쳐 가는 정렬 방법. O(n log n).
+</dd>
+<dt>안정 정렬<small>stable sort</small></dt>
+<dd>
+기준이 같은 항목끼리는 원래 순서를 지켜 주는 정렬.
+</dd>
+<dt>상각 비용<small>amortized cost</small></dt>
+<dd>
+가끔 드는 큰 비용을 여러 번에 고르게 나눠 본 값.
+</dd>
+<dt>너비 우선 탐색<small>BFS, Breadth-First Search</small></dt>
+<dd>
+출발점에서 가까운 곳부터 차례로 넓혀 가는 탐색. 큐를 쓴다.
+</dd>
+<dt>깊이 우선 탐색<small>DFS, Depth-First Search</small></dt>
+<dd>
+한 길로 끝까지 갔다가 막히면 되돌아오는 탐색. 스택을 쓴다.
+</dd>
+<dt>다익스트라 알고리즘<small>Dijkstra's algorithm</small></dt>
+<dd>
+구간마다 비용이 다른 지도에서 비용의 합이 가장 작은 길을 찾는 방법.
+</dd>
+<dt>조합 폭발<small>combinatorial explosion</small></dt>
+<dd>
+선택지가 곱해져 경우의 수가 감당 못 하게 불어나는 현상.
+</dd>
+<dt>반복자<small>iterator</small></dt>
+<dd>
+요청할 때마다 다음 값을 하나씩 내주는 것.
+</dd>
+<dt>제너레이터<small>generator</small></dt>
+<dd>
+<code>yield</code>로 값을 하나씩 만들어 내주는 함수. 요청받은 만큼만 계산한다.
+</dd>
+<dt>스트리밍<small>streaming</small></dt>
+<dd>
+데이터를 한꺼번에 올리지 않고 조금씩 읽어 조금씩 처리하는 방식.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/howto/sorting.html" rel="noopener" target="_blank">Python — Sorting Techniques</a> — 정렬 기준(<code>key</code>)을 주는 법, 안정 정렬, <code>sort</code>와 <code>sorted</code>의 차이를 다룹니다.</li>
+<li><a href="https://docs.python.org/3/library/bisect.html" rel="noopener" target="_blank">Python bisect</a> — 정렬된 리스트에서 이진 탐색으로 위치를 찾는 표준 도구입니다.</li>
+<li><a href="https://www.redblobgames.com/pathfinding/a-star/introduction.html" rel="noopener" target="_blank">Red Blob Games — Introduction to A*</a> — BFS, 다익스트라, A*가 지도 위에서 퍼져 나가는 모습을 움직이는 그림으로 보여 줍니다.</li>
+<li><a href="https://docs.python.org/3/tutorial/classes.html" rel="noopener" target="_blank">Python Tutorial — Iterators and Generators</a> — 9.8절과 9.9절에서 반복자와 <code>yield</code>를 설명합니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch08.html"><small>← 이전 · 8장</small><b>자료구조</b></a><a class="next" href="ch10.html"><small>다음 · 10장 →</small><b>상태와 프로그램 설계</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#algorithm">알고리즘: 같은 문제를 푸는 서로 다른 길</a><a href="#steps">초가 아니라 걸음 수로 잽니다</a><a href="#bigo">빅오: 늘어나는 모양에 붙인 이름표</a><a href="#nested">이중 반복문: 걸음이 곱해지는 순간</a><a href="#sort">정렬: 줄을 세워 두면 생기는 힘</a><a href="#amortized">가끔만 비싼 일: 상각 비용</a><a href="#paths">길 찾기: 물결처럼, 한 길로, 가장 싼 길로</a><a href="#explosion">경우의 수 폭발: 다 해 볼 수 없는 문제</a><a href="#streaming">조금씩 처리하기: 메모리도 비용입니다</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

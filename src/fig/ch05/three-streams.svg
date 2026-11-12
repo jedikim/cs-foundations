@@ -1,0 +1,42 @@
+<svg viewBox="0 0 760 270" xmlns="http://www.w3.org/2000/svg">
+  <title>프로그램에는 입구 하나와 출구 둘이 있고, 꺾쇠 기호는 표준 출력만 파일로 돌린다</title>
+
+  <rect class="box gray" x="20" y="125" width="130" height="80" rx="12"/>
+  <g class="ic gray">
+    <rect class="i-f" x="32" y="152" width="38" height="26" rx="5"/>
+    <path class="i-s" d="M39 160 h2 M46 160 h2 M53 160 h2 M60 160 h2 M39 166 h2 M46 166 h2 M53 166 h2 M60 166 h2 M44 172 h14"/>
+  </g>
+  <text class="t-b" x="78" y="162">키보드</text>
+  <text class="t-s" x="78" y="183">기본 입구</text>
+
+  <rect class="box blue" x="300" y="95" width="160" height="140" rx="14"/>
+  <use href="#i-gear" x="360" y="112" width="40" height="40" class="ic blue"/>
+  <text class="t-l mid" x="380" y="182">프로그램</text>
+  <text class="t-s mid" x="380" y="205">입구 하나, 출구 둘</text>
+
+  <path class="ln" d="M156 165 H292" marker-end="url(#ah)"/>
+  <text class="t-b mid" x="224" y="152">표준 입력</text>
+  <text class="t-xs mid" x="224" y="184">stdin · 0번</text>
+
+  <rect class="box gray" x="610" y="110" width="130" height="115" rx="12"/>
+  <use href="#i-monitor" x="655" y="124" width="40" height="40" class="ic gray"/>
+  <text class="t-b mid" x="675" y="188">화면</text>
+  <text class="t-s mid" x="675" y="209">기본 출구</text>
+
+  <path class="ln green" d="M466 140 H602" marker-end="url(#ah-green)"/>
+  <text class="t-b mid tc-green" x="522" y="128">표준 출력</text>
+  <text class="t-xs mid" x="522" y="158">stdout · 1번 · 결과</text>
+
+  <path class="ln red" d="M466 195 H602" marker-end="url(#ah-red)"/>
+  <text class="t-b mid tc-red" x="522" y="183">표준 오류</text>
+  <text class="t-xs mid" x="522" y="213">stderr · 2번 · 불평</text>
+
+  <rect class="box warm" x="610" y="24" width="130" height="62" rx="12"/>
+  <use href="#i-file" x="620" y="41" width="28" height="28" class="ic warm"/>
+  <text class="t-mono" x="654" y="60">list.txt</text>
+  <path class="ln warm dash" d="M586 134 V55 H602" marker-end="url(#ah-warm)"/>
+  <text class="t-s end" x="574" y="50"><tspan class="t-mono t-b tc-warm">&gt; list.txt</tspan> 를 붙이면</text>
+  <text class="t-s end" x="574" y="70">표준 출력만 파일로</text>
+
+  <text class="t-xs" x="20" y="254">표준 오류는 길이 따로라서, 결과를 파일로 돌려도 오류 메시지는 화면에 남습니다.</text>
+</svg>

@@ -1,0 +1,48 @@
+<svg viewBox="0 0 760 366" xmlns="http://www.w3.org/2000/svg">
+  <title>Dockerfile의 줄마다 층이 하나씩 쌓이고, 소스만 고치면 마지막 층만 다시 만든다</title>
+
+  <text class="t-s t-b" x="20" y="34">Dockerfile (위에서부터 차례로)</text>
+  <text class="t-s t-b" x="396" y="34">만들어지는 층</text>
+  <text class="t-s t-b" x="586" y="34">app.py만 고치고 다시 빌드</text>
+
+  <rect class="box" x="20" y="48" width="340" height="40" rx="8"/>
+  <text class="t-mono" x="34" y="73">FROM python:3.12-slim</text>
+  <path class="ln muted" d="M366 68 H384" marker-end="url(#ah-muted)"/>
+  <rect class="box gray" x="396" y="48" width="170" height="40" rx="8"/>
+  <text class="mid" x="481" y="73">파이썬이 깔린 바탕</text>
+  <use href="#i-check" x="586" y="56" width="24" height="24" class="ic green"/>
+  <text class="t-b tc-green" x="618" y="73">그대로 재사용</text>
+
+  <rect class="box" x="20" y="98" width="340" height="40" rx="8"/>
+  <text class="t-mono" x="34" y="123">COPY requirements.txt .</text>
+  <path class="ln muted" d="M366 118 H384" marker-end="url(#ah-muted)"/>
+  <rect class="box green" x="396" y="98" width="170" height="40" rx="8"/>
+  <text class="mid" x="481" y="123">라이브러리 목록</text>
+  <use href="#i-check" x="586" y="106" width="24" height="24" class="ic green"/>
+  <text class="t-b tc-green" x="618" y="123">그대로 재사용</text>
+
+  <rect class="box" x="20" y="148" width="340" height="40" rx="8"/>
+  <text class="t-mono" x="34" y="173">RUN pip install -r requirements.txt</text>
+  <path class="ln muted" d="M366 168 H384" marker-end="url(#ah-muted)"/>
+  <rect class="box green" x="396" y="148" width="170" height="40" rx="8"/>
+  <text class="mid" x="481" y="173">설치된 라이브러리</text>
+  <use href="#i-check" x="586" y="156" width="24" height="24" class="ic green"/>
+  <text class="t-b tc-green" x="618" y="173">그대로 재사용</text>
+
+  <rect class="box" x="20" y="198" width="340" height="40" rx="8"/>
+  <text class="t-mono" x="34" y="223">COPY . .</text>
+  <path class="ln muted" d="M366 218 H384" marker-end="url(#ah-muted)"/>
+  <rect class="box blue" x="396" y="198" width="170" height="40" rx="8"/>
+  <text class="mid" x="481" y="223">내 소스 코드</text>
+  <use href="#i-refresh" x="586" y="206" width="24" height="24" class="ic warm"/>
+  <text class="t-b tc-warm" x="618" y="223">다시 만든다</text>
+
+  <rect class="box" x="20" y="248" width="340" height="40" rx="8"/>
+  <text class="t-mono" x="34" y="273">CMD ["python", "app.py"]</text>
+  <path class="ln muted" d="M366 268 H384" marker-end="url(#ah-muted)"/>
+  <rect class="ghost dash" x="396" y="248" width="170" height="40" rx="8"/>
+  <text class="t-s mid" x="481" y="273">층이 아니라 시작 명령</text>
+
+  <text class="t-s" x="20" y="322">앞쪽 층이 바뀌면 그 뒤의 층은 모두 다시 만듭니다.</text>
+  <text class="t-s" x="20" y="344">그래서 잘 안 바뀌는 것(라이브러리)을 앞에, 자주 바뀌는 것(내 코드)을 뒤에 둡니다.</text>
+</svg>

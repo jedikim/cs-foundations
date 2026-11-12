@@ -1,0 +1,56 @@
+<svg viewBox="0 0 760 404" xmlns="http://www.w3.org/2000/svg">
+  <title>주문 서비스가 소식 한 장을 발행하면 재고, 통계, 알림 구독자가 각자 한 부씩 받아 자기 일을 하고, 계속 실패하는 메시지는 실패 보관함으로 빼 둔다</title>
+
+  <rect class="box blue" x="20" y="96" width="140" height="90" rx="14"/>
+  <use href="#i-cart" x="68" y="106" width="44" height="44" class="ic blue"/>
+  <text class="t-b mid" x="90" y="172">주문 서비스</text>
+  <path class="ln blue" d="M164 141 H192" marker-end="url(#ah-blue)"/>
+  <text class="t-xs t-b tc-blue mid" x="180" y="128">발행</text>
+
+  <rect class="box warm" x="200" y="74" width="210" height="134" rx="12"/>
+  <text class="t-s t-b tc-warm" x="216" y="98">소식 한 장 (메시지)</text>
+  <text class="t-mono t-b" x="216" y="124">주문완료</text>
+  <text class="t-mono" x="216" y="146">주문 번호: 42</text>
+  <text class="t-mono" x="216" y="168">머그컵 1개</text>
+  <text class="t-mono" x="216" y="190">12,000원</text>
+  <text class="t-xs mid" x="305" y="228">구독자마다 한 부씩 받는다</text>
+
+  <path class="ln warm" d="M414 126 L462 66" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M414 141 H462" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M414 156 L462 218" marker-end="url(#ah-warm)"/>
+
+  <rect class="box green" x="470" y="30" width="270" height="64" rx="12"/>
+  <use href="#i-shelf" x="482" y="44" width="36" height="36" class="ic green"/>
+  <text class="t-b" x="530" y="57">재고 서비스</text>
+  <text class="t-s" x="530" y="78">머그컵 3 → 2개</text>
+
+  <rect class="box green" x="470" y="110" width="270" height="64" rx="12"/>
+  <use href="#i-chart" x="482" y="124" width="36" height="36" class="ic green"/>
+  <text class="t-b" x="530" y="137">통계 서비스</text>
+  <text class="t-s" x="530" y="158">오늘 매출 + 12,000원</text>
+
+  <rect class="box green" x="470" y="190" width="270" height="64" rx="12"/>
+  <use href="#i-mail" x="482" y="204" width="36" height="36" class="ic green"/>
+  <text class="t-b" x="530" y="217">알림 서비스</text>
+  <text class="t-s" x="530" y="238">"주문 완료" 메일 보내기</text>
+
+  <path class="ln thin muted" d="M20 276 H740"/>
+
+  <text class="t-s t-b" x="20" y="324">알림 서비스의</text>
+  <text class="t-s t-b" x="20" y="342">대기 줄</text>
+  <rect class="box gray" x="200" y="308" width="50" height="40" rx="8"/>
+  <text class="t-mono mid" x="225" y="333">45</text>
+  <rect class="box gray" x="258" y="308" width="50" height="40" rx="8"/>
+  <text class="t-mono mid" x="283" y="333">44</text>
+  <rect class="box red" x="316" y="308" width="50" height="40" rx="8"/>
+  <text class="t-mono t-b mid tc-red" x="341" y="333">43</text>
+  <path class="ln red" d="M372 328 H462" marker-end="url(#ah-red)"/>
+  <text class="t-xs t-b tc-red mid" x="416" y="318">3번 실패</text>
+
+  <rect class="box red" x="470" y="296" width="270" height="64" rx="12"/>
+  <use href="#i-box" x="482" y="310" width="36" height="36" class="ic red"/>
+  <text class="t-b" x="530" y="323">실패 보관함 (DLQ)</text>
+  <text class="t-s" x="530" y="344">43: 메일 주소가 비어 있음</text>
+
+  <text class="t-xs" x="20" y="386">43번을 따로 빼 두어야 뒤에 선 44번, 45번이 밀리지 않습니다.</text>
+</svg>

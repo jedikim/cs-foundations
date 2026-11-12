@@ -1,0 +1,1005 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>4장 코드가 실행되기까지 — 개발의 기초</title>
+<meta name="description" content="컴파일·인터프리터·런타임">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch04" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html" aria-current="page"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">1부 컴퓨터라는 기계 › <b>4장 코드가 실행되기까지</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-blue">
+<div class="ch-kicker"><span class="ch-no">4장</span><span class="part">1부 · 컴퓨터라는 기계</span></div>
+<h1>코드가 실행되기까지</h1>
+<p class="ch-sub">컴파일·인터프리터·런타임</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 30분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch03.html">3장 운영체제와 프로세스</a></div>
+</header><div class="lead">
+<p>AI에게 "실행해 줘"라고 하면 어떤 코드는 곧바로 결과가 나오고, 어떤 코드는 "빌드 중…"이라며 한참을 기다리게 합니다. 내 컴퓨터에서 잘 돌던 프로그램이 친구 컴퓨터에서는 "라이브러리를 찾을 수 없습니다"라며 켜지지도 않습니다. 이런 일은 모두 <strong>내가 쓴 코드와 CPU 사이에 '번역'이 끼어 있어서</strong> 생깁니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>소스 코드가 실행되기까지 거치는 단계(컴파일 → 링크 → 로딩 → 실행)를 순서대로 말할 수 있습니다.</li>
+<li>컴파일러, 인터프리터, 바이트코드, JIT의 차이를 번역가와 통역사에 빗대어 설명할 수 있습니다.</li>
+<li>오류 메시지를 보고 문법, 타입, 링크, 실행 중 오류 가운데 어느 것인지 가려낼 수 있습니다.</li>
+<li>"내 컴퓨터에서는 되는데 저기서는 안 되는" 문제를 빌드 대상, 라이브러리, 런타임의 차이로 의심할 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="machine-code">
+<h2><span class="sec-n">4.1</span>요리사는 한 가지 말만 알아듣습니다<a aria-label="이 절의 링크" class="anchor" href="#machine-code">#</a></h2>
+<p><a href="ch01.html">1장</a>에서 CPU는 레시피를 한 줄씩 읽는 요리사였습니다. 그런데 이 요리사는 <strong>자기 나라 말로 쓴, 아주 잘게 쪼갠 지시만</strong> 알아듣습니다. "양파를 볶는다"는 못 알아듣고, "3번 통을 연다", "꺼낸 것을 팬에 붓는다", "불을 켠다"처럼 써 줘야 합니다.</p>
+<p>CPU가 알아듣는 이 말을 <strong>기계어</strong>(machine code)라고 합니다. "이 값을 가져와라", "더해라", "저기에 적어라" 같은 작은 명령을 숫자로 적은 것입니다. 사람 눈에는 <code>10001101 01000100</code>처럼 0과 1이 늘어선 것으로만 보입니다.</p>
+<figure class="photo"><img alt="1940년대의 컴퓨터 ENIAC. 왼쪽 벽면에 어지럽게 늘어진 전선을 보세요. 이 시절에는 전선을 바꿔 꽂고 스위치를 맞추는 일이 곧 프로그래밍이었습니다. 사람이 기계의 말에 맞춰야 했습니다." loading="lazy" src="../assets/photo/eniac.jpg"/><figcaption>1940년대의 컴퓨터 ENIAC. 왼쪽 벽면에 어지럽게 늘어진 전선을 보세요. 이 시절에는 전선을 바꿔 꽂고 스위치를 맞추는 일이 곧 프로그래밍이었습니다. 사람이 기계의 말에 맞춰야 했습니다.<span class="credit">사진: U.S. Army (작자 미상) · Public domain · <a href="https://commons.wikimedia.org/wiki/File:Glen_Beck_and_Betty_Snyder_program_the_ENIAC_in_building_328_at_the_Ballistic_Research_Laboratory.jpg" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+<p>기계의 말을 사람이 직접 쓰기는 너무 힘들었습니다. 그래서 방법을 바꿨습니다. <strong>사람이 읽기 쉬운 말로 먼저 쓰고, 기계어로 옮기는 일은 프로그램에게 시키기로</strong> 한 것입니다. 사람이 읽고 쓰는 이 글을 <strong>소스 코드</strong>(source code)라고 합니다. Python이나 JavaScript 같은 프로그래밍 언어는 이 글을 쓰는 규칙입니다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1">total <span class="op">=</span> price <span class="op">*</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span></span></code></pre></div>
+<p>사람은 이 한 줄을 "가격을 두 배 하고 1을 더해 total에 넣어라"로 읽습니다. 하지만 CPU는 이 글을 한 글자도 이해하지 못합니다. 누군가 기계어로 옮겨 줘야 합니다.</p>
+<figure class="fig" id="fig-translate-why"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>레시피를 요리사의 말로 옮기듯, 소스 코드는 번역을 거쳐 CPU가 아는 기계어가 된다</title>
+  <text class="t-s t-b" x="22" y="96">주방에서는</text>
+  <text class="t-s t-b" x="22" y="262">컴퓨터에서는</text>
+
+  <rect class="box yellow" x="112" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-book" x="183" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="207" y="114">레시피</text>
+  <text class="t-s mid" x="207" y="135">사람이 읽고 쓰는 글</text>
+
+  <rect class="box yellow" x="332" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-pencil" x="403" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="427" y="114">번역하는 사람</text>
+  <text class="t-s mid" x="427" y="135">요리사의 말로 옮긴다</text>
+
+  <rect class="box yellow" x="552" y="30" width="190" height="118" rx="14"/>
+  <use href="#i-chef" x="623" y="40" width="48" height="48" class="ic yellow"/>
+  <text class="t-l mid" x="647" y="114">요리사용 지시문</text>
+  <text class="t-s mid" x="647" y="135">요리사가 바로 따라 한다</text>
+
+  <path class="ln" d="M306 89 H324" marker-end="url(#ah)"/>
+  <path class="ln" d="M526 89 H544" marker-end="url(#ah)"/>
+
+  <path class="ln muted" d="M207 154 V190" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M427 154 V190" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M647 154 V190" marker-end="url(#ah-muted)"/>
+
+  <rect class="box blue" x="112" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-code" x="183" y="206" width="48" height="48" class="ic blue"/>
+  <text class="t-l mid" x="207" y="280">소스 코드</text>
+  <text class="t-mono mid" x="207" y="301">price * 2 + 1</text>
+
+  <rect class="box warm" x="332" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-gear" x="403" y="206" width="48" height="48" class="ic warm"/>
+  <text class="t-l mid" x="427" y="280">번역 프로그램</text>
+  <text class="t-s mid" x="427" y="301">기계어로 옮긴다</text>
+
+  <rect class="box green" x="552" y="196" width="190" height="118" rx="14"/>
+  <use href="#i-chip" x="623" y="206" width="48" height="48" class="ic green"/>
+  <text class="t-l mid" x="647" y="280">기계어</text>
+  <text class="t-mono mid" x="647" y="301">10001101 01000100</text>
+
+  <path class="ln" d="M306 255 H324" marker-end="url(#ah)"/>
+  <path class="ln" d="M526 255 H544" marker-end="url(#ah)"/>
+</svg></div><figcaption><b>그림 4-1</b>레시피를 요리사의 말로 옮겨야 요리가 시작되듯, 소스 코드도 기계어로 옮겨야 CPU가 실행합니다. 이 장은 가운데 칸, 곧 '옮기는 일'을 다룹니다.</figcaption></figure>
+<figure class="photo half"><img alt="아폴로 우주선의 비행 소프트웨어 개발을 이끈 마거릿 해밀턴과, 그 소스 코드를 인쇄해 쌓은 종이 더미(1969년). 사람 키만 한 이 글이 번역을 거쳐 우주선의 컴퓨터에서 실행되었습니다." loading="lazy" src="../assets/photo/hamilton-apollo-code.jpg"/><figcaption>아폴로 우주선의 비행 소프트웨어 개발을 이끈 마거릿 해밀턴과, 그 소스 코드를 인쇄해 쌓은 종이 더미(1969년). 사람 키만 한 이 글이 번역을 거쳐 우주선의 컴퓨터에서 실행되었습니다.<span class="credit">사진: Draper Laboratory, 복원 Adam Cuerden · Public domain · <a href="https://commons.wikimedia.org/wiki/File:Margaret_Hamilton_-_restoration.jpg" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+</section>
+<section class="level2" id="two-ways">
+<h2><span class="sec-n">4.2</span>번역가와 통역사: 컴파일러와 인터프리터<a aria-label="이 절의 링크" class="anchor" href="#two-ways">#</a></h2>
+<p>한국어 레시피를 외국인 요리사에게 전하는 방법은 두 가지입니다.</p>
+<ul>
+<li><strong>번역가</strong>에게 맡깁니다. 번역가는 레시피 책 전체를 미리 옮겨 번역본을 만들어 줍니다. 요리사는 번역본만 들고 혼자 요리합니다.</li>
+<li><strong>통역사</strong>를 주방에 세웁니다. 통역사는 원문을 한 줄 읽고 그 자리에서 요리사에게 전한 뒤 다음 줄로 넘어갑니다.</li>
+</ul>
+<p>프로그램을 실행하는 방법도 이 둘입니다.</p>
+<p><strong>컴파일러</strong>(compiler)는 번역가입니다. 소스 코드 전체를 미리 기계어로 옮겨 실행 파일을 만듭니다. 이렇게 옮기는 일을 <strong>컴파일</strong>이라고 합니다. C, C++, Rust, Go, Swift가 주로 이 방식을 씁니다.</p>
+<p><strong>인터프리터</strong>(interpreter)는 통역사입니다. 번역본을 따로 만들지 않고, 실행하는 그 순간에 소스 코드를 읽어 가며 그 뜻대로 움직입니다. Python, JavaScript, Ruby가 이 방식에서 출발했습니다.</p>
+<figure class="fig" id="fig-two-ways"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 376" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>컴파일러는 미리 통째로 번역해 두고, 인터프리터는 실행할 때마다 한 줄씩 옮긴다</title>
+  <defs>
+    <pattern id="ch04-stripe" x="40" y="0" width="50" height="400" patternUnits="userSpaceOnUse">
+      <rect class="f-warm" x="0" y="0" width="25" height="400"/>
+      <rect class="f-green" x="25" y="0" width="25" height="400"/>
+    </pattern>
+  </defs>
+
+  <rect class="panel" x="20" y="16" width="720" height="150" rx="16"/>
+  <use href="#i-pencil" x="36" y="28" width="36" height="36" class="ic warm"/>
+  <text class="t-h" x="82" y="52">컴파일러 — 번역가처럼 미리 통째로</text>
+  <text class="t-s" x="82" y="74">번역은 한 번만, 그 뒤로는 번역본을 곧장 실행</text>
+  <rect class="solid warm" x="40" y="92" width="200" height="34" rx="6"/>
+  <rect class="solid green" x="260" y="92" width="70" height="34" rx="6"/>
+  <rect class="solid green" x="350" y="92" width="70" height="34" rx="6"/>
+  <rect class="solid green" x="440" y="92" width="70" height="34" rx="6"/>
+  <text class="t-s mid" x="140" y="148">번역 (한 번)</text>
+  <text class="t-s mid" x="295" y="148">실행 1</text>
+  <text class="t-s mid" x="385" y="148">실행 2</text>
+  <text class="t-s mid" x="475" y="148">실행 3</text>
+  <text class="t-s" x="540" y="106">기계어만 실행하니</text>
+  <text class="t-s" x="540" y="124">매번 짧게 끝난다</text>
+
+  <rect class="panel" x="20" y="182" width="720" height="150" rx="16"/>
+  <use href="#i-chat" x="36" y="194" width="36" height="36" class="ic warm"/>
+  <text class="t-h" x="82" y="218">인터프리터 — 통역사처럼 실행하면서 한 줄씩</text>
+  <text class="t-s" x="82" y="240">기다림 없이 시작, 대신 실행할 때마다 다시 통역</text>
+  <rect x="40" y="258" width="150" height="34" rx="6" fill="url(#ch04-stripe)"/>
+  <rect x="240" y="258" width="150" height="34" rx="6" fill="url(#ch04-stripe)"/>
+  <rect x="440" y="258" width="150" height="34" rx="6" fill="url(#ch04-stripe)"/>
+  <text class="t-s mid" x="115" y="314">실행 1</text>
+  <text class="t-s mid" x="315" y="314">실행 2</text>
+  <text class="t-s mid" x="515" y="314">실행 3</text>
+  <text class="t-s" x="612" y="272">통역이 끼어들어</text>
+  <text class="t-s" x="612" y="290">매번 길어진다</text>
+
+  <rect class="f-warm" x="40" y="347" width="14" height="14" rx="3"/>
+  <text class="t-s" x="62" y="359">번역·통역하는 시간</text>
+  <rect class="f-green" x="210" y="347" width="14" height="14" rx="3"/>
+  <text class="t-s" x="232" y="359">CPU가 기계어를 실행하는 시간</text>
+</svg></div><figcaption><b>그림 4-2</b>가로 방향이 시간입니다. 컴파일러는 처음에 한 번 오래 기다리고, 인터프리터는 실행할 때마다 통역 시간을 다시 씁니다.</figcaption></figure>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>비교할 점</th>
+<th>컴파일러 (번역가)</th>
+<th>인터프리터 (통역사)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>시작하기까지</td>
+<td>번역이 끝나야 실행</td>
+<td>바로 실행</td>
+</tr>
+<tr>
+<td>실행 속도</td>
+<td>빠름</td>
+<td>통역하는 만큼 느림</td>
+</tr>
+<tr>
+<td>코드를 고치면</td>
+<td>다시 번역해야 함</td>
+<td>다시 실행만 하면 됨</td>
+</tr>
+<tr>
+<td>실행할 컴퓨터에 필요한 것</td>
+<td>번역본(실행 파일)만</td>
+<td>통역사와 원문</td>
+</tr>
+</tbody>
+</table></div>
+<p>표의 마지막 줄을 눈여겨보세요. Python으로 만든 프로그램을 남에게 주면 "먼저 Python을 설치하세요"라는 말이 따라붙습니다. 통역사가 그 주방에도 있어야 하기 때문입니다. 그리고 화면에 뜨는 "빌드 중…"은 번역가가 일하는 시간입니다.</p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>비유와 다른 점이 하나 있습니다. 통역사는 요리사에게 말을 전하지만, 인터프리터는 기계어를 만들어 CPU에 건네지 않습니다. 인터프리터 자신이 이미 기계어로 된 프로그램이어서, 소스 코드를 읽고 그 뜻에 해당하는 일을 직접 합니다.</p>
+</div>
+</section>
+<section class="level2" id="bytecode">
+<h2><span class="sec-n">4.3</span>둘을 섞은 길: 바이트코드, 가상 머신, JIT<a aria-label="이 절의 링크" class="anchor" href="#bytecode">#</a></h2>
+<p>번역본에는 약점이 있습니다. 요리사의 나라가 바뀌면 처음부터 다시 번역해야 합니다. 통역은 어디서나 통하지만 느립니다. 그래서 둘을 섞은 방법이 나왔습니다.</p>
+<p>먼저 레시피를 어느 나라 말도 아닌 <strong>간결한 공용 표기</strong>로 한 번 옮겨 둡니다. "꺼냄: 양파 / 가열: 중불 3분"처럼 기계적으로 읽기 쉬운 표기입니다. 그리고 주방마다 이 표기를 읽어 주는 통역사를 둡니다. 원문을 통역할 때보다 훨씬 빠르고, 표기는 하나만 만들면 됩니다.</p>
+<ul>
+<li>이 공용 표기가 <strong>바이트코드</strong>(bytecode)입니다. 진짜 CPU의 기계어는 아니지만 기계어처럼 작은 명령으로 되어 있습니다.</li>
+<li>바이트코드를 읽어 실행하는 프로그램이 <strong>가상 머신</strong>(VM, virtual machine)입니다. 소프트웨어로 흉내 낸 CPU라고 생각하면 됩니다.</li>
+</ul>
+<p>Java가 대표적입니다. Java 소스 코드를 컴파일하면 바이트코드가 나오고, 윈도우든 맥이든 <strong>JVM</strong>(Java 가상 머신)이 설치된 곳이면 그대로 실행됩니다.</p>
+<figure class="fig" id="fig-bytecode-vm"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>소스 코드를 바이트코드로 한 번 번역해 두면, 기기마다 설치된 가상 머신이 그것을 실행한다</title>
+  <text class="t-h" x="20" y="40">한 번 번역해서 어디서나 실행</text>
+
+  <rect class="box blue" x="20" y="115" width="140" height="96" rx="12"/>
+  <use href="#i-code" x="72" y="123" width="36" height="36" class="ic blue"/>
+  <text class="t-l mid" x="90" y="182">소스 코드</text>
+  <text class="t-xs mid" x="90" y="200">사람이 쓴 글</text>
+
+  <path class="ln warm" d="M166 163 H222" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b mid tc-warm" x="195" y="151">번역</text>
+
+  <rect class="box purple" x="230" y="115" width="150" height="96" rx="12"/>
+  <use href="#i-file" x="287" y="123" width="36" height="36" class="ic purple"/>
+  <text class="t-l mid" x="305" y="182">바이트코드</text>
+  <text class="t-xs mid" x="305" y="200">공용 중간 표기</text>
+
+  <text class="t-xs mid" x="200" y="238">예: Java의 .class 파일, Python의 .pyc 파일</text>
+
+  <path class="ln purple" d="M410 163 V68 H432" marker-end="url(#ah-purple)"/>
+  <path class="ln purple" d="M410 163 V258 H432" marker-end="url(#ah-purple)"/>
+  <path class="ln purple" d="M386 163 H432" marker-end="url(#ah-purple)"/>
+
+  <rect class="panel" x="440" y="28" width="300" height="80" rx="14"/>
+  <rect class="box warm" x="452" y="40" width="150" height="56" rx="10"/>
+  <text class="t-b mid" x="527" y="64">가상 머신</text>
+  <text class="t-xs mid" x="527" y="83">윈도우용</text>
+  <path class="ln" d="M606 68 H624" marker-end="url(#ah)"/>
+  <rect class="box blue" x="632" y="40" width="96" height="56" rx="10"/>
+  <text class="t-b mid" x="680" y="64">CPU</text>
+  <text class="t-xs mid" x="680" y="83">x86-64</text>
+
+  <rect class="panel" x="440" y="123" width="300" height="80" rx="14"/>
+  <rect class="box warm" x="452" y="135" width="150" height="56" rx="10"/>
+  <text class="t-b mid" x="527" y="159">가상 머신</text>
+  <text class="t-xs mid" x="527" y="178">맥용</text>
+  <path class="ln" d="M606 163 H624" marker-end="url(#ah)"/>
+  <rect class="box blue" x="632" y="135" width="96" height="56" rx="10"/>
+  <text class="t-b mid" x="680" y="159">CPU</text>
+  <text class="t-xs mid" x="680" y="178">ARM64</text>
+
+  <rect class="panel" x="440" y="218" width="300" height="80" rx="14"/>
+  <rect class="box warm" x="452" y="230" width="150" height="56" rx="10"/>
+  <text class="t-b mid" x="527" y="254">가상 머신</text>
+  <text class="t-xs mid" x="527" y="273">리눅스용</text>
+  <path class="ln" d="M606 258 H624" marker-end="url(#ah)"/>
+  <rect class="box blue" x="632" y="230" width="96" height="56" rx="10"/>
+  <text class="t-b mid" x="680" y="254">CPU</text>
+  <text class="t-xs mid" x="680" y="273">x86-64</text>
+</svg></div><figcaption><b>그림 4-3</b>바이트코드는 한 번만 만들고, 가상 머신만 기기마다 따로 준비합니다.</figcaption></figure>
+<p>사실 Python도 소스 코드를 먼저 바이트코드로 옮긴 다음, 자기 안의 가상 머신으로 실행합니다. 프로젝트 폴더에 생기는 <code>__pycache__</code> 폴더의 <code>.pyc</code> 파일이 그 바이트코드를 저장해 둔 것입니다.</p>
+<div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
+<p>Python이 설치되어 있다면 터미널에서 <code>python3</code>를 실행하고 아래 두 줄을 입력해 보세요.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><span class="im">import</span> dis</span>
+<span id="cb2-2">dis.dis(<span class="st">"price * 2 + 1"</span>)</span></code></pre></div>
+<p><code>LOAD_NAME</code>처럼 "price를 가져와라, 2를 가져와라, 곱해라"에 해당하는 바이트코드 명령이 한 줄씩 나옵니다. 명령 이름은 Python 버전마다 조금씩 다릅니다.</p>
+</div>
+<section class="level3" id="jit-자주-쓰는-대목은-아예-번역해-둔다">
+<h3>JIT: 자주 쓰는 대목은 아예 번역해 둔다</h3>
+<p>일 잘하는 통역사는 같은 문장이 수백 번 나오면 매번 새로 통역하지 않습니다. 요리사의 말로 옮긴 쪽지를 벽에 붙여 두고, 다음부터는 요리사가 쪽지를 직접 읽게 합니다.</p>
+<p>이것이 <strong>JIT 컴파일</strong>(just-in-time compilation)입니다. 실행하는 도중에, 자주 실행되는 부분만 골라 기계어로 번역해 두는 방식입니다. 브라우저의 JavaScript 엔진과 JVM이 이렇게 합니다. 통역 방식에서 출발한 JavaScript가 꽤 빠른 까닭입니다.</p>
+<p>대신 JIT에는 <strong>예열 시간</strong>이 있습니다. 처음에는 통역으로 느리게 돌다가, 자주 쓰이는 부분을 파악해 번역을 마친 뒤에야 빨라집니다. 서버를 막 켠 직후의 첫 요청 몇 개가 유독 느린 이유 가운데 하나입니다.</p>
+<div class="callout myth"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-cross"></use></svg>흔한 오해 · Python은 인터프리터 언어, Java는 컴파일 언어다</div>
+<p>언어가 한쪽으로 정해져 있는 것은 아닙니다. 컴파일할지 통역할지는 그 언어를 <strong>실행해 주는 프로그램</strong>이 정하고, 요즘은 대부분 섞어 씁니다. "이 언어는 무슨 방식인가"보다 <strong>"지금 내 코드는 어떤 단계를 거쳐 실행되는가"</strong>를 묻는 편이 정확합니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="stages">
+<h2><span class="sec-n">4.4</span>번역가의 작업 순서: 컴파일의 네 단계<a aria-label="이 절의 링크" class="anchor" href="#stages">#</a></h2>
+<p>번역가는 문장을 단번에 옮기지 않습니다. 낱말을 끊어 읽고, 문장 구조를 파악하고, 말이 되는지 따져 본 다음에야 옮겨 씁니다. 컴파일러도 네 단계를 거칩니다. <code>price * 2 + 1</code>을 따라가 봅시다.</p>
+<figure class="fig" id="fig-compile-stages"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>price * 2 + 1 한 줄이 토큰 나누기, 구조 세우기, 뜻 검사, 기계어 쓰기의 네 단계를 거친다</title>
+  <rect class="box blue" x="20" y="12" width="165" height="36" rx="10"/>
+  <text class="t-mono mid" x="102" y="35">price * 2 + 1</text>
+  <text class="t-s" x="200" y="35">이 한 줄이 네 단계를 차례로 지납니다</text>
+  <path class="ln blue" d="M102 52 V69" marker-end="url(#ah-blue)"/>
+
+  <rect class="box" x="20" y="74" width="165" height="210" rx="12"/>
+  <circle class="badge blue" cx="42" cy="98" r="12"/><text class="badge-t" x="42" y="102.500">1</text>
+  <text class="t-b" x="62" y="103">토큰 나누기</text>
+  <text class="t-xs" x="34" y="126">글자를 낱말로 자른다</text>
+  <rect class="box blue" x="32" y="150" width="54" height="30" rx="6"/>
+  <rect class="box blue" x="90" y="150" width="18" height="30" rx="6"/>
+  <rect class="box blue" x="112" y="150" width="18" height="30" rx="6"/>
+  <rect class="box blue" x="134" y="150" width="18" height="30" rx="6"/>
+  <rect class="box blue" x="156" y="150" width="18" height="30" rx="6"/>
+  <text class="t-mono mid" x="59" y="170">price</text>
+  <text class="t-mono mid" x="99" y="170">*</text>
+  <text class="t-mono mid" x="121" y="170">2</text>
+  <text class="t-mono mid" x="143" y="170">+</text>
+  <text class="t-mono mid" x="165" y="170">1</text>
+  <text class="t-xs mid" x="102" y="212">낱말(토큰) 5개</text>
+
+  <rect class="box" x="205" y="74" width="165" height="210" rx="12"/>
+  <circle class="badge blue" cx="227" cy="98" r="12"/><text class="badge-t" x="227" y="102.500">2</text>
+  <text class="t-b" x="247" y="103">구조 세우기</text>
+  <text class="t-xs" x="219" y="126">먼저 묶을 것을 정한다</text>
+  <path class="ln thin blue" d="M305 156 L270 200 M305 156 L340 200 M270 200 L243 248 M270 200 L300 248"/>
+  <circle class="box blue" cx="305" cy="156" r="13"/>
+  <circle class="box blue" cx="270" cy="200" r="13"/>
+  <circle class="box blue" cx="340" cy="200" r="13"/>
+  <rect class="box blue" x="215" y="235" width="56" height="26" rx="8"/>
+  <circle class="box blue" cx="300" cy="248" r="13"/>
+  <text class="t-mono mid" x="305" y="161">+</text>
+  <text class="t-mono mid" x="270" y="205">*</text>
+  <text class="t-mono mid" x="340" y="205">1</text>
+  <text class="t-mono mid" x="243" y="253">price</text>
+  <text class="t-mono mid" x="300" y="253">2</text>
+
+  <rect class="box" x="390" y="74" width="165" height="210" rx="12"/>
+  <circle class="badge blue" cx="412" cy="98" r="12"/><text class="badge-t" x="412" y="102.500">3</text>
+  <text class="t-b" x="432" y="103">뜻 검사하기</text>
+  <text class="t-xs" x="404" y="126">이름과 타입을 확인한다</text>
+  <use href="#i-check" x="402" y="150" width="20" height="20" class="ic green"/>
+  <text class="t-s" x="428" y="165">이름 price: 있음</text>
+  <use href="#i-check" x="402" y="186" width="20" height="20" class="ic green"/>
+  <text class="t-s" x="428" y="201">price의 타입: 숫자</text>
+  <use href="#i-check" x="402" y="222" width="20" height="20" class="ic green"/>
+  <text class="t-s" x="428" y="237">곱하기·더하기: 가능</text>
+
+  <rect class="box" x="575" y="74" width="165" height="210" rx="12"/>
+  <circle class="badge blue" cx="597" cy="98" r="12"/><text class="badge-t" x="597" y="102.500">4</text>
+  <text class="t-b" x="617" y="103">기계어 쓰기</text>
+  <text class="t-xs" x="589" y="126">작은 명령으로 옮긴다</text>
+  <rect class="box green" x="587" y="146" width="141" height="28" rx="6"/>
+  <rect class="box green" x="587" y="182" width="141" height="28" rx="6"/>
+  <rect class="box green" x="587" y="218" width="141" height="28" rx="6"/>
+  <text class="t-mono mid" x="657" y="165">가져와라 price</text>
+  <text class="t-mono mid" x="657" y="201">곱해라 2</text>
+  <text class="t-mono mid" x="657" y="237">더해라 1</text>
+  <text class="t-xs mid" x="657" y="268">실제로는 숫자로 적힌다</text>
+
+  <path class="ln blue" d="M188 179 H198" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M373 179 H383" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M558 179 H568" marker-end="url(#ah-blue)"/>
+</svg></div><figcaption><b>그림 4-4</b>컴파일러의 네 단계. 앞의 세 단계는 '이해하기', 마지막 단계가 '옮겨 쓰기'입니다. 인터프리터도 앞의 단계들은 똑같이 거칩니다.</figcaption></figure>
+<ol type="1">
+<li><strong>토큰 나누기.</strong> 글자의 나열을 뜻이 있는 가장 작은 낱말로 자릅니다. 이 낱말을 <strong>토큰</strong>(token)이라고 합니다. <code>price</code>, <code>*</code>, <code>2</code>, <code>+</code>, <code>1</code> 다섯 개가 나옵니다.</li>
+<li><strong>구조 세우기.</strong> 토큰을 문법에 맞춰 묶습니다. 곱셈이 덧셈보다 먼저이므로 <code>price * 2</code>를 먼저 묶고, 그 결과에 <code>1</code>을 더하는 구조가 됩니다. 이 구조를 나무 모양으로 나타낸 것이 <strong>구문 트리</strong>(AST, abstract syntax tree)입니다.</li>
+<li><strong>뜻 검사하기.</strong> 구조가 맞아도 말이 안 될 수 있습니다. <code>price</code>라는 이름이 정말 있는지, 곱셈을 할 수 있는 종류의 값인지 확인합니다. 값의 종류를 <strong>타입</strong>(type)이라 하고, 이 확인을 <strong>타입 검사</strong>라고 합니다.</li>
+<li><strong>기계어 쓰기.</strong> 트리를 따라가며 CPU의 작은 명령으로 옮겨 적습니다.</li>
+</ol>
+<section class="level3" id="구문-트리는-왜-중요할까">
+<h3>구문 트리는 왜 중요할까</h3>
+<p>같은 낱말이라도 묶는 방법이 다르면 뜻이 달라집니다.</p>
+<figure class="fig" id="fig-ast-compare"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 310" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>같은 낱말이라도 묶는 구조가 다르면 계산 순서와 결과가 달라진다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="278" rx="16"/>
+  <text class="t-mono t-b mid" x="195" y="48">price * 2 + 1</text>
+  <path class="ln thin blue" d="M215 100 L150 160 M215 100 L280 160 M150 160 L100 220 M150 160 L200 220"/>
+  <circle class="box blue" cx="215" cy="100" r="20"/>
+  <circle class="box blue" cx="150" cy="160" r="20"/>
+  <rect class="box" x="258" y="143" width="44" height="34" rx="8"/>
+  <rect class="box" x="65" y="203" width="70" height="34" rx="8"/>
+  <rect class="box" x="178" y="203" width="44" height="34" rx="8"/>
+  <text class="t-mono t-b mid" x="215" y="105">+</text>
+  <text class="t-mono t-b mid" x="150" y="165">*</text>
+  <text class="t-mono mid" x="280" y="165">1</text>
+  <text class="t-mono mid" x="100" y="225">price</text>
+  <text class="t-mono mid" x="200" y="225">2</text>
+  <text class="t-s t-b tc-blue" x="243" y="94">= 201</text>
+  <text class="t-s t-b tc-blue" x="178" y="166">= 200</text>
+  <text class="t-xs mid" x="100" y="254">= 100</text>
+  <text class="t-b mid" x="195" y="280">곱하기 먼저 → 201</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="278" rx="16"/>
+  <text class="t-mono t-b mid" x="565" y="48">price * (2 + 1)</text>
+  <path class="ln thin blue" d="M545 100 L480 160 M545 100 L620 160 M620 160 L575 220 M620 160 L665 220"/>
+  <circle class="box blue" cx="545" cy="100" r="20"/>
+  <circle class="box blue" cx="620" cy="160" r="20"/>
+  <rect class="box" x="445" y="143" width="70" height="34" rx="8"/>
+  <rect class="box" x="553" y="203" width="44" height="34" rx="8"/>
+  <rect class="box" x="643" y="203" width="44" height="34" rx="8"/>
+  <text class="t-mono t-b mid" x="545" y="105">*</text>
+  <text class="t-mono t-b mid" x="620" y="165">+</text>
+  <text class="t-mono mid" x="480" y="165">price</text>
+  <text class="t-mono mid" x="575" y="225">2</text>
+  <text class="t-mono mid" x="665" y="225">1</text>
+  <text class="t-s t-b tc-blue" x="573" y="94">= 300</text>
+  <text class="t-s t-b tc-blue" x="648" y="166">= 3</text>
+  <text class="t-xs mid" x="480" y="194">= 100</text>
+  <text class="t-b mid" x="565" y="280">더하기 먼저 → 300</text>
+</svg></div><figcaption><b>그림 4-5</b>트리는 아래쪽 가지부터 계산합니다. 괄호 하나가 트리의 모양을 바꾸고, 결과를 201에서 300으로 바꿉니다.</figcaption></figure>
+<p>컴파일러는 글자가 아니라 이 <strong>트리</strong>를 다룹니다. 코드 편집기의 '이름 바꾸기' 기능도 그렇습니다. 글자 찾아 바꾸기로 <code>price</code>를 <code>cost</code>로 바꾸면 <code>unit_price</code>까지 망가지지만, 트리를 이해하는 도구는 <strong>그 변수를 가리키는 자리만</strong> 바꿉니다. AI에게 이름 변경을 시킬 때도 "글자 치환 말고 편집기의 이름 바꾸기 기능을 써 줘"라고 하는 편이 안전합니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>중간 표현(IR)과 트랜스파일</summary><div class="deep-body">
+<p>실제 컴파일러는 트리에서 곧장 기계어로 가지 않고, 그 사이에 <strong>중간 표현</strong>(IR, intermediate representation)을 둡니다. <code>t1 = price * 2</code>, <code>t2 = t1 + 1</code>처럼 계산을 한 걸음씩 풀어 쓴 형태입니다. 여러 언어가 같은 중간 표현으로 모이고, 거기서 여러 CPU용 기계어로 갈라질 수 있습니다. 바이트코드도 중간 표현의 한 종류입니다.</p>
+<p>번역의 도착지가 기계어가 아니라 <strong>다른 소스 코드</strong>인 경우도 있습니다. 이를 <strong>트랜스파일</strong>(transpile)이라고 합니다. TypeScript가 대표적입니다. <code>let count: number = 3</code>을 트랜스파일하면 타입 표기 <code>: number</code>가 지워진 JavaScript 코드가 나옵니다. 타입 검사는 번역할 때만 하고, 실행할 때는 타입 표기가 남아 있지 않습니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="errors">
+<h2><span class="sec-n">4.5</span>오류는 언제 드러날까<a aria-label="이 절의 링크" class="anchor" href="#errors">#</a></h2>
+<p>오류 메시지를 만나면 내용보다 먼저 <strong>어느 단계에서 났는지</strong>를 보세요. 고칠 곳이 완전히 달라집니다.</p>
+<figure class="fig" id="fig-error-gates"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 306" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>문법 오류와 타입 오류는 실행 전에 걸러지고, 실행 중 오류는 그 줄에 닿았을 때 드러난다</title>
+
+  <rect class="panel" x="20" y="16" width="452" height="218" rx="16"/>
+  <text class="t-s t-b" x="38" y="44">실행 전 — 번역하면서 걸러진다</text>
+  <rect class="panel warm" x="488" y="16" width="252" height="218" rx="16"/>
+  <text class="t-s t-b" x="506" y="44">실행 중 — 그 줄에 닿아야 안다</text>
+
+  <rect class="box red" x="36" y="58" width="204" height="160" rx="12"/>
+  <circle class="badge red" cx="58" cy="82" r="12"/><text class="badge-t" x="58" y="86.500">1</text>
+  <text class="t-b" x="78" y="87">문법 오류</text>
+  <rect class="box" x="50" y="100" width="176" height="32" rx="6"/>
+  <text class="t-mono" x="60" y="121">(price * 2 + 1</text>
+  <text class="t-s" x="52" y="158">괄호가 닫히지 않았다</text>
+  <text class="t-s t-b tc-red" x="52" y="184">한 줄도 실행되지 않는다</text>
+
+  <rect class="box red" x="252" y="58" width="204" height="160" rx="12"/>
+  <circle class="badge red" cx="274" cy="82" r="12"/><text class="badge-t" x="274" y="86.500">2</text>
+  <text class="t-b" x="294" y="87">타입 오류</text>
+  <rect class="box" x="266" y="100" width="176" height="32" rx="6"/>
+  <text class="t-mono" x="276" y="121">&quot;100&quot; * 2 + 1</text>
+  <text class="t-s" x="268" y="158">글자에 숫자를 더하려 했다</text>
+  <text class="t-s t-b tc-red" x="268" y="184">검사에서 걸러진다</text>
+
+  <rect class="box red" x="504" y="58" width="220" height="160" rx="12"/>
+  <circle class="badge red" cx="526" cy="82" r="12"/><text class="badge-t" x="526" y="86.500">3</text>
+  <text class="t-b" x="546" y="87">실행 중 오류</text>
+  <rect class="box" x="518" y="100" width="192" height="32" rx="6"/>
+  <text class="t-mono" x="528" y="121">total / count</text>
+  <text class="t-s" x="520" y="158">count가 0인 날에만 실패</text>
+  <text class="t-s t-b tc-red" x="520" y="184">그 순간 프로그램이 멈춘다</text>
+
+  <path class="ln red dash" d="M354 222 V262 H614 V242" marker-end="url(#ah-red)"/>
+  <text class="t-s mid" x="484" y="288">Python 같은 언어에서는 타입 오류도 실행 중에야 드러난다</text>
+</svg></div><figcaption><b>그림 4-6</b>오류가 드러나는 시점. 왼쪽 두 가지는 실행 전에 걸러지고, 오른쪽은 실행해 봐야 압니다.</figcaption></figure>
+<p><strong>① 문법 오류.</strong> 구조 세우기 단계에서 걸립니다. 괄호를 닫지 않았거나 따옴표의 짝이 맞지 않는 경우입니다. 트리를 세울 수 없으니 <strong>그 파일은 한 줄도 실행되지 않습니다.</strong> Python에서는 <code>SyntaxError</code>라고 나옵니다.</p>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령</div>
+<p>문법 오류가 가리키는 줄에 잘못이 안 보이면 <strong>그 윗줄</strong>을 보세요. 괄호를 닫지 않은 곳은 위인데, 번역가는 더 읽은 뒤에야 말이 안 된다는 것을 알아챕니다.</p>
+</div>
+<p><strong>② 타입 오류.</strong> 뜻 검사 단계에서 걸립니다. 숫자가 와야 할 자리에 글자가 온 경우입니다. 여기서 언어가 두 갈래로 나뉩니다.</p>
+<ul>
+<li><strong>정적 타입</strong> 언어(TypeScript, Java, C, Rust, Go 등)는 실행 전에 타입을 검사합니다. 번역가가 책 전체를 미리 읽고 "이 문장은 말이 안 됩니다" 하며 돌려보내는 것입니다.</li>
+<li><strong>동적 타입</strong> 언어(Python, JavaScript 등)는 실행하다가 그 줄에 닿았을 때 검사합니다. 통역사는 그 문장을 읽기 전에는 문제를 모릅니다.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1">price <span class="op">=</span> <span class="st">"100"</span></span>
+<span id="cb3-2">total <span class="op">=</span> price <span class="op">*</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span></span></code></pre></div>
+<p>첫 줄은 <code>price</code>에 숫자 100이 아니라 글자 <code>"100"</code>을 넣습니다. Python은 일단 실행을 시작하고, 둘째 줄에서 글자에 1을 더하려는 순간에야 <code>TypeError</code>로 멈춥니다. 그 줄이 사용자가 가끔 누르는 버튼 안에 있다면 오류는 몇 주 뒤에야 나타날 수도 있습니다.</p>
+<p><strong>③ 실행 중 오류.</strong> 문법도 타입도 맞지만 실제 값 때문에 생깁니다. <code>total / count</code>는 숫자끼리의 나눗셈이라 어떤 검사도 통과합니다. 그러나 <code>count</code>가 0인 날 프로그램은 멈춥니다. 없는 파일을 열 때, 네트워크가 끊겼을 때도 마찬가지입니다.</p>
+<p>마지막으로, 아무 메시지 없이 <strong>결과만 틀리는</strong> 경우가 있습니다. <code>+ 1</code>을 <code>- 1</code>로 잘못 썼다면 어떤 단계도 이를 잡아내지 못합니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>"빌드에 성공했다"는 말은 <strong>번역이 가능했다</strong>는 뜻일 뿐, <strong>프로그램이 올바르다</strong>는 뜻이 아닙니다. AI가 "오류 없이 빌드됩니다"라고 보고해도, 실제로 실행해 결과를 확인하기 전에는 끝난 것이 아닙니다.</p>
+</div>
+</section>
+<section class="level2" id="link">
+<h2><span class="sec-n">4.6</span>링크: 남이 만든 코드와 이어 붙이기<a aria-label="이 절의 링크" class="anchor" href="#link">#</a></h2>
+<p>레시피에 "사골 육수를 붓는다"라고만 쓰여 있다고 합시다. 육수 내는 법은 이 레시피가 아니라 《육수 대백과》라는 다른 책에 있습니다. 번역가는 일단 "(육수 대백과의 사골 육수 참조)"라는 빈칸을 남긴 채 번역을 끝냅니다. 빈칸을 실제 쪽 번호로 채우는 일은 그다음 단계입니다.</p>
+<p>프로그램도 모든 것을 직접 쓰지 않습니다. 이미지 파일을 여는 기능 같은 것은 남이 미리 만들어 둔 코드를 가져다 씁니다. 이렇게 가져다 쓰도록 묶어 둔 코드가 <strong>라이브러리</strong>(library)입니다.</p>
+<p>컴파일러는 내 코드를 번역하면서 "여기서 <code>load_image</code>를 부름(위치는 아직 모름)"이라는 빈칸을 남깁니다. 이 빈칸들을 실제 코드의 위치로 채워 하나의 실행 파일로 묶는 일이 <strong>링크</strong>(link)이고, 그 일을 하는 프로그램이 <strong>링커</strong>(linker)입니다. 빈칸을 채울 코드를 끝내 찾지 못하면 <strong>링크 오류</strong>가 납니다.</p>
+<pre class="text"><code>undefined reference to `load_image'</code></pre>
+<p>"<code>load_image</code>를 부르는 곳은 있는데 그 본체가 어디에도 없다"는 뜻입니다. 부르는 쪽의 문법을 고칠 일이 아닙니다. 그 함수가 들어 있는 파일이나 라이브러리가 <strong>빌드에 포함되었는지</strong>를 확인해야 합니다.</p>
+<section class="level3" id="정적-링크와-동적-링크">
+<h3>정적 링크와 동적 링크</h3>
+<p>라이브러리를 잇는 방법은 두 가지입니다.</p>
+<figure class="fig" id="fig-link-static-dynamic"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 310" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>정적 링크는 라이브러리를 실행 파일에 넣고, 동적 링크는 실행할 때 찾아서 잇는다</title>
+
+  <rect class="panel" x="20" y="16" width="330" height="278" rx="16"/>
+  <text class="t-h" x="40" y="50">정적 링크</text>
+  <text class="t-s" x="40" y="72">필요한 코드를 실행 파일에 넣는다</text>
+  <rect class="box green" x="40" y="88" width="290" height="132" rx="12"/>
+  <text class="t-s t-b" x="56" y="111">실행 파일</text>
+  <rect class="box blue" x="56" y="122" width="258" height="36" rx="8"/>
+  <text class="t-b mid" x="185" y="145">내 코드</text>
+  <rect class="box purple" x="56" y="168" width="258" height="36" rx="8"/>
+  <text class="t-b mid" x="185" y="191">라이브러리 코드 (복사본)</text>
+  <use href="#i-check" x="40" y="234" width="20" height="20" class="ic green"/>
+  <text class="t-s" x="66" y="249">어디서나 혼자 실행된다</text>
+  <use href="#i-warn" x="40" y="258" width="20" height="20" class="ic warm"/>
+  <text class="t-s" x="66" y="273">대신 파일이 커진다</text>
+
+  <rect class="panel" x="370" y="16" width="370" height="278" rx="16"/>
+  <text class="t-h" x="390" y="50">동적 링크</text>
+  <text class="t-s" x="390" y="72">실행할 때 찾아서 잇는다</text>
+  <rect class="box green" x="390" y="88" width="160" height="132" rx="12"/>
+  <text class="t-s t-b" x="404" y="111">실행 파일</text>
+  <rect class="box blue" x="402" y="122" width="136" height="36" rx="8"/>
+  <text class="t-b mid" x="470" y="145">내 코드</text>
+  <rect class="ghost dash" x="402" y="168" width="136" height="36" rx="8"/>
+  <text class="t-s mid" x="470" y="191">메모: libpng 필요</text>
+
+  <rect class="box purple" x="620" y="112" width="104" height="92" rx="10"/>
+  <use href="#i-file" x="656" y="120" width="32" height="32" class="ic purple"/>
+  <text class="t-b mid" x="672" y="174">libpng</text>
+  <text class="t-xs mid" x="672" y="192">라이브러리 파일</text>
+  <path class="ln purple dash" d="M544 186 H612" marker-end="url(#ah-purple)"/>
+  <text class="t-xs mid" x="585" y="160">실행할 때</text>
+  <text class="t-xs mid" x="585" y="176">찾는다</text>
+
+  <use href="#i-check" x="390" y="234" width="20" height="20" class="ic green"/>
+  <text class="t-s" x="416" y="249">파일이 작고, 여럿이 함께 쓴다</text>
+  <use href="#i-cross" x="390" y="258" width="20" height="20" class="ic red"/>
+  <text class="t-s t-b tc-red" x="416" y="273">그 컴퓨터에 없으면 시작도 못 한다</text>
+</svg></div><figcaption><b>그림 4-7</b>정적 링크는 필요한 쪽을 복사해 함께 제본하고, 동적 링크는 "그 책을 보시오"라는 메모만 남깁니다.</figcaption></figure>
+<ul>
+<li><strong>정적 링크</strong>(static linking)는 라이브러리의 코드를 실행 파일 안에 복사해 넣습니다. 파일은 커지지만 어디에 가져가도 혼자 실행됩니다.</li>
+<li><strong>동적 링크</strong>(dynamic linking)는 "실행할 때 이 라이브러리가 필요함"이라는 메모만 실행 파일에 남깁니다. 실제 연결은 프로그램을 켤 때 이루어집니다. 파일이 작고, 여러 프로그램이 라이브러리 하나를 함께 쓸 수 있습니다. 이런 라이브러리 파일의 확장자는 윈도우에서 <code>.dll</code>, 리눅스에서 <code>.so</code>, 맥에서 <code>.dylib</code>입니다.</li>
+</ul>
+<p>대가도 분명합니다. <strong>그 주방의 책장에 그 책이 없으면 요리를 시작조차 못 합니다.</strong></p>
+<pre class="text"><code>error while loading shared libraries: libpng16.so.16:
+cannot open shared object file: No such file or directory</code></pre>
+<p>윈도우의 "○○.dll을 찾을 수 없습니다"라는 오류 창도 같은 뜻입니다. 내 컴퓨터에는 개발하면서 설치해 둔 덕에 그 라이브러리가 있었고, 친구 컴퓨터에는 없는 것입니다. Python의 <code>ModuleNotFoundError</code>도 성격이 같습니다. 코드가 틀린 것이 아니라 <strong>필요한 것이 그 자리에 없는</strong> 오류입니다.</p>
+</section>
+<section class="level3" id="라이브러리-곁의-낱말들">
+<h3>라이브러리 곁의 낱말들</h3>
+<ul>
+<li><strong>API</strong>(Application Programming Interface)는 라이브러리를 부르는 약속입니다. 함수의 이름, 넣을 값, 돌려받는 값을 정합니다. 《육수 대백과》의 차례에 해당합니다. 약속을 안다고 책이 내 책장에 있는 것은 아닙니다.</li>
+<li><strong>SDK</strong>(Software Development Kit)는 특정 운영체제나 서비스에 맞춘 개발에 필요한 라이브러리, 도구, 문서를 묶은 꾸러미입니다. "안드로이드 SDK"처럼 무엇을 위한 것인지가 이름에 붙습니다.</li>
+<li><strong>의존성</strong>(dependency)은 내 프로그램이 돌아가려면 꼭 있어야 하는 외부 코드입니다. 의존성이 또 다른 의존성을 끌고 와서 금세 수십 개로 불어납니다. 관리하는 방법은 <a href="ch06.html">6장</a>에서 다룹니다.</li>
+</ul>
+<details class="deep"><summary><small>한 걸음 더</small>ABI: 번역본끼리의 약속</summary><div class="deep-body">
+<p>API가 소스 코드 수준의 약속이라면, <strong>ABI</strong>(Application Binary Interface)는 <strong>번역된 기계어끼리의 약속</strong>입니다. 함수를 부를 때 값을 어느 자리에 놓고 건넬지, 결과는 어디로 돌려받을지, 숫자 하나가 몇 바이트를 차지하는지 같은 것들입니다. 이 가운데 값을 건네고 돌려받는 방법을 <strong>호출 규약</strong>(calling convention)이라고 합니다.</p>
+<p>주방으로 치면 "재료는 왼쪽 선반에 놓고, 완성품은 오른쪽 창구로 내보낸다"는 동선 규칙입니다. 두 번역본의 규칙이 다르면 이름은 맞게 찾아도 엉뚱한 선반에서 재료를 집습니다. 링크에는 성공했는데 실행하면 이상한 값이 나오거나 갑자기 죽습니다. 다른 언어로 만든 라이브러리를 불러 쓸 때 주로 만납니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="runtime">
+<h2><span class="sec-n">4.7</span>실행 버튼을 누른 뒤: 로딩과 런타임<a aria-label="이 절의 링크" class="anchor" href="#runtime">#</a></h2>
+<p>실행 파일이 만들어졌다고 끝이 아닙니다. 아이콘을 더블클릭하면 운영체제가 다음 일을 합니다.</p>
+<ol type="1">
+<li>실행 파일을 저장장치에서 메모리로 올립니다.</li>
+<li>실행 파일에 적힌 "필요한 라이브러리" 메모를 보고, 동적 라이브러리를 찾아 함께 올린 뒤 빈칸을 채웁니다.</li>
+<li>프로그램의 첫 명령으로 CPU를 보냅니다.</li>
+</ol>
+<p>이 과정이 <strong>로딩</strong>(loading)입니다. <a href="ch03.html">3장</a>에서 본 프로세스가 바로 이때 만들어집니다. 앞에서 본 "라이브러리를 찾을 수 없습니다" 오류는 2번에서 난 것입니다.</p>
+<figure class="fig" id="fig-journey"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>소스 코드는 컴파일, 링크, 로딩을 거쳐 실행된다. 앞의 둘은 만들 때, 뒤의 둘은 실행할 때 일어난다</title>
+
+  <text class="t-s t-b tc-blue" x="20" y="30">만들 때 (빌드) — 개발자의 컴퓨터</text>
+  <rect class="f-blue" x="20" y="40" width="412" height="5" rx="2.500"/>
+  <text class="t-s t-b tc-green" x="442" y="30">실행할 때 — 사용자의 컴퓨터</text>
+  <rect class="f-green" x="442" y="40" width="298" height="5" rx="2.500"/>
+
+  <rect class="box blue" x="20" y="70" width="104" height="70" rx="12"/>
+  <text class="t-b mid" x="72" y="101">소스 코드</text>
+  <text class="t-xs mid" x="72" y="122">사람이 쓴 글</text>
+
+  <rect class="box" x="174" y="70" width="104" height="70" rx="12"/>
+  <text class="t-b mid" x="226" y="101">번역된 조각</text>
+  <text class="t-xs mid" x="226" y="122">빈칸이 있다</text>
+
+  <rect class="box green" x="328" y="70" width="104" height="70" rx="12"/>
+  <text class="t-b mid" x="380" y="101">실행 파일</text>
+  <text class="t-xs mid" x="380" y="122">기계어 묶음</text>
+
+  <rect class="box green" x="482" y="70" width="104" height="70" rx="12"/>
+  <text class="t-b mid" x="534" y="101">프로세스</text>
+  <text class="t-xs mid" x="534" y="122">메모리에 올라옴</text>
+
+  <rect class="box blue" x="636" y="70" width="104" height="70" rx="12"/>
+  <text class="t-b mid" x="688" y="101">CPU</text>
+  <text class="t-xs mid" x="688" y="122">명령을 실행</text>
+
+  <path class="ln" d="M129 105 H166" marker-end="url(#ah)"/>
+  <path class="ln" d="M283 105 H320" marker-end="url(#ah)"/>
+  <path class="ln" d="M437 105 H474" marker-end="url(#ah)"/>
+  <path class="ln" d="M591 105 H628" marker-end="url(#ah)"/>
+
+  <circle class="badge warm" cx="127" cy="166" r="11"/><text class="badge-t" x="127" y="170.500">1</text>
+  <text class="t-s t-b" x="143" y="171">컴파일</text>
+  <circle class="badge warm" cx="287" cy="166" r="11"/><text class="badge-t" x="287" y="170.500">2</text>
+  <text class="t-s t-b" x="303" y="171">링크</text>
+  <circle class="badge warm" cx="441" cy="166" r="11"/><text class="badge-t" x="441" y="170.500">3</text>
+  <text class="t-s t-b" x="457" y="171">로딩</text>
+  <circle class="badge warm" cx="595" cy="166" r="11"/><text class="badge-t" x="595" y="170.500">4</text>
+  <text class="t-s t-b" x="611" y="171">실행</text>
+
+  <rect class="box purple" x="243" y="210" width="120" height="64" rx="12"/>
+  <text class="t-b mid" x="303" y="238">라이브러리</text>
+  <text class="t-xs mid" x="303" y="258">남이 만든 코드</text>
+  <path class="ln purple" d="M303 205 V186" marker-end="url(#ah-purple)"/>
+
+  <rect class="box warm" x="536" y="210" width="150" height="64" rx="12"/>
+  <text class="t-b mid" x="611" y="238">런타임</text>
+  <text class="t-xs mid" x="611" y="258">곁에서 실행을 돕는다</text>
+  <path class="ln warm" d="M611 205 V186" marker-end="url(#ah-warm)"/>
+</svg></div><figcaption><b>그림 4-8</b>미리 컴파일하는 언어의 전체 여정. 앞의 두 단계는 개발자의 컴퓨터에서, 뒤의 두 단계는 사용자의 컴퓨터에서 일어납니다. 인터프리터 방식은 ①과 ②에 해당하는 일을 실행할 때로 미룹니다.</figcaption></figure>
+<section class="level3" id="런타임이라는-말의-두-가지-뜻">
+<h3>런타임이라는 말의 두 가지 뜻</h3>
+<p><strong>런타임</strong>(runtime)은 두 가지 뜻으로 쓰이므로 문맥으로 가려야 합니다.</p>
+<p>첫째는 <strong>시점</strong>입니다. 프로그램이 실행되고 있는 동안을 가리킵니다. "런타임 오류"는 실행 중에 난 오류라는 말입니다. 반대말은 번역하는 시점인 <strong>컴파일 타임</strong>입니다.</p>
+<p>둘째는 <strong>실행을 곁에서 돕는 프로그램</strong>입니다. 주방에는 다 쓴 그릇을 치우고, 사고가 나면 수습하고, 기본 도구를 건네주는 주방 보조가 필요합니다. 프로그램에도 실행되는 동안 다 쓴 메모리를 정리하고, 오류를 처리하고, 기본 기능을 제공해 주는 조력자가 필요합니다.</p>
+<ul>
+<li>Python 인터프리터, JavaScript를 실행하는 Node.js와 브라우저, Java의 JVM, C#의 .NET 런타임이 모두 여기에 듭니다. 통역사나 가상 머신이 주방 보조까지 겸하는 셈입니다.</li>
+<li>미리 컴파일하는 C나 C++에도 작은 런타임 라이브러리가 있습니다. 윈도우의 "VCRUNTIME140.dll을 찾을 수 없습니다"는 C++ 런타임이 그 PC에 없다는 뜻입니다.</li>
+</ul>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · 런타임에도 버전이 있습니다</div>
+<p>"Node.js 20 이상 필요", "Python 3.11에서 동작"이라는 문구는 통역사의 버전을 지정한 것입니다. 옛 버전의 통역사는 새 문법을 알아듣지 못합니다. AI에게 코드를 부탁할 때는 <strong>내가 쓰는 런타임과 버전</strong>을 먼저 알려 주세요.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="build">
+<h2><span class="sec-n">4.8</span>같은 코드, 다른 결과물: 빌드 대상과 빌드 모드<a aria-label="이 절의 링크" class="anchor" href="#build">#</a></h2>
+<p>소스 코드, 라이브러리, 이미지 같은 재료를 모아 실행하거나 배포할 수 있는 결과물로 만드는 전체 과정을 <strong>빌드</strong>(build)라고 합니다. 컴파일과 링크가 빌드의 핵심 단계입니다. 그런데 같은 소스 코드라도 빌드 결과물은 하나가 아닙니다.</p>
+<section class="level3" id="빌드-대상-어느-주방-어느-요리사를-위한-번역본인가">
+<h3>빌드 대상: 어느 주방, 어느 요리사를 위한 번역본인가</h3>
+<p>번역본은 특정 요리사와 특정 주방에 맞춰 만들어집니다.</p>
+<ul>
+<li><strong>CPU 종류.</strong> <a href="ch01.html">1장</a>에서 보았듯 x86-64 CPU와 ARM64 CPU는 알아듣는 기계어가 다릅니다.</li>
+<li><strong>운영체제.</strong> 윈도우, 맥, 리눅스는 실행 파일의 형식이 서로 다릅니다. 파일을 열거나 화면을 그릴 때 운영체제에 부탁하는 방법도 다릅니다.</li>
+</ul>
+<p>이 둘의 조합을 <strong>빌드 대상</strong>(build target) 또는 플랫폼이라고 합니다. 대상이 다르면 빌드도 따로 해야 합니다. 내려받기 페이지에 "Windows용", "Mac Apple Silicon용", "Mac Intel용"이 따로 있는 이유입니다.</p>
+<figure class="fig" id="fig-build-targets"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 310" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>소스 코드는 한 벌이지만 운영체제와 CPU의 조합마다 결과물을 따로 빌드한다</title>
+
+  <rect class="box blue" x="20" y="108" width="150" height="100" rx="12"/>
+  <use href="#i-code" x="75" y="118" width="40" height="40" class="ic blue"/>
+  <text class="t-l mid" x="95" y="180">소스 코드</text>
+  <text class="t-s mid" x="95" y="199">한 벌</text>
+
+  <path class="ln warm" d="M178 158 H228" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b mid tc-warm" x="203" y="144">빌드</text>
+
+  <text class="t-s t-b mid" x="440" y="40">x86-64 CPU용</text>
+  <text class="t-s t-b mid" x="642" y="40">ARM64 CPU용</text>
+
+  <use href="#i-monitor" x="244" y="70" width="32" height="32" class="ic"/>
+  <text class="t-b" x="284" y="91">윈도우</text>
+  <rect class="box green" x="345" y="56" width="190" height="60" rx="10"/>
+  <text class="t-mono mid" x="440" y="91">app-win-x64.exe</text>
+  <rect class="box green" x="547" y="56" width="190" height="60" rx="10"/>
+  <text class="t-mono mid" x="642" y="91">app-win-arm64.exe</text>
+
+  <use href="#i-laptop" x="244" y="142" width="32" height="32" class="ic"/>
+  <text class="t-b" x="284" y="163">맥</text>
+  <rect class="box green" x="345" y="128" width="190" height="60" rx="10"/>
+  <text class="t-mono mid" x="440" y="163">app-mac-x64</text>
+  <rect class="box green" x="547" y="128" width="190" height="60" rx="10"/>
+  <text class="t-mono mid" x="642" y="163">app-mac-arm64</text>
+
+  <use href="#i-server" x="244" y="214" width="32" height="32" class="ic"/>
+  <text class="t-b" x="284" y="235">리눅스</text>
+  <rect class="box green" x="345" y="200" width="190" height="60" rx="10"/>
+  <text class="t-mono mid" x="440" y="235">app-linux-x64</text>
+  <rect class="box green" x="547" y="200" width="190" height="60" rx="10"/>
+  <text class="t-mono mid" x="642" y="235">app-linux-arm64</text>
+
+  <text class="t-s mid" x="541" y="290">칸마다 다른 번역본 — 다른 칸에 가져가면 그대로는 실행되지 않는다</text>
+</svg></div><figcaption><b>그림 4-9</b>소스 코드는 한 벌이지만 결과물은 대상마다 하나씩 나옵니다. 파일 이름은 설명을 위해 지은 것입니다.</figcaption></figure>
+<p>Python이나 JavaScript는 소스 코드를 그대로 가져가므로 이 문제에서 자유로워 보이지만, 절반만 맞습니다. 통역사(런타임) 자신이 대상마다 따로 빌드된 프로그램입니다. 또 속도를 위해 미리 컴파일한 부분을 품은 라이브러리가 많은데, 이 부분은 대상마다 다른 번역본이 필요합니다.</p>
+</section>
+<section class="level3" id="빌드-모드-디버그와-릴리스">
+<h3>빌드 모드: 디버그와 릴리스</h3>
+<p>좋은 번역가는 직역만 하지 않습니다. "양파를 꺼낸다. 썬다. 양파를 또 꺼낸다. 또 썬다."를 "양파 두 개를 꺼내 한 번에 썬다"로 다듬습니다. 결과는 같고 동선은 짧아집니다. 컴파일러가 하는 이런 다듬기를 <strong>최적화</strong>(optimization)라고 합니다.</p>
+<figure class="fig" id="fig-debug-release"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 270" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>디버그 빌드는 소스 줄마다 명령을 그대로 만들고, 릴리스 빌드는 미리 계산하고 지워서 명령을 줄인다</title>
+
+  <rect class="panel" x="20" y="16" width="215" height="238" rx="16"/>
+  <text class="t-h mid" x="127" y="46">디버그 빌드</text>
+  <rect class="box green" x="30" y="64" width="195" height="36" rx="8"/>
+  <text class="mid" x="127" y="87">2 × 3 계산</text>
+  <rect class="box green" x="30" y="112" width="195" height="36" rx="8"/>
+  <text class="mid" x="127" y="135">price × 100 계산</text>
+  <rect class="box green" x="30" y="160" width="195" height="36" rx="8"/>
+  <text class="mid" x="127" y="183">price × r + 1 계산</text>
+  <text class="t-s mid" x="127" y="222">줄마다 명령이 그대로</text>
+  <text class="t-s mid" x="127" y="241">느리지만 따라가기 쉽다</text>
+
+  <text class="t-s t-b mid" x="380" y="46">소스 코드</text>
+  <rect class="box blue" x="275" y="64" width="210" height="36" rx="8"/>
+  <text class="t-mono mid" x="380" y="87">r = 2 * 3</text>
+  <rect class="box blue" x="275" y="112" width="210" height="36" rx="8"/>
+  <text class="t-mono mid" x="380" y="135">tmp = price * 100</text>
+  <rect class="box blue" x="275" y="160" width="210" height="36" rx="8"/>
+  <text class="t-mono mid" x="380" y="183">total = price * r + 1</text>
+
+  <path class="ln thin" d="M270 82 H233" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M270 130 H233" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M270 178 H233" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M490 82 H527" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M490 130 H527" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M490 178 H527" marker-end="url(#ah)"/>
+
+  <rect class="panel" x="525" y="16" width="215" height="238" rx="16"/>
+  <text class="t-h mid" x="632" y="46">릴리스 빌드</text>
+  <rect class="ghost dash" x="535" y="64" width="195" height="36" rx="8"/>
+  <text class="t-s mid" x="632" y="87">미리 계산해 둠: r = 6</text>
+  <rect class="ghost dash" x="535" y="112" width="195" height="36" rx="8"/>
+  <text class="t-s mid" x="632" y="135">쓰이지 않아 삭제</text>
+  <rect class="box green" x="535" y="160" width="195" height="36" rx="8"/>
+  <text class="mid" x="632" y="183">price × 6 + 1 계산</text>
+  <text class="t-s mid" x="632" y="222">명령이 줄어 빠르다</text>
+  <text class="t-s mid" x="632" y="241">줄과 일대일이 아니다</text>
+</svg></div><figcaption><b>그림 4-10</b>같은 세 줄을 두 가지 모드로 빌드한 모습. 최적화는 미리 계산할 수 있는 것을 계산해 두고, 쓰이지 않는 계산을 지웁니다.</figcaption></figure>
+<p>최적화를 거의 하지 않고 만든 결과물을 <strong>디버그 빌드</strong>, 최적화를 켜고 만든 결과물을 <strong>릴리스 빌드</strong>라고 합니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>비교할 점</th>
+<th>디버그 빌드</th>
+<th>릴리스 빌드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>실행 속도</td>
+<td>느림</td>
+<td>빠름</td>
+</tr>
+<tr>
+<td>소스 코드와의 대응</td>
+<td>줄마다 그대로</td>
+<td>순서가 바뀌고 사라지기도 함</td>
+</tr>
+<tr>
+<td>쓰는 때</td>
+<td>개발하며 원인을 찾을 때</td>
+<td>사용자에게 내보낼 때</td>
+</tr>
+</tbody>
+</table></div>
+<p>디버그 빌드에는 보통 "기계어의 이 위치는 소스 코드의 몇 번째 줄"이라는 대응표인 <strong>디버그 정보</strong>도 들어갑니다. 덕분에 프로그램을 한 줄씩 멈춰 가며 살펴볼 수 있습니다. 이 방법은 <a href="ch12.html">12장</a>에서 다룹니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 성능은 릴리스 빌드에서 잽니다</div>
+<p>디버그 빌드의 속도는 사용자가 겪을 속도가 아닙니다. 느리다고 곧장 코드를 뜯어고치지 말고 릴리스 빌드로 다시 재 보세요. 릴리스 빌드에서만 나타나는 버그도 있으므로, 내보내기 전의 마지막 확인도 릴리스 빌드로 합니다.</p>
+</div>
+<p>빌드를 자동으로 되풀이하는 방법은 <a href="ch20.html">20장</a>에서 다룹니다.</p>
+</section>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>컴파일러 / 인터프리터</td>
+<td>미리 통째로 번역해 둠 / 실행하면서 그때그때 옮김</td>
+</tr>
+<tr>
+<td>컴파일 타임 / 런타임</td>
+<td>번역하는 시점 / 실행 중인 시점</td>
+</tr>
+<tr>
+<td>컴파일 오류 / 링크 오류</td>
+<td>내 코드의 문법이나 타입이 틀림 / 불러 쓸 코드의 본체를 못 찾음</td>
+</tr>
+<tr>
+<td>정적 링크 / 동적 링크</td>
+<td>라이브러리를 실행 파일에 넣어 둠 / 실행할 때 찾아서 이음</td>
+</tr>
+<tr>
+<td>라이브러리 / API</td>
+<td>가져다 쓰는 코드 실물 / 그 코드를 부르는 약속</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 내 맥에서는 되던 프로그램이 서버에서는 켜지지도 않는다</div>
+<p>사진 크기를 줄여 주는 Python 프로그램을 AI와 함께 만들었습니다. 내 맥북에서는 잘 돌았는데, 리눅스 서버에 폴더째 복사해 실행하니 시작하자마자 오류를 내고 꺼집니다.</p>
+<ol type="1">
+<li><strong>오류 메시지에서 단계를 가립니다.</strong> 문법 오류도 계산 중의 오류도 아닙니다. 이미지 라이브러리를 불러오는 <code>import</code> 줄에서 멈췄습니다. 필요한 것을 <strong>불러오지 못한</strong> 오류입니다.</li>
+<li><strong>두 컴퓨터의 빌드 대상을 비교합니다.</strong> 터미널에서 <code>uname -sm</code>을 실행하니 맥북은 <code>Darwin arm64</code>, 서버는 <code>Linux x86_64</code>입니다. 운영체제도 CPU도 다릅니다.</li>
+<li><strong>복사해 온 폴더 속의 번역본을 의심합니다.</strong> 이미지 라이브러리는 속도를 위해 미리 컴파일한 부분을 품고 있습니다. 프로젝트 안의 라이브러리 폴더에는 맥에서 설치한 맥, ARM64용 번역본이 들어 있었고, 그것까지 통째로 서버에 복사한 것입니다.</li>
+<li><strong>대상 컴퓨터에서 다시 설치합니다.</strong> 복사해 온 라이브러리 폴더를 지우고, 서버에서 의존성을 새로 설치해 리눅스, x86-64용 번역본을 받습니다.</li>
+<li><strong>확인합니다.</strong> 설치부터 실행까지 다시 해 보고, 사진 한 장이 실제로 변환되는지 봅니다.</li>
+</ol>
+<p>소스 코드는 어디든 가져갈 수 있지만 <strong>번역본은 대상을 가립니다.</strong> "내 컴퓨터에서는 되는데"라는 말이 나오면 코드보다 먼저 운영체제, CPU, 런타임 버전, 설치된 라이브러리를 비교하세요.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li>CPU는 <strong>기계어</strong>만 실행합니다. 사람이 쓴 <strong>소스 코드</strong>는 반드시 번역을 거칩니다.</li>
+<li><strong>컴파일러</strong>는 미리 통째로 번역하는 번역가, <strong>인터프리터</strong>는 실행하면서 옮기는 통역사입니다. <strong>바이트코드</strong>와 <strong>JIT</strong>는 둘을 섞은 방식입니다.</li>
+<li>컴파일은 토큰 나누기 → 구문 트리 세우기 → 뜻 검사 → 기계어 쓰기 순서로 진행됩니다.</li>
+<li>오류는 <strong>어느 단계에서 났는지</strong>부터 가립니다. 문법, 타입, 링크, 로딩, 실행 중 오류는 고칠 곳이 서로 다릅니다.</li>
+<li><strong>링크</strong>는 내 코드와 라이브러리를 잇는 일입니다. 동적 링크한 라이브러리와 <strong>런타임</strong>은 실행하는 컴퓨터에도 있어야 합니다.</li>
+<li>번역본은 <strong>빌드 대상</strong>(운영체제와 CPU)마다 따로 만들고, 성능은 <strong>릴리스 빌드</strong>에서 잽니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>200줄짜리 Python 파일의 150번째 줄에 닫지 않은 괄호가 있습니다. 이 파일을 실행하면 10번째 줄의 <code>print</code>는 출력될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>출력되지 않습니다. 문법 오류는 실행 전에 파일 전체의 구조를 세우는 단계에서 걸립니다. 트리를 만들지 못했으므로 한 줄도 실행되지 않습니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>C 프로그램을 빌드하는데 컴파일은 끝났고 마지막에 <code>undefined reference to `resize'</code>라는 오류가 났습니다. AI가 <code>resize</code>를 부르는 줄의 문법을 계속 고치고 있습니다. 방향이 맞을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>맞지 않습니다. 이것은 링크 오류입니다. 부르는 쪽의 문법은 이미 통과했고, <code>resize</code>의 본체를 찾지 못한 것입니다. 그 함수가 든 파일이나 라이브러리가 빌드에 포함되었는지 확인해야 합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>직접 만든 윈도우 프로그램을 친구에게 보냈더니 "○○.dll을 찾을 수 없습니다"라며 실행되지 않습니다. 내 PC에서는 잘 됩니다. 원인과 해결 방법을 말해 보세요.</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>동적 링크한 라이브러리가 친구 PC에 없습니다. 내 PC에는 개발 도구와 함께 설치되어 있었던 것입니다. 그 라이브러리나 런타임을 함께 배포하거나, 정적 링크로 실행 파일 안에 넣습니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>게임을 디버그 빌드로 실행했더니 화면이 1초에 25번밖에 갱신되지 않습니다. 곧바로 코드를 뜯어고쳐야 할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>먼저 릴리스 빌드로 다시 재야 합니다. 디버그 빌드는 최적화를 거의 하지 않아 느린 것이 정상입니다. 사용자가 겪는 속도는 릴리스 빌드의 속도입니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>AI 코딩 도구가 "타입 오류 0건, 빌드 성공"이라고 보고했습니다. 장바구니 합계 기능이 올바르게 동작한다고 믿어도 될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>아직 믿을 수 없습니다. 빌드 성공은 문법과 타입이 맞아 번역이 가능했다는 뜻입니다. 0으로 나누는 경우나 더하기를 빼기로 쓴 실수는 어떤 검사도 통과합니다. 실제 값으로 실행해 결과를 확인해야 합니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>빌드 오류나 실행 오류를 고쳐 달라고 할 때는 오류 전문과 함께 <strong>실행 환경</strong>을 알려 주고, 고치기 전에 <strong>어느 단계의 오류인지부터</strong> 말하게 하세요.</p>
+<blockquote>
+<p>아래 오류를 고쳐 줘. 먼저 이 오류가 문법, 타입 검사, 링크, 라이브러리 로딩, 실행 중 가운데 어느 단계에서 났는지와 그렇게 판단한 근거를 말해 줘. 실행 환경은 Ubuntu 22.04, x86-64, Python 3.11이야. 타입 검사를 끄거나 오류를 무시하는 방법은 쓰지 마. 고친 다음에는 새로 만든 환경에서 설치부터 실행까지 다시 해 보고, 사용한 명령과 출력 결과를 보여 줘.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: 단계 분류가 오류 메시지와 맞는가, 검사를 꺼서 오류만 안 보이게 하지 않았는가, 내가 알려 준 환경에서 실제로 실행했는가, "빌드 성공"이 아니라 <strong>실행 결과</strong>를 보여 주는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>소스 코드<small>source code</small></dt>
+<dd>
+사람이 프로그래밍 언어로 읽고 쓰는 프로그램의 원문.
+</dd>
+<dt>기계어<small>machine code</small></dt>
+<dd>
+CPU가 직접 실행하는 명령을 숫자로 적은 것. CPU 종류마다 다르다.
+</dd>
+<dt>컴파일러<small>compiler</small></dt>
+<dd>
+소스 코드를 실행 전에 통째로 기계어 등으로 번역하는 프로그램.
+</dd>
+<dt>인터프리터<small>interpreter</small></dt>
+<dd>
+번역본을 만들지 않고, 실행하면서 코드를 읽어 그 뜻대로 움직이는 프로그램.
+</dd>
+<dt>바이트코드<small>bytecode</small></dt>
+<dd>
+어느 CPU의 기계어도 아닌 중간 표기. 가상 머신이 읽어 실행한다.
+</dd>
+<dt>가상 머신<small>VM, virtual machine</small></dt>
+<dd>
+바이트코드를 실행하는 프로그램. 소프트웨어로 흉내 낸 CPU.
+</dd>
+<dt>JIT 컴파일<small>just-in-time compilation</small></dt>
+<dd>
+실행하는 도중에 자주 쓰이는 부분을 기계어로 번역해 두는 방식.
+</dd>
+<dt>구문 트리<small>AST, abstract syntax tree</small></dt>
+<dd>
+코드의 낱말이 어떻게 묶이는지를 나무 모양으로 나타낸 구조.
+</dd>
+<dt>타입 검사<small>type checking</small></dt>
+<dd>
+값의 종류(타입)가 그 자리에 맞는지 확인하는 일.
+</dd>
+<dt>라이브러리<small>library</small></dt>
+<dd>
+가져다 쓰도록 미리 만들어 묶어 둔 코드.
+</dd>
+<dt>링크<small>link</small></dt>
+<dd>
+번역된 코드 조각과 라이브러리를 이어 하나의 실행 파일로 묶는 일.
+</dd>
+<dt>동적 링크<small>dynamic linking</small></dt>
+<dd>
+라이브러리를 실행 파일에 넣지 않고 실행할 때 찾아 잇는 방식. 미리 넣어 두면 정적 링크.
+</dd>
+<dt>런타임<small>runtime</small></dt>
+<dd>
+프로그램이 실행 중인 시점. 또는 실행을 곁에서 돕는 프로그램.
+</dd>
+<dt>빌드 대상<small>build target</small></dt>
+<dd>
+결과물이 실행될 운영체제와 CPU의 조합.
+</dd>
+<dt>API<small>Application Programming Interface</small></dt>
+<dd>
+코드의 기능을 부르는 약속. 이름, 넣을 값, 돌려받는 값을 정한다.
+</dd>
+<dt>의존성<small>dependency</small></dt>
+<dd>
+내 프로그램이 동작하려면 있어야 하는 외부 코드.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/library/ast.html" rel="noopener" target="_blank">Python — ast</a> — 소스 코드를 구문 트리로 바꿔 들여다보는 도구입니다. <code>ast.parse</code>와 <code>ast.dump</code> 부분만 읽어도 됩니다.</li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/2/basic-types.html" rel="noopener" target="_blank">TypeScript — The Basics</a> — 실행 전 타입 검사와, 번역할 때 타입 표기가 지워지는 과정을 설명합니다.</li>
+<li><a href="https://learn.microsoft.com/ko-kr/dotnet/standard/managed-execution-process" rel="noopener" target="_blank">Microsoft Learn — 관리형 실행 프로세스</a> — 소스 코드가 중간 코드를 거쳐 JIT로 기계어가 되는 흐름을 .NET의 예로 보여 줍니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch03.html"><small>← 이전 · 3장</small><b>운영체제와 프로세스</b></a><a class="next" href="ch05.html"><small>다음 · 5장 →</small><b>터미널과 셸</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#machine-code">요리사는 한 가지 말만 알아듣습니다</a><a href="#two-ways">번역가와 통역사: 컴파일러와 인터프리터</a><a href="#bytecode">둘을 섞은 길: 바이트코드, 가상 머신, JIT</a><a href="#stages">번역가의 작업 순서: 컴파일의 네 단계</a><a href="#errors">오류는 언제 드러날까</a><a href="#link">링크: 남이 만든 코드와 이어 붙이기</a><a href="#runtime">실행 버튼을 누른 뒤: 로딩과 런타임</a><a href="#build">같은 코드, 다른 결과물: 빌드 대상과 빌드 모드</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

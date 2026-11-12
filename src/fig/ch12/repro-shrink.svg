@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 292" xmlns="http://www.w3.org/2000/svg">
+  <title>막연한 신고에서 조건을 하나씩 빼 보면 실패에 꼭 필요한 조건만 남은 최소 재현이 된다</title>
+
+  <text class="t-s t-b" x="20" y="34">처음 받은 신고</text>
+  <text class="t-s t-b" x="230" y="34">조건을 하나씩 빼고 다시 해 본다</text>
+  <text class="t-s t-b" x="550" y="34">남은 것: 최소 재현</text>
+
+  <rect class="box gray" x="20" y="48" width="180" height="184" rx="14"/>
+  <use href="#i-chat" x="86" y="66" width="48" height="48" class="ic gray"/>
+  <text class="t-l mid" x="110" y="146">“저장이 안 돼요”</text>
+  <text class="t-s mid" x="110" y="176">조건이 뒤섞여 있어</text>
+  <text class="t-s mid" x="110" y="196">용의자가 너무 많다</text>
+
+  <path class="ln" d="M205 140 H223" marker-end="url(#ah)"/>
+
+  <rect class="box gray" x="230" y="48" width="290" height="40" rx="10"/>
+  <text class="tc-muted" x="244" y="73">크롬 브라우저</text>
+  <text class="t-s end" x="508" y="73">바꿔도 실패 · 무관</text>
+
+  <rect class="box gray" x="230" y="96" width="290" height="40" rx="10"/>
+  <text class="tc-muted" x="244" y="121">사진 3장 첨부</text>
+  <text class="t-s end" x="508" y="121">빼도 실패 · 무관</text>
+
+  <rect class="box gray" x="230" y="144" width="290" height="40" rx="10"/>
+  <text class="tc-muted" x="244" y="169">본문 2,000자</text>
+  <text class="t-s end" x="508" y="169">줄여도 실패 · 무관</text>
+
+  <rect class="box warm" x="230" y="192" width="290" height="40" rx="10"/>
+  <text class="t-b" x="244" y="217">제목이 비어 있음</text>
+  <text class="t-s t-b end tc-warm" x="508" y="217">채우면 성공 · 필요</text>
+
+  <path class="ln" d="M525 140 H543" marker-end="url(#ah)"/>
+
+  <rect class="box green" x="550" y="48" width="190" height="184" rx="14"/>
+  <text class="t-s" x="566" y="76">1. 새 글 쓰기를 연다</text>
+  <text class="t-s" x="566" y="100">2. 제목을 비워 둔다</text>
+  <text class="t-s" x="566" y="124">3. 저장을 누른다</text>
+  <path class="ln thin muted" d="M566 142 H724"/>
+  <text class="t-s" x="566" y="168">기대</text>
+  <text class="t-b tc-green" x="606" y="169">저장됨</text>
+  <text class="t-s" x="566" y="200">실제</text>
+  <text class="t-b tc-red" x="606" y="201">500 오류</text>
+
+  <text class="t-s mid" x="380" y="268">조건이 줄어들수록 살펴볼 코드도, 용의자도 줄어든다</text>
+</svg>

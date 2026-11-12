@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 304" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 프로그램을 두 번 실행하면 서로 격리된 프로세스 두 개가 생긴다</title>
+  <rect class="box warm" x="20" y="92" width="170" height="120" rx="14"/>
+  <use href="#i-file" x="83" y="104" width="44" height="44" class="ic warm"/>
+  <text class="t-l mid" x="105" y="172">메모장</text>
+  <text class="t-s mid" x="105" y="194">프로그램 = 창고의 파일</text>
+
+  <path class="ln warm" d="M196 132 L282 82" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M196 172 L282 222" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b tc-warm mid" x="238" y="157">두 번 실행</text>
+
+  <rect class="box blue" x="290" y="16" width="450" height="116" rx="14"/>
+  <text class="t-l" x="308" y="44">프로세스 A</text>
+  <text class="t-mono" x="410" y="44">PID 4321</text>
+  <rect class="box green" x="306" y="58" width="140" height="58" rx="8"/>
+  <text class="t-xs" x="318" y="78">자기 메모리</text>
+  <text class="t-b" x="318" y="101">장보기 목록</text>
+  <rect class="box" x="456" y="58" width="130" height="58" rx="8"/>
+  <text class="t-xs" x="468" y="78">진행 메모</text>
+  <text class="t-b" x="468" y="101">37번째 줄</text>
+  <rect class="box warm" x="596" y="58" width="130" height="58" rx="8"/>
+  <text class="t-xs" x="608" y="78">열어 둔 파일</text>
+  <text class="t-b" x="608" y="101">장보기.txt</text>
+
+  <use href="#i-lock" x="396" y="138" width="28" height="28" class="ic red"/>
+  <text class="t-s t-b tc-red" x="432" y="157">칸막이 — 서로 들여다볼 수 없음</text>
+
+  <rect class="box blue" x="290" y="172" width="450" height="116" rx="14"/>
+  <text class="t-l" x="308" y="200">프로세스 B</text>
+  <text class="t-mono" x="410" y="200">PID 4322</text>
+  <rect class="box green" x="306" y="214" width="140" height="58" rx="8"/>
+  <text class="t-xs" x="318" y="234">자기 메모리</text>
+  <text class="t-b" x="318" y="257">일기 초안</text>
+  <rect class="box" x="456" y="214" width="130" height="58" rx="8"/>
+  <text class="t-xs" x="468" y="234">진행 메모</text>
+  <text class="t-b" x="468" y="257">5번째 줄</text>
+  <rect class="box warm" x="596" y="214" width="130" height="58" rx="8"/>
+  <text class="t-xs" x="608" y="234">열어 둔 파일</text>
+  <text class="t-b" x="608" y="257">일기.txt</text>
+</svg>

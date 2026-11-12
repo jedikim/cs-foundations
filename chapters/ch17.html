@@ -1,0 +1,1334 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>17장 데이터베이스 — 개발의 기초</title>
+<meta name="description" content="안전하게 저장하고 빠르게 찾기">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch17" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html" aria-current="page"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">4부 연결되는 시스템 › <b>17장 데이터베이스</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-purple">
+<div class="ch-kicker"><span class="ch-no">17장</span><span class="part">4부 · 연결되는 시스템</span></div>
+<h1>데이터베이스</h1>
+<p class="ch-sub">안전하게 저장하고 빠르게 찾기</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 40분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch08.html">8장 자료구조</a><a class="chip" href="ch11.html">11장 동시성과 비동기</a></div>
+</header><div class="lead">
+<p>주문을 파일 하나에 저장하던 가게가 커지면 이상한 일이 생깁니다. 동시에 들어온 두 주문 중 하나가 사라지고, 저장하던 중에 서버가 꺼져 파일이 깨지고, 검색이 몇 초씩 걸립니다. 이 세 가지 사고를 대신 막아 주는 프로그램이 <strong>데이터베이스</strong>입니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>파일 대신 데이터베이스를 쓰는 이유를 세 가지로 말할 수 있습니다.</li>
+<li>표 두 개를 키로 잇고, SQL로 원하는 행을 꺼낼 수 있습니다.</li>
+<li>조회가 느릴 때 인덱스, 실행 계획, 쿼리 횟수 중 어디를 볼지 압니다.</li>
+<li>트랜잭션, 잠금, 백업이 각각 어떤 사고를 막는지 구분할 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="why">
+<h2><span class="sec-n">17.1</span>파일 하나로는 왜 안 될까<a aria-label="이 절의 링크" class="anchor" href="#why">#</a></h2>
+<p>가게의 주문을 <code>orders.json</code> 파일 하나에 적는다고 합시다. 손님이 늘면 세 가지 사고가 납니다.</p>
+<ol type="1">
+<li><strong>여럿이 동시에 고칩니다.</strong> 두 요청이 같은 파일을 각자 읽어서 고친 뒤 저장하면, 나중에 저장한 쪽이 먼저 저장한 쪽을 덮어씁니다.</li>
+<li><strong>쓰다가 꺼집니다.</strong> 파일을 반쯤 썼을 때 전원이 나가면 앞부분만 새 내용인 깨진 파일이 남습니다.</li>
+<li><strong>찾기가 느립니다.</strong> 주문 100만 건에서 한 사람의 주문을 찾으려면 처음부터 끝까지 읽어야 합니다.</li>
+</ol>
+<div class="callout analogy"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bulb"></use></svg>비유로 이해하기 · 은행 창구</div>
+<p>은행은 같은 문제를 오래전에 풀었습니다. 손님은 금고 속 장부를 직접 만지지 못합니다. 원하는 일을 신청서에 적어 내면 <strong>창구 직원</strong>이 장부를 대신 고칩니다. 직원은 손님을 줄 세우고, 처리하다 만 일은 없던 일로 되돌리고, 찾아보기를 두어 원하는 쪽을 바로 폅니다.</p>
+</div>
+<figure class="fig" id="fig-bank-map"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 430" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>은행의 손님·신청서·창구 직원·금고 속 장부가 앱·SQL·DBMS·디스크의 표에 대응한다</title>
+  <text class="t-s t-b" x="20" y="26">은행에서는</text>
+
+  <rect class="box yellow" x="20" y="38" width="156" height="112" rx="14"/>
+  <use href="#i-user" x="76" y="46" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="98" y="116">손님</text>
+  <text class="t-s mid" x="98" y="137">돈을 맡기고 찾는다</text>
+
+  <rect class="box yellow" x="208" y="38" width="156" height="112" rx="14"/>
+  <use href="#i-file" x="264" y="46" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="286" y="116">신청서</text>
+  <text class="t-s mid" x="286" y="137">원하는 일만 적는다</text>
+
+  <rect class="box yellow" x="396" y="38" width="156" height="112" rx="14"/>
+  <use href="#i-idcard" x="452" y="46" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="474" y="116">창구 직원</text>
+  <text class="t-s mid" x="474" y="137">장부를 혼자 다룬다</text>
+
+  <rect class="box yellow" x="584" y="38" width="156" height="112" rx="14"/>
+  <use href="#i-book" x="640" y="46" width="44" height="44" class="ic yellow"/>
+  <text class="t-l mid" x="662" y="116">금고 속 장부</text>
+  <text class="t-s mid" x="662" y="137">손님은 손대지 못한다</text>
+
+  <path class="ln" d="M180 94 H200" marker-end="url(#ah)"/>
+  <path class="ln" d="M368 94 H388" marker-end="url(#ah)"/>
+  <path class="ln" d="M556 94 H576" marker-end="url(#ah)"/>
+
+  <path class="ln muted" d="M98 156 V180" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M286 156 V180" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M474 156 V180" marker-end="url(#ah-muted)"/>
+  <path class="ln muted" d="M662 156 V180" marker-end="url(#ah-muted)"/>
+
+  <text class="t-s t-b" x="20" y="204">데이터베이스에서는</text>
+
+  <rect class="box blue" x="20" y="214" width="156" height="112" rx="14"/>
+  <use href="#i-laptop" x="76" y="222" width="44" height="44" class="ic blue"/>
+  <text class="t-l mid" x="98" y="292">내 앱</text>
+  <text class="t-s mid" x="98" y="313">데이터를 읽고 쓴다</text>
+
+  <rect class="box blue" x="208" y="214" width="156" height="112" rx="14"/>
+  <use href="#i-terminal" x="264" y="222" width="44" height="44" class="ic blue"/>
+  <text class="t-l mid" x="286" y="292">SQL</text>
+  <text class="t-s mid" x="286" y="313">요청을 적은 문장</text>
+
+  <rect class="box green" x="396" y="214" width="156" height="112" rx="14"/>
+  <use href="#i-db" x="452" y="222" width="44" height="44" class="ic green"/>
+  <text class="t-l mid" x="474" y="292">DBMS</text>
+  <text class="t-s mid" x="474" y="313">PostgreSQL, SQLite 등</text>
+
+  <rect class="box warm" x="584" y="214" width="156" height="112" rx="14"/>
+  <use href="#i-grid" x="640" y="222" width="44" height="44" class="ic warm"/>
+  <text class="t-l mid" x="662" y="292">디스크의 표</text>
+  <text class="t-s mid" x="662" y="313">전원을 꺼도 남는다</text>
+
+  <path class="ln blue" d="M180 270 H200" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M368 270 H388" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M556 270 H576" marker-end="url(#ah-green)"/>
+
+  <text class="t-s t-b" x="20" y="358">창구 직원(DBMS)이 대신 책임지는 세 가지</text>
+
+  <rect class="box" x="20" y="370" width="226" height="48" rx="10"/>
+  <circle class="badge green" cx="42" cy="394" r="11"/><text class="badge-t" x="42" y="398.500">1</text>
+  <text class="t-b" x="62" y="390">줄을 세운다</text>
+  <text class="t-s" x="62" y="409">동시에 와도 섞이지 않게</text>
+
+  <rect class="box" x="267" y="370" width="226" height="48" rx="10"/>
+  <circle class="badge green" cx="289" cy="394" r="11"/><text class="badge-t" x="289" y="398.500">2</text>
+  <text class="t-b" x="309" y="390">하다 만 일은 되돌린다</text>
+  <text class="t-s" x="309" y="409">도중에 꺼져도 반쪽은 없게</text>
+
+  <rect class="box" x="514" y="370" width="226" height="48" rx="10"/>
+  <circle class="badge green" cx="536" cy="394" r="11"/><text class="badge-t" x="536" y="398.500">3</text>
+  <text class="t-b" x="556" y="390">찾아보기를 둔다</text>
+  <text class="t-s" x="556" y="409">수백만 줄에서도 바로 찾게</text>
+</svg></div><figcaption><b>그림 17-1</b>은행과 데이터베이스의 대응. 앱은 장부를 직접 고치지 않고 창구 직원에게 요청합니다.</figcaption></figure>
+<p><strong>데이터베이스</strong>(database, 줄여서 DB)는 이 장부 묶음입니다. 장부를 지키는 창구 직원 프로그램은 <strong>DBMS</strong>(Database Management System, 데이터베이스 관리 시스템)라고 하며, PostgreSQL, MySQL, SQLite가 대표적입니다. <a href="ch01.html">1장</a>의 주방으로 치면 창고 앞에 창구를 하나 차린 셈입니다.</p>
+<p>앱은 <strong>SQL</strong>(Structured Query Language)이라는 언어로 쓴 신청서를 DBMS에 보냅니다. 이 장에서는 데이터를 표 모양으로 담는 <strong>관계형 데이터베이스</strong>(relational database)를 다룹니다.</p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>혼자 쓰는 설정은 파일이면 충분합니다. 작은 앱은 파일 하나에 통째로 담기는 DB인 SQLite로 시작해도 됩니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>사진과 동영상은 어디에 둘까: 객체 저장소</summary><div class="deep-body">
+<p>사진이나 영상처럼 덩치 큰 파일은 DB에 넣지 않고 <strong>객체 저장소</strong>(object storage)에 둡니다. 이름표(키) 하나에 파일 하나를 통째로 맡기는 큰 보관함입니다. DB에는 그 파일의 주소만 적습니다.</p>
+<p>두 곳에 쓰는 일은 한 묶음으로 처리되지 않습니다. 파일만 올라가고 DB 기록이 실패하면 주인 없는 파일이 남습니다. 그래서 파일을 먼저 올린 뒤 DB에 주소를 적고, 주인 없는 파일은 나중에 모아 지웁니다.</p>
+</div></details>
+</section>
+<section class="level2" id="table">
+<h2><span class="sec-n">17.2</span>표, 행, 열: 칸이 정해진 장부<a aria-label="이 절의 링크" class="anchor" href="#table">#</a></h2>
+<p>장부는 아무렇게나 적는 공책이 아닙니다. 칸의 제목이 미리 인쇄되어 있습니다. DB도 데이터를 칸이 정해진 <strong>테이블</strong>(table, 표)에 담습니다.</p>
+<p>표의 세로 칸이 <strong>열</strong>(column), 가로 한 줄이 <strong>행</strong>(row)입니다. 작은 가게의 회원 표와 주문 표를 봅시다.</p>
+<figure class="fig" id="fig-two-tables"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>회원 표와 주문 표. 기본 키 id가 행을 구분하고, 주문 표의 외래 키 member_id가 회원 표의 id를 가리킨다</title>
+  <text class="t-l" x="20" y="26">회원 표 members</text>
+  <text class="t-l" x="400" y="26">주문 표 orders</text>
+
+  <text class="t-s t-b mid tc-blue" x="50" y="46">기본 키</text>
+  <text class="t-s mid" x="250" y="44">열: 같은 종류의 값</text>
+  <path class="ln thin" d="M184 54 V50 H316 V54"/>
+  <text class="t-s t-b mid tc-blue" x="435" y="46">기본 키</text>
+  <text class="t-s t-b mid tc-warm" x="520" y="46">외래 키</text>
+
+  <rect class="box blue" x="20" y="58" width="60" height="30"/>
+  <text class="t-mono t-b mid" x="50" y="78">id</text>
+  <rect class="box gray" x="80" y="58" width="100" height="30"/>
+  <text class="t-mono t-b mid" x="130" y="78">name</text>
+  <rect class="box gray" x="180" y="58" width="140" height="30"/>
+  <text class="t-mono t-b mid" x="250" y="78">phone</text>
+  <rect class="box blue" x="20" y="88" width="60" height="30"/>
+  <text class="t-mono t-b mid" x="50" y="108">1</text>
+  <rect class="box" x="80" y="88" width="100" height="30"/>
+  <text class="mid" x="130" y="108">김민지</text>
+  <rect class="box" x="180" y="88" width="140" height="30"/>
+  <text class="t-mono mid" x="250" y="108">010-1111-2222</text>
+  <rect class="box blue" x="20" y="118" width="60" height="30"/>
+  <text class="t-mono t-b mid" x="50" y="138">2</text>
+  <rect class="box" x="80" y="118" width="100" height="30"/>
+  <text class="mid" x="130" y="138">이준호</text>
+  <rect class="box" x="180" y="118" width="140" height="30"/>
+  <text class="t-mono mid" x="250" y="138">010-3333-4444</text>
+  <rect class="box blue" x="20" y="148" width="60" height="30"/>
+  <text class="t-mono t-b mid" x="50" y="168">3</text>
+  <rect class="box" x="80" y="148" width="100" height="30"/>
+  <text class="mid" x="130" y="168">박서연</text>
+  <rect class="box" x="180" y="148" width="140" height="30"/>
+  <text class="t-mono mid tc-muted" x="250" y="168">NULL</text>
+
+  <rect class="box blue" x="400" y="58" width="70" height="30"/>
+  <text class="t-mono t-b mid" x="435" y="78">id</text>
+  <rect class="box warm" x="470" y="58" width="100" height="30"/>
+  <text class="t-mono t-b mid" x="520" y="78">member_id</text>
+  <rect class="box gray" x="570" y="58" width="80" height="30"/>
+  <text class="t-mono t-b mid" x="610" y="78">item</text>
+  <rect class="box gray" x="650" y="58" width="90" height="30"/>
+  <text class="t-mono t-b mid" x="695" y="78">amount</text>
+  <rect class="box blue" x="400" y="88" width="70" height="30"/>
+  <text class="t-mono t-b mid" x="435" y="108">101</text>
+  <rect class="box warm" x="470" y="88" width="100" height="30"/>
+  <text class="t-mono t-b mid" x="520" y="108">1</text>
+  <rect class="box" x="570" y="88" width="80" height="30"/>
+  <text class="mid" x="610" y="108">키보드</text>
+  <rect class="box" x="650" y="88" width="90" height="30"/>
+  <text class="t-mono mid" x="695" y="108">45000</text>
+  <rect class="box blue" x="400" y="118" width="70" height="30"/>
+  <text class="t-mono t-b mid" x="435" y="138">102</text>
+  <rect class="box warm" x="470" y="118" width="100" height="30"/>
+  <text class="t-mono t-b mid" x="520" y="138">2</text>
+  <rect class="box" x="570" y="118" width="80" height="30"/>
+  <text class="mid" x="610" y="138">마우스</text>
+  <rect class="box" x="650" y="118" width="90" height="30"/>
+  <text class="t-mono mid" x="695" y="138">18000</text>
+  <rect class="box blue" x="400" y="148" width="70" height="30"/>
+  <text class="t-mono t-b mid" x="435" y="168">103</text>
+  <rect class="box warm" x="470" y="148" width="100" height="30"/>
+  <text class="t-mono t-b mid" x="520" y="168">1</text>
+  <rect class="box" x="570" y="148" width="80" height="30"/>
+  <text class="mid" x="610" y="168">충전기</text>
+  <rect class="box" x="650" y="148" width="90" height="30"/>
+  <text class="t-mono mid" x="695" y="168">12000</text>
+  <rect class="box blue" x="400" y="178" width="70" height="30"/>
+  <text class="t-mono t-b mid" x="435" y="198">104</text>
+  <rect class="box warm" x="470" y="178" width="100" height="30"/>
+  <text class="t-mono t-b mid" x="520" y="198">1</text>
+  <rect class="box" x="570" y="178" width="80" height="30"/>
+  <text class="mid" x="610" y="198">케이블</text>
+  <rect class="box" x="650" y="178" width="90" height="30"/>
+  <text class="t-mono mid" x="695" y="198">5000</text>
+
+  <path class="ln dash" d="M17 86 H323 V120 H17 Z"/>
+  <text class="t-s" x="331" y="108">행: 한 명</text>
+
+  <path class="ln warm" d="M520 214 V240 H50 V186" marker-end="url(#ah-warm)"/>
+  <text class="t-s mid" x="285" y="262">주문 표의 member_id 칸에는 회원 표의 id를 적는다</text>
+
+  <rect class="box red" x="20" y="292" width="720" height="42" rx="10"/>
+  <use href="#i-cross" x="32" y="299" width="28" height="28" class="ic red"/>
+  <text class="t-mono" x="70" y="318">member_id = 9</text>
+  <text x="187" y="318">인 주문 추가</text>
+  <path class="ln red" d="M292 313 H322" marker-end="url(#ah-red)"/>
+  <text class="t-b tc-red" x="336" y="318">거절</text>
+  <text class="t-s" x="378" y="318">회원 표에 9번이 없다</text>
+</svg></div><figcaption><b>그림 17-2</b>회원 표와 주문 표. 이 장 끝까지 이 두 표를 예로 씁니다.</figcaption></figure>
+<p>표에 어떤 열이 있고 각 열에 어떤 값이 들어갈 수 있는지 정한 양식을 <strong>스키마</strong>(schema)라고 합니다. 주문 표의 스키마는 이렇게 적습니다.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb1-1"><span class="kw">CREATE</span> <span class="kw">TABLE</span> orders (</span>
+<span id="cb1-2">  <span class="kw">id</span>        <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb1-3">  member_id <span class="dt">INTEGER</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> members(<span class="kw">id</span>),</span>
+<span id="cb1-4">  item      TEXT    <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb1-5">  amount    <span class="dt">INTEGER</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">CHECK</span> (amount <span class="op">&gt;=</span> <span class="dv">0</span>)</span>
+<span id="cb1-6">);</span></code></pre></div>
+<ul>
+<li><code>INTEGER</code>, <code>TEXT</code>는 <strong>타입</strong>(type)입니다. 정수 칸에 글자를 적으려 하면 직원이 신청서를 돌려보냅니다. 금액은 원 단위 정수로 둡니다. 소수는 <a href="ch02.html#float">2장</a>에서 본 것처럼 오차가 생깁니다.</li>
+<li><code>PRIMARY KEY</code>는 <strong>기본 키</strong>(primary key)입니다. 행마다 겹치지 않는 번호를 붙여 "바로 그 행"을 가리킵니다. <a href="ch08.html#map">8장</a>의 ID입니다.</li>
+<li><code>REFERENCES members(id)</code>는 <strong>외래 키</strong>(foreign key)입니다. 다른 표의 기본 키를 적어 두는 칸입니다. 회원 표에 없는 9번을 적으려 하면 거절됩니다.</li>
+<li><code>NOT NULL</code>(비워 둘 수 없음), <code>CHECK</code>(조건을 지켜야 함), <code>UNIQUE</code>(같은 값이 둘일 수 없음) 같은 규칙을 <strong>제약 조건</strong>(constraint)이라고 합니다.</li>
+</ul>
+<div class="callout tip"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>요령 · 규칙은 코드가 아니라 장부에</div>
+<p>"같은 이메일이 있는지 확인하고, 없으면 저장"을 코드로만 하면 두 요청이 동시에 확인을 통과해 둘 다 저장됩니다. <code>UNIQUE</code> 제약은 장부에 적는 순간 직원이 판정하므로 하나만 통과합니다.</p>
+</div>
+</section>
+<section class="level2" id="normalize">
+<h2><span class="sec-n">17.3</span>같은 사실은 한 곳에만: 정규화<a aria-label="이 절의 링크" class="anchor" href="#normalize">#</a></h2>
+<p>표를 왜 둘로 나눴을까요? 주문 표 하나에 이름과 전화번호까지 적으면 편할 것 같습니다. 그렇게 해 봅시다.</p>
+<figure class="fig" id="fig-one-big-table"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>주문 표 하나에 회원 이름과 전화번호까지 적으면 고칠 때, 지울 때, 넣을 때 각각 문제가 생긴다</title>
+  <text class="t-l" x="20" y="34">주문 표 하나에 전부 적으면</text>
+
+  <rect class="box gray" x="20" y="58" width="60" height="30"/>
+  <text class="t-mono t-b mid" x="50" y="78">id</text>
+  <rect class="box gray" x="80" y="58" width="80" height="30"/>
+  <text class="t-mono t-b mid" x="120" y="78">item</text>
+  <rect class="box gray" x="160" y="58" width="90" height="30"/>
+  <text class="t-mono t-b mid" x="205" y="78">name</text>
+  <rect class="box gray" x="250" y="58" width="150" height="30"/>
+  <text class="t-mono t-b mid" x="325" y="78">phone</text>
+  <rect class="box" x="20" y="88" width="60" height="30"/>
+  <text class="t-mono mid" x="50" y="108">101</text>
+  <rect class="box" x="80" y="88" width="80" height="30"/>
+  <text class="mid" x="120" y="108">키보드</text>
+  <rect class="box" x="160" y="88" width="90" height="30"/>
+  <text class="mid" x="205" y="108">김민지</text>
+  <rect class="box red" x="250" y="88" width="150" height="30"/>
+  <text class="t-mono t-b mid tc-red" x="325" y="108">010-9999-0000</text>
+  <rect class="box gray" x="20" y="118" width="60" height="30"/>
+  <text class="t-mono mid tc-muted" x="50" y="138">102</text>
+  <rect class="box gray" x="80" y="118" width="80" height="30"/>
+  <text class="mid tc-muted" x="120" y="138">마우스</text>
+  <rect class="box gray" x="160" y="118" width="90" height="30"/>
+  <text class="mid tc-muted" x="205" y="138">이준호</text>
+  <rect class="box gray" x="250" y="118" width="150" height="30"/>
+  <text class="t-mono mid tc-muted" x="325" y="138">010-3333-4444</text>
+  <rect class="box" x="20" y="148" width="60" height="30"/>
+  <text class="t-mono mid" x="50" y="168">103</text>
+  <rect class="box" x="80" y="148" width="80" height="30"/>
+  <text class="mid" x="120" y="168">충전기</text>
+  <rect class="box" x="160" y="148" width="90" height="30"/>
+  <text class="mid" x="205" y="168">김민지</text>
+  <rect class="box yellow" x="250" y="148" width="150" height="30"/>
+  <text class="t-mono mid" x="325" y="168">010-1111-2222</text>
+  <rect class="box" x="20" y="178" width="60" height="30"/>
+  <text class="t-mono mid" x="50" y="198">104</text>
+  <rect class="box" x="80" y="178" width="80" height="30"/>
+  <text class="mid" x="120" y="198">케이블</text>
+  <rect class="box" x="160" y="178" width="90" height="30"/>
+  <text class="mid" x="205" y="198">김민지</text>
+  <rect class="box yellow" x="250" y="178" width="150" height="30"/>
+  <text class="t-mono mid" x="325" y="198">010-1111-2222</text>
+
+  <rect class="ghost dash" x="20" y="216" width="60" height="30"/>
+  <rect class="ghost dash" x="80" y="216" width="80" height="30"/>
+  <rect class="ghost dash" x="160" y="216" width="90" height="30"/>
+  <rect class="ghost dash" x="250" y="216" width="150" height="30"/>
+  <text class="t-mono t-b mid tc-red" x="50" y="236">?</text>
+  <text class="t-mono t-b mid tc-red" x="120" y="236">?</text>
+  <text class="mid" x="205" y="236">박서연</text>
+  <text class="t-mono mid tc-muted" x="325" y="236">NULL</text>
+
+  <circle class="badge red" cx="418" cy="103" r="11"/><text class="badge-t" x="418" y="107.5">1</text>
+  <circle class="badge red" cx="418" cy="133" r="11"/><text class="badge-t" x="418" y="137.5">2</text>
+  <circle class="badge red" cx="418" cy="231" r="11"/><text class="badge-t" x="418" y="235.5">3</text>
+
+  <rect class="box" x="440" y="58" width="300" height="62" rx="10"/>
+  <circle class="badge red" cx="462" cy="80" r="11"/><text class="badge-t" x="462" y="84.5">1</text>
+  <text class="t-b" x="482" y="85">고칠 때 — 한 줄만 고쳤다</text>
+  <text class="t-s" x="482" y="106">민지의 번호가 두 가지. 어느 쪽이 맞을까?</text>
+  <rect class="box" x="440" y="132" width="300" height="62" rx="10"/>
+  <circle class="badge red" cx="462" cy="154" r="11"/><text class="badge-t" x="462" y="158.5">2</text>
+  <text class="t-b" x="482" y="159">지울 때 — 102번 주문 삭제</text>
+  <text class="t-s" x="482" y="180">준호의 연락처도 함께 사라진다</text>
+  <rect class="box" x="440" y="206" width="300" height="62" rx="10"/>
+  <circle class="badge red" cx="462" cy="228" r="11"/><text class="badge-t" x="462" y="232.5">3</text>
+  <text class="t-b" x="482" y="233">넣을 때 — 주문 없는 회원</text>
+  <text class="t-s" x="482" y="254">서연은 적을 줄이 없다</text>
+</svg></div><figcaption><b>그림 17-3</b>민지의 전화번호가 주문마다 되풀이됩니다. 같은 사실이 여러 곳에 있으면 고칠 때, 지울 때, 넣을 때 모두 탈이 납니다.</figcaption></figure>
+<p>민지가 번호를 바꿨는데 한 줄만 고치면 장부에는 번호가 두 가지 남습니다. 준호의 하나뿐인 주문을 지우면 준호의 연락처도 사라집니다. 아직 주문하지 않은 서연은 적을 줄조차 없습니다.</p>
+<p>원인은 하나입니다. "민지의 전화번호"라는 사실 하나가 세 군데에 적혀 있습니다. 그래서 사실마다 주인 표를 하나 정하고 표를 나눕니다. 이 일을 <strong>정규화</strong>(normalization)라고 합니다. 앞 절의 두 표가 그 결과입니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p><strong>한 가지 사실은 한 곳에만 적고, 다른 표에서는 번호(키)로 가리킵니다.</strong> 그러면 고칠 곳도 한 곳입니다.</p>
+</div>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 복사해 둬야 하는 것도 있습니다</div>
+<p>주문할 때의 배송 주소와 결제 금액은 <strong>그때의 사실</strong>입니다. 회원이 이사하거나 가격이 올라도 지난 주문은 바뀌면 안 됩니다. 이런 값은 주문 표에 따로 적어 둡니다.</p>
+</div>
+</section>
+<section class="level2" id="sql">
+<h2><span class="sec-n">17.4</span>SQL: 원하는 것만 적는 신청서<a aria-label="이 절의 링크" class="anchor" href="#sql">#</a></h2>
+<p>은행 신청서에 "금고 셋째 칸 장부의 40쪽을 펴서"라고 적지는 않습니다. <strong>무엇을 원하는지</strong>만 적고, 어떻게 찾을지는 직원이 정합니다. SQL도 그렇습니다. DB에 보내는 SQL 한 문장을 <strong>쿼리</strong>(query)라고 합니다.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><span class="kw">SELECT</span> item, amount <span class="kw">FROM</span> orders <span class="kw">WHERE</span> amount <span class="op">&gt;=</span> <span class="dv">10000</span>;</span>
+<span id="cb2-2"></span>
+<span id="cb2-3"><span class="kw">SELECT</span> member_id, <span class="fu">COUNT</span>(<span class="op">*</span>), <span class="fu">SUM</span>(amount)</span>
+<span id="cb2-4"><span class="kw">FROM</span> orders <span class="kw">GROUP</span> <span class="kw">BY</span> member_id;</span></code></pre></div>
+<p>첫 쿼리는 주문 표(<code>FROM</code>)에서 금액이 만 원 이상인 행만 걸러(<code>WHERE</code>) 상품과 금액 열을 꺼냅니다(<code>SELECT</code>). 키보드, 마우스, 충전기 세 줄이 나옵니다. 둘째 쿼리는 회원 번호가 같은 행끼리 묶어(<code>GROUP BY</code>) 묶음마다 건수와 합계를 냅니다. 1번 회원은 3건에 62000, 2번 회원은 1건에 18000입니다.</p>
+<p>주문 목록에 번호 대신 이름을 보여 주려면 두 표를 붙여야 합니다. <strong>조인</strong>(JOIN)이 그 일을 합니다.</p>
+<figure class="fig" id="fig-join-match"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 468" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>JOIN은 주문 표의 member_id와 회원 표의 id가 같은 행끼리 맞붙여 한 줄로 만든다</title>
+  <text class="t-mono" x="40" y="26">SELECT orders.item, members.name</text>
+  <text class="t-mono" x="40" y="48">FROM orders JOIN members ON members.id = orders.member_id</text>
+
+  <text class="t-s t-b" x="40" y="74">orders</text>
+  <text class="t-s t-b" x="500" y="74">members</text>
+
+  <rect class="box gray" x="40" y="82" width="60" height="30"/>
+  <text class="t-mono t-b mid" x="70" y="102">id</text>
+  <rect class="box gray" x="100" y="82" width="90" height="30"/>
+  <text class="t-mono t-b mid" x="145" y="102">item</text>
+  <rect class="box warm" x="190" y="82" width="110" height="30"/>
+  <text class="t-mono t-b mid" x="245" y="102">member_id</text>
+  <rect class="box" x="40" y="112" width="60" height="30"/>
+  <text class="t-mono mid" x="70" y="132">101</text>
+  <rect class="box" x="100" y="112" width="90" height="30"/>
+  <text class="mid" x="145" y="132">키보드</text>
+  <rect class="box warm" x="190" y="112" width="110" height="30"/>
+  <text class="t-mono t-b mid" x="245" y="132">1</text>
+  <rect class="box" x="40" y="142" width="60" height="30"/>
+  <text class="t-mono mid" x="70" y="162">102</text>
+  <rect class="box" x="100" y="142" width="90" height="30"/>
+  <text class="mid" x="145" y="162">마우스</text>
+  <rect class="box warm" x="190" y="142" width="110" height="30"/>
+  <text class="t-mono t-b mid" x="245" y="162">2</text>
+  <rect class="box" x="40" y="172" width="60" height="30"/>
+  <text class="t-mono mid" x="70" y="192">103</text>
+  <rect class="box" x="100" y="172" width="90" height="30"/>
+  <text class="mid" x="145" y="192">충전기</text>
+  <rect class="box warm" x="190" y="172" width="110" height="30"/>
+  <text class="t-mono t-b mid" x="245" y="192">1</text>
+  <rect class="box" x="40" y="202" width="60" height="30"/>
+  <text class="t-mono mid" x="70" y="222">104</text>
+  <rect class="box" x="100" y="202" width="90" height="30"/>
+  <text class="mid" x="145" y="222">케이블</text>
+  <rect class="box warm" x="190" y="202" width="110" height="30"/>
+  <text class="t-mono t-b mid" x="245" y="222">1</text>
+
+  <rect class="box blue" x="500" y="82" width="70" height="30"/>
+  <text class="t-mono t-b mid" x="535" y="102">id</text>
+  <rect class="box gray" x="570" y="82" width="110" height="30"/>
+  <text class="t-mono t-b mid" x="625" y="102">name</text>
+  <rect class="box blue" x="500" y="112" width="70" height="30"/>
+  <text class="t-mono t-b mid" x="535" y="132">1</text>
+  <rect class="box" x="570" y="112" width="110" height="30"/>
+  <text class="mid" x="625" y="132">김민지</text>
+  <rect class="box blue" x="500" y="142" width="70" height="30"/>
+  <text class="t-mono t-b mid" x="535" y="162">2</text>
+  <rect class="box" x="570" y="142" width="110" height="30"/>
+  <text class="mid" x="625" y="162">이준호</text>
+  <rect class="box blue" x="500" y="172" width="70" height="30"/>
+  <text class="t-mono t-b mid" x="535" y="192">3</text>
+  <rect class="box" x="570" y="172" width="110" height="30"/>
+  <text class="mid tc-muted" x="625" y="192">박서연</text>
+
+  <path class="ln warm" d="M304 127 H492" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M304 157 H492" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M304 187 C400 187 400 127 492 127" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M304 217 C430 217 410 127 492 127" marker-end="url(#ah-warm)"/>
+  <text class="t-s mid" x="398" y="104">번호가 같은 행끼리</text>
+  <text class="t-xs" x="500" y="222">서연은 짝이 되는 주문이 없다</text>
+
+  <path class="ln green" d="M380 246 V284" marker-end="url(#ah-green)"/>
+  <text class="t-s t-b" x="396" y="270">맞붙인 결과</text>
+
+  <rect class="box green" x="270" y="300" width="110" height="30"/>
+  <text class="t-mono t-b mid" x="325" y="320">item</text>
+  <rect class="box green" x="380" y="300" width="110" height="30"/>
+  <text class="t-mono t-b mid" x="435" y="320">name</text>
+  <rect class="box" x="270" y="330" width="110" height="30"/>
+  <text class="mid" x="325" y="350">키보드</text>
+  <rect class="box" x="380" y="330" width="110" height="30"/>
+  <text class="mid" x="435" y="350">김민지</text>
+  <rect class="box" x="270" y="360" width="110" height="30"/>
+  <text class="mid" x="325" y="380">마우스</text>
+  <rect class="box" x="380" y="360" width="110" height="30"/>
+  <text class="mid" x="435" y="380">이준호</text>
+  <rect class="box" x="270" y="390" width="110" height="30"/>
+  <text class="mid" x="325" y="410">충전기</text>
+  <rect class="box" x="380" y="390" width="110" height="30"/>
+  <text class="mid" x="435" y="410">김민지</text>
+  <rect class="box" x="270" y="420" width="110" height="30"/>
+  <text class="mid" x="325" y="440">케이블</text>
+  <rect class="box" x="380" y="420" width="110" height="30"/>
+  <text class="mid" x="435" y="440">김민지</text>
+
+  <text class="t-s" x="510" y="350">주문 4건 → 결과 4줄</text>
+  <text class="t-s" x="510" y="372">같은 회원이 여러 번 나온다</text>
+  <text class="t-s" x="510" y="394">짝이 없는 서연은 빠진다</text>
+</svg></div><figcaption><b>그림 17-4</b>JOIN은 주문 표의 member_id와 회원 표의 id가 같은 행끼리 짝지어 한 줄로 만듭니다.</figcaption></figure>
+<p><code>ON</code> 뒤에는 어느 열끼리 같아야 짝인지를 적습니다.</p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p><code>ORDER BY</code>로 정렬 기준을 적지 않으면 결과의 순서는 약속되지 않습니다. 그리고 사용자가 입력한 값은 SQL 문자열에 이어 붙이지 말고 따로 넘깁니다. 이유는 <a href="ch19.html">19장</a>에서 다룹니다.</p>
+</div>
+<section class="level3" id="null-0도-빈-글자도-아닌-모름">
+<h3>NULL: 0도 빈 글자도 아닌 "모름"</h3>
+<p>서연의 전화번호 칸은 비어 있습니다. 이 빈칸이 <strong>NULL</strong>입니다. 0이나 빈 글자가 아니라 "값을 모른다"는 표시입니다. 모르는 값은 무엇과 비교해도 답이 "모름"이고, <code>WHERE</code>는 답이 참인 행만 남깁니다.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><span class="kw">SELECT</span> name <span class="kw">FROM</span> members <span class="kw">WHERE</span> phone <span class="op">=</span> <span class="kw">NULL</span>;    <span class="co">-- 0줄</span></span>
+<span id="cb3-2"><span class="kw">SELECT</span> name <span class="kw">FROM</span> members <span class="kw">WHERE</span> phone <span class="kw">IS</span> <span class="kw">NULL</span>;   <span class="co">-- 박서연</span></span></code></pre></div>
+<p><code>phone &lt;&gt; '010-1111-2222'</code>처럼 "다르다"로 걸러도 서연은 빠집니다. 같은지 다른지 모르기 때문입니다. 빈칸은 반드시 <code>IS NULL</code>로 찾습니다.</p>
+<div class="callout try"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-terminal"></use></svg>직접 해 보기</div>
+<p>맥에는 <code>sqlite3</code>가 들어 있습니다. 터미널에서 실행해 이 장의 두 표를 만들고 JOIN과 <code>IS NULL</code>을 쳐 보세요. SQLite는 <code>PRAGMA foreign_keys = ON;</code>을 먼저 실행해야 외래 키를 검사합니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>행을 줄이지 않고 합계 붙이기: 윈도 함수</summary><div class="deep-body">
+<p><code>GROUP BY</code>는 주문 네 줄을 회원별 두 줄로 줄입니다. 네 줄을 그대로 두고 각 줄 옆에 "이 회원의 합계"를 붙이려면 <strong>윈도 함수</strong>(window function)를 씁니다. <code>SUM(amount) OVER (PARTITION BY member_id)</code>라고 적으면 민지의 주문 세 줄 옆에 모두 62000이 붙습니다. 순위나 누적 합계를 낼 때 씁니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="index">
+<h2><span class="sec-n">17.5</span>인덱스: 책 뒤의 찾아보기<a aria-label="이 절의 링크" class="anchor" href="#index">#</a></h2>
+<p>주문이 100만 건 쌓였습니다. <code>WHERE member_id = 7</code>로 회원 7의 주문을 찾으면, 준비가 없는 직원은 100만 줄을 처음부터 끝까지 넘겨 봅니다. 두꺼운 책에서 낱말 하나를 찾겠다고 첫 쪽부터 읽는 것과 같습니다.</p>
+<p>책에는 이럴 때 쓰는 <strong>찾아보기</strong>가 있습니다. 낱말이 순서대로 늘어서 있고 옆에 쪽수가 적혀 있습니다. DB의 <strong>인덱스</strong>(index)가 이것입니다. 열 하나를 골라 값을 순서대로 정렬하고, 값마다 행의 위치를 적어 둔 <strong>별도의 장부</strong>입니다.</p>
+<figure class="fig" id="fig-index-lookup"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>인덱스는 키 순서로 정렬한 찾아보기여서, 회원 7의 주문 세 건이 있는 위치로 바로 갈 수 있다</title>
+  <text class="t-l" x="60" y="30">찾아보기(인덱스)</text>
+  <text class="t-s" x="60" y="54">member_id 순으로 정렬</text>
+  <text class="t-l" x="480" y="30">주문 표</text>
+  <text class="t-s" x="480" y="54">들어온 순서대로 쌓임</text>
+
+  <rect class="box gray" x="60" y="70" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="115" y="89">member_id</text>
+  <rect class="box gray" x="170" y="70" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="210" y="89">주문 id</text>
+  <rect class="box" x="60" y="98" width="110" height="28"/>
+  <text class="t-mono mid" x="115" y="117">1</text>
+  <rect class="box" x="170" y="98" width="80" height="28"/>
+  <text class="t-mono mid" x="210" y="117">203</text>
+  <rect class="box" x="60" y="126" width="110" height="28"/>
+  <text class="t-mono mid" x="115" y="145">2</text>
+  <rect class="box" x="170" y="126" width="80" height="28"/>
+  <text class="t-mono mid" x="210" y="145">205</text>
+  <rect class="box" x="60" y="154" width="110" height="28"/>
+  <text class="t-mono mid" x="115" y="173">3</text>
+  <rect class="box" x="170" y="154" width="80" height="28"/>
+  <text class="t-mono mid" x="210" y="173">201</text>
+  <rect class="box" x="60" y="182" width="110" height="28"/>
+  <text class="t-mono mid" x="115" y="201">4</text>
+  <rect class="box" x="170" y="182" width="80" height="28"/>
+  <text class="t-mono mid" x="210" y="201">208</text>
+  <rect class="box" x="60" y="210" width="110" height="28"/>
+  <text class="t-mono mid" x="115" y="229">5</text>
+  <rect class="box" x="170" y="210" width="80" height="28"/>
+  <text class="t-mono mid" x="210" y="229">206</text>
+  <rect class="box green" x="60" y="238" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="115" y="257">7</text>
+  <rect class="box green" x="170" y="238" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="210" y="257">202</text>
+  <rect class="box green" x="60" y="266" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="115" y="285">7</text>
+  <rect class="box green" x="170" y="266" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="210" y="285">204</text>
+  <rect class="box green" x="60" y="294" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="115" y="313">7</text>
+  <rect class="box green" x="170" y="294" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="210" y="313">207</text>
+
+  <rect class="box gray" x="480" y="70" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="520" y="89">id</text>
+  <rect class="box gray" x="560" y="70" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="615" y="89">member_id</text>
+  <rect class="box" x="480" y="98" width="80" height="28"/>
+  <text class="t-mono mid" x="520" y="117">201</text>
+  <rect class="box" x="560" y="98" width="110" height="28"/>
+  <text class="t-mono mid" x="615" y="117">3</text>
+  <rect class="box green" x="480" y="126" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="520" y="145">202</text>
+  <rect class="box green" x="560" y="126" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="615" y="145">7</text>
+  <rect class="box" x="480" y="154" width="80" height="28"/>
+  <text class="t-mono mid" x="520" y="173">203</text>
+  <rect class="box" x="560" y="154" width="110" height="28"/>
+  <text class="t-mono mid" x="615" y="173">1</text>
+  <rect class="box green" x="480" y="182" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="520" y="201">204</text>
+  <rect class="box green" x="560" y="182" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="615" y="201">7</text>
+  <rect class="box" x="480" y="210" width="80" height="28"/>
+  <text class="t-mono mid" x="520" y="229">205</text>
+  <rect class="box" x="560" y="210" width="110" height="28"/>
+  <text class="t-mono mid" x="615" y="229">2</text>
+  <rect class="box" x="480" y="238" width="80" height="28"/>
+  <text class="t-mono mid" x="520" y="257">206</text>
+  <rect class="box" x="560" y="238" width="110" height="28"/>
+  <text class="t-mono mid" x="615" y="257">5</text>
+  <rect class="box green" x="480" y="266" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="520" y="285">207</text>
+  <rect class="box green" x="560" y="266" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="615" y="285">7</text>
+  <rect class="box" x="480" y="294" width="80" height="28"/>
+  <text class="t-mono mid" x="520" y="313">208</text>
+  <rect class="box" x="560" y="294" width="110" height="28"/>
+  <text class="t-mono mid" x="615" y="313">4</text>
+
+  <path class="ln green" d="M254 252 C360 252 370 140 472 140" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M254 280 C360 280 370 196 472 196" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M254 308 C360 308 370 280 472 280" marker-end="url(#ah-green)"/>
+  <text class="t-s mid" x="364" y="100">7이 모인 곳을 찾아</text>
+  <text class="t-s mid" x="364" y="119">적힌 위치로 바로 간다</text>
+
+  <rect class="box gray" x="60" y="346" width="300" height="56" rx="10"/>
+  <text class="t-b" x="76" y="370">인덱스 없이: 8줄을 모두 확인</text>
+  <text class="t-s" x="76" y="390">100만 건이면 100만 줄</text>
+  <rect class="box green" x="400" y="346" width="300" height="56" rx="10"/>
+  <text class="t-b" x="416" y="370">인덱스로: 3줄만 확인</text>
+  <text class="t-s" x="416" y="390">100만 건이어도 갈림길 서너 번</text>
+</svg></div><figcaption><b>그림 17-5</b>member_id 인덱스. 7이 모인 곳을 찾으면 주문 표의 해당 행으로 곧장 갑니다.</figcaption></figure>
+<figure class="photo"><img alt="도서관의 카드 목록 서랍. 책은 서가에 그대로 두고, 찾는 데 쓸 카드만 따로 알파벳순으로 정리했습니다. 서랍마다 'BAY – BEE'처럼 담긴 범위가 적혀 있어서 서랍 하나만 열면 됩니다." loading="lazy" src="../assets/photo/card-catalog.jpg"/><figcaption>도서관의 카드 목록 서랍. 책은 서가에 그대로 두고, 찾는 데 쓸 카드만 따로 알파벳순으로 정리했습니다. 서랍마다 'BAY – BEE'처럼 담긴 범위가 적혀 있어서 서랍 하나만 열면 됩니다.<span class="credit">사진: Marcus Gossler · CC BY-SA 3.0 · <a href="https://commons.wikimedia.org/wiki/File:Schlagwortkatalog.jpg" rel="noopener" target="_blank">Wikimedia Commons</a></span></figcaption></figure>
+<p>인덱스는 <code>CREATE INDEX idx_member ON orders (member_id);</code> 한 줄로 만듭니다. 정렬되어 있으니 <a href="ch08.html#tree">8장</a>의 트리처럼 갈림길을 따라 내려가며 찾습니다. 갈림길 하나가 수백 갈래로 나뉘는 트리(B-tree)여서, 100만 건이어도 서너 번 내려가면 닿습니다.</p>
+<p>공짜는 아닙니다. 주문 한 건을 추가하면 인덱스에도 한 줄을 끼워 넣어야 합니다. 인덱스가 다섯 개면 장부 여섯 권을 고칩니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>인덱스는 <strong>읽기를 빠르게 하는 대신 쓰기를 느리게</strong> 합니다. 자주 쓰는 조건에만 만듭니다.</p>
+</div>
+<section class="level3" id="복합-인덱스-열의-순서가-중요합니다">
+<h3>복합 인덱스: 열의 순서가 중요합니다</h3>
+<p>열 두 개를 묶은 <strong>복합 인덱스</strong>(composite index)는 전화번호부와 같습니다. 성으로 먼저 정렬하고, 성이 같으면 이름순입니다. 김씨는 한곳에 모여 있지만 이름이 민지인 사람은 책 전체에 흩어져 있습니다.</p>
+<figure class="fig" id="fig-composite-index"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>회원 번호 다음 날짜 순으로 정렬한 복합 인덱스에서 회원 7의 11월은 한 구간이지만 모든 회원의 11월은 여러 구간으로 흩어진다</title>
+  <text class="t-l" x="38" y="30">(member_id, ordered_at) 인덱스가 정렬된 모습</text>
+  <text class="t-s" x="38" y="52">먼저 회원 번호순, 같은 회원 안에서는 날짜순</text>
+
+  <circle class="badge green" cx="50" cy="86" r="11"/><text class="badge-t" x="50" y="90.5">1</text>
+  <text class="t-b" x="70" y="91">회원 7의 11월 주문</text>
+  <rect class="box gray" x="38" y="102" width="380" height="24"/>
+  <text class="t-s t-b mid" x="228" y="119">회원 7</text>
+  <rect class="box gray" x="418" y="102" width="152" height="24"/>
+  <text class="t-s t-b mid" x="494" y="119">회원 8</text>
+  <rect class="box gray" x="570" y="102" width="152" height="24"/>
+  <text class="t-s t-b mid" x="646" y="119">회원 9</text>
+  <rect class="box" x="38" y="126" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="76" y="151">10/31</text>
+  <rect class="box green" x="114" y="126" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="152" y="151">11/01</text>
+  <rect class="box green" x="190" y="126" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="228" y="151">11/15</text>
+  <rect class="box green" x="266" y="126" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="304" y="151">11/30</text>
+  <rect class="box" x="342" y="126" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="380" y="151">12/01</text>
+  <rect class="box" x="418" y="126" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="456" y="151">11/01</text>
+  <rect class="box" x="494" y="126" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="532" y="151">11/20</text>
+  <rect class="box" x="570" y="126" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="608" y="151">10/05</text>
+  <rect class="box" x="646" y="126" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="684" y="151">11/03</text>
+  <path class="ln green" d="M118 172 V179 H338 V172"/>
+  <text class="t-s t-b mid tc-green" x="228" y="198">이어진 한 구간만 읽는다</text>
+
+  <circle class="badge warm" cx="50" cy="236" r="11"/><text class="badge-t" x="50" y="240.5">2</text>
+  <text class="t-b" x="70" y="241">모든 회원의 11월 주문</text>
+  <rect class="box gray" x="38" y="252" width="380" height="24"/>
+  <text class="t-s t-b mid" x="228" y="269">회원 7</text>
+  <rect class="box gray" x="418" y="252" width="152" height="24"/>
+  <text class="t-s t-b mid" x="494" y="269">회원 8</text>
+  <rect class="box gray" x="570" y="252" width="152" height="24"/>
+  <text class="t-s t-b mid" x="646" y="269">회원 9</text>
+  <rect class="box" x="38" y="276" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="76" y="301">10/31</text>
+  <rect class="box warm" x="114" y="276" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="152" y="301">11/01</text>
+  <rect class="box warm" x="190" y="276" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="228" y="301">11/15</text>
+  <rect class="box warm" x="266" y="276" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="304" y="301">11/30</text>
+  <rect class="box" x="342" y="276" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="380" y="301">12/01</text>
+  <rect class="box warm" x="418" y="276" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="456" y="301">11/01</text>
+  <rect class="box warm" x="494" y="276" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="532" y="301">11/20</text>
+  <rect class="box" x="570" y="276" width="76" height="40"/>
+  <text class="t-mono mid tc-muted" x="608" y="301">10/05</text>
+  <rect class="box warm" x="646" y="276" width="76" height="40"/>
+  <text class="t-mono t-b mid" x="684" y="301">11/03</text>
+  <path class="ln warm" d="M118 322 V329 H338 V322"/>
+  <path class="ln warm" d="M422 322 V329 H566 V322"/>
+  <path class="ln warm" d="M650 322 V329 H718 V322"/>
+  <text class="t-s t-b mid tc-warm" x="380" y="350">회원마다 구간이 따로 있어 여러 곳을 뒤진다</text>
+</svg></div><figcaption><b>그림 17-6</b>회원 번호가 앞에 오는 인덱스에서는 한 회원의 주문이 한곳에 모입니다. 날짜만으로 찾으면 회원마다 구간을 따로 들여다봐야 합니다.</figcaption></figure>
+<details class="deep"><summary><small>한 걸음 더</small>인덱스를 더 깊이: B-tree와 LSM, 커버링·부분 인덱스</summary><div class="deep-body">
+<p>B-tree는 정렬된 쪽을 제자리에서 고칩니다. <strong>LSM 트리</strong>는 쓰기를 메모리에 모았다가 정렬된 파일로 한꺼번에 내려 적고, 파일들을 나중에 합칩니다. 쓰기가 쏟아지는 곳에 유리하지만 읽을 때 여러 파일을 봐야 할 수 있습니다.</p>
+<p>필요한 열이 인덱스에 다 들어 있으면 표를 펴 보지 않고 인덱스만으로 답합니다. 이것이 <strong>커버링 인덱스</strong>(covering index)입니다. <strong>부분 인덱스</strong>(partial index)는 "아직 처리 안 된 주문"처럼 조건에 맞는 행만 담아 크기를 줄입니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="slow">
+<h2><span class="sec-n">17.6</span>느린 조회 진단하기: 실행 계획과 N+1<a aria-label="이 절의 링크" class="anchor" href="#slow">#</a></h2>
+<p>화면이 느릴 때 물을 것은 두 가지입니다. <strong>쿼리 하나가 너무 많이 읽는가, 쿼리를 너무 여러 번 보내는가.</strong></p>
+<section class="level3" id="하나가-느릴-때-직원에게-계획을-묻습니다">
+<h3>하나가 느릴 때: 직원에게 계획을 묻습니다</h3>
+<p>쿼리 앞에 <code>EXPLAIN</code>을 붙이면 직원이 "이렇게 찾겠습니다"라는 <strong>실행 계획</strong>(query plan)을 보여 줍니다. PostgreSQL의 예입니다.</p>
+<pre class="text"><code>EXPLAIN SELECT * FROM orders WHERE member_id = 7;
+
+Seq Scan on orders  (… rows=52 …)
+  Filter: (member_id = 7)</code></pre>
+<p><code>Seq Scan</code>은 표를 처음부터 끝까지 훑는다는 뜻입니다. <code>rows=52</code>는 52줄쯤 나올 것이라는 직원의 <strong>예상</strong>입니다. 인덱스를 만들고 다시 물으면 <code>Index Scan</code>처럼 인덱스를 쓰는 계획으로 바뀝니다. 그대로 <code>Seq Scan</code>이라면 조건과 인덱스가 맞지 않는다는 신호입니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
+<p><code>EXPLAIN ANALYZE</code>는 쿼리를 <strong>실제로 실행</strong>해서 걸린 시간까지 보여 줍니다. <code>DELETE</code>나 <code>UPDATE</code>에 붙이면 정말로 지워지고 바뀝니다.</p>
+</div>
+</section>
+<section class="level3" id="여러-번-보낼-때-n1-문제">
+<h3>여러 번 보낼 때: N+1 문제</h3>
+<p>요즘은 SQL을 직접 쓰는 대신 <strong>ORM</strong>(Object-Relational Mapping, 객체 관계 매핑)을 많이 씁니다. 코드로 <code>order.member.name</code>이라고 적으면 ORM이 SQL로 바꿔 보내 줍니다. 편하지만 어느 줄이 쿼리를 보내는지 눈에 보이지 않습니다. Python 웹 프레임워크 Django의 예입니다.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1">orders <span class="op">=</span> Order.objects.<span class="bu">all</span>()[:<span class="dv">100</span>]   <span class="co"># 쿼리 1번</span></span>
+<span id="cb5-2"><span class="cf">for</span> order <span class="kw">in</span> orders:</span>
+<span id="cb5-3">    <span class="bu">print</span>(order.member.name)         <span class="co"># 돌 때마다 1번</span></span></code></pre></div>
+<p>목록을 한 번 읽고, 항목 N개마다 한 번씩 더 묻습니다. 이것이 <strong>N+1 문제</strong>입니다.</p>
+<figure class="fig" id="fig-n-plus-one"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 312" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>주문 100건의 회원 이름을 하나씩 물으면 DB를 101번 왕복하고, 회원 번호를 모아 한꺼번에 물으면 2번이면 된다</title>
+  <text class="t-s t-b" x="20" y="24">주문 100건과 주문한 회원의 이름을 한 화면에 보여 줄 때</text>
+
+  <rect class="panel" x="20" y="36" width="350" height="260" rx="14"/>
+  <text class="t-l tc-red" x="36" y="64">하나씩 묻기 (N+1)</text>
+  <rect class="f-blue" x="36" y="80" width="10" height="10" rx="2"/>
+  <text class="t-mono" x="54" y="90">SELECT … FROM orders LIMIT 100</text>
+  <rect class="f-red" x="36" y="104" width="10" height="10" rx="2"/>
+  <text class="t-mono" x="54" y="114">SELECT … FROM members WHERE id = 1</text>
+  <rect class="f-red" x="36" y="128" width="10" height="10" rx="2"/>
+  <text class="t-mono" x="54" y="138">SELECT … FROM members WHERE id = 2</text>
+  <text class="t-s" x="36" y="164">같은 모양의 질문이 98번 더 이어진다</text>
+  <rect class="f-red" x="36" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="48" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="60" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="72" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="84" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="96" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="108" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="120" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="132" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="144" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="156" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="168" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="180" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="192" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="204" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="216" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="228" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="240" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="252" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="264" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="276" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="288" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="300" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="312" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="324" y="176" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="36" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="48" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="60" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="72" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="84" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="96" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="108" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="120" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="132" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="144" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="156" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="168" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="180" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="192" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="204" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="216" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="228" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="240" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="252" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="264" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="276" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="288" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="300" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="312" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="324" y="188" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="36" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="48" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="60" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="72" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="84" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="96" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="108" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="120" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="132" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="144" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="156" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="168" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="180" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="192" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="204" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="216" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="228" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="240" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="252" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="264" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="276" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="288" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="300" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="312" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="324" y="200" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="36" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="48" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="60" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="72" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="84" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="96" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="108" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="120" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="132" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="144" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="156" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="168" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="180" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="192" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="204" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="216" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="228" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="240" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="252" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="264" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="276" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="288" y="212" width="9" height="9" rx="2"/>
+  <rect class="f-red" x="300" y="212" width="9" height="9" rx="2"/>
+  <text class="t-l" x="36" y="256">DB 왕복 101번</text>
+  <text class="t-s" x="36" y="279">왕복 한 번에 2ms라면 약 202ms</text>
+
+  <rect class="panel" x="390" y="36" width="350" height="260" rx="14"/>
+  <text class="t-l tc-green" x="406" y="64">한꺼번에 묻기</text>
+  <rect class="f-blue" x="406" y="80" width="10" height="10" rx="2"/>
+  <text class="t-mono" x="424" y="90">SELECT … FROM orders LIMIT 100</text>
+  <rect class="f-green" x="406" y="104" width="10" height="10" rx="2"/>
+  <text class="t-mono" x="424" y="114">SELECT … FROM members</text>
+  <text class="t-mono" x="424" y="136">WHERE id IN (1, 2, 3, …)</text>
+  <text class="t-s" x="424" y="164">주문 100건에 나온 회원 번호를 모아</text>
+  <text class="t-s" x="424" y="183">한 번에 묻는다</text>
+  <text class="t-l" x="406" y="256">DB 왕복 2번</text>
+  <text class="t-s" x="406" y="279">같은 조건에서 약 4ms</text>
+</svg></div><figcaption><b>그림 17-7</b>쿼리 하나하나는 빠릅니다. 느린 것은 DB까지 다녀오는 횟수입니다.</figcaption></figure>
+<p>해결책은 한꺼번에 묻는 것입니다. JOIN을 쓰거나, ORM에 "회원도 함께 가져와"라고 알려 줍니다. AI가 만든 코드에서 특히 흔하니, 화면 하나를 열 때 쿼리가 몇 번 나가는지 로그로 세어 보세요. 목록이 10개일 때보다 100개일 때 쿼리 수가 늘었다면 N+1입니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>조인의 실행 방식과 페이지 나누기</summary><div class="deep-body">
+<p>실행 계획에는 두 표를 맞붙이는 방식도 나옵니다. 한쪽 행마다 다른 쪽을 찾아보는 <strong>중첩 루프</strong>, 한쪽으로 해시 맵을 만들어 맞춰 보는 <strong>해시 조인</strong>, 양쪽을 정렬해 나란히 훑는 <strong>병합 조인</strong>이 있습니다.</p>
+<p>목록을 20개씩 끊어 볼 때 <code>OFFSET 10000</code>은 앞의 1만 줄을 읽고 버립니다. 뒤로 갈수록 느려지고, 그사이 새 글이 끼어들면 같은 글이 두 번 보입니다. <strong>커서 방식</strong>은 "마지막으로 본 글의 (작성 시각, id) 다음부터 20개"라고 묻습니다. 인덱스로 그 자리에 바로 가므로 깊은 페이지도 빠릅니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="transaction">
+<h2><span class="sec-n">17.7</span>트랜잭션: 전부 되거나, 전부 안 되거나<a aria-label="이 절의 링크" class="anchor" href="#transaction">#</a></h2>
+<p>민지가 준호에게 30,000원을 보냅니다. 장부에서는 두 줄을 고칩니다. 민지 계좌에서 빼고, 준호 계좌에 더합니다. 첫 줄만 고친 순간 서버가 꺼지면 어떻게 될까요?</p>
+<figure class="fig" id="fig-transfer"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>민지가 준호에게 30,000원을 보내는 도중 서버가 꺼지면, 트랜잭션이 없을 때는 돈이 사라지고 트랜잭션으로 묶었을 때는 처음 상태로 돌아간다</title>
+
+  <text class="t-l" x="20" y="28">트랜잭션 없이 따로따로 고치면</text>
+  <rect class="box green" x="20" y="44" width="140" height="64" rx="10"/>
+  <text x="36" y="71">민지</text>
+  <text class="t-mono t-b end" x="144" y="71">50,000</text>
+  <text x="36" y="95">준호</text>
+  <text class="t-mono t-b end" x="144" y="95">20,000</text>
+  <rect class="box warm" x="310" y="44" width="140" height="64" rx="10"/>
+  <text x="326" y="71">민지</text>
+  <text class="t-mono t-b end" x="434" y="71">20,000</text>
+  <text x="326" y="95">준호</text>
+  <text class="t-mono t-b end" x="434" y="95">20,000</text>
+  <rect class="box red" x="600" y="44" width="140" height="64" rx="10"/>
+  <text x="616" y="71">민지</text>
+  <text class="t-mono t-b end tc-red" x="724" y="71">20,000</text>
+  <text x="616" y="95">준호</text>
+  <text class="t-mono t-b end tc-red" x="724" y="95">20,000</text>
+  <path class="ln" d="M166 76 H302" marker-end="url(#ah)"/>
+  <circle class="badge blue" cx="190" cy="58" r="10"/><text class="badge-t" x="190" y="62">1</text>
+  <text class="t-s" x="206" y="62">민지 −30,000</text>
+  <path class="ln red dash" d="M456 76 H592" marker-end="url(#ah-red)"/>
+  <circle class="badge red" cx="480" cy="58" r="10"/><text class="badge-t" x="480" y="62">2</text>
+  <text class="t-s" x="496" y="62">준호 +30,000</text>
+  <text class="t-s t-b mid tc-red" x="525" y="98">실행 전에 서버 꺼짐</text>
+  <text class="t-s" x="20" y="128">합계 70,000</text>
+  <text class="t-s t-b end tc-red" x="740" y="128">합계 40,000 · 30,000원이 사라짐</text>
+
+  <text class="t-l" x="20" y="170">트랜잭션으로 묶으면</text>
+  <rect class="panel blue" x="172" y="182" width="416" height="104" rx="12"/>
+  <text class="t-s t-b mid tc-blue" x="380" y="201">BEGIN부터 COMMIT까지가 한 묶음</text>
+  <rect class="box green" x="20" y="210" width="140" height="64" rx="10"/>
+  <text x="36" y="237">민지</text>
+  <text class="t-mono t-b end" x="144" y="237">50,000</text>
+  <text x="36" y="261">준호</text>
+  <text class="t-mono t-b end" x="144" y="261">20,000</text>
+  <rect class="box warm dash" x="310" y="210" width="140" height="64" rx="10"/>
+  <text x="326" y="237">민지</text>
+  <text class="t-mono t-b end" x="434" y="237">20,000</text>
+  <text x="326" y="261">준호</text>
+  <text class="t-mono t-b end" x="434" y="261">20,000</text>
+  <rect class="box green" x="600" y="210" width="140" height="64" rx="10"/>
+  <text x="616" y="237">민지</text>
+  <text class="t-mono t-b end tc-green" x="724" y="237">50,000</text>
+  <text x="616" y="261">준호</text>
+  <text class="t-mono t-b end tc-green" x="724" y="261">20,000</text>
+  <path class="ln" d="M166 242 H302" marker-end="url(#ah)"/>
+  <circle class="badge blue" cx="190" cy="226" r="10"/><text class="badge-t" x="190" y="230">1</text>
+  <text class="t-s" x="206" y="230">민지 −30,000</text>
+  <path class="ln red dash" d="M456 242 H592" marker-end="url(#ah-red)"/>
+  <circle class="badge red" cx="480" cy="226" r="10"/><text class="badge-t" x="480" y="230">2</text>
+  <text class="t-s" x="496" y="230">서버 꺼짐</text>
+  <text class="t-mono t-b mid tc-green" x="525" y="264">ROLLBACK</text>
+  <text class="t-s" x="20" y="296">합계 70,000</text>
+  <text class="t-s t-b end tc-green" x="740" y="296">합계 70,000 · 없던 일로 돌아감</text>
+</svg></div><figcaption><b>그림 17-8</b>두 번의 수정 사이에서 멈추면 돈이 사라집니다. 트랜잭션으로 묶으면 중간 상태가 남지 않습니다.</figcaption></figure>
+<p><strong>트랜잭션</strong>(transaction)은 여러 작업을 <strong>한 건</strong>으로 묶는 방법입니다.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb6-1"><span class="cf">BEGIN</span>;</span>
+<span id="cb6-2"><span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance <span class="op">=</span> balance <span class="op">-</span> <span class="dv">30000</span> <span class="kw">WHERE</span> <span class="kw">id</span> <span class="op">=</span> <span class="dv">1</span>;</span>
+<span id="cb6-3"><span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance <span class="op">=</span> balance <span class="op">+</span> <span class="dv">30000</span> <span class="kw">WHERE</span> <span class="kw">id</span> <span class="op">=</span> <span class="dv">2</span>;</span>
+<span id="cb6-4"><span class="kw">COMMIT</span>;</span></code></pre></div>
+<p><code>BEGIN</code>으로 묶음을 열고 <code>COMMIT</code>으로 확정합니다. 이 확정이 <strong>커밋</strong>입니다. 커밋 전에 오류가 나거나 서버가 꺼지면 묶음 안의 변경은 모두 취소됩니다. 이것이 <strong>롤백</strong>(rollback)입니다.</p>
+<p>트랜잭션이 지키는 네 가지 약속을 머리글자를 따서 <strong>ACID</strong>라고 부릅니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>약속</th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>원자성 (Atomicity)</td>
+<td>전부 반영되거나 전부 취소된다</td>
+</tr>
+<tr>
+<td>일관성 (Consistency)</td>
+<td>제약 조건을 어긴 채로 끝나지 않는다</td>
+</tr>
+<tr>
+<td>격리성 (Isolation)</td>
+<td>동시에 진행해도 서로 섞이지 않는다</td>
+</tr>
+<tr>
+<td>지속성 (Durability)</td>
+<td>커밋된 것은 전원이 꺼져도 남는다</td>
+</tr>
+</tbody>
+</table></div>
+<section class="level3" id="저장했습니다의-진짜-뜻">
+<h3>"저장했습니다"의 진짜 뜻</h3>
+<p>지속성은 어떻게 지킬까요? 커밋할 때마다 장부 여러 권을 디스크에 고쳐 쓰면 너무 느립니다. 그래서 직원은 <strong>일지를 먼저 씁니다.</strong> "1번 계좌 −30000, 2번 계좌 +30000, 확정"이라고 일지 끝에 적고, 이 줄이 디스크에 닿은 것을 확인한 뒤에야 "저장했습니다"라고 답합니다. 장부 본문은 나중에 고칩니다. 도중에 꺼져도 일지를 다시 읽어 되살립니다. 이 방식을 <strong>WAL</strong>(Write-Ahead Log, 로그 먼저 쓰기)이라고 합니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 트랜잭션은 DB 안의 일만 묶습니다</div>
+<p>트랜잭션 안에서 이메일을 보내거나 외부 결제를 호출했다면, 롤백해도 그 메일과 결제는 취소되지 않습니다. 바깥으로 나가는 일은 커밋한 뒤에 합니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="concurrency">
+<h2><span class="sec-n">17.8</span>동시에 고칠 때: 격리와 잠금<a aria-label="이 절의 링크" class="anchor" href="#concurrency">#</a></h2>
+<p>재고가 1개 남은 상품을 두 사람이 동시에 삽니다. 두 요청 모두 재고가 1임을 확인하고, 주문을 만들고, 재고를 0으로 저장합니다. 주문은 2건인데 물건은 하나입니다. <a href="ch11.html#race">11장</a>의 칠판 사고가 장부에서 일어난 것으로, <strong>잃어버린 갱신</strong>(lost update)이라고 부릅니다.</p>
+<div class="callout myth"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-cross"></use></svg>흔한 오해 · 트랜잭션으로 묶었으니 동시에 들어와도 안전하다</div>
+<p>동시에 진행 중인 트랜잭션이 서로의 변경을 얼마나 볼 수 있는지는 <strong>격리 수준</strong>(isolation level)이라는 설정이 정합니다. PostgreSQL을 비롯한 많은 DB의 기본값은 "남이 커밋한 것만 보인다"는 수준이어서 위 사고를 막지 못합니다. 가장 엄격한 수준은 한 줄로 세워 처리한 것과 같은 결과를 보장하지만, 충돌하면 한쪽을 실패시킬 수 있어 다시 시도하는 코드가 필요합니다.</p>
+</div>
+<p>그래서 보통 둘 중 하나로 직접 막습니다.</p>
+<ul>
+<li><strong>비관적 잠금</strong>(pessimistic locking): 부딪힐 것이라 보고 <strong>먼저 잠급니다.</strong> <code>SELECT … FOR UPDATE</code>로 읽으면 내 트랜잭션이 끝날 때까지 다른 사람은 그 행을 고치지 못하고 기다립니다. <a href="ch11.html#lock">11장</a>의 분필입니다.</li>
+<li><strong>낙관적 잠금</strong>(optimistic locking): 드물게 부딪힐 것이라 보고 잠그지 않습니다. 대신 <strong>쓰는 순간에 조건을 확인합니다.</strong></li>
+</ul>
+<figure class="fig" id="fig-stock-race"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 500" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>재고가 1개일 때 두 구매자가 각자 읽고 저장하면 주문이 2건 생기지만, 조건을 붙인 UPDATE 한 번으로 고치면 한 명만 성공한다</title>
+  <text class="t-l tc-red" x="20" y="28">읽고 → 계산하고 → 저장하면</text>
+  <text class="t-xs end" x="740" y="28">시간 →</text>
+
+  <text class="t-b" x="20" y="67">구매자 A</text>
+  <rect class="box blue" x="120" y="40" width="145" height="44" rx="9"/>
+  <text class="t-s mid" x="192.5" y="58">재고를 읽는다</text>
+  <text class="t-mono t-b mid" x="192.5" y="76">qty = 1</text>
+  <rect class="box blue" x="430" y="40" width="145" height="44" rx="9"/>
+  <text class="t-s mid" x="502.5" y="58">0을 저장한다</text>
+  <text class="t-b mid" x="502.5" y="76">주문 생성</text>
+  <text class="t-b" x="20" y="128">재고 qty</text>
+  <rect class="box green" x="120" y="108" width="145" height="30" rx="8"/>
+  <text class="t-mono t-b mid" x="192.5" y="128">1</text>
+  <rect class="box green" x="275" y="108" width="145" height="30" rx="8"/>
+  <text class="t-mono t-b mid" x="347.5" y="128">1</text>
+  <rect class="box green" x="430" y="108" width="145" height="30" rx="8"/>
+  <text class="t-mono t-b mid" x="502.5" y="128">0</text>
+  <rect class="box green" x="585" y="108" width="145" height="30" rx="8"/>
+  <text class="t-mono t-b mid" x="657.5" y="128">0</text>
+  <text class="t-b" x="20" y="189">구매자 B</text>
+  <rect class="box warm" x="275" y="162" width="145" height="44" rx="9"/>
+  <text class="t-s mid" x="347.5" y="180">재고를 읽는다</text>
+  <text class="t-mono t-b mid" x="347.5" y="198">qty = 1</text>
+  <rect class="box warm" x="585" y="162" width="145" height="44" rx="9"/>
+  <text class="t-s mid" x="657.5" y="180">0을 저장한다</text>
+  <text class="t-b mid" x="657.5" y="198">주문 생성</text>
+  <path class="ln blue" d="M192.5 104 V90" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M502.5 88 V102" marker-end="url(#ah-blue)"/>
+  <path class="ln warm" d="M347.5 142 V156" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M657.5 158 V144" marker-end="url(#ah-warm)"/>
+  <text class="t-b tc-red" x="120" y="230">재고는 0인데 주문은 2건 — 없는 상품을 팔았다</text>
+
+  <text class="t-l tc-green" x="20" y="268">조건을 붙여 한 번에 고치면</text>
+  <text class="t-mono" x="120" y="290">UPDATE stock SET qty = qty - 1 WHERE id = 7 AND qty &gt; 0</text>
+
+  <text class="t-b" x="20" y="329">구매자 A</text>
+  <rect class="box blue" x="120" y="302" width="300" height="44" rx="9"/>
+  <text class="t-s mid" x="270" y="320">조건부 UPDATE 실행</text>
+  <text class="t-b mid" x="270" y="338">1행이 바뀜 → 주문 생성</text>
+  <text class="t-b" x="20" y="390">재고 qty</text>
+  <rect class="box green" x="120" y="370" width="300" height="30" rx="8"/>
+  <text class="t-mono t-b mid" x="270" y="390">1 → 0</text>
+  <rect class="box green" x="430" y="370" width="300" height="30" rx="8"/>
+  <text class="t-mono t-b mid" x="580" y="390">0 그대로</text>
+  <text class="t-b" x="20" y="451">구매자 B</text>
+  <rect class="box warm" x="430" y="424" width="300" height="44" rx="9"/>
+  <text class="t-s mid" x="580" y="442">조건부 UPDATE 실행</text>
+  <text class="t-b mid" x="580" y="460">0행이 바뀜 → 품절 안내</text>
+  <path class="ln blue" d="M270 350 V364" marker-end="url(#ah-blue)"/>
+  <path class="ln warm" d="M580 420 V406" marker-end="url(#ah-warm)"/>
+  <text class="t-b tc-green" x="120" y="490">재고 0, 주문 1건 — 한 명만 성공한다</text>
+</svg></div><figcaption><b>그림 17-9</b>아래쪽 UPDATE는 확인과 변경이 한 문장입니다. 바뀐 행이 0개라면 실패로 처리합니다.</figcaption></figure>
+<p><code>WHERE qty &gt; 0</code>은 "아직 남아 있을 때만 줄여라"입니다. DB는 몇 행이 바뀌었는지 알려 주며, 0이면 누가 먼저 가져간 것입니다. 글을 고칠 때는 행에 버전 번호를 두고 <code>WHERE version = 3</code>처럼 "내가 읽은 뒤로 아무도 안 고쳤을 때만"이라고 조건을 답니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>트랜잭션은 <strong>중간에 멈추는 사고</strong>를, 잠금과 조건을 붙인 UPDATE는 <strong>동시에 고치는 사고</strong>를 막습니다. 서로 다른 문제입니다.</p>
+</div>
+<section class="level3" id="커넥션-풀-창구의-수">
+<h3>커넥션 풀: 창구의 수</h3>
+<p>앱이 DB와 맺는 연결(커넥션)은 창구입니다. 새로 여는 데 시간이 걸리므로 몇 개를 미리 열어 두고 돌려 씁니다. 이 묶음이 <strong>커넥션 풀</strong>(connection pool)입니다. 창구가 10개인데 한 요청이 창구를 붙잡은 채 외부 API를 3초 기다리면, 다른 요청은 CPU가 한가해도 줄을 섭니다. 창구는 짧게 쓰고 바로 돌려줍니다. 서버 5대가 20개씩 열면 DB에는 100개가 몰린다는 것도 계산해 둡니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>읽는 사람은 기다리지 않는다: MVCC, 그리고 교착</summary><div class="deep-body">
+<p>많은 DB는 행을 고칠 때 덮어쓰지 않고 <strong>새 버전</strong>을 하나 더 만듭니다. 읽는 쪽은 자기가 시작한 시점의 버전을 봅니다. 그래서 누가 고치는 중이어도 읽기는 기다리지 않습니다. 이 방식이 <strong>MVCC</strong>(다중 버전 동시성 제어)입니다. 대신 오래 열어 둔 트랜잭션이 있으면 옛 버전을 치우지 못해 공간이 불어납니다.</p>
+<p>A가 1번 계좌를 잠그고 2번을 기다리는데 B는 2번을 잠그고 1번을 기다리면 <a href="ch11.html#deadlock">교착 상태</a>입니다. DB는 이를 알아채고 한쪽을 실패시킵니다. 앱은 실패한 트랜잭션을 <strong>처음부터</strong> 다시 실행합니다. 번호가 작은 계좌부터 잠그기로 순서를 정해 두면 애초에 생기지 않습니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="operate">
+<h2><span class="sec-n">17.9</span>운영하며 지키기: 복제, 백업, 캐시, 스키마 변경<a aria-label="이 절의 링크" class="anchor" href="#operate">#</a></h2>
+<p>서비스가 돌아가는 동안 장부를 지키려면 사본이 필요합니다. 사본은 세 종류이고 쓰임이 다릅니다.</p>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>원본은 하나입니다. <strong>사본은 언제나 원본보다 조금 늦습니다.</strong></p>
+</div>
+<section class="level3" id="복제-지금을-따라가는-사본">
+<h3>복제: 지금을 따라가는 사본</h3>
+<p><strong>복제</strong>(replication)는 원본 DB의 변경을 다른 서버가 곧바로 따라 적게 하는 것입니다. 원본이 고장 나면 복제본이 대신하고, 읽기 요청을 나눠 받기도 합니다. 다만 변경이 건너가는 데 시간이 걸립니다. 이 틈이 <strong>복제 지연</strong>(replication lag)입니다.</p>
+<figure class="fig" id="fig-replica-lag"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 312" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>닉네임을 원본 DB에 저장한 직후 복제본에서 읽으면, 변경이 아직 도착하지 않아 옛 닉네임이 보인다</title>
+  <circle class="badge" cx="172" cy="24" r="10"/><text class="badge-t" x="172" y="28.5">1</text>
+  <text class="t-mono" x="188" y="29">0.0초</text>
+  <circle class="badge" cx="326" cy="24" r="10"/><text class="badge-t" x="326" y="28.5">2</text>
+  <text class="t-mono" x="342" y="29">0.1초</text>
+  <circle class="badge" cx="480" cy="24" r="10"/><text class="badge-t" x="480" y="28.5">3</text>
+  <text class="t-mono" x="496" y="29">0.5초</text>
+  <circle class="badge" cx="634" cy="24" r="10"/><text class="badge-t" x="634" y="28.5">4</text>
+  <text class="t-mono" x="650" y="29">1.0초</text>
+
+  <text class="t-b" x="20" y="64">원본 DB</text>
+  <text class="t-s" x="20" y="82">쓰기를 받는다</text>
+  <rect class="box green" x="130" y="46" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="200" y="72">밍</text>
+  <rect class="box green" x="284" y="46" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="354" y="72">밍</text>
+  <rect class="box green" x="438" y="46" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="508" y="72">밍</text>
+  <rect class="box green" x="592" y="46" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="662" y="72">밍</text>
+
+  <text class="t-b" x="20" y="146">민지의 앱</text>
+  <text class="t-s" x="20" y="164">닉네임 민지 → 밍</text>
+  <rect class="box blue" x="130" y="124" width="140" height="56" rx="9"/>
+  <text class="t-s mid" x="200" y="146">밍으로 저장</text>
+  <text class="t-b mid" x="200" y="167">저장 완료</text>
+  <rect class="box red" x="284" y="124" width="140" height="56" rx="9"/>
+  <text class="t-s mid" x="354" y="146">프로필 새로고침</text>
+  <text class="t-b mid tc-red" x="354" y="167">화면: 민지</text>
+  <rect class="box blue" x="592" y="124" width="140" height="56" rx="9"/>
+  <text class="t-s mid" x="662" y="146">다시 새로고침</text>
+  <text class="t-b mid" x="662" y="167">화면: 밍</text>
+
+  <text class="t-b" x="20" y="236">복제본 DB</text>
+  <text class="t-s" x="20" y="254">읽기를 맡는다</text>
+  <rect class="box warm" x="130" y="218" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="200" y="244">민지</text>
+  <rect class="box warm" x="284" y="218" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="354" y="244">민지</text>
+  <rect class="box green" x="438" y="218" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="508" y="244">밍</text>
+  <rect class="box green" x="592" y="218" width="140" height="40" rx="9"/>
+  <text class="t-b mid" x="662" y="244">밍</text>
+
+  <path class="ln blue" d="M200 120 V92" marker-end="url(#ah-blue)"/>
+  <path class="ln red" d="M354 214 V186" marker-end="url(#ah-red)"/>
+  <path class="ln green dash" d="M508 90 V212" marker-end="url(#ah-green)"/>
+  <text class="t-s t-b tc-green" x="518" y="148">변경이</text>
+  <text class="t-s t-b tc-green" x="518" y="166">이제 도착</text>
+  <path class="ln blue" d="M662 214 V186" marker-end="url(#ah-blue)"/>
+
+  <path class="ln warm" d="M134 266 V273 H420 V266"/>
+  <text class="t-s t-b mid tc-warm" x="277" y="294">복제 지연: 이 동안 복제본에는 옛 값이 남아 있다</text>
+</svg></div><figcaption><b>그림 17-10</b>저장은 원본에 하고 읽기는 복제본에서 했습니다. 방금 쓴 글이 안 보이는 전형적인 원인입니다.</figcaption></figure>
+<p>방금 쓴 사람의 다음 읽기는 원본에서 하게 하면 풀립니다. 여러 서버에 걸친 일관성은 <a href="ch18.html">18장</a>에서 이어집니다.</p>
+</section>
+<section class="level3" id="백업-과거로-돌아가는-사본">
+<h3>백업: 과거로 돌아가는 사본</h3>
+<p><strong>백업</strong>(backup)은 과거 어느 시점의 사본입니다. 복제본은 백업을 대신하지 못합니다. 실수로 실행한 <code>DELETE</code>도 복제본이 그대로 따라 하기 때문입니다.</p>
+<p>백업에는 숫자 두 개를 정합니다. <strong>RPO</strong>(Recovery Point Objective)는 "최근 얼마 동안의 데이터까지 잃어도 되는가", <strong>RTO</strong>(Recovery Time Objective)는 "되살리는 데 얼마나 걸려도 되는가"입니다. 매일 자정에만 백업한다면 밤 11시에 난 사고로 23시간치 주문을 잃습니다. 그리고 복원해 보지 않은 백업은 믿을 수 없습니다. 실제로 되살려 보고 걸린 시간을 재 둡니다.</p>
+</section>
+<section class="level3" id="캐시-가까이-둔-사본">
+<h3>캐시: 가까이 둔 사본</h3>
+<p><strong>캐시</strong>(<a href="ch01.html">1장</a>)는 자주 읽는 결과를 가까이에 복사해 둔 것입니다. 원본이 바뀌어도 사본은 저절로 바뀌지 않으므로 언제 버릴지를 정해야 합니다. 이것을 <strong>무효화</strong>(invalidation)라고 합니다. 상품 설명은 1분쯤 낡아도 괜찮지만, 재고처럼 틀리면 안 되는 판단은 원본을 보고 합니다.</p>
+</section>
+<section class="level3" id="영업-중에-양식-바꾸기-마이그레이션">
+<h3>영업 중에 양식 바꾸기: 마이그레이션</h3>
+<p>스키마를 바꾸는 작업을 <strong>마이그레이션</strong>(migration)이라고 합니다. 어려운 점은 가게 문을 닫지 않고 해야 한다는 것입니다. 새 코드를 내보내는 동안에는 옛 코드와 새 코드가 잠시 함께 돕니다. 열 하나를 지우는 순간, 아직 그 열을 읽는 옛 코드는 모두 오류를 냅니다. 그래서 네 걸음으로 나눕니다. <strong>새 열을 추가하고, 기존 값을 옮겨 채우고, 코드가 새 열을 쓰게 바꾸고, 아무도 안 쓰는 것을 확인한 뒤 옛 열을 지웁니다.</strong></p>
+<details class="deep"><summary><small>한 걸음 더</small>일지가 끝없이 길어지지 않게: 체크포인트와 시점 복구</summary><div class="deep-body">
+<p>일지(WAL)만 쌓으면 재시작할 때 읽을 양이 끝없이 늘어납니다. 그래서 DB는 주기적으로 밀린 변경을 장부 본문에 반영하고 "여기까지 반영함"이라고 표시합니다. 이것이 <strong>체크포인트</strong>(checkpoint)입니다. 복구는 그 표시 뒤부터만 하면 됩니다.</p>
+<p>일지를 버리지 않고 모아 두면 <strong>시점 복구</strong>(PITR)를 할 수 있습니다. 어제 백업을 되살린 뒤 그 뒤의 일지를 "오늘 14시 29분"까지만 다시 실행하면, 14시 30분에 벌어진 삭제 사고 바로 앞 상태가 됩니다. RPO를 하루에서 몇 분으로 줄이는 방법입니다.</p>
+</div></details>
+</section>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>기본 키 / 외래 키</td>
+<td>내 표의 행을 가리키는 번호 / 다른 표의 행을 가리키는 번호</td>
+</tr>
+<tr>
+<td>NULL / 0, 빈 글자</td>
+<td>값을 모름 / 값이 있고 그 값이 0이나 빈 글자</td>
+</tr>
+<tr>
+<td>인덱스 / 캐시</td>
+<td>원본을 빨리 찾는 찾아보기 / 결과를 복사해 둔 사본</td>
+</tr>
+<tr>
+<td>트랜잭션 / 잠금</td>
+<td>여러 변경을 한 건으로 묶기 / 남이 끼어들지 못하게 막기</td>
+</tr>
+<tr>
+<td>복제 / 백업</td>
+<td>지금을 따라가는 사본 / 과거로 돌아갈 수 있는 사본</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · '내 주문' 화면이 3초 걸리는데 인덱스를 늘려도 그대로다</div>
+<p>'내 주문' 화면은 한 회원의 최근 주문 100건과 주문마다 배송 상태를 보여 줍니다. 느리다고 해서 주문 표에 인덱스를 두 개 더 만들었지만 달라지지 않았습니다.</p>
+<ol type="1">
+<li><strong>쿼리 수부터 셉니다.</strong> 쿼리 로그를 켜고 화면을 한 번 열었더니 쿼리가 101번 나갔습니다. 주문마다 배송 상태를 따로 묻는 N+1입니다.</li>
+<li><strong>한꺼번에 묻게 바꿉니다.</strong> ORM에 배송 정보를 함께 가져오도록 지정해 쿼리를 2번으로 줄였습니다.</li>
+<li><strong>남은 쿼리의 계획을 봅니다.</strong> <code>EXPLAIN</code>을 붙였더니 "이 회원의 최근 주문"을 찾는 쿼리가 <code>Seq Scan</code>이었습니다. 새로 만든 인덱스는 이 조건과 맞지 않았습니다.</li>
+<li><strong>조건에 맞는 인덱스로 바꿉니다.</strong> <code>(member_id, ordered_at)</code> 복합 인덱스를 만들어 계획이 <code>Index Scan</code>으로 바뀐 것을 확인했습니다. 쓰기만 느리게 하던 처음 두 개는 지웠습니다.</li>
+</ol>
+<p>횟수 문제와 한 번의 읽기 비용 문제는 다릅니다. 추측으로 인덱스를 늘리기 전에 쿼리 수와 실행 계획을 먼저 봅니다.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li><strong>데이터베이스</strong>는 창구 직원(DBMS)이 지키는 장부입니다. 동시에 고치기, 중간에 꺼지기, 느린 찾기를 대신 책임집니다.</li>
+<li>데이터는 <strong>표</strong>에 담고, <strong>기본 키</strong>로 행을 가리키고, <strong>외래 키</strong>로 표를 잇습니다. 같은 사실은 한 곳에만 적습니다.</li>
+<li><strong>SQL</strong>은 무엇을 원하는지만 적습니다. NULL은 "모름"이라서 <code>IS NULL</code>로 찾습니다.</li>
+<li><strong>인덱스</strong>는 찾아보기입니다. 읽기는 빨라지고 쓰기는 느려집니다. 느릴 때는 <strong>쿼리 수</strong>와 <strong>실행 계획</strong>을 봅니다.</li>
+<li><strong>트랜잭션</strong>은 전부 아니면 전무입니다. 동시에 고치는 문제는 조건을 붙인 UPDATE나 잠금으로 따로 막습니다.</li>
+<li>복제본은 조금 늦고, 백업은 복원해 봐야 믿을 수 있습니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>회원 가입 코드가 "같은 이메일이 있는지 조회하고, 없으면 저장" 순서로 되어 있습니다. 그런데 같은 이메일의 계정이 두 개 생겼습니다. 왜 그렇고, 어떻게 막을까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>조회와 저장 사이에 틈이 있어서, 동시에 들어온 두 요청이 모두 "없음"을 확인하고 저장했습니다. 이메일 열에 <code>UNIQUE</code> 제약을 걸면 DB가 적는 순간에 판정하므로 하나만 성공합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>전화번호를 입력하지 않은 회원을 찾으려고 <code>WHERE phone = NULL</code>이라고 썼더니 0명이 나왔습니다. 실제로는 여러 명이 있습니다. 무엇이 문제일까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>NULL은 "모름"이라서 <code>=</code>로 비교한 답도 "모름"입니다. <code>WHERE</code>는 답이 참인 행만 남기므로 아무도 남지 않습니다. <code>WHERE phone IS NULL</code>로 써야 합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>주문 표에 <code>(member_id, ordered_at)</code> 인덱스가 있습니다. 그런데 "지난주에 들어온 모든 주문"을 조회하는 쿼리가 느립니다. 인덱스에 날짜 열이 들어 있는데 왜 그럴까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>이 인덱스는 회원 번호순으로 먼저 정렬되어 있어서 지난주 주문이 회원마다 따로 흩어져 있습니다. <code>ordered_at</code>이 앞에 오는 인덱스를 따로 만들고, <code>EXPLAIN</code>으로 실제로 쓰이는지 확인합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>AI가 "주문 저장과 결제 호출을 한 트랜잭션에 넣었으니 결제가 두 번 될 일은 없습니다"라고 합니다. 믿어도 될까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>부족합니다. 트랜잭션은 DB 안의 변경만 묶습니다. 외부 결제는 롤백으로 취소되지 않고, 같은 요청이 두 번 들어오는 것도 막지 못합니다. 요청마다 고유 번호를 붙여 <code>UNIQUE</code> 제약으로 중복을 걸러 내고, 외부 호출은 트랜잭션 밖에서 합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>"복제본이 두 대나 있으니 백업은 없어도 된다"는 말에서 빠진 것은 무엇일까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>복제본은 원본의 변경을 그대로 따라 하므로, 실수로 지운 데이터는 복제본에서도 지워집니다. 과거 시점으로 돌아가려면 백업이 필요합니다. 그 백업도 실제로 복원해 보고, 잃어도 되는 구간(RPO)과 복구 시간(RTO)을 확인합니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>AI는 "혼자 쓸 때는 잘 도는" DB 코드를 만들기 쉽습니다. 동시에 들어오는 경우와 중간에 실패하는 경우를 <strong>직접 지목해서</strong> 시키세요.</p>
+<blockquote>
+<p>주문 저장 기능을 검토해 줘. DB는 PostgreSQL이고 격리 수준은 기본값이야. (1) 재고 1개를 두 명이 동시에 사는 경우와 (2) 같은 요청이 두 번 전송되는 경우를 구분해서 각각 어떻게 막는지 설명해 줘. 재고는 조건을 붙인 UPDATE로 줄이고, 주문 저장과 한 트랜잭션으로 묶어 줘. 두 연결로 동시에 실행하는 테스트와, 재고를 줄인 뒤 주문 저장 전에 일부러 실패시키는 테스트를 추가하고 결과를 보여 줘.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: 바뀐 행이 0개일 때를 실패로 처리하는가, 트랜잭션 안에 외부 호출이 없는가, 동시 실행 테스트를 실제로 돌린 결과가 있는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>DBMS<small>Database Management System</small></dt>
+<dd>
+데이터베이스를 지키고 요청을 처리하는 프로그램.
+</dd>
+<dt>스키마<small>schema</small></dt>
+<dd>
+표에 어떤 열이 있고 어떤 값이 들어갈 수 있는지 정한 양식.
+</dd>
+<dt>기본 키<small>primary key</small></dt>
+<dd>
+표에서 행 하나를 가리키는, 겹치지 않는 값.
+</dd>
+<dt>외래 키<small>foreign key</small></dt>
+<dd>
+다른 표의 기본 키를 적어 두어 두 표를 잇는 열.
+</dd>
+<dt>정규화<small>normalization</small></dt>
+<dd>
+같은 사실이 한 곳에만 적히도록 표를 나누는 일.
+</dd>
+<dt>NULL</dt>
+<dd>
+값을 모르거나 없다는 표시. 0이나 빈 글자와 다르다.
+</dd>
+<dt>인덱스<small>index</small></dt>
+<dd>
+열의 값을 정렬하고 행의 위치를 적어 둔 찾아보기.
+</dd>
+<dt>실행 계획<small>query plan</small></dt>
+<dd>
+DB가 쿼리를 어떤 방법으로 처리할지 정한 절차. <code>EXPLAIN</code>으로 본다.
+</dd>
+<dt>N+1 문제<small>N+1 query problem</small></dt>
+<dd>
+목록을 한 번 읽은 뒤 항목마다 쿼리를 한 번씩 더 보내는 패턴.
+</dd>
+<dt>트랜잭션<small>transaction</small></dt>
+<dd>
+여러 변경을 전부 반영하거나 전부 취소하는 한 묶음. 확정이 커밋, 취소가 롤백.
+</dd>
+<dt>격리 수준<small>isolation level</small></dt>
+<dd>
+동시에 진행 중인 트랜잭션이 서로의 변경을 얼마나 볼 수 있는지 정하는 설정.
+</dd>
+<dt>커넥션 풀<small>connection pool</small></dt>
+<dd>
+미리 열어 두고 돌려 쓰는 DB 연결 묶음.
+</dd>
+<dt>WAL<small>Write-Ahead Log</small></dt>
+<dd>
+장부 본문보다 변경 일지를 먼저 디스크에 적는 방식.
+</dd>
+<dt>복제 지연<small>replication lag</small></dt>
+<dd>
+원본의 변경이 복제본에 도착하기까지의 시간 차.
+</dd>
+<dt>마이그레이션<small>migration</small></dt>
+<dd>
+기존 데이터를 지키면서 스키마를 바꾸는 작업.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<ul>
+<li><a href="https://www.postgresql.org/docs/current/indexes-multicolumn.html" rel="noopener" target="_blank">PostgreSQL — Multicolumn Indexes</a> — 복합 인덱스에서 앞 열의 조건이 왜 중요한지 설명합니다.</li>
+<li><a href="https://www.postgresql.org/docs/current/using-explain.html" rel="noopener" target="_blank">PostgreSQL — Using EXPLAIN</a> — 실행 계획을 한 줄씩 읽는 법을 보여 줍니다.</li>
+<li><a href="https://www.postgresql.org/docs/current/transaction-iso.html" rel="noopener" target="_blank">PostgreSQL — Transaction Isolation</a> — 격리 수준마다 무엇이 보이고 언제 재시도해야 하는지 정리합니다.</li>
+<li><a href="https://www.postgresql.org/docs/current/backup.html" rel="noopener" target="_blank">PostgreSQL — Backup and Restore</a> — 백업 방식 세 가지와 복원 절차를 설명합니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch16.html"><small>← 이전 · 16장</small><b>파일·입출력·성능</b></a><a class="next" href="ch18.html"><small>다음 · 18장 →</small><b>시스템 설계</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#why">파일 하나로는 왜 안 될까</a><a href="#table">표, 행, 열: 칸이 정해진 장부</a><a href="#normalize">같은 사실은 한 곳에만: 정규화</a><a href="#sql">SQL: 원하는 것만 적는 신청서</a><a href="#index">인덱스: 책 뒤의 찾아보기</a><a href="#slow">느린 조회 진단하기: 실행 계획과 N+1</a><a href="#transaction">트랜잭션: 전부 되거나, 전부 안 되거나</a><a href="#concurrency">동시에 고칠 때: 격리와 잠금</a><a href="#operate">운영하며 지키기: 복제, 백업, 캐시, 스키마 변경</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

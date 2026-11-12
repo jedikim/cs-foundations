@@ -1,0 +1,43 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg">
+  <title>잔차 연결은 입력을 지름길로 그대로 넘기고, 층이 계산한 수정분만 더한다</title>
+
+  <path class="ln thick blue" d="M105 106 V52 H520 V138" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b tc-blue mid" x="312" y="40">지름길: 입력을 손대지 않고 그대로 보낸다</text>
+
+  <rect class="box blue" x="30" y="112" width="150" height="96" rx="14"/>
+  <text class="t-l mid" x="105" y="140">입력</text>
+  <rect class="box" x="44" y="154" width="56" height="38" rx="8"/>
+  <text class="t-mono mid" x="72" y="178">2</text>
+  <rect class="box" x="110" y="154" width="56" height="38" rx="8"/>
+  <text class="t-mono mid" x="138" y="178">−1</text>
+
+  <rect class="box warm" x="250" y="112" width="190" height="96" rx="14"/>
+  <text class="t-l mid" x="345" y="140">층이 만든 수정분</text>
+  <rect class="box" x="279" y="154" width="60" height="38" rx="8"/>
+  <text class="t-mono mid tc-warm" x="309" y="178">+0.5</text>
+  <rect class="box" x="351" y="154" width="60" height="38" rx="8"/>
+  <text class="t-mono mid tc-warm" x="381" y="178">+0.2</text>
+
+  <circle class="box" cx="520" cy="160" r="18"/>
+  <path class="ln" d="M511 160 H529 M520 151 V169"/>
+
+  <rect class="box green" x="590" y="112" width="150" height="96" rx="14"/>
+  <text class="t-l mid" x="665" y="140">출력</text>
+  <rect class="box" x="604" y="154" width="56" height="38" rx="8"/>
+  <text class="t-mono mid" x="632" y="178">2.5</text>
+  <rect class="box" x="670" y="154" width="56" height="38" rx="8"/>
+  <text class="t-mono mid" x="698" y="178">−0.8</text>
+
+  <path class="ln" d="M186 160 H242" marker-end="url(#ah)"/>
+  <path class="ln warm" d="M446 160 H494" marker-end="url(#ah-warm)"/>
+  <path class="ln green" d="M544 160 H582" marker-end="url(#ah-green)"/>
+
+  <rect class="box yellow" x="40" y="236" width="130" height="34" rx="10"/>
+  <text class="t-s t-ink mid" x="105" y="258">원고 원본</text>
+  <rect class="box yellow" x="265" y="236" width="160" height="34" rx="10"/>
+  <text class="t-s t-ink mid" x="345" y="258">빨간 펜으로 고친 곳</text>
+  <rect class="box yellow" x="590" y="236" width="150" height="34" rx="10"/>
+  <text class="t-s t-ink mid" x="665" y="258">고친 내용을 반영한 원고</text>
+  <path class="ln thin muted dash" d="M105 212 V232 M345 212 V232 M665 212 V232"/>
+  <text class="t-xs mid" x="520" y="202">같은 자리끼리 더하기</text>
+</svg>

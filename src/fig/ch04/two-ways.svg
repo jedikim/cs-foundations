@@ -1,0 +1,42 @@
+<svg viewBox="0 0 760 376" xmlns="http://www.w3.org/2000/svg">
+  <title>컴파일러는 미리 통째로 번역해 두고, 인터프리터는 실행할 때마다 한 줄씩 옮긴다</title>
+  <defs>
+    <pattern id="ch04-stripe" x="40" y="0" width="50" height="400" patternUnits="userSpaceOnUse">
+      <rect class="f-warm" x="0" y="0" width="25" height="400"/>
+      <rect class="f-green" x="25" y="0" width="25" height="400"/>
+    </pattern>
+  </defs>
+
+  <rect class="panel" x="20" y="16" width="720" height="150" rx="16"/>
+  <use href="#i-pencil" x="36" y="28" width="36" height="36" class="ic warm"/>
+  <text class="t-h" x="82" y="52">컴파일러 — 번역가처럼 미리 통째로</text>
+  <text class="t-s" x="82" y="74">번역은 한 번만, 그 뒤로는 번역본을 곧장 실행</text>
+  <rect class="solid warm" x="40" y="92" width="200" height="34" rx="6"/>
+  <rect class="solid green" x="260" y="92" width="70" height="34" rx="6"/>
+  <rect class="solid green" x="350" y="92" width="70" height="34" rx="6"/>
+  <rect class="solid green" x="440" y="92" width="70" height="34" rx="6"/>
+  <text class="t-s mid" x="140" y="148">번역 (한 번)</text>
+  <text class="t-s mid" x="295" y="148">실행 1</text>
+  <text class="t-s mid" x="385" y="148">실행 2</text>
+  <text class="t-s mid" x="475" y="148">실행 3</text>
+  <text class="t-s" x="540" y="106">기계어만 실행하니</text>
+  <text class="t-s" x="540" y="124">매번 짧게 끝난다</text>
+
+  <rect class="panel" x="20" y="182" width="720" height="150" rx="16"/>
+  <use href="#i-chat" x="36" y="194" width="36" height="36" class="ic warm"/>
+  <text class="t-h" x="82" y="218">인터프리터 — 통역사처럼 실행하면서 한 줄씩</text>
+  <text class="t-s" x="82" y="240">기다림 없이 시작, 대신 실행할 때마다 다시 통역</text>
+  <rect x="40" y="258" width="150" height="34" rx="6" fill="url(#ch04-stripe)"/>
+  <rect x="240" y="258" width="150" height="34" rx="6" fill="url(#ch04-stripe)"/>
+  <rect x="440" y="258" width="150" height="34" rx="6" fill="url(#ch04-stripe)"/>
+  <text class="t-s mid" x="115" y="314">실행 1</text>
+  <text class="t-s mid" x="315" y="314">실행 2</text>
+  <text class="t-s mid" x="515" y="314">실행 3</text>
+  <text class="t-s" x="612" y="272">통역이 끼어들어</text>
+  <text class="t-s" x="612" y="290">매번 길어진다</text>
+
+  <rect class="f-warm" x="40" y="347" width="14" height="14" rx="3"/>
+  <text class="t-s" x="62" y="359">번역·통역하는 시간</text>
+  <rect class="f-green" x="210" y="347" width="14" height="14" rx="3"/>
+  <text class="t-s" x="232" y="359">CPU가 기계어를 실행하는 시간</text>
+</svg>

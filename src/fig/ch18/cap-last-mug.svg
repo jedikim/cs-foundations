@@ -1,0 +1,50 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>두 서버의 연결이 끊긴 동안 마지막 한 개를 두 손님이 주문하면, 둘 다 받아서 장부가 어긋나게 두거나 한쪽을 멈춰서 손님을 돌려보내야 한다</title>
+
+  <use href="#i-user" x="34" y="40" width="40" height="40" class="ic"/>
+  <text class="t-s t-b mid" x="54" y="100">손님 A</text>
+  <text class="t-xs mid" x="54" y="118">1개 주문</text>
+  <path class="ln" d="M84 70 H112" marker-end="url(#ah)"/>
+
+  <rect class="box blue" x="120" y="26" width="200" height="100" rx="14"/>
+  <use href="#i-server" x="134" y="40" width="40" height="40" class="ic blue"/>
+  <text class="t-l" x="186" y="66">서울 서버</text>
+  <text class="t-mono" x="136" y="106">머그컵 재고: 1</text>
+
+  <path class="ln purple" d="M326 76 H360"/>
+  <use href="#i-cross" x="366" y="62" width="28" height="28" class="ic red"/>
+  <path class="ln purple" d="M400 76 H434"/>
+  <text class="t-xs t-b tc-red mid" x="380" y="52">연결 끊김</text>
+
+  <rect class="box blue" x="440" y="26" width="200" height="100" rx="14"/>
+  <use href="#i-server" x="454" y="40" width="40" height="40" class="ic blue"/>
+  <text class="t-l" x="506" y="66">부산 서버</text>
+  <text class="t-mono" x="456" y="106">머그컵 재고: 1</text>
+
+  <use href="#i-user" x="686" y="40" width="40" height="40" class="ic"/>
+  <text class="t-s t-b mid" x="706" y="100">손님 B</text>
+  <text class="t-xs mid" x="706" y="118">1개 주문</text>
+  <path class="ln" d="M676 70 H648" marker-end="url(#ah)"/>
+
+  <text class="t-b mid" x="380" y="162">서로 물어볼 수 없는 동안, 두 주문을 어떻게 할까?</text>
+
+  <rect class="panel" x="20" y="182" width="350" height="174" rx="16"/>
+  <text class="t-l" x="40" y="212">둘 다 주문을 받는다</text>
+  <text class="t-s" x="40" y="234">멈추지 않는 쪽을 고름 (가용성)</text>
+  <rect class="box green" x="40" y="250" width="150" height="40" rx="10"/>
+  <text class="t-b mid" x="115" y="275">서울: 판매</text>
+  <rect class="box green" x="200" y="250" width="150" height="40" rx="10"/>
+  <text class="t-b mid" x="275" y="275">부산: 판매</text>
+  <text class="t-s t-b tc-red" x="40" y="318">1개뿐인데 2개가 팔렸다</text>
+  <text class="t-s" x="40" y="338">나중에 한 명에게 취소를 알려야 한다</text>
+
+  <rect class="panel" x="390" y="182" width="350" height="174" rx="16"/>
+  <text class="t-l" x="410" y="212">한쪽은 주문을 멈춘다</text>
+  <text class="t-s" x="410" y="234">장부가 맞는 쪽을 고름 (일관성)</text>
+  <rect class="box green" x="410" y="250" width="150" height="40" rx="10"/>
+  <text class="t-b mid" x="485" y="275">서울: 판매</text>
+  <rect class="box red" x="570" y="250" width="150" height="40" rx="10"/>
+  <text class="t-b mid tc-red" x="645" y="275">부산: 주문 불가</text>
+  <text class="t-s t-b tc-green" x="410" y="318">장부는 끝까지 맞다</text>
+  <text class="t-s" x="410" y="338">대신 손님 B는 지금 살 수 없다</text>
+</svg>

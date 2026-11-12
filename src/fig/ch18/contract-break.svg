@@ -1,0 +1,46 @@
+<svg viewBox="0 0 760 326" xmlns="http://www.w3.org/2000/svg">
+  <title>응답에 칸을 추가하면 옛 앱이 무시해서 안전하지만, 단위를 바꾸거나 새 상태 값을 넣으면 옛 앱이 틀린 화면을 보여 주거나 멈춘다</title>
+  <text class="t-s t-b" x="20" y="30">무엇을 바꿨나</text>
+  <text class="t-s t-b mid" x="270" y="30">바꾸기 전 응답</text>
+  <text class="t-s t-b mid" x="465" y="30">바꾼 뒤 응답</text>
+  <text class="t-s t-b mid" x="657" y="30">옛 앱에서는</text>
+  <path class="ln thin muted" d="M20 42 H740"/>
+
+  <text class="t-b" x="20" y="84">칸을 하나 추가</text>
+  <text class="t-s" x="20" y="106">모르는 칸이 생김</text>
+  <rect class="box gray" x="180" y="54" width="180" height="68" rx="10"/>
+  <text class="t-mono mid" x="270" y="93">"status":"paid"</text>
+  <rect class="box green" x="370" y="54" width="190" height="68" rx="10"/>
+  <text class="t-mono mid" x="465" y="82">"status":"paid"</text>
+  <text class="t-mono t-b mid tc-green" x="465" y="106">"memo":"선물"</text>
+  <rect class="box green" x="575" y="54" width="165" height="68" rx="10"/>
+  <use href="#i-check" x="585" y="72" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="626" y="84">정상 동작</text>
+  <text class="t-s" x="626" y="106">모르는 칸은 무시</text>
+
+  <text class="t-b" x="20" y="164">단위를 바꿈</text>
+  <text class="t-s" x="20" y="186">분 → 초, 이름은 그대로</text>
+  <rect class="box gray" x="180" y="134" width="180" height="68" rx="10"/>
+  <text class="t-mono mid" x="270" y="164">"eta": 30</text>
+  <text class="t-xs mid" x="270" y="186">30분이라는 뜻</text>
+  <rect class="box red" x="370" y="134" width="190" height="68" rx="10"/>
+  <text class="t-mono t-b mid tc-red" x="465" y="164">"eta": 1800</text>
+  <text class="t-xs mid" x="465" y="186">1800초라는 뜻</text>
+  <rect class="box red" x="575" y="134" width="165" height="68" rx="10"/>
+  <use href="#i-cross" x="585" y="152" width="32" height="32" class="ic red"/>
+  <text class="t-b" x="626" y="164">1800분 뒤 도착</text>
+  <text class="t-s" x="626" y="186">실제로는 30분</text>
+
+  <text class="t-b" x="20" y="244">새 값을 추가</text>
+  <text class="t-s" x="20" y="266">상태가 하나 늘어남</text>
+  <rect class="box gray" x="180" y="214" width="180" height="68" rx="10"/>
+  <text class="t-mono mid" x="270" y="253">"status":"paid"</text>
+  <rect class="box red" x="370" y="214" width="190" height="68" rx="10"/>
+  <text class="t-mono t-b mid tc-red" x="465" y="253">"status":"cancelled"</text>
+  <rect class="box red" x="575" y="214" width="165" height="68" rx="10"/>
+  <use href="#i-cross" x="585" y="232" width="32" height="32" class="ic red"/>
+  <text class="t-b" x="626" y="244">화면이 멈춤</text>
+  <text class="t-s" x="626" y="266">모르는 상태 값</text>
+
+  <text class="t-xs" x="20" y="310">옛 앱은 사용자가 업데이트하기 전까지 계속 쓰입니다. 새 서버는 옛 앱과도 한동안 함께 일해야 합니다.</text>
+</svg>

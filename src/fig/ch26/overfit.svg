@@ -1,0 +1,51 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>훈련 손실은 0.8, 0.4, 0.2, 0.1로 계속 줄지만 검증 손실은 0.9, 0.5, 0.45로 줄다가 4단계에서 0.6으로 다시 오른다. 3단계에서 멈추는 것이 낫다</title>
+
+  <rect class="s-green" x="342" y="46" width="56" height="224" rx="8"/>
+  <text class="t-s t-b tc-green mid" x="370" y="36">여기서 멈춘다</text>
+
+  <path class="ln thin" d="M80 270 H548" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M80 270 V30" marker-end="url(#ah)"/>
+  <path class="ln thin" d="M76 160 H84 M76 50 H84"/>
+  <text class="t-xs end" x="68" y="274">0</text>
+  <text class="t-xs end" x="68" y="164">0.5</text>
+  <text class="t-xs end" x="68" y="54">1.0</text>
+  <text class="t-s" x="92" y="34">손실</text>
+  <text class="t-xs mid" x="110" y="290">1단계</text>
+  <text class="t-xs mid" x="240" y="290">2단계</text>
+  <text class="t-xs mid" x="370" y="290">3단계</text>
+  <text class="t-xs mid" x="500" y="290">4단계</text>
+  <text class="t-s mid" x="305" y="312">학습을 반복한 횟수</text>
+
+  <path class="ln thick blue" d="M110 94 L240 182 L370 226 L500 248"/>
+  <path class="ln thick warm" d="M110 72 L240 160 L370 171 L500 138"/>
+  <circle class="f-blue" cx="110" cy="94" r="5"/>
+  <circle class="f-blue" cx="240" cy="182" r="5"/>
+  <circle class="f-blue" cx="370" cy="226" r="5"/>
+  <circle class="f-blue" cx="500" cy="248" r="5"/>
+  <circle class="f-warm" cx="110" cy="72" r="5"/>
+  <circle class="f-warm" cx="240" cy="160" r="5"/>
+  <circle class="f-warm" cx="370" cy="171" r="5"/>
+  <circle class="f-warm" cx="500" cy="138" r="5"/>
+
+  <text class="t-mono mid tc-warm" x="110" y="60">0.9</text>
+  <text class="t-mono tc-warm" x="254" y="152">0.5</text>
+  <text class="t-mono mid tc-warm" x="370" y="158">0.45</text>
+  <text class="t-mono mid tc-warm" x="500" y="126">0.6</text>
+  <text class="t-mono mid tc-blue" x="110" y="120">0.8</text>
+  <text class="t-mono mid tc-blue" x="240" y="204">0.4</text>
+  <text class="t-mono mid tc-blue" x="370" y="248">0.2</text>
+  <text class="t-mono tc-blue" x="512" y="253">0.1</text>
+
+  <path class="ln thick warm" d="M574 62 H604"/>
+  <text class="t-b" x="614" y="66">검증 손실</text>
+  <text class="t-xs" x="614" y="84">처음 온 손님의 평가</text>
+  <path class="ln thick blue" d="M574 114 H604"/>
+  <text class="t-b" x="614" y="118">훈련 손실</text>
+  <text class="t-xs" x="614" y="136">단골 손님의 평가</text>
+
+  <rect class="box red" x="570" y="160" width="172" height="92" rx="12"/>
+  <text class="t-b tc-red" x="586" y="186">4단계: 과적합</text>
+  <text class="t-s" x="586" y="210">단골 평가는 더 좋아졌지만</text>
+  <text class="t-s" x="586" y="230">새 손님 평가는 나빠졌다</text>
+</svg>

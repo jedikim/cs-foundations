@@ -1,0 +1,26 @@
+<svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg">
+  <title>버튼을 누른 뒤 화면이 바뀌기까지 약 0.15초 동안의 시간 배분</title>
+  <text class="t-s mid" x="82" y="62">앱 10ms</text>
+  <path class="ln thin muted" d="M82 68 V78"/>
+  <text class="t-s mid" x="412" y="62">DB 10ms</text>
+  <path class="ln thin muted" d="M412 68 V78"/>
+
+  <rect class="solid blue" x="60" y="80" width="42" height="44" rx="6"/>
+  <rect class="solid purple" x="104" y="80" width="196" height="44" rx="6"/>
+  <text class="t-s t-b t-on mid" x="202" y="107">인터넷으로 가는 길 45ms</text>
+  <rect class="solid green" x="302" y="80" width="86" height="44" rx="6"/>
+  <text class="t-s t-b t-on mid" x="345" y="107">서버 20ms</text>
+  <rect class="solid warm" x="390" y="80" width="42" height="44" rx="6"/>
+  <rect class="solid purple" x="434" y="80" width="196" height="44" rx="6"/>
+  <text class="t-s t-b t-on mid" x="532" y="107">돌아오는 길 45ms</text>
+  <rect class="solid blue" x="632" y="80" width="70" height="44" rx="6"/>
+  <text class="t-s t-b t-on mid" x="667" y="107">그리기</text>
+
+  <path class="ln thin" d="M60 140 H720"/>
+  <path class="ln thin" d="M60 136 V146 M280 136 V146 M500 136 V146 M720 136 V146"/>
+  <text class="t-xs mid" x="60" y="164">0</text>
+  <text class="t-xs mid" x="280" y="164">50ms</text>
+  <text class="t-xs mid" x="500" y="164">100ms</text>
+  <text class="t-xs mid" x="720" y="164">150ms</text>
+  <text class="mid" x="380" y="200">모두 합쳐 약 <tspan class="t-b">0.15초</tspan> — 눈을 한 번 깜빡이는 시간의 절반쯤</text>
+</svg>

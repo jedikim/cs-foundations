@@ -1,0 +1,47 @@
+<svg viewBox="0 0 760 356" xmlns="http://www.w3.org/2000/svg">
+  <title>지우가 점프 키를 누른 순간은 서버에 50ms 뒤, 하준의 화면에는 100ms 뒤에야 도착한다</title>
+
+  <text class="t-s t-b mid" x="670" y="32">100ms 시점의 지우</text>
+  <path class="ln thin dash muted" d="M580 44 V312"/>
+
+  <text class="t-b" x="20" y="86">지우</text>
+  <text class="t-s" x="20" y="106">키를 누른 사람</text>
+  <path class="ln thin muted" d="M150 90 H592"/>
+  <circle class="f-blue" cx="200" cy="90" r="6"/>
+  <text class="t-b tc-blue mid" x="200" y="68">점프 키를 누름</text>
+  <rect class="box blue" x="600" y="52" width="140" height="64" rx="10"/>
+  <path class="ln thin blue" d="M612 102 H656"/>
+  <circle class="f-blue" cx="634" cy="64" r="7"/>
+  <text class="t-xs" x="666" y="88">뜬 지 100ms</text>
+
+  <text class="t-b" x="20" y="176">서버</text>
+  <text class="t-s" x="20" y="196">판정하는 곳</text>
+  <path class="ln thin muted" d="M150 180 H592"/>
+  <circle class="f-green" cx="390" cy="180" r="6"/>
+  <text class="t-b tc-green" x="404" y="170">점프를 반영</text>
+  <rect class="box green" x="600" y="142" width="140" height="64" rx="10"/>
+  <path class="ln thin green" d="M612 192 H656"/>
+  <circle class="f-green" cx="634" cy="168" r="7"/>
+  <text class="t-xs" x="666" y="178">뜬 지 50ms</text>
+
+  <text class="t-b" x="20" y="266">하준</text>
+  <text class="t-s" x="20" y="286">보는 사람</text>
+  <path class="ln thin muted" d="M150 270 H592"/>
+  <circle class="f-warm" cx="580" cy="270" r="6"/>
+  <text class="t-b tc-warm end" x="568" y="296">이제야 지우가 뛰어오름</text>
+  <rect class="box warm" x="600" y="232" width="140" height="64" rx="10"/>
+  <path class="ln thin warm" d="M612 282 H656"/>
+  <circle class="f-warm" cx="634" cy="272" r="7"/>
+  <text class="t-xs" x="666" y="268">방금 뜀</text>
+
+  <path class="ln blue" d="M205 95 L383 175" marker-end="url(#ah-blue)"/>
+  <text class="t-s" x="312" y="126">전달 50ms</text>
+  <path class="ln green" d="M395 185 L573 265" marker-end="url(#ah-green)"/>
+  <text class="t-s" x="502" y="216">전달 50ms</text>
+
+  <path class="ln thin muted" d="M200 318 H580"/>
+  <path class="ln thin muted" d="M200 313 V323 M390 313 V323 M580 313 V323"/>
+  <text class="t-xs mid" x="200" y="342">0ms</text>
+  <text class="t-xs mid" x="390" y="342">50ms</text>
+  <text class="t-xs mid" x="580" y="342">100ms</text>
+</svg>

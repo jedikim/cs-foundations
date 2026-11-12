@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>이 책의 지도: 1부에서 5부까지는 순서대로, 6부 게임과 7부 AI는 목적에 따라 골라 읽는다</title>
+  <text class="t-s t-b" x="20" y="30">공통 기초 — 순서대로 읽기를 권합니다</text>
+
+  <rect class="box blue" x="20" y="44" width="128" height="104" rx="14"/>
+  <text class="t-xs t-b tc-blue mid" x="84" y="68">1부 · 1~4장</text>
+  <text class="t-b mid" x="84" y="98">컴퓨터라는</text>
+  <text class="t-b mid" x="84" y="120">기계</text>
+
+  <rect class="box green" x="168" y="44" width="128" height="104" rx="14"/>
+  <text class="t-xs t-b tc-green mid" x="232" y="68">2부 · 5~7장</text>
+  <text class="t-b mid" x="232" y="98">개발자의</text>
+  <text class="t-b mid" x="232" y="120">작업대</text>
+
+  <rect class="box warm" x="316" y="44" width="128" height="104" rx="14"/>
+  <text class="t-xs t-b tc-warm mid" x="380" y="68">3부 · 8~12장</text>
+  <text class="t-b mid" x="380" y="98">프로그램을</text>
+  <text class="t-b mid" x="380" y="120">짓는 재료</text>
+
+  <rect class="box purple" x="464" y="44" width="128" height="104" rx="14"/>
+  <text class="t-xs t-b tc-purple mid" x="528" y="68">4부 · 13~19장</text>
+  <text class="t-b mid" x="528" y="98">연결되는</text>
+  <text class="t-b mid" x="528" y="120">시스템</text>
+
+  <rect class="box red" x="612" y="44" width="128" height="104" rx="14"/>
+  <text class="t-xs t-b tc-red mid" x="676" y="68">5부 · 20~22장</text>
+  <text class="t-b mid" x="676" y="98">내보내고</text>
+  <text class="t-b mid" x="676" y="120">운영하기</text>
+
+  <path class="ln" d="M151 96 H163" marker-end="url(#ah)"/>
+  <path class="ln" d="M299 96 H311" marker-end="url(#ah)"/>
+  <path class="ln" d="M447 96 H459" marker-end="url(#ah)"/>
+  <path class="ln" d="M595 96 H607" marker-end="url(#ah)"/>
+
+  <text class="t-s t-b" x="20" y="252">목적에 따라</text>
+  <text class="t-s t-b" x="20" y="272">골라 읽기</text>
+  <path class="ln green dash" d="M380 152 V184 H270 V208" marker-end="url(#ah-green)"/>
+  <path class="ln blue dash" d="M528 152 V184 H490 V208" marker-end="url(#ah-blue)"/>
+
+  <rect class="box green" x="170" y="214" width="200" height="88" rx="14"/>
+  <use href="#i-gamepad" x="184" y="236" width="44" height="44" class="ic green"/>
+  <text class="t-l" x="240" y="250">6부 · 게임</text>
+  <text class="t-s" x="240" y="272">23~25장</text>
+
+  <rect class="box blue" x="390" y="214" width="200" height="88" rx="14"/>
+  <use href="#i-robot" x="404" y="236" width="44" height="44" class="ic blue"/>
+  <text class="t-l" x="460" y="250">7부 · AI</text>
+  <text class="t-s" x="460" y="272">26~29장</text>
+</svg>

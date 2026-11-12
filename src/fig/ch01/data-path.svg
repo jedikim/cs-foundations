@@ -1,0 +1,44 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>메인보드 위에서 CPU가 메모리, 그래픽카드, SSD, 칩셋과 연결되는 길</title>
+  <rect class="panel" x="20" y="16" width="720" height="298" rx="18"/>
+  <text class="t-s t-b" x="40" y="44">메인보드 — 부품을 꽂고 서로 이어 주는 판</text>
+
+  <rect class="box purple" x="60" y="70" width="170" height="84" rx="12"/>
+  <use href="#i-gpu" x="70" y="88" width="48" height="48" class="ic purple"/>
+  <text class="t-l" x="126" y="108">그래픽카드</text>
+  <text class="t-s" x="126" y="130">GPU + VRAM</text>
+
+  <rect class="box blue" x="295" y="70" width="170" height="84" rx="12"/>
+  <use href="#i-chip" x="307" y="88" width="48" height="48" class="ic blue"/>
+  <text class="t-l" x="365" y="108">CPU</text>
+  <text class="t-s" x="365" y="130">계산 담당</text>
+
+  <rect class="box green" x="550" y="70" width="170" height="84" rx="12"/>
+  <use href="#i-ram" x="562" y="88" width="48" height="48" class="ic green"/>
+  <text class="t-l" x="620" y="108">메모리</text>
+  <text class="t-s" x="620" y="130">작업 공간</text>
+
+  <rect class="ghost dash" x="60" y="214" width="170" height="84" rx="12"/>
+  <use href="#i-plug" x="70" y="232" width="48" height="48" class="ic gray"/>
+  <text class="t-b" x="126" y="251">전원·냉각</text>
+  <text class="t-s" x="126" y="272">계산은 안 함</text>
+
+  <rect class="box warm" x="295" y="214" width="170" height="84" rx="12"/>
+  <use href="#i-disk" x="307" y="232" width="48" height="48" class="ic warm"/>
+  <text class="t-l" x="365" y="252">SSD</text>
+  <text class="t-s" x="365" y="274">파일 보관</text>
+
+  <rect class="box gray" x="550" y="214" width="170" height="84" rx="12"/>
+  <text class="t-l mid" x="635" y="244">칩셋</text>
+  <text class="t-s mid" x="635" y="265">USB · 네트워크 ·</text>
+  <text class="t-s mid" x="635" y="283">추가 저장장치 연결</text>
+
+  <path class="ln purple" d="M238 104 H287" marker-start="url(#ah-purple)" marker-end="url(#ah-purple)"/>
+  <text class="t-xs mid" x="262" y="92">PCIe</text>
+  <path class="ln green thick" d="M475 104 H540" marker-start="url(#ah-green)" marker-end="url(#ah-green)"/>
+  <text class="t-xs mid" x="508" y="92">가장 빠른 길</text>
+  <path class="ln warm" d="M380 162 V206" marker-start="url(#ah-warm)" marker-end="url(#ah-warm)"/>
+  <text class="t-xs" x="394" y="189">PCIe</text>
+  <path class="ln" d="M473 136 H508 V256 H542" marker-end="url(#ah)"/>
+  <text class="t-xs end" x="498" y="210">공용 통로</text>
+</svg>

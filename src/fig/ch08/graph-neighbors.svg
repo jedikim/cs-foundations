@@ -1,0 +1,61 @@
+<svg viewBox="0 0 760 310" xmlns="http://www.w3.org/2000/svg">
+  <title>역과 연결로 이루어진 노선도는 역마다 이웃 역의 목록을 적어 두는 방식으로 저장한다</title>
+
+  <text class="t-s t-b" x="20" y="36">노선도: 역(정점)과 연결(간선)</text>
+  <path class="ln thick blue" d="M56 190 H400"/>
+  <path class="ln thick green" d="M170 190 L230 90 L290 190"/>
+  <circle class="box" cx="56" cy="190" r="11"/>
+  <circle class="box" cx="170" cy="190" r="11"/>
+  <circle class="box" cx="290" cy="190" r="11"/>
+  <circle class="box" cx="400" cy="190" r="11"/>
+  <circle class="box" cx="230" cy="90" r="11"/>
+  <text class="t-b mid" x="56" y="226">시장</text>
+  <text class="t-b mid" x="170" y="226">시청</text>
+  <text class="t-b mid" x="290" y="226">공원</text>
+  <text class="t-b mid" x="394" y="226">터미널</text>
+  <text class="t-b mid" x="230" y="68">대학</text>
+  <path class="ln thin warm dash" d="M214 160 A22 22 0 1 1 246 160" marker-end="url(#ah-warm)"/>
+  <text class="t-s mid tc-warm" x="230" y="262">시청 → 대학 → 공원 → 시청</text>
+  <text class="t-s mid tc-warm" x="230" y="282">돌아오는 길(순환)이 있음</text>
+
+  <text class="t-s t-b" x="462" y="36">저장: 역마다 이웃 목록</text>
+  <rect class="box yellow" x="462" y="52" width="70" height="34" rx="7"/>
+  <text class="t-s t-b mid" x="497" y="74">시장</text>
+  <path class="ln thin" d="M536 69 H550" marker-end="url(#ah)"/>
+  <rect class="box green" x="558" y="52" width="58" height="34"/>
+  <text class="t-s mid" x="587" y="74">시청</text>
+
+  <rect class="box yellow" x="462" y="100" width="70" height="34" rx="7"/>
+  <text class="t-s t-b mid" x="497" y="122">시청</text>
+  <path class="ln thin" d="M536 117 H550" marker-end="url(#ah)"/>
+  <rect class="box green" x="558" y="100" width="58" height="34"/>
+  <rect class="box green" x="616" y="100" width="58" height="34"/>
+  <rect class="box green" x="674" y="100" width="58" height="34"/>
+  <text class="t-s mid" x="587" y="122">시장</text>
+  <text class="t-s mid" x="645" y="122">공원</text>
+  <text class="t-s mid" x="703" y="122">대학</text>
+
+  <rect class="box yellow" x="462" y="148" width="70" height="34" rx="7"/>
+  <text class="t-s t-b mid" x="497" y="170">공원</text>
+  <path class="ln thin" d="M536 165 H550" marker-end="url(#ah)"/>
+  <rect class="box green" x="558" y="148" width="58" height="34"/>
+  <rect class="box green" x="616" y="148" width="58" height="34"/>
+  <rect class="box green" x="674" y="148" width="58" height="34"/>
+  <text class="t-s mid" x="587" y="170">시청</text>
+  <text class="t-s mid" x="645" y="170">대학</text>
+  <text class="t-s mid" x="703" y="170">터미널</text>
+
+  <rect class="box yellow" x="462" y="196" width="70" height="34" rx="7"/>
+  <text class="t-s t-b mid" x="497" y="218">대학</text>
+  <path class="ln thin" d="M536 213 H550" marker-end="url(#ah)"/>
+  <rect class="box green" x="558" y="196" width="58" height="34"/>
+  <rect class="box green" x="616" y="196" width="58" height="34"/>
+  <text class="t-s mid" x="587" y="218">시청</text>
+  <text class="t-s mid" x="645" y="218">공원</text>
+
+  <rect class="box yellow" x="462" y="244" width="70" height="34" rx="7"/>
+  <text class="t-s t-b mid" x="497" y="266">터미널</text>
+  <path class="ln thin" d="M536 261 H550" marker-end="url(#ah)"/>
+  <rect class="box green" x="558" y="244" width="58" height="34"/>
+  <text class="t-s mid" x="587" y="266">공원</text>
+</svg>

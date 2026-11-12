@@ -1,0 +1,54 @@
+<svg viewBox="0 0 760 322" xmlns="http://www.w3.org/2000/svg">
+  <title>한 단계의 성공률이 99%라도 열 단계를 차례로 거치면 100건 중 약 90건만 끝까지 간다</title>
+  <text class="t-h" x="30" y="32">주문 100건이 10단계를 지나면 (단계마다 99% 통과)</text>
+  <rect class="solid green" x="30" y="80.0" width="42" height="170.0" rx="2"/>
+  <text class="t-mono mid" x="51" y="70">100</text>
+  <text class="t-xs mid" x="51" y="270">출발</text>
+  <rect class="solid green" x="88" y="81.7" width="42" height="168.3" rx="2"/>
+  <rect class="solid red" x="88" y="80" width="42" height="0.7" rx="1"/>
+  <text class="t-mono mid" x="109" y="70">99.0</text>
+  <text class="t-xs mid" x="109" y="270">1단계</text>
+  <rect class="solid green" x="146" y="83.4" width="42" height="166.6" rx="2"/>
+  <rect class="solid red" x="146" y="80" width="42" height="2.4" rx="1"/>
+  <text class="t-mono mid" x="167" y="70">98.0</text>
+  <text class="t-xs mid" x="167" y="270">2단계</text>
+  <rect class="solid green" x="204" y="85.0" width="42" height="165.0" rx="2"/>
+  <rect class="solid red" x="204" y="80" width="42" height="4.0" rx="1"/>
+  <text class="t-mono mid" x="225" y="70">97.0</text>
+  <text class="t-xs mid" x="225" y="270">3단계</text>
+  <rect class="solid green" x="262" y="86.7" width="42" height="163.3" rx="2"/>
+  <rect class="solid red" x="262" y="80" width="42" height="5.7" rx="1"/>
+  <text class="t-mono mid" x="283" y="70">96.1</text>
+  <text class="t-xs mid" x="283" y="270">4단계</text>
+  <rect class="solid green" x="320" y="88.3" width="42" height="161.7" rx="2"/>
+  <rect class="solid red" x="320" y="80" width="42" height="7.3" rx="1"/>
+  <text class="t-mono mid" x="341" y="70">95.1</text>
+  <text class="t-xs mid" x="341" y="270">5단계</text>
+  <rect class="solid green" x="378" y="89.9" width="42" height="160.1" rx="2"/>
+  <rect class="solid red" x="378" y="80" width="42" height="8.9" rx="1"/>
+  <text class="t-mono mid" x="399" y="70">94.1</text>
+  <text class="t-xs mid" x="399" y="270">6단계</text>
+  <rect class="solid green" x="436" y="91.5" width="42" height="158.5" rx="2"/>
+  <rect class="solid red" x="436" y="80" width="42" height="10.5" rx="1"/>
+  <text class="t-mono mid" x="457" y="70">93.2</text>
+  <text class="t-xs mid" x="457" y="270">7단계</text>
+  <rect class="solid green" x="494" y="93.1" width="42" height="156.9" rx="2"/>
+  <rect class="solid red" x="494" y="80" width="42" height="12.1" rx="1"/>
+  <text class="t-mono mid" x="515" y="70">92.3</text>
+  <text class="t-xs mid" x="515" y="270">8단계</text>
+  <rect class="solid green" x="552" y="94.7" width="42" height="155.3" rx="2"/>
+  <rect class="solid red" x="552" y="80" width="42" height="13.7" rx="1"/>
+  <text class="t-mono mid" x="573" y="70">91.4</text>
+  <text class="t-xs mid" x="573" y="270">9단계</text>
+  <rect class="solid green" x="610" y="96.3" width="42" height="153.7" rx="2"/>
+  <rect class="solid red" x="610" y="80" width="42" height="15.3" rx="1"/>
+  <text class="t-mono mid" x="631" y="70">90.4</text>
+  <text class="t-xs mid" x="631" y="270">10단계</text>
+  <path class="ln thin red" d="M656 88 H668"/>
+  <text class="t-s t-b tc-red" x="674" y="92">약 10건</text>
+  <text class="t-s tc-red" x="674" y="110">탈락</text>
+  <path class="ln thin green" d="M656 172 H668"/>
+  <text class="t-s t-b tc-green" x="674" y="176">약 90건</text>
+  <text class="t-s tc-green" x="674" y="194">도착</text>
+  <text class="t-mono" x="30" y="304">0.99 × 0.99 × … × 0.99 (10번 곱하기) ≈ 0.904</text>
+</svg>

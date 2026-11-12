@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>이벤트 루프에서는 요리사 한 명이 꽂이에서 쪽지를 하나씩 꺼내 처리하고, 기다리는 일은 밖에 맡긴다</title>
+
+  <rect class="panel" x="20" y="24" width="210" height="216" rx="16"/>
+  <use href="#i-ticket" x="36" y="36" width="30" height="30" class="ic warm"/>
+  <text class="t-l" x="74" y="58">주문서 꽂이</text>
+  <text class="t-s" x="36" y="86">차례를 기다리는 할 일</text>
+  <rect class="box warm" x="36" y="102" width="178" height="34" rx="8"/>
+  <text class="mid" x="125" y="124">버튼 클릭 처리</text>
+  <rect class="box" x="36" y="144" width="178" height="34" rx="8"/>
+  <text class="mid" x="125" y="166">응답 A 이어서 처리</text>
+  <rect class="box" x="36" y="186" width="178" height="34" rx="8"/>
+  <text class="mid" x="125" y="208">1초 타이머 처리</text>
+
+  <rect class="box blue" x="295" y="60" width="170" height="130" rx="14"/>
+  <use href="#i-chef" x="356" y="72" width="48" height="48" class="ic blue"/>
+  <text class="t-l mid" x="380" y="146">요리사 1명</text>
+  <text class="t-s mid" x="380" y="168">쪽지 하나를 끝까지</text>
+
+  <rect class="panel purple" x="530" y="24" width="210" height="216" rx="16"/>
+  <use href="#i-hourglass" x="546" y="36" width="30" height="30" class="ic purple"/>
+  <text class="t-l" x="584" y="58">맡겨 둔 기다림</text>
+  <text class="t-s" x="546" y="86">브라우저·OS가 지켜본다</text>
+  <rect class="box" x="546" y="102" width="178" height="34" rx="8"/>
+  <text class="mid" x="635" y="124">서버 응답 B</text>
+  <rect class="box" x="546" y="144" width="178" height="34" rx="8"/>
+  <text class="mid" x="635" y="166">파일 읽기</text>
+  <rect class="box" x="546" y="186" width="178" height="34" rx="8"/>
+  <text class="mid" x="635" y="208">타이머 3초</text>
+
+  <path class="ln blue" d="M236 125 H287" marker-end="url(#ah-blue)"/>
+  <circle class="badge blue" cx="262" cy="100" r="12"/><text class="badge-t" x="262" y="104.500">1</text>
+  <text class="t-xs mid" x="262" y="146">하나 꺼냄</text>
+  <path class="ln purple" d="M471 125 H522" marker-end="url(#ah-purple)"/>
+  <circle class="badge purple" cx="497" cy="100" r="12"/><text class="badge-t" x="497" y="104.500">2</text>
+  <text class="t-xs mid" x="497" y="146">맡김</text>
+  <path class="ln purple dash" d="M635 246 V280 H125 V248" marker-end="url(#ah-purple)"/>
+  <circle class="badge purple" cx="232" cy="280" r="12"/><text class="badge-t" x="232" y="284.500">3</text>
+  <text class="t-s" x="252" y="306">기다림이 끝나면 '이어서 할 일' 쪽지가 꽂힌다</text>
+</svg>

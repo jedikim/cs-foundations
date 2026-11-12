@@ -1,0 +1,56 @@
+<svg viewBox="0 0 760 424" xmlns="http://www.w3.org/2000/svg">
+  <title>주문하기 버튼을 누르면 요청이 스마트폰에서 인터넷, 서버, 데이터베이스를 거쳐 되돌아온다</title>
+  <rect class="box blue" x="20" y="30" width="156" height="166" rx="14"/>
+  <use href="#i-phone" x="74" y="42" width="48" height="48" class="ic blue"/>
+  <text class="t-l mid" x="98" y="118">내 스마트폰</text>
+  <text class="t-s mid" x="98" y="142">터치를 감지하고</text>
+  <text class="t-s mid" x="98" y="162">앱 코드가 실행된다</text>
+
+  <rect class="box purple" x="208" y="30" width="156" height="166" rx="14"/>
+  <use href="#i-globe" x="262" y="42" width="48" height="48" class="ic purple"/>
+  <text class="t-l mid" x="286" y="118">인터넷</text>
+  <text class="t-s mid" x="286" y="142">주소를 찾아</text>
+  <text class="t-s mid" x="286" y="162">요청을 실어 나른다</text>
+
+  <rect class="box green" x="396" y="30" width="156" height="166" rx="14"/>
+  <use href="#i-server" x="450" y="42" width="48" height="48" class="ic green"/>
+  <text class="t-l mid" x="474" y="118">서버</text>
+  <text class="t-s mid" x="474" y="142">누구인지 확인하고</text>
+  <text class="t-s mid" x="474" y="162">주문을 처리한다</text>
+
+  <rect class="box warm" x="584" y="30" width="156" height="166" rx="14"/>
+  <use href="#i-db" x="638" y="42" width="48" height="48" class="ic warm"/>
+  <text class="t-l mid" x="662" y="118">데이터베이스</text>
+  <text class="t-s mid" x="662" y="142">주문을 안전하게</text>
+  <text class="t-s mid" x="662" y="162">기록한다</text>
+
+  <path class="ln" d="M180 113 H202" marker-end="url(#ah)"/>
+  <path class="ln" d="M368 113 H390" marker-end="url(#ah)"/>
+  <path class="ln" d="M556 113 H578" marker-end="url(#ah)"/>
+
+  <rect class="box" x="33" y="208" width="130" height="26" rx="13"/>
+  <text class="t-xs t-b mid tc-blue" x="98" y="226">1~4장 · 8~12장</text>
+  <rect class="box" x="221" y="208" width="130" height="26" rx="13"/>
+  <text class="t-xs t-b mid tc-purple" x="286" y="226">14~15장</text>
+  <rect class="box" x="409" y="208" width="130" height="26" rx="13"/>
+  <text class="t-xs t-b mid tc-green" x="474" y="226">18~21장</text>
+  <rect class="box" x="597" y="208" width="130" height="26" rx="13"/>
+  <text class="t-xs t-b mid tc-warm" x="662" y="226">17장</text>
+
+  <path class="ln dash muted" d="M662 240 V266 H98 V246" marker-end="url(#ah-muted)"/>
+  <text class="t-s mid" x="380" y="288">응답이 같은 길로 되돌아와 화면이 "주문 완료"로 바뀐다</text>
+
+  <text class="t-s t-b" x="20" y="330">화면 뒤에서 계속되는 일</text>
+  <rect class="ghost dash" x="20" y="342" width="156" height="62" rx="12"/>
+  <text class="t-b mid" x="98" y="368">코드를 고치고 기록</text>
+  <text class="t-xs mid" x="98" y="390">5~7장</text>
+  <rect class="ghost dash" x="208" y="342" width="156" height="62" rx="12"/>
+  <text class="t-b mid" x="286" y="368">테스트하고 배포</text>
+  <text class="t-xs mid" x="286" y="390">12장 · 20장</text>
+  <rect class="ghost dash" x="396" y="342" width="156" height="62" rx="12"/>
+  <text class="t-b mid" x="474" y="368">침입을 막고</text>
+  <text class="t-xs mid" x="474" y="390">19장</text>
+  <rect class="ghost dash" x="584" y="342" width="156" height="62" rx="12"/>
+  <text class="t-b mid" x="662" y="368">운영을 지켜본다</text>
+  <text class="t-xs mid" x="662" y="390">22장</text>
+</svg>

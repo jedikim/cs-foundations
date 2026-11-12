@@ -1,0 +1,63 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>해시 함수가 키를 서랍 번호로 바꾸고, 서로 다른 키 7과 11이 같은 서랍에 들어가는 충돌이 생긴다</title>
+
+  <text class="t-s t-b mid" x="95" y="36">키(회원 번호)와 값</text>
+  <text class="t-s t-b mid" x="290" y="36">해시 함수: 4로 나눈 나머지</text>
+  <text class="t-s t-b mid" x="605" y="36">서랍 4개</text>
+
+  <!-- 키·값 -->
+  <rect class="box yellow" x="20" y="58" width="56" height="44" rx="8"/>
+  <rect class="box" x="76" y="58" width="94" height="44" rx="8"/>
+  <text class="t-mono t-b mid" x="48" y="85">8</text>
+  <text class="mid" x="123" y="85">서연</text>
+
+  <rect class="box yellow" x="20" y="118" width="56" height="44" rx="8"/>
+  <rect class="box" x="76" y="118" width="94" height="44" rx="8"/>
+  <text class="t-mono t-b mid" x="48" y="145">5</text>
+  <text class="mid" x="123" y="145">지호</text>
+
+  <rect class="box yellow" x="20" y="178" width="56" height="44" rx="8"/>
+  <rect class="box" x="76" y="178" width="94" height="44" rx="8"/>
+  <text class="t-mono t-b mid" x="48" y="205">7</text>
+  <text class="mid" x="123" y="205">민준</text>
+
+  <rect class="box yellow" x="20" y="238" width="56" height="44" rx="8"/>
+  <rect class="box" x="76" y="238" width="94" height="44" rx="8"/>
+  <text class="t-mono t-b mid" x="48" y="265">11</text>
+  <text class="mid" x="123" y="265">하은</text>
+
+  <!-- 계산 -->
+  <text class="t-mono" x="196" y="85">8 ÷ 4 → 나머지 0</text>
+  <text class="t-mono" x="196" y="145">5 ÷ 4 → 나머지 1</text>
+  <text class="t-mono" x="196" y="205">7 ÷ 4 → 나머지 3</text>
+  <text class="t-mono" x="196" y="265">11 ÷ 4 → 나머지 3</text>
+
+  <path class="ln green" d="M366 80 H462" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M366 140 H462" marker-end="url(#ah-green)"/>
+  <path class="ln warm" d="M366 200 L462 248" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M376 262 H462" marker-end="url(#ah-warm)"/>
+
+  <!-- 서랍 -->
+  <rect class="box green" x="470" y="58" width="270" height="44" rx="8"/>
+  <text class="t-mono t-b mid" x="490" y="85">0</text>
+  <rect class="box" x="512" y="65" width="104" height="30" rx="6"/>
+  <text class="t-s mid" x="564" y="85">8 · 서연</text>
+
+  <rect class="box green" x="470" y="118" width="270" height="44" rx="8"/>
+  <text class="t-mono t-b mid" x="490" y="145">1</text>
+  <rect class="box" x="512" y="125" width="104" height="30" rx="6"/>
+  <text class="t-s mid" x="564" y="145">5 · 지호</text>
+
+  <rect class="box gray" x="470" y="178" width="270" height="44" rx="8"/>
+  <text class="t-mono t-b mid" x="490" y="205">2</text>
+  <text class="t-s" x="514" y="205">비어 있음</text>
+
+  <rect class="box warm" x="470" y="238" width="270" height="44" rx="8"/>
+  <text class="t-mono t-b mid" x="490" y="265">3</text>
+  <rect class="box" x="512" y="245" width="104" height="30" rx="6"/>
+  <text class="t-s mid" x="564" y="265">7 · 민준</text>
+  <rect class="box" x="624" y="245" width="104" height="30" rx="6"/>
+  <text class="t-s mid" x="676" y="265">11 · 하은</text>
+
+  <text class="t-s t-b tc-warm mid" x="605" y="308">충돌: 서랍은 같아도 키는 다르다</text>
+</svg>

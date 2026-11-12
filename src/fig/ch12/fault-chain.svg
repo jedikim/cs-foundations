@@ -1,0 +1,59 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>레시피의 오타가 짠 국물을 거쳐 손님 식탁에서 드러나듯, 코드의 결함은 잘못된 값을 거쳐 멀리 떨어진 화면에서 실패로 드러난다</title>
+
+  <circle class="badge warm" cx="126" cy="25" r="11"/><text class="badge-t" x="126" y="29.500">1</text>
+  <text class="t-s t-b" x="144" y="30">결함: 잘못 쓴 곳</text>
+  <circle class="badge" cx="346" cy="25" r="11"/><text class="badge-t" x="346" y="29.500">2</text>
+  <text class="t-s t-b" x="364" y="30">오류: 잘못된 값</text>
+  <circle class="badge red" cx="566" cy="25" r="11"/><text class="badge-t" x="566" y="29.500">3</text>
+  <text class="t-s t-b" x="584" y="30">실패: 눈에 보인 증상</text>
+
+  <text class="t-s t-b" x="22" y="104">주방에서는</text>
+  <text class="t-s t-b" x="22" y="256">코드에서는</text>
+
+  <rect class="box yellow" x="112" y="44" width="190" height="110" rx="14"/>
+  <use href="#i-book" x="187" y="52" width="40" height="40" class="ic yellow"/>
+  <text class="t-l mid" x="207" y="116">레시피의 오타</text>
+  <text class="t-s mid" x="207" y="138">소금 1큰술 → 10큰술</text>
+
+  <rect class="box yellow" x="332" y="44" width="190" height="110" rx="14"/>
+  <g class="ic yellow" transform="translate(427 74)">
+    <path class="i-f" d="M-17 -6 H17 V8 a7 7 0 0 1 -7 7 H-10 a7 7 0 0 1 -7 -7 Z"/>
+    <path class="i-s" d="M-24 -6 H24 M-7 -13 q4 -4 0 -8 M7 -13 q4 -4 0 -8"/>
+  </g>
+  <text class="t-l mid" x="427" y="116">짠 국물</text>
+  <text class="t-s mid" x="427" y="138">냄비 속에서 이미 틀어짐</text>
+
+  <rect class="box yellow" x="552" y="44" width="190" height="110" rx="14"/>
+  <use href="#i-chat" x="627" y="52" width="40" height="40" class="ic yellow"/>
+  <text class="t-l mid" x="647" y="116">손님의 항의</text>
+  <text class="t-s mid" x="647" y="138">“국이 너무 짜요”</text>
+
+  <path class="ln" d="M307 99 H325" marker-end="url(#ah)"/>
+  <path class="ln" d="M527 99 H545" marker-end="url(#ah)"/>
+
+  <path class="ln thin muted dash" d="M207 160 V190"/>
+  <path class="ln thin muted dash" d="M427 160 V190"/>
+  <path class="ln thin muted dash" d="M647 160 V190"/>
+
+  <rect class="box warm" x="112" y="196" width="190" height="110" rx="14"/>
+  <use href="#i-code" x="187" y="204" width="40" height="40" class="ic warm"/>
+  <text class="t-mono t-b mid" x="207" y="267">checkout(4000, 10)</text>
+  <text class="t-s mid" x="207" y="290">0.1 자리에 10을 넘김</text>
+
+  <rect class="box" x="332" y="196" width="190" height="110" rx="14"/>
+  <use href="#i-warn" x="407" y="204" width="40" height="40" class="ic"/>
+  <text class="t-mono t-b mid" x="427" y="267">total = -36000</text>
+  <text class="t-s mid" x="427" y="290">아직 아무도 모름</text>
+
+  <rect class="box red" x="552" y="196" width="190" height="110" rx="14"/>
+  <use href="#i-phone" x="627" y="204" width="40" height="40" class="ic red"/>
+  <text class="t-b mid tc-red" x="647" y="267">“결제에 실패했습니다”</text>
+  <text class="t-s mid" x="647" y="290">사용자가 본 화면</text>
+
+  <path class="ln" d="M307 251 H325" marker-end="url(#ah)"/>
+  <path class="ln" d="M527 251 H545" marker-end="url(#ah)"/>
+
+  <path class="ln blue dash" d="M647 312 V332 H207 V318" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b mid tc-blue" x="427" y="358">디버깅은 거꾸로 간다: 증상에서 출발해 처음 잘못된 곳까지</text>
+</svg>

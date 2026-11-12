@@ -1,0 +1,44 @@
+<svg viewBox="0 0 760 322" xmlns="http://www.w3.org/2000/svg">
+  <title>고치기 전에 실패하던 테스트가 고친 뒤 통과하면 고쳤다는 증거가 되고, 나중에 같은 버그가 돌아오면 그 테스트가 다시 실패해 알려 준다</title>
+
+  <rect class="box blue" x="20" y="16" width="720" height="48" rx="12"/>
+  <use href="#i-bell" x="32" y="24" width="32" height="32" class="ic blue"/>
+  <text class="t-mono t-b" x="76" y="45">assert apply_coupon(4000, 10) == 3600</text>
+  <text class="t-s end" x="724" y="45">테스트 한 줄 = 경보기 하나</text>
+
+  <text class="t-b mid" x="110" y="96">버그 발견</text>
+  <text class="t-s mid" x="110" y="116">테스트부터 쓴다</text>
+  <text class="t-b mid" x="290" y="96">코드 수정</text>
+  <text class="t-s mid" x="290" y="116">같은 테스트를 다시</text>
+  <text class="t-b mid" x="470" y="96">석 달 뒤</text>
+  <text class="t-s mid" x="470" y="116">누군가 할인 코드를 손봄</text>
+  <text class="t-b mid" x="650" y="96">바로 수정</text>
+  <text class="t-s mid" x="650" y="116">퍼지기 전에 잡힘</text>
+
+  <path class="ln muted" d="M30 150 H726" marker-end="url(#ah-muted)"/>
+  <use href="#i-cross" x="94" y="134" width="32" height="32" class="ic red"/>
+  <use href="#i-check" x="274" y="134" width="32" height="32" class="ic green"/>
+  <use href="#i-cross" x="454" y="134" width="32" height="32" class="ic red"/>
+  <use href="#i-check" x="634" y="134" width="32" height="32" class="ic green"/>
+
+  <rect class="box red" x="35" y="182" width="150" height="62" rx="12"/>
+  <text class="t-l mid tc-red" x="110" y="208">실패</text>
+  <text class="t-s mid" x="110" y="230">실제 값 -36000</text>
+
+  <rect class="box green" x="215" y="182" width="150" height="62" rx="12"/>
+  <text class="t-l mid tc-green" x="290" y="208">통과</text>
+  <text class="t-s mid" x="290" y="230">실제 값 3600</text>
+
+  <rect class="box red" x="395" y="182" width="150" height="62" rx="12"/>
+  <text class="t-l mid tc-red" x="470" y="208">실패</text>
+  <text class="t-s mid" x="470" y="230">경보가 울린다</text>
+
+  <rect class="box green" x="575" y="182" width="150" height="62" rx="12"/>
+  <text class="t-l mid tc-green" x="650" y="208">통과</text>
+  <text class="t-s mid" x="650" y="230">다시 3600</text>
+
+  <path class="ln thin" d="M35 258 V268 H365 V258"/>
+  <text class="t-b mid" x="200" y="296">빨강 → 초록: 고쳤다는 증거</text>
+  <path class="ln thin" d="M395 258 V268 H725 V258"/>
+  <text class="t-b mid" x="560" y="296">다시 깨지면 바로 안다: 회귀 방지</text>
+</svg>

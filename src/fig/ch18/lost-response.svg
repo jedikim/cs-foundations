@@ -1,0 +1,48 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>요청이 사라져도, 응답이 사라져도, 응답이 늦어도 보낸 쪽에는 똑같이 시간 초과로 보이지만 실제 결제 결과는 서로 다르다</title>
+  <text class="t-s t-b mid" x="90" y="30">주문 서비스가 본 것</text>
+  <text class="t-s t-b mid" x="315" y="30">오가는 길</text>
+  <text class="t-s t-b mid" x="535" y="30">결제 서비스</text>
+  <text class="t-s t-b mid" x="678" y="30">실제 결과</text>
+  <path class="ln thin muted" d="M20 42 H740"/>
+
+  <rect class="box blue" x="20" y="54" width="140" height="76" rx="12"/>
+  <text class="t-s mid" x="90" y="86">3초 기다린 뒤</text>
+  <text class="t-b mid tc-red" x="90" y="108">시간 초과</text>
+  <circle class="badge" cx="184" cy="68" r="11"/><text class="badge-t" x="184" y="72.500">1</text>
+  <text class="t-s t-b" x="202" y="73">요청이 가다가 사라짐</text>
+  <path class="ln blue" d="M166 94 H292"/>
+  <use href="#i-cross" x="298" y="82" width="24" height="24" class="ic red"/>
+  <path class="ln muted dash" d="M328 94 H462"/>
+  <rect class="box gray" x="470" y="54" width="130" height="76" rx="12"/>
+  <text class="t-s mid" x="535" y="97">받은 것이 없다</text>
+  <text class="t-l mid" x="678" y="98">결제 안 됨</text>
+
+  <rect class="box blue" x="20" y="150" width="140" height="76" rx="12"/>
+  <text class="t-s mid" x="90" y="182">3초 기다린 뒤</text>
+  <text class="t-b mid tc-red" x="90" y="204">시간 초과</text>
+  <circle class="badge" cx="184" cy="164" r="11"/><text class="badge-t" x="184" y="168.500">2</text>
+  <text class="t-s t-b" x="202" y="169">응답이 오다가 사라짐</text>
+  <path class="ln blue" d="M166 188 H460" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M464 212 H334"/>
+  <use href="#i-cross" x="304" y="200" width="24" height="24" class="ic red"/>
+  <path class="ln muted dash" d="M298 212 H170"/>
+  <rect class="box green" x="470" y="150" width="130" height="76" rx="12"/>
+  <text class="t-b mid" x="535" y="184">12,000원 승인</text>
+  <text class="t-s mid" x="535" y="206">결제 완료</text>
+  <text class="t-l mid tc-warm" x="678" y="194">결제됨</text>
+
+  <rect class="box blue" x="20" y="246" width="140" height="76" rx="12"/>
+  <text class="t-s mid" x="90" y="278">3초 기다린 뒤</text>
+  <text class="t-b mid tc-red" x="90" y="300">시간 초과</text>
+  <circle class="badge" cx="184" cy="260" r="11"/><text class="badge-t" x="184" y="264.500">3</text>
+  <text class="t-s t-b" x="202" y="265">응답이 4초 뒤에야 도착</text>
+  <path class="ln blue" d="M166 284 H460" marker-end="url(#ah-blue)"/>
+  <path class="ln warm dash" d="M464 308 H172" marker-end="url(#ah-warm)"/>
+  <rect class="box green" x="470" y="246" width="130" height="76" rx="12"/>
+  <text class="t-b mid" x="535" y="280">12,000원 승인</text>
+  <text class="t-s mid tc-warm" x="535" y="302">4초 걸림</text>
+  <text class="t-l mid tc-warm" x="678" y="290">결제됨</text>
+
+  <text class="t-b mid" x="380" y="354">보낸 쪽에서는 세 경우를 구별할 수 없다</text>
+</svg>

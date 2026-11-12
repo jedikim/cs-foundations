@@ -1,0 +1,62 @@
+<svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg">
+  <title>컨테이너 안에 저장한 사진은 새 버전으로 바꿀 때 사라지고, 볼륨에 저장한 사진은 남는다</title>
+
+  <text class="t-s t-b mid" x="265" y="32">배포 전</text>
+  <text class="t-s t-b mid" x="595" y="32">배포 후</text>
+
+  <use href="#i-cross" x="20" y="56" width="28" height="28" class="ic red"/>
+  <text class="t-b" x="20" y="110">컨테이너 안에</text>
+  <text class="t-b" x="20" y="130">저장하면</text>
+
+  <rect class="box blue" x="160" y="48" width="210" height="112" rx="14"/>
+  <text class="t-b" x="176" y="72">컨테이너 v1</text>
+  <rect class="box" x="174" y="84" width="182" height="62" rx="8"/>
+  <text class="t-mono" x="186" y="106">/uploads</text>
+  <use href="#i-image" x="186" y="114" width="24" height="24" class="ic green"/>
+  <use href="#i-image" x="216" y="114" width="24" height="24" class="ic green"/>
+  <use href="#i-image" x="246" y="114" width="24" height="24" class="ic green"/>
+  <text class="t-s" x="282" y="132">사진 3장</text>
+
+  <path class="ln warm" d="M378 104 H482" marker-end="url(#ah-warm)"/>
+  <text class="t-xs mid" x="430" y="92">새 버전 배포</text>
+  <text class="t-xs mid" x="430" y="124">v1 삭제, v2 생성</text>
+
+  <rect class="box blue" x="490" y="48" width="210" height="112" rx="14"/>
+  <text class="t-b" x="506" y="72">컨테이너 v2</text>
+  <rect class="ghost dash" x="504" y="84" width="182" height="62" rx="8"/>
+  <text class="t-mono" x="516" y="106">/uploads</text>
+  <text class="t-s t-b tc-red" x="516" y="132">비어 있음</text>
+  <use href="#i-cross" x="708" y="90" width="28" height="28" class="ic red"/>
+
+  <path class="ln thin muted dash" d="M20 180 H740"/>
+
+  <use href="#i-check" x="20" y="204" width="28" height="28" class="ic green"/>
+  <text class="t-b" x="20" y="258">볼륨에</text>
+  <text class="t-b" x="20" y="278">저장하면</text>
+
+  <rect class="box blue" x="160" y="200" width="210" height="64" rx="14"/>
+  <text class="t-b" x="176" y="226">컨테이너 v1</text>
+  <text class="t-mono" x="176" y="248">/uploads</text>
+
+  <path class="ln warm" d="M378 232 H482" marker-end="url(#ah-warm)"/>
+  <text class="t-xs mid" x="430" y="220">새 버전 배포</text>
+
+  <rect class="box blue" x="490" y="200" width="210" height="64" rx="14"/>
+  <text class="t-b" x="506" y="226">컨테이너 v2</text>
+  <text class="t-mono" x="506" y="248">/uploads</text>
+  <use href="#i-check" x="708" y="218" width="28" height="28" class="ic green"/>
+
+  <path class="ln green" d="M300 268 V290" marker-end="url(#ah-green)"/>
+  <text class="t-xs" x="310" y="284">연결</text>
+  <path class="ln green" d="M560 268 V290" marker-end="url(#ah-green)"/>
+  <text class="t-xs" x="570" y="284">같은 볼륨에 연결</text>
+
+  <rect class="box green" x="250" y="296" width="360" height="56" rx="12"/>
+  <use href="#i-disk" x="262" y="308" width="32" height="32" class="ic green"/>
+  <text class="t-b" x="304" y="320">볼륨</text>
+  <text class="t-s" x="304" y="340">컨테이너 밖의 저장 공간</text>
+  <use href="#i-image" x="466" y="312" width="24" height="24" class="ic green"/>
+  <use href="#i-image" x="496" y="312" width="24" height="24" class="ic green"/>
+  <use href="#i-image" x="526" y="312" width="24" height="24" class="ic green"/>
+  <text class="t-s t-b tc-green" x="560" y="330">3장</text>
+</svg>

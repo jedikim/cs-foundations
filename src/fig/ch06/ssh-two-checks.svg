@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 344" xmlns="http://www.w3.org/2000/svg">
+  <title>SSH 접속에서는 노트북이 지문으로 서버를 확인하고, 서버가 공개 키로 사용자를 확인한다</title>
+
+  <rect class="panel blue" x="20" y="20" width="230" height="304" rx="14"/>
+  <use href="#i-laptop" x="36" y="30" width="36" height="36" class="ic blue"/>
+  <text class="t-l" x="82" y="55">내 노트북</text>
+
+  <rect class="box" x="36" y="80" width="198" height="96" rx="10"/>
+  <use href="#i-list" x="48" y="90" width="28" height="28" class="ic blue"/>
+  <text class="t-b" x="84" y="110">아는 서버 목록</text>
+  <text class="t-mono" x="50" y="138">known_hosts</text>
+  <text class="t-xs" x="50" y="160">처음 접속 때 지문을 적어 둠</text>
+
+  <rect class="box warm" x="36" y="208" width="198" height="96" rx="10"/>
+  <use href="#i-key" x="48" y="218" width="28" height="28" class="ic warm"/>
+  <text class="t-b" x="84" y="238">개인 키 (열쇠)</text>
+  <text class="t-mono" x="50" y="266">id_ed25519</text>
+  <text class="t-xs tc-red" x="50" y="288">노트북 밖으로 보내지 않음</text>
+
+  <rect class="panel green" x="510" y="20" width="230" height="304" rx="14"/>
+  <use href="#i-server" x="526" y="30" width="36" height="36" class="ic green"/>
+  <text class="t-l" x="572" y="55">원격 서버</text>
+
+  <rect class="box" x="526" y="80" width="198" height="96" rx="10"/>
+  <use href="#i-idcard" x="538" y="90" width="28" height="28" class="ic green"/>
+  <text class="t-b" x="574" y="110">서버의 고유 키</text>
+  <text class="t-xs" x="540" y="136">이 키의 지문</text>
+  <text class="t-mono" x="540" y="158">SHA256:Xk3f…9QeM</text>
+
+  <rect class="box" x="526" y="208" width="198" height="96" rx="10"/>
+  <use href="#i-lock" x="538" y="218" width="28" height="28" class="ic green"/>
+  <text class="t-b" x="574" y="238">공개 키 (자물쇠)</text>
+  <text class="t-mono" x="540" y="266">authorized_keys</text>
+  <text class="t-xs" x="540" y="288">미리 등록해 둔 내 공개 키</text>
+
+  <circle class="badge green" cx="296" cy="103" r="12"/><text class="badge-t" x="296" y="107.500">1</text>
+  <text class="t-b" x="316" y="108">서버가 지문을 보여 줌</text>
+  <path class="ln green" d="M504 128 H258" marker-end="url(#ah-green)"/>
+  <text class="t-xs mid" x="380" y="152">노트북: 내가 아는 그 서버인가?</text>
+
+  <circle class="badge blue" cx="296" cy="231" r="12"/><text class="badge-t" x="296" y="235.500">2</text>
+  <text class="t-b" x="316" y="236">개인 키로 서명해 보냄</text>
+  <path class="ln blue" d="M256 256 H502" marker-end="url(#ah-blue)"/>
+  <text class="t-xs mid" x="380" y="280">서버: 등록된 공개 키와 맞는가?</text>
+</svg>

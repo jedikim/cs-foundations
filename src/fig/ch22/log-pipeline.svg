@@ -1,0 +1,55 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>앱이 남긴 로그는 수집, 전송, 저장을 거쳐야 검색되므로, 검색 결과 0건이 곧 오류 0건은 아니다</title>
+  <text class="t-h" x="20" y="34">10:03:13에 남긴 r7의 오류 로그, 10초 뒤에는 어디에 있을까</text>
+
+  <rect class="box blue" x="20" y="52" width="120" height="96" rx="12"/>
+  <use href="#i-server" x="62" y="60" width="36" height="36" class="ic blue"/>
+  <text class="t-b mid" x="80" y="118">앱 서버</text>
+  <text class="t-xs mid" x="80" y="136">한 줄씩 출력</text>
+
+  <rect class="box blue" x="170" y="52" width="120" height="96" rx="12"/>
+  <use href="#i-funnel" x="212" y="60" width="36" height="36" class="ic blue"/>
+  <text class="t-b mid" x="230" y="118">수집기</text>
+  <text class="t-xs mid" x="230" y="136">읽어서 다듬기</text>
+
+  <rect class="box warm" x="320" y="52" width="120" height="96" rx="12"/>
+  <use href="#i-layers" x="362" y="60" width="36" height="36" class="ic warm"/>
+  <text class="t-b mid" x="380" y="118">전송 버퍼</text>
+  <text class="t-xs mid" x="380" y="136">묶어서 보내기</text>
+
+  <rect class="box green" x="470" y="52" width="120" height="96" rx="12"/>
+  <use href="#i-db" x="512" y="60" width="36" height="36" class="ic green"/>
+  <text class="t-b mid" x="530" y="118">저장소</text>
+  <text class="t-xs mid" x="530" y="136">찾기 쉽게 색인</text>
+
+  <rect class="box purple" x="620" y="52" width="120" height="96" rx="12"/>
+  <use href="#i-search" x="662" y="60" width="36" height="36" class="ic purple"/>
+  <text class="t-b mid" x="680" y="118">검색 화면</text>
+  <text class="t-xs mid" x="680" y="136">사람이 찾기</text>
+
+  <path class="ln" d="M145 100 H163" marker-end="url(#ah)"/>
+  <path class="ln" d="M295 100 H313" marker-end="url(#ah)"/>
+  <path class="ln" d="M445 100 H463" marker-end="url(#ah)"/>
+  <path class="ln" d="M595 100 H613" marker-end="url(#ah)"/>
+
+  <rect class="box green" x="20" y="164" width="120" height="30" rx="8"/>
+  <text class="t-s t-b tc-green mid" x="80" y="184">r7 출력됨</text>
+  <rect class="box green" x="170" y="164" width="120" height="30" rx="8"/>
+  <text class="t-s t-b tc-green mid" x="230" y="184">r7 읽어 감</text>
+  <rect class="box warm" x="320" y="164" width="120" height="30" rx="8"/>
+  <text class="t-s t-b tc-warm mid" x="380" y="184">r7 대기 중</text>
+  <rect class="box gray" x="470" y="164" width="120" height="30" rx="8"/>
+  <text class="t-s t-b mid" x="530" y="184">아직 없음</text>
+  <rect class="box red" x="620" y="164" width="120" height="30" rx="8"/>
+  <text class="t-s t-b tc-red mid" x="680" y="184">결과 0건</text>
+
+  <text class="t-s t-b" x="20" y="228">단계마다 끊기거나 늦어질 수 있다</text>
+  <text class="t-xs mid" x="80" y="250">기록을 안 남김</text>
+  <text class="t-xs mid" x="230" y="250">경로·형식이 틀림</text>
+  <text class="t-xs mid" x="380" y="250">가득 차면 버림</text>
+  <text class="t-xs mid" x="530" y="250">색인이 몇 분 늦음</text>
+  <text class="t-xs mid" x="680" y="250">기간·조건이 틀림</text>
+
+  <rect class="box red" x="230" y="270" width="300" height="34" rx="10"/>
+  <text class="t-b tc-red mid" x="380" y="292">검색 결과 0건 ≠ 오류 0건</text>
+</svg>

@@ -1,0 +1,94 @@
+<svg viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg">
+  <title>인덱스는 키 순서로 정렬한 찾아보기여서, 회원 7의 주문 세 건이 있는 위치로 바로 갈 수 있다</title>
+  <text class="t-l" x="60" y="30">찾아보기(인덱스)</text>
+  <text class="t-s" x="60" y="54">member_id 순으로 정렬</text>
+  <text class="t-l" x="480" y="30">주문 표</text>
+  <text class="t-s" x="480" y="54">들어온 순서대로 쌓임</text>
+
+  <rect class="box gray" x="60" y="70" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="115" y="89">member_id</text>
+  <rect class="box gray" x="170" y="70" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="210" y="89">주문 id</text>
+  <rect class="box" x="60" y="98" width="110" height="28"/>
+  <text class="t-mono mid" x="115" y="117">1</text>
+  <rect class="box" x="170" y="98" width="80" height="28"/>
+  <text class="t-mono mid" x="210" y="117">203</text>
+  <rect class="box" x="60" y="126" width="110" height="28"/>
+  <text class="t-mono mid" x="115" y="145">2</text>
+  <rect class="box" x="170" y="126" width="80" height="28"/>
+  <text class="t-mono mid" x="210" y="145">205</text>
+  <rect class="box" x="60" y="154" width="110" height="28"/>
+  <text class="t-mono mid" x="115" y="173">3</text>
+  <rect class="box" x="170" y="154" width="80" height="28"/>
+  <text class="t-mono mid" x="210" y="173">201</text>
+  <rect class="box" x="60" y="182" width="110" height="28"/>
+  <text class="t-mono mid" x="115" y="201">4</text>
+  <rect class="box" x="170" y="182" width="80" height="28"/>
+  <text class="t-mono mid" x="210" y="201">208</text>
+  <rect class="box" x="60" y="210" width="110" height="28"/>
+  <text class="t-mono mid" x="115" y="229">5</text>
+  <rect class="box" x="170" y="210" width="80" height="28"/>
+  <text class="t-mono mid" x="210" y="229">206</text>
+  <rect class="box green" x="60" y="238" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="115" y="257">7</text>
+  <rect class="box green" x="170" y="238" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="210" y="257">202</text>
+  <rect class="box green" x="60" y="266" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="115" y="285">7</text>
+  <rect class="box green" x="170" y="266" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="210" y="285">204</text>
+  <rect class="box green" x="60" y="294" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="115" y="313">7</text>
+  <rect class="box green" x="170" y="294" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="210" y="313">207</text>
+
+  <rect class="box gray" x="480" y="70" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="520" y="89">id</text>
+  <rect class="box gray" x="560" y="70" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="615" y="89">member_id</text>
+  <rect class="box" x="480" y="98" width="80" height="28"/>
+  <text class="t-mono mid" x="520" y="117">201</text>
+  <rect class="box" x="560" y="98" width="110" height="28"/>
+  <text class="t-mono mid" x="615" y="117">3</text>
+  <rect class="box green" x="480" y="126" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="520" y="145">202</text>
+  <rect class="box green" x="560" y="126" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="615" y="145">7</text>
+  <rect class="box" x="480" y="154" width="80" height="28"/>
+  <text class="t-mono mid" x="520" y="173">203</text>
+  <rect class="box" x="560" y="154" width="110" height="28"/>
+  <text class="t-mono mid" x="615" y="173">1</text>
+  <rect class="box green" x="480" y="182" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="520" y="201">204</text>
+  <rect class="box green" x="560" y="182" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="615" y="201">7</text>
+  <rect class="box" x="480" y="210" width="80" height="28"/>
+  <text class="t-mono mid" x="520" y="229">205</text>
+  <rect class="box" x="560" y="210" width="110" height="28"/>
+  <text class="t-mono mid" x="615" y="229">2</text>
+  <rect class="box" x="480" y="238" width="80" height="28"/>
+  <text class="t-mono mid" x="520" y="257">206</text>
+  <rect class="box" x="560" y="238" width="110" height="28"/>
+  <text class="t-mono mid" x="615" y="257">5</text>
+  <rect class="box green" x="480" y="266" width="80" height="28"/>
+  <text class="t-mono t-b mid" x="520" y="285">207</text>
+  <rect class="box green" x="560" y="266" width="110" height="28"/>
+  <text class="t-mono t-b mid" x="615" y="285">7</text>
+  <rect class="box" x="480" y="294" width="80" height="28"/>
+  <text class="t-mono mid" x="520" y="313">208</text>
+  <rect class="box" x="560" y="294" width="110" height="28"/>
+  <text class="t-mono mid" x="615" y="313">4</text>
+
+  <path class="ln green" d="M254 252 C360 252 370 140 472 140" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M254 280 C360 280 370 196 472 196" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M254 308 C360 308 370 280 472 280" marker-end="url(#ah-green)"/>
+  <text class="t-s mid" x="364" y="100">7이 모인 곳을 찾아</text>
+  <text class="t-s mid" x="364" y="119">적힌 위치로 바로 간다</text>
+
+  <rect class="box gray" x="60" y="346" width="300" height="56" rx="10"/>
+  <text class="t-b" x="76" y="370">인덱스 없이: 8줄을 모두 확인</text>
+  <text class="t-s" x="76" y="390">100만 건이면 100만 줄</text>
+  <rect class="box green" x="400" y="346" width="300" height="56" rx="10"/>
+  <text class="t-b" x="416" y="370">인덱스로: 3줄만 확인</text>
+  <text class="t-s" x="416" y="390">100만 건이어도 갈림길 서너 번</text>
+</svg>

@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 312" xmlns="http://www.w3.org/2000/svg">
+  <title>화면 프레임의 길이가 들쭉날쭉해도, 물리는 지난 시간을 모아 두었다가 20ms가 찰 때마다 한 번씩 계산한다</title>
+  <text class="t-h" x="20" y="34">물리는 20ms가 모일 때마다 한 번</text>
+
+  <text class="t-s t-b" x="20" y="84">화면 프레임</text>
+  <rect class="box blue" x="111" y="58" width="88" height="42" rx="8"/>
+  <text class="t-mono mid" x="155" y="84">16.7ms</text>
+  <rect class="box blue" x="201" y="58" width="88" height="42" rx="8"/>
+  <text class="t-mono mid" x="245" y="84">16.7ms</text>
+  <rect class="box blue" x="291" y="58" width="88" height="42" rx="8"/>
+  <text class="t-mono mid" x="335" y="84">16.7ms</text>
+  <rect class="box warm" x="381" y="58" width="268" height="42" rx="8"/>
+  <text class="t-b mid" x="515" y="84">50ms — 버벅인 프레임</text>
+  <rect class="box blue" x="651" y="58" width="88" height="42" rx="8"/>
+  <text class="t-mono mid" x="695" y="84">16.7ms</text>
+
+  <path class="ln thin muted dash" d="M200 106 V226 M290 106 V226 M380 106 V226 M650 106 V226"/>
+
+  <text class="t-s t-b" x="20" y="134">모인 시간</text>
+  <text class="t-mono mid" x="155" y="134">16.7</text>
+  <text class="t-mono mid" x="245" y="134">33.4</text>
+  <text class="t-mono mid" x="335" y="134">30.1</text>
+  <text class="t-mono mid" x="515" y="134">60.1</text>
+  <text class="t-mono mid" x="695" y="134">16.8</text>
+
+  <text class="t-s t-b" x="20" y="176">물리 계산</text>
+  <text class="t-s tc-muted mid" x="155" y="176">아직 없음</text>
+  <rect class="solid green" x="225" y="156" width="40" height="28" rx="5"/>
+  <text class="t-xs t-on mid" x="245" y="175">20</text>
+  <rect class="solid green" x="315" y="156" width="40" height="28" rx="5"/>
+  <text class="t-xs t-on mid" x="335" y="175">20</text>
+  <rect class="solid green" x="447" y="156" width="40" height="28" rx="5"/>
+  <text class="t-xs t-on mid" x="467" y="175">20</text>
+  <rect class="solid green" x="495" y="156" width="40" height="28" rx="5"/>
+  <text class="t-xs t-on mid" x="515" y="175">20</text>
+  <rect class="solid green" x="543" y="156" width="40" height="28" rx="5"/>
+  <text class="t-xs t-on mid" x="563" y="175">20</text>
+  <text class="t-s tc-muted mid" x="695" y="176">아직 없음</text>
+
+  <text class="t-s t-b" x="20" y="218">남은 시간</text>
+  <text class="t-mono mid" x="155" y="218">16.7</text>
+  <text class="t-mono mid" x="245" y="218">13.4</text>
+  <text class="t-mono mid" x="335" y="218">10.1</text>
+  <text class="t-mono mid" x="515" y="218">0.1</text>
+  <text class="t-mono mid" x="695" y="218">16.8</text>
+
+  <text class="t-s t-b tc-warm mid" x="515" y="254">밀린 만큼 3번을 몰아서 계산</text>
+  <text class="t-s" x="20" y="290">초록 칸 하나 = 게임 속 시간 20ms 전진 · 단위는 모두 ms</text>
+</svg>

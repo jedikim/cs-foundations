@@ -1,0 +1,51 @@
+<svg viewBox="0 0 760 346" xmlns="http://www.w3.org/2000/svg">
+  <title>응답이 사라진 주문을 그냥 다시 보내면 주문이 두 건 생기지만, 주문서에 고유 번호를 적어 보내면 서버가 같은 주문임을 알아보고 한 건만 남긴다</title>
+
+  <rect class="panel red" x="20" y="20" width="350" height="306" rx="14"/>
+  <text class="t-l" x="36" y="50">번호 없는 주문서</text>
+  <text class="t-xs" x="36" y="74">브라우저</text>
+  <text class="t-xs end" x="354" y="74">서버</text>
+
+  <path class="ln blue" d="M36 102 H348" marker-end="url(#ah-blue)"/>
+  <text class="t-mono mid" x="195" y="92">POST /orders</text>
+  <text class="t-xs end" x="354" y="120">주문 #1042 생성</text>
+
+  <path class="ln red dash" d="M352 152 H196"/>
+  <use href="#i-cross" x="166" y="140" width="24" height="24" class="ic red"/>
+  <text class="t-mono mid" x="274" y="142">201 Created</text>
+  <text class="t-xs t-b tc-red" x="36" y="174">응답이 사라짐 → 시간 초과</text>
+
+  <text class="t-xs t-b" x="36" y="200">다시 보냄</text>
+  <path class="ln blue" d="M36 210 H348" marker-end="url(#ah-blue)"/>
+  <text class="t-mono mid" x="195" y="200">POST /orders</text>
+  <text class="t-xs t-b end tc-red" x="354" y="228">주문 #1043 또 생성</text>
+
+  <rect class="box red" x="36" y="244" width="318" height="68" rx="10"/>
+  <text class="t-s t-b" x="50" y="268">서버의 주문 목록</text>
+  <text class="t-mono" x="50" y="294">#1042 · #1043</text>
+  <text class="t-b end tc-red" x="340" y="294">피자 두 판</text>
+
+  <rect class="panel green" x="390" y="20" width="350" height="306" rx="14"/>
+  <text class="t-l" x="406" y="50">고유 번호를 적은 주문서</text>
+  <text class="t-xs" x="406" y="74">브라우저</text>
+  <text class="t-xs end" x="724" y="74">서버</text>
+
+  <path class="ln blue" d="M406 102 H718" marker-end="url(#ah-blue)"/>
+  <text class="t-mono mid" x="565" y="92">POST /orders · 번호 a1b2</text>
+  <text class="t-xs end" x="724" y="120">주문 #1042 생성, a1b2 기록</text>
+
+  <path class="ln red dash" d="M722 152 H566"/>
+  <use href="#i-cross" x="536" y="140" width="24" height="24" class="ic red"/>
+  <text class="t-mono mid" x="644" y="142">201 Created</text>
+  <text class="t-xs t-b tc-red" x="406" y="174">응답이 사라짐 → 시간 초과</text>
+
+  <text class="t-xs t-b" x="406" y="200">다시 보냄</text>
+  <path class="ln blue" d="M406 210 H718" marker-end="url(#ah-blue)"/>
+  <text class="t-mono mid" x="580" y="200">POST /orders · 번호 a1b2</text>
+  <text class="t-xs t-b end tc-green" x="724" y="228">a1b2는 이미 받음 → #1042를 다시 알려 줌</text>
+
+  <rect class="box green" x="406" y="244" width="318" height="68" rx="10"/>
+  <text class="t-s t-b" x="420" y="268">서버의 주문 목록</text>
+  <text class="t-mono" x="420" y="294">#1042</text>
+  <text class="t-b end tc-green" x="710" y="294">피자 한 판</text>
+</svg>

@@ -1,0 +1,53 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>큰 데이터는 번호가 붙은 작은 패킷으로 나뉘어 서로 다른 길로 가고, 도착지에서 번호대로 다시 합쳐진다</title>
+
+  <rect class="box blue" x="20" y="30" width="190" height="240" rx="14"/>
+  <use href="#i-laptop" x="34" y="42" width="36" height="36" class="ic blue"/>
+  <text class="t-l" x="80" y="66">보내는 쪽</text>
+  <rect class="solid blue" x="40" y="96" width="150" height="30" rx="6"/>
+  <text class="t-on t-b mid" x="115" y="116">사진 한 장</text>
+  <path class="ln blue" d="M70 132 V160" marker-end="url(#ah-blue)"/>
+  <text class="t-s" x="84" y="151">작게 나누기</text>
+  <rect class="solid blue" x="40" y="170" width="30" height="30" rx="6"/><text class="t-on t-b mid" x="55" y="190">1</text>
+  <rect class="solid blue" x="80" y="170" width="30" height="30" rx="6"/><text class="t-on t-b mid" x="95" y="190">2</text>
+  <rect class="solid blue" x="120" y="170" width="30" height="30" rx="6"/><text class="t-on t-b mid" x="135" y="190">3</text>
+  <rect class="solid blue" x="160" y="170" width="30" height="30" rx="6"/><text class="t-on t-b mid" x="175" y="190">4</text>
+  <text class="t-s mid" x="115" y="228">번호를 붙인</text>
+  <text class="t-s mid" x="115" y="246">패킷 4개</text>
+
+  <rect class="panel purple" x="240" y="30" width="280" height="240" rx="16"/>
+  <text class="t-s t-b" x="256" y="56">인터넷</text>
+
+  <path class="ln purple" d="M216 112 H290"/>
+  <use href="#i-router" x="294" y="94" width="36" height="36" class="ic purple"/>
+  <path class="ln purple" d="M334 112 H424"/>
+  <use href="#i-router" x="428" y="94" width="36" height="36" class="ic purple"/>
+  <path class="ln purple" d="M468 112 H542" marker-end="url(#ah-purple)"/>
+  <rect class="solid blue" x="346" y="78" width="26" height="26" rx="5"/><text class="t-on t-b mid" x="359" y="96">3</text>
+  <rect class="solid blue" x="380" y="78" width="26" height="26" rx="5"/><text class="t-on t-b mid" x="393" y="96">1</text>
+  <text class="t-xs mid" x="312" y="146">라우터</text>
+
+  <path class="ln purple" d="M216 206 H358"/>
+  <use href="#i-router" x="362" y="188" width="36" height="36" class="ic purple"/>
+  <path class="ln purple" d="M402 206 H542" marker-end="url(#ah-purple)"/>
+  <rect class="solid blue" x="272" y="172" width="26" height="26" rx="5"/><text class="t-on t-b mid" x="285" y="190">4</text>
+  <rect class="solid blue" x="450" y="172" width="26" height="26" rx="5"/><text class="t-on t-b mid" x="463" y="190">2</text>
+  <text class="t-xs mid" x="380" y="254">패킷마다 다른 길로 갈 수 있다</text>
+
+  <rect class="box green" x="550" y="30" width="190" height="240" rx="14"/>
+  <use href="#i-server" x="564" y="42" width="36" height="36" class="ic green"/>
+  <text class="t-l" x="610" y="66">받는 쪽</text>
+  <text class="t-s" x="570" y="100">도착한 순서</text>
+  <rect class="box blue" x="570" y="108" width="30" height="30" rx="6"/><text class="t-b mid" x="585" y="128">2</text>
+  <rect class="box blue" x="610" y="108" width="30" height="30" rx="6"/><text class="t-b mid" x="625" y="128">1</text>
+  <rect class="box blue" x="650" y="108" width="30" height="30" rx="6"/><text class="t-b mid" x="665" y="128">4</text>
+  <rect class="box blue" x="690" y="108" width="30" height="30" rx="6"/><text class="t-b mid" x="705" y="128">3</text>
+  <path class="ln green" d="M585 144 V168" marker-end="url(#ah-green)"/>
+  <text class="t-s" x="598" y="162">번호대로 맞추기</text>
+  <rect class="solid green" x="570" y="178" width="30" height="30" rx="6"/><text class="t-on t-b mid" x="585" y="198">1</text>
+  <rect class="solid green" x="610" y="178" width="30" height="30" rx="6"/><text class="t-on t-b mid" x="625" y="198">2</text>
+  <rect class="solid green" x="650" y="178" width="30" height="30" rx="6"/><text class="t-on t-b mid" x="665" y="198">3</text>
+  <rect class="solid green" x="690" y="178" width="30" height="30" rx="6"/><text class="t-on t-b mid" x="705" y="198">4</text>
+  <rect class="solid green" x="570" y="224" width="150" height="30" rx="6"/>
+  <text class="t-on t-b mid" x="645" y="244">사진 한 장</text>
+</svg>

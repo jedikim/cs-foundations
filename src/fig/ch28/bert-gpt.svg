@@ -1,0 +1,46 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 빈칸을 두고 BERT는 양쪽 단어를 모두 보고, GPT는 왼쪽 단어만 보고 다음 말을 고른다</title>
+
+  <text class="t-l" x="20" y="84">BERT</text>
+  <text class="t-s" x="20" y="106">빈칸 채우기</text>
+  <text class="t-s t-b tc-green" x="20" y="126">양쪽을 다 본다</text>
+
+  <path class="ln green" d="M256 62 Q296 30 332 60" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M464 62 Q430 34 396 60" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M568 62 Q476 6 380 60" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M672 62 Q520 -24 364 60" marker-end="url(#ah-green)"/>
+
+  <rect class="box blue" x="210" y="68" width="92" height="42" rx="9"/>
+  <text class="mid" x="256" y="94">그는</text>
+  <rect class="box yellow" x="314" y="68" width="92" height="42" rx="9"/>
+  <text class="t-l mid" x="360" y="95">?</text>
+  <rect class="box blue" x="418" y="68" width="92" height="42" rx="9"/>
+  <text class="mid" x="464" y="94">타고</text>
+  <rect class="box blue" x="522" y="68" width="92" height="42" rx="9"/>
+  <text class="mid" x="568" y="94">강을</text>
+  <rect class="box blue" x="626" y="68" width="92" height="42" rx="9"/>
+  <text class="mid" x="672" y="94">건넜다</text>
+
+  <path class="ln thin" d="M360 114 V126" marker-end="url(#ah)"/>
+  <text class="t-b mid tc-green" x="360" y="148">배를</text>
+  <text class="t-s" x="418" y="148">뒤의 '타고 강을'이 단서가 된다</text>
+
+  <path class="ln thin muted" d="M20 172 H740"/>
+
+  <text class="t-l" x="20" y="238">GPT</text>
+  <text class="t-s" x="20" y="260">이어 쓰기</text>
+  <text class="t-s t-b tc-purple" x="20" y="280">왼쪽만 본다</text>
+
+  <path class="ln purple" d="M256 216 Q296 184 332 214" marker-end="url(#ah-purple)"/>
+
+  <rect class="box blue" x="210" y="222" width="92" height="42" rx="9"/>
+  <text class="mid" x="256" y="248">그는</text>
+  <rect class="box yellow" x="314" y="222" width="92" height="42" rx="9"/>
+  <text class="t-l mid" x="360" y="249">?</text>
+  <rect class="ghost dash" x="418" y="222" width="300" height="42" rx="9"/>
+  <text class="t-s mid" x="568" y="248">오른쪽은 아직 쓰지 않은 글이라 볼 수 없다</text>
+
+  <path class="ln thin" d="M360 268 V280" marker-end="url(#ah)"/>
+  <text class="t-b mid tc-purple" x="360" y="302">밥을? 학교에? 배를?</text>
+  <text class="t-s" x="446" y="302">앞말에 이어질 법한 후보를 고른다</text>
+</svg>

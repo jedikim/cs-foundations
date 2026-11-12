@@ -1,0 +1,54 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+  <title>연결 리스트에 값을 끼워 넣을 때는 다음 위치를 적은 쪽지 두 장만 고치면 된다</title>
+  <text class="t-h" x="20" y="34">우동과 김밥 사이에 만두 끼워 넣기</text>
+
+  <!-- 노드 1 -->
+  <text class="t-s" x="30" y="72">12번지 (시작)</text>
+  <rect class="box green" x="30" y="82" width="170" height="54" rx="10"/>
+  <path class="ln thin green" d="M110 82 V136"/>
+  <text class="t-b mid" x="70" y="115">라면</text>
+  <text class="t-xs mid" x="155" y="103">다음</text>
+  <text class="t-mono mid" x="155" y="124">40번지</text>
+
+  <!-- 노드 2 -->
+  <text class="t-s" x="295" y="72">40번지</text>
+  <rect class="box green" x="295" y="82" width="170" height="54" rx="10"/>
+  <path class="ln thin green" d="M375 82 V136"/>
+  <text class="t-b mid" x="335" y="115">우동</text>
+  <text class="t-xs mid" x="420" y="103">다음</text>
+  <text class="t-mono mid t-b tc-warm" x="420" y="124">60번지</text>
+
+  <!-- 노드 3 -->
+  <text class="t-s" x="560" y="72">25번지</text>
+  <rect class="box green" x="560" y="82" width="170" height="54" rx="10"/>
+  <path class="ln thin green" d="M640 82 V136"/>
+  <text class="t-b mid" x="600" y="115">김밥</text>
+  <text class="t-xs mid" x="685" y="103">다음</text>
+  <text class="t-mono mid" x="685" y="124">없음</text>
+
+  <!-- 기존 연결 -->
+  <path class="ln" d="M204 109 H288" marker-end="url(#ah)"/>
+  <path class="ln muted dash" d="M469 109 H553" marker-end="url(#ah-muted)"/>
+  <path class="ln red" d="M505 103 L517 115 M517 103 L505 115"/>
+
+  <!-- 새 노드 -->
+  <text class="t-s t-b tc-warm end" x="416" y="222">새 노드</text>
+  <text class="t-s end" x="416" y="242">60번지</text>
+  <rect class="box warm" x="428" y="202" width="170" height="54" rx="10"/>
+  <path class="ln thin warm" d="M508 202 V256"/>
+  <text class="t-b mid" x="468" y="235">만두</text>
+  <text class="t-xs mid" x="553" y="223">다음</text>
+  <text class="t-mono mid t-b tc-warm" x="553" y="244">25번지</text>
+
+  <path class="ln warm" d="M602 229 H645 V143" marker-end="url(#ah-warm)"/>
+  <path class="ln warm" d="M420 140 L462 195" marker-end="url(#ah-warm)"/>
+
+  <circle class="badge warm" cx="666" cy="200" r="10"/><text class="badge-t" x="666" y="204.500">1</text>
+  <circle class="badge warm" cx="464" cy="160" r="10"/><text class="badge-t" x="464" y="164.500">2</text>
+
+  <circle class="badge warm" cx="38" cy="180" r="12"/><text class="badge-t" x="38" y="184.500">1</text>
+  <text class="t-s" x="58" y="185">만두의 쪽지에 25번지를 적는다</text>
+  <circle class="badge warm" cx="38" cy="214" r="12"/><text class="badge-t" x="38" y="218.500">2</text>
+  <text class="t-s" x="58" y="219">우동의 쪽지를 60번지로 고친다</text>
+  <text class="t-s" x="26" y="262">값은 하나도 옮기지 않았습니다</text>
+</svg>

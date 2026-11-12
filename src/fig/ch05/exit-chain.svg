@@ -1,0 +1,41 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg">
+  <title>세미콜론은 앞 명령이 실패해도 다음을 실행하고, 앰퍼샌드 두 개는 종료 코드가 0일 때만 다음을 실행한다</title>
+  <text class="t-b" x="20" y="34">build 폴더가 없어서 cd가 실패했을 때</text>
+
+  <text class="t-mono t-b" x="20" y="100">;</text>
+  <text class="t-b" x="38" y="100">로 이으면</text>
+  <text class="t-s" x="20" y="122">무조건 다음 명령</text>
+
+  <rect class="box red" x="170" y="62" width="150" height="80" rx="12"/>
+  <text class="t-mono t-b mid" x="245" y="96">cd build</text>
+  <text class="t-s mid tc-red" x="245" y="122">실패 · 종료 코드 1</text>
+  <path class="ln" d="M326 102 H402" marker-end="url(#ah)"/>
+  <rect class="box" x="349" y="86" width="30" height="32" rx="8"/>
+  <text class="t-mono t-b mid" x="364" y="107">;</text>
+  <rect class="box red" x="410" y="62" width="150" height="80" rx="12"/>
+  <text class="t-mono t-b mid" x="485" y="96">rm -rf *</text>
+  <text class="t-s mid tc-red" x="485" y="122">그대로 실행됨</text>
+  <use href="#i-warn" x="582" y="74" width="26" height="26" class="ic red"/>
+  <text class="t-b tc-red" x="616" y="93">지금 있던 폴더가</text>
+  <text class="t-b tc-red" x="616" y="115">통째로 지워진다</text>
+
+  <path class="ln thin muted dash" d="M20 162 H740"/>
+
+  <text class="t-mono t-b" x="20" y="220">&amp;&amp;</text>
+  <text class="t-b" x="46" y="220">로 이으면</text>
+  <text class="t-s" x="20" y="242">성공(0)일 때만 다음</text>
+
+  <rect class="box red" x="170" y="182" width="150" height="80" rx="12"/>
+  <text class="t-mono t-b mid" x="245" y="216">cd build</text>
+  <text class="t-s mid tc-red" x="245" y="242">실패 · 종료 코드 1</text>
+  <path class="ln" d="M326 222 H346"/>
+  <rect class="box" x="346" y="206" width="36" height="32" rx="8"/>
+  <text class="t-mono t-b mid" x="364" y="227">&amp;&amp;</text>
+  <path class="ln thick red" d="M394 208 V236"/>
+  <rect class="ghost dash" x="410" y="182" width="150" height="80" rx="12"/>
+  <text class="t-mono mid tc-muted" x="485" y="216">rm -rf *</text>
+  <text class="t-s mid" x="485" y="242">실행되지 않음</text>
+  <use href="#i-check" x="582" y="194" width="26" height="26" class="ic green"/>
+  <text class="t-b tc-green" x="616" y="213">아무것도</text>
+  <text class="t-b tc-green" x="616" y="235">지워지지 않는다</text>
+</svg>

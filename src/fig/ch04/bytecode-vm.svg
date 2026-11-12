@@ -1,0 +1,50 @@
+<svg viewBox="0 0 760 316" xmlns="http://www.w3.org/2000/svg">
+  <title>소스 코드를 바이트코드로 한 번 번역해 두면, 기기마다 설치된 가상 머신이 그것을 실행한다</title>
+  <text class="t-h" x="20" y="40">한 번 번역해서 어디서나 실행</text>
+
+  <rect class="box blue" x="20" y="115" width="140" height="96" rx="12"/>
+  <use href="#i-code" x="72" y="123" width="36" height="36" class="ic blue"/>
+  <text class="t-l mid" x="90" y="182">소스 코드</text>
+  <text class="t-xs mid" x="90" y="200">사람이 쓴 글</text>
+
+  <path class="ln warm" d="M166 163 H222" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b mid tc-warm" x="195" y="151">번역</text>
+
+  <rect class="box purple" x="230" y="115" width="150" height="96" rx="12"/>
+  <use href="#i-file" x="287" y="123" width="36" height="36" class="ic purple"/>
+  <text class="t-l mid" x="305" y="182">바이트코드</text>
+  <text class="t-xs mid" x="305" y="200">공용 중간 표기</text>
+
+  <text class="t-xs mid" x="200" y="238">예: Java의 .class 파일, Python의 .pyc 파일</text>
+
+  <path class="ln purple" d="M410 163 V68 H432" marker-end="url(#ah-purple)"/>
+  <path class="ln purple" d="M410 163 V258 H432" marker-end="url(#ah-purple)"/>
+  <path class="ln purple" d="M386 163 H432" marker-end="url(#ah-purple)"/>
+
+  <rect class="panel" x="440" y="28" width="300" height="80" rx="14"/>
+  <rect class="box warm" x="452" y="40" width="150" height="56" rx="10"/>
+  <text class="t-b mid" x="527" y="64">가상 머신</text>
+  <text class="t-xs mid" x="527" y="83">윈도우용</text>
+  <path class="ln" d="M606 68 H624" marker-end="url(#ah)"/>
+  <rect class="box blue" x="632" y="40" width="96" height="56" rx="10"/>
+  <text class="t-b mid" x="680" y="64">CPU</text>
+  <text class="t-xs mid" x="680" y="83">x86-64</text>
+
+  <rect class="panel" x="440" y="123" width="300" height="80" rx="14"/>
+  <rect class="box warm" x="452" y="135" width="150" height="56" rx="10"/>
+  <text class="t-b mid" x="527" y="159">가상 머신</text>
+  <text class="t-xs mid" x="527" y="178">맥용</text>
+  <path class="ln" d="M606 163 H624" marker-end="url(#ah)"/>
+  <rect class="box blue" x="632" y="135" width="96" height="56" rx="10"/>
+  <text class="t-b mid" x="680" y="159">CPU</text>
+  <text class="t-xs mid" x="680" y="178">ARM64</text>
+
+  <rect class="panel" x="440" y="218" width="300" height="80" rx="14"/>
+  <rect class="box warm" x="452" y="230" width="150" height="56" rx="10"/>
+  <text class="t-b mid" x="527" y="254">가상 머신</text>
+  <text class="t-xs mid" x="527" y="273">리눅스용</text>
+  <path class="ln" d="M606 258 H624" marker-end="url(#ah)"/>
+  <rect class="box blue" x="632" y="230" width="96" height="56" rx="10"/>
+  <text class="t-b mid" x="680" y="254">CPU</text>
+  <text class="t-xs mid" x="680" y="273">x86-64</text>
+</svg>

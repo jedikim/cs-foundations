@@ -1,0 +1,39 @@
+<svg viewBox="0 0 760 392" xmlns="http://www.w3.org/2000/svg">
+  <title>조항 중간에서 자르면 예외 문장이 다른 조각으로 떨어져 틀린 답이 나오고, 뜻 단위로 제목과 함께 자르면 예외까지 함께 전달된다</title>
+
+  <rect class="box blue" x="200" y="16" width="360" height="40" rx="12"/>
+  <text class="t-b mid" x="380" y="41">질문: “맞춤 머그컵도 환불되나요?”</text>
+
+  <rect class="panel" x="20" y="72" width="350" height="304" rx="14"/>
+  <text class="t-l" x="36" y="102">조항 중간에서 자른 경우</text>
+
+  <rect class="box yellow" x="36" y="116" width="318" height="54" rx="10"/>
+  <text class="t-xs" x="48" y="135">조각 17 · 검색됨</text>
+  <text x="48" y="158">구매 후 7일 안에 환불할 수 있습니다.</text>
+
+  <path class="ln thin red dash" d="M36 182 H268"/>
+  <text class="t-xs tc-red" x="278" y="186">여기서 잘림</text>
+
+  <rect class="box gray" x="36" y="194" width="318" height="54" rx="10"/>
+  <text class="t-xs" x="48" y="213">조각 18 · 검색 안 됨</text>
+  <text class="tc-muted" x="48" y="236">단, 맞춤 제작 상품은 제외합니다.</text>
+
+  <text class="t-s" x="36" y="274">모델이 받은 것: 조각 17뿐</text>
+  <rect class="box red" x="36" y="288" width="318" height="44" rx="10"/>
+  <text class="t-b mid" x="195" y="315">“네, 7일 안이면 환불됩니다.”</text>
+  <text class="t-s mid tc-red" x="195" y="356">예외를 보지 못하고 쓴 답</text>
+
+  <rect class="panel" x="390" y="72" width="350" height="304" rx="14"/>
+  <text class="t-l" x="406" y="102">뜻 단위로, 제목과 함께 자른 경우</text>
+
+  <rect class="box yellow" x="406" y="116" width="318" height="132" rx="10"/>
+  <text class="t-xs" x="418" y="135">조각 9 · 검색됨</text>
+  <text class="t-b" x="418" y="162">환불 규정 3조</text>
+  <text x="418" y="190">구매 후 7일 안에 환불할 수 있습니다.</text>
+  <text x="418" y="216">단, 맞춤 제작 상품은 제외합니다.</text>
+
+  <text class="t-s" x="406" y="274">모델이 받은 것: 조항 전체</text>
+  <rect class="box green" x="406" y="288" width="318" height="44" rx="10"/>
+  <text class="t-b mid" x="565" y="315">“맞춤 제작은 환불되지 않습니다.”</text>
+  <text class="t-s mid tc-green" x="565" y="356">근거가 모두 들어간 답</text>
+</svg>

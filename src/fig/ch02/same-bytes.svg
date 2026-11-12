@@ -1,0 +1,27 @@
+<svg viewBox="0 0 760 270" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 바이트 세 개라도 어떤 약속으로 읽느냐에 따라 글자, 숫자, 색이 된다</title>
+  <text class="t-b" x="30" y="104">같은 바이트 세 개</text>
+  <rect class="box" x="30" y="118" width="54" height="46" rx="9"/>
+  <text class="t-mono t-b mid" x="57" y="146">EA</text>
+  <rect class="box" x="90" y="118" width="54" height="46" rx="9"/>
+  <text class="t-mono t-b mid" x="117" y="146">B0</text>
+  <rect class="box" x="150" y="118" width="54" height="46" rx="9"/>
+  <text class="t-mono t-b mid" x="177" y="146">80</text>
+  <text class="t-xs" x="30" y="186">11101010 10110000 10000000</text>
+  <path class="ln" d="M212 141 H250 V63 H292" marker-end="url(#ah)"/>
+  <path class="ln" d="M212 141 H292" marker-end="url(#ah)"/>
+  <path class="ln" d="M250 141 V219 H292" marker-end="url(#ah)"/>
+  <rect class="box blue" x="300" y="30" width="440" height="66" rx="12"/>
+  <text class="t-b" x="320" y="59">글자로 읽으면</text>
+  <text class="t-s" x="320" y="80">UTF-8이라는 약속</text>
+  <rect class="box green" x="300" y="108" width="440" height="66" rx="12"/>
+  <text class="t-b" x="320" y="137">숫자 세 개로 읽으면</text>
+  <text class="t-s" x="320" y="158">바이트 하나가 0~255</text>
+  <rect class="box warm" x="300" y="186" width="440" height="66" rx="12"/>
+  <text class="t-b" x="320" y="215">색으로 읽으면</text>
+  <text class="t-s" x="320" y="236">빨강·초록·파랑의 밝기</text>
+  <text class="t-h mid" x="640" y="70">가</text>
+  <text class="t-mono t-b mid" x="640" y="146">234, 176, 128</text>
+  <rect class="solid warm" x="584" y="201" width="40" height="36" rx="7"/>
+  <text class="t-s" x="634" y="224">연한 주황색 점</text>
+</svg>

@@ -1,0 +1,61 @@
+<svg viewBox="0 0 760 310" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 이웃 단어를 맞혀야 하는 단어들은 지도에서 가까운 좌표를 얻는다</title>
+
+  <text class="t-xs mid" x="64" y="34">주어진 단어</text>
+  <text class="t-xs mid" x="196" y="34">맞혀야 할 이웃</text>
+
+  <rect class="box yellow" x="20" y="46" width="88" height="40" rx="9"/>
+  <text class="t-b mid" x="64" y="71">강아지가</text>
+  <rect class="box" x="120" y="46" width="64" height="40" rx="9"/>
+  <text class="mid" x="152" y="71">밥을</text>
+  <rect class="box" x="196" y="46" width="76" height="40" rx="9"/>
+  <text class="mid" x="234" y="71">먹는다</text>
+
+  <rect class="box yellow" x="20" y="96" width="88" height="40" rx="9"/>
+  <text class="t-b mid" x="64" y="121">고양이가</text>
+  <rect class="box" x="120" y="96" width="64" height="40" rx="9"/>
+  <text class="mid" x="152" y="121">밥을</text>
+  <rect class="box" x="196" y="96" width="76" height="40" rx="9"/>
+  <text class="mid" x="234" y="121">먹는다</text>
+
+  <rect class="box yellow" x="20" y="176" width="88" height="40" rx="9"/>
+  <text class="t-b mid" x="64" y="201">버스가</text>
+  <rect class="box" x="120" y="176" width="64" height="40" rx="9"/>
+  <text class="mid" x="152" y="201">역에</text>
+  <rect class="box" x="196" y="176" width="76" height="40" rx="9"/>
+  <text class="mid" x="234" y="201">선다</text>
+
+  <rect class="box yellow" x="20" y="226" width="88" height="40" rx="9"/>
+  <text class="t-b mid" x="64" y="251">기차가</text>
+  <rect class="box" x="120" y="226" width="64" height="40" rx="9"/>
+  <text class="mid" x="152" y="251">역에</text>
+  <rect class="box" x="196" y="226" width="76" height="40" rx="9"/>
+  <text class="mid" x="234" y="251">선다</text>
+
+  <path class="ln thin green" d="M280 50 h8 v82 h-8"/>
+  <path class="ln thin blue" d="M280 180 h8 v82 h-8"/>
+  <text class="t-xs" x="20" y="294">이웃이 같은 단어끼리는 좌표가 비슷해진다</text>
+
+  <rect class="panel" x="420" y="46" width="320" height="220" rx="14"/>
+  <text class="t-s t-b" x="436" y="34">학습으로 생긴 단어 지도</text>
+
+  <ellipse class="ghost dash" cx="520" cy="108" rx="78" ry="42"/>
+  <circle class="f-green" cx="478" cy="98" r="6"/>
+  <text class="t-b" x="490" y="103">강아지</text>
+  <circle class="f-green" cx="512" cy="124" r="6"/>
+  <text class="t-b" x="524" y="129">고양이</text>
+
+  <ellipse class="ghost dash" cx="640" cy="212" rx="78" ry="40"/>
+  <circle class="f-blue" cx="598" cy="202" r="6"/>
+  <text class="t-b" x="610" y="207">버스</text>
+  <circle class="f-blue" cx="646" cy="226" r="6"/>
+  <text class="t-b" x="658" y="231">기차</text>
+
+  <path class="ln green" d="M292 91 H360 Q400 91 434 100" marker-end="url(#ah-green)"/>
+  <path class="ln blue" d="M292 221 H420 Q500 221 554 215" marker-end="url(#ah-blue)"/>
+
+  <text class="t-xs tc-green" x="612" y="92">가깝다</text>
+  <path class="ln thin muted dash" d="M572 146 L600 172"/>
+  <text class="t-xs" x="552" y="172">멀다</text>
+  <text class="t-xs" x="436" y="294">실제 좌표는 2칸이 아니라 수백 칸입니다</text>
+</svg>

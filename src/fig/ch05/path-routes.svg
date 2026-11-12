@@ -1,0 +1,69 @@
+<svg viewBox="0 0 760 356" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 파일을 가리키는 두 가지 길: 루트에서 출발하는 절대 경로와 지금 서 있는 폴더에서 출발하는 상대 경로</title>
+
+  <path class="ln thin muted" d="M51 62 V110 M51 80 H64 M51 110 H64"/>
+  <path class="ln thin muted" d="M77 122 V140 H90"/>
+  <path class="ln thin muted" d="M103 152 V200 M103 170 H116 M103 200 H116"/>
+  <path class="ln thin muted" d="M129 212 V290 M129 230 H142 M129 290 H142"/>
+  <path class="ln thin muted" d="M155 242 V260 H168"/>
+  <path class="ln thin muted" d="M155 302 V320 H162"/>
+
+  <use href="#i-folder" x="40" y="39" width="22" height="22" class="ic blue"/>
+  <text class="t-mono t-b" x="68" y="55">/</text>
+  <text class="t-s" x="86" y="55">루트 — 나무의 뿌리</text>
+
+  <use href="#i-folder" x="66" y="69" width="22" height="22" class="ic gray"/>
+  <text class="t-mono tc-muted" x="94" y="85">Applications</text>
+
+  <use href="#i-folder" x="66" y="99" width="22" height="22" class="ic blue"/>
+  <text class="t-mono" x="94" y="115">Users</text>
+
+  <use href="#i-folder" x="92" y="129" width="22" height="22" class="ic blue"/>
+  <text class="t-mono" x="120" y="145">mina</text>
+  <rect class="box green" x="164" y="128" width="62" height="24" rx="12"/>
+  <text class="t-xs t-b mid tc-green" x="195" y="144.500">홈 ~</text>
+
+  <use href="#i-file" x="118" y="159" width="22" height="22" class="ic gray"/>
+  <text class="t-mono tc-muted" x="146" y="175">notes.txt</text>
+
+  <use href="#i-folder" x="118" y="189" width="22" height="22" class="ic warm"/>
+  <text class="t-mono t-b" x="146" y="205">mygame</text>
+  <rect class="box warm" x="206" y="188" width="78" height="24" rx="12"/>
+  <text class="t-xs t-b mid tc-warm" x="245" y="204.500">지금 여기</text>
+
+  <use href="#i-folder" x="144" y="219" width="22" height="22" class="ic gray"/>
+  <text class="t-mono tc-muted" x="172" y="235">src</text>
+
+  <use href="#i-file" x="170" y="249" width="22" height="22" class="ic gray"/>
+  <text class="t-mono tc-muted" x="198" y="265">main.py</text>
+
+  <use href="#i-folder" x="144" y="279" width="22" height="22" class="ic blue"/>
+  <text class="t-mono" x="172" y="295">data</text>
+
+  <rect class="box green" x="164" y="306" width="152" height="28" rx="8"/>
+  <use href="#i-file" x="170" y="309" width="22" height="22" class="ic green"/>
+  <text class="t-mono t-b" x="198" y="325">settings.json</text>
+
+  <path class="ln blue" d="M206 50 H366 V314 H324" marker-end="url(#ah-blue)"/>
+  <path class="ln warm" d="M290 200 H344 V326 H324" marker-end="url(#ah-warm)"/>
+
+  <rect class="box blue" x="392" y="36" width="348" height="112" rx="14"/>
+  <text class="t-l tc-blue" x="408" y="66">절대 경로</text>
+  <text class="t-s" x="408" y="90">루트(/)부터 전부 적는다</text>
+  <text class="t-mono" x="408" y="124">/Users/mina/mygame/data/settings.json</text>
+
+  <rect class="box warm" x="392" y="176" width="348" height="112" rx="14"/>
+  <text class="t-l tc-warm" x="408" y="206">상대 경로</text>
+  <text class="t-s" x="408" y="230">지금 서 있는 폴더(mygame)부터 적는다</text>
+  <text class="t-mono" x="408" y="264">data/settings.json</text>
+
+  <rect class="box gray" x="408" y="306" width="28" height="24" rx="6"/>
+  <text class="t-mono t-b mid" x="422" y="323">.</text>
+  <text class="t-s" x="442" y="323">지금 여기</text>
+  <rect class="box gray" x="512" y="306" width="32" height="24" rx="6"/>
+  <text class="t-mono t-b mid" x="528" y="323">..</text>
+  <text class="t-s" x="550" y="323">한 칸 위</text>
+  <rect class="box gray" x="618" y="306" width="28" height="24" rx="6"/>
+  <text class="t-mono t-b mid" x="632" y="323">~</text>
+  <text class="t-s" x="652" y="323">홈</text>
+</svg>

@@ -1,0 +1,40 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>프레임 대부분이 10ms 안팎이라 평균은 넉넉해 보여도, 가비지 컬렉션이 돈 한 프레임이 60ms가 되면 화면이 뚝 끊긴다</title>
+  <text class="t-h" x="20" y="34">프레임 12장이 각각 걸린 시간</text>
+  <path class="ln thin" d="M96 276 H716"/>
+  <text class="t-xs end" x="88" y="280">0</text>
+  <path class="ln thin red dash" d="M96 226 H716"/>
+  <text class="t-xs tc-red end" x="88" y="230">16.7ms</text>
+  <text class="t-xs end" x="88" y="106">60ms</text>
+  <rect class="solid blue" x="110" y="246" width="34" height="30" rx="4"/>
+  <text class="t-xs mid" x="127" y="294">1</text>
+  <rect class="solid blue" x="160" y="249" width="34" height="27" rx="4"/>
+  <text class="t-xs mid" x="177" y="294">2</text>
+  <rect class="solid blue" x="210" y="243" width="34" height="33" rx="4"/>
+  <text class="t-xs mid" x="227" y="294">3</text>
+  <rect class="solid blue" x="260" y="246" width="34" height="30" rx="4"/>
+  <text class="t-xs mid" x="277" y="294">4</text>
+  <rect class="solid blue" x="310" y="246" width="34" height="30" rx="4"/>
+  <text class="t-xs mid" x="327" y="294">5</text>
+  <rect class="solid blue" x="360" y="249" width="34" height="27" rx="4"/>
+  <text class="t-xs mid" x="377" y="294">6</text>
+  <rect class="solid blue" x="410" y="243" width="34" height="33" rx="4"/>
+  <text class="t-xs mid" x="427" y="294">7</text>
+  <rect class="solid red" x="460" y="96" width="34" height="180" rx="4"/>
+  <text class="t-xs mid" x="477" y="294">8</text>
+  <text class="t-mono t-b tc-red mid" x="477" y="88">60ms</text>
+  <rect class="solid blue" x="510" y="246" width="34" height="30" rx="4"/>
+  <text class="t-xs mid" x="527" y="294">9</text>
+  <rect class="solid blue" x="560" y="246" width="34" height="30" rx="4"/>
+  <text class="t-xs mid" x="577" y="294">10</text>
+  <rect class="solid blue" x="610" y="249" width="34" height="27" rx="4"/>
+  <text class="t-xs mid" x="627" y="294">11</text>
+  <rect class="solid blue" x="660" y="243" width="34" height="33" rx="4"/>
+  <text class="t-xs mid" x="677" y="294">12</text>
+  <text class="t-b" x="110" y="84">평균 14ms, 약 70FPS</text>
+  <text class="t-s" x="110" y="106">숫자만 보면 예산 안쪽</text>
+  <text class="t-b tc-red" x="516" y="110">가비지 컬렉션이</text>
+  <text class="t-b tc-red" x="516" y="132">한꺼번에 청소한 장</text>
+  <text class="t-s" x="516" y="156">화면이 서너 장 동안 멈춘다</text>
+  <text class="t-xs" x="96" y="314">프레임 번호 →</text>
+</svg>

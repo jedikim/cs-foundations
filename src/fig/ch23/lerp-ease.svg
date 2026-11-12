@@ -1,0 +1,60 @@
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 시간 간격으로 찍어도 선형 보간은 점 사이가 일정하고, 이징은 양 끝에서 촘촘하며, 남은 거리의 절반씩 따라가기는 목표에 다가갈수록 느려진다</title>
+  <text class="t-h" x="20" y="34">0에서 100까지 가는 세 가지 방법</text>
+  <text class="t-b" x="20" y="102">일정하게</text>
+  <text class="t-s" x="20" y="122">선형 보간 (lerp)</text>
+  <path class="ln muted" d="M210 104 H700"/>
+  <circle class="f-blue" cx="210" cy="104" r="7"/>
+  <text class="t-mono mid" x="210" y="130">0</text>
+  <text class="t-xs mid" x="210" y="88">t = 0</text>
+  <circle class="f-blue" cx="332.5" cy="104" r="7"/>
+  <text class="t-mono mid" x="332.5" y="130">25</text>
+  <text class="t-xs mid" x="332.5" y="88">0.25</text>
+  <circle class="f-blue" cx="455" cy="104" r="7"/>
+  <text class="t-mono mid" x="455" y="130">50</text>
+  <text class="t-xs mid" x="455" y="88">0.5</text>
+  <circle class="f-blue" cx="577.5" cy="104" r="7"/>
+  <text class="t-mono mid" x="577.5" y="130">75</text>
+  <text class="t-xs mid" x="577.5" y="88">0.75</text>
+  <circle class="f-blue" cx="700" cy="104" r="7"/>
+  <text class="t-mono mid" x="700" y="130">100</text>
+  <text class="t-xs mid" x="700" y="88">1</text>
+  <text class="t-b" x="20" y="198">천천히 출발·도착</text>
+  <text class="t-s" x="20" y="218">이징 (ease in-out)</text>
+  <path class="ln muted" d="M210 200 H700"/>
+  <circle class="f-green" cx="210" cy="200" r="7"/>
+  <text class="t-mono mid" x="210" y="226">0</text>
+  <text class="t-xs mid" x="210" y="184">t = 0</text>
+  <circle class="f-green" cx="286.4" cy="200" r="7"/>
+  <text class="t-mono mid" x="286.4" y="226">15.6</text>
+  <text class="t-xs mid" x="286.4" y="184">0.25</text>
+  <circle class="f-green" cx="455" cy="200" r="7"/>
+  <text class="t-mono mid" x="455" y="226">50</text>
+  <text class="t-xs mid" x="455" y="184">0.5</text>
+  <circle class="f-green" cx="623.6" cy="200" r="7"/>
+  <text class="t-mono mid" x="623.6" y="226">84.4</text>
+  <text class="t-xs mid" x="623.6" y="184">0.75</text>
+  <circle class="f-green" cx="700" cy="200" r="7"/>
+  <text class="t-mono mid" x="700" y="226">100</text>
+  <text class="t-xs mid" x="700" y="184">1</text>
+  <text class="t-b" x="20" y="294">남은 거리의 절반씩</text>
+  <text class="t-s" x="20" y="314">따라가기</text>
+  <path class="ln muted" d="M210 296 H700"/>
+  <circle class="ghost" cx="700" cy="296" r="7"/>
+  <text class="t-xs mid" x="700" y="280">목표</text>
+  <text class="t-mono mid tc-muted" x="700" y="322">100</text>
+  <circle class="f-warm" cx="210" cy="296" r="7"/>
+  <text class="t-mono mid" x="210" y="322">0</text>
+  <text class="t-xs mid" x="210" y="280">시작</text>
+  <circle class="f-warm" cx="455" cy="296" r="7"/>
+  <text class="t-mono mid" x="455" y="322">50</text>
+  <text class="t-xs mid" x="455" y="280">1번</text>
+  <circle class="f-warm" cx="577.5" cy="296" r="7"/>
+  <text class="t-mono mid" x="577.5" y="322">75</text>
+  <text class="t-xs mid" x="577.5" y="280">2번</text>
+  <circle class="f-warm" cx="638.8" cy="296" r="7"/>
+  <text class="t-mono mid" x="638.8" y="322">87.5</text>
+  <text class="t-xs mid" x="638.8" y="280">3번</text>
+  <circle class="f-warm" cx="669.4" cy="296" r="7"/>
+  <text class="t-xs mid" x="669.4" y="280">4번</text>
+</svg>

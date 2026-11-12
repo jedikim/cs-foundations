@@ -1,0 +1,39 @@
+<svg viewBox="0 0 760 326" xmlns="http://www.w3.org/2000/svg">
+  <title>성공했지만 느렸던 주문 요청 r9의 추적. 전체 1,240ms 가운데 외부 결제 승인 구간이 1,100ms를 차지한다</title>
+  <text class="t-h" x="20" y="34">느렸던 주문 r9의 추적 — 전체 1,240ms</text>
+
+  <path class="ln thin muted dash" d="M380 50 V262 M540 50 V262 M700 50 V262"/>
+  <path class="ln thin muted" d="M27 86 V236 M27 110 H36 M27 152 H36 M27 194 H36 M27 236 H36"/>
+
+  <text class="t-b" x="20" y="73">주문 요청 전체</text>
+  <rect class="solid blue" x="220" y="56" width="496" height="24" rx="4"/>
+  <text class="t-mono t-on t-b mid" x="468" y="73">POST /orders  1,240ms</text>
+
+  <text class="t-b" x="42" y="115">로그인 확인</text>
+  <rect class="solid blue" x="224" y="98" width="8" height="24" rx="2"/>
+  <text class="t-mono" x="240" y="115">20ms</text>
+
+  <text class="t-b" x="42" y="157">재고 조회</text>
+  <text class="t-s" x="112" y="157">DB</text>
+  <rect class="solid green" x="234" y="140" width="16" height="24" rx="3"/>
+  <text class="t-mono" x="258" y="157">40ms</text>
+
+  <text class="t-b" x="42" y="199">결제 승인</text>
+  <text class="t-s" x="112" y="199">외부 결제사</text>
+  <rect class="solid red" x="252" y="182" width="440" height="24" rx="4"/>
+  <text class="t-mono t-on t-b mid" x="472" y="199">1,100ms</text>
+
+  <text class="t-b" x="42" y="241">주문 저장</text>
+  <text class="t-s" x="112" y="241">DB</text>
+  <rect class="solid green" x="692" y="224" width="24" height="24" rx="3"/>
+  <text class="t-mono end" x="684" y="241">60ms</text>
+
+  <path class="ln thin muted" d="M220 262 H716 M220 258 V266 M380 258 V266 M540 258 V266 M700 258 V266"/>
+  <text class="t-xs mid" x="220" y="282">0</text>
+  <text class="t-xs mid" x="380" y="282">400</text>
+  <text class="t-xs mid" x="540" y="282">800</text>
+  <text class="t-xs mid" x="700" y="282">1,200ms</text>
+
+  <text class="t-s" x="20" y="310">막대 하나 = 스팬(구간) · 전체 묶음 = 트레이스(여정)</text>
+  <text class="t-b tc-red end" x="740" y="310">결제 승인이 전체의 89%</text>
+</svg>

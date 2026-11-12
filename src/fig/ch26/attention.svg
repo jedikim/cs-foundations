@@ -1,0 +1,47 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg">
+  <title>어텐션은 질문과 키의 내적으로 점수를 내고, 소프트맥스로 비중을 만든 뒤, 그 비중대로 값을 섞는다. 점수가 가장 높은 찌개의 값이 가장 많이 섞인다</title>
+
+  <rect class="box yellow" x="20" y="16" width="720" height="40" rx="10"/>
+  <text class="t-b" x="36" y="41">지금 낱말 '그것'이 던지는 질문 q = (1, 1)</text>
+  <text class="t-s end" x="724" y="41">누구를 얼마나 참고할까?</text>
+
+  <text class="t-s t-b" x="20" y="86">참고할 낱말</text>
+  <text class="t-s t-b mid" x="150" y="86">키 k</text>
+  <circle class="badge blue" cx="222" cy="81" r="10"/><text class="badge-t" x="222" y="85.500">1</text>
+  <text class="t-s t-b" x="238" y="86">점수 q·k</text>
+  <circle class="badge purple" cx="356" cy="81" r="10"/><text class="badge-t" x="356" y="85.500">2</text>
+  <text class="t-s t-b" x="372" y="86">비중</text>
+  <text class="t-s t-b mid" x="560" y="86">값 v</text>
+  <circle class="badge green" cx="636" cy="81" r="10"/><text class="badge-t" x="636" y="85.500">3</text>
+  <text class="t-s t-b" x="652" y="86">비중 × 값</text>
+  <path class="ln thin muted" d="M20 98 H740"/>
+
+  <text class="t-b" x="20" y="129">찌개</text>
+  <text class="t-mono mid" x="150" y="129">(2, 0)</text>
+  <text class="t-mono mid" x="270" y="129">2 + 0 = 2</text>
+  <rect class="solid purple" x="346" y="111" width="100" height="26" rx="5"/>
+  <text class="t-mono t-b" x="454" y="129">0.665</text>
+  <text class="t-mono mid" x="560" y="129">(4, 0)</text>
+  <text class="t-mono mid" x="686" y="129">(2.66, 0)</text>
+
+  <text class="t-b" x="20" y="177">식어서</text>
+  <text class="t-mono mid" x="150" y="177">(0, 1)</text>
+  <text class="t-mono mid" x="270" y="177">0 + 1 = 1</text>
+  <rect class="solid purple" x="346" y="159" width="37" height="26" rx="5"/>
+  <text class="t-mono t-b" x="391" y="177">0.245</text>
+  <text class="t-mono mid" x="560" y="177">(0, 4)</text>
+  <text class="t-mono mid" x="686" y="177">(0, 0.98)</text>
+
+  <text class="t-b" x="20" y="225">그것</text>
+  <text class="t-mono mid" x="150" y="225">(1, −1)</text>
+  <text class="t-mono mid" x="270" y="225">1 − 1 = 0</text>
+  <rect class="solid purple" x="346" y="207" width="14" height="26" rx="5"/>
+  <text class="t-mono t-b" x="368" y="225">0.090</text>
+  <text class="t-mono mid" x="560" y="225">(2, 2)</text>
+  <text class="t-mono mid" x="686" y="225">(0.18, 0.18)</text>
+
+  <path class="ln thin muted" d="M20 248 H740"/>
+  <text class="t-s" x="20" y="284">점수가 가장 높은 '찌개'의 값이 가장 많이 섞인다</text>
+  <rect class="box green" x="440" y="260" width="300" height="42" rx="10"/>
+  <text class="t-b" x="456" y="286">모두 더한 새 '그것' = (2.84, 1.16)</text>
+</svg>

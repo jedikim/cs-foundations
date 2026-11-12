@@ -1,0 +1,43 @@
+<svg viewBox="0 0 760 262" xmlns="http://www.w3.org/2000/svg">
+  <title>셸은 명령 줄을 공백에서 잘라 낱말 목록으로 만들고, 따옴표는 묶고 별표는 파일 이름으로 펼친다</title>
+  <text class="t-s t-b mid" x="135" y="30">내가 친 한 줄</text>
+  <text class="t-s t-b" x="310" y="30">셸이 잘라서 프로그램에 넘기는 낱말</text>
+
+  <rect class="box gray" x="20" y="46" width="230" height="46" rx="10"/>
+  <text class="t-mono mid" x="135" y="74">rm My Game.txt</text>
+  <path class="ln" d="M256 69 H298" marker-end="url(#ah)"/>
+  <rect class="box blue" x="310" y="50" width="46" height="38" rx="8"/>
+  <text class="t-mono mid" x="333" y="74">rm</text>
+  <rect class="box red" x="364" y="50" width="46" height="38" rx="8"/>
+  <text class="t-mono mid" x="387" y="74">My</text>
+  <rect class="box red" x="418" y="50" width="88" height="38" rx="8"/>
+  <text class="t-mono mid" x="462" y="74">Game.txt</text>
+  <use href="#i-cross" x="588" y="58" width="22" height="22" class="ic red"/>
+  <text class="t-s t-b tc-red" x="618" y="74">파일 2개로 오해</text>
+
+  <rect class="box gray" x="20" y="108" width="230" height="46" rx="10"/>
+  <text class="t-mono mid" x="135" y="136">rm "My Game.txt"</text>
+  <path class="ln" d="M256 131 H298" marker-end="url(#ah)"/>
+  <rect class="box blue" x="310" y="112" width="46" height="38" rx="8"/>
+  <text class="t-mono mid" x="333" y="136">rm</text>
+  <rect class="box green" x="364" y="112" width="116" height="38" rx="8"/>
+  <text class="t-mono mid" x="422" y="136">My Game.txt</text>
+  <use href="#i-check" x="588" y="120" width="22" height="22" class="ic green"/>
+  <text class="t-s t-b tc-green" x="618" y="136">한 덩어리로 전달</text>
+
+  <rect class="box gray" x="20" y="170" width="230" height="46" rx="10"/>
+  <text class="t-mono mid" x="135" y="198">rm *.log</text>
+  <path class="ln" d="M256 193 H298" marker-end="url(#ah)"/>
+  <rect class="box blue" x="310" y="174" width="46" height="38" rx="8"/>
+  <text class="t-mono mid" x="333" y="198">rm</text>
+  <rect class="box warm" x="364" y="174" width="62" height="38" rx="8"/>
+  <text class="t-mono mid" x="395" y="198">a.log</text>
+  <rect class="box warm" x="434" y="174" width="62" height="38" rx="8"/>
+  <text class="t-mono mid" x="465" y="198">b.log</text>
+  <rect class="box warm" x="504" y="174" width="62" height="38" rx="8"/>
+  <text class="t-mono mid" x="535" y="198">c.log</text>
+  <use href="#i-spark" x="588" y="182" width="22" height="22" class="ic warm"/>
+  <text class="t-s t-b tc-warm" x="618" y="198">별표가 펼쳐짐</text>
+
+  <text class="t-xs" x="20" y="246">따옴표는 "여기는 자르지 마세요"라는 표시입니다. 따옴표 자체는 프로그램에 전달되지 않습니다.</text>
+</svg>

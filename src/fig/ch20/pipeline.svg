@@ -1,0 +1,49 @@
+<svg viewBox="0 0 760 286" xmlns="http://www.w3.org/2000/svg">
+  <title>push 한 번에 설치, 빌드, 테스트, 보관이 차례로 돌고, 테스트가 실패하면 뒤 단계는 실행되지 않는다</title>
+  <text class="t-h" x="20" y="34">코드를 올릴 때마다 도는 검사 라인</text>
+
+  <rect class="box blue" x="20" y="62" width="90" height="124" rx="12"/>
+  <use href="#i-branch" x="47" y="74" width="36" height="36" class="ic blue"/>
+  <text class="t-b mid" x="65" y="136">올리기</text>
+  <text class="t-mono mid" x="65" y="160">a1b2c3d</text>
+
+  <rect class="box green" x="132" y="62" width="135" height="124" rx="12"/>
+  <circle class="badge green" cx="152" cy="84" r="12"/><text class="badge-t" x="152" y="88.500">1</text>
+  <text class="t-l" x="172" y="90">설치</text>
+  <text class="t-mono" x="146" y="126">npm ci</text>
+  <text class="t-s" x="146" y="158">잠금 파일 그대로</text>
+
+  <rect class="box green" x="289" y="62" width="135" height="124" rx="12"/>
+  <circle class="badge green" cx="309" cy="84" r="12"/><text class="badge-t" x="309" y="88.500">2</text>
+  <text class="t-l" x="329" y="90">빌드</text>
+  <text class="t-mono" x="303" y="126">npm run build</text>
+  <text class="t-s" x="303" y="158">상자를 만든다</text>
+
+  <rect class="box red" x="446" y="62" width="135" height="124" rx="12"/>
+  <circle class="badge red" cx="466" cy="84" r="12"/><text class="badge-t" x="466" y="88.500">3</text>
+  <text class="t-l" x="486" y="90">테스트</text>
+  <text class="t-mono" x="460" y="126">npm test</text>
+  <text class="t-s t-b tc-red" x="460" y="158">212개 중 1개 실패</text>
+
+  <rect class="ghost dash" x="603" y="62" width="135" height="124" rx="12"/>
+  <circle class="badge" cx="623" cy="84" r="12"/><text class="badge-t" x="623" y="88.500">4</text>
+  <text class="t-l tc-muted" x="643" y="90">보관</text>
+  <text class="t-s" x="617" y="126">검사한 상자를</text>
+  <text class="t-s" x="617" y="146">보관소에 넣는다</text>
+
+  <path class="ln blue" d="M113 124 H125" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M270 124 H282" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M427 124 H439" marker-end="url(#ah-green)"/>
+  <path class="ln muted dash" d="M584 124 H596" marker-end="url(#ah-muted)"/>
+
+  <rect class="box green" x="144" y="200" width="111" height="28" rx="14"/>
+  <text class="t-s mid" x="199.500" y="219">종료 코드 0</text>
+  <rect class="box green" x="301" y="200" width="111" height="28" rx="14"/>
+  <text class="t-s mid" x="356.500" y="219">종료 코드 0</text>
+  <rect class="box red" x="458" y="200" width="111" height="28" rx="14"/>
+  <text class="t-s t-b mid tc-red" x="513.500" y="219">종료 코드 1</text>
+  <rect class="box gray" x="615" y="200" width="111" height="28" rx="14"/>
+  <text class="t-s mid" x="670.500" y="219">실행 안 됨</text>
+
+  <text class="t-b tc-red" x="20" y="266">빨간불: 검사에서 떨어진 상자는 보관소에 들어가지 못한다</text>
+</svg>

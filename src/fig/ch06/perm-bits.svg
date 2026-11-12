@@ -1,0 +1,74 @@
+<svg viewBox="0 0 760 310" xmlns="http://www.w3.org/2000/svg">
+  <title>ls -l이 보여 주는 권한 아홉 글자는 소유자, 그룹, 그 밖의 모두에게 각각 읽기·쓰기·실행을 허락하는지 나타낸다</title>
+
+  <text class="t-mono" x="40" y="34">$ ls -l deploy.sh</text>
+
+  <rect class="box gray" x="40" y="52" width="34" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="57" y="77">-</text>
+  <text class="t-xs mid" x="57" y="110">파일</text>
+
+  <rect class="box blue" x="86" y="52" width="34" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="103" y="77">r</text>
+  <rect class="box blue" x="120" y="52" width="34" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="137" y="77">w</text>
+  <rect class="box blue" x="154" y="52" width="34" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="171" y="77">x</text>
+
+  <rect class="box green" x="200" y="52" width="34" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="217" y="77">r</text>
+  <rect class="box green" x="234" y="52" width="34" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="251" y="77">-</text>
+  <rect class="box green" x="268" y="52" width="34" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="285" y="77">x</text>
+
+  <rect class="box warm" x="314" y="52" width="34" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="331" y="77">r</text>
+  <rect class="box warm" x="348" y="52" width="34" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="365" y="77">-</text>
+  <rect class="box warm" x="382" y="52" width="34" height="40" rx="6"/>
+  <text class="t-mono t-b mid" x="399" y="77">-</text>
+
+  <text class="t-xs mid" x="457" y="44">소유자</text>
+  <text class="t-mono t-b tc-blue" x="440" y="77">mina</text>
+  <text class="t-xs mid" x="521" y="44">그룹</text>
+  <text class="t-mono t-b tc-green" x="500" y="77">staff</text>
+  <text class="t-mono" x="566" y="77">deploy.sh</text>
+
+  <path class="ln thin blue" d="M137 96 V144" marker-end="url(#ah-blue)"/>
+  <path class="ln thin green" d="M251 96 V128 H380 V144" marker-end="url(#ah-green)"/>
+  <path class="ln thin warm" d="M365 96 V112 H623 V144" marker-end="url(#ah-warm)"/>
+
+  <rect class="box blue" x="37" y="150" width="200" height="112" rx="12"/>
+  <use href="#i-user" x="51" y="160" width="26" height="26" class="ic blue"/>
+  <text class="t-b" x="85" y="179">소유자</text>
+  <text class="t-mono tc-blue" x="136" y="179">mina</text>
+  <use href="#i-check" x="65" y="198" width="24" height="24" class="ic green"/>
+  <text class="t-s mid" x="77" y="244">읽기</text>
+  <use href="#i-check" x="125" y="198" width="24" height="24" class="ic green"/>
+  <text class="t-s mid" x="137" y="244">쓰기</text>
+  <use href="#i-check" x="185" y="198" width="24" height="24" class="ic green"/>
+  <text class="t-s mid" x="197" y="244">실행</text>
+
+  <rect class="box green" x="280" y="150" width="200" height="112" rx="12"/>
+  <use href="#i-users" x="294" y="160" width="26" height="26" class="ic green"/>
+  <text class="t-b" x="328" y="179">그룹</text>
+  <text class="t-mono tc-green" x="364" y="179">staff</text>
+  <use href="#i-check" x="308" y="198" width="24" height="24" class="ic green"/>
+  <text class="t-s mid" x="320" y="244">읽기</text>
+  <use href="#i-cross" x="368" y="198" width="24" height="24" class="ic red"/>
+  <text class="t-s mid" x="380" y="244">쓰기</text>
+  <use href="#i-check" x="428" y="198" width="24" height="24" class="ic green"/>
+  <text class="t-s mid" x="440" y="244">실행</text>
+
+  <rect class="box warm" x="523" y="150" width="200" height="112" rx="12"/>
+  <use href="#i-globe" x="537" y="160" width="26" height="26" class="ic warm"/>
+  <text class="t-b" x="571" y="179">그 밖의 모두</text>
+  <use href="#i-check" x="551" y="198" width="24" height="24" class="ic green"/>
+  <text class="t-s mid" x="563" y="244">읽기</text>
+  <use href="#i-cross" x="611" y="198" width="24" height="24" class="ic red"/>
+  <text class="t-s mid" x="623" y="244">쓰기</text>
+  <use href="#i-cross" x="671" y="198" width="24" height="24" class="ic red"/>
+  <text class="t-s mid" x="683" y="244">실행</text>
+
+  <text class="t-xs" x="40" y="292">r 읽기(read) · w 쓰기(write) · x 실행(execute) · - 는 그 권한이 없다는 표시</text>
+</svg>

@@ -1,0 +1,51 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+  <title>프로젝트 폴더의 네 종류: 소스와 실행 데이터는 지우면 안 되고, 빌드 결과와 캐시는 다시 만들 수 있다</title>
+
+  <rect class="box blue" x="20" y="20" width="165" height="212" rx="14"/>
+  <use href="#i-code" x="82" y="32" width="40" height="40" class="ic blue"/>
+  <text class="t-l mid" x="102" y="98">소스</text>
+  <text class="t-s mid" x="102" y="120">직접 쓴 원본</text>
+  <text class="t-mono mid" x="102" y="152">src/</text>
+  <text class="t-mono mid" x="102" y="174">assets/</text>
+  <text class="t-xs mid" x="102" y="212">주방에서는 레시피</text>
+
+  <rect class="box green" x="205" y="20" width="165" height="212" rx="14"/>
+  <use href="#i-box" x="267" y="32" width="40" height="40" class="ic green"/>
+  <text class="t-l mid" x="287" y="98">빌드 결과</text>
+  <text class="t-s mid" x="287" y="120">소스로 만든 완성품</text>
+  <text class="t-mono mid" x="287" y="152">build/</text>
+  <text class="t-mono mid" x="287" y="174">dist/</text>
+  <text class="t-xs mid" x="287" y="212">주방에서는 완성된 요리</text>
+
+  <rect class="box gray" x="390" y="20" width="165" height="212" rx="14"/>
+  <use href="#i-refresh" x="452" y="32" width="40" height="40" class="ic gray"/>
+  <text class="t-l mid" x="472" y="98">캐시</text>
+  <text class="t-s mid" x="472" y="120">빨리 하려고 남긴 것</text>
+  <text class="t-mono mid" x="472" y="152">.cache/</text>
+  <text class="t-mono mid" x="472" y="174">__pycache__/</text>
+  <text class="t-xs mid" x="472" y="212">주방에서는 손질해 둔 재료</text>
+
+  <rect class="box warm" x="575" y="20" width="165" height="212" rx="14"/>
+  <use href="#i-db" x="637" y="32" width="40" height="40" class="ic warm"/>
+  <text class="t-l mid" x="657" y="98">실행 데이터</text>
+  <text class="t-s mid" x="657" y="120">쓰면서 쌓인 기록</text>
+  <text class="t-mono mid" x="657" y="152">saves/</text>
+  <text class="t-mono mid" x="657" y="174">uploads/</text>
+  <text class="t-xs mid" x="657" y="212">주방에서는 예약 장부</text>
+
+  <rect class="box red" x="20" y="248" width="165" height="38" rx="10"/>
+  <text class="t-b mid tc-red" x="102" y="272">지우면 안 됨</text>
+  <text class="t-xs mid" x="102" y="308">다시 만들 수 없다</text>
+
+  <rect class="box green" x="205" y="248" width="165" height="38" rx="10"/>
+  <text class="t-b mid tc-green" x="287" y="272">지워도 됨</text>
+  <text class="t-xs mid" x="287" y="308">빌드하면 다시 생긴다</text>
+
+  <rect class="box green" x="390" y="248" width="165" height="38" rx="10"/>
+  <text class="t-b mid tc-green" x="472" y="272">지워도 됨</text>
+  <text class="t-xs mid" x="472" y="308">다음 실행이 느려질 뿐</text>
+
+  <rect class="box red" x="575" y="248" width="165" height="38" rx="10"/>
+  <text class="t-b mid tc-red" x="657" y="272">지우면 안 됨</text>
+  <text class="t-xs mid" x="657" y="308">다시 만들 수 없다 · 백업</text>
+</svg>

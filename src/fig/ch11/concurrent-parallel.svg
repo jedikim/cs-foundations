@@ -1,0 +1,41 @@
+<svg viewBox="0 0 760 364" xmlns="http://www.w3.org/2000/svg">
+  <title>동시성은 요리사 한 명이 두 요리를 번갈아 진행하는 것이고, 병렬성은 두 명이 같은 순간에 각자 하는 것이다</title>
+
+  <rect class="panel" x="20" y="16" width="720" height="124" rx="16"/>
+  <text class="t-l" x="40" y="46">동시성</text>
+  <text class="t-s" x="100" y="46">요리사 1명이 두 요리를 번갈아</text>
+  <text class="t-s t-b end" x="720" y="46">한 순간에는 한 요리만 · 6분에 끝</text>
+  <use href="#i-chef" x="40" y="68" width="44" height="44" class="ic blue"/>
+  <text class="t-b" x="92" y="96">요리사 1</text>
+  <rect class="solid blue" x="170" y="68" width="88" height="44" rx="6"/>
+  <text class="t-on t-b mid" x="214" y="95">파스타</text>
+  <rect class="solid warm" x="260" y="68" width="88" height="44" rx="6"/>
+  <text class="t-on t-b mid" x="304" y="95">스테이크</text>
+  <rect class="solid blue" x="350" y="68" width="88" height="44" rx="6"/>
+  <text class="t-on t-b mid" x="394" y="95">파스타</text>
+  <rect class="solid warm" x="440" y="68" width="88" height="44" rx="6"/>
+  <text class="t-on t-b mid" x="484" y="95">스테이크</text>
+  <rect class="solid blue" x="530" y="68" width="88" height="44" rx="6"/>
+  <text class="t-on t-b mid" x="574" y="95">파스타</text>
+  <rect class="solid warm" x="620" y="68" width="88" height="44" rx="6"/>
+  <text class="t-on t-b mid" x="664" y="95">스테이크</text>
+
+  <rect class="panel" x="20" y="160" width="720" height="150" rx="16"/>
+  <text class="t-l" x="40" y="190">병렬성</text>
+  <text class="t-s" x="100" y="190">요리사 2명이 각자 하나씩</text>
+  <text class="t-s t-b end" x="720" y="190">같은 순간에 두 요리가 함께 · 3분에 끝</text>
+  <use href="#i-chef" x="40" y="204" width="40" height="40" class="ic blue"/>
+  <text class="t-b" x="92" y="230">요리사 1</text>
+  <rect class="solid blue" x="170" y="204" width="268" height="40" rx="6"/>
+  <text class="t-on t-b mid" x="304" y="229">파스타</text>
+  <use href="#i-chef" x="40" y="254" width="40" height="40" class="ic warm"/>
+  <text class="t-b" x="92" y="280">요리사 2</text>
+  <rect class="solid warm" x="170" y="254" width="268" height="40" rx="6"/>
+  <text class="t-on t-b mid" x="304" y="279">스테이크</text>
+
+  <path class="ln thin muted" d="M170 328 H710"/>
+  <path class="ln thin muted" d="M170 323 V333 M260 325 V331 M350 325 V331 M440 323 V333 M530 325 V331 M620 325 V331 M710 323 V333"/>
+  <text class="t-xs mid" x="170" y="350">0</text>
+  <text class="t-xs mid" x="440" y="350">3분</text>
+  <text class="t-xs mid" x="710" y="350">6분</text>
+</svg>

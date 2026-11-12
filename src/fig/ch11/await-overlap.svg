@@ -1,0 +1,31 @@
+<svg viewBox="0 0 760 326" xmlns="http://www.w3.org/2000/svg">
+  <title>두 요청을 차례로 기다리면 4초, 함께 시작해 놓고 기다리면 2초가 걸린다</title>
+
+  <rect class="panel" x="20" y="16" width="720" height="122" rx="16"/>
+  <text class="t-l" x="40" y="46">차례로 기다리기</text>
+  <text class="t-l end tc-warm" x="720" y="46">모두 4초</text>
+  <text class="t-mono" x="40" y="82">loadUser()</text>
+  <rect class="solid blue" x="210" y="62" width="240" height="30" rx="6"/>
+  <text class="t-on mid" x="330" y="82">응답을 기다리는 2초</text>
+  <text class="t-mono" x="40" y="118">loadNotice()</text>
+  <rect class="solid green" x="450" y="98" width="240" height="30" rx="6"/>
+  <text class="t-on mid" x="570" y="118">응답을 기다리는 2초</text>
+
+  <rect class="panel" x="20" y="156" width="720" height="122" rx="16"/>
+  <text class="t-l" x="40" y="186">함께 시작하고 기다리기</text>
+  <text class="t-l end tc-green" x="720" y="186">모두 2초</text>
+  <text class="t-mono" x="40" y="222">loadUser()</text>
+  <rect class="solid blue" x="210" y="202" width="240" height="30" rx="6"/>
+  <text class="t-on mid" x="330" y="222">응답을 기다리는 2초</text>
+  <text class="t-mono" x="40" y="258">loadNotice()</text>
+  <rect class="solid green" x="210" y="238" width="240" height="30" rx="6"/>
+  <text class="t-on mid" x="330" y="258">응답을 기다리는 2초</text>
+
+  <path class="ln thin muted" d="M210 294 H690"/>
+  <path class="ln thin muted" d="M210 289 V299 M330 289 V299 M450 289 V299 M570 289 V299 M690 289 V299"/>
+  <text class="t-xs mid" x="210" y="316">0</text>
+  <text class="t-xs mid" x="330" y="316">1초</text>
+  <text class="t-xs mid" x="450" y="316">2초</text>
+  <text class="t-xs mid" x="570" y="316">3초</text>
+  <text class="t-xs mid" x="690" y="316">4초</text>
+</svg>

@@ -1,0 +1,39 @@
+<svg viewBox="0 0 760 310" xmlns="http://www.w3.org/2000/svg">
+  <title>같은 낱말이라도 묶는 구조가 다르면 계산 순서와 결과가 달라진다</title>
+
+  <rect class="panel" x="20" y="16" width="350" height="278" rx="16"/>
+  <text class="t-mono t-b mid" x="195" y="48">price * 2 + 1</text>
+  <path class="ln thin blue" d="M215 100 L150 160 M215 100 L280 160 M150 160 L100 220 M150 160 L200 220"/>
+  <circle class="box blue" cx="215" cy="100" r="20"/>
+  <circle class="box blue" cx="150" cy="160" r="20"/>
+  <rect class="box" x="258" y="143" width="44" height="34" rx="8"/>
+  <rect class="box" x="65" y="203" width="70" height="34" rx="8"/>
+  <rect class="box" x="178" y="203" width="44" height="34" rx="8"/>
+  <text class="t-mono t-b mid" x="215" y="105">+</text>
+  <text class="t-mono t-b mid" x="150" y="165">*</text>
+  <text class="t-mono mid" x="280" y="165">1</text>
+  <text class="t-mono mid" x="100" y="225">price</text>
+  <text class="t-mono mid" x="200" y="225">2</text>
+  <text class="t-s t-b tc-blue" x="243" y="94">= 201</text>
+  <text class="t-s t-b tc-blue" x="178" y="166">= 200</text>
+  <text class="t-xs mid" x="100" y="254">= 100</text>
+  <text class="t-b mid" x="195" y="280">곱하기 먼저 → 201</text>
+
+  <rect class="panel" x="390" y="16" width="350" height="278" rx="16"/>
+  <text class="t-mono t-b mid" x="565" y="48">price * (2 + 1)</text>
+  <path class="ln thin blue" d="M545 100 L480 160 M545 100 L620 160 M620 160 L575 220 M620 160 L665 220"/>
+  <circle class="box blue" cx="545" cy="100" r="20"/>
+  <circle class="box blue" cx="620" cy="160" r="20"/>
+  <rect class="box" x="445" y="143" width="70" height="34" rx="8"/>
+  <rect class="box" x="553" y="203" width="44" height="34" rx="8"/>
+  <rect class="box" x="643" y="203" width="44" height="34" rx="8"/>
+  <text class="t-mono t-b mid" x="545" y="105">*</text>
+  <text class="t-mono t-b mid" x="620" y="165">+</text>
+  <text class="t-mono mid" x="480" y="165">price</text>
+  <text class="t-mono mid" x="575" y="225">2</text>
+  <text class="t-mono mid" x="665" y="225">1</text>
+  <text class="t-s t-b tc-blue" x="573" y="94">= 300</text>
+  <text class="t-s t-b tc-blue" x="648" y="166">= 3</text>
+  <text class="t-xs mid" x="480" y="194">= 100</text>
+  <text class="t-b mid" x="565" y="280">더하기 먼저 → 300</text>
+</svg>

@@ -1,0 +1,59 @@
+<svg viewBox="0 0 760 384" xmlns="http://www.w3.org/2000/svg">
+  <title>게임은 1초에 60장을 넘기는 그림책이고, 한 장마다 입력·갱신·그리기를 약 16.7ms 안에 끝내야 한다</title>
+  <text class="t-h" x="20" y="34">그림책 세 장 — 공이 조금씩 오른쪽으로</text>
+
+  <rect class="box yellow" x="40" y="52" width="180" height="104" rx="10"/>
+  <path class="ln thin muted" d="M54 134 H206"/>
+  <rect class="solid gray" x="184" y="96" width="8" height="38" rx="2"/>
+  <circle class="f-blue" cx="80" cy="122" r="12"/>
+  <text class="t-s t-b mid" x="130" y="178">1번째 장</text>
+  <text class="t-mono mid" x="130" y="198">x = 3.00</text>
+
+  <rect class="box yellow" x="290" y="52" width="180" height="104" rx="10"/>
+  <path class="ln thin muted" d="M304 134 H456"/>
+  <rect class="solid gray" x="434" y="96" width="8" height="38" rx="2"/>
+  <circle class="ghost dash" cx="330" cy="122" r="12"/>
+  <circle class="f-blue" cx="362" cy="122" r="12"/>
+  <text class="t-s t-b mid" x="380" y="178">2번째 장</text>
+  <text class="t-mono mid" x="380" y="198">x = 3.05</text>
+
+  <rect class="box yellow" x="540" y="52" width="180" height="104" rx="10"/>
+  <path class="ln thin muted" d="M554 134 H706"/>
+  <rect class="solid gray" x="684" y="96" width="8" height="38" rx="2"/>
+  <circle class="ghost dash" cx="612" cy="122" r="12"/>
+  <circle class="f-blue" cx="644" cy="122" r="12"/>
+  <text class="t-s t-b mid" x="630" y="178">3번째 장</text>
+  <text class="t-mono mid" x="630" y="198">x = 3.10</text>
+
+  <path class="ln muted" d="M228 104 H280" marker-end="url(#ah-muted)"/>
+  <text class="t-xs mid" x="255" y="94">16.7ms 뒤</text>
+  <path class="ln muted" d="M478 104 H530" marker-end="url(#ah-muted)"/>
+  <text class="t-xs mid" x="505" y="94">16.7ms 뒤</text>
+
+  <text class="t-h" x="20" y="244">한 장에 쓸 수 있는 시간: 1000ms ÷ 60장 ≈ 16.7ms</text>
+
+  <rect class="box warm" x="40" y="260" width="41" height="46" rx="6"/>
+  <circle class="badge warm" cx="60.5" cy="283" r="11"/><text class="badge-t" x="60.5" y="287.5">1</text>
+
+  <rect class="box blue" x="81" y="260" width="244" height="46" rx="6"/>
+  <circle class="badge blue" cx="103" cy="283" r="11"/><text class="badge-t" x="103" y="287.5">2</text>
+  <text class="t-b" x="122" y="288">갱신</text>
+  <text class="t-mono end" x="314" y="288">6ms</text>
+
+  <rect class="box purple" x="325" y="260" width="285" height="46" rx="6"/>
+  <circle class="badge purple" cx="347" cy="283" r="11"/><text class="badge-t" x="347" y="287.5">3</text>
+  <text class="t-b" x="366" y="288">그리기</text>
+  <text class="t-mono end" x="599" y="288">7ms</text>
+
+  <rect class="ghost dash" x="610" y="260" width="110" height="46" rx="6"/>
+  <text class="t-s mid" x="665" y="288">여유 2.7ms</text>
+
+  <text class="t-s t-b" x="40" y="330">입력 1ms</text>
+  <text class="t-xs" x="40" y="348">키·터치를 읽는다</text>
+  <text class="t-xs" x="160" y="330">위치를 옮기고, 충돌을</text>
+  <text class="t-xs" x="160" y="348">확인하고, 점수를 고친다</text>
+  <text class="t-xs" x="366" y="330">바뀐 위치대로</text>
+  <text class="t-xs" x="366" y="348">화면 한 장을 그린다</text>
+  <text class="t-xs tc-red" x="560" y="330">세 일의 합이 16.7ms를</text>
+  <text class="t-xs tc-red" x="560" y="348">넘으면 장이 늦게 넘어간다</text>
+</svg>

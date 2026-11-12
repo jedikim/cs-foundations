@@ -1,0 +1,71 @@
+<svg viewBox="0 0 760 386" xmlns="http://www.w3.org/2000/svg">
+  <title>점 (1, 0)을 90도 회전한 뒤 오른쪽으로 2칸 옮기면 (2, 1), 먼저 옮긴 뒤 회전하면 (0, 3)이 되어 변환의 순서가 결과를 바꾼다</title>
+  <text class="t-b mid" x="202" y="34">회전 먼저, 이동 나중</text>
+  <text class="t-mono mid" x="202" y="60">(1, 0) → (0, 1) → (2, 1)</text>
+  <path class="ln thin muted" d="M110 290 V106"/>
+  <path class="ln thin muted" d="M156 290 V106"/>
+  <path class="ln thin muted" d="M202 290 V106"/>
+  <path class="ln thin muted" d="M248 290 V106"/>
+  <path class="ln thin muted" d="M294 290 V106"/>
+  <path class="ln thin muted" d="M110 290 H294"/>
+  <path class="ln thin muted" d="M110 244 H294"/>
+  <path class="ln thin muted" d="M110 198 H294"/>
+  <path class="ln thin muted" d="M110 152 H294"/>
+  <path class="ln thin muted" d="M110 106 H294"/>
+  <path class="ln" d="M110 290 H308" marker-end="url(#ah)"/>
+  <path class="ln" d="M110 290 V92" marker-end="url(#ah)"/>
+  <text class="t-xs mid" x="156" y="308">1</text>
+  <text class="t-xs end" x="101" y="248">1</text>
+  <text class="t-xs mid" x="202" y="308">2</text>
+  <text class="t-xs end" x="101" y="202">2</text>
+  <text class="t-xs mid" x="248" y="308">3</text>
+  <text class="t-xs end" x="101" y="156">3</text>
+  <text class="t-xs mid" x="294" y="308">4</text>
+  <text class="t-xs end" x="101" y="110">4</text>
+  <text class="t-s mid" x="156" y="328">시작 (1, 0)</text>
+  <path class="ln blue" d="M156 283 A42 42 0 0 0 119 245.5" marker-end="url(#ah-blue)"/>
+  <path class="ln warm" d="M136 244 H192" marker-end="url(#ah-warm)"/>
+  <circle class="f-gray" cx="156" cy="290" r="6"/>
+  <circle class="f-blue" cx="110" cy="244" r="5"/>
+  <circle class="f-warm" cx="202" cy="244" r="8"/>
+  <circle class="badge blue" cx="168" cy="256" r="11"/><text class="badge-t" x="168" y="260.5">1</text>
+  <circle class="badge warm" cx="164" cy="226" r="11"/><text class="badge-t" x="164" y="230.5">2</text>
+  <text class="t-mono t-b tc-warm" x="216" y="236">(2, 1)</text>
+  <text class="t-b mid" x="582" y="34">이동 먼저, 회전 나중</text>
+  <text class="t-mono mid" x="582" y="60">(1, 0) → (3, 0) → (0, 3)</text>
+  <path class="ln thin muted" d="M490 290 V106"/>
+  <path class="ln thin muted" d="M536 290 V106"/>
+  <path class="ln thin muted" d="M582 290 V106"/>
+  <path class="ln thin muted" d="M628 290 V106"/>
+  <path class="ln thin muted" d="M674 290 V106"/>
+  <path class="ln thin muted" d="M490 290 H674"/>
+  <path class="ln thin muted" d="M490 244 H674"/>
+  <path class="ln thin muted" d="M490 198 H674"/>
+  <path class="ln thin muted" d="M490 152 H674"/>
+  <path class="ln thin muted" d="M490 106 H674"/>
+  <path class="ln" d="M490 290 H688" marker-end="url(#ah)"/>
+  <path class="ln" d="M490 290 V92" marker-end="url(#ah)"/>
+  <text class="t-xs mid" x="536" y="308">1</text>
+  <text class="t-xs end" x="481" y="248">1</text>
+  <text class="t-xs mid" x="582" y="308">2</text>
+  <text class="t-xs end" x="481" y="202">2</text>
+  <text class="t-xs mid" x="628" y="308">3</text>
+  <text class="t-xs end" x="481" y="156">3</text>
+  <text class="t-xs mid" x="674" y="308">4</text>
+  <text class="t-xs end" x="481" y="110">4</text>
+  <text class="t-s mid" x="536" y="328">시작 (1, 0)</text>
+  <path class="ln warm" d="M544 290 H619" marker-end="url(#ah-warm)"/>
+  <path class="ln blue" d="M628 282 A138 138 0 0 0 501 152.5" marker-end="url(#ah-blue)"/>
+  <circle class="f-gray" cx="536" cy="290" r="6"/>
+  <circle class="f-warm" cx="628" cy="290" r="5"/>
+  <circle class="f-warm" cx="490" cy="152" r="8"/>
+  <circle class="badge warm" cx="582" cy="272" r="11"/><text class="badge-t" x="582" y="276.5">1</text>
+  <circle class="badge blue" cx="601.6" cy="178.4" r="11"/><text class="badge-t" x="601.6" y="182.9">2</text>
+  <text class="t-mono t-b tc-warm" x="504" y="140">(0, 3)</text>
+  <text class="t-h mid" x="390" y="200">≠</text>
+  <text class="t-xs mid" x="390" y="222">결과가 다르다</text>
+  <path class="ln blue" d="M196 364 H226" marker-end="url(#ah-blue)"/>
+  <text class="t-s" x="236" y="369">원점을 중심으로 90° 회전</text>
+  <path class="ln warm" d="M420 364 H450" marker-end="url(#ah-warm)"/>
+  <text class="t-s" x="460" y="369">오른쪽으로 2칸 이동</text>
+</svg>

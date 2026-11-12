@@ -1,0 +1,154 @@
+<svg viewBox="0 0 760 708" xmlns="http://www.w3.org/2000/svg">
+<use href="#i-user" x="25" y="12" width="48" height="48" class="ic blue"/>
+<text class="t-xs mid" x="49" y="78">user</text>
+<use href="#i-users" x="99" y="12" width="48" height="48" class="ic green"/>
+<text class="t-xs mid" x="123" y="78">users</text>
+<use href="#i-laptop" x="173" y="12" width="48" height="48" class="ic warm"/>
+<text class="t-xs mid" x="197" y="78">laptop</text>
+<use href="#i-phone" x="247" y="12" width="48" height="48" class="ic red"/>
+<text class="t-xs mid" x="271" y="78">phone</text>
+<use href="#i-monitor" x="321" y="12" width="48" height="48" class="ic purple"/>
+<text class="t-xs mid" x="345" y="78">monitor</text>
+<use href="#i-server" x="395" y="12" width="48" height="48" class="ic yellow"/>
+<text class="t-xs mid" x="419" y="78">server</text>
+<use href="#i-db" x="469" y="12" width="48" height="48" class="ic gray"/>
+<text class="t-xs mid" x="493" y="78">db</text>
+<use href="#i-cloud" x="543" y="12" width="48" height="48" class="ic "/>
+<text class="t-xs mid" x="567" y="78">cloud</text>
+<use href="#i-file" x="617" y="12" width="48" height="48" class="ic blue"/>
+<text class="t-xs mid" x="641" y="78">file</text>
+<use href="#i-folder" x="691" y="12" width="48" height="48" class="ic green"/>
+<text class="t-xs mid" x="715" y="78">folder</text>
+<use href="#i-gear" x="25" y="98" width="48" height="48" class="ic warm"/>
+<text class="t-xs mid" x="49" y="164">gear</text>
+<use href="#i-lock" x="99" y="98" width="48" height="48" class="ic red"/>
+<text class="t-xs mid" x="123" y="164">lock</text>
+<use href="#i-key" x="173" y="98" width="48" height="48" class="ic purple"/>
+<text class="t-xs mid" x="197" y="164">key</text>
+<use href="#i-globe" x="247" y="98" width="48" height="48" class="ic yellow"/>
+<text class="t-xs mid" x="271" y="164">globe</text>
+<use href="#i-chip" x="321" y="98" width="48" height="48" class="ic gray"/>
+<text class="t-xs mid" x="345" y="164">chip</text>
+<use href="#i-ram" x="395" y="98" width="48" height="48" class="ic "/>
+<text class="t-xs mid" x="419" y="164">ram</text>
+<use href="#i-disk" x="469" y="98" width="48" height="48" class="ic blue"/>
+<text class="t-xs mid" x="493" y="164">disk</text>
+<use href="#i-gpu" x="543" y="98" width="48" height="48" class="ic green"/>
+<text class="t-xs mid" x="567" y="164">gpu</text>
+<use href="#i-gamepad" x="617" y="98" width="48" height="48" class="ic warm"/>
+<text class="t-xs mid" x="641" y="164">gamepad</text>
+<use href="#i-robot" x="691" y="98" width="48" height="48" class="ic red"/>
+<text class="t-xs mid" x="715" y="164">robot</text>
+<use href="#i-clock" x="25" y="184" width="48" height="48" class="ic purple"/>
+<text class="t-xs mid" x="49" y="250">clock</text>
+<use href="#i-mail" x="99" y="184" width="48" height="48" class="ic yellow"/>
+<text class="t-xs mid" x="123" y="250">mail</text>
+<use href="#i-search" x="173" y="184" width="48" height="48" class="ic gray"/>
+<text class="t-xs mid" x="197" y="250">search</text>
+<use href="#i-warn" x="247" y="184" width="48" height="48" class="ic "/>
+<text class="t-xs mid" x="271" y="250">warn</text>
+<use href="#i-check" x="321" y="184" width="48" height="48" class="ic blue"/>
+<text class="t-xs mid" x="345" y="250">check</text>
+<use href="#i-cross" x="395" y="184" width="48" height="48" class="ic green"/>
+<text class="t-xs mid" x="419" y="250">cross</text>
+<use href="#i-terminal" x="469" y="184" width="48" height="48" class="ic warm"/>
+<text class="t-xs mid" x="493" y="250">terminal</text>
+<use href="#i-browser" x="543" y="184" width="48" height="48" class="ic red"/>
+<text class="t-xs mid" x="567" y="250">browser</text>
+<use href="#i-router" x="617" y="184" width="48" height="48" class="ic purple"/>
+<text class="t-xs mid" x="641" y="250">router</text>
+<use href="#i-code" x="691" y="184" width="48" height="48" class="ic yellow"/>
+<text class="t-xs mid" x="715" y="250">code</text>
+<use href="#i-bug" x="25" y="270" width="48" height="48" class="ic gray"/>
+<text class="t-xs mid" x="49" y="336">bug</text>
+<use href="#i-box" x="99" y="270" width="48" height="48" class="ic "/>
+<text class="t-xs mid" x="123" y="336">box</text>
+<use href="#i-image" x="173" y="270" width="48" height="48" class="ic blue"/>
+<text class="t-xs mid" x="197" y="336">image</text>
+<use href="#i-shield" x="247" y="270" width="48" height="48" class="ic green"/>
+<text class="t-xs mid" x="271" y="336">shield</text>
+<use href="#i-bolt" x="321" y="270" width="48" height="48" class="ic warm"/>
+<text class="t-xs mid" x="345" y="336">bolt</text>
+<use href="#i-chart" x="395" y="270" width="48" height="48" class="ic red"/>
+<text class="t-xs mid" x="419" y="336">chart</text>
+<use href="#i-branch" x="469" y="270" width="48" height="48" class="ic purple"/>
+<text class="t-xs mid" x="493" y="336">branch</text>
+<use href="#i-eye" x="543" y="270" width="48" height="48" class="ic yellow"/>
+<text class="t-xs mid" x="567" y="336">eye</text>
+<use href="#i-wifi" x="617" y="270" width="48" height="48" class="ic gray"/>
+<text class="t-xs mid" x="641" y="336">wifi</text>
+<use href="#i-bulb" x="691" y="270" width="48" height="48" class="ic "/>
+<text class="t-xs mid" x="715" y="336">bulb</text>
+<use href="#i-layers" x="25" y="356" width="48" height="48" class="ic blue"/>
+<text class="t-xs mid" x="49" y="422">layers</text>
+<use href="#i-bell" x="99" y="356" width="48" height="48" class="ic green"/>
+<text class="t-xs mid" x="123" y="422">bell</text>
+<use href="#i-book" x="173" y="356" width="48" height="48" class="ic warm"/>
+<text class="t-xs mid" x="197" y="422">book</text>
+<use href="#i-play" x="247" y="356" width="48" height="48" class="ic red"/>
+<text class="t-xs mid" x="271" y="422">play</text>
+<use href="#i-cart" x="321" y="356" width="48" height="48" class="ic purple"/>
+<text class="t-xs mid" x="345" y="422">cart</text>
+<use href="#i-chat" x="395" y="356" width="48" height="48" class="ic yellow"/>
+<text class="t-xs mid" x="419" y="422">chat</text>
+<use href="#i-cursor" x="469" y="356" width="48" height="48" class="ic gray"/>
+<text class="t-xs mid" x="493" y="422">cursor</text>
+<use href="#i-chef" x="543" y="356" width="48" height="48" class="ic "/>
+<text class="t-xs mid" x="567" y="422">chef</text>
+<use href="#i-table" x="617" y="356" width="48" height="48" class="ic blue"/>
+<text class="t-xs mid" x="641" y="422">table</text>
+<use href="#i-shelf" x="691" y="356" width="48" height="48" class="ic green"/>
+<text class="t-xs mid" x="715" y="422">shelf</text>
+<use href="#i-truck" x="25" y="442" width="48" height="48" class="ic warm"/>
+<text class="t-xs mid" x="49" y="508">truck</text>
+<use href="#i-house" x="99" y="442" width="48" height="48" class="ic red"/>
+<text class="t-xs mid" x="123" y="508">house</text>
+<use href="#i-building" x="173" y="442" width="48" height="48" class="ic purple"/>
+<text class="t-xs mid" x="197" y="508">building</text>
+<use href="#i-car" x="247" y="442" width="48" height="48" class="ic yellow"/>
+<text class="t-xs mid" x="271" y="508">car</text>
+<use href="#i-ticket" x="321" y="442" width="48" height="48" class="ic gray"/>
+<text class="t-xs mid" x="345" y="508">ticket</text>
+<use href="#i-idcard" x="395" y="442" width="48" height="48" class="ic "/>
+<text class="t-xs mid" x="419" y="508">idcard</text>
+<use href="#i-coin" x="469" y="442" width="48" height="48" class="ic blue"/>
+<text class="t-xs mid" x="493" y="508">coin</text>
+<use href="#i-trash" x="543" y="442" width="48" height="48" class="ic green"/>
+<text class="t-xs mid" x="567" y="508">trash</text>
+<use href="#i-pencil" x="617" y="442" width="48" height="48" class="ic warm"/>
+<text class="t-xs mid" x="641" y="508">pencil</text>
+<use href="#i-link" x="691" y="442" width="48" height="48" class="ic red"/>
+<text class="t-xs mid" x="715" y="508">link</text>
+<use href="#i-plug" x="25" y="528" width="48" height="48" class="ic purple"/>
+<text class="t-xs mid" x="49" y="594">plug</text>
+<use href="#i-hourglass" x="99" y="528" width="48" height="48" class="ic yellow"/>
+<text class="t-xs mid" x="123" y="594">hourglass</text>
+<use href="#i-door" x="173" y="528" width="48" height="48" class="ic gray"/>
+<text class="t-xs mid" x="197" y="594">door</text>
+<use href="#i-list" x="247" y="528" width="48" height="48" class="ic "/>
+<text class="t-xs mid" x="271" y="594">list</text>
+<use href="#i-calendar" x="321" y="528" width="48" height="48" class="ic blue"/>
+<text class="t-xs mid" x="345" y="594">calendar</text>
+<use href="#i-pin" x="395" y="528" width="48" height="48" class="ic green"/>
+<text class="t-xs mid" x="419" y="594">pin</text>
+<use href="#i-star" x="469" y="528" width="48" height="48" class="ic warm"/>
+<text class="t-xs mid" x="493" y="594">star</text>
+<use href="#i-stop" x="543" y="528" width="48" height="48" class="ic red"/>
+<text class="t-xs mid" x="567" y="594">stop</text>
+<use href="#i-refresh" x="617" y="528" width="48" height="48" class="ic purple"/>
+<text class="t-xs mid" x="641" y="594">refresh</text>
+<use href="#i-down" x="691" y="528" width="48" height="48" class="ic yellow"/>
+<text class="t-xs mid" x="715" y="594">down</text>
+<use href="#i-up" x="25" y="614" width="48" height="48" class="ic gray"/>
+<text class="t-xs mid" x="49" y="680">up</text>
+<use href="#i-funnel" x="99" y="614" width="48" height="48" class="ic "/>
+<text class="t-xs mid" x="123" y="680">funnel</text>
+<use href="#i-scale" x="173" y="614" width="48" height="48" class="ic blue"/>
+<text class="t-xs mid" x="197" y="680">scale</text>
+<use href="#i-spark" x="247" y="614" width="48" height="48" class="ic green"/>
+<text class="t-xs mid" x="271" y="680">spark</text>
+<use href="#i-network" x="321" y="614" width="48" height="48" class="ic warm"/>
+<text class="t-xs mid" x="345" y="680">network</text>
+<use href="#i-grid" x="395" y="614" width="48" height="48" class="ic red"/>
+<text class="t-xs mid" x="419" y="680">grid</text>
+</svg>

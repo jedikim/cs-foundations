@@ -1,0 +1,1461 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>28장 핵심 AI 논문 15편 — 개발의 기초</title>
+<meta name="description" content="아이디어를 작동 원리로 읽기">
+<meta name="author" content="Jedi Kim">
+<link rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko">
+<script>try{var t=JSON.parse(localStorage.getItem('csf-theme')||'""');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="ch28" data-root="../">
+<svg xmlns="http://www.w3.org/2000/svg" class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+<defs>
+  <!-- 화살촉: marker-end="url(#ah)" 또는 #ah-blue 등 -->
+  <marker id="ah" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-blue" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk blue" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-green" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk green" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-warm" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk warm" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-red" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk red" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-purple" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk purple" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="ah-muted" viewBox="0 0 10 10" refX="8.6" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path class="mk muted" d="M0 0.9 L9.4 5 L0 9.1z"/></marker>
+  <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9"><circle class="mk" cx="5" cy="5" r="4"/></marker>
+
+  <!-- 아이콘: <use href="#i-server" x="" y="" width="48" height="48" class="ic blue"/> -->
+  <symbol id="i-user" viewBox="0 0 48 48"><path class="i-f" d="M8 42c0-9 7-15 16-15s16 6 16 15z"/><circle class="i-f" cx="24" cy="16" r="8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 48 48"><path class="i-f" d="M22 42c0-7 5-12 12-12s12 5 12 12z"/><circle class="i-f" cx="34" cy="21" r="6.5"/><path class="i-f" d="M2 42c0-8 6-13.500 14-13.500S30 34 30 42z"/><circle class="i-f" cx="16" cy="17" r="7.500"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect class="i-f" x="9" y="10" width="30" height="21" rx="3"/><path class="i-f" d="M4 35h40l-2.500 5h-35z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect class="i-f" x="14" y="5" width="20" height="38" rx="4"/><path class="i-s" d="M21 37h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="25" rx="3"/><path class="i-s" d="M17 41h14M24 33v8"/></symbol>
+  <symbol id="i-server" viewBox="0 0 48 48"><rect class="i-f" x="7" y="6" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="19" width="34" height="11" rx="2.500"/><rect class="i-f" x="7" y="32" width="34" height="11" rx="2.500"/><circle class="i-d" cx="13" cy="11.500" r="1.600"/><circle class="i-d" cx="13" cy="24.500" r="1.600"/><circle class="i-d" cx="13" cy="37.500" r="1.600"/><path class="i-s" d="M28 11.500h8M28 24.500h8M28 37.500h8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><path class="i-f" d="M8 12v24c0 3.300 7.200 6 16 6s16-2.700 16-6V12"/><ellipse class="i-f" cx="24" cy="12" rx="16" ry="6"/><path class="i-s" d="M8 20c0 3.300 7.200 6 16 6s16-2.700 16-6M8 28c0 3.300 7.200 6 16 6s16-2.700 16-6"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path class="i-f" d="M14 38a9 9 0 0 1-1.500-17.900A12 12 0 0 1 35.600 17 10.500 10.500 0 0 1 35 38z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 48 48"><path class="i-f" d="M12 5h16l9 9v29H12z"/><path class="i-s" d="M28 5v9h9M18 24h13M18 30h13M18 36h8"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path class="i-f" d="M5 12a3 3 0 0 1 3-3h10l4 5h18a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><path class="i-s" d="M24 4v7M24 37v7M4 24h7M37 24h7M9.900 9.900l5 5M33.100 33.100l5 5M9.900 38.100l5-5M33.100 14.900l5-5"/><circle class="i-f" cx="24" cy="24" r="12"/><circle class="i-s" cx="24" cy="24" r="4.500"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><path class="i-s" d="M16 21v-6a8 8 0 0 1 16 0v6"/><rect class="i-f" x="10" y="21" width="28" height="21" rx="4"/><circle class="i-d" cx="24" cy="31.500" r="2.400"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle class="i-f" cx="14" cy="24" r="8"/><path class="i-s" d="M22 24h21M36 24v7M42 24v5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M6 24h36M24 6c-8 5-8 31 0 36M24 6c8 5 8 31 0 36"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><path class="i-s" d="M18 5v7M24 5v7M30 5v7M18 36v7M24 36v7M30 36v7M5 18h7M5 24h7M5 30h7M36 18h7M36 24h7M36 30h7"/><rect class="i-f" x="12" y="12" width="24" height="24" rx="3"/><rect class="i-s" x="18.500" y="18.500" width="11" height="11" rx="1.500"/></symbol>
+  <symbol id="i-ram" viewBox="0 0 48 48"><path class="i-f" d="M4 13h40v18h-3.500v4h-33v-4H4z"/><path class="i-s" d="M11 18v8M18 18v8M25 18v8M32 18v8M38 18v8"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 48 48"><rect class="i-f" x="8" y="6" width="32" height="36" rx="4"/><circle class="i-s" cx="24" cy="21" r="9"/><circle class="i-d" cx="24" cy="21" r="1.800"/><path class="i-s" d="M14 36h8"/></symbol>
+  <symbol id="i-gpu" viewBox="0 0 48 48"><path class="i-s" d="M10 34v6M16 34v6M22 34v6"/><rect class="i-f" x="4" y="12" width="40" height="22" rx="3"/><circle class="i-s" cx="16" cy="23" r="6.500"/><circle class="i-s" cx="32" cy="23" r="6.500"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 48 48"><path class="i-f" d="M14 14h20a10 10 0 0 1 9.600 12.800l-1.700 6A5 5 0 0 1 33 35l-3.600-5H18.600L15 35a5 5 0 0 1-8.900-2.200l-1.700-6A10 10 0 0 1 14 14z"/><path class="i-s" d="M13 22h7M16.500 18.500v7"/><circle class="i-d" cx="31" cy="20" r="1.700"/><circle class="i-d" cx="35.500" cy="24" r="1.700"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 48 48"><path class="i-s" d="M24 15V8M4 25v7M44 25v7"/><rect class="i-f" x="9" y="15" width="30" height="24" rx="6"/><path class="i-s" d="M18 33h12"/><circle class="i-d" cx="24" cy="6.500" r="2.200"/><circle class="i-d" cx="18" cy="25" r="2.400"/><circle class="i-d" cx="30" cy="25" r="2.400"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M24 13v11l7 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect class="i-f" x="5" y="10" width="38" height="28" rx="3"/><path class="i-s" d="M6 12l18 14 18-14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 48 48"><circle class="i-f" cx="21" cy="21" r="13"/><path class="i-s" d="M31 31l11 11"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 48 48"><path class="i-f" d="M24 6l20 35H4z"/><path class="i-s" d="M24 19v11"/><circle class="i-d" cx="24" cy="35" r="1.600"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M15 24.500l6.500 6.500L34 18"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-s" d="M17 17l14 14M31 17L17 31"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M12 19l6 5-6 5M22 30h12"/></symbol>
+  <symbol id="i-browser" viewBox="0 0 48 48"><rect class="i-f" x="4" y="8" width="40" height="32" rx="4"/><path class="i-s" d="M4 17h40"/><circle class="i-d" cx="10" cy="12.500" r="1.300"/><circle class="i-d" cx="15" cy="12.500" r="1.300"/><circle class="i-d" cx="20" cy="12.500" r="1.300"/></symbol>
+  <symbol id="i-router" viewBox="0 0 48 48"><path class="i-s" d="M14 26V12M34 26V12"/><rect class="i-f" x="5" y="26" width="38" height="13" rx="3"/><path class="i-s" d="M21 32.500h14"/><circle class="i-d" cx="12.500" cy="32.500" r="1.600"/></symbol>
+  <symbol id="i-code" viewBox="0 0 48 48"><path class="i-s" d="M17 14L6 24l11 10M31 14l11 10-11 10M27 9l-6 30"/></symbol>
+  <symbol id="i-bug" viewBox="0 0 48 48"><path class="i-s" d="M17 16a7 7 0 0 1 14 0M14 24H5M14 32H6M34 24h9M34 32h8M16 38l-6 5M32 38l6 5M18 11l-4-5M30 11l4-5"/><ellipse class="i-f" cx="24" cy="28" rx="10" ry="13"/><path class="i-s" d="M24 20v20"/></symbol>
+  <symbol id="i-box" viewBox="0 0 48 48"><path class="i-f" d="M24 5l18 9v20l-18 9-18-9V14z"/><path class="i-s" d="M6 14l18 9 18-9M24 23v20"/></symbol>
+  <symbol id="i-image" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="4"/><circle class="i-d" cx="16" cy="18" r="3"/><path class="i-s" d="M6 34l11-10 8 7 6-5 11 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path class="i-f" d="M24 5l16 6v12c0 10-7 17-16 20-9-3-16-10-16-20V11z"/><path class="i-s" d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 48 48"><path class="i-f" d="M27 4L9 27h13l-2 17 18-24H25z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><rect class="i-f" x="12" y="24" width="7" height="14"/><rect class="i-f" x="22" y="14" width="7" height="24"/><rect class="i-f" x="32" y="19" width="7" height="19"/><path class="i-s" d="M6 6v36h36"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 48 48"><path class="i-s" d="M13 15v18M35 22c0 9-22 3-22 11"/><circle class="i-f" cx="13" cy="10" r="5"/><circle class="i-f" cx="13" cy="38" r="5"/><circle class="i-f" cx="35" cy="17" r="5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 48 48"><path class="i-f" d="M3 24c5-9 12-14 21-14s16 5 21 14c-5 9-12 14-21 14S8 33 3 24z"/><circle class="i-s" cx="24" cy="24" r="6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 48 48"><path class="i-s" d="M5 19c11-11 27-11 38 0M11 26c8-8 18-8 26 0M17.500 32.500c4-4 9-4 13 0"/><circle class="i-d" cx="24" cy="38.500" r="2.200"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path class="i-f" d="M24 5a13 13 0 0 0-8 23.200c1.400 1.200 2 2.600 2 4.300V34h12v-1.500c0-1.700.600-3.100 2-4.300A13 13 0 0 0 24 5z"/><path class="i-s" d="M19 39h10M21 43h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 48 48"><path class="i-s" d="M5 24l19 10 19-10M5 32l19 10 19-10"/><path class="i-f" d="M24 6l19 10-19 10L5 16z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 48 48"><path class="i-f" d="M24 6c-7 0-12 5-12 12v9l-4 7h32l-4-7v-9c0-7-5-12-12-12z"/><path class="i-s" d="M20 39a4 4 0 0 0 8 0"/></symbol>
+  <symbol id="i-book" viewBox="0 0 48 48"><path class="i-f" d="M24 12C19 8 12 7 5 8v28c7-1 14 0 19 4 5-4 12-5 19-4V8c-7-1-14 0-19 4z"/><path class="i-s" d="M24 12v28"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="18"/><path class="i-d" d="M20 16l13 8-13 8z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path class="i-s" d="M4 8h6l5 22h22l4-15H13"/><circle class="i-f" cx="18" cy="38" r="3.500"/><circle class="i-f" cx="34" cy="38" r="3.500"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 48 48"><path class="i-f" d="M6 9h36v24H22l-10 8v-8H6z"/><path class="i-s" d="M14 18h20M14 25h13"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 48 48"><path class="i-f" d="M12 6l25 16-11 3 7 13-5 3-7-13-9 8z"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 48 48"><path class="i-f" d="M9 44c0-7 6-11 15-11s15 4 15 11z"/><path class="i-f" d="M15 21a7 7 0 1 1 4-12.500 7 7 0 0 1 10 0A7 7 0 1 1 33 21v6H15z"/><path class="i-s" d="M15 23h18"/></symbol>
+  <symbol id="i-table" viewBox="0 0 48 48"><rect class="i-f" x="11" y="11" width="11" height="8" rx="1.500"/><circle class="i-f" cx="32" cy="14" r="5"/><path class="i-f" d="M4 19h40v6H4z"/><path class="i-s" d="M9 25v18M39 25v18"/></symbol>
+  <symbol id="i-shelf" viewBox="0 0 48 48"><rect class="i-f" x="7" y="5" width="34" height="38" rx="2"/><path class="i-s" d="M7 18h34M7 31h34M13 18v-6M19 18v-8M31 31v-7M36 31v-5M14 43v-6M25 43v-7"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 48 48"><path class="i-f" d="M3 12h24v22H3z"/><path class="i-f" d="M27 19h9l8 8v7H27z"/><circle class="i-f" cx="12" cy="36" r="4.500"/><circle class="i-f" cx="35" cy="36" r="4.500"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path class="i-f" d="M6 22L24 6l18 16v20H6z"/><path class="i-s" d="M19 42V29h10v13"/></symbol>
+  <symbol id="i-building" viewBox="0 0 48 48"><rect class="i-f" x="10" y="5" width="28" height="38" rx="2"/><path class="i-s" d="M17 13h4M27 13h4M17 21h4M27 21h4M17 29h4M27 29h4M21 43v-7h6v7"/></symbol>
+  <symbol id="i-car" viewBox="0 0 48 48"><path class="i-f" d="M5 31v-7l5-10h28l5 10v7z"/><path class="i-s" d="M9 24h30"/><circle class="i-f" cx="14" cy="33" r="4.500"/><circle class="i-f" cx="34" cy="33" r="4.500"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 48 48"><path class="i-f" d="M4 14h40v7a4 4 0 0 0 0 8v7H4v-7a4 4 0 0 0 0-8z"/><path class="i-s" d="M30 16v3M30 23v3M30 30v3"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 48 48"><rect class="i-f" x="4" y="9" width="40" height="30" rx="4"/><circle class="i-s" cx="16" cy="21" r="4.500"/><path class="i-s" d="M9 33c1-4 4-5 7-5s6 1 7 5M28 19h10M28 26h10"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 48 48"><circle class="i-f" cx="24" cy="24" r="17"/><path class="i-s" d="M24 13v22M29 19c-1-2-3-2.500-5-2.500-3 0-5 1.500-5 4s2 3.500 5 4 5 1.500 5 4-2 4-5 4c-2.500 0-4.500-1-5.500-3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path class="i-f" d="M11 14h26l-2.500 28h-21z"/><path class="i-s" d="M6 14h36M18 14V8h12v6M20 21v14M28 21v14"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 48 48"><path class="i-f" d="M8 40l3-11L32 8l8 8-21 21z"/><path class="i-s" d="M27 13l8 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 48 48"><path class="i-s" d="M20 28a8 8 0 0 0 11.300 0l7-7a8 8 0 0 0-11.300-11.300l-3 3M28 20a8 8 0 0 0-11.300 0l-7 7A8 8 0 0 0 21 38.300l3-3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 48 48"><path class="i-s" d="M17 4v10M31 4v10M24 35v9"/><path class="i-f" d="M11 14h26v8a13 13 0 0 1-26 0z"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 48 48"><path class="i-f" d="M12 6h24v6c0 6-8 9-8 12s8 6 8 12v6H12v-6c0-6 8-9 8-12s-8-6-8-12z"/><path class="i-s" d="M9 6h30M9 42h30"/></symbol>
+  <symbol id="i-door" viewBox="0 0 48 48"><path class="i-f" d="M12 43V5h24v38z"/><path class="i-s" d="M6 43h36"/><circle class="i-d" cx="30" cy="25" r="1.800"/></symbol>
+  <symbol id="i-list" viewBox="0 0 48 48"><rect class="i-f" x="8" y="5" width="32" height="38" rx="3"/><path class="i-s" d="M14 15l2.500 2.500L21 13M26 15h9M14 25l2.500 2.500L21 23M26 25h9M14 35l2.500 2.500L21 33M26 35h9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 48 48"><rect class="i-f" x="5" y="9" width="38" height="33" rx="4"/><path class="i-s" d="M5 19h38M15 5v8M33 5v8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 48 48"><path class="i-f" d="M24 44c-8-10-13-16-13-23a13 13 0 0 1 26 0c0 7-5 13-13 23z"/><circle class="i-s" cx="24" cy="21" r="5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path class="i-f" d="M24 5l5.900 12 13.100 1.900-9.500 9.300 2.200 13.100L24 35.100 12.300 41.300l2.200-13.100L5 18.900 18.100 17z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 48 48"><path class="i-f" d="M16 5h16l11 11v16L32 43H16L5 32V16z"/><path class="i-s" d="M15 24h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 48 48"><path class="i-s" d="M40 24a16 16 0 1 1-4.700-11.300M40 7v11H29"/></symbol>
+  <symbol id="i-down" viewBox="0 0 48 48"><path class="i-s" d="M24 6v26M13 22l11 11 11-11M8 42h32"/></symbol>
+  <symbol id="i-up" viewBox="0 0 48 48"><path class="i-s" d="M24 34V8M13 18L24 7l11 11M8 42h32"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 48 48"><path class="i-f" d="M5 8h38L29 25v14l-10 4V25z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 48 48"><path class="i-s" d="M24 7v34M12 41h24M8 13h32"/><path class="i-f" d="M8 13L3 26a5.500 5.500 0 0 0 10 0zM40 13l-5 13a5.500 5.500 0 0 0 10 0z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 48 48"><path class="i-f" d="M21 5l4 13 13 4-13 4-4 13-4-13-13-4 13-4z"/><path class="i-s" d="M38 31v8M34 35h8"/></symbol>
+  <symbol id="i-network" viewBox="0 0 48 48"><path class="i-s" d="M24 13v9M24 22L12 34M24 22l12 12"/><circle class="i-f" cx="24" cy="9" r="5"/><circle class="i-f" cx="10" cy="37" r="5"/><circle class="i-f" cx="38" cy="37" r="5"/><circle class="i-d" cx="24" cy="22" r="2.500"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 48 48"><rect class="i-f" x="5" y="8" width="38" height="32" rx="3"/><path class="i-s" d="M5 18h38M5 29h38M18 8v32M31 8v32"/></symbol>
+</defs>
+</svg>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<aside class="side" id="side" aria-label="전체 목차">
+<a class="brand" href="../index.html"><b>개발의 기초</b><span>앱·게임·AI</span></a>
+<button class="side-search search-open" type="button"><svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-search"/></svg>검색<kbd>/</kbd></button>
+<div class="side-progress"><span>0장 읽음</span><div class="bar"><i></i></div></div>
+<nav><ol class="side-top"><li><a href="../chapters/math.html"><span class="n">∑</span><span>초수학 기초</span></a></li></ol><div class="side-part pc-gray"><i></i>0부 · 길잡이</div><ol><li data-ch="ch00"><a href="../chapters/ch00.html"><span class="n">0</span><span>버튼 한 번에 일어나는 일</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>1부 · 컴퓨터라는 기계</div><ol><li data-ch="ch01"><a href="../chapters/ch01.html"><span class="n">1</span><span>컴퓨터의 몸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch02"><a href="../chapters/ch02.html"><span class="n">2</span><span>0과 1로 표현하기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch03"><a href="../chapters/ch03.html"><span class="n">3</span><span>운영체제와 프로세스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch04"><a href="../chapters/ch04.html"><span class="n">4</span><span>코드가 실행되기까지</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>2부 · 개발자의 작업대</div><ol><li data-ch="ch05"><a href="../chapters/ch05.html"><span class="n">5</span><span>터미널과 셸</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch06"><a href="../chapters/ch06.html"><span class="n">6</span><span>개발 환경 꾸리기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch07"><a href="../chapters/ch07.html"><span class="n">7</span><span>Git과 변경 이력</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-warm"><i></i>3부 · 프로그램을 짓는 재료</div><ol><li data-ch="ch08"><a href="../chapters/ch08.html"><span class="n">8</span><span>자료구조</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch09"><a href="../chapters/ch09.html"><span class="n">9</span><span>알고리즘과 비용</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch10"><a href="../chapters/ch10.html"><span class="n">10</span><span>상태와 프로그램 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch11"><a href="../chapters/ch11.html"><span class="n">11</span><span>동시성과 비동기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch12"><a href="../chapters/ch12.html"><span class="n">12</span><span>디버깅과 테스트</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-purple"><i></i>4부 · 연결되는 시스템</div><ol><li data-ch="ch13"><a href="../chapters/ch13.html"><span class="n">13</span><span>숫자로 시스템 읽기</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch14"><a href="../chapters/ch14.html"><span class="n">14</span><span>네트워크</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch15"><a href="../chapters/ch15.html"><span class="n">15</span><span>웹과 HTTP</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch16"><a href="../chapters/ch16.html"><span class="n">16</span><span>파일·입출력·성능</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch17"><a href="../chapters/ch17.html"><span class="n">17</span><span>데이터베이스</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch18"><a href="../chapters/ch18.html"><span class="n">18</span><span>시스템 설계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch19"><a href="../chapters/ch19.html"><span class="n">19</span><span>보안</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-red"><i></i>5부 · 내보내고 운영하기</div><ol><li data-ch="ch20"><a href="../chapters/ch20.html"><span class="n">20</span><span>빌드와 배포</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch21"><a href="../chapters/ch21.html"><span class="n">21</span><span>인프라와 클라우드</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch22"><a href="../chapters/ch22.html"><span class="n">22</span><span>로그와 관측</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-green"><i></i>6부 · 게임</div><ol><li data-ch="ch23"><a href="../chapters/ch23.html"><span class="n">23</span><span>공간과 움직임의 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch24"><a href="../chapters/ch24.html"><span class="n">24</span><span>게임이 움직이고 그려지는 원리</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch25"><a href="../chapters/ch25.html"><span class="n">25</span><span>온라인 게임</span><span class="done" aria-label="읽음">✓</span></a></li></ol><div class="side-part pc-blue"><i></i>7부 · AI</div><ol><li data-ch="ch26"><a href="../chapters/ch26.html"><span class="n">26</span><span>AI 계산을 따라가는 수학</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch27"><a href="../chapters/ch27.html"><span class="n">27</span><span>LLM의 작동과 한계</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch28"><a href="../chapters/ch28.html" aria-current="page"><span class="n">28</span><span>핵심 AI 논문 15편</span><span class="done" aria-label="읽음">✓</span></a></li><li data-ch="ch29"><a href="../chapters/ch29.html"><span class="n">29</span><span>AI 기능과 개발 에이전트</span><span class="done" aria-label="읽음">✓</span></a></li></ol></nav>
+<div class="side-links"><a href="../index.html">전체 지도</a><a href="../chapters/glossary.html">용어 사전</a><a href="../chapters/credits.html">만든 사람들</a><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub 저장소 ↗</a></div>
+</aside>
+<div class="shell">
+<header class="top">
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="목차 열기">☰ 목차</button>
+<div class="crumb">7부 AI › <b>28장 핵심 AI 논문 15편</b></div>
+<button class="icon-btn search-open" type="button">검색</button>
+<button class="icon-btn" id="theme-btn" type="button">테마</button>
+</header>
+<div class="progress-line" aria-hidden="true"><i></i></div>
+<main id="main" class="layout has-toc">
+<article>
+<header class="ch-head pc-blue">
+<div class="ch-kicker"><span class="ch-no">28장</span><span class="part">7부 · AI</span></div>
+<h1>핵심 AI 논문 15편</h1>
+<p class="ch-sub">아이디어를 작동 원리로 읽기</p>
+<div class="ch-meta"><span class="chip">읽는 시간 약 45분</span><span class="chip">먼저 읽으면 좋은 장</span><a class="chip" href="ch27.html">27장 LLM의 작동과 한계</a></div>
+</header><div class="lead">
+<p>AI 소식에는 "트랜스포머", "RAG", "LoRA" 같은 이름이 쏟아집니다. 이 이름들은 대부분 <strong>논문 한 편</strong>에서 나왔습니다. 논문이라고 하면 겁부터 나지만, 알맹이는 대개 "이게 불편했는데, 이렇게 해 보니 되더라"는 한 줄입니다. 오늘의 AI를 만든 논문 15편을 그 한 줄로 읽어 봅니다.</p>
+</div>
+<div class="goals"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-check"></use></svg>이 장을 마치면</div>
+<ul>
+<li>논문 15편이 각각 <strong>무엇이 불편해서 나왔는지</strong> 한 문장으로 말할 수 있습니다.</li>
+<li>어텐션, 잔차 연결, 확산, 검색 증강을 작은 숫자와 그림으로 설명할 수 있습니다.</li>
+<li>어떤 방법이 <strong>이번 입력</strong>, <strong>가중치</strong>, <strong>계산 방식</strong> 가운데 무엇을 바꾸는지 구분할 수 있습니다.</li>
+<li>새 기술 이름을 들었을 때 그 기술이 <strong>해결하지 않는 것</strong>을 짚을 수 있습니다.</li>
+</ul>
+</div>
+<section class="level2" id="map">
+<h2><span class="sec-n">28.1</span>논문 15편을 한 장의 지도로<a aria-label="이 절의 링크" class="anchor" href="#map">#</a></h2>
+<p>AI를 <strong>공부하는 학생</strong>이라고 생각해 봅시다. 이 학생은 단어장 만드는 법을 익히고, 긴 글을 읽는 요령을 배우고, 책을 펴 놓고 답하는 법을 배우면서 조금씩 나아졌습니다. 이 장의 논문 15편은 그 학생이 차례로 익힌 <strong>공부법 15가지</strong>입니다.</p>
+<div class="callout analogy"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bulb"></use></svg>비유로 이해하기 · AI는 공부하는 학생</div>
+<p><strong>가중치</strong>(모델 안의 조절할 수 있는 숫자들)는 학생의 머릿속에 굳은 지식이고, <strong>입력</strong>은 지금 책상 위에 펼쳐 준 시험지와 참고 자료입니다. 이 둘을 구분하는 것이 이 장의 열쇠입니다. 다만 실제 모델은 공부법을 스스로 고르지 않습니다. 방법을 생각해 낸 것은 연구자들이고, "배운다"는 말은 답이 덜 틀리는 쪽으로 가중치를 고친다는 뜻입니다(<a href="ch26.html">26장</a>, <a href="ch27.html">27장</a>).</p>
+</div>
+<p>아래는 15편을 일곱 갈래로 나눠, 공개된 해 순서로 늘어놓은 지도입니다.</p>
+<figure class="fig" id="fig-timeline"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 414" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>논문 15편을 일곱 갈래와 공개 연도로 늘어놓으면 왼쪽 위에서 오른쪽 아래로 흐름이 이어진다</title>
+
+  <rect class="s-bg" x="16" y="44" width="728" height="40" rx="8"/>
+  <rect class="s-bg" x="16" y="140" width="728" height="40" rx="8"/>
+  <rect class="s-bg" x="16" y="236" width="728" height="40" rx="8"/>
+  <rect class="s-bg" x="16" y="332" width="728" height="40" rx="8"/>
+
+  <text class="t-xs mid" x="152" y="28">2013</text>
+  <text class="t-xs mid" x="204" y="28">2014</text>
+  <text class="t-xs mid" x="256" y="28">2015</text>
+  <text class="t-xs mid" x="308" y="28">2016</text>
+  <text class="t-xs mid" x="360" y="28">2017</text>
+  <text class="t-xs mid" x="412" y="28">2018</text>
+  <text class="t-xs mid" x="464" y="28">2019</text>
+  <text class="t-xs mid" x="516" y="28">2020</text>
+  <text class="t-xs mid" x="568" y="28">2021</text>
+  <text class="t-xs mid" x="620" y="28">2022</text>
+  <text class="t-xs mid" x="672" y="28">2023</text>
+  <path class="ln thin muted" d="M152 34 V40 M204 34 V40 M256 34 V40 M308 34 V40 M360 34 V40 M412 34 V40 M464 34 V40 M516 34 V40 M568 34 V40 M620 34 V40 M672 34 V40"/>
+  <path class="ln thin muted" d="M152 376 V382 M204 376 V382 M256 376 V382 M308 376 V382 M360 376 V382 M412 376 V382 M464 376 V382 M516 376 V382 M568 376 V382 M620 376 V382 M672 376 V382"/>
+
+  <text class="t-s t-b tc-blue" x="26" y="69">표현 배우기</text>
+  <circle class="f-blue" cx="152" cy="64" r="6"/>
+  <text class="t-b" x="164" y="69">Word2Vec</text>
+  <circle class="f-blue" cx="256" cy="64" r="6"/>
+  <text class="t-b" x="268" y="69">ResNet</text>
+
+  <text class="t-s t-b tc-green" x="26" y="117">문맥 섞기</text>
+  <circle class="f-green" cx="204" cy="100" r="6"/>
+  <text class="t-b" x="216" y="105">Seq2Seq</text>
+  <circle class="f-green" cx="204" cy="124" r="6"/>
+  <text class="t-b" x="216" y="129">어텐션</text>
+  <circle class="f-green" cx="360" cy="100" r="6"/>
+  <text class="t-b" x="372" y="105">Transformer</text>
+  <circle class="f-green" cx="412" cy="124" r="6"/>
+  <text class="t-b" x="424" y="129">BERT</text>
+
+  <text class="t-s t-b tc-purple" x="26" y="165">큰 모델과 예시</text>
+  <circle class="f-purple" cx="516" cy="160" r="6"/>
+  <text class="t-b" x="528" y="165">GPT-3</text>
+
+  <text class="t-s t-b tc-warm" x="26" y="213">이미지와 생성</text>
+  <circle class="f-warm" cx="516" cy="196" r="6"/>
+  <text class="t-b" x="528" y="201">DDPM</text>
+  <circle class="f-warm" cx="568" cy="220" r="6"/>
+  <text class="t-b" x="580" y="225">CLIP</text>
+
+  <text class="t-s t-b tc-blue" x="26" y="261">밖의 자료와 행동</text>
+  <circle class="f-blue" cx="516" cy="256" r="6"/>
+  <text class="t-b" x="528" y="261">RAG</text>
+  <circle class="f-blue" cx="620" cy="256" r="6"/>
+  <text class="t-b" x="632" y="261">ReAct</text>
+
+  <text class="t-s t-b tc-green" x="26" y="309">싸게 고쳐 쓰기</text>
+  <circle class="f-green" cx="568" cy="292" r="6"/>
+  <text class="t-b" x="580" y="297">LoRA</text>
+  <circle class="f-green" cx="620" cy="316" r="6"/>
+  <text class="t-b" x="632" y="321">InstructGPT</text>
+  <circle class="f-green" cx="672" cy="292" r="6"/>
+  <text class="t-b" x="684" y="297">DPO</text>
+
+  <text class="t-s t-b tc-purple" x="26" y="357">빨리 돌리기</text>
+  <circle class="f-purple" cx="620" cy="352" r="6"/>
+  <text class="t-b" x="632" y="357">FlashAttention</text>
+
+  <text class="t-xs" x="26" y="402">점의 가로 위치는 논문이 처음 공개된 해입니다.</text>
+</svg></div><figcaption><b>그림 28-1</b>논문 15편의 지도. 일곱 갈래가 이 장의 절 순서이고, 오른쪽으로 갈수록 최근입니다.</figcaption></figure>
+<p>위에서부터 읽으면 흐름이 보입니다. 단어와 그림을 숫자로 <strong>표현</strong>하고, 단어들이 서로를 참고하도록 <strong>문맥을 섞고</strong>, 큰 모델에 <strong>예시</strong>만 보여 줘서 일을 시킵니다. 이어서 <strong>그림</strong>을 만들고, 모델 <strong>밖의 자료와 도구</strong>를 쓰고, 적은 비용으로 <strong>고쳐 쓰고</strong>, 끝으로 <strong>빨리 돌립니다</strong>.</p>
+<p>논문마다 똑같이 네 가지를 묻겠습니다. <strong>그전에는 무엇이 불편했나, 핵심 아이디어는 한 문장으로 무엇인가, 작은 예로 보면 어떤가, 오늘 어디서 만나나.</strong> 논문 원문을 읽을 때도 이 네 답부터 찾으면 길을 잃지 않습니다.</p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>연도는 논문이 처음 공개된 해입니다. 이 장의 0.8, 0.15 같은 숫자는 원리를 보이려고 만든 <strong>설명용 숫자</strong>이고, 논문에 실린 실제 수치는 "논문은 …라고 보고했습니다"처럼 밝혀 적습니다.</p>
+</div>
+</section>
+<section class="level2" id="represent">
+<h2><span class="sec-n">28.2</span>표현 배우기: 단어장과 빨간 펜<a aria-label="이 절의 링크" class="anchor" href="#represent">#</a></h2>
+<p>공부의 첫걸음은 낱말 익히기입니다. 컴퓨터는 숫자만 다루므로, 먼저 단어와 그림을 <strong>쓸모 있는 숫자</strong>로 바꿔야 합니다.</p>
+<section class="level3" id="word2vec-2013-단어를-지도-위의-점으로">
+<h3>Word2Vec (2013): 단어를 지도 위의 점으로</h3>
+<p><strong>그전에는.</strong> 단어에 번호를 붙여 썼습니다. 강아지는 3번, 버스는 4번, 고양이는 7번 하는 식입니다. 번호만 보면 3과 4가 가깝지만 강아지와 버스는 상관이 없습니다. 번호에는 뜻이 담기지 않습니다.</p>
+<p><strong>핵심 아이디어.</strong> 뜻을 사람이 적어 주지 말고, <strong>이웃 단어를 맞히는 연습</strong>을 시켜서 단어마다 좌표를 스스로 찾게 합니다.</p>
+<p>"강아지가 밥을 먹는다"와 "고양이가 밥을 먹는다"에서 '강아지가'와 '고양이가'는 똑같은 이웃을 맞혀야 합니다. 같은 답을 내야 하니 두 단어의 좌표는 연습할수록 비슷해집니다. 수많은 문장으로 되풀이하면 비슷하게 쓰이는 단어끼리 모인 지도가 생깁니다.</p>
+<figure class="fig" id="fig-word-window"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 310" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>같은 이웃 단어를 맞혀야 하는 단어들은 지도에서 가까운 좌표를 얻는다</title>
+
+  <text class="t-xs mid" x="64" y="34">주어진 단어</text>
+  <text class="t-xs mid" x="196" y="34">맞혀야 할 이웃</text>
+
+  <rect class="box yellow" x="20" y="46" width="88" height="40" rx="9"/>
+  <text class="t-b mid" x="64" y="71">강아지가</text>
+  <rect class="box" x="120" y="46" width="64" height="40" rx="9"/>
+  <text class="mid" x="152" y="71">밥을</text>
+  <rect class="box" x="196" y="46" width="76" height="40" rx="9"/>
+  <text class="mid" x="234" y="71">먹는다</text>
+
+  <rect class="box yellow" x="20" y="96" width="88" height="40" rx="9"/>
+  <text class="t-b mid" x="64" y="121">고양이가</text>
+  <rect class="box" x="120" y="96" width="64" height="40" rx="9"/>
+  <text class="mid" x="152" y="121">밥을</text>
+  <rect class="box" x="196" y="96" width="76" height="40" rx="9"/>
+  <text class="mid" x="234" y="121">먹는다</text>
+
+  <rect class="box yellow" x="20" y="176" width="88" height="40" rx="9"/>
+  <text class="t-b mid" x="64" y="201">버스가</text>
+  <rect class="box" x="120" y="176" width="64" height="40" rx="9"/>
+  <text class="mid" x="152" y="201">역에</text>
+  <rect class="box" x="196" y="176" width="76" height="40" rx="9"/>
+  <text class="mid" x="234" y="201">선다</text>
+
+  <rect class="box yellow" x="20" y="226" width="88" height="40" rx="9"/>
+  <text class="t-b mid" x="64" y="251">기차가</text>
+  <rect class="box" x="120" y="226" width="64" height="40" rx="9"/>
+  <text class="mid" x="152" y="251">역에</text>
+  <rect class="box" x="196" y="226" width="76" height="40" rx="9"/>
+  <text class="mid" x="234" y="251">선다</text>
+
+  <path class="ln thin green" d="M280 50 h8 v82 h-8"/>
+  <path class="ln thin blue" d="M280 180 h8 v82 h-8"/>
+  <text class="t-xs" x="20" y="294">이웃이 같은 단어끼리는 좌표가 비슷해진다</text>
+
+  <rect class="panel" x="420" y="46" width="320" height="220" rx="14"/>
+  <text class="t-s t-b" x="436" y="34">학습으로 생긴 단어 지도</text>
+
+  <ellipse class="ghost dash" cx="520" cy="108" rx="78" ry="42"/>
+  <circle class="f-green" cx="478" cy="98" r="6"/>
+  <text class="t-b" x="490" y="103">강아지</text>
+  <circle class="f-green" cx="512" cy="124" r="6"/>
+  <text class="t-b" x="524" y="129">고양이</text>
+
+  <ellipse class="ghost dash" cx="640" cy="212" rx="78" ry="40"/>
+  <circle class="f-blue" cx="598" cy="202" r="6"/>
+  <text class="t-b" x="610" y="207">버스</text>
+  <circle class="f-blue" cx="646" cy="226" r="6"/>
+  <text class="t-b" x="658" y="231">기차</text>
+
+  <path class="ln green" d="M292 91 H360 Q400 91 434 100" marker-end="url(#ah-green)"/>
+  <path class="ln blue" d="M292 221 H420 Q500 221 554 215" marker-end="url(#ah-blue)"/>
+
+  <text class="t-xs tc-green" x="612" y="92">가깝다</text>
+  <path class="ln thin muted dash" d="M572 146 L600 172"/>
+  <text class="t-xs" x="552" y="172">멀다</text>
+  <text class="t-xs" x="436" y="294">실제 좌표는 2칸이 아니라 수백 칸입니다</text>
+</svg></div><figcaption><b>그림 28-2</b>Word2Vec의 연습 문제와 그 결과. 뜻을 가르친 적이 없는데도 같은 이웃과 쓰이는 단어들이 가까워집니다.</figcaption></figure>
+<p>이렇게 학습으로 얻은 좌표(벡터)를 <strong>임베딩</strong>(embedding)이라고 부릅니다. 논문은 '왕'의 좌표에서 '남자'를 빼고 '여자'를 더하면 '여왕' 근처에 닿는다는 예를 들었습니다.</p>
+<p><strong>오늘 만나는 곳.</strong> 언어 모델이 글을 받아 맨 먼저 하는 일이 토큰(글을 잘게 나눈 조각)을 벡터로 바꾸는 것입니다. 검색과 추천의 "비슷한 것 찾기"도 좌표 사이의 거리를 잽니다.</p>
+<p>한계도 있습니다. 단어 하나에 좌표가 하나뿐이라 "배를 먹었다"의 배와 "배를 탔다"의 배가 같은 점에 찍힙니다. 이 숙제는 다음 절이 풉니다.</p>
+</section>
+<section class="level3" id="resnet-2015-다시-쓰지-말고-고칠-곳만">
+<h3>ResNet (2015): 다시 쓰지 말고 고칠 곳만</h3>
+<p><strong>그전에는.</strong> 신경망은 계산 단계인 <strong>층</strong>(layer)을 여러 겹 쌓아 만듭니다. 많이 쌓을수록 잘 배울 줄 알았는데, 어느 깊이를 넘으면 오히려 성적이 떨어졌습니다. 논문은 56층짜리가 20층짜리보다 연습 문제조차 더 많이 틀리는 실험을 보여 줍니다. 뒤쪽 층들이 "받은 것을 그대로 넘기기"만 해도 같은 성적은 나와야 하는데, 층에게는 그것조차 배우기 어려웠던 것입니다.</p>
+<p><strong>핵심 아이디어.</strong> 각 층은 들어온 값을 그대로 넘기고, <strong>고칠 만큼만 계산해서 더합니다.</strong> 이 지름길이 <strong>잔차 연결</strong>(residual connection)입니다.</p>
+<p>원고를 통째로 새로 쓰는 것보다, 원본을 두고 빨간 펜으로 고칠 곳만 표시하는 편이 안전한 것과 같습니다. 입력이 (2, −1)이고 층이 계산한 수정분이 (0.5, 0.2)라면 출력은 같은 자리끼리 더한 (2.5, −0.8)입니다. 고칠 것이 없으면 수정분을 0으로 두면 됩니다. 그러면 입력이 그대로 나가므로, 층을 더 쌓아도 적어도 나빠지지는 않습니다.</p>
+<figure class="fig" id="fig-resnet-add"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>잔차 연결은 입력을 지름길로 그대로 넘기고, 층이 계산한 수정분만 더한다</title>
+
+  <path class="ln thick blue" d="M105 106 V52 H520 V138" marker-end="url(#ah-blue)"/>
+  <text class="t-s t-b tc-blue mid" x="312" y="40">지름길: 입력을 손대지 않고 그대로 보낸다</text>
+
+  <rect class="box blue" x="30" y="112" width="150" height="96" rx="14"/>
+  <text class="t-l mid" x="105" y="140">입력</text>
+  <rect class="box" x="44" y="154" width="56" height="38" rx="8"/>
+  <text class="t-mono mid" x="72" y="178">2</text>
+  <rect class="box" x="110" y="154" width="56" height="38" rx="8"/>
+  <text class="t-mono mid" x="138" y="178">−1</text>
+
+  <rect class="box warm" x="250" y="112" width="190" height="96" rx="14"/>
+  <text class="t-l mid" x="345" y="140">층이 만든 수정분</text>
+  <rect class="box" x="279" y="154" width="60" height="38" rx="8"/>
+  <text class="t-mono mid tc-warm" x="309" y="178">+0.5</text>
+  <rect class="box" x="351" y="154" width="60" height="38" rx="8"/>
+  <text class="t-mono mid tc-warm" x="381" y="178">+0.2</text>
+
+  <circle class="box" cx="520" cy="160" r="18"/>
+  <path class="ln" d="M511 160 H529 M520 151 V169"/>
+
+  <rect class="box green" x="590" y="112" width="150" height="96" rx="14"/>
+  <text class="t-l mid" x="665" y="140">출력</text>
+  <rect class="box" x="604" y="154" width="56" height="38" rx="8"/>
+  <text class="t-mono mid" x="632" y="178">2.5</text>
+  <rect class="box" x="670" y="154" width="56" height="38" rx="8"/>
+  <text class="t-mono mid" x="698" y="178">−0.8</text>
+
+  <path class="ln" d="M186 160 H242" marker-end="url(#ah)"/>
+  <path class="ln warm" d="M446 160 H494" marker-end="url(#ah-warm)"/>
+  <path class="ln green" d="M544 160 H582" marker-end="url(#ah-green)"/>
+
+  <rect class="box yellow" x="40" y="236" width="130" height="34" rx="10"/>
+  <text class="t-s t-ink mid" x="105" y="258">원고 원본</text>
+  <rect class="box yellow" x="265" y="236" width="160" height="34" rx="10"/>
+  <text class="t-s t-ink mid" x="345" y="258">빨간 펜으로 고친 곳</text>
+  <rect class="box yellow" x="590" y="236" width="150" height="34" rx="10"/>
+  <text class="t-s t-ink mid" x="665" y="258">고친 내용을 반영한 원고</text>
+  <path class="ln thin muted dash" d="M105 212 V232 M345 212 V232 M665 212 V232"/>
+  <text class="t-xs mid" x="520" y="202">같은 자리끼리 더하기</text>
+</svg></div><figcaption><b>그림 28-3</b>잔차 연결. 입력은 지름길로 그대로 건너가고, 층은 "얼마나 고칠지"만 계산합니다.</figcaption></figure>
+<p><strong>오늘 만나는 곳.</strong> 논문은 이 방법으로 152층짜리 신경망을 학습시켜 그해 이미지 인식 대회에서 1위를 했습니다. 그 뒤로 깊은 신경망에는 거의 빠짐없이 이 지름길이 들어갑니다. 곧 나올 Transformer도 그렇습니다.</p>
+</section>
+</section>
+<section class="level2" id="context">
+<h2><span class="sec-n">28.3</span>문맥 섞기: 번역기가 걸어온 길<a aria-label="이 절의 링크" class="anchor" href="#context">#</a></h2>
+<p>단어를 익혔으면 문장을 읽을 차례입니다. 이 절의 네 편은 모두 "앞뒤 말을 어떻게 참고할까"라는 질문에 답합니다. 앞의 세 편은 번역 문제를 풀다가 나왔습니다.</p>
+<section class="level3" id="seq2seq-2014-다-읽고-나서-쓴다">
+<h3>Seq2Seq (2014): 다 읽고 나서 쓴다</h3>
+<p><strong>그전에는.</strong> 번역은 단어를 하나씩 바꿔 끼우는 일이 아닙니다. "I like tea"와 "나는 차를 좋아한다"는 순서가 다르고, 문장에 따라 길이도 달라집니다. 당시 신경망은 입력과 출력의 길이가 미리 정해져 있어야 다루기 쉬웠습니다.</p>
+<p><strong>핵심 아이디어.</strong> 신경망 두 개를 잇습니다. <strong>읽는 쪽이 문장을 끝까지 읽어 메모 한 장으로 줄이고, 쓰는 쪽이 그 메모를 보며 한 단어씩 써 내려갑니다.</strong></p>
+<p>읽는 쪽을 <strong>인코더</strong>(encoder), 쓰는 쪽을 <strong>디코더</strong>(decoder)라고 부릅니다. 메모는 사람이 읽는 글이 아니라 숫자 몇 칸짜리 벡터입니다. 디코더는 '끝' 표시를 낼 때까지 쓰므로 출력 길이를 미리 정할 필요가 없습니다.</p>
+<p><strong>오늘 만나는 곳.</strong> 번역, 요약, 음성 받아쓰기처럼 "하나를 읽고 다른 것을 쓰는" 일의 기본 틀이 되었습니다. 다만 문장이 세 단어든 서른 단어든 <strong>메모 크기가 같아서</strong>, 문장이 길수록 이름이나 숫자가 메모에서 빠지기 쉬웠습니다.</p>
+</section>
+<section class="level3" id="어텐션-2014-쓸-때마다-원문을-다시-본다">
+<h3>어텐션 (2014): 쓸 때마다 원문을 다시 본다</h3>
+<p><strong>그전에는.</strong> 그 메모 한 장이 병목이었습니다. 통역사가 긴 연설을 다 들은 뒤 쪽지 한 장만 보고 통역하는 셈입니다.</p>
+<p><strong>핵심 아이디어.</strong> 인코더가 단어 자리마다 메모를 남기고, 디코더는 <strong>단어 하나를 쓸 때마다 원문의 어느 자리를 얼마나 볼지 비중을 매겨</strong> 섞어 봅니다. 이것이 <strong>어텐션</strong>(attention)입니다. Seq2Seq와 같은 해에 바다나우, 조경현, 벤지오가 내놓았습니다.</p>
+<p>'차를'을 쓸 차례라면 tea에 0.80, like에 0.15, I에 0.05를 주는 식입니다. 비중의 합은 항상 1입니다. 가장 높은 하나만 고르는 것이 아니라 <strong>비중대로 섞는다</strong>는 점이 중요합니다. 메모 두 장이 (2, 0)과 (0, 2)이고 비중이 0.75와 0.25라면 섞은 결과는 (1.5, 0.5)입니다. 둘째 메모도 조금은 들어 있습니다.</p>
+<figure class="fig" id="fig-memo-vs-lookback"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>Seq2Seq는 메모 한 장만 넘겨받아 번역하고, 어텐션은 단어를 쓸 때마다 원문 전체를 비중을 달리해 다시 본다</title>
+
+  <text class="t-b" x="20" y="34">Seq2Seq: 다 읽고, 메모 한 장만 넘긴다</text>
+
+  <rect class="box blue" x="20" y="56" width="50" height="40" rx="9"/>
+  <text class="mid" x="45" y="81">I</text>
+  <rect class="box blue" x="76" y="56" width="60" height="40" rx="9"/>
+  <text class="mid" x="106" y="81">like</text>
+  <rect class="box blue" x="142" y="56" width="56" height="40" rx="9"/>
+  <text class="mid" x="170" y="81">tea</text>
+  <text class="t-s" x="20" y="118">읽는 쪽 (인코더)</text>
+
+  <path class="ln" d="M206 76 H266" marker-end="url(#ah)"/>
+
+  <rect class="box yellow" x="276" y="48" width="208" height="56" rx="12"/>
+  <rect class="box" x="286" y="59" width="44" height="34" rx="7"/>
+  <text class="t-mono mid" x="308" y="81">0.3</text>
+  <rect class="box" x="334" y="59" width="44" height="34" rx="7"/>
+  <text class="t-mono mid" x="356" y="81">−1.2</text>
+  <rect class="box" x="382" y="59" width="44" height="34" rx="7"/>
+  <text class="t-mono mid" x="404" y="81">0.8</text>
+  <rect class="box" x="430" y="59" width="44" height="34" rx="7"/>
+  <text class="t-mono mid" x="452" y="81">0.1</text>
+  <text class="t-s mid" x="380" y="124">크기가 정해진 메모</text>
+  <text class="t-s t-b tc-warm mid" x="380" y="144">문장이 길어져도 칸 수는 그대로</text>
+
+  <path class="ln" d="M492 76 H520" marker-end="url(#ah)"/>
+
+  <rect class="box green" x="530" y="56" width="46" height="40" rx="9"/>
+  <text class="mid" x="553" y="81">나는</text>
+  <rect class="box green" x="580" y="56" width="46" height="40" rx="9"/>
+  <text class="mid" x="603" y="81">차를</text>
+  <rect class="box green" x="630" y="56" width="70" height="40" rx="9"/>
+  <text class="mid" x="665" y="81">좋아한다</text>
+  <rect class="box gray" x="704" y="56" width="36" height="40" rx="9"/>
+  <text class="mid" x="722" y="81">끝</text>
+  <text class="t-s" x="530" y="118">쓰는 쪽 (디코더)</text>
+
+  <path class="ln thin muted" d="M20 170 H740"/>
+
+  <text class="t-b" x="20" y="204">어텐션: 단어를 쓸 때마다 원문을 다시 본다</text>
+
+  <text class="t-s" x="20" y="275">원문 (자리마다 메모)</text>
+  <text class="t-mono mid tc-muted" x="285" y="236">0.05</text>
+  <text class="t-mono mid tc-muted" x="385" y="236">0.15</text>
+  <text class="t-mono t-b mid tc-green" x="485" y="236">0.80</text>
+  <text class="t-s" x="540" y="236">이번에 볼 비중 (합은 1)</text>
+
+  <rect class="box blue" x="250" y="250" width="70" height="40" rx="9"/>
+  <text class="mid" x="285" y="275">I</text>
+  <rect class="box blue" x="350" y="250" width="70" height="40" rx="9"/>
+  <text class="mid" x="385" y="275">like</text>
+  <rect class="box blue" x="450" y="250" width="70" height="40" rx="9"/>
+  <text class="mid" x="485" y="275">tea</text>
+
+  <path class="ln thin muted" d="M370 350 L295 296"/>
+  <path class="ln thin muted" d="M385 350 V296"/>
+  <path class="ln thick green" d="M402 350 L474 298" marker-end="url(#ah-green)"/>
+
+  <text class="t-s" x="20" y="381">번역문 (지금 쓰는 중)</text>
+  <rect class="box gray" x="250" y="356" width="70" height="40" rx="9"/>
+  <text class="mid tc-muted" x="285" y="381">나는</text>
+  <rect class="solid green" x="350" y="356" width="70" height="40" rx="9"/>
+  <text class="t-on t-b mid" x="385" y="381">차를</text>
+  <rect class="ghost dash" x="450" y="356" width="70" height="40" rx="9"/>
+  <text class="mid tc-muted" x="485" y="381">?</text>
+  <text class="t-s" x="540" y="381">다음 단어에서는 비중이 바뀐다</text>
+</svg></div><figcaption><b>그림 28-4</b>위는 메모 한 장에 의지하는 Seq2Seq, 아래는 단어를 쓸 때마다 원문을 다시 보는 어텐션입니다. 굵은 선일수록 비중이 큽니다.</figcaption></figure>
+<p><strong>오늘 만나는 곳.</strong> "관련 있는 곳에 비중을 더 주고 섞는다"는 이 계산이 바로 다음 논문의 심장이 됩니다.</p>
+</section>
+<section class="level3" id="transformer-2017-줄-서지-말고-서로-한-번에">
+<h3>Transformer (2017): 줄 서지 말고 서로 한 번에</h3>
+<p><strong>그전에는.</strong> 인코더와 디코더는 단어를 <strong>한 번에 하나씩 차례로</strong> 읽는 신경망(순환 신경망)이었습니다. 옆 사람에게만 말을 전하는 전달 놀이와 같습니다. 맨 앞의 정보가 맨 끝에 닿으려면 여러 사람을 거쳐야 하고, 앞 칸이 끝나야 다음 칸을 계산할 수 있습니다. 한꺼번에 많이 계산하는 것이 장기인 GPU(<a href="ch01.html#gpu">1장</a>)를 제대로 쓰지 못했습니다.</p>
+<p><strong>핵심 아이디어.</strong> 차례로 읽는 부분을 없애고, <strong>문장 안의 모든 단어가 어텐션으로 서로를 직접 참고하게</strong> 합니다. 논문 제목부터 "필요한 것은 어텐션뿐"(Attention Is All You Need)입니다.</p>
+<p>"그는 배를 타고 강을 건넜다"에서 '배를'은 모든 단어에 비중을 매깁니다. '타고'와 '강을'에 큰 비중이 가면 '배를'의 벡터에 "타는 배"라는 정보가 섞여 들어갑니다. Word2Vec이 남긴 숙제가 여기서 풀립니다. 이 계산은 단어마다 따로 할 수 있어서 GPU로 한꺼번에 처리됩니다.</p>
+<figure class="fig" id="fig-transformer-parallel"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>순환 신경망은 단어 정보를 차례로 건네지만, Transformer는 한 단어가 문장의 모든 단어를 한 번에 참고한다</title>
+
+  <rect class="panel" x="20" y="20" width="350" height="290" rx="14"/>
+  <text class="t-b" x="36" y="50">차례로 건네기 (이전 방식)</text>
+
+  <path class="ln blue" d="M70 136 Q98 96 124 134" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M134 136 Q162 96 188 134" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M198 136 Q226 96 252 134" marker-end="url(#ah-blue)"/>
+  <path class="ln blue" d="M262 136 Q290 96 316 134" marker-end="url(#ah-blue)"/>
+  <circle class="badge blue" cx="98" cy="102" r="11"/><text class="badge-t" x="98" y="106.500">1</text>
+  <circle class="badge blue" cx="162" cy="102" r="11"/><text class="badge-t" x="162" y="106.500">2</text>
+  <circle class="badge blue" cx="226" cy="102" r="11"/><text class="badge-t" x="226" y="106.500">3</text>
+  <circle class="badge blue" cx="290" cy="102" r="11"/><text class="badge-t" x="290" y="106.500">4</text>
+
+  <rect class="box" x="36" y="142" width="58" height="40" rx="9"/>
+  <text class="mid" x="65" y="167">그는</text>
+  <rect class="box" x="100" y="142" width="58" height="40" rx="9"/>
+  <text class="mid" x="129" y="167">배를</text>
+  <rect class="box" x="164" y="142" width="58" height="40" rx="9"/>
+  <text class="mid" x="193" y="167">타고</text>
+  <rect class="box" x="228" y="142" width="58" height="40" rx="9"/>
+  <text class="mid" x="257" y="167">강을</text>
+  <rect class="box" x="292" y="142" width="58" height="40" rx="9"/>
+  <text class="mid" x="321" y="167">건넜다</text>
+
+  <text class="t-s" x="36" y="222">맨 앞 단어의 정보가 맨 끝에 닿으려면</text>
+  <text class="t-s" x="36" y="242">네 번을 차례로 건너가야 한다</text>
+  <text class="t-s t-b tc-warm" x="36" y="278">앞 칸이 끝나야 다음 칸을 계산한다</text>
+
+  <rect class="panel blue" x="390" y="20" width="350" height="290" rx="14"/>
+  <text class="t-b" x="406" y="50">서로 한 번에 보기 (Transformer)</text>
+
+  <text class="t-mono mid tc-muted" x="435" y="84">0.05</text>
+  <text class="t-mono mid tc-muted" x="499" y="84">0.10</text>
+  <text class="t-mono t-b mid tc-blue" x="563" y="84">0.35</text>
+  <text class="t-mono t-b mid tc-blue" x="627" y="84">0.40</text>
+  <text class="t-mono mid tc-muted" x="691" y="84">0.10</text>
+
+  <rect class="box" x="406" y="96" width="58" height="40" rx="9"/>
+  <text class="mid" x="435" y="121">그는</text>
+  <rect class="box" x="470" y="96" width="58" height="40" rx="9"/>
+  <text class="mid" x="499" y="121">배를</text>
+  <rect class="box" x="534" y="96" width="58" height="40" rx="9"/>
+  <text class="mid" x="563" y="121">타고</text>
+  <rect class="box" x="598" y="96" width="58" height="40" rx="9"/>
+  <text class="mid" x="627" y="121">강을</text>
+  <rect class="box" x="662" y="96" width="58" height="40" rx="9"/>
+  <text class="mid" x="691" y="121">건넜다</text>
+
+  <path class="ln thin muted" d="M486 214 L440 142"/>
+  <path class="ln thin muted" d="M499 214 V142"/>
+  <path class="ln thick blue" d="M510 214 L556 142"/>
+  <path class="ln thick blue" d="M522 218 L618 142"/>
+  <path class="ln thin muted" d="M530 226 L682 142"/>
+
+  <rect class="solid blue" x="466" y="218" width="66" height="42" rx="9"/>
+  <text class="t-on t-b mid" x="499" y="244">배를</text>
+  <text class="t-s" x="548" y="246">지금 뜻을 정하는 단어</text>
+  <text class="t-s t-b tc-blue" x="406" y="290">모든 단어를 동시에 참고한다</text>
+</svg></div><figcaption><b>그림 28-5</b>왼쪽은 정보를 차례차례 건네는 이전 방식, 오른쪽은 한 단어가 문장 전체를 한 번에 참고하는 Transformer입니다.</figcaption></figure>
+<p><strong>오늘 만나는 곳.</strong> GPT의 T도, BERT의 T도 Transformer입니다. 지금의 언어 모델은 거의 모두 이 구조 위에 서 있습니다. 다만 한꺼번에 하는 것은 입력의 계산이고, 글은 여전히 토큰을 하나씩 골라 씁니다.</p>
+</section>
+<section class="level3" id="bert-2018-빈칸-채우기로-글-읽는-법-배우기">
+<h3>BERT (2018): 빈칸 채우기로 글 읽는 법 배우기</h3>
+<p><strong>그전에는.</strong> 스팸 분류, 감정 분류 같은 일마다 정답이 붙은 데이터를 따로 모아 학습시켰습니다. 정답을 붙이는 데는 사람 손이 들어 비쌉니다. 반면 정답 없는 글은 인터넷에 넘쳐 납니다.</p>
+<p><strong>핵심 아이디어.</strong> 글의 일부를 가리고 <strong>앞뒤 문맥을 모두 보고 맞히는 빈칸 채우기</strong>를 엄청나게 시킨 다음, 원하는 일에 맞춰 조금만 더 가르칩니다.</p>
+<p>"그는 [가림] 타고 강을 건넜다"에서는 뒤의 '타고 강을'까지 봐야 '배를'을 맞힐 수 있습니다. 빈칸 문제는 글만 있으면 얼마든지 만들 수 있습니다. 논문은 토큰의 15%를 골라 이 연습에 썼습니다. 큰 연습을 먼저 하는 <strong>사전 학습</strong>과, 그 뒤에 특정한 일에 맞춰 조금 더 가르치는 <strong>미세 조정</strong>이라는 순서(<a href="ch27.html">27장</a>)가 이 논문을 계기로 널리 퍼졌습니다.</p>
+<figure class="fig" id="fig-bert-gpt"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>같은 빈칸을 두고 BERT는 양쪽 단어를 모두 보고, GPT는 왼쪽 단어만 보고 다음 말을 고른다</title>
+
+  <text class="t-l" x="20" y="84">BERT</text>
+  <text class="t-s" x="20" y="106">빈칸 채우기</text>
+  <text class="t-s t-b tc-green" x="20" y="126">양쪽을 다 본다</text>
+
+  <path class="ln green" d="M256 62 Q296 30 332 60" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M464 62 Q430 34 396 60" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M568 62 Q476 6 380 60" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M672 62 Q520 -24 364 60" marker-end="url(#ah-green)"/>
+
+  <rect class="box blue" x="210" y="68" width="92" height="42" rx="9"/>
+  <text class="mid" x="256" y="94">그는</text>
+  <rect class="box yellow" x="314" y="68" width="92" height="42" rx="9"/>
+  <text class="t-l mid" x="360" y="95">?</text>
+  <rect class="box blue" x="418" y="68" width="92" height="42" rx="9"/>
+  <text class="mid" x="464" y="94">타고</text>
+  <rect class="box blue" x="522" y="68" width="92" height="42" rx="9"/>
+  <text class="mid" x="568" y="94">강을</text>
+  <rect class="box blue" x="626" y="68" width="92" height="42" rx="9"/>
+  <text class="mid" x="672" y="94">건넜다</text>
+
+  <path class="ln thin" d="M360 114 V126" marker-end="url(#ah)"/>
+  <text class="t-b mid tc-green" x="360" y="148">배를</text>
+  <text class="t-s" x="418" y="148">뒤의 '타고 강을'이 단서가 된다</text>
+
+  <path class="ln thin muted" d="M20 172 H740"/>
+
+  <text class="t-l" x="20" y="238">GPT</text>
+  <text class="t-s" x="20" y="260">이어 쓰기</text>
+  <text class="t-s t-b tc-purple" x="20" y="280">왼쪽만 본다</text>
+
+  <path class="ln purple" d="M256 216 Q296 184 332 214" marker-end="url(#ah-purple)"/>
+
+  <rect class="box blue" x="210" y="222" width="92" height="42" rx="9"/>
+  <text class="mid" x="256" y="248">그는</text>
+  <rect class="box yellow" x="314" y="222" width="92" height="42" rx="9"/>
+  <text class="t-l mid" x="360" y="249">?</text>
+  <rect class="ghost dash" x="418" y="222" width="300" height="42" rx="9"/>
+  <text class="t-s mid" x="568" y="248">오른쪽은 아직 쓰지 않은 글이라 볼 수 없다</text>
+
+  <path class="ln thin" d="M360 268 V280" marker-end="url(#ah)"/>
+  <text class="t-b mid tc-purple" x="360" y="302">밥을? 학교에? 배를?</text>
+  <text class="t-s" x="446" y="302">앞말에 이어질 법한 후보를 고른다</text>
+</svg></div><figcaption><b>그림 28-6</b>같은 빈칸을 두고 BERT와 다음 절의 GPT가 볼 수 있는 범위. BERT는 읽는 연습을, GPT는 이어 쓰는 연습을 합니다.</figcaption></figure>
+<p><strong>오늘 만나는 곳.</strong> 검색 결과의 순위 매기기, 글 분류, 문장을 벡터로 바꿔 주는 임베딩 모델이 이 계열입니다. 다만 BERT는 읽기를 연습한 모델이어서 글을 이어 쓰는 챗봇으로는 쓰지 않습니다.</p>
+</section>
+</section>
+<section class="level2" id="fewshot">
+<h2><span class="sec-n">28.4</span>큰 모델과 예시: 다시 가르치지 않고 보여 주기<a aria-label="이 절의 링크" class="anchor" href="#fewshot">#</a></h2>
+<section class="level3" id="gpt-3-2020-예시-몇-개로-새-일을-시킨다">
+<h3>GPT-3 (2020): 예시 몇 개로 새 일을 시킨다</h3>
+<p><strong>그전에는.</strong> BERT 방식은 새 일이 생길 때마다 데이터를 모아 미세 조정을 해야 했습니다.</p>
+<p><strong>핵심 아이디어.</strong> 이어 쓰기만 연습한 <strong>아주 큰 모델은, 입력에 예시 몇 개를 보여 주기만 해도 그 규칙을 따라 합니다.</strong> 가중치는 하나도 고치지 않습니다.</p>
+<p>GPT는 왼쪽 글만 보고 다음 토큰을 맞히는 연습을 합니다. 논문은 이 연습을 가중치가 1,750억 개인 모델에 시킨 뒤, 번역이든 분류든 입력에 예시를 적어 주는 것만으로 꽤 해낸다는 것을 여러 과제로 보였습니다. 예시를 몇 개 주는 방식을 <strong>퓨샷</strong>(few-shot)이라고 합니다.</p>
+<figure class="fig" id="fig-fewshot-prompt"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>같은 모델에 예시만 바꿔 넣으면 가중치를 고치지 않아도 하는 일이 달라진다</title>
+
+  <rect class="box" x="20" y="20" width="340" height="146" rx="14"/>
+  <text class="t-s t-b" x="38" y="46">입력 ① 예시 2개 + 새 문제</text>
+  <text class="t-mono" x="38" y="76">배송이 빨라요 → 긍정</text>
+  <text class="t-mono" x="38" y="102">화면이 깨져 왔어요 → 부정</text>
+  <rect class="s-yellow" x="30" y="116" width="320" height="34" rx="8"/>
+  <text class="t-mono t-b" x="38" y="138">또 살 거예요 → ?</text>
+
+  <rect class="box" x="20" y="186" width="340" height="146" rx="14"/>
+  <text class="t-s t-b" x="38" y="212">입력 ② 예시만 바꿨다</text>
+  <text class="t-mono" x="38" y="242">배송이 빨라요 → 별 5개</text>
+  <text class="t-mono" x="38" y="268">화면이 깨져 왔어요 → 별 1개</text>
+  <rect class="s-yellow" x="30" y="282" width="320" height="34" rx="8"/>
+  <text class="t-mono t-b" x="38" y="304">또 살 거예요 → ?</text>
+
+  <rect class="box purple" x="430" y="116" width="130" height="120" rx="14"/>
+  <use href="#i-robot" x="471" y="126" width="48" height="48" class="ic purple"/>
+  <text class="t-l mid" x="495" y="198">같은 모델</text>
+  <text class="t-s mid" x="495" y="220">가중치 그대로</text>
+
+  <path class="ln" d="M366 93 H398 V152 H422" marker-end="url(#ah)"/>
+  <path class="ln" d="M366 259 H398 V200 H422" marker-end="url(#ah)"/>
+
+  <path class="ln green" d="M566 152 H594 V93 H622" marker-end="url(#ah-green)"/>
+  <path class="ln green" d="M566 200 H594 V259 H622" marker-end="url(#ah-green)"/>
+
+  <text class="t-xs mid" x="685" y="60">출력 ①</text>
+  <rect class="box green" x="630" y="70" width="110" height="46" rx="12"/>
+  <text class="t-l mid" x="685" y="99">긍정</text>
+
+  <text class="t-xs mid" x="685" y="226">출력 ②</text>
+  <rect class="box green" x="630" y="236" width="110" height="46" rx="12"/>
+  <text class="t-l mid" x="685" y="265">별 5개</text>
+
+  <text class="t-s mid" x="380" y="358">바뀐 것은 입력뿐입니다. 모델 안의 숫자는 하나도 달라지지 않았습니다.</text>
+</svg></div><figcaption><b>그림 28-7</b>같은 모델에 예시만 바꿔 넣은 두 입력. 위에서는 긍정인지 부정인지를, 아래에서는 별점을 답합니다.</figcaption></figure>
+<p>학생으로 치면 새 과목을 한 학기 다시 배우는 대신, 시험지에 적힌 예제 두 개를 보고 그 자리에서 따라 푸는 것입니다. 이렇게 입력 안의 지시와 예시만으로 일하는 것을 <strong>문맥 내 학습</strong>(in-context learning)이라고 합니다.</p>
+<p><strong>오늘 만나는 곳.</strong> AI에게 "아래 예시처럼 답해 줘"라고 쓰는 순간 이 방법을 쓰고 있는 것입니다. 모델에 넣는 글, 곧 프롬프트를 잘 쓰는 기술이 여기서 출발했습니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의 · 예시는 '이번 입력'에만 있습니다</div>
+<p>이름에 '학습'이 들어 있지만 가중치는 바뀌지 않습니다. 대화에 적어 준 회사 규칙은 새 대화를 열면 사라집니다. 예시의 순서나 표현에 따라 답이 달라질 수도 있으니, 중요한 일은 여러 번 돌려 확인하세요.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="image">
+<h2><span class="sec-n">28.5</span>이미지와 생성: 글과 그림을 잇다<a aria-label="이 절의 링크" class="anchor" href="#image">#</a></h2>
+<section class="level3" id="clip-2021-사진과-글을-같은-지도에">
+<h3>CLIP (2021): 사진과 글을 같은 지도에</h3>
+<p><strong>그전에는.</strong> 이미지 인식 모델은 미리 정한 목록 가운데 하나를 고르도록 학습했습니다. 목록에 없는 것은 답할 수 없고, 목록을 바꾸려면 사진마다 사람이 정답을 다시 붙여야 했습니다.</p>
+<p><strong>핵심 아이디어.</strong> 인터넷의 사진과 그 설명 글을 짝지어 모으고, <strong>맞는 짝은 가깝게, 틀린 짝은 멀게</strong> 같은 지도에 배치합니다.</p>
+<p>그림 카드와 낱말 카드의 짝 맞추기 놀이입니다. 사진을 좌표로 바꾸는 모델과 글을 좌표로 바꾸는 모델을 함께 학습시킵니다. 사진 세 장과 문장 세 개가 있으면 아홉 쌍이 얼마나 가까운지(유사도)를 모두 잰 뒤, 맞는 짝 세 쌍만 점수가 높아지도록 가중치를 고칩니다. 이런 방식을 <strong>대조 학습</strong>(contrastive learning)이라고 합니다. 논문은 짝 4억 쌍으로 학습했습니다.</p>
+<figure class="fig" id="fig-clip-grid"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 356" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>사진 세 장과 문장 세 개의 유사도 표에서 맞는 짝인 대각선만 높아지도록 학습한다</title>
+
+  <text class="t-s t-b end" x="210" y="50">문장 →</text>
+  <text class="t-s t-b" x="70" y="76">사진 ↓</text>
+
+  <rect class="box purple" x="250" y="24" width="140" height="42" rx="10"/>
+  <text class="t-b mid" x="320" y="50">"자동차 사진"</text>
+  <rect class="box purple" x="400" y="24" width="140" height="42" rx="10"/>
+  <text class="t-b mid" x="470" y="50">"집 사진"</text>
+  <rect class="box purple" x="550" y="24" width="140" height="42" rx="10"/>
+  <text class="t-b mid" x="620" y="50">"책 사진"</text>
+
+  <rect class="box blue" x="70" y="88" width="140" height="64" rx="10"/>
+  <use href="#i-car" x="118" y="98" width="44" height="44" class="ic blue"/>
+  <rect class="box blue" x="70" y="164" width="140" height="64" rx="10"/>
+  <use href="#i-house" x="118" y="174" width="44" height="44" class="ic blue"/>
+  <rect class="box blue" x="70" y="240" width="140" height="64" rx="10"/>
+  <use href="#i-book" x="118" y="250" width="44" height="44" class="ic blue"/>
+
+  <rect class="solid green" x="250" y="88" width="140" height="64" rx="10"/>
+  <text class="t-l t-on mid" x="320" y="126">0.9</text>
+  <rect class="box gray" x="400" y="88" width="140" height="64" rx="10"/>
+  <text class="t-mono mid tc-muted" x="470" y="125">0.1</text>
+  <rect class="box gray" x="550" y="88" width="140" height="64" rx="10"/>
+  <text class="t-mono mid tc-muted" x="620" y="125">0.1</text>
+
+  <rect class="box gray" x="250" y="164" width="140" height="64" rx="10"/>
+  <text class="t-mono mid tc-muted" x="320" y="201">0.2</text>
+  <rect class="solid green" x="400" y="164" width="140" height="64" rx="10"/>
+  <text class="t-l t-on mid" x="470" y="202">0.8</text>
+  <rect class="box gray" x="550" y="164" width="140" height="64" rx="10"/>
+  <text class="t-mono mid tc-muted" x="620" y="201">0.1</text>
+
+  <rect class="box gray" x="250" y="240" width="140" height="64" rx="10"/>
+  <text class="t-mono mid tc-muted" x="320" y="277">0.1</text>
+  <rect class="box gray" x="400" y="240" width="140" height="64" rx="10"/>
+  <text class="t-mono mid tc-muted" x="470" y="277">0.2</text>
+  <rect class="solid green" x="550" y="240" width="140" height="64" rx="10"/>
+  <text class="t-l t-on mid" x="620" y="278">0.9</text>
+
+  <rect class="solid green" x="250" y="324" width="18" height="18" rx="5"/>
+  <text class="t-s" x="276" y="338">맞는 짝: 점수를 높인다</text>
+  <rect class="box gray" x="460" y="324" width="18" height="18" rx="5"/>
+  <text class="t-s" x="486" y="338">틀린 짝: 점수를 낮춘다</text>
+</svg></div><figcaption><b>그림 28-8</b>CLIP의 학습 목표. 사진과 문장을 모두 견줘 본 표에서, 맞는 짝인 대각선만 높아지게 합니다.</figcaption></figure>
+<p>쓸 때는 "자동차 사진", "집 사진" 같은 후보 문장을 주고 사진과 가장 가까운 문장을 고릅니다. 분류 목록을 바꾸려면 문장만 바꾸면 됩니다.</p>
+<p><strong>오늘 만나는 곳.</strong> "노을 지는 바다"라고 쳐서 사진첩을 뒤지는 검색, 그림 생성 모델이 글의 뜻을 받아들이는 부분에 이 아이디어가 들어 있습니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
+<p>유사도 0.9는 "90% 확률로 맞다"가 아니라 지도에서 가깝다는 점수입니다. 또 CLIP은 후보 가운데 가장 가까운 것을 고르므로, 후보에 정답이 없어도 무언가를 고릅니다.</p>
+</div>
+</section>
+<section class="level3" id="ddpm-2020-잡음을-걷어-내며-그림-그리기">
+<h3>DDPM (2020): 잡음을 걷어 내며 그림 그리기</h3>
+<p><strong>그전에는.</strong> 빈 종이에서 한 번에 그럴듯한 그림을 내놓도록 가르치기가 어려웠습니다. 한 걸음에 가기에는 너무 먼 길입니다.</p>
+<p><strong>핵심 아이디어.</strong> 어려운 숙제 하나를 쉬운 숙제 여러 개로 쪼갭니다. <strong>멀쩡한 그림에 잡음을 조금씩 섞으며 "섞인 잡음이 무엇인지" 맞히게 하고, 만들 때는 순수한 잡음에서 시작해 잡음을 조금씩 걷어 냅니다.</strong> 이런 모델이 <strong>확산 모델</strong>(diffusion model)입니다.</p>
+<figure class="fig" id="fig-ddpm-steps"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>학습할 때는 그림에 잡음을 단계별로 섞고, 생성할 때는 순수한 잡음에서 출발해 거꾸로 걷어 낸다</title>
+  <text class="t-s t-b tc-warm" x="32" y="30">학습: 멀쩡한 그림에 잡음을 조금씩 섞고, 섞인 잡음을 맞히게 한다</text>
+  <path class="ln warm" d="M32 50 H722" marker-end="url(#ah-warm)"/>
+  <rect class="s-gray" x="28" y="74" width="112" height="112" rx="8"/>
+  <rect class="f-purple" x="46" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="59" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="98" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="111" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="33" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="46" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="59" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="72" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="85" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="98" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="111" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="124" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="33" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="46" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="59" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="72" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="85" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="98" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="111" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="124" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="33" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="46" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="59" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="72" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="85" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="98" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="111" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="124" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="46" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="59" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="72" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="85" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="98" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="111" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="59" y="144" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="72" y="144" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="85" y="144" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="98" y="144" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="72" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="85" y="157" width="11" height="11" rx="2"/>
+  <text class="t-s mid" x="84" y="208">원본 그림</text>
+  <rect class="s-gray" x="176" y="74" width="112" height="112" rx="8"/>
+  <rect class="f-purple" x="181" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="194" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="207" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="246" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="259" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="181" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="194" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="207" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="220" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="233" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="246" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="259" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="272" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="181" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="194" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="207" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="220" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="233" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="259" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="272" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="181" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="194" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="207" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="220" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="233" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="246" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="259" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="194" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="207" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="220" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="233" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="246" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="259" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="207" y="144" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="220" y="144" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="233" y="144" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="207" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="220" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="233" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="272" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="181" y="170" width="11" height="11" rx="2"/>
+  <text class="t-s mid" x="232" y="208">잡음 조금</text>
+  <rect class="s-gray" x="324" y="74" width="112" height="112" rx="8"/>
+  <rect class="f-purple" x="329" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="342" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="355" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="394" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="407" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="342" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="355" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="381" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="394" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="407" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="420" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="329" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="342" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="355" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="368" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="381" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="407" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="420" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="342" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="355" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="368" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="381" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="394" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="342" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="355" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="368" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="381" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="394" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="407" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="368" y="144" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="381" y="144" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="355" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="368" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="381" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="407" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="420" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="329" y="170" width="11" height="11" rx="2"/>
+  <text class="t-s mid" x="380" y="208">잡음 더</text>
+  <rect class="s-gray" x="472" y="74" width="112" height="112" rx="8"/>
+  <rect class="f-purple" x="477" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="490" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="503" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="542" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="555" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="568" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="490" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="503" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="529" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="542" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="568" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="477" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="503" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="516" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="529" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="555" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="568" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="490" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="503" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="516" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="529" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="542" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="490" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="503" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="516" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="542" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="477" y="144" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="516" y="144" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="568" y="144" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="477" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="490" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="503" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="516" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="529" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="555" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="568" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="477" y="170" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="542" y="170" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="555" y="170" width="11" height="11" rx="2"/>
+  <text class="t-s mid" x="528" y="208">잡음 많이</text>
+  <rect class="s-gray" x="620" y="74" width="112" height="112" rx="8"/>
+  <rect class="f-purple" x="625" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="638" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="651" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="664" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="677" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="690" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="716" y="79" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="651" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="677" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="690" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="716" y="92" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="625" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="651" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="664" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="677" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="703" y="105" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="638" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="651" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="677" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="690" y="118" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="625" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="638" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="664" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="690" y="131" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="625" y="144" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="664" y="144" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="716" y="144" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="625" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="638" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="651" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="664" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="703" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="716" y="157" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="625" y="170" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="651" y="170" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="677" y="170" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="690" y="170" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="703" y="170" width="11" height="11" rx="2"/>
+  <rect class="f-purple" x="716" y="170" width="11" height="11" rx="2"/>
+  <text class="t-s mid" x="676" y="208">순수한 잡음</text>
+  <path class="ln purple" d="M728 236 H38" marker-end="url(#ah-purple)"/>
+  <text class="t-s t-b tc-purple end" x="728" y="266">생성: 순수한 잡음에서 출발해, 예측한 잡음을 조금씩 걷어 낸다</text>
+</svg></div><figcaption><b>그림 28-9</b>확산 모델의 두 방향. 학습할 때는 오른쪽으로 잡음을 섞고, 그림을 만들 때는 왼쪽으로 걷어 냅니다.</figcaption></figure>
+<p>숫자 하나로 따라가 봅시다. 원래 값이 1, 섞을 잡음이 −0.5이면 잡음 섞인 값은 0.8 × 1 + 0.6 × (−0.5) = 0.5입니다. 모델은 0.5만 보고 잡음을 맞혀야 합니다. −0.4라고 답했다면 정답과 0.1만큼 차이가 나고, 이를 제곱한 0.01이 틀린 정도입니다. 잡음은 우리가 직접 섞었으니 정답을 이미 압니다. 논문은 잡음 단계를 1,000개로 나눴습니다.</p>
+<p><strong>오늘 만나는 곳.</strong> 글을 넣으면 그림을 그려 주는 서비스 가운데 많은 수가 이 계열입니다. 영상과 소리를 만드는 데도 같은 원리가 쓰입니다.</p>
+<div class="callout note"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-book"></use></svg>참고</div>
+<p>만들어진 그림은 학습에 쓴 사진을 되찾은 것이 아닙니다. 또 이 논문에는 "글로 주문하기"가 없습니다. 그 부분은 CLIP 같은 연구와 합쳐지며 나중에 붙었습니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="outside">
+<h2><span class="sec-n">28.6</span>밖의 자료와 행동: 책을 펴고, 직접 해 보기<a aria-label="이 절의 링크" class="anchor" href="#outside">#</a></h2>
+<p>여기까지의 학생은 머릿속 지식만으로 답했습니다. 이 절의 두 편은 학생에게 <strong>책과 도구</strong>를 쥐여 줍니다.</p>
+<section class="level3" id="rag-2020-오픈북-시험">
+<h3>RAG (2020): 오픈북 시험</h3>
+<p><strong>그전에는.</strong> 모델의 지식은 학습이 끝난 순간 가중치에 굳습니다. 그 뒤에 바뀐 일이나 우리 회사 문서는 모르고, 모르는 것을 물으면 그럴듯하게 지어내기도 합니다.</p>
+<p><strong>핵심 아이디어.</strong> 답하기 전에 <strong>질문과 관련된 문서를 찾아서, 질문과 함께 모델에 넣어 줍니다.</strong> 이름 그대로 <strong>검색 증강 생성</strong>(Retrieval-Augmented Generation), 줄여서 RAG입니다.</p>
+<p>암기 시험을 오픈북 시험으로 바꾸는 셈입니다. 반품 접수 마감이 16시에서 17시로 바뀌었다면, 모델을 다시 가르칠 필요 없이 문서 보관함의 규정만 새것으로 바꾸면 됩니다.</p>
+<figure class="fig" id="fig-rag-openbook"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>RAG는 질문과 관련된 문서를 먼저 찾아 질문과 함께 모델에 넣어 주고, 모델은 그 자료를 보고 답한다</title>
+
+  <rect class="box blue" x="20" y="24" width="230" height="66" rx="14"/>
+  <use href="#i-user" x="30" y="37" width="40" height="40" class="ic blue"/>
+  <text class="t-b" x="80" y="52">반품 접수 마감이</text>
+  <text class="t-b" x="80" y="74">몇 시예요?</text>
+
+  <path class="ln green" d="M90 96 V140" marker-end="url(#ah-green)"/>
+  <circle class="badge green" cx="90" cy="118" r="12"/><text class="badge-t" x="90" y="122.500">1</text>
+  <text class="t-s" x="110" y="123">관련 문서 찾기</text>
+
+  <rect class="panel green" x="20" y="150" width="230" height="202" rx="14"/>
+  <text class="t-s t-b" x="36" y="176">회사 문서 보관함</text>
+  <rect class="box yellow" x="36" y="188" width="198" height="44" rx="9"/>
+  <text class="t-s t-b t-ink" x="48" y="215">반품 규정: 마감 17시</text>
+  <rect class="box gray" x="36" y="240" width="198" height="44" rx="9"/>
+  <text class="t-s" x="48" y="267">환불 규정: 3일 안에 처리</text>
+  <rect class="box gray" x="36" y="292" width="198" height="44" rx="9"/>
+  <text class="t-s" x="48" y="319">채용 안내: 상시 모집</text>
+
+  <rect class="box" x="310" y="96" width="220" height="150" rx="14"/>
+  <text class="t-s t-b" x="326" y="122">모델이 받는 입력</text>
+  <rect class="box yellow" x="326" y="134" width="188" height="46" rx="9"/>
+  <text class="t-xs" x="338" y="152">찾아 온 자료</text>
+  <text class="t-s t-b t-ink" x="338" y="170">반품 규정: 마감 17시</text>
+  <rect class="box blue" x="326" y="188" width="188" height="46" rx="9"/>
+  <text class="t-xs" x="338" y="206">질문</text>
+  <text class="t-s t-b t-ink" x="338" y="224">반품 접수 마감이 몇 시예요?</text>
+
+  <path class="ln blue" d="M256 57 H420 V88" marker-end="url(#ah-blue)"/>
+  <path class="ln green" d="M240 210 H278 V157 H318" marker-end="url(#ah-green)"/>
+  <circle class="badge green" cx="278" cy="184" r="12"/><text class="badge-t" x="278" y="188.500">2</text>
+
+  <path class="ln purple" d="M536 171 H582" marker-end="url(#ah-purple)"/>
+  <circle class="badge purple" cx="556" cy="171" r="12"/><text class="badge-t" x="556" y="175.500">3</text>
+
+  <rect class="box purple" x="590" y="126" width="150" height="90" rx="14"/>
+  <use href="#i-robot" x="600" y="149" width="44" height="44" class="ic purple"/>
+  <text class="t-l" x="654" y="167">모델</text>
+  <text class="t-s" x="654" y="188">자료를 읽고</text>
+
+  <path class="ln green" d="M665 222 V258" marker-end="url(#ah-green)"/>
+  <rect class="box green" x="590" y="266" width="150" height="70" rx="14"/>
+  <text class="t-l mid" x="665" y="296">17시입니다</text>
+  <text class="t-xs mid" x="665" y="318">근거: 반품 규정</text>
+
+  <rect class="box red" x="310" y="276" width="220" height="60" rx="12"/>
+  <text class="t-xs" x="326" y="298">자료 없이 기억만으로 답하면</text>
+  <text class="t-s t-b tc-red" x="326" y="320">"16시입니다" (옛 규정)</text>
+</svg></div><figcaption><b>그림 28-10</b>RAG의 흐름. ① 질문과 관련된 문서를 찾고 ② 질문과 함께 입력에 넣으면 ③ 모델이 그 자료를 보고 답합니다.</figcaption></figure>
+<p>논문은 위키백과를 검색 대상으로 삼았고, 찾는 부분과 쓰는 부분을 함께 학습시켰습니다. 요즘 실무에서는 더 단순하게, 찾은 문서를 프롬프트에 붙여 넣는 방식을 흔히 RAG라고 부릅니다.</p>
+<p><strong>오늘 만나는 곳.</strong> 사내 문서로 답하는 챗봇, 출처를 달아 주는 AI 검색이 이 구조입니다. 만드는 법은 <a href="ch29.html">29장</a>에서 다룹니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
+<p>책을 펴 줘도 엉뚱한 쪽을 펴면 소용없습니다. 답이 틀리면 세 군데를 따로 확인하세요. 맞는 문서가 <strong>검색되었는지</strong>, <strong>입력에 들어갔는지</strong>, 모델이 <strong>답에 반영했는지</strong>.</p>
+</div>
+</section>
+<section class="level3" id="react-2022-생각하고-해-보고-결과를-본다">
+<h3>ReAct (2022): 생각하고, 해 보고, 결과를 본다</h3>
+<p><strong>그전에는.</strong> 언어 모델이 할 수 있는 일은 글쓰기뿐이었습니다. "재고를 확인했습니다"라고 쓸 수는 있어도 실제로 확인한 것은 아닙니다. 머릿속 추론만 이어 가면 틀린 가정 위에 다음 생각을 계속 쌓게 됩니다.</p>
+<p><strong>핵심 아이디어.</strong> 모델이 <strong>생각을 적고, 도구를 쓰는 행동을 요청하고, 돌아온 실제 결과를 읽고 다시 생각하기</strong>를 되풀이합니다. 이름은 추론(Reasoning)과 행동(Acting)을 합친 말입니다.</p>
+<pre class="text"><code>생각: 주문을 넣기 전에 재고부터 확인해야 한다.
+행동: 재고_조회("우산")
+관찰: 0개
+생각: 품절이다. 주문하지 말고 품절이라고 알리자.
+답:   죄송합니다. 우산은 지금 품절입니다.</code></pre>
+<p>1번째와 4번째 줄은 모델이 쓴 생각이고, 2번째 줄은 "이 도구를 이렇게 불러 달라"는 요청입니다. 3번째 줄 '관찰'만은 모델이 쓴 글이 아닙니다. 모델을 감싼 프로그램이 도구를 실제로 실행해 받아 온 결과입니다. 가설을 세우고, 실험하고, 결과를 본 뒤 다음 실험을 정하는 과학 시간과 같습니다.</p>
+<p><strong>오늘 만나는 곳.</strong> 도구를 써 가며 여러 단계를 스스로 밟는 AI, 곧 에이전트의 기본 박자입니다. 코딩 도구가 테스트를 돌리고, 실패 메시지를 본 뒤 코드를 고치는 과정이 이 순환입니다(<a href="ch29.html">29장</a>).</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
+<p>모델이 적은 '생각'은 실행했다는 증거가 아닙니다. 믿을 것은 도구가 실제로 돌려준 <strong>관찰</strong>입니다. 또 도구가 시간 초과로 실패한 것과 "0개"라는 답을 받은 것은 다릅니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="adapt">
+<h2><span class="sec-n">28.7</span>싸게 고쳐 쓰기: 포스트잇과 채점<a aria-label="이 절의 링크" class="anchor" href="#adapt">#</a></h2>
+<p>큰 모델은 만들기도 고치기도 비쌉니다. 이 절의 세 편은 이미 있는 모델을 <strong>적은 비용으로 내 용도에 맞추는</strong> 방법입니다.</p>
+<section class="level3" id="lora-2021-책은-그대로-포스트잇만-새로">
+<h3>LoRA (2021): 책은 그대로, 포스트잇만 새로</h3>
+<p><strong>그전에는.</strong> 미세 조정은 가중치 전부를 다시 고치는 일이었습니다. 가중치가 수십억 개면 큰 GPU가 필요하고, 용도가 열 가지면 그 큰 모델을 열 벌 저장해야 합니다.</p>
+<p><strong>핵심 아이디어.</strong> 원래 가중치는 얼려 두고, 그 옆에 <strong>작은 표 두 개를 덧붙여 그것만 학습합니다.</strong></p>
+<p>두꺼운 교과서를 새로 찍는 대신 포스트잇을 붙이는 것입니다. 가중치가 가로 8칸, 세로 8칸짜리 표라면 64칸입니다. LoRA는 이 64칸을 건드리지 않고, 8칸짜리 표 B와 A를 새로 만들어 이 둘만 학습합니다. B와 A를 곱하면 64칸짜리 수정분이 되고, 계산할 때는 이 수정분을 원래 표에 더한 것처럼 씁니다. 학습하는 칸은 8 + 8 = 16칸뿐입니다. ResNet의 "원본은 두고 수정분만 더한다"와 같은 발상입니다.</p>
+<figure class="fig" id="fig-lora-matrix"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>LoRA는 64칸짜리 원래 가중치를 얼려 두고, 8칸짜리 작은 표 두 개만 학습해 그 곱을 더한다</title>
+  <text class="t-b" x="40" y="38">원래 가중치 W</text>
+  <text class="t-s" x="40" y="58">8 × 8 = 64칸, 손대지 않는다</text>
+  <rect class="box gray" x="40" y="74" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="64" y="74" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="88" y="74" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="112" y="74" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="136" y="74" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="160" y="74" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="184" y="74" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="208" y="74" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="40" y="98" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="64" y="98" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="88" y="98" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="112" y="98" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="136" y="98" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="160" y="98" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="184" y="98" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="208" y="98" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="40" y="122" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="64" y="122" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="88" y="122" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="112" y="122" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="136" y="122" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="160" y="122" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="184" y="122" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="208" y="122" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="40" y="146" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="64" y="146" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="88" y="146" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="112" y="146" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="136" y="146" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="160" y="146" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="184" y="146" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="208" y="146" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="40" y="170" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="64" y="170" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="88" y="170" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="112" y="170" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="136" y="170" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="160" y="170" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="184" y="170" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="208" y="170" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="40" y="194" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="64" y="194" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="88" y="194" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="112" y="194" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="136" y="194" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="160" y="194" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="184" y="194" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="208" y="194" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="40" y="218" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="64" y="218" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="88" y="218" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="112" y="218" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="136" y="218" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="160" y="218" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="184" y="218" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="208" y="218" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="40" y="242" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="64" y="242" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="88" y="242" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="112" y="242" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="136" y="242" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="160" y="242" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="184" y="242" width="22" height="22" rx="4"/>
+  <rect class="box gray" x="208" y="242" width="22" height="22" rx="4"/>
+  <use href="#i-lock" x="244" y="60" width="34" height="34" class="ic gray"/>
+  <path class="ln" d="M278 169 H298 M288 159 V179"/>
+  <text class="t-b tc-warm" x="330" y="38">새로 배우는 작은 표 두 개</text>
+  <text class="t-s" x="330" y="58">B 8칸 + A 8칸 = 16칸</text>
+  <rect class="solid warm" x="330" y="74" width="22" height="22" rx="4"/>
+  <rect class="solid warm" x="330" y="98" width="22" height="22" rx="4"/>
+  <rect class="solid warm" x="330" y="122" width="22" height="22" rx="4"/>
+  <rect class="solid warm" x="330" y="146" width="22" height="22" rx="4"/>
+  <rect class="solid warm" x="330" y="170" width="22" height="22" rx="4"/>
+  <rect class="solid warm" x="330" y="194" width="22" height="22" rx="4"/>
+  <rect class="solid warm" x="330" y="218" width="22" height="22" rx="4"/>
+  <rect class="solid warm" x="330" y="242" width="22" height="22" rx="4"/>
+  <text class="t-b mid" x="341" y="286">B</text>
+  <path class="ln" d="M368 162 L382 176 M382 162 L368 176"/>
+  <rect class="solid warm" x="398" y="158" width="22" height="22" rx="4"/>
+  <rect class="solid warm" x="422" y="158" width="22" height="22" rx="4"/>
+  <rect class="solid warm" x="446" y="158" width="22" height="22" rx="4"/>
+  <rect class="solid warm" x="470" y="158" width="22" height="22" rx="4"/>
+  <rect class="solid warm" x="494" y="158" width="22" height="22" rx="4"/>
+  <rect class="solid warm" x="518" y="158" width="22" height="22" rx="4"/>
+  <rect class="solid warm" x="542" y="158" width="22" height="22" rx="4"/>
+  <rect class="solid warm" x="566" y="158" width="22" height="22" rx="4"/>
+  <text class="t-b mid" x="493" y="204">A</text>
+  <path class="ln" d="M600 165 H614 M600 173 H614"/>
+  <rect class="box warm" x="626" y="113" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="640" y="113" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="654" y="113" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="668" y="113" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="682" y="113" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="696" y="113" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="710" y="113" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="724" y="113" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="626" y="127" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="640" y="127" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="654" y="127" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="668" y="127" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="682" y="127" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="696" y="127" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="710" y="127" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="724" y="127" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="626" y="141" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="640" y="141" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="654" y="141" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="668" y="141" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="682" y="141" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="696" y="141" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="710" y="141" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="724" y="141" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="626" y="155" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="640" y="155" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="654" y="155" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="668" y="155" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="682" y="155" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="696" y="155" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="710" y="155" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="724" y="155" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="626" y="169" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="640" y="169" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="654" y="169" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="668" y="169" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="682" y="169" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="696" y="169" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="710" y="169" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="724" y="169" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="626" y="183" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="640" y="183" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="654" y="183" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="668" y="183" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="682" y="183" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="696" y="183" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="710" y="183" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="724" y="183" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="626" y="197" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="640" y="197" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="654" y="197" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="668" y="197" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="682" y="197" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="696" y="197" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="710" y="197" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="724" y="197" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="626" y="211" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="640" y="211" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="654" y="211" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="668" y="211" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="682" y="211" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="696" y="211" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="710" y="211" width="12" height="12" rx="2"/>
+  <rect class="box warm" x="724" y="211" width="12" height="12" rx="2"/>
+  <text class="t-s mid" x="681" y="246">곱하면 64칸짜리</text>
+  <text class="t-s mid" x="681" y="264">수정분이 된다</text>
+  <text class="t-b mid" x="380" y="316">64칸은 그대로 두고, 16칸만 학습한다</text>
+</svg></div><figcaption><b>그림 28-11</b>LoRA의 구조. 회색 64칸은 자물쇠를 채워 두고, 주황색 16칸만 학습합니다.</figcaption></figure>
+<p>논문은 GPT-3에서 학습할 가중치 수를 1만 분의 1로 줄일 수 있다고 보고했습니다.</p>
+<p><strong>오늘 만나는 곳.</strong> 그림 생성 모델에 특정 화풍을 입히는 작은 추가 파일, 회사 말투에 맞춘 언어 모델이 흔히 이 방식입니다. 포스트잇 묶음만 바꿔 끼우면 용도가 바뀝니다.</p>
+<div class="callout myth"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-cross"></use></svg>흔한 오해 · LoRA를 쓰면 모델이 작아진다</div>
+<p>작아지지 않습니다. 원래의 64칸은 그대로 있고 16칸이 더 붙습니다. 줄어드는 것은 <strong>학습할 칸 수</strong>와 <strong>용도마다 따로 저장할 파일 크기</strong>입니다. 실행할 때 필요한 메모리는 거의 그대로입니다.</p>
+</div>
+<details class="deep"><summary><small>한 걸음 더</small>작은 표를 조금 더 키우면 (랭크)</summary><div class="deep-body">
+<p>B와 A를 두 줄씩으로 늘리면 학습하는 칸은 16 + 16 = 32칸이 되고, 그만큼 더 복잡한 수정을 담습니다. 이 "몇 줄"에 해당하는 수가 <strong>랭크</strong>(rank)이며, LoRA의 LoR이 낮은 랭크(Low-Rank)라는 뜻입니다. 랭크가 너무 낮으면 아주 다른 일을 가르치기에는 모자랄 수 있습니다.</p>
+</div></details>
+</section>
+<section class="level3" id="instructgpt-2022-사람이-고른-답-쪽으로">
+<h3>InstructGPT (2022): 사람이 고른 답 쪽으로</h3>
+<p><strong>그전에는.</strong> GPT-3는 글을 그럴듯하게 <strong>잇는</strong> 연습만 했습니다. 그래서 "이 글을 요약해 줘"라고 하면 요약 대신 비슷한 부탁을 이어 쓰는 식으로 엉뚱하게 답하기도 했습니다. 잘 잇는 것과 시킨 대로 하는 것은 다른 능력입니다.</p>
+<p><strong>핵심 아이디어.</strong> <strong>사람의 평가를 학습 신호로 씁니다.</strong> 먼저 사람이 쓴 모범 답안으로 미세 조정합니다. 다음으로 같은 요청에 대한 답 여러 개에 사람이 순위를 매기고, 이 순위를 흉내 내는 <strong>채점 모델</strong>을 따로 학습시킵니다. 끝으로 채점 모델의 점수가 높아지는 쪽으로 원래 모델을 고칩니다.</p>
+<p>"한 문장으로 답해 줘"에 장황한 답 A와 짧고 정확한 답 B가 나왔다고 합시다. 사람들이 B를 고른 기록이 쌓이면 채점 모델이 B 같은 답에 높은 점수를 주고, 모델은 그 점수를 따라갑니다. 점수를 더 받는 쪽으로 행동을 고쳐 가는 학습을 강화 학습이라고 하므로, 이 방법을 <strong>RLHF</strong>(사람 피드백을 통한 강화 학습)라고 부릅니다. 선생님의 채점을 받으며 "어떤 답이 좋은 답인지" 익히는 단계입니다.</p>
+<p><strong>오늘 만나는 곳.</strong> 대화형 AI가 지시를 알아듣고 따르는 바탕입니다. 논문은 이렇게 다듬은 모델의 답을 사람들이 100배 큰 GPT-3의 답보다 더 좋아했다고 보고했습니다.</p>
+<div class="callout warn"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-warn"></use></svg>주의</div>
+<p>사람이 좋아하는 답과 맞는 답은 같지 않습니다. 평가자가 자신 있게 틀린 답을 좋게 보면 모델도 그것을 배웁니다.</p>
+</div>
+</section>
+<section class="level3" id="dpo-2023-채점-모델-없이-바로">
+<h3>DPO (2023): 채점 모델 없이 바로</h3>
+<p><strong>그전에는.</strong> RLHF는 손이 많이 갑니다. 채점 모델을 따로 만들어야 하고, 강화 학습은 설정에 민감해 다루기 까다롭습니다.</p>
+<p><strong>핵심 아이디어.</strong> "좋은 답, 덜 좋은 답" 쌍만 있으면 <strong>좋은 답의 확률은 올리고 덜 좋은 답의 확률은 내리도록 모델을 곧바로 고칩니다.</strong> 채점 모델도 강화 학습도 필요 없습니다. 이름은 직접 선호 최적화(Direct Preference Optimization)의 줄임말입니다.</p>
+<p>장치가 하나 있습니다. <strong>고치기 전 모델에 견줘 얼마나 달라졌는지</strong>를 봅니다. 고치기 전 모델이 좋은 답 A와 덜 좋은 답 B에 똑같이 0.1씩 확률을 줬다고 합시다. 고친 모델이 A에 0.2, B에 0.1을 준다면 A만 2배가 되어 둘 사이가 벌어졌습니다. 잘 배운 것입니다. A와 B가 둘 다 2배가 되었다면 벌어진 것이 없으니 배운 것이 없다고 봅니다.</p>
+<p><strong>오늘 만나는 곳.</strong> 선호 데이터로 모델을 다듬을 때 널리 쓰입니다. 한계는 InstructGPT와 같아서, 답을 고른 사람의 치우침도 함께 배웁니다.</p>
+</section>
+</section>
+<section class="level2" id="fast">
+<h2><span class="sec-n">28.8</span>빨리 돌리기: 같은 답을 더 적은 왕복으로<a aria-label="이 절의 링크" class="anchor" href="#fast">#</a></h2>
+<section class="level3" id="flashattention-2022-조리대에서-끝내고-결과만-보낸다">
+<h3>FlashAttention (2022): 조리대에서 끝내고 결과만 보낸다</h3>
+<p><strong>그전에는.</strong> 어텐션은 모든 토큰 쌍의 점수를 계산합니다. 토큰이 4개면 16칸, 1,000개면 100만 칸짜리 점수표가 생깁니다. 이 표를 GPU의 큰 메모리에 통째로 썼다가 다시 읽어 오는 데 시간이 많이 들었습니다. <a href="ch01.html#hierarchy">1장</a>에서 본 것처럼 계산보다 <strong>먼 곳을 오가는 일</strong>이 느립니다.</p>
+<p><strong>핵심 아이디어.</strong> 계산식은 그대로 두고 <strong>계산하는 순서와 놓아 두는 자리</strong>만 바꿉니다. 점수표를 작은 묶음으로 나눠, 칩 안의 작고 빠른 메모리에서 계산을 끝내고 결과만 큰 메모리로 보냅니다.</p>
+<p>주방으로 치면, 재료 16가지를 창고 바닥에 다 펼쳤다가 다시 주워 오는 대신 4가지씩 조리대에 올려 손질을 마치고 완성된 것만 창고로 보내는 방식입니다.</p>
+<figure class="fig" id="fig-flash-tiles"><div class="fig-body" tabindex="0" title="눌러서 크게 보기"><svg viewBox="0 0 760 376" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>기존 방식은 점수표 16칸을 큰 메모리에 통째로 썼다가 다시 읽고, FlashAttention은 4칸씩 빠른 메모리에서 계산을 끝내 결과만 보낸다</title>
+  <text class="t-b" x="20" y="34">기존: 점수표를 통째로 창고에 오간다</text>
+  <rect class="box blue" x="20" y="50" width="350" height="70" rx="14"/>
+  <use href="#i-table" x="30" y="63" width="44" height="44" class="ic blue"/>
+  <text class="t-b" x="86" y="80">조리대</text>
+  <text class="t-s" x="86" y="101">칩 안의 작고 빠른 메모리</text>
+  <path class="ln thick warm" d="M150 126 V184" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b tc-warm end" x="138" y="160">16칸 내려놓기</text>
+  <path class="ln thick warm" d="M200 190 V132" marker-end="url(#ah-warm)"/>
+  <text class="t-s t-b tc-warm" x="212" y="160">16칸 다시 가져오기</text>
+  <rect class="box green" x="20" y="196" width="350" height="140" rx="14"/>
+  <use href="#i-shelf" x="30" y="209" width="44" height="44" class="ic green"/>
+  <text class="t-b" x="86" y="226">창고</text>
+  <text class="t-s" x="86" y="247">크고 느린 GPU 메모리</text>
+  <text class="t-s t-b t-ink" x="86" y="300">점수표 16칸을 통째로</text>
+  <rect class="solid warm" x="262" y="234" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="284" y="234" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="306" y="234" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="328" y="234" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="262" y="256" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="284" y="256" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="306" y="256" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="328" y="256" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="262" y="278" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="284" y="278" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="306" y="278" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="328" y="278" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="262" y="300" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="284" y="300" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="306" y="300" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="328" y="300" width="20" height="20" rx="4"/>
+  <text class="t-b" x="390" y="34">FlashAttention: 4칸씩 조리대에서 끝낸다</text>
+  <rect class="box blue" x="390" y="50" width="350" height="70" rx="14"/>
+  <use href="#i-table" x="400" y="63" width="44" height="44" class="ic blue"/>
+  <text class="t-b" x="456" y="80">조리대</text>
+  <text class="t-s" x="456" y="101">점수, 비중, 섞기를 여기서</text>
+  <text class="t-xs end" x="664" y="80">네 묶음 중 2번째</text>
+  <rect class="solid warm" x="676" y="64" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="698" y="64" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="676" y="86" width="20" height="20" rx="4"/>
+  <rect class="solid warm" x="698" y="86" width="20" height="20" rx="4"/>
+  <path class="ln thin blue" d="M520 190 V130" marker-end="url(#ah-blue)"/>
+  <text class="t-s end" x="508" y="160">재료 한 묶음</text>
+  <path class="ln thin green" d="M570 126 V186" marker-end="url(#ah-green)"/>
+  <text class="t-s" x="582" y="160">결과만 내려놓기</text>
+  <rect class="box green" x="390" y="196" width="350" height="140" rx="14"/>
+  <use href="#i-shelf" x="400" y="209" width="44" height="44" class="ic green"/>
+  <text class="t-b" x="456" y="226">창고</text>
+  <text class="t-s" x="456" y="247">점수표는 두지 않는다</text>
+  <text class="t-s t-b t-ink" x="456" y="300">결과 4칸만</text>
+  <rect class="solid green" x="632" y="285" width="20" height="20" rx="4"/>
+  <rect class="solid green" x="654" y="285" width="20" height="20" rx="4"/>
+  <rect class="solid green" x="676" y="285" width="20" height="20" rx="4"/>
+  <rect class="solid green" x="698" y="285" width="20" height="20" rx="4"/>
+  <text class="t-s mid" x="380" y="362">두 방식 모두 16쌍을 빠짐없이 계산합니다. 달라지는 것은 창고를 오가는 양입니다.</text>
+</svg></div><figcaption><b>그림 28-12</b>왼쪽은 점수표 전체가 느린 메모리를 오가는 기존 방식, 오른쪽은 묶음마다 빠른 메모리에서 끝내는 FlashAttention입니다.</figcaption></figure>
+<p>16쌍 가운데 어느 것도 건너뛰지 않습니다. 4칸씩 네 번, 모두 계산합니다. 결과도 어림값이 아니라 <strong>같은 답</strong>입니다. 빨라지는 까닭은 계산을 덜 해서가 아니라 창고를 덜 오가서입니다.</p>
+<p><strong>오늘 만나는 곳.</strong> 신경망을 만들 때 쓰는 대표적인 라이브러리들에 들어가 있어서, 모르는 사이에 이미 쓰고 있을 가능성이 큽니다.</p>
+<details class="deep"><summary><small>한 걸음 더</small>묶음마다 따로 계산하면 왜 틀릴까</summary><div class="deep-body">
+<p>네 칸의 점수를 비중으로 바꾸기 직전 값이 1, 1, 3, 3이라고 합시다. 한꺼번에 계산하면 합이 8이므로 비중은 1/8, 1/8, 3/8, 3/8입니다. 뒤의 두 칸이 세 배 중요합니다.</p>
+<p>두 칸씩 나눠 <strong>묶음마다 따로</strong> 합을 1로 맞추면 네 칸 모두 1/2이 되어, 뒤쪽이 세 배 중요하다는 정보가 사라집니다. 그래서 FlashAttention은 "지금까지의 합계"를 들고 다니며 묶음을 넘길 때마다 앞의 결과를 고쳐, 한꺼번에 계산한 것과 같은 비중을 냅니다.</p>
+</div></details>
+</section>
+<section class="level3" id="다시-보는-15편-무엇을-바꾼-아이디어였나">
+<h3>다시 보는 15편: 무엇을 바꾼 아이디어였나</h3>
+<p>15편은 저마다 아래 다섯 가지 가운데 하나를 바꿉니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr>
+<th>바꾸는 것</th>
+<th>논문</th>
+<th>착각하기 쉬운 점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>숫자로 나타내는 법</td>
+<td>Word2Vec, BERT, CLIP</td>
+<td>가깝다고 해서 사실인 것은 아님</td>
+</tr>
+<tr>
+<td>정보가 흐르는 길</td>
+<td>ResNet, Seq2Seq, 어텐션, Transformer</td>
+<td>길이 좋아져도 정답이 보장되지는 않음</td>
+</tr>
+<tr>
+<td>이번에 넣는 입력</td>
+<td>GPT-3의 퓨샷, RAG, ReAct</td>
+<td>가중치는 그대로임</td>
+</tr>
+<tr>
+<td>가중치</td>
+<td>LoRA, InstructGPT, DPO</td>
+<td>최신 사실은 따로 넣어 줘야 함</td>
+</tr>
+<tr>
+<td>만들고 실행하는 방식</td>
+<td>DDPM, FlashAttention</td>
+<td>원본을 되찾거나 계산을 빼먹는 것이 아님</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout key"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-bolt"></use></svg>핵심</div>
+<p>새 기술 이름을 만나면 먼저 물으세요. <strong>이번 입력</strong>을 바꾸는가, <strong>가중치</strong>를 바꾸는가, <strong>계산하는 방식</strong>을 바꾸는가. 이 셋을 섞어 생각하면 엉뚱한 곳을 고치게 됩니다.</p>
+</div>
+</section>
+</section>
+<section class="level2" id="pairs">
+<h2>헷갈리기 쉬운 짝<a aria-label="이 절의 링크" class="anchor" href="#pairs">#</a></h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr>
+<th>짝</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BERT / GPT</td>
+<td>양쪽 문맥을 보고 빈칸을 채우며 읽기를 익힘 / 왼쪽만 보고 다음 말을 이으며 쓰기를 익힘</td>
+</tr>
+<tr>
+<td>어텐션(2014) / Transformer(2017)</td>
+<td>차례로 읽는 번역기에 덧붙인 '다시 보기' / 차례로 읽기를 없애고 어텐션으로 짠 구조</td>
+</tr>
+<tr>
+<td>퓨샷 / 미세 조정</td>
+<td>입력에 예시를 넣음, 가중치는 그대로 / 추가 학습으로 가중치를 고침</td>
+</tr>
+<tr>
+<td>RAG / 미세 조정</td>
+<td>최신 사실을 자료로 건네줌 / 말투나 형식 같은 버릇을 바꿈</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="level2" id="case">
+<h2>실전 사례<a aria-label="이 절의 링크" class="anchor" href="#case">#</a></h2>
+<div class="case"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-search"></use></svg>실전 사례 · 규정이 바뀌었는데 챗봇은 옛 마감 시간을 말한다</div>
+<p>고객 상담 챗봇이 반품 접수 마감을 계속 "16시"라고 답합니다. 규정은 지난달에 17시로 바뀌었습니다. 답이 너무 길어서 한 문장으로 줄이고도 싶습니다. 누군가 "LoRA로 다시 학습시키자"고 제안합니다.</p>
+<ol type="1">
+<li><strong>문제를 둘로 나눕니다.</strong> "17시"는 최신 사실의 문제이고, "한 문장"은 답하는 형식의 문제입니다. 고칠 곳이 다릅니다.</li>
+<li><strong>사실은 자료로 넣습니다.</strong> RAG의 문서 보관함에서 규정을 새 버전으로 바꿉니다.</li>
+<li><strong>세 군데를 따로 확인합니다.</strong> 17시 조항이 검색되었는지, 입력에 들어갔는지, 답에 반영되었는지 기록을 봅니다. 여기서는 지우지 않은 옛 문서가 함께 검색되고 있었습니다.</li>
+<li><strong>형식은 지시와 예시로 잡습니다.</strong> "한 문장으로 답해"라는 지시와 예시 두 개를 프롬프트에 넣고, 같은 질문을 열 번 돌려 형식이 지켜지는지 봅니다.</li>
+<li><strong>그래도 흔들릴 때만 학습을 검토합니다.</strong> 이때도 마감 시간 같은 사실은 가중치에 넣지 않습니다. 다음에 또 바뀌기 때문입니다.</li>
+</ol>
+<p>자료가 최신인가, 이번 입력에 형식이 적혀 있는가, 가중치를 바꿀 것인가. 이 셋은 서로 다른 문제이고 고치는 비용도 다릅니다.</p>
+</div>
+</section>
+<section class="level2" id="summary">
+<h2>한눈에 정리<a aria-label="이 절의 링크" class="anchor" href="#summary">#</a></h2>
+<div class="summary">
+<ul>
+<li><strong>표현</strong>: Word2Vec은 이웃 맞히기로 단어를 지도 위의 점으로 만들었고, ResNet은 "원본은 넘기고 수정분만 더하기"로 깊은 신경망을 열었습니다.</li>
+<li><strong>문맥</strong>: 메모 한 장(Seq2Seq)에서 원문 다시 보기(어텐션)로, 다시 모든 단어가 서로를 한 번에 보기(Transformer)로 나아갔습니다. BERT는 빈칸 채우기로 읽기를 익혔습니다.</li>
+<li><strong>예시</strong>: GPT-3는 가중치를 고치지 않고 입력의 예시만으로 새 일을 합니다.</li>
+<li><strong>이미지</strong>: CLIP은 사진과 글을 같은 지도에 놓았고, DDPM은 잡음을 걷어 내며 그림을 만듭니다.</li>
+<li><strong>밖</strong>: RAG는 문서를 찾아 읽게 하고, ReAct는 도구를 쓰고 결과를 보게 합니다.</li>
+<li><strong>고쳐 쓰기</strong>: LoRA는 작은 표만 학습하고, InstructGPT와 DPO는 사람의 선호로 답을 다듬습니다.</li>
+<li><strong>실행</strong>: FlashAttention은 답은 그대로 두고 메모리 왕복을 줄입니다.</li>
+</ul>
+</div>
+</section>
+<section class="level2" id="quiz">
+<h2>확인 문제<a aria-label="이 절의 링크" class="anchor" href="#quiz">#</a></h2>
+<div class="quiz"><div class="q"><div class="q-body">
+<p>"배를 타고 갔다"와 "배가 아프다"의 '배'를 구분하고 싶습니다. 단어마다 좌표가 하나뿐인 Word2Vec으로는 왜 안 되고, 무엇이 더 필요할까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>Word2Vec은 '배'에 좌표를 하나만 주므로 두 문장에서 같은 벡터가 나옵니다. 문장 안의 다른 단어를 참고하는 문맥 섞기가 필요합니다. Transformer의 어텐션은 '타고'나 '아프다'에 비중을 줘서 같은 '배'라도 다른 벡터를 만듭니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>다음 셋 가운데 모델의 가중치를 바꾸는 것은 무엇일까요? (가) 회사 문서를 검색해 입력에 넣기 (나) 예시 세 개를 프롬프트에 붙이기 (다) LoRA 학습</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>(다)뿐입니다. LoRA는 덧붙인 작은 표의 가중치를 학습합니다. (가)와 (나)는 이번 입력만 바꾸므로, 문서를 빼거나 새 대화를 열면 효과도 사라집니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>CLIP으로 사진 한 장을 "고양이 사진", "강아지 사진" 두 후보와 견줬더니 "고양이 사진"이 0.9로 더 높게 나왔습니다. 그런데 사진 속 동물은 토끼였습니다. 무엇을 잘못 읽은 것일까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>0.9는 지도에서 가깝다는 점수이지 맞을 확률이 아닙니다. 또 CLIP은 후보 가운데 가장 가까운 것을 고를 뿐이라, 후보에 정답이 없어도 하나를 고릅니다. 후보를 늘리거나, 점수가 기준보다 낮으면 "해당 없음"으로 처리해야 합니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>에이전트가 재고 조회 도구를 불렀는데 "시간 초과"가 돌아왔습니다. 에이전트는 고객에게 "재고가 없습니다"라고 답했습니다. 무엇이 문제일까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>도구가 실패한 것과 "0개"라는 결과를 받은 것을 같게 취급했습니다. 관찰은 "모른다"인데 "없다"고 단정한 것입니다. 실패하면 다시 시도하거나 "지금은 확인할 수 없다"고 답하게 하고, 시도 횟수에는 한도를 둡니다.</p>
+</div></details></div><div class="q"><div class="q-body">
+<p>동료가 "FlashAttention은 점수표를 4칸씩만 계산하니까, 16쌍 중 일부를 건너뛰어서 빠른 거야"라고 말합니다. 맞는 말일까요?</p>
+
+</div><details class="a"><summary>정답 보기</summary><div>
+<p>틀렸습니다. 16쌍을 모두 계산하고, 결과도 원래 어텐션과 같습니다. 빨라지는 까닭은 점수표를 크고 느린 메모리에 썼다가 다시 읽는 왕복이 줄기 때문입니다.</p>
+</div></details></div></div>
+
+
+
+
+</section>
+<section class="level2" id="ai">
+<h2>AI에게 맡길 때<a aria-label="이 절의 링크" class="anchor" href="#ai">#</a></h2>
+<div class="callout ai"><div class="co-h"><svg aria-hidden="true" viewbox="0 0 48 48"><use href="#i-robot"></use></svg>AI에게 맡길 때</div>
+<p>처음 듣는 논문 이름을 만나면 이 장의 네 질문 틀로 설명해 달라고 해 보세요.</p>
+<blockquote>
+<p>"FlashAttention" 논문을 입문자에게 설명해 줘. ① 그전에는 무엇이 불편했는지 ② 핵심 아이디어 한 문장 ③ 숫자 서너 개로 직접 따라 할 수 있는 작은 예 ④ 오늘 어디에 쓰이는지 순서로 써 줘. 이 방법이 바꾸는 것이 입력인지, 가중치인지, 계산 방식인지 밝히고, 이 방법이 해결하지 않는 문제를 두 가지 적어 줘. 네가 만든 설명용 숫자와 논문에 실제로 실린 수치는 구분해서 표시해 줘.</p>
+</blockquote>
+<p><strong>받은 답에서 확인할 것</strong>: 연도, 저자, 수치가 논문 첫 쪽의 초록과 맞는가(AI는 이런 세부를 그럴듯하게 틀리곤 합니다). 설명용 숫자를 논문의 실험 결과처럼 말하지 않았는가. 작은 예를 직접 계산했을 때 답이 맞는가.</p>
+</div>
+</section>
+<section class="level2" id="terms">
+<h2>용어 정리<a aria-label="이 절의 링크" class="anchor" href="#terms">#</a></h2>
+<dl class="terms">
+<dt>임베딩<small>embedding</small></dt>
+<dd>
+단어나 그림을, 비슷한 것일수록 가깝게 놓이도록 학습한 좌표(벡터).
+</dd>
+<dt>잔차 연결<small>residual connection</small></dt>
+<dd>
+입력을 그대로 넘기는 지름길. 층은 수정분만 계산해 더한다.
+</dd>
+<dt>인코더와 디코더<small>encoder, decoder</small></dt>
+<dd>
+입력을 읽어 숫자 표현으로 바꾸는 부분과, 그것을 보고 출력을 하나씩 써내는 부분.
+</dd>
+<dt>어텐션<small>attention</small></dt>
+<dd>
+지금 필요한 곳에 비중을 더 주어 여러 자리의 정보를 섞는 계산.
+</dd>
+<dt>트랜스포머<small>Transformer</small></dt>
+<dd>
+어텐션으로 단어들이 서로를 직접 참고하게 만든 신경망 구조.
+</dd>
+<dt>문맥 내 학습<small>in-context learning</small></dt>
+<dd>
+가중치를 고치지 않고 입력 안의 지시와 예시만으로 새 일을 해내는 것. 예시를 몇 개 주면 퓨샷(few-shot).
+</dd>
+<dt>대조 학습<small>contrastive learning</small></dt>
+<dd>
+맞는 짝은 가깝게, 틀린 짝은 멀게 놓도록 배우는 방식.
+</dd>
+<dt>확산 모델<small>diffusion model</small></dt>
+<dd>
+잡음을 조금씩 걷어 내는 단계를 되풀이해 그림을 만들어 내는 모델.
+</dd>
+<dt>검색 증강 생성<small>RAG, Retrieval-Augmented Generation</small></dt>
+<dd>
+관련 문서를 찾아 질문과 함께 모델에 넣어 답하게 하는 방법.
+</dd>
+<dt>LoRA<small>Low-Rank Adaptation</small></dt>
+<dd>
+원래 가중치는 얼려 두고, 덧붙인 작은 표만 학습하는 미세 조정 방법.
+</dd>
+<dt>RLHF<small>Reinforcement Learning from Human Feedback</small></dt>
+<dd>
+사람의 선호를 흉내 내는 채점 모델의 점수를 따라 모델을 고치는 방법.
+</dd>
+<dt>DPO<small>Direct Preference Optimization</small></dt>
+<dd>
+채점 모델 없이, 좋은 답과 덜 좋은 답의 쌍으로 모델을 곧바로 고치는 방법.
+</dd>
+</dl>
+</section>
+<section class="level2" id="more">
+<h2>더 읽을거리<a aria-label="이 절의 링크" class="anchor" href="#more">#</a></h2>
+<p>모두 영어 원문입니다. 적어 둔 그림과 절부터 보세요.</p>
+<ul>
+<li><a href="https://arxiv.org/pdf/1706.03762" rel="noopener" target="_blank">Attention Is All You Need (2017)</a> — 그림 1과 3.1~3.3절. Transformer의 구조를 한 장에 담았습니다.</li>
+<li><a href="https://arxiv.org/pdf/2005.14165" rel="noopener" target="_blank">Language Models are Few-Shot Learners (2020)</a> — 그림 2.1. 예시를 주는 방식과 미세 조정을 나란히 견줍니다.</li>
+<li><a href="https://arxiv.org/pdf/2006.11239" rel="noopener" target="_blank">Denoising Diffusion Probabilistic Models (2020)</a> — 알고리즘 1과 2. 학습과 생성이 각각 몇 줄로 적혀 있습니다.</li>
+<li><a href="https://arxiv.org/pdf/2005.11401" rel="noopener" target="_blank">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks (2020)</a> — 그림 1과 2절. 찾는 부분과 쓰는 부분이 어떻게 이어지는지 보여 줍니다.</li>
+<li><a href="https://arxiv.org/pdf/2210.03629" rel="noopener" target="_blank">ReAct (2022)</a> — 그림 1. 생각, 행동, 관찰이 번갈아 나오는 실제 기록입니다.</li>
+<li><a href="https://arxiv.org/pdf/2106.09685" rel="noopener" target="_blank">LoRA (2021)</a> — 그림 1과 4.1절. 얼린 가중치 옆에 작은 표 두 개를 붙인 모습입니다.</li>
+</ul>
+</section>
+<footer class="ch-foot"><button class="read-btn" id="read-btn" type="button" aria-pressed="false">이 장을 다 읽었어요</button><nav class="pager" aria-label="이전·다음 장"><a class="prev" href="ch27.html"><small>← 이전 · 27장</small><b>LLM의 작동과 한계</b></a><a class="next" href="ch29.html"><small>다음 · 29장 →</small><b>AI 기능과 개발 에이전트</b></a></nav></footer>
+<footer class="site-foot"><p class="dedication">사랑하는 아들을 위해 만들었습니다.</p><p>초안 <b>Jedi Kim</b> · 수정 <b>Codex</b> · 감수 및 퍼블리싱 <b>Claude</b></p><p class="foot-links"><a href="https://github.com/jedikim/cs-foundations" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/jedikim/" target="_blank" rel="noopener">LinkedIn</a><a href="https://jedikim.com" target="_blank" rel="noopener">jedikim.com</a><a href="https://creativecommons.org/publicdomain/zero/1.0/deed.ko" target="_blank" rel="noopener license">CC0 1.0</a></p></footer>
+</article>
+<nav class="toc" aria-label="이 장의 순서"><h2>이 장의 순서</h2><a href="#map">논문 15편을 한 장의 지도로</a><a href="#represent">표현 배우기: 단어장과 빨간 펜</a><a href="#context">문맥 섞기: 번역기가 걸어온 길</a><a href="#fewshot">큰 모델과 예시: 다시 가르치지 않고 보여 주기</a><a href="#image">이미지와 생성: 글과 그림을 잇다</a><a href="#outside">밖의 자료와 행동: 책을 펴고, 직접 해 보기</a><a href="#adapt">싸게 고쳐 쓰기: 포스트잇과 채점</a><a href="#fast">빨리 돌리기: 같은 답을 더 적은 왕복으로</a><a href="#pairs">헷갈리기 쉬운 짝</a><a href="#case">실전 사례</a><a href="#summary">한눈에 정리</a><a href="#quiz">확인 문제</a><a href="#ai">AI에게 맡길 때</a><a href="#terms">용어 정리</a><a href="#more">더 읽을거리</a></nav>
+</main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

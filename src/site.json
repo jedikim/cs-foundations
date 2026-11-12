@@ -1,0 +1,37 @@
+{
+  "repo": "https://github.com/jedikim/cs-foundations",
+  "site": "https://jedikim.github.io/cs-foundations/",
+  "dedication": "사랑하는 아들을 위해 만들었습니다.",
+  "roles": [
+    [
+      "초안",
+      "Jedi Kim"
+    ],
+    [
+      "수정",
+      "Codex"
+    ],
+    [
+      "감수 및 퍼블리싱",
+      "Claude"
+    ]
+  ],
+  "author": "Jedi Kim",
+  "links": [
+    [
+      "LinkedIn",
+      "https://www.linkedin.com/in/jedikim/"
+    ],
+    [
+      "jedikim.com",
+      "https://jedikim.com"
+    ]
+  ],
+  "license": {
+    "name": "CC0 1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/deed.ko"
+  },
+  "mathEntry": {
+    "label": "초수학 기초"
+  }
+}
